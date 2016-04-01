@@ -1,3 +1,5 @@
+Currently the master branch is meant to work with CMSSW 76X. A branch exists to run over ntuples made with older versions of CMSSW.  
+
 This repository is used to produce babies, and analyze babies for the Z+MET analysis. Follow these steps to check out and compile the baby maker:
 
 source /code/osgcode/cmssoft/cmsset_default.sh  > /dev/null 2>&1  
