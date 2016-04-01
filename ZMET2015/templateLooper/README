@@ -1,4 +1,0 @@
-How to add a hist:
-
-in templateLooper.cc, add the hist to templateLooper::bookHistos
-
