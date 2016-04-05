@@ -1,19 +1,17 @@
 #! /bin/bash
 
 # export analysis_version="V00-00-17"
-export analysis_version="V07-04-13"
-export analysis_version="V07-04-13_fixedleptons"
-export analysis_version="V07-04-13_fixedleptons_alldata_updatedJECS"
+export analysis_version="V07-06-00"
 echo "Analysis version = $analysis_version"
 localdirectory=`pwd`
 
 function link_output
 {
 	if [ ! -L "$localdirectory/output" ]; then
-		echo "Linking to output directory: /nfs-6/userdata/cwelke/output"
-		ln -s /nfs-6/userdata/cwelke/output
+		echo "Linking to output directory: /nfs-7/userdata/ZMEToutput/output"
+		ln -s /nfs-7/userdata/ZMEToutput/output
 	else
-		echo "Saving output to: /nfs-6/userdata/cwelke/output"
+		echo "Saving output to: /nfs-7/userdata/ZMEToutput/output"
 	fi
 }
 

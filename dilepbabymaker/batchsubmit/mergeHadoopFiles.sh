@@ -10,7 +10,7 @@ source ../../ZMET2015/settings.sh
 TAG=${analysis_version}
 
 HADOOPDIR=/hadoop/cms/store/user/${USER}/dilepbabies/
-OUTPUTDIR=/nfs-6/userdata/cwelke/ZMETbabies/$TAG/
+OUTPUTDIR=/nfs-7/userdata/ZMEToutput/output/ZMETbabies/$TAG/
 
 mkdir -p $OUTPUTDIR
 chmod -R a+wrx $OUTPUTDIR
