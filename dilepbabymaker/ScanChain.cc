@@ -990,6 +990,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
         if(evt_type == 2 && isOverlapJetGamma) continue;
 
 		if( verbose ) cout<<"Before filling jet branches"<<endl;
+
+		float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
 		
 		if( p4sCorrJets.at(iJet).pt() > 35.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
  		  jets_p4       .push_back(p4sCorrJets.at(iJet));
@@ -1000,9 +1002,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  // }
 
 		  ht+=p4sCorrJets.at(iJet).pt();		
-		  if(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet) >= 0.970) { nBJetTight++; }
 
-		  if(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet) >= 0.890) {
+		  if(current_csv_val >= 0.970) { nBJetTight++; }
+
+		  if(current_csv_val >= 0.890) {
 			nBJetMedium++;
 
 			// for applying btagging SFs
@@ -1080,7 +1083,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			}
 		  }
 
-		  if(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet) >= 0.605) { nBJetLoose++; }
+		  if(current_csv_val >= 0.605) { nBJetLoose++; }
 		  njets++;
 		}
 
@@ -1090,9 +1093,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			abs((jet_corrfactor_up.at(iJet))*p4sCorrJets.at(iJet).eta()) < 2.4 ){
  		  jets_up_p4    .push_back((jet_corrfactor_up.at(iJet))*p4sCorrJets.at(iJet));
 		  ht_up+=(jet_corrfactor_up.at(iJet))*p4sCorrJets.at(iJet).pt();
-		  if(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet) >= 0.970) { nBJetTight_up++; }
-		  if(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet) >= 0.890) { nBJetMedium_up++; }
-		  if(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet) >= 0.605) { nBJetLoose_up++; }
+		  if(current_csv_val >= 0.970) { nBJetTight_up++; }
+		  if(current_csv_val >= 0.890) { nBJetMedium_up++; }
+		  if(current_csv_val >= 0.605) { nBJetLoose_up++; }
 		  njets_up++;
 		}
 
@@ -1102,9 +1105,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			abs((jet_corrfactor_dn.at(iJet))*p4sCorrJets.at(iJet).eta()) < 2.4 ){
  		  jets_dn_p4    .push_back(p4sCorrJets.at(iJet)*jet_corrfactor_dn.at(iJet));
 		  ht_dn+=(jet_corrfactor_dn.at(iJet))*p4sCorrJets.at(iJet).pt();
-		  if(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet) >= 0.970) { nBJetTight_dn++; }
-		  if(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet) >= 0.890) { nBJetMedium_dn++; }
-		  if(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet) >= 0.605) { nBJetLoose_dn++; }
+		  if(current_csv_val >= 0.970) { nBJetTight_dn++; }
+		  if(current_csv_val >= 0.890) { nBJetMedium_dn++; }
+		  if(current_csv_val >= 0.605) { nBJetLoose_dn++; }
 		  njets_dn++;
 		}
 
@@ -1119,7 +1122,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
         jet_eta      .push_back(p4sCorrJets.at(iJet).eta());
         jet_phi      .push_back(p4sCorrJets.at(iJet).phi());
         jet_mass     .push_back(cms3.pfjets_mass().at(iJet));
-        jet_btagCSV  .push_back(cms3.pfjets_pfCombinedInclusiveSecondaryVertexV2BJetTag().at(iJet)); 
+        jet_btagCSV  .push_back(current_csv_val); 
 		if( !isData){
 		  jet_mcPt        .push_back(cms3.pfjets_mc_p4().at(iJet).pt());
 		  jet_mcFlavour   .push_back(cms3.pfjets_partonFlavour().at(iJet));
@@ -1171,12 +1174,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		mt2j_eta30 = -1.0;
 	  }
 
-	  //recalculate MET the "old" way
-	  if( !isSMSScan ){
-		pair<float,float> newMET = getT1CHSMET(jet_corrector_pfL1FastJetL2L3);
-		met_T1CHS_fromCORE_pt  = newMET.first;
-		met_T1CHS_fromCORE_phi = newMET.second;
-	  }
+	  // //recalculate rawMET
+	  pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3, NULL, 0, true);
+	  met_T1CHS_fromCORE_pt  = newMET.first;
+	  met_T1CHS_fromCORE_phi = newMET.second;
 	  
 	  // met with no unc
 	  pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3);
