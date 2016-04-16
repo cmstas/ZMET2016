@@ -47,7 +47,7 @@ gzip ${DIR}/job_input/input.tar
 cd ${DIR}
 
 
-COPYDIR=/hadoop/cms/store/user/${USERNAME}/dilepbabies/${COPYDIRBASE}
+COPYDIR=/hadoop/cms/store/user/${USERNAME}/uaf8/dilepbabies/${COPYDIRBASE}
 echo "[writeConfig] running on dataset ${DATADIR}"
 echo "[writeConfig] copying output to ${COPYDIR}"
 

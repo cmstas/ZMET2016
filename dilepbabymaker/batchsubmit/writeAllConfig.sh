@@ -18,14 +18,25 @@ source ../../ZMET2015/settings.sh
 TAG=${analysis_version}
 
 # all the data for the MET study
-./writeConfig.sh /hadoop/cms/store/group/snt/run2_25ns_76MiniAODv2/DATA/MuonEG_Run2015C_25ns-16Dec2015-v1/CMS3_V07-06-03/       ${TAG}_data_2015C25ns16Dec2015_em
+./writeConfig.sh /hadoop/cms/store/group/snt/run2_25ns_76MiniAODv2/DATA/DoubleEG_Run2015C_25ns-16Dec2015-v1/CMS3_V07-06-03/       ${TAG}_data_2015C25ns16Dec2015_ee
+./writeConfig.sh /hadoop/cms/store/group/snt/run2_25ns_76MiniAODv2/DATA/DoubleEG_Run2015D-16Dec2015-v2/CMS3_V07-06-03/       ${TAG}_data_2015D25ns16Dec2015_ee
+./writeConfig.sh /hadoop/cms/store/group/snt/run2_25ns_76MiniAODv2/DATA/DoubleMuon_Run2015C_25ns-16Dec2015-v1/CMS3_V07-06-03/       ${TAG}_data_2015C25ns16Dec2015_mm
+./writeConfig.sh /hadoop/cms/store/group/snt/run2_25ns_76MiniAODv2/DATA/DoubleMuon_Run2015D-16Dec2015-v1/CMS3_V07-06-03/       ${TAG}_data_2015D25ns16Dec2015_mm
+./writeConfig.sh /hadoop/cms/store/group/snt/run2_25ns_76MiniAODv2/DATA/MuonEG_Run2015C_25ns-16Dec2015-v1/CMS3_V07-06-03/       ${TAG}_data_2015C25ns16Dec2015_me
+./writeConfig.sh /hadoop/cms/store/group/snt/run2_25ns_76MiniAODv2/DATA/MuonEG_Run2015D-16Dec2015-v1/CMS3_V07-06-03/       ${TAG}_data_2015D25ns16Dec2015_me
 
+# Vince's Old Files
 # ./writeConfig.sh /hadoop/cms/store/group/snt/run2_data/Run2015C_25ns_SinglePhoton_MINIAOD_05Oct2015-v1/merged/V07-04-11/ ${TAG}_data_2015C25ns05Oct2015_ph
 # ./writeConfig.sh /hadoop/cms/store/group/snt/run2_data/Run2015D_SinglePhoton_MINIAOD_PromptReco-v3/merged/V07-04-09/     ${TAG}_data_2015D25nsPrompt_ph
 # ./writeConfig.sh /hadoop/cms/store/group/snt/run2_data/Run2015D_SinglePhoton_MINIAOD_PromptReco-v4/merged/V07-04-11/     ${TAG}_data_2015D25nsPromptv4_ph
 # ./writeConfig.sh /hadoop/cms/store/group/snt/run2_data/Run2015D_SinglePhoton_MINIAOD_05Oct2015-v1/merged//V07-04-11/     ${TAG}_data_2015D25ns05Oct2015_ph
 
 # all the MC for the MET study
+
+
+
+
+# Vince's Old Files
 # main samples
 # ./writeConfig.sh /hadoop/cms/store/group/snt/run2_25ns_MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/V07-04-11/     ${TAG}_dyjetsll_25ns_m50nlo  
 # ./writeConfig.sh /hadoop/cms/store/group/snt/run2_25ns_MiniAODv2/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_RunIISpring15MiniAODv2-74X_mcRun2_asymptotic_v2-v1/V07-04-11/ ${TAG}_dyjetsll_25ns_m1050nlo

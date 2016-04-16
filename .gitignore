@@ -17,3 +17,18 @@ dilepbabymaker/batchsubmit/job_logs
 dilepbabymaker/batchsubmit/configs*
 dilepbabymaker/batchsubmit/job_input/jetCorrections/Summer15_*
 dilepbabymaker/*.root
+
+# Added by Bobak, untracked as of intial pull
+dilepbabymaker/batchsubmit/job_input/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt
+dilepbabymaker/batchsubmit/job_input/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt
+dilepbabymaker/batchsubmit/job_input/MVAinput/
+dilepbabymaker/batchsubmit/job_input/T5ZZ_entries.root
+dilepbabymaker/batchsubmit/job_input/btagsf/
+dilepbabymaker/batchsubmit/job_input/input.tar.gz
+dilepbabymaker/batchsubmit/job_input/jetCorrections/
+dilepbabymaker/batchsubmit/job_input/json_240915_DCSONLY_jsonformat.txt
+dilepbabymaker/batchsubmit/job_input/json_240915_DCSONLY_sntformat.txt
+dilepbabymaker/batchsubmit/job_input/json_270715_golden.txt
+dilepbabymaker/batchsubmit/job_input/processBaby
+dilepbabymaker/batchsubmit/job_input/xsec_susy_13tev.root
+dilepbabymaker/processBaby
