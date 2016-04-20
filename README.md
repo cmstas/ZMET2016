@@ -7,9 +7,10 @@ export SCRAM_ARCH=slc6_amd64_gcc493
 cmsrel CMSSW_7_6_3  
 cd CMSSW_7_6_3  
 cmsenv  
-git clone git@github.com:cmstas/ZMET2016.git V07-06-03  
-cd V07-06-03  
-git checkout V07-06-03  
+ANALYSIS_TAG=V07-06-06  
+git clone git@github.com:cmstas/ZMET2016.git $ANALYSIS_TAG  
+cd $ANALYSIS_TAG  
+git checkout $ANALYSIS_TAG  
 git clone git@github.com:cmstas/Software.git  
 cd Software/  
 git checkout root6  
