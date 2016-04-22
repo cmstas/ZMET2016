@@ -21,16 +21,16 @@ fi
 
 # Bobak's Names
 # DYToLL
-run DYJetsToLL_M-50_madgraph
+#run DYJetsToLL_M-50_madgraph
 run DYJetsToLL_M-50_amcNLO_ext4-v1
 #run DYJetsToLL_M-50_amcNLO_v1
 #run DYJetsToLL_M-50_amcNLO_HCALdebug-v1
-run DYJetsToLL_M-10to50_amcNLO_ext3-v1
+#run DYJetsToLL_M-10to50_amcNLO_ext3-v1
 #run DYJetsToLL_M-10to50_amcNLO_ext1-v1
 #run DYJetsToLL_M-10to50_amcNLO_v1
 # TTBar
 run ttTo2L2Nu_powheg
-run ttjets_2L-madgraph
+#run ttjets_2L-madgraph
 #run 4T_amcNLO
 #run ttjets_pythia
 # ZZ

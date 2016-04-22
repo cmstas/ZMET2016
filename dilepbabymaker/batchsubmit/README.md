@@ -18,8 +18,16 @@ cd NtupleTools/condorMergingTools/libC
 make  
 ./sweepRoot -b -o "t" /hadoop/cms/store/user/${USER}/<BABYDIR>/*.root  
 
-Then check the status and create resubmission configs for the ones that failed with the checkAllConfig.sh script. You need to provide the log directory that gets created by the writeAllConfig.sh script.  
-checkAllConfig.sh <job_directory>  
+You should remove any files that have been marked as bad before you continue.
+
+Then check the status and create resubmission configs for the ones that failed with the checkAllConfig.sh script. Each job outputs its condor submission command into the directory specified in writeAllConfig, configs_<VERSION_TAG> by default at the time of writing. checkAllConfig reads these commands and checks to see which have their output files returned then prints a list of files which are missing. 
+
+You need to provide the log directory that gets created by the writeAllConfig.sh script.  Using the default directory listed above that mean
+checkAllConfig.sh configs_<VERSION_TAG> 
+
+or in general 
+
+checkAllConfig.sh <condor_cmd_files_dir> 
 
 This will create resubmit configs in the log directory, and these can be run using the command  
 condor_submit <path_to_config>  
