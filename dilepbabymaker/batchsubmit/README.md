@@ -11,7 +11,14 @@ condor_q <username>
 
 <username> should be replaced by your username.  
 
-Once all the jobs complete, check the status and create resubmission configs for the ones that failed with the checkAllConfig.sh script. You need to provide the log directory that gets created by the writeAllConfig.sh script.  
+Once all the jobs complete, check the output for any corrupted files  
+
+git clone git@github.com:cmstas/NtupleTools.git  
+cd NtupleTools/condorMergingTools/libC  
+make  
+./sweepRoot -b -o "t" /hadoop/cms/store/user/${USER}/<BABYDIR>/*.root  
+
+Then check the status and create resubmission configs for the ones that failed with the checkAllConfig.sh script. You need to provide the log directory that gets created by the writeAllConfig.sh script.  
 checkAllConfig.sh <job_directory>  
 
 This will create resubmit configs in the log directory, and these can be run using the command  
