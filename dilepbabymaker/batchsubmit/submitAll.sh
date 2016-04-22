@@ -1,8 +1,29 @@
 #!/bin/bash
 voms-proxy-init -voms cms -valid 240:00
-condor_submit configs_V07-06-03/condor_V07-06-03_data_2015C25ns16Dec2015_ee.cmd
-condor_submit configs_V07-06-03/condor_V07-06-03_data_2015C25ns16Dec2015_me.cmd
-condor_submit configs_V07-06-03/condor_V07-06-03_data_2015C25ns16Dec2015_mm.cmd
-condor_submit configs_V07-06-03/condor_V07-06-03_data_2015D25ns16Dec2015_ee.cmd
-condor_submit configs_V07-06-03/condor_V07-06-03_data_2015D25ns16Dec2015_me.cmd
-condor_submit configs_V07-06-03/condor_V07-06-03_data_2015D25ns16Dec2015_mm.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_4T_amcNLO.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_DYJetsToLL_M-10to50_amcNLO_ext1-v1.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_DYJetsToLL_M-10to50_amcNLO_ext3-v1.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_DYJetsToLL_M-10to50_amcNLO_v1.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_DYJetsToLL_M-50_amcNLO_HCALdebug-v1.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_DYJetsToLL_M-50_amcNLO_ext4-v1.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_DYJetsToLL_M-50_amcNLO_v1.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_DYJetsToLL_M-50_madgraph.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_ST_tW_antitop_5f_inclusiveDecays_13TeV.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_ST_tW_top_5f_inclusiveDecays_13TeV.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_WWG_TuneCUETP8M1_13TeV-amcatnlo-pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_WWTo2L2Nu_13TeV-powheg.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_ZZTo2L2Nu_13TeV_powheg_pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_ZZTo4L_13TeV_powheg_pythia8.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_ttHJetToNonbb_M125_13TeV.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_ttTo2L2Nu_powheg.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_ttjets_2L-madgraph.cmd
+condor_submit configs_V07-06-06/condor_V07-06-06_ttjets_pythia.cmd
