@@ -31,8 +31,8 @@ or in general
 
 `checkAllConfig.sh <condor_cmd_files_dir> `
 
-This will create resubmit configs in the log directory, and these can be run using the command  
-`condor_submit <path_to_config>  `
+This will create resubmit configs in the `<condor_cmd_files_dir>` directory, they will be tagged with a `_resubmit.cmd` and these can be run using the command  
+`condor_submit <path_to_resubmit_config>  `
 
 
 Merging  

@@ -20,17 +20,24 @@ if [ ! -d "merge_logs_${TAG}" ]; then
 fi
 
 # Bobak's Names
+# Data
+run data_2015C25ns16Dec2015_ee
+run data_2015D25ns16Dec2015_ee
+run data_2015C25ns16Dec2015_mm
+run data_2015D25ns16Dec2015_mm
+run data_2015C25ns16Dec2015_me
+run data_2015D25ns16Dec2015_me
 # DYToLL
 #run DYJetsToLL_M-50_madgraph
-run DYJetsToLL_M-50_amcNLO_ext4-v1
-#run DYJetsToLL_M-50_amcNLO_v1
+#run DYJetsToLL_M-50_amcNLO_ext4-v1
+run DYJetsToLL_M-50_amcNLO_v1
 #run DYJetsToLL_M-50_amcNLO_HCALdebug-v1
 #run DYJetsToLL_M-10to50_amcNLO_ext3-v1
 #run DYJetsToLL_M-10to50_amcNLO_ext1-v1
 #run DYJetsToLL_M-10to50_amcNLO_v1
-# TTBar
-run ttTo2L2Nu_powheg
-#run ttjets_2L-madgraph
+# TTBarS
+#run ttTo2L2Nu_powheg
+run ttjets_2L-madgraph
 #run 4T_amcNLO
 #run ttjets_pythia
 # ZZ
