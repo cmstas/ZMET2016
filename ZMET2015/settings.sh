@@ -1,17 +1,21 @@
 #! /bin/bash
 
 # export analysis_version="V00-00-17"
-export analysis_version="V07-06-06"
+export analysis_version="V07-06-05"
 echo "Analysis version = $analysis_version"
 localdirectory=`pwd`
 
 function link_output
 {
 	if [ ! -L "$localdirectory/output" ]; then
-		echo "Linking to output directory: /nfs-7/userdata/ZMEToutput/output"
-		ln -s /nfs-7/userdata/ZMEToutput/output
+		if [ ! -d "/nfs-7/userdata/ZMEToutput/$USER/output" ]; then
+			mkdir -p /nfs-7/userdata/ZMEToutput/$USER/output;
+		fi
+
+		echo "Linking to output directory: /nfs-7/userdata/ZMEToutput/$USER/output"
+		ln -s /nfs-7/userdata/ZMEToutput/$USER/output
 	else
-		echo "Saving output to: /nfs-7/userdata/ZMEToutput/output"
+		echo "Saving output to: /nfs-7/userdata/ZMEToutput/$USER/output"
 	fi
 }
 
@@ -41,6 +45,11 @@ function create_analysis_output
 
 function create_plot_output
 {
+
+	if [ ! -L output/ZMET2015 ]; then
+		ln -s /home/users/$USER/public_html/ZMET2015 output/ZMET2015
+	fi
+
 	if [ ! -d output/ZMET2015/$analysis_version/plots/Closure ]; then
 		echo "Creating directory, output/ZMET2015/$analysis_version/plots/Closure"
 		mkdir -p output/ZMET2015/$analysis_version/plots/Closure
