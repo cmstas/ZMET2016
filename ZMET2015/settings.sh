@@ -8,10 +8,14 @@ localdirectory=`pwd`
 function link_output
 {
 	if [ ! -L "$localdirectory/output" ]; then
-		echo "Linking to output directory: /nfs-7/userdata/ZMEToutput/output"
-		ln -s /nfs-7/userdata/ZMEToutput/output
+		if [ ! -d "/nfs-7/userdata/ZMEToutput/$USER/output" ]; then
+			mkdir -p /nfs-7/userdata/ZMEToutput/$USER/output;
+		fi
+
+		echo "Linking to output directory: /nfs-7/userdata/ZMEToutput/$USER/output"
+		ln -s /nfs-7/userdata/ZMEToutput/$USER/output
 	else
-		echo "Saving output to: /nfs-7/userdata/ZMEToutput/output"
+		echo "Saving output to: /nfs-7/userdata/ZMEToutput/$USER/output"
 	fi
 }
 
