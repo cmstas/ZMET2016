@@ -344,6 +344,23 @@ class babyMaker {
   Float_t nupfcands_2430_phi;
   Float_t nupfcands_30in_phi;
 
+  //----- pfsumETs
+  Float_t chpfcands_0013_sumet;
+  Float_t chpfcands_1316_sumet;
+  Float_t chpfcands_1624_sumet;
+  Float_t chpfcands_2430_sumet;
+  Float_t chpfcands_30in_sumet;
+  Float_t phpfcands_0013_sumet;
+  Float_t phpfcands_1316_sumet;
+  Float_t phpfcands_1624_sumet;
+  Float_t phpfcands_2430_sumet;
+  Float_t phpfcands_30in_sumet;
+  Float_t nupfcands_0013_sumet;
+  Float_t nupfcands_1316_sumet;
+  Float_t nupfcands_1624_sumet;
+  Float_t nupfcands_2430_sumet;
+  Float_t nupfcands_30in_sumet;
+
   Float_t met_T1CHS_pt;
   Float_t met_T1CHS_phi;
   Float_t met_T1CHS_fromCORE_pt;

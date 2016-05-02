@@ -131,6 +131,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 
+  //add 2015 data vtx weights for PU
+  TH1F * h_vtxweight = NULL;
+  TFile * f_vtx = NULL;
+  f_vtx = TFile::Open("puWeights_nTrueInt.root","READ");
+  h_vtxweight = (TH1F*)f_vtx->Get("weights")->Clone("h_vtxweight");
+  h_vtxweight->SetDirectory(rootdir);
+  f_vtx->Close();
+  
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
 
@@ -297,12 +305,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		evt_xsec     = cms3.evt_xsec_incl();
 	  }
 	  
+	  puWeight     = 1.0;
 	  if( !isData ){
 	  	nTrueInt     = cms3.puInfo_trueNumInteractions().at(0);
+		puWeight     = h_vtxweight->GetBinContent(h_vtxweight->FindBin(nTrueInt));
 	  }
 
       rho          = cms3.evt_fixgridfastjet_all_rho(); //this one is used in JECs
-      puWeight     =      1.;
 
       if (verbose) cout << "before vertices" << endl;
 
@@ -1233,30 +1242,30 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		LorentzVector pfcand_p4 = cms3.pfcands_p4().at(pfind);
 		
 		if( abs(cms3.pfcands_charge().at(pfind)) > 0 ){ // charged cands
-		  if(                               abs(pfcand_p4.eta()) < 1.3 ) chpfcands_0013_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ) chpfcands_1316_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ) chpfcands_1624_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ) chpfcands_2430_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 3.0                                                 ) chpfcands_30in_p4 -= pfcand_p4;
+		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ chpfcands_0013_p4 -= pfcand_p4; chpfcands_0013_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ chpfcands_1316_p4 -= pfcand_p4; chpfcands_1316_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ chpfcands_1624_p4 -= pfcand_p4; chpfcands_1624_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ chpfcands_2430_p4 -= pfcand_p4; chpfcands_2430_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 3.0                               ){ chpfcands_30in_p4 -= pfcand_p4; chpfcands_30in_sumet += pfcand_p4.pt(); }
 		}
 
 		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) == 22 ){ // photon cands
-		  if(                               abs(pfcand_p4.eta()) < 1.3 ) phpfcands_0013_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ) phpfcands_1316_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ) phpfcands_1624_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ) phpfcands_2430_p4 -= pfcand_p4;
+		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ phpfcands_0013_p4 -= pfcand_p4;  phpfcands_0013_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ phpfcands_1316_p4 -= pfcand_p4;  phpfcands_1316_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ phpfcands_1624_p4 -= pfcand_p4;  phpfcands_1624_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ phpfcands_2430_p4 -= pfcand_p4;  phpfcands_2430_sumet += pfcand_p4.pt(); }
 		}
 
 		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) != 22 ){ // neutral had cands
-		  if(                               abs(pfcand_p4.eta()) < 1.3 ) nupfcands_0013_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ) nupfcands_1316_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ) nupfcands_1624_p4 -= pfcand_p4;
-		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ) nupfcands_2430_p4 -= pfcand_p4;
+		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ nupfcands_0013_p4 -= pfcand_p4; nupfcands_0013_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ nupfcands_1316_p4 -= pfcand_p4; nupfcands_1316_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ nupfcands_1624_p4 -= pfcand_p4; nupfcands_1624_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ nupfcands_2430_p4 -= pfcand_p4; nupfcands_2430_sumet += pfcand_p4.pt(); }
 		}
 
 		if( abs(pfcand_p4.eta()) > 3.0 && abs(cms3.pfcands_charge().at(pfind)) == 0 ){ // HF cands have different particle ID
-		  if( abs(cms3.pfcands_particleId().at(pfind)) == 1 ) nupfcands_30in_p4 -= pfcand_p4;
-		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ) phpfcands_30in_p4 -= pfcand_p4;
+		  if( abs(cms3.pfcands_particleId().at(pfind)) == 1 ){ nupfcands_30in_p4 -= pfcand_p4; nupfcands_30in_sumet += pfcand_p4.pt(); }
+		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ){ phpfcands_30in_p4 -= pfcand_p4; phpfcands_30in_sumet += pfcand_p4.pt(); }
 		}
 
 	  }
@@ -1570,6 +1579,22 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nupfcands_1624_pt"     , &nupfcands_1624_pt   );
   BabyTree_->Branch("nupfcands_2430_pt"     , &nupfcands_2430_pt   );
   BabyTree_->Branch("nupfcands_30in_pt"     , &nupfcands_30in_pt   );
+   
+  BabyTree_->Branch("chpfcands_0013_sumet"     , &chpfcands_0013_sumet   );
+  BabyTree_->Branch("chpfcands_1316_sumet"     , &chpfcands_1316_sumet   );
+  BabyTree_->Branch("chpfcands_1624_sumet"     , &chpfcands_1624_sumet   );
+  BabyTree_->Branch("chpfcands_2430_sumet"     , &chpfcands_2430_sumet   );
+  BabyTree_->Branch("chpfcands_30in_sumet"     , &chpfcands_30in_sumet   );
+  BabyTree_->Branch("phpfcands_0013_sumet"     , &phpfcands_0013_sumet   );
+  BabyTree_->Branch("phpfcands_1316_sumet"     , &phpfcands_1316_sumet   );
+  BabyTree_->Branch("phpfcands_1624_sumet"     , &phpfcands_1624_sumet   );
+  BabyTree_->Branch("phpfcands_2430_sumet"     , &phpfcands_2430_sumet   );
+  BabyTree_->Branch("phpfcands_30in_sumet"     , &phpfcands_30in_sumet   );
+  BabyTree_->Branch("nupfcands_0013_sumet"     , &nupfcands_0013_sumet   );
+  BabyTree_->Branch("nupfcands_1316_sumet"     , &nupfcands_1316_sumet   );
+  BabyTree_->Branch("nupfcands_1624_sumet"     , &nupfcands_1624_sumet   );
+  BabyTree_->Branch("nupfcands_2430_sumet"     , &nupfcands_2430_sumet   );
+  BabyTree_->Branch("nupfcands_30in_sumet"     , &nupfcands_30in_sumet   );
 
   BabyTree_->Branch("chpfcands_0013_phi"     , &chpfcands_0013_phi   );
   BabyTree_->Branch("chpfcands_1316_phi"     , &chpfcands_1316_phi   );
@@ -1870,6 +1895,23 @@ void babyMaker::InitBabyNtuple () {
   nupfcands_1624_phi = -999;
   nupfcands_2430_phi = -999;
   nupfcands_30in_phi = -999;
+
+  //----- pfsumETs
+  chpfcands_0013_sumet = -999;
+  chpfcands_1316_sumet = -999;
+  chpfcands_1624_sumet = -999;
+  chpfcands_2430_sumet = -999;
+  chpfcands_30in_sumet = -999;
+  phpfcands_0013_sumet = -999;
+  phpfcands_1316_sumet = -999;
+  phpfcands_1624_sumet = -999;
+  phpfcands_2430_sumet = -999;
+  phpfcands_30in_sumet = -999;
+  nupfcands_0013_sumet = -999;
+  nupfcands_1316_sumet = -999;
+  nupfcands_1624_sumet = -999;
+  nupfcands_2430_sumet = -999;
+  nupfcands_30in_sumet = -999;
 
   weight_btagsf = 1.;
   weight_btagsf_heavy_UP = 1.;

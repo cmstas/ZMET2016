@@ -10,7 +10,7 @@ make -j8
 cd -
 
 # copy compiled files
-cp -r ../*.so ../btagsf ../xsec_susy_13tev.root ../T5ZZ_entries.root ../jetCorrections ../processBaby ../MVAinput ../../json/*.txt job_input/ 
+cp -r ../*.so ../puWeights_nTrueInt.root ../btagsf ../xsec_susy_13tev.root ../T5ZZ_entries.root ../jetCorrections ../processBaby ../MVAinput ../../json/*.txt job_input/ 
 
 source ../../ZMET2015/settings.sh 
 
