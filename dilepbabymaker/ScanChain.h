@@ -88,9 +88,6 @@ class babyMaker {
   Float_t         rho;
   Float_t         rho25;
 
-  Int_t           nJet40;
-  Int_t           nBJet40;
-
   Int_t           nBJetTight;
   Int_t           nBJetMedium;
   Int_t           nBJetLoose;
@@ -107,17 +104,7 @@ class babyMaker {
   Int_t           nElectrons10;
   Int_t           nGammas20;
 
-  Int_t           njets;
-  Int_t           njets_up;
-  Int_t           njets_dn;
-
-  Float_t         ht;
-  Float_t         ht_up;
-  Float_t         ht_dn;
-
   Float_t         gen_ht;
-  Int_t           njets_eta30;
-  Float_t         ht_eta30;
 
   Int_t           hyp_type; // 0 = ee; 1 = mm; 2 = em; 2 = me
   Int_t           evt_type; // 0 = OS; 1 = SS; 2 = photon+jets
@@ -130,10 +117,6 @@ class babyMaker {
 
   Bool_t          elveto; // Reject photons which have electron of pT > 10 GeV within dR < 0.2
 
-  // update
-  Float_t         mt2;
-  Float_t         mt2j;
-  Float_t         mt2j_eta30;
 
   Float_t         met_pt;
   Float_t         met_phi;
@@ -145,11 +128,7 @@ class babyMaker {
   Float_t         met_genPhi;
 
   Float_t         sumet_raw;
-  Float_t         jzb_raw;
-  Float_t         jzb_T1;
-  Float_t         jgb_raw;
-  Float_t         jgb_T1;
-
+  
 //----- MET FILTERS
   Int_t           Flag_EcalDeadCellTriggerPrimitiveFilter;
   Int_t           Flag_trkPOG_manystripclus53X;
@@ -186,7 +165,9 @@ class babyMaker {
   Int_t           HLT_Photon90_R9Id90_HE10_IsoM;
   Int_t           HLT_Photon120_R9Id90_HE10_IsoM;
   Int_t           HLT_Photon165_R9Id90_HE10_IsoM;
+  Int_t           HLT_Photon165_HE10;
 
+  
   //----- LEPTONS
   Int_t           nlep;
   std::vector <LorentzVector> lep_p4;
@@ -210,8 +191,6 @@ class babyMaker {
   std::vector <Int_t  > lep_convVeto   ;   //[nlep]
   std::vector <Int_t  > lep_tightCharge;   //[nlep]
   std::vector <Float_t> lep_MVA        ;   //[nlep]
-  std::vector <Int_t  > lep_islead     ;   //[nlep]
-  std::vector <Int_t  > lep_istail     ;   //[nlep]
   
 
 //----- PHOTONS
@@ -280,19 +259,10 @@ class babyMaker {
   std::vector <Int_t  >         genLepFromTau_status  ;   //[ngenLepFromTau]
   std::vector <Float_t>         genLepFromTau_charge  ;   //[ngenLepFromTau]
   std::vector <Int_t  >         genLepFromTau_sourceId;   //[ngenLepFromTau]
-
-//----- JETS
+  
+//----- JETS - Inclusive in eta and pt
   Int_t           njet;
   std::vector <LorentzVector>   jet_p4;
-  std::vector <LorentzVector>   jets_p4;
-  std::vector <LorentzVector>   jets_up_p4;
-  std::vector <LorentzVector>   jets_dn_p4;
-  std::vector <LorentzVector>   jets_eta30_p4;
-  std::vector <Int_t  >         jets_mcFlavour   ;
-  std::vector <Int_t  >         jets_mcHadronFlav;
-  std::vector <Float_t>         jets_quarkGluonID;
-
-
   std::vector <Float_t>         jet_pt          ;   //[njet]
   std::vector <Float_t>         jet_eta         ;   //[njet]
   std::vector <Float_t>         jet_phi         ;   //[njet]
@@ -307,6 +277,33 @@ class babyMaker {
   std::vector <Int_t  >         jet_id          ;   //[njet]
   std::vector <Int_t  >         jet_puId        ;   //[njet]
 
+//----- JETS - pt > 35, eta < 2.4
+  Int_t           njets;
+  Int_t           njets_up;
+  Int_t           njets_dn;
+  std::vector <LorentzVector>   jets_p4;
+  std::vector <LorentzVector>   jets_medb_p4;
+  std::vector <LorentzVector>   jets_up_p4;
+  std::vector <LorentzVector>   jets_dn_p4;
+  std::vector <Float_t>         jets_csv;
+  std::vector <Int_t  >         jets_mcFlavour   ;
+  std::vector <Int_t  >         jets_mcHadronFlav;
+  std::vector <Float_t>         jets_quarkGluonID;
+  Float_t         ht;
+  Float_t         ht_up;
+  Float_t         ht_dn;
+
+  Float_t         mt2;  // only leptons
+  Float_t         mt2j; // all jets
+  Float_t         mt2b; // b-jets only
+
+  Float_t         mjj;
+  Float_t         mbb_csv;
+  Float_t         mbb_bpt;
+  Float_t         dphi_jj;
+  Float_t         deta_jj;
+  Float_t         dR_jj;
+  
   //----- weights for b-tag SF  
   Float_t         weight_btagsf;
   Float_t         weight_btagsf_heavy_UP;
