@@ -9,7 +9,7 @@ source ../../ZMET2015/settings.sh
 
 TAG=${analysis_version}
 
-HADOOPDIR=/hadoop/cms/store/user/${USER}/dilepbabies/
+HADOOPDIR=/hadoop/cms/store/user/${USER}/uaf8/dilepbabies/
 OUTPUTDIR=/nfs-7/userdata/ZMEToutput2016/output/ZMETbabies/$TAG/
 
 mkdir -p $OUTPUTDIR
@@ -30,14 +30,14 @@ run data_2015D25ns16Dec2015_me
 # DYToLL
 #run DYJetsToLL_M-50_madgraph
 #run DYJetsToLL_M-50_amcNLO_ext4-v1
-run DYJetsToLL_M-50_amcNLO_v1
+#run DYJetsToLL_M-50_amcNLO_v1
 #run DYJetsToLL_M-50_amcNLO_HCALdebug-v1
 #run DYJetsToLL_M-10to50_amcNLO_ext3-v1
 #run DYJetsToLL_M-10to50_amcNLO_ext1-v1
 #run DYJetsToLL_M-10to50_amcNLO_v1
 # TTBarS
 #run ttTo2L2Nu_powheg
-run ttjets_2L-madgraph
+#run ttjets_2L-madgraph
 #run 4T_amcNLO
 #run ttjets_pythia
 # ZZ
