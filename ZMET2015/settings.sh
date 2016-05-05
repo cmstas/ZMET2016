@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # export analysis_version="V00-00-17"
-export analysis_version="V07-06-06"
+export analysis_version="V07-06-07"
 echo "Analysis version = $analysis_version"
 localdirectory=`pwd`
 
@@ -45,11 +45,6 @@ function create_analysis_output
 
 function create_plot_output
 {
-
-	if [ ! -L output/ZMET2015 ]; then
-		ln -s /home/users/$USER/public_html/ZMET2015 output/ZMET2015
-	fi
-
 	if [ ! -d output/ZMET2015/$analysis_version/plots/Closure ]; then
 		echo "Creating directory, output/ZMET2015/$analysis_version/plots/Closure"
 		mkdir -p output/ZMET2015/$analysis_version/plots/Closure
