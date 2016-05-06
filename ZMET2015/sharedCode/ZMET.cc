@@ -17,15 +17,15 @@ void ZMET::Init(TTree *tree) {
 		genPart_p4_branch = tree->GetBranch("genPart_p4");
 		if (genPart_p4_branch) {genPart_p4_branch->SetAddress(&genPart_p4_);}
 	}
-	jet_p4_branch = 0;
-	if (tree->GetBranch("jet_p4") != 0) {
-		jet_p4_branch = tree->GetBranch("jet_p4");
-		if (jet_p4_branch) {jet_p4_branch->SetAddress(&jet_p4_);}
-	}
 	jets_p4_branch = 0;
 	if (tree->GetBranch("jets_p4") != 0) {
 		jets_p4_branch = tree->GetBranch("jets_p4");
 		if (jets_p4_branch) {jets_p4_branch->SetAddress(&jets_p4_);}
+	}
+	jets_medb_p4_branch = 0;
+	if (tree->GetBranch("jets_medb_p4") != 0) {
+		jets_medb_p4_branch = tree->GetBranch("jets_medb_p4");
+		if (jets_medb_p4_branch) {jets_medb_p4_branch->SetAddress(&jets_medb_p4_);}
 	}
 	jets_dn_p4_branch = 0;
 	if (tree->GetBranch("jets_dn_p4") != 0) {
@@ -36,11 +36,6 @@ void ZMET::Init(TTree *tree) {
 	if (tree->GetBranch("jets_up_p4") != 0) {
 		jets_up_p4_branch = tree->GetBranch("jets_up_p4");
 		if (jets_up_p4_branch) {jets_up_p4_branch->SetAddress(&jets_up_p4_);}
-	}
-	jets_eta30_p4_branch = 0;
-	if (tree->GetBranch("jets_eta30_p4") != 0) {
-		jets_eta30_p4_branch = tree->GetBranch("jets_eta30_p4");
-		if (jets_eta30_p4_branch) {jets_eta30_p4_branch->SetAddress(&jets_eta30_p4_);}
 	}
   tree->SetMakeClass(1);
 	run_branch = 0;
@@ -118,75 +113,10 @@ void ZMET::Init(TTree *tree) {
 		rho25_branch = tree->GetBranch("rho25");
 		if (rho25_branch) {rho25_branch->SetAddress(&rho25_);}
 	}
-	njets_branch = 0;
-	if (tree->GetBranch("njets") != 0) {
-		njets_branch = tree->GetBranch("njets");
-		if (njets_branch) {njets_branch->SetAddress(&njets_);}
-	}
-	njets_up_branch = 0;
-	if (tree->GetBranch("njets_up") != 0) {
-		njets_up_branch = tree->GetBranch("njets_up");
-		if (njets_up_branch) {njets_up_branch->SetAddress(&njets_up_);}
-	}
-	njets_dn_branch = 0;
-	if (tree->GetBranch("njets_dn") != 0) {
-		njets_dn_branch = tree->GetBranch("njets_dn");
-		if (njets_dn_branch) {njets_dn_branch->SetAddress(&njets_dn_);}
-	}
-	ht_branch = 0;
-	if (tree->GetBranch("ht") != 0) {
-		ht_branch = tree->GetBranch("ht");
-		if (ht_branch) {ht_branch->SetAddress(&ht_);}
-	}
-	ht_up_branch = 0;
-	if (tree->GetBranch("ht_up") != 0) {
-		ht_up_branch = tree->GetBranch("ht_up");
-		if (ht_up_branch) {ht_up_branch->SetAddress(&ht_up_);}
-	}
-	ht_dn_branch = 0;
-	if (tree->GetBranch("ht_dn") != 0) {
-		ht_dn_branch = tree->GetBranch("ht_dn");
-		if (ht_dn_branch) {ht_dn_branch->SetAddress(&ht_dn_);}
-	}
 	gen_ht_branch = 0;
 	if (tree->GetBranch("gen_ht") != 0) {
 		gen_ht_branch = tree->GetBranch("gen_ht");
 		if (gen_ht_branch) {gen_ht_branch->SetAddress(&gen_ht_);}
-	}
-	njets_eta30_branch = 0;
-	if (tree->GetBranch("njets_eta30") != 0) {
-		njets_eta30_branch = tree->GetBranch("njets_eta30");
-		if (njets_eta30_branch) {njets_eta30_branch->SetAddress(&njets_eta30_);}
-	}
-	ht_eta30_branch = 0;
-	if (tree->GetBranch("ht_eta30") != 0) {
-		ht_eta30_branch = tree->GetBranch("ht_eta30");
-		if (ht_eta30_branch) {ht_eta30_branch->SetAddress(&ht_eta30_);}
-	}
-	mt2_branch = 0;
-	if (tree->GetBranch("mt2") != 0) {
-		mt2_branch = tree->GetBranch("mt2");
-		if (mt2_branch) {mt2_branch->SetAddress(&mt2_);}
-	}
-	mt2j_branch = 0;
-	if (tree->GetBranch("mt2j") != 0) {
-		mt2j_branch = tree->GetBranch("mt2j");
-		if (mt2j_branch) {mt2j_branch->SetAddress(&mt2j_);}
-	}
-	mt2j_eta30_branch = 0;
-	if (tree->GetBranch("mt2j_eta30") != 0) {
-		mt2j_eta30_branch = tree->GetBranch("mt2j_eta30");
-		if (mt2j_eta30_branch) {mt2j_eta30_branch->SetAddress(&mt2j_eta30_);}
-	}
-	nJet40_branch = 0;
-	if (tree->GetBranch("nJet40") != 0) {
-		nJet40_branch = tree->GetBranch("nJet40");
-		if (nJet40_branch) {nJet40_branch->SetAddress(&nJet40_);}
-	}
-	nBJet40_branch = 0;
-	if (tree->GetBranch("nBJet40") != 0) {
-		nBJet40_branch = tree->GetBranch("nBJet40");
-		if (nBJet40_branch) {nBJet40_branch->SetAddress(&nBJet40_);}
 	}
 	nBJetTight_branch = 0;
 	if (tree->GetBranch("nBJetTight") != 0) {
@@ -292,26 +222,6 @@ void ZMET::Init(TTree *tree) {
 	if (tree->GetBranch("sumet_raw") != 0) {
 		sumet_raw_branch = tree->GetBranch("sumet_raw");
 		if (sumet_raw_branch) {sumet_raw_branch->SetAddress(&sumet_raw_);}
-	}
-	jzb_raw_branch = 0;
-	if (tree->GetBranch("jzb_raw") != 0) {
-		jzb_raw_branch = tree->GetBranch("jzb_raw");
-		if (jzb_raw_branch) {jzb_raw_branch->SetAddress(&jzb_raw_);}
-	}
-	jzb_T1_branch = 0;
-	if (tree->GetBranch("jzb_T1") != 0) {
-		jzb_T1_branch = tree->GetBranch("jzb_T1");
-		if (jzb_T1_branch) {jzb_T1_branch->SetAddress(&jzb_T1_);}
-	}
-	jgb_raw_branch = 0;
-	if (tree->GetBranch("jgb_raw") != 0) {
-		jgb_raw_branch = tree->GetBranch("jgb_raw");
-		if (jgb_raw_branch) {jgb_raw_branch->SetAddress(&jgb_raw_);}
-	}
-	jgb_T1_branch = 0;
-	if (tree->GetBranch("jgb_T1") != 0) {
-		jgb_T1_branch = tree->GetBranch("jgb_T1");
-		if (jgb_T1_branch) {jgb_T1_branch->SetAddress(&jgb_T1_);}
 	}
 	Flag_EcalDeadCellTriggerPrimitiveFilter_branch = 0;
 	if (tree->GetBranch("Flag_EcalDeadCellTriggerPrimitiveFilter") != 0) {
@@ -473,6 +383,11 @@ void ZMET::Init(TTree *tree) {
 		HLT_Photon165_R9Id90_HE10_IsoM_branch = tree->GetBranch("HLT_Photon165_R9Id90_HE10_IsoM");
 		if (HLT_Photon165_R9Id90_HE10_IsoM_branch) {HLT_Photon165_R9Id90_HE10_IsoM_branch->SetAddress(&HLT_Photon165_R9Id90_HE10_IsoM_);}
 	}
+	HLT_Photon165_HE10_branch = 0;
+	if (tree->GetBranch("HLT_Photon165_HE10") != 0) {
+		HLT_Photon165_HE10_branch = tree->GetBranch("HLT_Photon165_HE10");
+		if (HLT_Photon165_HE10_branch) {HLT_Photon165_HE10_branch->SetAddress(&HLT_Photon165_HE10_);}
+	}
 	dilmass_branch = 0;
 	if (tree->GetBranch("dilmass") != 0) {
 		dilmass_branch = tree->GetBranch("dilmass");
@@ -607,16 +522,6 @@ void ZMET::Init(TTree *tree) {
 	if (tree->GetBranch("lep_MVA") != 0) {
 		lep_MVA_branch = tree->GetBranch("lep_MVA");
 		if (lep_MVA_branch) {lep_MVA_branch->SetAddress(&lep_MVA_);}
-	}
-	lep_islead_branch = 0;
-	if (tree->GetBranch("lep_islead") != 0) {
-		lep_islead_branch = tree->GetBranch("lep_islead");
-		if (lep_islead_branch) {lep_islead_branch->SetAddress(&lep_islead_);}
-	}
-	lep_istail_branch = 0;
-	if (tree->GetBranch("lep_istail") != 0) {
-		lep_istail_branch = tree->GetBranch("lep_istail");
-		if (lep_istail_branch) {lep_istail_branch->SetAddress(&lep_istail_);}
 	}
 	ngamma_branch = 0;
 	if (tree->GetBranch("ngamma") != 0) {
@@ -883,75 +788,105 @@ void ZMET::Init(TTree *tree) {
 		genLepFromTau_sourceId_branch = tree->GetBranch("genLepFromTau_sourceId");
 		if (genLepFromTau_sourceId_branch) {genLepFromTau_sourceId_branch->SetAddress(&genLepFromTau_sourceId_);}
 	}
-	njet_branch = 0;
-	if (tree->GetBranch("njet") != 0) {
-		njet_branch = tree->GetBranch("njet");
-		if (njet_branch) {njet_branch->SetAddress(&njet_);}
+	njets_branch = 0;
+	if (tree->GetBranch("njets") != 0) {
+		njets_branch = tree->GetBranch("njets");
+		if (njets_branch) {njets_branch->SetAddress(&njets_);}
 	}
-	jet_pt_branch = 0;
-	if (tree->GetBranch("jet_pt") != 0) {
-		jet_pt_branch = tree->GetBranch("jet_pt");
-		if (jet_pt_branch) {jet_pt_branch->SetAddress(&jet_pt_);}
+	njets_up_branch = 0;
+	if (tree->GetBranch("njets_up") != 0) {
+		njets_up_branch = tree->GetBranch("njets_up");
+		if (njets_up_branch) {njets_up_branch->SetAddress(&njets_up_);}
 	}
-	jet_eta_branch = 0;
-	if (tree->GetBranch("jet_eta") != 0) {
-		jet_eta_branch = tree->GetBranch("jet_eta");
-		if (jet_eta_branch) {jet_eta_branch->SetAddress(&jet_eta_);}
+	njets_dn_branch = 0;
+	if (tree->GetBranch("njets_dn") != 0) {
+		njets_dn_branch = tree->GetBranch("njets_dn");
+		if (njets_dn_branch) {njets_dn_branch->SetAddress(&njets_dn_);}
 	}
-	jet_phi_branch = 0;
-	if (tree->GetBranch("jet_phi") != 0) {
-		jet_phi_branch = tree->GetBranch("jet_phi");
-		if (jet_phi_branch) {jet_phi_branch->SetAddress(&jet_phi_);}
+	jets_csv_branch = 0;
+	if (tree->GetBranch("jets_csv") != 0) {
+		jets_csv_branch = tree->GetBranch("jets_csv");
+		if (jets_csv_branch) {jets_csv_branch->SetAddress(&jets_csv_);}
 	}
-	jet_mass_branch = 0;
-	if (tree->GetBranch("jet_mass") != 0) {
-		jet_mass_branch = tree->GetBranch("jet_mass");
-		if (jet_mass_branch) {jet_mass_branch->SetAddress(&jet_mass_);}
+	jets_mcFlavour_branch = 0;
+	if (tree->GetBranch("jets_mcFlavour") != 0) {
+		jets_mcFlavour_branch = tree->GetBranch("jets_mcFlavour");
+		if (jets_mcFlavour_branch) {jets_mcFlavour_branch->SetAddress(&jets_mcFlavour_);}
 	}
-	jet_btagCSV_branch = 0;
-	if (tree->GetBranch("jet_btagCSV") != 0) {
-		jet_btagCSV_branch = tree->GetBranch("jet_btagCSV");
-		if (jet_btagCSV_branch) {jet_btagCSV_branch->SetAddress(&jet_btagCSV_);}
+	jets_mcHadronFlav_branch = 0;
+	if (tree->GetBranch("jets_mcHadronFlav") != 0) {
+		jets_mcHadronFlav_branch = tree->GetBranch("jets_mcHadronFlav");
+		if (jets_mcHadronFlav_branch) {jets_mcHadronFlav_branch->SetAddress(&jets_mcHadronFlav_);}
 	}
-	jet_rawPt_branch = 0;
-	if (tree->GetBranch("jet_rawPt") != 0) {
-		jet_rawPt_branch = tree->GetBranch("jet_rawPt");
-		if (jet_rawPt_branch) {jet_rawPt_branch->SetAddress(&jet_rawPt_);}
+	ht_branch = 0;
+	if (tree->GetBranch("ht") != 0) {
+		ht_branch = tree->GetBranch("ht");
+		if (ht_branch) {ht_branch->SetAddress(&ht_);}
 	}
-	jet_mcPt_branch = 0;
-	if (tree->GetBranch("jet_mcPt") != 0) {
-		jet_mcPt_branch = tree->GetBranch("jet_mcPt");
-		if (jet_mcPt_branch) {jet_mcPt_branch->SetAddress(&jet_mcPt_);}
+	ht_up_branch = 0;
+	if (tree->GetBranch("ht_up") != 0) {
+		ht_up_branch = tree->GetBranch("ht_up");
+		if (ht_up_branch) {ht_up_branch->SetAddress(&ht_up_);}
 	}
-	jet_mcFlavour_branch = 0;
-	if (tree->GetBranch("jet_mcFlavour") != 0) {
-		jet_mcFlavour_branch = tree->GetBranch("jet_mcFlavour");
-		if (jet_mcFlavour_branch) {jet_mcFlavour_branch->SetAddress(&jet_mcFlavour_);}
+	ht_dn_branch = 0;
+	if (tree->GetBranch("ht_dn") != 0) {
+		ht_dn_branch = tree->GetBranch("ht_dn");
+		if (ht_dn_branch) {ht_dn_branch->SetAddress(&ht_dn_);}
 	}
-	jet_mcHadronFlav_branch = 0;
-	if (tree->GetBranch("jet_mcHadronFlav") != 0) {
-		jet_mcHadronFlav_branch = tree->GetBranch("jet_mcHadronFlav");
-		if (jet_mcHadronFlav_branch) {jet_mcHadronFlav_branch->SetAddress(&jet_mcHadronFlav_);}
+	mt2_branch = 0;
+	if (tree->GetBranch("mt2") != 0) {
+		mt2_branch = tree->GetBranch("mt2");
+		if (mt2_branch) {mt2_branch->SetAddress(&mt2_);}
 	}
-	jet_quarkGluonID_branch = 0;
-	if (tree->GetBranch("jet_quarkGluonID") != 0) {
-		jet_quarkGluonID_branch = tree->GetBranch("jet_quarkGluonID");
-		if (jet_quarkGluonID_branch) {jet_quarkGluonID_branch->SetAddress(&jet_quarkGluonID_);}
+	mt2j_branch = 0;
+	if (tree->GetBranch("mt2j") != 0) {
+		mt2j_branch = tree->GetBranch("mt2j");
+		if (mt2j_branch) {mt2j_branch->SetAddress(&mt2j_);}
 	}
-	jet_area_branch = 0;
-	if (tree->GetBranch("jet_area") != 0) {
-		jet_area_branch = tree->GetBranch("jet_area");
-		if (jet_area_branch) {jet_area_branch->SetAddress(&jet_area_);}
+	mt2b_branch = 0;
+	if (tree->GetBranch("mt2b") != 0) {
+		mt2b_branch = tree->GetBranch("mt2b");
+		if (mt2b_branch) {mt2b_branch->SetAddress(&mt2b_);}
 	}
-	jet_id_branch = 0;
-	if (tree->GetBranch("jet_id") != 0) {
-		jet_id_branch = tree->GetBranch("jet_id");
-		if (jet_id_branch) {jet_id_branch->SetAddress(&jet_id_);}
+	mjj_branch = 0;
+	if (tree->GetBranch("mjj") != 0) {
+		mjj_branch = tree->GetBranch("mjj");
+		if (mjj_branch) {mjj_branch->SetAddress(&mjj_);}
 	}
-	jet_puId_branch = 0;
-	if (tree->GetBranch("jet_puId") != 0) {
-		jet_puId_branch = tree->GetBranch("jet_puId");
-		if (jet_puId_branch) {jet_puId_branch->SetAddress(&jet_puId_);}
+	mbb_csv_branch = 0;
+	if (tree->GetBranch("mbb_csv") != 0) {
+		mbb_csv_branch = tree->GetBranch("mbb_csv");
+		if (mbb_csv_branch) {mbb_csv_branch->SetAddress(&mbb_csv_);}
+	}
+	mbb_bpt_branch = 0;
+	if (tree->GetBranch("mbb_bpt") != 0) {
+		mbb_bpt_branch = tree->GetBranch("mbb_bpt");
+		if (mbb_bpt_branch) {mbb_bpt_branch->SetAddress(&mbb_bpt_);}
+	}
+	dphi_jj_branch = 0;
+	if (tree->GetBranch("dphi_jj") != 0) {
+		dphi_jj_branch = tree->GetBranch("dphi_jj");
+		if (dphi_jj_branch) {dphi_jj_branch->SetAddress(&dphi_jj_);}
+	}
+	deta_jj_branch = 0;
+	if (tree->GetBranch("deta_jj") != 0) {
+		deta_jj_branch = tree->GetBranch("deta_jj");
+		if (deta_jj_branch) {deta_jj_branch->SetAddress(&deta_jj_);}
+	}
+	dR_jj_branch = 0;
+	if (tree->GetBranch("dR_jj") != 0) {
+		dR_jj_branch = tree->GetBranch("dR_jj");
+		if (dR_jj_branch) {dR_jj_branch->SetAddress(&dR_jj_);}
+	}
+	dphi_metj1_branch = 0;
+	if (tree->GetBranch("dphi_metj1") != 0) {
+		dphi_metj1_branch = tree->GetBranch("dphi_metj1");
+		if (dphi_metj1_branch) {dphi_metj1_branch->SetAddress(&dphi_metj1_);}
+	}
+	dphi_metj2_branch = 0;
+	if (tree->GetBranch("dphi_metj2") != 0) {
+		dphi_metj2_branch = tree->GetBranch("dphi_metj2");
+		if (dphi_metj2_branch) {dphi_metj2_branch->SetAddress(&dphi_metj2_);}
 	}
 	weight_btagsf_branch = 0;
 	if (tree->GetBranch("weight_btagsf") != 0) {
@@ -1052,6 +987,81 @@ void ZMET::Init(TTree *tree) {
 	if (tree->GetBranch("nupfcands_30in_pt") != 0) {
 		nupfcands_30in_pt_branch = tree->GetBranch("nupfcands_30in_pt");
 		if (nupfcands_30in_pt_branch) {nupfcands_30in_pt_branch->SetAddress(&nupfcands_30in_pt_);}
+	}
+	chpfcands_0013_sumet_branch = 0;
+	if (tree->GetBranch("chpfcands_0013_sumet") != 0) {
+		chpfcands_0013_sumet_branch = tree->GetBranch("chpfcands_0013_sumet");
+		if (chpfcands_0013_sumet_branch) {chpfcands_0013_sumet_branch->SetAddress(&chpfcands_0013_sumet_);}
+	}
+	chpfcands_1316_sumet_branch = 0;
+	if (tree->GetBranch("chpfcands_1316_sumet") != 0) {
+		chpfcands_1316_sumet_branch = tree->GetBranch("chpfcands_1316_sumet");
+		if (chpfcands_1316_sumet_branch) {chpfcands_1316_sumet_branch->SetAddress(&chpfcands_1316_sumet_);}
+	}
+	chpfcands_1624_sumet_branch = 0;
+	if (tree->GetBranch("chpfcands_1624_sumet") != 0) {
+		chpfcands_1624_sumet_branch = tree->GetBranch("chpfcands_1624_sumet");
+		if (chpfcands_1624_sumet_branch) {chpfcands_1624_sumet_branch->SetAddress(&chpfcands_1624_sumet_);}
+	}
+	chpfcands_2430_sumet_branch = 0;
+	if (tree->GetBranch("chpfcands_2430_sumet") != 0) {
+		chpfcands_2430_sumet_branch = tree->GetBranch("chpfcands_2430_sumet");
+		if (chpfcands_2430_sumet_branch) {chpfcands_2430_sumet_branch->SetAddress(&chpfcands_2430_sumet_);}
+	}
+	chpfcands_30in_sumet_branch = 0;
+	if (tree->GetBranch("chpfcands_30in_sumet") != 0) {
+		chpfcands_30in_sumet_branch = tree->GetBranch("chpfcands_30in_sumet");
+		if (chpfcands_30in_sumet_branch) {chpfcands_30in_sumet_branch->SetAddress(&chpfcands_30in_sumet_);}
+	}
+	phpfcands_0013_sumet_branch = 0;
+	if (tree->GetBranch("phpfcands_0013_sumet") != 0) {
+		phpfcands_0013_sumet_branch = tree->GetBranch("phpfcands_0013_sumet");
+		if (phpfcands_0013_sumet_branch) {phpfcands_0013_sumet_branch->SetAddress(&phpfcands_0013_sumet_);}
+	}
+	phpfcands_1316_sumet_branch = 0;
+	if (tree->GetBranch("phpfcands_1316_sumet") != 0) {
+		phpfcands_1316_sumet_branch = tree->GetBranch("phpfcands_1316_sumet");
+		if (phpfcands_1316_sumet_branch) {phpfcands_1316_sumet_branch->SetAddress(&phpfcands_1316_sumet_);}
+	}
+	phpfcands_1624_sumet_branch = 0;
+	if (tree->GetBranch("phpfcands_1624_sumet") != 0) {
+		phpfcands_1624_sumet_branch = tree->GetBranch("phpfcands_1624_sumet");
+		if (phpfcands_1624_sumet_branch) {phpfcands_1624_sumet_branch->SetAddress(&phpfcands_1624_sumet_);}
+	}
+	phpfcands_2430_sumet_branch = 0;
+	if (tree->GetBranch("phpfcands_2430_sumet") != 0) {
+		phpfcands_2430_sumet_branch = tree->GetBranch("phpfcands_2430_sumet");
+		if (phpfcands_2430_sumet_branch) {phpfcands_2430_sumet_branch->SetAddress(&phpfcands_2430_sumet_);}
+	}
+	phpfcands_30in_sumet_branch = 0;
+	if (tree->GetBranch("phpfcands_30in_sumet") != 0) {
+		phpfcands_30in_sumet_branch = tree->GetBranch("phpfcands_30in_sumet");
+		if (phpfcands_30in_sumet_branch) {phpfcands_30in_sumet_branch->SetAddress(&phpfcands_30in_sumet_);}
+	}
+	nupfcands_0013_sumet_branch = 0;
+	if (tree->GetBranch("nupfcands_0013_sumet") != 0) {
+		nupfcands_0013_sumet_branch = tree->GetBranch("nupfcands_0013_sumet");
+		if (nupfcands_0013_sumet_branch) {nupfcands_0013_sumet_branch->SetAddress(&nupfcands_0013_sumet_);}
+	}
+	nupfcands_1316_sumet_branch = 0;
+	if (tree->GetBranch("nupfcands_1316_sumet") != 0) {
+		nupfcands_1316_sumet_branch = tree->GetBranch("nupfcands_1316_sumet");
+		if (nupfcands_1316_sumet_branch) {nupfcands_1316_sumet_branch->SetAddress(&nupfcands_1316_sumet_);}
+	}
+	nupfcands_1624_sumet_branch = 0;
+	if (tree->GetBranch("nupfcands_1624_sumet") != 0) {
+		nupfcands_1624_sumet_branch = tree->GetBranch("nupfcands_1624_sumet");
+		if (nupfcands_1624_sumet_branch) {nupfcands_1624_sumet_branch->SetAddress(&nupfcands_1624_sumet_);}
+	}
+	nupfcands_2430_sumet_branch = 0;
+	if (tree->GetBranch("nupfcands_2430_sumet") != 0) {
+		nupfcands_2430_sumet_branch = tree->GetBranch("nupfcands_2430_sumet");
+		if (nupfcands_2430_sumet_branch) {nupfcands_2430_sumet_branch->SetAddress(&nupfcands_2430_sumet_);}
+	}
+	nupfcands_30in_sumet_branch = 0;
+	if (tree->GetBranch("nupfcands_30in_sumet") != 0) {
+		nupfcands_30in_sumet_branch = tree->GetBranch("nupfcands_30in_sumet");
+		if (nupfcands_30in_sumet_branch) {nupfcands_30in_sumet_branch->SetAddress(&nupfcands_30in_sumet_);}
 	}
 	chpfcands_0013_phi_branch = 0;
 	if (tree->GetBranch("chpfcands_0013_phi") != 0) {
@@ -1224,20 +1234,7 @@ void ZMET::GetEntry(unsigned int idx)
 		nTrueInt_isLoaded = false;
 		rho_isLoaded = false;
 		rho25_isLoaded = false;
-		njets_isLoaded = false;
-		njets_up_isLoaded = false;
-		njets_dn_isLoaded = false;
-		ht_isLoaded = false;
-		ht_up_isLoaded = false;
-		ht_dn_isLoaded = false;
 		gen_ht_isLoaded = false;
-		njets_eta30_isLoaded = false;
-		ht_eta30_isLoaded = false;
-		mt2_isLoaded = false;
-		mt2j_isLoaded = false;
-		mt2j_eta30_isLoaded = false;
-		nJet40_isLoaded = false;
-		nBJet40_isLoaded = false;
 		nBJetTight_isLoaded = false;
 		nBJetMedium_isLoaded = false;
 		nBJetLoose_isLoaded = false;
@@ -1259,10 +1256,6 @@ void ZMET::GetEntry(unsigned int idx)
 		met_genPt_isLoaded = false;
 		met_genPhi_isLoaded = false;
 		sumet_raw_isLoaded = false;
-		jzb_raw_isLoaded = false;
-		jzb_T1_isLoaded = false;
-		jgb_raw_isLoaded = false;
-		jgb_T1_isLoaded = false;
 		Flag_EcalDeadCellTriggerPrimitiveFilter_isLoaded = false;
 		Flag_trkPOG_manystripclus53X_isLoaded = false;
 		Flag_ecalLaserCorrFilter_isLoaded = false;
@@ -1295,6 +1288,7 @@ void ZMET::GetEntry(unsigned int idx)
 		HLT_Photon90_R9Id90_HE10_IsoM_isLoaded = false;
 		HLT_Photon120_R9Id90_HE10_IsoM_isLoaded = false;
 		HLT_Photon165_R9Id90_HE10_IsoM_isLoaded = false;
+		HLT_Photon165_HE10_isLoaded = false;
 		dilmass_isLoaded = false;
 		dilpt_isLoaded = false;
 		dRll_isLoaded = false;
@@ -1323,8 +1317,6 @@ void ZMET::GetEntry(unsigned int idx)
 		lep_convVeto_isLoaded = false;
 		lep_tightCharge_isLoaded = false;
 		lep_MVA_isLoaded = false;
-		lep_islead_isLoaded = false;
-		lep_istail_isLoaded = false;
 		ngamma_isLoaded = false;
 		gamma_p4_isLoaded = false;
 		gamma_pt_isLoaded = false;
@@ -1380,25 +1372,30 @@ void ZMET::GetEntry(unsigned int idx)
 		genLepFromTau_status_isLoaded = false;
 		genLepFromTau_charge_isLoaded = false;
 		genLepFromTau_sourceId_isLoaded = false;
-		njet_isLoaded = false;
-		jet_p4_isLoaded = false;
+		njets_isLoaded = false;
+		njets_up_isLoaded = false;
+		njets_dn_isLoaded = false;
 		jets_p4_isLoaded = false;
+		jets_medb_p4_isLoaded = false;
 		jets_dn_p4_isLoaded = false;
 		jets_up_p4_isLoaded = false;
-		jets_eta30_p4_isLoaded = false;
-		jet_pt_isLoaded = false;
-		jet_eta_isLoaded = false;
-		jet_phi_isLoaded = false;
-		jet_mass_isLoaded = false;
-		jet_btagCSV_isLoaded = false;
-		jet_rawPt_isLoaded = false;
-		jet_mcPt_isLoaded = false;
-		jet_mcFlavour_isLoaded = false;
-		jet_mcHadronFlav_isLoaded = false;
-		jet_quarkGluonID_isLoaded = false;
-		jet_area_isLoaded = false;
-		jet_id_isLoaded = false;
-		jet_puId_isLoaded = false;
+		jets_csv_isLoaded = false;
+		jets_mcFlavour_isLoaded = false;
+		jets_mcHadronFlav_isLoaded = false;
+		ht_isLoaded = false;
+		ht_up_isLoaded = false;
+		ht_dn_isLoaded = false;
+		mt2_isLoaded = false;
+		mt2j_isLoaded = false;
+		mt2b_isLoaded = false;
+		mjj_isLoaded = false;
+		mbb_csv_isLoaded = false;
+		mbb_bpt_isLoaded = false;
+		dphi_jj_isLoaded = false;
+		deta_jj_isLoaded = false;
+		dR_jj_isLoaded = false;
+		dphi_metj1_isLoaded = false;
+		dphi_metj2_isLoaded = false;
 		weight_btagsf_isLoaded = false;
 		weight_btagsf_heavy_UP_isLoaded = false;
 		weight_btagsf_light_UP_isLoaded = false;
@@ -1419,6 +1416,21 @@ void ZMET::GetEntry(unsigned int idx)
 		nupfcands_1624_pt_isLoaded = false;
 		nupfcands_2430_pt_isLoaded = false;
 		nupfcands_30in_pt_isLoaded = false;
+		chpfcands_0013_sumet_isLoaded = false;
+		chpfcands_1316_sumet_isLoaded = false;
+		chpfcands_1624_sumet_isLoaded = false;
+		chpfcands_2430_sumet_isLoaded = false;
+		chpfcands_30in_sumet_isLoaded = false;
+		phpfcands_0013_sumet_isLoaded = false;
+		phpfcands_1316_sumet_isLoaded = false;
+		phpfcands_1624_sumet_isLoaded = false;
+		phpfcands_2430_sumet_isLoaded = false;
+		phpfcands_30in_sumet_isLoaded = false;
+		nupfcands_0013_sumet_isLoaded = false;
+		nupfcands_1316_sumet_isLoaded = false;
+		nupfcands_1624_sumet_isLoaded = false;
+		nupfcands_2430_sumet_isLoaded = false;
+		nupfcands_30in_sumet_isLoaded = false;
 		chpfcands_0013_phi_isLoaded = false;
 		chpfcands_1316_phi_isLoaded = false;
 		chpfcands_1624_phi_isLoaded = false;
@@ -1469,20 +1481,7 @@ void ZMET::LoadAllBranches()
 	if (nTrueInt_branch != 0) nTrueInt();
 	if (rho_branch != 0) rho();
 	if (rho25_branch != 0) rho25();
-	if (njets_branch != 0) njets();
-	if (njets_up_branch != 0) njets_up();
-	if (njets_dn_branch != 0) njets_dn();
-	if (ht_branch != 0) ht();
-	if (ht_up_branch != 0) ht_up();
-	if (ht_dn_branch != 0) ht_dn();
 	if (gen_ht_branch != 0) gen_ht();
-	if (njets_eta30_branch != 0) njets_eta30();
-	if (ht_eta30_branch != 0) ht_eta30();
-	if (mt2_branch != 0) mt2();
-	if (mt2j_branch != 0) mt2j();
-	if (mt2j_eta30_branch != 0) mt2j_eta30();
-	if (nJet40_branch != 0) nJet40();
-	if (nBJet40_branch != 0) nBJet40();
 	if (nBJetTight_branch != 0) nBJetTight();
 	if (nBJetMedium_branch != 0) nBJetMedium();
 	if (nBJetLoose_branch != 0) nBJetLoose();
@@ -1504,10 +1503,6 @@ void ZMET::LoadAllBranches()
 	if (met_genPt_branch != 0) met_genPt();
 	if (met_genPhi_branch != 0) met_genPhi();
 	if (sumet_raw_branch != 0) sumet_raw();
-	if (jzb_raw_branch != 0) jzb_raw();
-	if (jzb_T1_branch != 0) jzb_T1();
-	if (jgb_raw_branch != 0) jgb_raw();
-	if (jgb_T1_branch != 0) jgb_T1();
 	if (Flag_EcalDeadCellTriggerPrimitiveFilter_branch != 0) Flag_EcalDeadCellTriggerPrimitiveFilter();
 	if (Flag_trkPOG_manystripclus53X_branch != 0) Flag_trkPOG_manystripclus53X();
 	if (Flag_ecalLaserCorrFilter_branch != 0) Flag_ecalLaserCorrFilter();
@@ -1540,6 +1535,7 @@ void ZMET::LoadAllBranches()
 	if (HLT_Photon90_R9Id90_HE10_IsoM_branch != 0) HLT_Photon90_R9Id90_HE10_IsoM();
 	if (HLT_Photon120_R9Id90_HE10_IsoM_branch != 0) HLT_Photon120_R9Id90_HE10_IsoM();
 	if (HLT_Photon165_R9Id90_HE10_IsoM_branch != 0) HLT_Photon165_R9Id90_HE10_IsoM();
+	if (HLT_Photon165_HE10_branch != 0) HLT_Photon165_HE10();
 	if (dilmass_branch != 0) dilmass();
 	if (dilpt_branch != 0) dilpt();
 	if (dRll_branch != 0) dRll();
@@ -1568,8 +1564,6 @@ void ZMET::LoadAllBranches()
 	if (lep_convVeto_branch != 0) lep_convVeto();
 	if (lep_tightCharge_branch != 0) lep_tightCharge();
 	if (lep_MVA_branch != 0) lep_MVA();
-	if (lep_islead_branch != 0) lep_islead();
-	if (lep_istail_branch != 0) lep_istail();
 	if (ngamma_branch != 0) ngamma();
 	if (gamma_p4_branch != 0) gamma_p4();
 	if (gamma_pt_branch != 0) gamma_pt();
@@ -1625,25 +1619,30 @@ void ZMET::LoadAllBranches()
 	if (genLepFromTau_status_branch != 0) genLepFromTau_status();
 	if (genLepFromTau_charge_branch != 0) genLepFromTau_charge();
 	if (genLepFromTau_sourceId_branch != 0) genLepFromTau_sourceId();
-	if (njet_branch != 0) njet();
-	if (jet_p4_branch != 0) jet_p4();
+	if (njets_branch != 0) njets();
+	if (njets_up_branch != 0) njets_up();
+	if (njets_dn_branch != 0) njets_dn();
 	if (jets_p4_branch != 0) jets_p4();
+	if (jets_medb_p4_branch != 0) jets_medb_p4();
 	if (jets_dn_p4_branch != 0) jets_dn_p4();
 	if (jets_up_p4_branch != 0) jets_up_p4();
-	if (jets_eta30_p4_branch != 0) jets_eta30_p4();
-	if (jet_pt_branch != 0) jet_pt();
-	if (jet_eta_branch != 0) jet_eta();
-	if (jet_phi_branch != 0) jet_phi();
-	if (jet_mass_branch != 0) jet_mass();
-	if (jet_btagCSV_branch != 0) jet_btagCSV();
-	if (jet_rawPt_branch != 0) jet_rawPt();
-	if (jet_mcPt_branch != 0) jet_mcPt();
-	if (jet_mcFlavour_branch != 0) jet_mcFlavour();
-	if (jet_mcHadronFlav_branch != 0) jet_mcHadronFlav();
-	if (jet_quarkGluonID_branch != 0) jet_quarkGluonID();
-	if (jet_area_branch != 0) jet_area();
-	if (jet_id_branch != 0) jet_id();
-	if (jet_puId_branch != 0) jet_puId();
+	if (jets_csv_branch != 0) jets_csv();
+	if (jets_mcFlavour_branch != 0) jets_mcFlavour();
+	if (jets_mcHadronFlav_branch != 0) jets_mcHadronFlav();
+	if (ht_branch != 0) ht();
+	if (ht_up_branch != 0) ht_up();
+	if (ht_dn_branch != 0) ht_dn();
+	if (mt2_branch != 0) mt2();
+	if (mt2j_branch != 0) mt2j();
+	if (mt2b_branch != 0) mt2b();
+	if (mjj_branch != 0) mjj();
+	if (mbb_csv_branch != 0) mbb_csv();
+	if (mbb_bpt_branch != 0) mbb_bpt();
+	if (dphi_jj_branch != 0) dphi_jj();
+	if (deta_jj_branch != 0) deta_jj();
+	if (dR_jj_branch != 0) dR_jj();
+	if (dphi_metj1_branch != 0) dphi_metj1();
+	if (dphi_metj2_branch != 0) dphi_metj2();
 	if (weight_btagsf_branch != 0) weight_btagsf();
 	if (weight_btagsf_heavy_UP_branch != 0) weight_btagsf_heavy_UP();
 	if (weight_btagsf_light_UP_branch != 0) weight_btagsf_light_UP();
@@ -1664,6 +1663,21 @@ void ZMET::LoadAllBranches()
 	if (nupfcands_1624_pt_branch != 0) nupfcands_1624_pt();
 	if (nupfcands_2430_pt_branch != 0) nupfcands_2430_pt();
 	if (nupfcands_30in_pt_branch != 0) nupfcands_30in_pt();
+	if (chpfcands_0013_sumet_branch != 0) chpfcands_0013_sumet();
+	if (chpfcands_1316_sumet_branch != 0) chpfcands_1316_sumet();
+	if (chpfcands_1624_sumet_branch != 0) chpfcands_1624_sumet();
+	if (chpfcands_2430_sumet_branch != 0) chpfcands_2430_sumet();
+	if (chpfcands_30in_sumet_branch != 0) chpfcands_30in_sumet();
+	if (phpfcands_0013_sumet_branch != 0) phpfcands_0013_sumet();
+	if (phpfcands_1316_sumet_branch != 0) phpfcands_1316_sumet();
+	if (phpfcands_1624_sumet_branch != 0) phpfcands_1624_sumet();
+	if (phpfcands_2430_sumet_branch != 0) phpfcands_2430_sumet();
+	if (phpfcands_30in_sumet_branch != 0) phpfcands_30in_sumet();
+	if (nupfcands_0013_sumet_branch != 0) nupfcands_0013_sumet();
+	if (nupfcands_1316_sumet_branch != 0) nupfcands_1316_sumet();
+	if (nupfcands_1624_sumet_branch != 0) nupfcands_1624_sumet();
+	if (nupfcands_2430_sumet_branch != 0) nupfcands_2430_sumet();
+	if (nupfcands_30in_sumet_branch != 0) nupfcands_30in_sumet();
 	if (chpfcands_0013_phi_branch != 0) chpfcands_0013_phi();
 	if (chpfcands_1316_phi_branch != 0) chpfcands_1316_phi();
 	if (chpfcands_1624_phi_branch != 0) chpfcands_1624_phi();
@@ -1891,84 +1905,6 @@ void ZMET::LoadAllBranches()
 		}
 		return rho25_;
 	}
-	const int &ZMET::njets()
-	{
-		if (not njets_isLoaded) {
-			if (njets_branch != 0) {
-				njets_branch->GetEntry(index);
-			} else { 
-				printf("branch njets_branch does not exist!\n");
-				exit(1);
-			}
-			njets_isLoaded = true;
-		}
-		return njets_;
-	}
-	const int &ZMET::njets_up()
-	{
-		if (not njets_up_isLoaded) {
-			if (njets_up_branch != 0) {
-				njets_up_branch->GetEntry(index);
-			} else { 
-				printf("branch njets_up_branch does not exist!\n");
-				exit(1);
-			}
-			njets_up_isLoaded = true;
-		}
-		return njets_up_;
-	}
-	const int &ZMET::njets_dn()
-	{
-		if (not njets_dn_isLoaded) {
-			if (njets_dn_branch != 0) {
-				njets_dn_branch->GetEntry(index);
-			} else { 
-				printf("branch njets_dn_branch does not exist!\n");
-				exit(1);
-			}
-			njets_dn_isLoaded = true;
-		}
-		return njets_dn_;
-	}
-	const float &ZMET::ht()
-	{
-		if (not ht_isLoaded) {
-			if (ht_branch != 0) {
-				ht_branch->GetEntry(index);
-			} else { 
-				printf("branch ht_branch does not exist!\n");
-				exit(1);
-			}
-			ht_isLoaded = true;
-		}
-		return ht_;
-	}
-	const float &ZMET::ht_up()
-	{
-		if (not ht_up_isLoaded) {
-			if (ht_up_branch != 0) {
-				ht_up_branch->GetEntry(index);
-			} else { 
-				printf("branch ht_up_branch does not exist!\n");
-				exit(1);
-			}
-			ht_up_isLoaded = true;
-		}
-		return ht_up_;
-	}
-	const float &ZMET::ht_dn()
-	{
-		if (not ht_dn_isLoaded) {
-			if (ht_dn_branch != 0) {
-				ht_dn_branch->GetEntry(index);
-			} else { 
-				printf("branch ht_dn_branch does not exist!\n");
-				exit(1);
-			}
-			ht_dn_isLoaded = true;
-		}
-		return ht_dn_;
-	}
 	const float &ZMET::gen_ht()
 	{
 		if (not gen_ht_isLoaded) {
@@ -1981,97 +1917,6 @@ void ZMET::LoadAllBranches()
 			gen_ht_isLoaded = true;
 		}
 		return gen_ht_;
-	}
-	const int &ZMET::njets_eta30()
-	{
-		if (not njets_eta30_isLoaded) {
-			if (njets_eta30_branch != 0) {
-				njets_eta30_branch->GetEntry(index);
-			} else { 
-				printf("branch njets_eta30_branch does not exist!\n");
-				exit(1);
-			}
-			njets_eta30_isLoaded = true;
-		}
-		return njets_eta30_;
-	}
-	const float &ZMET::ht_eta30()
-	{
-		if (not ht_eta30_isLoaded) {
-			if (ht_eta30_branch != 0) {
-				ht_eta30_branch->GetEntry(index);
-			} else { 
-				printf("branch ht_eta30_branch does not exist!\n");
-				exit(1);
-			}
-			ht_eta30_isLoaded = true;
-		}
-		return ht_eta30_;
-	}
-	const float &ZMET::mt2()
-	{
-		if (not mt2_isLoaded) {
-			if (mt2_branch != 0) {
-				mt2_branch->GetEntry(index);
-			} else { 
-				printf("branch mt2_branch does not exist!\n");
-				exit(1);
-			}
-			mt2_isLoaded = true;
-		}
-		return mt2_;
-	}
-	const float &ZMET::mt2j()
-	{
-		if (not mt2j_isLoaded) {
-			if (mt2j_branch != 0) {
-				mt2j_branch->GetEntry(index);
-			} else { 
-				printf("branch mt2j_branch does not exist!\n");
-				exit(1);
-			}
-			mt2j_isLoaded = true;
-		}
-		return mt2j_;
-	}
-	const float &ZMET::mt2j_eta30()
-	{
-		if (not mt2j_eta30_isLoaded) {
-			if (mt2j_eta30_branch != 0) {
-				mt2j_eta30_branch->GetEntry(index);
-			} else { 
-				printf("branch mt2j_eta30_branch does not exist!\n");
-				exit(1);
-			}
-			mt2j_eta30_isLoaded = true;
-		}
-		return mt2j_eta30_;
-	}
-	const int &ZMET::nJet40()
-	{
-		if (not nJet40_isLoaded) {
-			if (nJet40_branch != 0) {
-				nJet40_branch->GetEntry(index);
-			} else { 
-				printf("branch nJet40_branch does not exist!\n");
-				exit(1);
-			}
-			nJet40_isLoaded = true;
-		}
-		return nJet40_;
-	}
-	const int &ZMET::nBJet40()
-	{
-		if (not nBJet40_isLoaded) {
-			if (nBJet40_branch != 0) {
-				nBJet40_branch->GetEntry(index);
-			} else { 
-				printf("branch nBJet40_branch does not exist!\n");
-				exit(1);
-			}
-			nBJet40_isLoaded = true;
-		}
-		return nBJet40_;
 	}
 	const int &ZMET::nBJetTight()
 	{
@@ -2345,58 +2190,6 @@ void ZMET::LoadAllBranches()
 			sumet_raw_isLoaded = true;
 		}
 		return sumet_raw_;
-	}
-	const float &ZMET::jzb_raw()
-	{
-		if (not jzb_raw_isLoaded) {
-			if (jzb_raw_branch != 0) {
-				jzb_raw_branch->GetEntry(index);
-			} else { 
-				printf("branch jzb_raw_branch does not exist!\n");
-				exit(1);
-			}
-			jzb_raw_isLoaded = true;
-		}
-		return jzb_raw_;
-	}
-	const float &ZMET::jzb_T1()
-	{
-		if (not jzb_T1_isLoaded) {
-			if (jzb_T1_branch != 0) {
-				jzb_T1_branch->GetEntry(index);
-			} else { 
-				printf("branch jzb_T1_branch does not exist!\n");
-				exit(1);
-			}
-			jzb_T1_isLoaded = true;
-		}
-		return jzb_T1_;
-	}
-	const float &ZMET::jgb_raw()
-	{
-		if (not jgb_raw_isLoaded) {
-			if (jgb_raw_branch != 0) {
-				jgb_raw_branch->GetEntry(index);
-			} else { 
-				printf("branch jgb_raw_branch does not exist!\n");
-				exit(1);
-			}
-			jgb_raw_isLoaded = true;
-		}
-		return jgb_raw_;
-	}
-	const float &ZMET::jgb_T1()
-	{
-		if (not jgb_T1_isLoaded) {
-			if (jgb_T1_branch != 0) {
-				jgb_T1_branch->GetEntry(index);
-			} else { 
-				printf("branch jgb_T1_branch does not exist!\n");
-				exit(1);
-			}
-			jgb_T1_isLoaded = true;
-		}
-		return jgb_T1_;
 	}
 	const int &ZMET::Flag_EcalDeadCellTriggerPrimitiveFilter()
 	{
@@ -2814,6 +2607,19 @@ void ZMET::LoadAllBranches()
 		}
 		return HLT_Photon165_R9Id90_HE10_IsoM_;
 	}
+	const int &ZMET::HLT_Photon165_HE10()
+	{
+		if (not HLT_Photon165_HE10_isLoaded) {
+			if (HLT_Photon165_HE10_branch != 0) {
+				HLT_Photon165_HE10_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon165_HE10_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon165_HE10_isLoaded = true;
+		}
+		return HLT_Photon165_HE10_;
+	}
 	const float &ZMET::dilmass()
 	{
 		if (not dilmass_isLoaded) {
@@ -3177,32 +2983,6 @@ void ZMET::LoadAllBranches()
 			lep_MVA_isLoaded = true;
 		}
 		return *lep_MVA_;
-	}
-	const vector<int> &ZMET::lep_islead()
-	{
-		if (not lep_islead_isLoaded) {
-			if (lep_islead_branch != 0) {
-				lep_islead_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_islead_branch does not exist!\n");
-				exit(1);
-			}
-			lep_islead_isLoaded = true;
-		}
-		return *lep_islead_;
-	}
-	const vector<int> &ZMET::lep_istail()
-	{
-		if (not lep_istail_isLoaded) {
-			if (lep_istail_branch != 0) {
-				lep_istail_branch->GetEntry(index);
-			} else { 
-				printf("branch lep_istail_branch does not exist!\n");
-				exit(1);
-			}
-			lep_istail_isLoaded = true;
-		}
-		return *lep_istail_;
 	}
 	const int &ZMET::ngamma()
 	{
@@ -3919,31 +3699,44 @@ void ZMET::LoadAllBranches()
 		}
 		return *genLepFromTau_sourceId_;
 	}
-	const int &ZMET::njet()
+	const int &ZMET::njets()
 	{
-		if (not njet_isLoaded) {
-			if (njet_branch != 0) {
-				njet_branch->GetEntry(index);
+		if (not njets_isLoaded) {
+			if (njets_branch != 0) {
+				njets_branch->GetEntry(index);
 			} else { 
-				printf("branch njet_branch does not exist!\n");
+				printf("branch njets_branch does not exist!\n");
 				exit(1);
 			}
-			njet_isLoaded = true;
+			njets_isLoaded = true;
 		}
-		return njet_;
+		return njets_;
 	}
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET::jet_p4()
+	const int &ZMET::njets_up()
 	{
-		if (not jet_p4_isLoaded) {
-			if (jet_p4_branch != 0) {
-				jet_p4_branch->GetEntry(index);
+		if (not njets_up_isLoaded) {
+			if (njets_up_branch != 0) {
+				njets_up_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_p4_branch does not exist!\n");
+				printf("branch njets_up_branch does not exist!\n");
 				exit(1);
 			}
-			jet_p4_isLoaded = true;
+			njets_up_isLoaded = true;
 		}
-		return *jet_p4_;
+		return njets_up_;
+	}
+	const int &ZMET::njets_dn()
+	{
+		if (not njets_dn_isLoaded) {
+			if (njets_dn_branch != 0) {
+				njets_dn_branch->GetEntry(index);
+			} else { 
+				printf("branch njets_dn_branch does not exist!\n");
+				exit(1);
+			}
+			njets_dn_isLoaded = true;
+		}
+		return njets_dn_;
 	}
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET::jets_p4()
 	{
@@ -3957,6 +3750,19 @@ void ZMET::LoadAllBranches()
 			jets_p4_isLoaded = true;
 		}
 		return *jets_p4_;
+	}
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET::jets_medb_p4()
+	{
+		if (not jets_medb_p4_isLoaded) {
+			if (jets_medb_p4_branch != 0) {
+				jets_medb_p4_branch->GetEntry(index);
+			} else { 
+				printf("branch jets_medb_p4_branch does not exist!\n");
+				exit(1);
+			}
+			jets_medb_p4_isLoaded = true;
+		}
+		return *jets_medb_p4_;
 	}
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET::jets_dn_p4()
 	{
@@ -3984,187 +3790,226 @@ void ZMET::LoadAllBranches()
 		}
 		return *jets_up_p4_;
 	}
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &ZMET::jets_eta30_p4()
+	const vector<float> &ZMET::jets_csv()
 	{
-		if (not jets_eta30_p4_isLoaded) {
-			if (jets_eta30_p4_branch != 0) {
-				jets_eta30_p4_branch->GetEntry(index);
+		if (not jets_csv_isLoaded) {
+			if (jets_csv_branch != 0) {
+				jets_csv_branch->GetEntry(index);
 			} else { 
-				printf("branch jets_eta30_p4_branch does not exist!\n");
+				printf("branch jets_csv_branch does not exist!\n");
 				exit(1);
 			}
-			jets_eta30_p4_isLoaded = true;
+			jets_csv_isLoaded = true;
 		}
-		return *jets_eta30_p4_;
+		return *jets_csv_;
 	}
-	const vector<float> &ZMET::jet_pt()
+	const vector<int> &ZMET::jets_mcFlavour()
 	{
-		if (not jet_pt_isLoaded) {
-			if (jet_pt_branch != 0) {
-				jet_pt_branch->GetEntry(index);
+		if (not jets_mcFlavour_isLoaded) {
+			if (jets_mcFlavour_branch != 0) {
+				jets_mcFlavour_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_pt_branch does not exist!\n");
+				printf("branch jets_mcFlavour_branch does not exist!\n");
 				exit(1);
 			}
-			jet_pt_isLoaded = true;
+			jets_mcFlavour_isLoaded = true;
 		}
-		return *jet_pt_;
+		return *jets_mcFlavour_;
 	}
-	const vector<float> &ZMET::jet_eta()
+	const vector<int> &ZMET::jets_mcHadronFlav()
 	{
-		if (not jet_eta_isLoaded) {
-			if (jet_eta_branch != 0) {
-				jet_eta_branch->GetEntry(index);
+		if (not jets_mcHadronFlav_isLoaded) {
+			if (jets_mcHadronFlav_branch != 0) {
+				jets_mcHadronFlav_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_eta_branch does not exist!\n");
+				printf("branch jets_mcHadronFlav_branch does not exist!\n");
 				exit(1);
 			}
-			jet_eta_isLoaded = true;
+			jets_mcHadronFlav_isLoaded = true;
 		}
-		return *jet_eta_;
+		return *jets_mcHadronFlav_;
 	}
-	const vector<float> &ZMET::jet_phi()
+	const float &ZMET::ht()
 	{
-		if (not jet_phi_isLoaded) {
-			if (jet_phi_branch != 0) {
-				jet_phi_branch->GetEntry(index);
+		if (not ht_isLoaded) {
+			if (ht_branch != 0) {
+				ht_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_phi_branch does not exist!\n");
+				printf("branch ht_branch does not exist!\n");
 				exit(1);
 			}
-			jet_phi_isLoaded = true;
+			ht_isLoaded = true;
 		}
-		return *jet_phi_;
+		return ht_;
 	}
-	const vector<float> &ZMET::jet_mass()
+	const float &ZMET::ht_up()
 	{
-		if (not jet_mass_isLoaded) {
-			if (jet_mass_branch != 0) {
-				jet_mass_branch->GetEntry(index);
+		if (not ht_up_isLoaded) {
+			if (ht_up_branch != 0) {
+				ht_up_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_mass_branch does not exist!\n");
+				printf("branch ht_up_branch does not exist!\n");
 				exit(1);
 			}
-			jet_mass_isLoaded = true;
+			ht_up_isLoaded = true;
 		}
-		return *jet_mass_;
+		return ht_up_;
 	}
-	const vector<float> &ZMET::jet_btagCSV()
+	const float &ZMET::ht_dn()
 	{
-		if (not jet_btagCSV_isLoaded) {
-			if (jet_btagCSV_branch != 0) {
-				jet_btagCSV_branch->GetEntry(index);
+		if (not ht_dn_isLoaded) {
+			if (ht_dn_branch != 0) {
+				ht_dn_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_btagCSV_branch does not exist!\n");
+				printf("branch ht_dn_branch does not exist!\n");
 				exit(1);
 			}
-			jet_btagCSV_isLoaded = true;
+			ht_dn_isLoaded = true;
 		}
-		return *jet_btagCSV_;
+		return ht_dn_;
 	}
-	const vector<float> &ZMET::jet_rawPt()
+	const float &ZMET::mt2()
 	{
-		if (not jet_rawPt_isLoaded) {
-			if (jet_rawPt_branch != 0) {
-				jet_rawPt_branch->GetEntry(index);
+		if (not mt2_isLoaded) {
+			if (mt2_branch != 0) {
+				mt2_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_rawPt_branch does not exist!\n");
+				printf("branch mt2_branch does not exist!\n");
 				exit(1);
 			}
-			jet_rawPt_isLoaded = true;
+			mt2_isLoaded = true;
 		}
-		return *jet_rawPt_;
+		return mt2_;
 	}
-	const vector<float> &ZMET::jet_mcPt()
+	const float &ZMET::mt2j()
 	{
-		if (not jet_mcPt_isLoaded) {
-			if (jet_mcPt_branch != 0) {
-				jet_mcPt_branch->GetEntry(index);
+		if (not mt2j_isLoaded) {
+			if (mt2j_branch != 0) {
+				mt2j_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_mcPt_branch does not exist!\n");
+				printf("branch mt2j_branch does not exist!\n");
 				exit(1);
 			}
-			jet_mcPt_isLoaded = true;
+			mt2j_isLoaded = true;
 		}
-		return *jet_mcPt_;
+		return mt2j_;
 	}
-	const vector<int> &ZMET::jet_mcFlavour()
+	const float &ZMET::mt2b()
 	{
-		if (not jet_mcFlavour_isLoaded) {
-			if (jet_mcFlavour_branch != 0) {
-				jet_mcFlavour_branch->GetEntry(index);
+		if (not mt2b_isLoaded) {
+			if (mt2b_branch != 0) {
+				mt2b_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_mcFlavour_branch does not exist!\n");
+				printf("branch mt2b_branch does not exist!\n");
 				exit(1);
 			}
-			jet_mcFlavour_isLoaded = true;
+			mt2b_isLoaded = true;
 		}
-		return *jet_mcFlavour_;
+		return mt2b_;
 	}
-	const vector<int> &ZMET::jet_mcHadronFlav()
+	const float &ZMET::mjj()
 	{
-		if (not jet_mcHadronFlav_isLoaded) {
-			if (jet_mcHadronFlav_branch != 0) {
-				jet_mcHadronFlav_branch->GetEntry(index);
+		if (not mjj_isLoaded) {
+			if (mjj_branch != 0) {
+				mjj_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_mcHadronFlav_branch does not exist!\n");
+				printf("branch mjj_branch does not exist!\n");
 				exit(1);
 			}
-			jet_mcHadronFlav_isLoaded = true;
+			mjj_isLoaded = true;
 		}
-		return *jet_mcHadronFlav_;
+		return mjj_;
 	}
-	const vector<float> &ZMET::jet_quarkGluonID()
+	const float &ZMET::mbb_csv()
 	{
-		if (not jet_quarkGluonID_isLoaded) {
-			if (jet_quarkGluonID_branch != 0) {
-				jet_quarkGluonID_branch->GetEntry(index);
+		if (not mbb_csv_isLoaded) {
+			if (mbb_csv_branch != 0) {
+				mbb_csv_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_quarkGluonID_branch does not exist!\n");
+				printf("branch mbb_csv_branch does not exist!\n");
 				exit(1);
 			}
-			jet_quarkGluonID_isLoaded = true;
+			mbb_csv_isLoaded = true;
 		}
-		return *jet_quarkGluonID_;
+		return mbb_csv_;
 	}
-	const vector<float> &ZMET::jet_area()
+	const float &ZMET::mbb_bpt()
 	{
-		if (not jet_area_isLoaded) {
-			if (jet_area_branch != 0) {
-				jet_area_branch->GetEntry(index);
+		if (not mbb_bpt_isLoaded) {
+			if (mbb_bpt_branch != 0) {
+				mbb_bpt_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_area_branch does not exist!\n");
+				printf("branch mbb_bpt_branch does not exist!\n");
 				exit(1);
 			}
-			jet_area_isLoaded = true;
+			mbb_bpt_isLoaded = true;
 		}
-		return *jet_area_;
+		return mbb_bpt_;
 	}
-	const vector<int> &ZMET::jet_id()
+	const float &ZMET::dphi_jj()
 	{
-		if (not jet_id_isLoaded) {
-			if (jet_id_branch != 0) {
-				jet_id_branch->GetEntry(index);
+		if (not dphi_jj_isLoaded) {
+			if (dphi_jj_branch != 0) {
+				dphi_jj_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_id_branch does not exist!\n");
+				printf("branch dphi_jj_branch does not exist!\n");
 				exit(1);
 			}
-			jet_id_isLoaded = true;
+			dphi_jj_isLoaded = true;
 		}
-		return *jet_id_;
+		return dphi_jj_;
 	}
-	const vector<int> &ZMET::jet_puId()
+	const float &ZMET::deta_jj()
 	{
-		if (not jet_puId_isLoaded) {
-			if (jet_puId_branch != 0) {
-				jet_puId_branch->GetEntry(index);
+		if (not deta_jj_isLoaded) {
+			if (deta_jj_branch != 0) {
+				deta_jj_branch->GetEntry(index);
 			} else { 
-				printf("branch jet_puId_branch does not exist!\n");
+				printf("branch deta_jj_branch does not exist!\n");
 				exit(1);
 			}
-			jet_puId_isLoaded = true;
+			deta_jj_isLoaded = true;
 		}
-		return *jet_puId_;
+		return deta_jj_;
+	}
+	const float &ZMET::dR_jj()
+	{
+		if (not dR_jj_isLoaded) {
+			if (dR_jj_branch != 0) {
+				dR_jj_branch->GetEntry(index);
+			} else { 
+				printf("branch dR_jj_branch does not exist!\n");
+				exit(1);
+			}
+			dR_jj_isLoaded = true;
+		}
+		return dR_jj_;
+	}
+	const float &ZMET::dphi_metj1()
+	{
+		if (not dphi_metj1_isLoaded) {
+			if (dphi_metj1_branch != 0) {
+				dphi_metj1_branch->GetEntry(index);
+			} else { 
+				printf("branch dphi_metj1_branch does not exist!\n");
+				exit(1);
+			}
+			dphi_metj1_isLoaded = true;
+		}
+		return dphi_metj1_;
+	}
+	const float &ZMET::dphi_metj2()
+	{
+		if (not dphi_metj2_isLoaded) {
+			if (dphi_metj2_branch != 0) {
+				dphi_metj2_branch->GetEntry(index);
+			} else { 
+				printf("branch dphi_metj2_branch does not exist!\n");
+				exit(1);
+			}
+			dphi_metj2_isLoaded = true;
+		}
+		return dphi_metj2_;
 	}
 	const float &ZMET::weight_btagsf()
 	{
@@ -4425,6 +4270,201 @@ void ZMET::LoadAllBranches()
 			nupfcands_30in_pt_isLoaded = true;
 		}
 		return nupfcands_30in_pt_;
+	}
+	const float &ZMET::chpfcands_0013_sumet()
+	{
+		if (not chpfcands_0013_sumet_isLoaded) {
+			if (chpfcands_0013_sumet_branch != 0) {
+				chpfcands_0013_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch chpfcands_0013_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			chpfcands_0013_sumet_isLoaded = true;
+		}
+		return chpfcands_0013_sumet_;
+	}
+	const float &ZMET::chpfcands_1316_sumet()
+	{
+		if (not chpfcands_1316_sumet_isLoaded) {
+			if (chpfcands_1316_sumet_branch != 0) {
+				chpfcands_1316_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch chpfcands_1316_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			chpfcands_1316_sumet_isLoaded = true;
+		}
+		return chpfcands_1316_sumet_;
+	}
+	const float &ZMET::chpfcands_1624_sumet()
+	{
+		if (not chpfcands_1624_sumet_isLoaded) {
+			if (chpfcands_1624_sumet_branch != 0) {
+				chpfcands_1624_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch chpfcands_1624_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			chpfcands_1624_sumet_isLoaded = true;
+		}
+		return chpfcands_1624_sumet_;
+	}
+	const float &ZMET::chpfcands_2430_sumet()
+	{
+		if (not chpfcands_2430_sumet_isLoaded) {
+			if (chpfcands_2430_sumet_branch != 0) {
+				chpfcands_2430_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch chpfcands_2430_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			chpfcands_2430_sumet_isLoaded = true;
+		}
+		return chpfcands_2430_sumet_;
+	}
+	const float &ZMET::chpfcands_30in_sumet()
+	{
+		if (not chpfcands_30in_sumet_isLoaded) {
+			if (chpfcands_30in_sumet_branch != 0) {
+				chpfcands_30in_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch chpfcands_30in_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			chpfcands_30in_sumet_isLoaded = true;
+		}
+		return chpfcands_30in_sumet_;
+	}
+	const float &ZMET::phpfcands_0013_sumet()
+	{
+		if (not phpfcands_0013_sumet_isLoaded) {
+			if (phpfcands_0013_sumet_branch != 0) {
+				phpfcands_0013_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch phpfcands_0013_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			phpfcands_0013_sumet_isLoaded = true;
+		}
+		return phpfcands_0013_sumet_;
+	}
+	const float &ZMET::phpfcands_1316_sumet()
+	{
+		if (not phpfcands_1316_sumet_isLoaded) {
+			if (phpfcands_1316_sumet_branch != 0) {
+				phpfcands_1316_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch phpfcands_1316_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			phpfcands_1316_sumet_isLoaded = true;
+		}
+		return phpfcands_1316_sumet_;
+	}
+	const float &ZMET::phpfcands_1624_sumet()
+	{
+		if (not phpfcands_1624_sumet_isLoaded) {
+			if (phpfcands_1624_sumet_branch != 0) {
+				phpfcands_1624_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch phpfcands_1624_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			phpfcands_1624_sumet_isLoaded = true;
+		}
+		return phpfcands_1624_sumet_;
+	}
+	const float &ZMET::phpfcands_2430_sumet()
+	{
+		if (not phpfcands_2430_sumet_isLoaded) {
+			if (phpfcands_2430_sumet_branch != 0) {
+				phpfcands_2430_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch phpfcands_2430_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			phpfcands_2430_sumet_isLoaded = true;
+		}
+		return phpfcands_2430_sumet_;
+	}
+	const float &ZMET::phpfcands_30in_sumet()
+	{
+		if (not phpfcands_30in_sumet_isLoaded) {
+			if (phpfcands_30in_sumet_branch != 0) {
+				phpfcands_30in_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch phpfcands_30in_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			phpfcands_30in_sumet_isLoaded = true;
+		}
+		return phpfcands_30in_sumet_;
+	}
+	const float &ZMET::nupfcands_0013_sumet()
+	{
+		if (not nupfcands_0013_sumet_isLoaded) {
+			if (nupfcands_0013_sumet_branch != 0) {
+				nupfcands_0013_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch nupfcands_0013_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			nupfcands_0013_sumet_isLoaded = true;
+		}
+		return nupfcands_0013_sumet_;
+	}
+	const float &ZMET::nupfcands_1316_sumet()
+	{
+		if (not nupfcands_1316_sumet_isLoaded) {
+			if (nupfcands_1316_sumet_branch != 0) {
+				nupfcands_1316_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch nupfcands_1316_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			nupfcands_1316_sumet_isLoaded = true;
+		}
+		return nupfcands_1316_sumet_;
+	}
+	const float &ZMET::nupfcands_1624_sumet()
+	{
+		if (not nupfcands_1624_sumet_isLoaded) {
+			if (nupfcands_1624_sumet_branch != 0) {
+				nupfcands_1624_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch nupfcands_1624_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			nupfcands_1624_sumet_isLoaded = true;
+		}
+		return nupfcands_1624_sumet_;
+	}
+	const float &ZMET::nupfcands_2430_sumet()
+	{
+		if (not nupfcands_2430_sumet_isLoaded) {
+			if (nupfcands_2430_sumet_branch != 0) {
+				nupfcands_2430_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch nupfcands_2430_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			nupfcands_2430_sumet_isLoaded = true;
+		}
+		return nupfcands_2430_sumet_;
+	}
+	const float &ZMET::nupfcands_30in_sumet()
+	{
+		if (not nupfcands_30in_sumet_isLoaded) {
+			if (nupfcands_30in_sumet_branch != 0) {
+				nupfcands_30in_sumet_branch->GetEntry(index);
+			} else { 
+				printf("branch nupfcands_30in_sumet_branch does not exist!\n");
+				exit(1);
+			}
+			nupfcands_30in_sumet_isLoaded = true;
+		}
+		return nupfcands_30in_sumet_;
 	}
 	const float &ZMET::chpfcands_0013_phi()
 	{
@@ -4853,20 +4893,7 @@ namespace ZMet {
 	const int &nTrueInt() { return zmet.nTrueInt(); }
 	const float &rho() { return zmet.rho(); }
 	const float &rho25() { return zmet.rho25(); }
-	const int &njets() { return zmet.njets(); }
-	const int &njets_up() { return zmet.njets_up(); }
-	const int &njets_dn() { return zmet.njets_dn(); }
-	const float &ht() { return zmet.ht(); }
-	const float &ht_up() { return zmet.ht_up(); }
-	const float &ht_dn() { return zmet.ht_dn(); }
 	const float &gen_ht() { return zmet.gen_ht(); }
-	const int &njets_eta30() { return zmet.njets_eta30(); }
-	const float &ht_eta30() { return zmet.ht_eta30(); }
-	const float &mt2() { return zmet.mt2(); }
-	const float &mt2j() { return zmet.mt2j(); }
-	const float &mt2j_eta30() { return zmet.mt2j_eta30(); }
-	const int &nJet40() { return zmet.nJet40(); }
-	const int &nBJet40() { return zmet.nBJet40(); }
 	const int &nBJetTight() { return zmet.nBJetTight(); }
 	const int &nBJetMedium() { return zmet.nBJetMedium(); }
 	const int &nBJetLoose() { return zmet.nBJetLoose(); }
@@ -4888,10 +4915,6 @@ namespace ZMet {
 	const float &met_genPt() { return zmet.met_genPt(); }
 	const float &met_genPhi() { return zmet.met_genPhi(); }
 	const float &sumet_raw() { return zmet.sumet_raw(); }
-	const float &jzb_raw() { return zmet.jzb_raw(); }
-	const float &jzb_T1() { return zmet.jzb_T1(); }
-	const float &jgb_raw() { return zmet.jgb_raw(); }
-	const float &jgb_T1() { return zmet.jgb_T1(); }
 	const int &Flag_EcalDeadCellTriggerPrimitiveFilter() { return zmet.Flag_EcalDeadCellTriggerPrimitiveFilter(); }
 	const int &Flag_trkPOG_manystripclus53X() { return zmet.Flag_trkPOG_manystripclus53X(); }
 	const int &Flag_ecalLaserCorrFilter() { return zmet.Flag_ecalLaserCorrFilter(); }
@@ -4924,6 +4947,7 @@ namespace ZMet {
 	const int &HLT_Photon90_R9Id90_HE10_IsoM() { return zmet.HLT_Photon90_R9Id90_HE10_IsoM(); }
 	const int &HLT_Photon120_R9Id90_HE10_IsoM() { return zmet.HLT_Photon120_R9Id90_HE10_IsoM(); }
 	const int &HLT_Photon165_R9Id90_HE10_IsoM() { return zmet.HLT_Photon165_R9Id90_HE10_IsoM(); }
+	const int &HLT_Photon165_HE10() { return zmet.HLT_Photon165_HE10(); }
 	const float &dilmass() { return zmet.dilmass(); }
 	const float &dilpt() { return zmet.dilpt(); }
 	const float &dRll() { return zmet.dRll(); }
@@ -4952,8 +4976,6 @@ namespace ZMet {
 	const vector<int> &lep_convVeto() { return zmet.lep_convVeto(); }
 	const vector<int> &lep_tightCharge() { return zmet.lep_tightCharge(); }
 	const vector<float> &lep_MVA() { return zmet.lep_MVA(); }
-	const vector<int> &lep_islead() { return zmet.lep_islead(); }
-	const vector<int> &lep_istail() { return zmet.lep_istail(); }
 	const int &ngamma() { return zmet.ngamma(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4() { return zmet.gamma_p4(); }
 	const vector<float> &gamma_pt() { return zmet.gamma_pt(); }
@@ -5009,25 +5031,30 @@ namespace ZMet {
 	const vector<int> &genLepFromTau_status() { return zmet.genLepFromTau_status(); }
 	const vector<float> &genLepFromTau_charge() { return zmet.genLepFromTau_charge(); }
 	const vector<int> &genLepFromTau_sourceId() { return zmet.genLepFromTau_sourceId(); }
-	const int &njet() { return zmet.njet(); }
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jet_p4() { return zmet.jet_p4(); }
+	const int &njets() { return zmet.njets(); }
+	const int &njets_up() { return zmet.njets_up(); }
+	const int &njets_dn() { return zmet.njets_dn(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_p4() { return zmet.jets_p4(); }
+	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_medb_p4() { return zmet.jets_medb_p4(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_dn_p4() { return zmet.jets_dn_p4(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_up_p4() { return zmet.jets_up_p4(); }
-	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &jets_eta30_p4() { return zmet.jets_eta30_p4(); }
-	const vector<float> &jet_pt() { return zmet.jet_pt(); }
-	const vector<float> &jet_eta() { return zmet.jet_eta(); }
-	const vector<float> &jet_phi() { return zmet.jet_phi(); }
-	const vector<float> &jet_mass() { return zmet.jet_mass(); }
-	const vector<float> &jet_btagCSV() { return zmet.jet_btagCSV(); }
-	const vector<float> &jet_rawPt() { return zmet.jet_rawPt(); }
-	const vector<float> &jet_mcPt() { return zmet.jet_mcPt(); }
-	const vector<int> &jet_mcFlavour() { return zmet.jet_mcFlavour(); }
-	const vector<int> &jet_mcHadronFlav() { return zmet.jet_mcHadronFlav(); }
-	const vector<float> &jet_quarkGluonID() { return zmet.jet_quarkGluonID(); }
-	const vector<float> &jet_area() { return zmet.jet_area(); }
-	const vector<int> &jet_id() { return zmet.jet_id(); }
-	const vector<int> &jet_puId() { return zmet.jet_puId(); }
+	const vector<float> &jets_csv() { return zmet.jets_csv(); }
+	const vector<int> &jets_mcFlavour() { return zmet.jets_mcFlavour(); }
+	const vector<int> &jets_mcHadronFlav() { return zmet.jets_mcHadronFlav(); }
+	const float &ht() { return zmet.ht(); }
+	const float &ht_up() { return zmet.ht_up(); }
+	const float &ht_dn() { return zmet.ht_dn(); }
+	const float &mt2() { return zmet.mt2(); }
+	const float &mt2j() { return zmet.mt2j(); }
+	const float &mt2b() { return zmet.mt2b(); }
+	const float &mjj() { return zmet.mjj(); }
+	const float &mbb_csv() { return zmet.mbb_csv(); }
+	const float &mbb_bpt() { return zmet.mbb_bpt(); }
+	const float &dphi_jj() { return zmet.dphi_jj(); }
+	const float &deta_jj() { return zmet.deta_jj(); }
+	const float &dR_jj() { return zmet.dR_jj(); }
+	const float &dphi_metj1() { return zmet.dphi_metj1(); }
+	const float &dphi_metj2() { return zmet.dphi_metj2(); }
 	const float &weight_btagsf() { return zmet.weight_btagsf(); }
 	const float &weight_btagsf_heavy_UP() { return zmet.weight_btagsf_heavy_UP(); }
 	const float &weight_btagsf_light_UP() { return zmet.weight_btagsf_light_UP(); }
@@ -5048,6 +5075,21 @@ namespace ZMet {
 	const float &nupfcands_1624_pt() { return zmet.nupfcands_1624_pt(); }
 	const float &nupfcands_2430_pt() { return zmet.nupfcands_2430_pt(); }
 	const float &nupfcands_30in_pt() { return zmet.nupfcands_30in_pt(); }
+	const float &chpfcands_0013_sumet() { return zmet.chpfcands_0013_sumet(); }
+	const float &chpfcands_1316_sumet() { return zmet.chpfcands_1316_sumet(); }
+	const float &chpfcands_1624_sumet() { return zmet.chpfcands_1624_sumet(); }
+	const float &chpfcands_2430_sumet() { return zmet.chpfcands_2430_sumet(); }
+	const float &chpfcands_30in_sumet() { return zmet.chpfcands_30in_sumet(); }
+	const float &phpfcands_0013_sumet() { return zmet.phpfcands_0013_sumet(); }
+	const float &phpfcands_1316_sumet() { return zmet.phpfcands_1316_sumet(); }
+	const float &phpfcands_1624_sumet() { return zmet.phpfcands_1624_sumet(); }
+	const float &phpfcands_2430_sumet() { return zmet.phpfcands_2430_sumet(); }
+	const float &phpfcands_30in_sumet() { return zmet.phpfcands_30in_sumet(); }
+	const float &nupfcands_0013_sumet() { return zmet.nupfcands_0013_sumet(); }
+	const float &nupfcands_1316_sumet() { return zmet.nupfcands_1316_sumet(); }
+	const float &nupfcands_1624_sumet() { return zmet.nupfcands_1624_sumet(); }
+	const float &nupfcands_2430_sumet() { return zmet.nupfcands_2430_sumet(); }
+	const float &nupfcands_30in_sumet() { return zmet.nupfcands_30in_sumet(); }
 	const float &chpfcands_0013_phi() { return zmet.chpfcands_0013_phi(); }
 	const float &chpfcands_1316_phi() { return zmet.chpfcands_1316_phi(); }
 	const float &chpfcands_1624_phi() { return zmet.chpfcands_1624_phi(); }

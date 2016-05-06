@@ -38,9 +38,10 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   bool usemgzjets       = false;  // use madgraph zjets sample
 
+  bool renormalizettbar       = true;  // ttbar has too many events
 
   
-  bool normalized       = false;  // normalize backgrounds to data
+  bool normalized       = true;  // normalize backgrounds to data
   bool fractionalBG     = false;  // display background numbers as fraction in zjets and fsbkg
 
   bool useedgepreds   = false; // combine z bgs and fs bgs into 2 categories
@@ -130,6 +131,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_ttv->Scale(luminosity);
   h_vvv->Scale(luminosity);
 
+  if( renormalizettbar )   h_ttbar->Scale(71.542);
+  
   // h_st ->Scale(0);
   // h_ww ->Scale(0);
   // h_wz ->Scale(0);
@@ -1081,7 +1084,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   }
 
   //MAKE PLOTS
-  float xmin = 20; float xmax = 200;
+  float xmin = 0; float xmax = 200;
   float ymin = 1e-1; float ymax = 10;
 
   int rebin = 10;

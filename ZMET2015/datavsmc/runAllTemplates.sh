@@ -82,17 +82,17 @@ fi
 # # ./runTemplateLooper $selection $analysis_version zz_inc &
 # # ./runTemplateLooper $selection $analysis_version zjetsmlm &
 
-# selection="_inclusive"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version wz_inc &
-# # ./runTemplateLooper $selection $analysis_version zz_inc &
+selection="_inclusive"
+./runTemplateLooper $selection $analysis_version data &
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+./runTemplateLooper $selection $analysis_version zjets &
+./runTemplateLooper $selection $analysis_version ttbar &
+./runTemplateLooper $selection $analysis_version st &
+./runTemplateLooper $selection $analysis_version ww &
+./runTemplateLooper $selection $analysis_version ttv &
+./runTemplateLooper $selection $analysis_version vvv &
+./runTemplateLooper $selection $analysis_version wz_inc &
+./runTemplateLooper $selection $analysis_version zz_inc &
 
 #################
 ## for closure ##
@@ -540,12 +540,12 @@ fi
 # selection="_rawMET_loosephoton_bveto_SRB_light_UP"
 # ./runTemplateLooper $selection $analysis_version fullscan &
 
-selection="_rawMET_loosephoton_withb_SRB_jes_up"
-./runTemplateLooper $selection $analysis_version fullscan &
-selection="_rawMET_loosephoton_bveto_SRB_jes_up"
-./runTemplateLooper $selection $analysis_version fullscan &
+# selection="_rawMET_loosephoton_withb_SRB_jes_up"
+# ./runTemplateLooper $selection $analysis_version fullscan &
+# selection="_rawMET_loosephoton_bveto_SRB_jes_up"
+# ./runTemplateLooper $selection $analysis_version fullscan &
 
-selection="_rawMET_loosephoton_withb_SRB_jes_dn"
-./runTemplateLooper $selection $analysis_version fullscan &
-selection="_rawMET_loosephoton_bveto_SRB_jes_dn"
-./runTemplateLooper $selection $analysis_version fullscan &
+# selection="_rawMET_loosephoton_withb_SRB_jes_dn"
+# ./runTemplateLooper $selection $analysis_version fullscan &
+# selection="_rawMET_loosephoton_bveto_SRB_jes_dn"
+# ./runTemplateLooper $selection $analysis_version fullscan &
