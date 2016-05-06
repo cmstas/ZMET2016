@@ -259,36 +259,22 @@ class babyMaker {
   std::vector <Int_t  >         genLepFromTau_status  ;   //[ngenLepFromTau]
   std::vector <Float_t>         genLepFromTau_charge  ;   //[ngenLepFromTau]
   std::vector <Int_t  >         genLepFromTau_sourceId;   //[ngenLepFromTau]
-  
-//----- JETS - Inclusive in eta and pt
-  Int_t           njet;
-  std::vector <LorentzVector>   jet_p4;
-  std::vector <Float_t>         jet_pt          ;   //[njet]
-  std::vector <Float_t>         jet_eta         ;   //[njet]
-  std::vector <Float_t>         jet_phi         ;   //[njet]
-  std::vector <Float_t>         jet_mass        ;   //[njet]
-  std::vector <Float_t>         jet_btagCSV     ;   //[njet]
-  std::vector <Float_t>         jet_rawPt       ;   //[njet]
-  std::vector <Float_t>         jet_mcPt        ;   //[njet]
-  std::vector <Int_t  >         jet_mcFlavour   ;   //[njet]
-  std::vector <Int_t  >         jet_mcHadronFlav;   //[njet]
-  std::vector <Float_t>         jet_quarkGluonID;   //[njet]
-  std::vector <Float_t>         jet_area        ;   //[njet]
-  std::vector <Int_t  >         jet_id          ;   //[njet]
-  std::vector <Int_t  >         jet_puId        ;   //[njet]
 
 //----- JETS - pt > 35, eta < 2.4
   Int_t           njets;
   Int_t           njets_up;
   Int_t           njets_dn;
   std::vector <LorentzVector>   jets_p4;
-  std::vector <LorentzVector>   jets_medb_p4;
   std::vector <LorentzVector>   jets_up_p4;
   std::vector <LorentzVector>   jets_dn_p4;
+
+  std::vector <LorentzVector>   jets_medb_p4;
   std::vector <Float_t>         jets_csv;
+
+  // MC only
   std::vector <Int_t  >         jets_mcFlavour   ;
   std::vector <Int_t  >         jets_mcHadronFlav;
-  std::vector <Float_t>         jets_quarkGluonID;
+
   Float_t         ht;
   Float_t         ht_up;
   Float_t         ht_dn;
@@ -303,7 +289,10 @@ class babyMaker {
   Float_t         dphi_jj;
   Float_t         deta_jj;
   Float_t         dR_jj;
-  
+
+  Float_t         dphi_metj1;
+  Float_t         dphi_metj2;
+
   //----- weights for b-tag SF  
   Float_t         weight_btagsf;
   Float_t         weight_btagsf_heavy_UP;
