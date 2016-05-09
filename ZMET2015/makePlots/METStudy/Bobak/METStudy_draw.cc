@@ -31,7 +31,7 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     // Draw Data-MC Plots
     //============================================
 
-    TCanvas * c = new TCanvas("c","",1920,1080);
+    TCanvas * c = new TCanvas("c","",1600,1200);
     c->cd();
     gPad->SetRightMargin(0.05);
     gPad->Modified();
@@ -202,7 +202,7 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
   delete f;
 }
 
-void METStudy_draw(bool pt=true, bool phi=true, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-06/")
+void METStudy_draw(bool pt=true, bool phi=true, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-08    /")
 {
   
 

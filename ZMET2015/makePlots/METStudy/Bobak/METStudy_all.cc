@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
+#include <ctime>
 
 #include "TChain.h"
 #include "TLegend.h"
@@ -12,7 +13,8 @@
 
 using namespace std;
 
-void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-06/")
+void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-08/")
+/*void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-06/")*/
 {
 
   TCut base_cut = "dilmass < 101 && dilmass > 81 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0";
@@ -26,6 +28,13 @@ void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07
   //============================================
   // Define plots
   //============================================
+
+  // Type1 MET
+  plot_names.push_back("type1MET");
+  plot_vars.push_back("met_T1CHS_miniAOD_CORE_pt");
+  plot_titles.push_back("Type 1 MET");
+  cuts.push_back(base_cut+"met_T1CHS_miniAOD_CORE_pt > 0");
+  plot_types.push_back("pt");
 
   // Photon MET-Phi in Barrel
   plot_names.push_back("ph_0013_phi");
@@ -179,21 +188,34 @@ void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07
   //============================================
 
   TChain * ch_zjets = new TChain("t");
-  ch_zjets->Add("/nfs-7/userdata/ZMEToutput2016/output/ZMETbabies/V07-06-06/DY*");
+  ch_zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V07-06-08/DY*");
+  //ch_zjets->Add("/nfs-7/userdata/ZMEToutput2016/output/ZMETbabies/V07-06-06/DY*");
  
   TChain * ch_fsbkg = new TChain("t");
-  ch_fsbkg->Add("/nfs-7/userdata/ZMEToutput2016/output/ZMETbabies/V07-06-06/ttjets*");
+  ch_fsbkg->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V07-06-08/ttTo*");
+  //ch_zjets->Add("/nfs-7/userdata/ZMEToutput2016/output/ZMETbabies/V07-06-06/DY*");
 
   TChain * ch_data =  new TChain("t");
-  ch_data->Add("/nfs-7/userdata/ZMEToutput2016/output/ZMETbabies/V07-06-06/data*");
+  ch_data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V07-06-08/data*");
+  //ch_zjets->Add("/nfs-7/userdata/ZMEToutput2016/output/ZMETbabies/V07-06-06/DY*");
   
-  TCut weight = "evt_scale1fb*2.3"; //Good for 2015 run2
+  TCut weight = "evt_scale1fb*2.3*puWeight"; //Good for 2015 run2
 
   //============================================
   // Draw Histograms
   //============================================
 
-  TFile * output = new TFile(save_dir+"METStudy_all.root", "recreate");
+  time_t rawtime;
+  struct tm * timeinfo;
+  char now[80];
+
+  time (&rawtime);
+  timeinfo = localtime(&rawtime);
+
+  strftime(buffer,80,"%d-%m-%Y_%I:%M:%S",timeinfo);
+  std::string str(now);
+
+  TFile * output = new TFile(save_dir+"METStudy_all_"+now+".root", "create");
 
   while(!cuts.empty()){
     TCut selection = cuts.back();
