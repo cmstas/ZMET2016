@@ -12,8 +12,10 @@
 
 using namespace std;
 
-void METStudy_phi(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/")
+void METStudy_phi(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-06/")
 {
+
+  TCut base_cut = "dilmass < 101 && dilmass > 81 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0";
 
   vector<TCut> cuts;
   vector<TString> plot_names;
@@ -28,55 +30,55 @@ void METStudy_phi(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/")
   plot_names.push_back("ph_0013_phi");
   plot_vars.push_back("phpfcands_0013_phi");
   plot_titles.push_back("Photon MET-Phi in Barrel");
-  cuts.push_back("phpfcands_0013_pt > 0 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 1.3 && abs(lep_p4[1].eta()) < 1.3 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0");
+  cuts.push_back(base_cut+"phpfcands_0013_pt > 0");
 
   // Charged Hadron Pt in Barrel
   plot_names.push_back("ch_0013_phi");
   plot_vars.push_back("chpfcands_0013_phi");
   plot_titles.push_back("Charged Hadron MET-Phi in Barrel");
-  cuts.push_back("chpfcands_0013_pt > 0 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 1.3 && abs(lep_p4[1].eta()) < 1.3 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0");
+  cuts.push_back(base_cut+"chpfcands_0013_pt > 0");
 
   // Neutral Hadron Pt in Barrel
   plot_names.push_back("nu_0013_phi");
   plot_vars.push_back("nupfcands_0013_phi");
   plot_titles.push_back("Neutral Hadron MET-Phi in Barrel");
-  cuts.push_back("nupfcands_0013_pt > 0 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 1.3 && abs(lep_p4[1].eta()) < 1.3 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0");
+  cuts.push_back(base_cut+"nupfcands_0013_pt > 0");
 
   // Photon Pt in Endcap
   plot_names.push_back("ph_1624_phi");
   plot_vars.push_back("phpfcands_1624_phi");
   plot_titles.push_back("Photon MET-Phi in Endcap");
-  cuts.push_back("phpfcands_1624_pt > 0 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 1.3 && abs(lep_p4[1].eta()) < 1.3 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0");
+  cuts.push_back(base_cut+"phpfcands_1624_pt > 0");
 
   // Charged Hadron Pt in Endcap
   plot_names.push_back("ch_1624_phi");
   plot_vars.push_back("chpfcands_1624_phi");
   plot_titles.push_back("Charged Hadron MET-Phi in Endcap");
-  cuts.push_back("chpfcands_1624_pt > 0 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 1.3 && abs(lep_p4[1].eta()) < 1.3 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0");
+  cuts.push_back(base_cut+"chpfcands_1624_pt > 0");
 
   // Neutral Hadron Pt in Endcap
   plot_names.push_back("nu_1624_phi");
   plot_vars.push_back("nupfcands_1624_phi");
   plot_titles.push_back("Neutral Hadron MET-Phi in Endcap");
-  cuts.push_back("nupfcands_1624_pt > 0 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 1.3 && abs(lep_p4[1].eta()) < 1.3 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0");
+  cuts.push_back(base_cut+"nupfcands_1624_pt > 0");
 
   // Photon Pt in Forward Endcap (No Tracker)
   plot_names.push_back("ph_2430_phi");
   plot_vars.push_back("phpfcands_2430_phi");
   plot_titles.push_back("Photon MET-Phi in Forward Endcap (No Tracker)");
-  cuts.push_back("phpfcands_2430_pt > 0 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 1.3 && abs(lep_p4[1].eta()) < 1.3 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0");
+  cuts.push_back(base_cut+"phpfcands_2430_pt > 0");
 
   // Charged Hadron Pt in Forward Endcap (No Tracker)
   plot_names.push_back("ch_2430_phi");
   plot_vars.push_back("chpfcands_2430_phi");
   plot_titles.push_back("Charged Hadron MET-Phi in Forward Endcap (No Tracker)");
-  cuts.push_back("chpfcands_2430_pt > 0 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 1.3 && abs(lep_p4[1].eta()) < 1.3 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0");
+  cuts.push_back(base_cut+"chpfcands_2430_pt > 0");
 
   // Neutral Hadron Pt in Forward Endcap (No Tracker)
   plot_names.push_back("nu_2430_phi");
   plot_vars.push_back("nupfcands_2430_phi");
   plot_titles.push_back("Neutral Hadron MET-Phi in Forward Endcap (No Tracker)");
-  cuts.push_back("nupfcands_2430_pt > 0 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 1.3 && abs(lep_p4[1].eta()) < 1.3 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0");
+  cuts.push_back(base_cut+"nupfcands_2430_pt > 0");
 
 
   //============================================

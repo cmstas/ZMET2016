@@ -46,8 +46,10 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     plotpad->SetBottomMargin(0.12);
     plotpad->Draw();
     plotpad->cd();
-    plotpad->SetLogy();
-    
+    if (! plot_name.Contains("_phi"))
+    {
+        plotpad->SetLogy();
+    }
     zjets->SetFillColor(kRed);
     zjets->SetFillStyle(1001);
 
@@ -71,14 +73,48 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),data->GetTitle(),data->GetNbinsX(),data->GetXaxis()->GetXmin(),data->GetXaxis()->GetXmax(),1000,0.001,ymax);
 
     cout<<data->GetTitle()<<endl;
+    cout<<zjets->GetTitle()<<endl;
 
     TLatex label;
     label.SetNDC();
     label.SetTextSize(0.032);
     label.DrawLatex(0.5,0.73,data->GetTitle());
 
-    h_axes->GetXaxis()->SetTitle(data->GetXaxis()->GetTitle());
-    h_axes->GetYaxis()->SetTitle(data->GetYaxis()->GetTitle());
+    //-----------------------
+    // AXES FIX
+    //-----------------------
+    if (plot_name.Contains("_phi")){
+        h_axes->GetXaxis()->SetTitle(data->GetXaxis()->GetTitle());
+        h_axes->GetYaxis()->SetTitle(data->GetYaxis()->GetTitle());
+    }
+
+    else
+    {
+        h_axes->GetXaxis()->SetTitle("E^{miss}_{T}");
+        h_axes->GetYaxis()->SetTitle("Count / [5 GeV]");
+    }
+
+    //----------------------
+    // ADD OVERFLOW BIN
+    //----------------------
+    if (plot_name.Contains("_pt")){
+        int n_bins = data->GetNbinsX();
+        int overflow_data = data->GetBinContent(n_bins + 1);
+        int overflow_zjets = zjets->GetBinContent(n_bins + 1);
+        int overflow_fsbkg = fsbkg->GetBinContent(n_bins + 1);
+        int overflow_mcsum = fsbkg->GetBinContent(n_bins + 1);
+
+        int max_data = data->GetBinContent(n_bins);
+        int max_zjets = zjets->GetBinContent(n_bins);
+        int max_fsbkg = fsbkg->GetBinContent(n_bins);
+        int max_mcsum = mc_sum->GetBinContent(n_bins);
+
+        data->SetBinContent(n_bins, max_data+overflow_data);
+        zjets->SetBinContent(n_bins, max_zjets+overflow_zjets);
+        fsbkg->SetBinContent(n_bins, max_fsbkg+overflow_fsbkg);
+        mc_sum->SetBinContent(n_bins, max_mcsum+overflow_mcsum);
+    }
+
     h_axes->GetXaxis()->SetLabelSize(0.04);
     h_axes->GetXaxis()->SetTitleSize(0.05);
     h_axes->GetYaxis()->SetLabelSize(0.04);
@@ -166,7 +202,7 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
   delete f;
 }
 
-void METStudy_draw(bool pt=true, bool phi=true, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/")
+void METStudy_draw(bool pt=true, bool phi=true, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-06/")
 {
   
 
@@ -189,7 +225,7 @@ void METStudy_draw(bool pt=true, bool phi=true, TString save_dir = "~/public_htm
     plot_names.push_back("nu_2430_phi");
     
     // Run over Phi plots
-    DrawPlots(plot_names, save_dir+"METStudy_phi.root", save_dir);
+    DrawPlots(plot_names, save_dir+"METStudy_all.root", save_dir);
     plot_names.clear();
   }
 
@@ -213,7 +249,7 @@ void METStudy_draw(bool pt=true, bool phi=true, TString save_dir = "~/public_htm
     plot_names.push_back("nu_30in_pt");
     
     // Run over PT plots
-    DrawPlots(plot_names, save_dir+"METStudy_pt.root", save_dir);
+    DrawPlots(plot_names, save_dir+"METStudy_all.root", save_dir);
     plot_names.clear();
   }
 
