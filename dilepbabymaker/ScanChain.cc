@@ -134,8 +134,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   //add 2015 data vtx weights for PU
   TH1F * h_vtxweight = NULL;
   TFile * f_vtx = NULL;
-  f_vtx = TFile::Open("puWeights_nTrueInt.root","READ");
-  h_vtxweight = (TH1F*)f_vtx->Get("weights")->Clone("h_vtxweight");
+  f_vtx = TFile::Open("nvtx_ratio_76X.root","READ");
+  h_vtxweight = (TH1F*)f_vtx->Get("h_true_vtx_ratio")->Clone("h_vtxweight");
   h_vtxweight->SetDirectory(rootdir);
   f_vtx->Close();
   
@@ -259,7 +259,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
     for( unsigned int event = 0; event < nEventsTree; ++event) {
 	  //for( unsigned int event = 0; event < 100; ++event) {
 
-	  if( event > 100 ) continue;
+	  // if( event > 100 ) continue;
 	  
       // Get Event Content
       tree->LoadTree(event);
