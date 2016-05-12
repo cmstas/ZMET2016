@@ -145,27 +145,39 @@ class babyMaker {
   Int_t           Flag_eeBadScFilter;
   Int_t           Flag_METFilters;
 
-//----- TRIGGER (to be better defined)
-  Int_t           HLT_DoubleEl;   
-  Int_t           HLT_DoubleEl_DZ;   
-  Int_t           HLT_DoubleEl_noiso;   
-  Int_t           HLT_MuEG;   
-  Int_t           HLT_MuEG_noiso;   
-  Int_t           HLT_MuEG_2;   
-  Int_t           HLT_DoubleMu;   
-  Int_t           HLT_DoubleMu_noiso;   
-  Int_t           HLT_DoubleMu_tk;   
-  Int_t           HLT_DoubleMu_nonDZ;   
+  //TRIGGER
+  // for ATLAS cross checks
+  Int_t HLT_singleEl;
+  Int_t HLT_singleMu;
+					  
+  // Double electron
+  Int_t HLT_DoubleEl_noiso;
+  Int_t HLT_DoubleEl      ; // prescaled - turned off
+  Int_t HLT_DoubleEl_DZ   ; // prescaled
+  Int_t HLT_DoubleEl_DZ_2 ; // new
+	  
+  // electron-muon
+  Int_t HLT_MuEG      ;
+  Int_t HLT_MuEG_2    ;
+  Int_t HLT_MuEG_noiso;
 
-  Int_t           HLT_Photon22_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon30_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon36_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon50_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon75_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon90_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon120_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon165_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon165_HE10;
+  // Double electron
+  Int_t HLT_DoubleMu_noiso   ;
+  Int_t HLT_DoubleMu         ;
+  Int_t HLT_DoubleMu_tk      ;
+  Int_t HLT_DoubleMu_nonDZ   ;
+  Int_t HLT_DoubleMu_tk_nonDZ; // new unprescaled : use these
+
+  // Single photon
+  Int_t HLT_Photon22_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon30_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon36_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon50_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon75_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon90_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon120_R9Id90_HE10_IsoM;
+  Int_t HLT_Photon165_R9Id90_HE10_IsoM;
+  Int_t HLT_Photon165_HE10            ;
 
   
   //----- LEPTONS

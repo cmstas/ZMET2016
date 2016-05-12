@@ -362,19 +362,36 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  }
 	  
       //TRIGGER
-      HLT_DoubleEl_noiso = passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v");
-      HLT_DoubleEl       = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v");
-	  HLT_DoubleEl_DZ    = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_MuEG           = (passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v") ||
-							passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v") );
-      HLT_MuEG_2         = (passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v") ||
-							passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v") );
-      HLT_MuEG_noiso     = passHLTTriggerPattern( "HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"    );
-      HLT_DoubleMu_noiso = passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                       );
-      HLT_DoubleMu       = passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"  );
-      HLT_DoubleMu_tk    = passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v");
+	  // for ATLAS cross checks
+	  HLT_singleEl =  HLT_prescale(triggerName( "HLT_Ele27_WPTight_v")  );
+	  HLT_singleMu = (HLT_prescale(triggerName("HLT_IsoMu22_v"       )) ||
+					  HLT_prescale(triggerName("HLT_IsoTkMu22_v"     )) ||
+					  HLT_prescale(triggerName("HLT_IsoMu24_v"       )) ||
+					  HLT_prescale(triggerName("HLT_IsoTkMu24_v"     )) );
+					  
+	  // Double electron
+      HLT_DoubleEl_noiso = HLT_prescale(triggerName( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"    ));
+      HLT_DoubleEl       = HLT_prescale(triggerName( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   )); // prescaled - turned off
+	  HLT_DoubleEl_DZ    = HLT_prescale(triggerName( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")); // prescaled
+	  HLT_DoubleEl_DZ_2  = HLT_prescale(triggerName( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")); // new
+	  
+	  // electron-muon
+      HLT_MuEG           = (HLT_prescale(triggerName("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )) ||
+							HLT_prescale(triggerName("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  )) );
+      HLT_MuEG_2         = (HLT_prescale(triggerName("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )) ||
+							HLT_prescale(triggerName("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  )) ||
+							HLT_prescale(triggerName("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  )) );
+      HLT_MuEG_noiso     =  HLT_prescale(triggerName("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"               )  );
 
-      HLT_DoubleMu_nonDZ             = HLT_prescale(triggerName("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"));	  
+	  // Double electron
+	  HLT_DoubleMu_noiso    = (HLT_prescale(triggerName( "HLT_Mu27_TkMu8_v"  )) ||
+							   HLT_prescale(triggerName( "HLT_Mu30_TkMu11_v" )) );
+	  HLT_DoubleMu          =  HLT_prescale(triggerName( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"   ));
+	  HLT_DoubleMu_tk       =  HLT_prescale(triggerName( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" ));
+	  HLT_DoubleMu_nonDZ    =  HLT_prescale(triggerName( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"      ));
+	  HLT_DoubleMu_tk_nonDZ =  HLT_prescale(triggerName( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"    )); // new unprescaled : use these
+
+	  // Single photon
 	  HLT_Photon22_R9Id90_HE10_IsoM  = HLT_prescale(triggerName("HLT_Photon22_R9Id90_HE10_IsoM_v" ));
 	  HLT_Photon30_R9Id90_HE10_IsoM  = HLT_prescale(triggerName("HLT_Photon30_R9Id90_HE10_IsoM_v" ));
 	  HLT_Photon36_R9Id90_HE10_IsoM  = HLT_prescale(triggerName("HLT_Photon36_R9Id90_HE10_IsoM_v" ));
@@ -1398,25 +1415,39 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("Flag_eeBadScFilter", &Flag_eeBadScFilter );
   BabyTree_->Branch("Flag_METFilters"   , &Flag_METFilters );
 
-  BabyTree_->Branch("HLT_DoubleEl"      , &HLT_DoubleEl );
-  BabyTree_->Branch("HLT_DoubleEl_DZ"   , &HLT_DoubleEl_DZ );
-  BabyTree_->Branch("HLT_DoubleEl_noiso", &HLT_DoubleEl_noiso );
-  BabyTree_->Branch("HLT_MuEG"          , &HLT_MuEG );
-  BabyTree_->Branch("HLT_MuEG_noiso"    , &HLT_MuEG_noiso );
-  BabyTree_->Branch("HLT_MuEG_2"        , &HLT_MuEG_2 );
-  BabyTree_->Branch("HLT_DoubleMu"      , &HLT_DoubleMu );
-  BabyTree_->Branch("HLT_DoubleMu_noiso", &HLT_DoubleMu_noiso );
-  BabyTree_->Branch("HLT_DoubleMu_tk"   , &HLT_DoubleMu_tk );
-  BabyTree_->Branch("HLT_DoubleMu_nonDZ"   , &HLT_DoubleMu_nonDZ );
-  BabyTree_->Branch("HLT_Photon22_R9Id90_HE10_IsoM" , &HLT_Photon22_R9Id90_HE10_IsoM  ); 
-  BabyTree_->Branch("HLT_Photon30_R9Id90_HE10_IsoM" , &HLT_Photon30_R9Id90_HE10_IsoM  ); 
-  BabyTree_->Branch("HLT_Photon36_R9Id90_HE10_IsoM" , &HLT_Photon36_R9Id90_HE10_IsoM  ); 
-  BabyTree_->Branch("HLT_Photon50_R9Id90_HE10_IsoM" , &HLT_Photon50_R9Id90_HE10_IsoM  ); 
-  BabyTree_->Branch("HLT_Photon75_R9Id90_HE10_IsoM" , &HLT_Photon75_R9Id90_HE10_IsoM  ); 
-  BabyTree_->Branch("HLT_Photon90_R9Id90_HE10_IsoM" , &HLT_Photon90_R9Id90_HE10_IsoM  ); 
-  BabyTree_->Branch("HLT_Photon120_R9Id90_HE10_IsoM", &HLT_Photon120_R9Id90_HE10_IsoM );
-  BabyTree_->Branch("HLT_Photon165_R9Id90_HE10_IsoM", &HLT_Photon165_R9Id90_HE10_IsoM );
-  BabyTree_->Branch("HLT_Photon165_HE10"            , &HLT_Photon165_HE10             );
+  //TRIGGER
+  // for ATLAS cross checks
+  BabyTree_->Branch("HLT_singleEl"      , &HLT_singleEl );
+  BabyTree_->Branch("HLT_singleMu"      , &HLT_singleMu );
+					  
+  // Double electron
+  BabyTree_->Branch("HLT_DoubleEl_noiso" , &HLT_DoubleEl_noiso );
+  BabyTree_->Branch("HLT_DoubleEl"       , &HLT_DoubleEl       ); // prescaled - turned off
+  BabyTree_->Branch("HLT_DoubleEl_DZ"    , &HLT_DoubleEl_DZ    ); // prescaled
+  BabyTree_->Branch("HLT_DoubleEl_DZ_2"  , &HLT_DoubleEl_DZ_2  ); // new
+	  
+  // electron-muon
+  BabyTree_->Branch("HLT_MuEG"       , &HLT_MuEG       );
+  BabyTree_->Branch("HLT_MuEG_2"     , &HLT_MuEG_2     );
+  BabyTree_->Branch("HLT_MuEG_noiso" , &HLT_MuEG_noiso );
+
+  // Double electron
+  BabyTree_->Branch("HLT_DoubleMu_noiso"    , &HLT_DoubleMu_noiso    );
+  BabyTree_->Branch("HLT_DoubleMu"          , &HLT_DoubleMu          );
+  BabyTree_->Branch("HLT_DoubleMu_tk"       , &HLT_DoubleMu_tk       );
+  BabyTree_->Branch("HLT_DoubleMu_nonDZ"    , &HLT_DoubleMu_nonDZ    );
+  BabyTree_->Branch("HLT_DoubleMu_tk_nonDZ" , &HLT_DoubleMu_tk_nonDZ ); // new unprescaled : use these
+
+  // Single photon
+  BabyTree_->Branch("HLT_Photon22_R9Id90_HE10_IsoM"  , &HLT_Photon22_R9Id90_HE10_IsoM  );
+  BabyTree_->Branch("HLT_Photon30_R9Id90_HE10_IsoM"  , &HLT_Photon30_R9Id90_HE10_IsoM  );
+  BabyTree_->Branch("HLT_Photon36_R9Id90_HE10_IsoM"  , &HLT_Photon36_R9Id90_HE10_IsoM  );
+  BabyTree_->Branch("HLT_Photon50_R9Id90_HE10_IsoM"  , &HLT_Photon50_R9Id90_HE10_IsoM  );
+  BabyTree_->Branch("HLT_Photon75_R9Id90_HE10_IsoM"  , &HLT_Photon75_R9Id90_HE10_IsoM  );
+  BabyTree_->Branch("HLT_Photon90_R9Id90_HE10_IsoM"  , &HLT_Photon90_R9Id90_HE10_IsoM  );
+  BabyTree_->Branch("HLT_Photon120_R9Id90_HE10_IsoM" , &HLT_Photon120_R9Id90_HE10_IsoM );
+  BabyTree_->Branch("HLT_Photon165_R9Id90_HE10_IsoM" , &HLT_Photon165_R9Id90_HE10_IsoM );
+  BabyTree_->Branch("HLT_Photon165_HE10"             , &HLT_Photon165_HE10             );
 
   BabyTree_->Branch("dilmass", &dilmass );
   BabyTree_->Branch("dilpt"  , &dilpt );
@@ -1681,23 +1712,37 @@ void babyMaker::InitBabyNtuple () {
   Flag_eeBadScFilter                      = -999;
   Flag_METFilters                         = -999;
 
-  HLT_DoubleEl       = -999;   
-  HLT_DoubleEl_DZ    = -999;   
-  HLT_DoubleEl_noiso = -999;   
-  HLT_MuEG           = -999;   
-  HLT_MuEG_noiso     = -999;   
-  HLT_MuEG_2         = -999;   
-  HLT_DoubleMu       = -999;   
-  HLT_DoubleMu_noiso = -999;   
-  HLT_DoubleMu_tk    = -999;   
-  HLT_DoubleMu_nonDZ = -999;   
 
-  HLT_Photon22_R9Id90_HE10_IsoM  = -999; 
-  HLT_Photon30_R9Id90_HE10_IsoM  = -999; 
-  HLT_Photon36_R9Id90_HE10_IsoM  = -999; 
-  HLT_Photon50_R9Id90_HE10_IsoM  = -999; 
-  HLT_Photon75_R9Id90_HE10_IsoM  = -999; 
-  HLT_Photon90_R9Id90_HE10_IsoM  = -999; 
+  //TRIGGER
+  // for ATLAS cross checks
+  HLT_singleEl = -999;
+  HLT_singleMu = -999;
+					  
+  // Double electron
+  HLT_DoubleEl_noiso = -999;
+  HLT_DoubleEl       = -999; // prescaled - turned off
+  HLT_DoubleEl_DZ    = -999; // prescaled
+  HLT_DoubleEl_DZ_2  = -999; // new
+	  
+  // electron-muon
+  HLT_MuEG       = -999;
+  HLT_MuEG_2     = -999;
+  HLT_MuEG_noiso = -999;
+
+  // Double electron
+  HLT_DoubleMu_noiso    = -999;
+  HLT_DoubleMu          = -999;
+  HLT_DoubleMu_tk       = -999;
+  HLT_DoubleMu_nonDZ    = -999;
+  HLT_DoubleMu_tk_nonDZ = -999; // new unprescaled : use these
+
+  // Single photon
+  HLT_Photon22_R9Id90_HE10_IsoM  = -999;
+  HLT_Photon30_R9Id90_HE10_IsoM  = -999;
+  HLT_Photon36_R9Id90_HE10_IsoM  = -999;
+  HLT_Photon50_R9Id90_HE10_IsoM  = -999;
+  HLT_Photon75_R9Id90_HE10_IsoM  = -999;
+  HLT_Photon90_R9Id90_HE10_IsoM  = -999;
   HLT_Photon120_R9Id90_HE10_IsoM = -999;
   HLT_Photon165_R9Id90_HE10_IsoM = -999;
   HLT_Photon165_HE10             = -999;
