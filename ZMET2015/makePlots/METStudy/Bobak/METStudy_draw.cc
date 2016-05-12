@@ -23,15 +23,17 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     TH1F* data = (TH1F*) ((TH1F*) f->Get("data_"+plot_name))->Clone("datahist_"+plot_name);
     TH1F* zjets = (TH1F*) ((TH1F*) f->Get("zjets_"+plot_name))->Clone("zjetshist_"+plot_name);
     TH1F* fsbkg= (TH1F*) ((TH1F*) f->Get("fsbkg_"+plot_name))->Clone("fsbkghist_"+plot_name);
+    TH1F* extra= (TH1F*) ((TH1F*) f->Get("extra_"+plot_name))->Clone("fsbkghist_"+plot_name);
 
     TH1F* mc_sum = (TH1F*) zjets->Clone("mc_sum");
     mc_sum->Add(fsbkg);
+    mc_sum->Add(extra);
 
     //============================================
     // Draw Data-MC Plots
     //============================================
 
-    TCanvas * c = new TCanvas("c","",1600,1200);
+    TCanvas * c = new TCanvas("c","",2000,2000);
     c->cd();
     gPad->SetRightMargin(0.05);
     gPad->Modified();
@@ -46,21 +48,39 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     plotpad->SetBottomMargin(0.12);
     plotpad->Draw();
     plotpad->cd();
-    if (! plot_name.Contains("_phi"))
+    if (plot_name.Contains("_pt") || plot_name.Contains("type1") || plot_name.Contains("MET") )
     {
         plotpad->SetLogy();
+        
+
+        data->Rebin(5);
+        zjets->Rebin(5);
+        fsbkg->Rebin(5);
+        extra->Rebin(5);
+        mc_sum->Rebin(5);
+
     }
-    zjets->SetFillColor(kRed);
+
+    //===========================
+    // SET MC COLORS
+    //===========================
+    
+    zjets->SetFillColor(kAzure+5);
     zjets->SetFillStyle(1001);
 
-    fsbkg->SetFillColor(kYellow);
+    fsbkg->SetFillColor(kYellow+1);
     fsbkg->SetFillStyle(1001);
+
+    extra->SetFillColor(kMagenta);
+    extra->SetFillStyle(1001);
+
 
     data->SetMarkerStyle(20);
     
     THStack * stack = new THStack("stack_"+plot_name, data->GetTitle());
     stack->Add(fsbkg);
     stack->Add(zjets);
+    stack->Add(extra);
 
     double ymax = 0;
     if (mc_sum->GetMaximum() < data->GetMaximum()){
@@ -83,16 +103,17 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     //-----------------------
     // AXES FIX
     //-----------------------
-    if (plot_name.Contains("_phi")){
+    if (plot_name.Contains("_pt") || plot_name.Contains("type1") || plot_name.Contains("MET"))
+    {
+        h_axes->GetXaxis()->SetTitle("E^{miss}_{T} (GeV)");
+        h_axes->GetYaxis()->SetTitle("Count / [5 GeV]");
+    }
+    else 
+    {
         h_axes->GetXaxis()->SetTitle(data->GetXaxis()->GetTitle());
         h_axes->GetYaxis()->SetTitle(data->GetYaxis()->GetTitle());
     }
 
-    else
-    {
-        h_axes->GetXaxis()->SetTitle("E^{miss}_{T}");
-        h_axes->GetYaxis()->SetTitle("Count / [5 GeV]");
-    }
 
     //----------------------
     // ADD OVERFLOW BIN
@@ -102,16 +123,19 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
         int overflow_data = data->GetBinContent(n_bins + 1);
         int overflow_zjets = zjets->GetBinContent(n_bins + 1);
         int overflow_fsbkg = fsbkg->GetBinContent(n_bins + 1);
-        int overflow_mcsum = fsbkg->GetBinContent(n_bins + 1);
+        int overflow_extra = extra->GetBinContent(n_bins + 1);
+        int overflow_mcsum = zjets->GetBinContent(n_bins + 1);
 
         int max_data = data->GetBinContent(n_bins);
         int max_zjets = zjets->GetBinContent(n_bins);
         int max_fsbkg = fsbkg->GetBinContent(n_bins);
+        int max_extra = extra->GetBinContent(n_bins);
         int max_mcsum = mc_sum->GetBinContent(n_bins);
 
         data->SetBinContent(n_bins, max_data+overflow_data);
         zjets->SetBinContent(n_bins, max_zjets+overflow_zjets);
         fsbkg->SetBinContent(n_bins, max_fsbkg+overflow_fsbkg);
+        extra->SetBinContent(n_bins, max_extra+overflow_extra);
         mc_sum->SetBinContent(n_bins, max_mcsum+overflow_mcsum);
     }
 
@@ -135,6 +159,7 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     l1->AddEntry(data, "data", "p");
     l1->AddEntry(zjets, "Z+jets", "f");
     l1->AddEntry(fsbkg, "t#bar{t}", "f");
+    l1->AddEntry(extra, "Low #sigma", "f");
 
     l1->Draw("same");
 
@@ -191,6 +216,7 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     delete stack;
     delete zjets;
     delete fsbkg;
+    delete extra;
     delete data;
     delete residual;
     delete ratiopad;
@@ -202,11 +228,12 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
   delete f;
 }
 
-void METStudy_draw(bool pt=true, bool phi=true, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-08    /")
+void METStudy_draw(bool pt=true, bool phi=true, bool extra=false, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-09/noem/")
 {
   
 
   vector<TString> plot_names;
+  TString histo_file="METStudy_pt_noem.root";
   
 
   if (phi) {
@@ -225,7 +252,7 @@ void METStudy_draw(bool pt=true, bool phi=true, TString save_dir = "~/public_htm
     plot_names.push_back("nu_2430_phi");
     
     // Run over Phi plots
-    DrawPlots(plot_names, save_dir+"METStudy_all.root", save_dir);
+    DrawPlots(plot_names, save_dir+histo_file, save_dir);
     plot_names.clear();
   }
 
@@ -244,12 +271,20 @@ void METStudy_draw(bool pt=true, bool phi=true, TString save_dir = "~/public_htm
     plot_names.push_back("ch_1624_pt");
     plot_names.push_back("nu_1624_pt");
     plot_names.push_back("ph_2430_pt");
-    plot_names.push_back("ch_2430_pt");
     plot_names.push_back("nu_2430_pt");
-    plot_names.push_back("nu_30in_pt");
-    
+    plot_names.push_back("nu_30in_pt");   
+    plot_names.push_back("type1MET");
+    plot_names.push_back("type1MET_2Jets");
+
     // Run over PT plots
-    DrawPlots(plot_names, save_dir+"METStudy_all.root", save_dir);
+    DrawPlots(plot_names, save_dir+histo_file, save_dir);
+    plot_names.clear();
+  }
+  if (extra)
+  {
+    plot_names.push_back("nVert");
+    //plot_names.push_back("puWeight");
+    DrawPlots(plot_names, save_dir+histo_file, save_dir);
     plot_names.clear();
   }
 
