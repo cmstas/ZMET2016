@@ -338,27 +338,19 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
       // MET FILTERS
 	  if( !isSMSScan ){
-		Flag_EcalDeadCellTriggerPrimitiveFilter       = cms3.filt_ecalTP();
-		Flag_trkPOG_manystripclus53X                  = cms3.filt_trkPOG_manystripclus53X();
-		Flag_ecalLaserCorrFilter                      = cms3.filt_ecalLaser();
-		Flag_trkPOG_toomanystripclus53X               = cms3.filt_trkPOG_toomanystripclus53X();
-		Flag_hcalLaserEventFilter                     = cms3.filt_hcalLaser();
-		Flag_trkPOG_logErrorTooManyClusters           = cms3.filt_trkPOG_logErrorTooManyClusters();
-		Flag_trkPOGFilters                            = cms3.filt_trkPOGFilters();
-		Flag_trackingFailureFilter                    = cms3.filt_trackingFailure();
-		Flag_goodVertices                             = cms3.filt_goodVertices();
-		Flag_eeBadScFilter                            = cms3.filt_eeBadSc();
-		// note: in CMS3, filt_cscBeamHalo and evt_cscTightHaloId are the same
-		Flag_CSCTightHaloFilter                       = cms3.filt_cscBeamHalo();
-		// note: in CMS3, filt_hbheNoise and evt_hbheFilter are the same
-		//      Flag_HBHENoiseFilter                          = cms3.filt_hbheNoise();
-		// recompute HBHE noise filter decision using CORE to avoid maxZeros issue
-		if (!isData) Flag_HBHENoiseFilter             = cms3.filt_hbheNoise();
-		else if (TString(currentFile->GetTitle()).Contains("Run2015B")) Flag_HBHENoiseFilter = hbheNoiseFilter();
-		else                                                            Flag_HBHENoiseFilter = hbheNoiseFilter_25ns();
-		Flag_HBHEIsoNoiseFilter                       = hbheIsoNoiseFilter();
-		// necessary?
-		Flag_METFilters                               = cms3.filt_metfilter();
+		Flag_ecalLaserCorrFilter                = cms3.filt_ecalLaser();
+		Flag_hcalLaserEventFilter               = cms3.filt_hcalLaser();
+		Flag_trackingFailureFilter              = cms3.filt_trackingFailure();
+		Flag_CSCTightHaloFilter                 = cms3.filt_cscBeamHalo();
+
+		// recommended from twiki
+		Flag_HBHENoiseFilter                    = cms3.filt_hbheNoise();
+		Flag_HBHEIsoNoiseFilter                 = cms3.filt_hbheNoiseIso();
+		Flag_CSCTightHalo2015Filter             = cms3.filt_cscBeamHalo2015();
+		Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
+		Flag_goodVertices                       = cms3.filt_goodVertices();
+		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
+
 	  }
 	  
       //TRIGGER
@@ -368,20 +360,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 					  HLT_prescale(triggerName("HLT_IsoTkMu22_v"     )) ||
 					  HLT_prescale(triggerName("HLT_IsoMu24_v"       )) ||
 					  HLT_prescale(triggerName("HLT_IsoTkMu24_v"     )) );
-					  
+       
 	  // Double electron
-      HLT_DoubleEl_noiso = HLT_prescale(triggerName( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"    ));
-      HLT_DoubleEl       = HLT_prescale(triggerName( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   )); // prescaled - turned off
+	  HLT_DoubleEl_noiso = HLT_prescale(triggerName( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"    ));
+	  HLT_DoubleEl       = HLT_prescale(triggerName( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   )); // prescaled - turned off
 	  HLT_DoubleEl_DZ    = HLT_prescale(triggerName( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")); // prescaled
 	  HLT_DoubleEl_DZ_2  = HLT_prescale(triggerName( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")); // new
-	  
+   
 	  // electron-muon
-      HLT_MuEG           = (HLT_prescale(triggerName("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )) ||
+	  HLT_MuEG           = (HLT_prescale(triggerName("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )) ||
 							HLT_prescale(triggerName("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  )) );
-      HLT_MuEG_2         = (HLT_prescale(triggerName("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )) ||
+	  HLT_MuEG_2         = (HLT_prescale(triggerName("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )) ||
 							HLT_prescale(triggerName("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  )) ||
 							HLT_prescale(triggerName("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  )) );
-      HLT_MuEG_noiso     =  HLT_prescale(triggerName("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"               )  );
+	  HLT_MuEG_noiso     =  HLT_prescale(triggerName("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"               )  );
 
 	  // Double electron
 	  HLT_DoubleMu_noiso    = (HLT_prescale(triggerName( "HLT_Mu27_TkMu8_v"  )) ||
@@ -1400,20 +1392,19 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("sumet_raw", &sumet_raw );
   
-  BabyTree_->Branch("Flag_EcalDeadCellTriggerPrimitiveFilter", &Flag_EcalDeadCellTriggerPrimitiveFilter );
-  BabyTree_->Branch("Flag_trkPOG_manystripclus53X", &Flag_trkPOG_manystripclus53X );
-  BabyTree_->Branch("Flag_ecalLaserCorrFilter", &Flag_ecalLaserCorrFilter );
-  BabyTree_->Branch("Flag_trkPOG_toomanystripclus53X", &Flag_trkPOG_toomanystripclus53X );
-  BabyTree_->Branch("Flag_hcalLaserEventFilter", &Flag_hcalLaserEventFilter );
-  BabyTree_->Branch("Flag_trkPOG_logErrorTooManyClusters", &Flag_trkPOG_logErrorTooManyClusters );
-  BabyTree_->Branch("Flag_trkPOGFilters", &Flag_trkPOGFilters );
-  BabyTree_->Branch("Flag_trackingFailureFilter", &Flag_trackingFailureFilter );
-  BabyTree_->Branch("Flag_CSCTightHaloFilter", &Flag_CSCTightHaloFilter );
-  BabyTree_->Branch("Flag_HBHENoiseFilter", &Flag_HBHENoiseFilter );
-  BabyTree_->Branch("Flag_HBHEIsoNoiseFilter", &Flag_HBHEIsoNoiseFilter );
-  BabyTree_->Branch("Flag_goodVertices", &Flag_goodVertices );
-  BabyTree_->Branch("Flag_eeBadScFilter", &Flag_eeBadScFilter );
-  BabyTree_->Branch("Flag_METFilters"   , &Flag_METFilters );
+  //MET Filters
+  BabyTree_->Branch("Flag_ecalLaserCorrFilter"   , &Flag_ecalLaserCorrFilter   );
+  BabyTree_->Branch("Flag_hcalLaserEventFilter"  , &Flag_hcalLaserEventFilter  );
+  BabyTree_->Branch("Flag_trackingFailureFilter" , &Flag_trackingFailureFilter );
+  BabyTree_->Branch("Flag_CSCTightHaloFilter"    , &Flag_CSCTightHaloFilter    );
+
+  // recommended from MET twiki
+  BabyTree_->Branch("Flag_HBHENoiseFilter"                    , &Flag_HBHENoiseFilter                    );
+  BabyTree_->Branch("Flag_HBHEIsoNoiseFilter"                 , &Flag_HBHEIsoNoiseFilter                 );
+  BabyTree_->Branch("Flag_CSCTightHalo2015Filter"             , &Flag_CSCTightHalo2015Filter             );
+  BabyTree_->Branch("Flag_EcalDeadCellTriggerPrimitiveFilter" , &Flag_EcalDeadCellTriggerPrimitiveFilter );
+  BabyTree_->Branch("Flag_goodVertices"                       , &Flag_goodVertices                       );
+  BabyTree_->Branch("Flag_eeBadScFilter"                      , &Flag_eeBadScFilter                      );
 
   //TRIGGER
   // for ATLAS cross checks
@@ -1697,20 +1688,19 @@ void babyMaker::InitBabyNtuple () {
 
   sumet_raw = -999.0;
 
-  Flag_EcalDeadCellTriggerPrimitiveFilter = -999;
-  Flag_trkPOG_manystripclus53X            = -999;
-  Flag_ecalLaserCorrFilter                = -999;
-  Flag_trkPOG_toomanystripclus53X         = -999;
-  Flag_hcalLaserEventFilter               = -999;
-  Flag_trkPOG_logErrorTooManyClusters     = -999;
-  Flag_trkPOGFilters                      = -999;
-  Flag_trackingFailureFilter              = -999;
-  Flag_CSCTightHaloFilter                 = -999;
+  //MET Filters
+  Flag_ecalLaserCorrFilter   = -999;
+  Flag_hcalLaserEventFilter  = -999;
+  Flag_trackingFailureFilter = -999;
+  Flag_CSCTightHaloFilter    = -999;
+
+  // recommended from MET twiki
   Flag_HBHENoiseFilter                    = -999;
   Flag_HBHEIsoNoiseFilter                 = -999;
+  Flag_CSCTightHalo2015Filter             = -999;
+  Flag_EcalDeadCellTriggerPrimitiveFilter = -999;
   Flag_goodVertices                       = -999;
   Flag_eeBadScFilter                      = -999;
-  Flag_METFilters                         = -999;
 
 
   //TRIGGER

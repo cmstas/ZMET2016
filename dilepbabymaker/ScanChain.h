@@ -130,21 +130,19 @@ class babyMaker {
   Float_t         sumet_raw;
   
 //----- MET FILTERS
-  Int_t           Flag_EcalDeadCellTriggerPrimitiveFilter;
-  Int_t           Flag_trkPOG_manystripclus53X;
-  Int_t           Flag_ecalLaserCorrFilter;
-  Int_t           Flag_trkPOG_toomanystripclus53X;
-  Int_t           Flag_hcalLaserEventFilter;
-  Int_t           Flag_trkPOG_logErrorTooManyClusters;
-  Int_t           Flag_trkPOGFilters;
-  Int_t           Flag_trackingFailureFilter;
-  Int_t           Flag_CSCTightHaloFilter;
-  Int_t           Flag_HBHENoiseFilter;
-  Int_t           Flag_HBHEIsoNoiseFilter;
-  Int_t           Flag_goodVertices;
-  Int_t           Flag_eeBadScFilter;
-  Int_t           Flag_METFilters;
+  Int_t Flag_ecalLaserCorrFilter;
+  Int_t Flag_hcalLaserEventFilter;
+  Int_t Flag_trackingFailureFilter;
+  Int_t Flag_CSCTightHaloFilter;
 
+  // recommended from twiki
+  Int_t Flag_HBHENoiseFilter                   ;
+  Int_t Flag_HBHENoiseIsoFilter                ;
+  Int_t Flag_CSCTightHalo2015Filter            ; // check: filt_cscBeamHalo2015
+  Int_t Flag_EcalDeadCellTriggerPrimitiveFilter;
+  Int_t Flag_goodVertices                      ;
+  Int_t Flag_eeBadScFilter                     ;
+  
   //TRIGGER
   // for ATLAS cross checks
   Int_t HLT_singleEl;
