@@ -137,7 +137,7 @@ class babyMaker {
 
   // recommended from twiki
   Int_t Flag_HBHENoiseFilter                   ;
-  Int_t Flag_HBHENoiseIsoFilter                ;
+  Int_t Flag_HBHEIsoNoiseFilter                ;
   Int_t Flag_CSCTightHalo2015Filter            ; // check: filt_cscBeamHalo2015
   Int_t Flag_EcalDeadCellTriggerPrimitiveFilter;
   Int_t Flag_goodVertices                      ;
