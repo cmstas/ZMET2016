@@ -17,7 +17,7 @@ void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07
 /*void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-06/")*/
 {
 
-  TCut base_cut = "dilmass < 101 && dilmass > 81 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && dRll > 0.1 && evt_type == 0 && (( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0) && evt_passgoodrunlist > 0";
+  TCut base_cut = "dilmass < 101 && dilmass > 81 && nlep >= 2 && lep_pt[0] > 20 && lep_pt[1] > 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && dRll > 0.1 && evt_type == 0 && ((( HLT_DoubleMu || HLT_DoubleMu_tk || HLT_DoubleMu_noiso ) && hyp_type == 1 ) || (( HLT_DoubleEl_DZ || HLT_DoubleEl_noiso ) && hyp_type == 0)) && evt_passgoodrunlist > 0";
 
   vector<TCut> cuts;
   vector<TString> plot_names;
@@ -35,7 +35,7 @@ void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07
   cuts.push_back(base_cut+"met_T1CHS_miniAOD_CORE_pt > 0");
   plot_types.push_back("pt");
 
-  // Type1 MET
+  // Type1 MET with 2 Jet cut
   plot_names.push_back("type1MET_2Jets");
   plot_vars.push_back("met_T1CHS_miniAOD_CORE_pt");
   plot_titles.push_back("Type 1 MET for All Events with at Least 2 Jets");
@@ -135,7 +135,7 @@ void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07
   plot_titles.push_back("Raw MET for all events in study with a minimum 2 jet requirement.");
   cuts.push_back(base_cut+"met_rawPt>0 && njets >= 2");
   plot_types.push_back("pt");
-
+/*
   // Photon Pt in Barrel
   plot_names.push_back("ph_0013_pt");
   plot_vars.push_back("phpfcands_0013_pt");
@@ -184,14 +184,13 @@ void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07
   plot_titles.push_back("Photon Pt in Forward Endcap |#eta| #in (2.4,3.0) (No Tracker)");
   cuts.push_back(base_cut+"phpfcands_2430_pt>0");
   plot_types.push_back("pt");
-/*
+
   // Charged Hadron Pt in Forward Endcap (No Tracker)
-  plot_names.push_back("ch_2430_pt");
-  plot_vars.push_back("chpfcands_2430_pt");
-  plot_titles.push_back("Charged Hadron Pt in Forward Endcap |#eta| #in (2.4,3.0) (No Tracker)");
-  cuts.push_back(base_cut+"chpfcands_2430_pt>0");
-  plot_types.push_back("pt");
-*/
+  //plot_names.push_back("ch_2430_pt");
+  //plot_vars.push_back("chpfcands_2430_pt");
+  //plot_titles.push_back("Charged Hadron Pt in Forward Endcap |#eta| #in (2.4,3.0) (No Tracker)");
+  //cuts.push_back(base_cut+"chpfcands_2430_pt>0");
+  //plot_types.push_back("pt");
   // Neutral Hadron Pt in Forward Endcap (No Tracker)
   plot_names.push_back("nu_2430_pt");
   plot_vars.push_back("nupfcands_2430_pt");
@@ -205,6 +204,7 @@ void METStudy_all(TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07
   plot_titles.push_back("Neutral Hadron Pt in HF |#eta| > 3 (No Tracker)");
   cuts.push_back(base_cut+"nupfcands_30in_pt>0");
   plot_types.push_back("pt");
+*/
 
   //============================================
   // Load in Data

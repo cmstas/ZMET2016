@@ -20,14 +20,22 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     TString plot_name = plot_names.back();
     plot_names.pop_back();
 
+    cout<<"Attempting to draw "<<plot_name<<endl;
+
     TH1F* data = (TH1F*) ((TH1F*) f->Get("data_"+plot_name))->Clone("datahist_"+plot_name);
+    cout<<"Found data histogram "<<endl;
     TH1F* zjets = (TH1F*) ((TH1F*) f->Get("zjets_"+plot_name))->Clone("zjetshist_"+plot_name);
+    cout<<"Found zjets histogram "<<endl;
     TH1F* fsbkg= (TH1F*) ((TH1F*) f->Get("fsbkg_"+plot_name))->Clone("fsbkghist_"+plot_name);
+    cout<<"Found ttbar  histogram "<<endl;
+
     TH1F* extra= (TH1F*) ((TH1F*) f->Get("extra_"+plot_name))->Clone("fsbkghist_"+plot_name);
 
     TH1F* mc_sum = (TH1F*) zjets->Clone("mc_sum");
     mc_sum->Add(fsbkg);
     mc_sum->Add(extra);
+
+    cout<<"Built MC sum"<<endl;
 
     //============================================
     // Draw Data-MC Plots
@@ -40,6 +48,8 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     gStyle->SetOptStat(kFALSE);
     TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
 
+    cout<<"Canvas made"<<endl;
+
     fullpad->Draw();
     fullpad->cd();
 
@@ -50,6 +60,8 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     plotpad->cd();
     if (plot_name.Contains("_pt") || plot_name.Contains("type1") || plot_name.Contains("MET") )
     {
+        cout<<"PT plot, rebinning and setting log axis"<<endl;
+
         plotpad->SetLogy();
         
 
@@ -65,6 +77,9 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     // SET MC COLORS
     //===========================
     
+    cout<<"Setting plot colors"<<endl;
+
+
     zjets->SetFillColor(kAzure+5);
     zjets->SetFillStyle(1001);
 
@@ -77,10 +92,15 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
 
     data->SetMarkerStyle(20);
     
+    cout<<"Building stack"<<endl;
+
+
     THStack * stack = new THStack("stack_"+plot_name, data->GetTitle());
     stack->Add(fsbkg);
     stack->Add(zjets);
     stack->Add(extra);
+
+    cout<<"Finding Maximum"<<endl;
 
     double ymax = 0;
     if (mc_sum->GetMaximum() < data->GetMaximum()){
@@ -103,6 +123,8 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     //-----------------------
     // AXES FIX
     //-----------------------
+    cout<<"Setting axis titles"<<endl;
+
     if (plot_name.Contains("_pt") || plot_name.Contains("type1") || plot_name.Contains("MET"))
     {
         h_axes->GetXaxis()->SetTitle("E^{miss}_{T} (GeV)");
@@ -118,6 +140,8 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     //----------------------
     // ADD OVERFLOW BIN
     //----------------------
+    cout<<"Constructing overflow bin"<<endl;
+
     if (plot_name.Contains("_pt")){
         int n_bins = data->GetNbinsX();
         int overflow_data = data->GetBinContent(n_bins + 1);
@@ -145,6 +169,9 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     h_axes->GetYaxis()->SetTitleOffset(0.95);
     h_axes->GetYaxis()->SetTitleSize(0.05);
 
+    cout<<"Drawing Plot"<<endl;
+
+
     h_axes->Draw();
     stack->Draw("HIST SAME");
     data->Draw("E1 SAME");
@@ -163,6 +190,9 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
 
     l1->Draw("same");
 
+    cout<<"Main plot drawn, building ratio..."<<endl;
+
+
     //--------------------------
     // Fill in Residual Plot
     //--------------------------
@@ -179,10 +209,15 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     TH1F* residual = (TH1F*) data->Clone("residual");
     residual->Divide(mc_sum);
 
+    cout<<"Histogram made, fixing error bars..."<<endl;
+
+
     for (int count=1; count<=mc_sum->GetNbinsX(); count++){ 
       double relative_error = (mc_sum->GetBinError(count))/ (mc_sum->GetBinContent(count));
       residual->SetBinError(count, residual->GetBinContent(count)*relative_error);
     }
+
+    cout<<"Building axes..."<<endl;
 
     TH1F* h_axis_ratio = new TH1F(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),residual->GetXaxis()->GetXmin(),residual->GetXaxis()->GetXmax());
 
@@ -205,10 +240,15 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
     line1->Draw("same");
     residual->Draw("same");
     
+    cout<<"Drawing ratio plot"<<endl;
+
     c->Update();
     c->cd();
     c->SaveAs(save_dir+plot_name+TString(".pdf"));
     c->SaveAs(save_dir+plot_name+TString(".png"));
+
+
+    cout<<"Cleaning up..."<<endl;
 
 
     delete l1;
@@ -228,12 +268,12 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
   delete f;
 }
 
-void METStudy_draw(bool pt=true, bool phi=true, bool extra=false, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-09/noem/")
+void METStudy_draw(bool phi=true, bool pt=true, bool extra=false, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-09/cutfix/")
 {
   
 
   vector<TString> plot_names;
-  TString histo_file="METStudy_pt_noem.root";
+  TString histo_file="METStudy_pt_cutfix.root";
   
 
   if (phi) {
@@ -264,7 +304,7 @@ void METStudy_draw(bool pt=true, bool phi=true, bool extra=false, TString save_d
     //-----------------define---------------------
     plot_names.push_back("MET");
     plot_names.push_back("MET_2Jets");
-    plot_names.push_back("ph_0013_pt");
+    /*plot_names.push_back("ph_0013_pt");
     plot_names.push_back("ch_0013_pt");
     plot_names.push_back("nu_0013_pt");
     plot_names.push_back("ph_1624_pt");
@@ -272,7 +312,7 @@ void METStudy_draw(bool pt=true, bool phi=true, bool extra=false, TString save_d
     plot_names.push_back("nu_1624_pt");
     plot_names.push_back("ph_2430_pt");
     plot_names.push_back("nu_2430_pt");
-    plot_names.push_back("nu_30in_pt");   
+    plot_names.push_back("nu_30in_pt");*/   
     plot_names.push_back("type1MET");
     plot_names.push_back("type1MET_2Jets");
 
