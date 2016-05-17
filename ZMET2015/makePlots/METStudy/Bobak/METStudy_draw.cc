@@ -304,7 +304,7 @@ void METStudy_draw(bool phi=true, bool pt=true, bool extra=false, TString save_d
     //-----------------define---------------------
     plot_names.push_back("MET");
     plot_names.push_back("MET_2Jets");
-    plot_names.push_back("ph_0013_pt");
+    /*plot_names.push_back("ph_0013_pt");
     plot_names.push_back("ch_0013_pt");
     plot_names.push_back("nu_0013_pt");
     plot_names.push_back("ph_1624_pt");
@@ -312,7 +312,7 @@ void METStudy_draw(bool phi=true, bool pt=true, bool extra=false, TString save_d
     plot_names.push_back("nu_1624_pt");
     plot_names.push_back("ph_2430_pt");
     plot_names.push_back("nu_2430_pt");
-    plot_names.push_back("nu_30in_pt");   
+    plot_names.push_back("nu_30in_pt");*/   
     plot_names.push_back("type1MET");
     plot_names.push_back("type1MET_2Jets");
 
