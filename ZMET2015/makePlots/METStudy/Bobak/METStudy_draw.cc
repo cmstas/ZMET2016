@@ -268,12 +268,12 @@ void DrawPlots(vector<TString> plot_names, TString filename, TString save_dir){
   delete f;
 }
 
-void METStudy_draw(bool phi=true, bool pt=true, bool extra=false, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-09/noem/remake/")
+void METStudy_draw(bool phi=true, bool pt=true, bool extra=false, TString save_dir = "~/public_html/ZMET2016/plots/MET_study/V07-06-09/cutfix/")
 {
   
 
   vector<TString> plot_names;
-  TString histo_file="METStudy_pt_noem.root";
+  TString histo_file="METStudy_pt_cutfix.root";
   
 
   if (phi) {
