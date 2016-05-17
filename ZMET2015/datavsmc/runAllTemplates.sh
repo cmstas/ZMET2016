@@ -10,6 +10,14 @@ if [ ! -d "../output/$analysis_version/" ]; then
 	mkdir -p ../output/$analysis_version/
 fi
 
+
+# 2016
+selection="_inclusive"
+./runTemplateLooper $selection $analysis_version data &
+# ./runTemplateLooper $selection $analysis_version zjets &
+# ./runTemplateLooper $selection $analysis_version ttbar &
+
+
 #################
 ## for studies ##
 #################
@@ -82,17 +90,17 @@ fi
 # # ./runTemplateLooper $selection $analysis_version zz_inc &
 # # ./runTemplateLooper $selection $analysis_version zjetsmlm &
 
-selection="_inclusive"
-./runTemplateLooper $selection $analysis_version data &
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-./runTemplateLooper $selection $analysis_version zjets &
-./runTemplateLooper $selection $analysis_version ttbar &
-./runTemplateLooper $selection $analysis_version st &
-./runTemplateLooper $selection $analysis_version ww &
-./runTemplateLooper $selection $analysis_version ttv &
-./runTemplateLooper $selection $analysis_version vvv &
-./runTemplateLooper $selection $analysis_version wz_inc &
-./runTemplateLooper $selection $analysis_version zz_inc &
+# selection="_inclusive"
+# ./runTemplateLooper $selection $analysis_version data &
+# # ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# ./runTemplateLooper $selection $analysis_version zjets &
+# ./runTemplateLooper $selection $analysis_version ttbar &
+# ./runTemplateLooper $selection $analysis_version st &
+# ./runTemplateLooper $selection $analysis_version ww &
+# ./runTemplateLooper $selection $analysis_version ttv &
+# ./runTemplateLooper $selection $analysis_version vvv &
+# ./runTemplateLooper $selection $analysis_version wz_inc &
+# ./runTemplateLooper $selection $analysis_version zz_inc &
 
 #################
 ## for closure ##
