@@ -1269,12 +1269,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) == 22 ){ // photon cands
 		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ phpfcands_0013_p4 -= pfcand_p4;  phpfcands_0013_sumet += pfcand_p4.pt();
-		  	if (pfcand_p4.at(0) >= 5) {phpfcands_0013_p4_5gcut -= pfcand_p4; phpfcands_0013_sumet_5gcut += pfcand_p4.pt();} }
+		  	if (pfcand_p4().at(0) >= 5) {phpfcands_0013_p4_5gcut -= pfcand_p4; phpfcands_0013_sumet_5gcut += pfcand_p4.pt();} }
 		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ phpfcands_1316_p4 -= pfcand_p4;  phpfcands_1316_sumet += pfcand_p4.pt(); }
 		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ phpfcands_1624_p4 -= pfcand_p4;  phpfcands_1624_sumet += pfcand_p4.pt();
-		  	if (pfcand_p4.at(0) >= 5) {phpfcands_1624_p4_5gcut -= pfcand_p4; phpfcands_1624_sumet_5gcut += pfcand_p4.pt();} }
+		  	if (pfcand_p4().at(0) >= 5) {phpfcands_1624_p4_5gcut -= pfcand_p4; phpfcands_1624_sumet_5gcut += pfcand_p4.pt();} }
 		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ phpfcands_2430_p4 -= pfcand_p4;  phpfcands_2430_sumet += pfcand_p4.pt();
-		  	if (pfcand_p4.at(0) >= 5) {phpfcands_2430_p4_5gcut -= pfcand_p4; phpfcands_2430_sumet_5gcut += pfcand_p4.pt();} }
+		  	if (pfcand_p4().at(0) >= 5) {phpfcands_2430_p4_5gcut -= pfcand_p4; phpfcands_2430_sumet_5gcut += pfcand_p4.pt();} }
 		}
 
 		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) != 22 ){ // neutral had cands
@@ -1287,7 +1287,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		if( abs(pfcand_p4.eta()) > 3.0 && abs(cms3.pfcands_charge().at(pfind)) == 0 ){ // HF cands have different particle ID
 		  if( abs(cms3.pfcands_particleId().at(pfind)) == 1 ){ nupfcands_30in_p4 -= pfcand_p4; nupfcands_30in_sumet += pfcand_p4.pt(); }
 		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ){ phpfcands_30in_p4 -= pfcand_p4; phpfcands_30in_sumet += pfcand_p4.pt(); 
-		  	if (pfcand_p4.at(0) >= 5) {phpfcands_30in_p4_5gcut -= pfcand_p4; phpfcands_30in_sumet_5gcut += pfcand_p4.pt();} }
+		  	if (pfcand_p4().at(0) >= 5) {phpfcands_30in_p4_5gcut -= pfcand_p4; phpfcands_30in_sumet_5gcut += pfcand_p4.pt();} }
 		}
 
 	  }
