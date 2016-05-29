@@ -28,12 +28,20 @@ bool passMETFilters()
 
   if( zmet.isData()                   ){
 	if (zmet.nVert() == 0               ) return false;
-	// MET filters (data and MC)	   
-	if (!zmet.Flag_goodVertices()       ) return false;
-	// if (!zmet.Flag_CSCTightHaloFilter() ) return false; // use txt files
-	// if((zmet.run() == 256868 && zmet.lumi() == 356 && zmet.evt() == 618065896) || (zmet.run() == 258158 && zmet.lumi() == 122 && zmet.evt() == 202683644)	) cout <<__LINE__<<endl;
-	if (!zmet.Flag_eeBadScFilter()      ) return false;
-	if (!zmet.Flag_HBHENoiseFilter()    ) return false;
+	// // MET filters (data and MC)	   
+	// if (!zmet.Flag_goodVertices()       ) return false;
+	// // if (!zmet.Flag_CSCTightHaloFilter() ) return false; // use txt files
+	// // if((zmet.run() == 256868 && zmet.lumi() == 356 && zmet.evt() == 618065896) || (zmet.run() == 258158 && zmet.lumi() == 122 && zmet.evt() == 202683644)	) cout <<__LINE__<<endl;
+	// if (!zmet.Flag_eeBadScFilter()      ) return false;
+	// if (!zmet.Flag_HBHENoiseFilter()    ) return false;
+
+			if (!zmet.Flag_HBHENoiseFilter                   ()      ) return false;
+			if (!zmet.Flag_HBHEIsoNoiseFilter                ()      ) return false;
+			if (!zmet.Flag_CSCTightHalo2015Filter            ()      ) return false;
+			if (!zmet.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) return false;
+			if (!zmet.Flag_goodVertices                      ()      ) return false;
+			if (!zmet.Flag_eeBadScFilter                     ()      ) return false;
+
   }
   return true;
 }
