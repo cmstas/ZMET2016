@@ -1287,7 +1287,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		if( abs(pfcand_p4.eta()) > 3.0 && abs(cms3.pfcands_charge().at(pfind)) == 0 ){ // HF cands have different particle ID
 		  if( abs(cms3.pfcands_particleId().at(pfind)) == 1 ){ nupfcands_30in_p4 -= pfcand_p4; nupfcands_30in_sumet += pfcand_p4.pt(); }
 		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ){ phpfcands_30in_p4 -= pfcand_p4; phpfcands_30in_sumet += pfcand_p4.pt(); 
-		  	if (pfcand_p4(0) >= 5) {phpfcands_30in_p4_5gcut -= pfcand_p4; phpfcands_30in_sumet_5gcut += pfcand_p4.pt();} }
+		  	if (pfcand_p4(0) >= 5) {
+		  		phpfcands_30in_p4_5gcut -= pfcand_p4; 
+		  		phpfcands_30in_sumet_5gcut += pfcand_p4.pt();
+		  	} 
+		  }
 		}
 
 	  }
