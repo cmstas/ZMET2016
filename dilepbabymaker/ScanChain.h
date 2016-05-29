@@ -376,6 +376,19 @@ class babyMaker {
   Int_t mass_LSP;
 
   Float_t isrboost;
+
+  //Photon pt's with 5GeV cut 
+  Float_t phpfcands_0013_pt_5gcut;
+  Float_t phpfcands_1316_pt_5gcut;
+  Float_t phpfcands_1624_pt_5gcut;
+  Float_t phpfcands_2430_pt_5gcut;
+  Float_t phpfcands_30in_pt_5gcut;
+
+  Float_t phpfcands_0013_sumet_5gcut;
+  Float_t phpfcands_1316_sumet_5gcut;
+  Float_t phpfcands_1624_sumet_5gcut;
+  Float_t phpfcands_2430_sumet_5gcut;
+  Float_t phpfcands_30in_sumet_5gcut;
   
 };
 

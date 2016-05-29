@@ -1235,6 +1235,26 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  nupfcands_2430_sumet = 0.0;
 	  nupfcands_30in_sumet = 0.0;
 
+	  // 5GeV cut photon plots
+
+	  LorentzVector phpfcands_0013_p4_5gcut(0,0,0,0);
+	  LorentzVector phpfcands_1316_p4_5gcut(0,0,0,0);
+	  LorentzVector phpfcands_1624_p4_5gcut(0,0,0,0);
+	  LorentzVector phpfcands_2430_p4_5gcut(0,0,0,0);
+	  LorentzVector phpfcands_30in_p4_5gcut(0,0,0,0);
+
+	  phpfcands_0013_sumet_5gcut = 0.0;
+	  phpfcands_1316_sumet_5gcut = 0.0;
+	  phpfcands_1624_sumet_5gcut = 0.0;
+	  phpfcands_2430_sumet_5gcut = 0.0;
+	  phpfcands_30in_sumet_5gcut = 0.0;
+
+	  phpfcands_0013_pt_5gcut = 0.0;
+	  phpfcands_1316_pt_5gcut = 0.0;
+	  phpfcands_1624_pt_5gcut = 0.0;
+	  phpfcands_2430_pt_5gcut = 0.0;
+	  phpfcands_30in_pt_5gcut = 0.0;
+
 	  for( size_t pfind = 0; pfind < cms3.pfcands_p4().size(); pfind++ ){
 
 		LorentzVector pfcand_p4 = cms3.pfcands_p4().at(pfind);
@@ -1248,10 +1268,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		}
 
 		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) == 22 ){ // photon cands
-		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ phpfcands_0013_p4 -= pfcand_p4;  phpfcands_0013_sumet += pfcand_p4.pt(); }
+		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ phpfcands_0013_p4 -= pfcand_p4;  phpfcands_0013_sumet += pfcand_p4.pt();
+		  	if (pfcand_p4.at(0) >= 5) {phpfcands_0013_p4_5gcut -= pfcand_p4; phpfcands_0013_sumet_5gcut += pfcand_p4.pt()} }
 		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ phpfcands_1316_p4 -= pfcand_p4;  phpfcands_1316_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ phpfcands_1624_p4 -= pfcand_p4;  phpfcands_1624_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ phpfcands_2430_p4 -= pfcand_p4;  phpfcands_2430_sumet += pfcand_p4.pt(); }
+		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ phpfcands_1624_p4 -= pfcand_p4;  phpfcands_1624_sumet += pfcand_p4.pt();
+		  	if (pfcand_p4.at(0) >= 5) {phpfcands_1624_p4_5gcut -= pfcand_p4; phpfcands_1624_sumet_5gcut += pfcand_p4.pt()} }
+		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ phpfcands_2430_p4 -= pfcand_p4;  phpfcands_2430_sumet += pfcand_p4.pt();
+		  	if (pfcand_p4.at(0) >= 5) {phpfcands_2430_p4_5gcut -= pfcand_p4; phpfcands_2430_sumet_5gcut += pfcand_p4.pt()} }
 		}
 
 		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) != 22 ){ // neutral had cands
@@ -1263,7 +1286,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		if( abs(pfcand_p4.eta()) > 3.0 && abs(cms3.pfcands_charge().at(pfind)) == 0 ){ // HF cands have different particle ID
 		  if( abs(cms3.pfcands_particleId().at(pfind)) == 1 ){ nupfcands_30in_p4 -= pfcand_p4; nupfcands_30in_sumet += pfcand_p4.pt(); }
-		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ){ phpfcands_30in_p4 -= pfcand_p4; phpfcands_30in_sumet += pfcand_p4.pt(); }
+		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ){ phpfcands_30in_p4 -= pfcand_p4; phpfcands_30in_sumet += pfcand_p4.pt(); 
+		  	if (pfcand_p4.at(0) >= 5) {phpfcands_30in_p4_5gcut -= pfcand_p4; phpfcands_30in_sumet_5gcut += pfcand_p4.pt()} }
 		}
 
 	  }
@@ -1283,6 +1307,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  nupfcands_1624_pt = nupfcands_1624_p4.pt();
 	  nupfcands_2430_pt = nupfcands_2430_p4.pt();
 	  nupfcands_30in_pt = nupfcands_30in_p4.pt();
+
+	  //5GeV cut photons
+	  phpfcands_0013_pt_5gcut = phpfcands_0013_p4_5gcut.pt();
+	  phpfcands_1316_pt_5gcut = phpfcands_1316_p4_5gcut.pt();
+	  phpfcands_1624_pt_5gcut = phpfcands_1624_p4_5gcut.pt();
+	  phpfcands_2430_pt_5gcut = phpfcands_2430_p4_5gcut.pt();
+	  phpfcands_30in_pt_5gcut = phpfcands_30in_p4_5gcut.pt();
 
 	  chpfcands_0013_phi = chpfcands_0013_p4.phi();
 	  chpfcands_1316_phi = chpfcands_1316_p4.phi();
@@ -1573,6 +1604,15 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nupfcands_1624_pt"     , &nupfcands_1624_pt   );
   BabyTree_->Branch("nupfcands_2430_pt"     , &nupfcands_2430_pt   );
   BabyTree_->Branch("nupfcands_30in_pt"     , &nupfcands_30in_pt   );
+
+  //5GeV Photons
+
+  BabyTree_->Branch("phpfcands_0013_pt_5gcut"     , &phpfcands_0013_pt_5gcut   );
+  BabyTree_->Branch("phpfcands_1316_pt_5gcut"     , &phpfcands_1316_pt_5gcut   );
+  BabyTree_->Branch("phpfcands_1624_pt_5gcut"     , &phpfcands_1624_pt_5gcut   );
+  BabyTree_->Branch("phpfcands_2430_pt_5gcut"     , &phpfcands_2430_pt_5gcut   );
+  BabyTree_->Branch("phpfcands_30in_pt_5gcut"     , &phpfcands_30in_pt_5gcut   );
+
    
   BabyTree_->Branch("chpfcands_0013_sumet"     , &chpfcands_0013_sumet   );
   BabyTree_->Branch("chpfcands_1316_sumet"     , &chpfcands_1316_sumet   );
@@ -1589,6 +1629,14 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nupfcands_1624_sumet"     , &nupfcands_1624_sumet   );
   BabyTree_->Branch("nupfcands_2430_sumet"     , &nupfcands_2430_sumet   );
   BabyTree_->Branch("nupfcands_30in_sumet"     , &nupfcands_30in_sumet   );
+
+  //5 GeV Photons
+  BabyTree_->Branch("phpfcands_0013_sumet_5gcut"     , &phpfcands_0013_sumet_5gcut   );
+  BabyTree_->Branch("phpfcands_1316_sumet_5gcut"     , &phpfcands_1316_sumet_5gcut   );
+  BabyTree_->Branch("phpfcands_1624_sumet_5gcut"     , &phpfcands_1624_sumet_5gcut   );
+  BabyTree_->Branch("phpfcands_2430_sumet_5gcut"     , &phpfcands_2430_sumet_5gcut   );
+  BabyTree_->Branch("phpfcands_30in_sumet_5gcut"     , &phpfcands_30in_sumet_5gcut   );
+
 
   BabyTree_->Branch("chpfcands_0013_phi"     , &chpfcands_0013_phi   );
   BabyTree_->Branch("chpfcands_1316_phi"     , &chpfcands_1316_phi   );
