@@ -10,7 +10,7 @@ source ../../ZMET2015/settings.sh
 TAG=${analysis_version}
 
 HADOOPDIR=/hadoop/cms/store/user/${USER}/uaf8/dilepbabies/
-OUTPUTDIR=/nfs-7/userdata/ZMEToutput/output/ZMETbabies/$TAG/
+OUTPUTDIR=/nfs-7/userdata/ZMEToutput/output/bobakBabies/$TAG/
 
 if [ ! -d "$OUTPUTDIR" ]; then
 	mkdir -p $OUTPUTDIR
@@ -23,10 +23,12 @@ fi
 
 
 # 2016 data
-run data_2016B_Prompt_ee
-run data_2016B_Prompt_mm
-run data_2016B_Prompt_em
-run data_2016B_Prompt_ph
+run data_2016B_Prompt_ee_v1
+run data_2016B_Prompt_mm_v1
+run data_2016B_Prompt_ee_v2
+run data_2016B_Prompt_mm_v2
+#run data_2016B_Prompt_em
+#run data_2016B_Prompt_ph
 
 # # 2016 MC
 
