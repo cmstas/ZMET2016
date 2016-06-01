@@ -85,7 +85,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   // const char* json_file = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_snt.txt";
   const char* json_file = "DCSONLY_json_160516_snt.txt";
   cout<<"Setting grl: "<<json_file<<endl;
-  set_goodrun _file(json_file);
+  set_goodrun_file(json_file);
 
   if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
   
