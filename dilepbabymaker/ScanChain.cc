@@ -657,23 +657,23 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       int i = 0;
       std::sort(lep_pt_ordering.begin(), lep_pt_ordering.end(), sortByValue);
       for(std::vector<std::pair<int, float> >::iterator it = lep_pt_ordering.begin(); it!= lep_pt_ordering.end(); ++it){
-		lep_p4           .push_back( vec_lep_p4s          .at(it->second));
-		lep_pt           .push_back( vec_lep_pt           .at(it->second));
-		lep_eta          .push_back( vec_lep_eta          .at(it->second));
-		lep_phi          .push_back( vec_lep_phi          .at(it->second));
-		lep_mass         .push_back( vec_lep_mass         .at(it->second));
-		lep_charge       .push_back( vec_lep_charge       .at(it->second));
-		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->second));
-		lep_dz           .push_back( vec_lep_dz           .at(it->second));
-		lep_dxy          .push_back( vec_lep_dxy          .at(it->second));
-		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->second));
-		lep_tightId      .push_back( vec_lep_tightId      .at(it->second));
-		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->second));
-		lep_mcMatchId    .push_back( vec_lep_mcMatchId    .at(it->second));
-		lep_lostHits     .push_back( vec_lep_lostHits     .at(it->second));
-		lep_convVeto     .push_back( vec_lep_convVeto     .at(it->second));
-		lep_tightCharge  .push_back( vec_lep_tightCharge  .at(it->second));
-		lep_MVA          .push_back( vec_lep_MVA          .at(it->second));
+		lep_p4           .push_back( vec_lep_p4s          .at(it->first));
+		lep_pt           .push_back( vec_lep_pt           .at(it->first));
+		lep_eta          .push_back( vec_lep_eta          .at(it->first));
+		lep_phi          .push_back( vec_lep_phi          .at(it->first));
+		lep_mass         .push_back( vec_lep_mass         .at(it->first));
+		lep_charge       .push_back( vec_lep_charge       .at(it->first));
+		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->first));
+		lep_dz           .push_back( vec_lep_dz           .at(it->first));
+		lep_dxy          .push_back( vec_lep_dxy          .at(it->first));
+		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->first));
+		lep_tightId      .push_back( vec_lep_tightId      .at(it->first));
+		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->first));
+		lep_mcMatchId    .push_back( vec_lep_mcMatchId    .at(it->first));
+		lep_lostHits     .push_back( vec_lep_lostHits     .at(it->first));
+		lep_convVeto     .push_back( vec_lep_convVeto     .at(it->first));
+		lep_tightCharge  .push_back( vec_lep_tightCharge  .at(it->first));
+		lep_MVA          .push_back( vec_lep_MVA          .at(it->first));
 		i++;
       }
         
