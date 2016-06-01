@@ -62,6 +62,11 @@ inline bool sortByPt(const LorentzVector &vec1, const LorentzVector &vec2 ) {
   return vec1.pt() > vec2.pt();
 }
 
+// This is meant to be passed as the third argument, the predicate, of the standard library sort algorithm
+inline bool sortByValue(const std::pair<int,float>& pair1, const std::pair<int,float>& pair2 ) {
+  return pair1.second > pair2.second;
+}
+
 //--------------------------------------------------------------------
 
 void babyMaker::ScanChain(TChain* chain, std::string baby_name){
@@ -80,7 +85,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   // const char* json_file = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_snt.txt";
   const char* json_file = "DCSONLY_json_160516_snt.txt";
   cout<<"Setting grl: "<<json_file<<endl;
-  set_goodrun_file(json_file);
+  set_goodrun _file(json_file);
 
   if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
   
@@ -516,7 +521,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  }
 
       //LEPTONS
-      std::map<float, int> lep_pt_ordering;
+      std::vector<std::pair<int, float> > lep_pt_ordering;
       vector<float>vec_lep_pt;
       vector<float>vec_lep_eta;
       vector<float>vec_lep_phi;
@@ -555,7 +560,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
         nElectrons10++;
 
 		if( cms3.els_p4().at(iEl).pt() > 10.0 ){
-		  lep_pt_ordering[cms3.els_p4().at(iEl).pt()] = nlep;
+		  lep_pt_ordering	   .push_back( std::pair<int, float>(nlep, cms3.els_p4().at(iEl).pt()));
 		  vec_lep_p4s          .push_back( cms3.els_p4().at(iEl)           );
 		  vec_lep_pt           .push_back( cms3.els_p4().at(iEl).pt()      );
 		  vec_lep_eta          .push_back( cms3.els_p4().at(iEl).eta()     ); //save eta, even though we use SCeta for ID
@@ -607,7 +612,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		
 		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
-		  lep_pt_ordering[cms3.mus_p4().at(iMu).pt()] = nlep;
+		  if (map has key){
+		  	cms3.mus_p4().at(iMu)[2] *=0.9999999	
+		  }
+		  lep_pt_ordering	   .push_back( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
 		  vec_lep_p4s          .push_back ( cms3.mus_p4().at(iMu)                       );
 		  vec_lep_pt           .push_back ( cms3.mus_p4().at(iMu).pt()                  );
 		  vec_lep_eta          .push_back ( cms3.mus_p4().at(iMu).eta()                 );
@@ -650,7 +658,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       // Implement pT ordering for leptons (it's irrelevant but easier for us to add than for ETH to remove)
       //now fill arrays from vectors, isotracks with largest pt first
       int i = 0;
-      for(std::map<float, int>::reverse_iterator it = lep_pt_ordering.rbegin(); it!= lep_pt_ordering.rend(); ++it){
+      //add something here
+      std::sort(lep_pt_ordering.begin(), lep_pt_ordering.end(), sortByValue);
+      for(std::vector<std::pair<int, float> >::iterator it = lep_pt_ordering.begin(); it!= lep_pt_ordering.end(); ++it){
 		lep_p4           .push_back( vec_lep_p4s          .at(it->second));
 		lep_pt           .push_back( vec_lep_pt           .at(it->second));
 		lep_eta          .push_back( vec_lep_eta          .at(it->second));
@@ -660,7 +670,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->second));
 		lep_dz           .push_back( vec_lep_dz           .at(it->second));
 		lep_dxy          .push_back( vec_lep_dxy          .at(it->second));
-        lep_etaSC        .push_back( vec_lep_etaSC        .at(it->second));
+		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->second));
 		lep_tightId      .push_back( vec_lep_tightId      .at(it->second));
 		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->second));
 		lep_mcMatchId    .push_back( vec_lep_mcMatchId    .at(it->second));
