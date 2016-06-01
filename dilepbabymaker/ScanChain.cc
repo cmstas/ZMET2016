@@ -612,9 +612,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		
 		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
-		  if (map has key){
-		  	cms3.mus_p4().at(iMu)[2] *=0.9999999	
-		  }
 		  lep_pt_ordering	   .push_back( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
 		  vec_lep_p4s          .push_back ( cms3.mus_p4().at(iMu)                       );
 		  vec_lep_pt           .push_back ( cms3.mus_p4().at(iMu).pt()                  );
@@ -658,7 +655,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       // Implement pT ordering for leptons (it's irrelevant but easier for us to add than for ETH to remove)
       //now fill arrays from vectors, isotracks with largest pt first
       int i = 0;
-      //add something here
       std::sort(lep_pt_ordering.begin(), lep_pt_ordering.end(), sortByValue);
       for(std::vector<std::pair<int, float> >::iterator it = lep_pt_ordering.begin(); it!= lep_pt_ordering.end(); ++it){
 		lep_p4           .push_back( vec_lep_p4s          .at(it->second));
