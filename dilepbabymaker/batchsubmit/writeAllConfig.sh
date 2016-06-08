@@ -63,18 +63,18 @@ TAG=${analysis_version}
 # # 2016 Closure Samples:
 
 # # zjets Madgraph MLM 
- ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/V08-00-01/  ${TAG}_zjets_m50_mgmlm
- ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/V08-00-01/  ${TAG}_zjets_m50_mgmlm_HT100200
- ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/V08-00-01/  ${TAG}_zjets_m50_mgmlm_HT200400
- ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/V08-00-01/  ${TAG}_zjets_m50_mgmlm_HT400600
+# ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/V08-00-01/  ${TAG}_zjets_m50_mgmlm
+# ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/V08-00-01/  ${TAG}_zjets_m50_mgmlm_HT100200
+# ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/V08-00-01/  ${TAG}_zjets_m50_mgmlm_HT200400
+# ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1/V08-00-01/  ${TAG}_zjets_m50_mgmlm_HT400600
 
 
 # # Gjets Madgraph MLM 
- ./writeConfig_80X.sh/hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-40To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/V08-00-01/  ${TAG}_Gjets_mgmlm_HT40100
- ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v2/V08-00-01/  ${TAG}_Gjets_mgmlm_HT100200
- ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/V08-00-01/  ${TAG}_Gjets_mgmlm_HT200400
- ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/V08-00-01/  ${TAG}_Gjets_mgmlm_HT400600
- ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/V08-00-01/  ${TAG}_Gjets_mgmlm_HT600Inf
+ ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-40To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/V08-00-01/  ${TAG}_Gjets_mgmlm_HT40100
+# ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v2/V08-00-01/  ${TAG}_Gjets_mgmlm_HT100200
+# ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-200To400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/V08-00-01/  ${TAG}_Gjets_mgmlm_HT200400
+# ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/V08-00-01/  ${TAG}_Gjets_mgmlm_HT400600
+# ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv1/GJets_DR-0p4_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/V08-00-01/  ${TAG}_Gjets_mgmlm_HT600Inf
 
 
 # # 2015 samples for closure

@@ -23,10 +23,10 @@ fi
 
 
 # 2016 data
-run data_2016B_Prompt_ee_v1
-run data_2016B_Prompt_mm_v1
-run data_2016B_Prompt_ee_v2
-run data_2016B_Prompt_mm_v2
+#run data_2016B_Prompt_ee_v1
+#run data_2016B_Prompt_mm_v1
+#run data_2016B_Prompt_ee_v2
+#run data_2016B_Prompt_mm_v2
 #run data_2016B_Prompt_em
 #run data_2016B_Prompt_ph
 
@@ -61,6 +61,19 @@ run data_2016B_Prompt_mm_v2
 # run zzz_incl_mgmlm
 
 # # samples for closure
+
+# # 2016 GJets
+#run Gjets_mgmlm_HT40100
+#run Gjets_mgmlm_HT100200
+#run Gjets_mgmlm_HT200400
+#run Gjets_mgmlm_HT400600
+#run Gjets_mgmlm_HT600Inf
+
+# # 2016 ZJets
+#run zjets_m50_mgmlm
+run zjets_m50_mgmlm_HT100200
+run zjets_m50_mgmlm_HT200400
+run zjets_m50_mgmlm_HT400600
 
 # # will use this for first closure studies
 # run dy_m1050_mgmlm_ext1
