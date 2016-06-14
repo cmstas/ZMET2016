@@ -83,7 +83,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
   // do this once per job
   // const char* json_file = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_snt.txt";
-  const char* json_file = "DCSONLY_json_160516_snt.txt";
+  const char* json_file = "goldenJSON_June142016.txt";
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
