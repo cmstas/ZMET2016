@@ -70,10 +70,14 @@ fi
 #run Gjets_mgmlm_HT600Inf
 
 # # 2016 ZJets
+# miniAODv1
 #run zjets_m50_mgmlm
-run zjets_m50_mgmlm_HT100200
-run zjets_m50_mgmlm_HT200400
-run zjets_m50_mgmlm_HT400600
+#run zjets_m50_mgmlm_HT100200
+#run zjets_m50_mgmlm_HT200400
+#run zjets_m50_mgmlm_HT400600
+# miniAOD v2
+#run zjets_miniAODv2_m50_mgmlm_HT600Inf
+#run zjets_miniAODv2_m50_mgmlm_HT600Inf_ext1
 
 # # will use this for first closure studies
 # run dy_m1050_mgmlm_ext1
