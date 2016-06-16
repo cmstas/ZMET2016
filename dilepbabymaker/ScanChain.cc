@@ -189,7 +189,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
     FactorizedJetCorrector *jet_corrector_pfL1FastJetL2L3;
 
 	JetCorrectionUncertainty* jecUnc;
-	
+
     if (applyJECfromFile) {
       jetcorr_filenames_pfL1FastJetL2L3.clear();
 
@@ -238,7 +238,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  }
    	  
       jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
-    }
+
+	  
+	}
 
     // Event Loop
     unsigned int nEventsTree = tree->GetEntriesFast();
@@ -776,11 +778,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
       vector < double       > jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
 
+      vector < LorentzVector> p4sL1CorrJets; // store corrected p4 for L1 corr jets
+
       for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
 		LorentzVector pfjet_p4_cor = cms3.pfjets_p4().at(iJet);
+		LorentzVector pfjet_p4_cor_photons = cms3.pfjets_p4().at(iJet);//stuff for diphotons
 
 		double corr = 1.0;
+		double corr_l1 = 1.0;
 		double shift = 0.0;
 		if (applyJECfromFile) {
 
@@ -796,9 +802,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		  vector<float> corr_vals = jet_corrector_pfL1FastJetL2L3->getSubCorrections();
 		  corr        = corr_vals.at(corr_vals.size()-1); // All corrections
+		  corr_l1     = corr_vals.at(0); //stuff for diphotons
 
 		  // apply new JEC to p4
-		  pfjet_p4_cor = pfjet_p4_uncor * corr;
+		  pfjet_p4_cor = pfjet_p4_uncor * corr;		
+		  pfjet_p4_cor_photons =  pfjet_p4_uncor * corr_l1; //stuff for diphotons
 
 		  shift = 0.0;
 		  if (jecUnc != 0) {
@@ -813,6 +821,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  }
 
 		}
+
+		//stuff for diphotons
+		p4sL1CorrJets.push_back(pfjet_p4_cor_photons);
 		
 		p4sCorrJets.push_back(pfjet_p4_cor);
 		jet_corrfactor.push_back(corr);
@@ -828,6 +839,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		passJets.push_back(iJet);
       }
 
+	  //stuff for diphotons
+	  for( size_t jetind = 0; jetind < p4sL1CorrJets.size(); jetind++ ){
+		if( !(p4sL1CorrJets.at(jetind).pt() > 15.0 && abs(p4sL1CorrJets.at(jetind).eta()) < 5.2) ) continue;
+		float pfjet_emf  = (pfjets_neutralEmE().at(jetind) + pfjets_chargedEmE().at(jetind)) / (pfjets_undoJEC().at(pfJetIdx)*pfjets_p4().at(jetind).energy());
+
+
+	  }
+	  
+	  
 	  if (verbose) cout << "before jet/photon requirements" << endl;
  	  //matched to pfJet with pT > 10 GeV, within cone of dR < 0.3. neutral EM energy fraction > 0.7
  	  for(int iGamma = 0; iGamma < ngamma; iGamma++){
