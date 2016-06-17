@@ -376,7 +376,15 @@ class babyMaker {
   Int_t mass_LSP;
 
   Float_t isrboost;
-  
+
+  // diphoton variables
+  std::vector <LorentzVector> diphotonjets_p4;
+  std::vector <LorentzVector> diphotonjets_EMF97_p4;
+  std::vector <Float_t>       diphotonjets_EMF;
+  Float_t                     mjj_atleastoneEMF97;
+  Float_t                     mjj_atleasttwoEMF97;
+  Float_t                     mjj_EMF97;
+
 };
 
 #endif

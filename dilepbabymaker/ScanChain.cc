@@ -78,7 +78,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
   // do this once per job
   // const char* json_file = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_snt.txt";
-  const char* json_file = "DCSONLY_json_160516_snt.txt";
+  const char* json_file = "golden_json_160616_snt.txt";
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
@@ -841,12 +841,26 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	  //stuff for diphotons
 	  for( size_t jetind = 0; jetind < p4sL1CorrJets.size(); jetind++ ){
-		if( !(p4sL1CorrJets.at(jetind).pt() > 15.0 && abs(p4sL1CorrJets.at(jetind).eta()) < 5.2) ) continue;
-		float pfjet_emf  = (pfjets_neutralEmE().at(jetind) + pfjets_chargedEmE().at(jetind)) / (pfjets_undoJEC().at(pfJetIdx)*pfjets_p4().at(jetind).energy());
+		if( !(p4sL1CorrJets.at(jetind).pt() > 40.0 && abs(p4sL1CorrJets.at(jetind).eta()) < 5.2) ) continue;
 
+		float pfjet_emf  = (pfjets_neutralEmE().at(jetind) + pfjets_chargedEmE().at(jetind)) / (pfjets_undoJEC().at(jetind)*pfjets_p4().at(jetind).energy());
+		diphotonjets_p4         . push_back(p4sL1CorrJets.at(jetind));
+		diphotonjets_EMF        . push_back(pfjet_emf);
 
+		if( pfjet_emf > 0.97 ){
+		  diphotonjets_EMF97_p4 . push_back(p4sL1CorrJets.at(jetind));
+		}
 	  }
 	  
+
+	  if( diphotonjets_EMF97_p4.size() > 0 && diphotonjets_p4.size() > 1 ){
+		mjj_atleastoneEMF97 = (diphotonjets_p4.at(0) + diphotonjets_p4.at(1)).mass();
+	  }
+	  if( diphotonjets_EMF97_p4.size() > 1 ){
+		mjj_atleasttwoEMF97 = (diphotonjets_p4.at(0)       + diphotonjets_p4.at(1)).mass();
+		mjj_EMF97           = (diphotonjets_EMF97_p4.at(0) + diphotonjets_EMF97_p4.at(1)).mass();
+	  }
+
 	  
 	  if (verbose) cout << "before jet/photon requirements" << endl;
  	  //matched to pfJet with pT > 10 GeV, within cone of dR < 0.3. neutral EM energy fraction > 0.7
@@ -1578,53 +1592,53 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("weight_btagsf_heavy_DN", &weight_btagsf_heavy_DN );
   BabyTree_->Branch("weight_btagsf_light_DN", &weight_btagsf_light_DN );
    
-  BabyTree_->Branch("chpfcands_0013_pt"     , &chpfcands_0013_pt   );
-  BabyTree_->Branch("chpfcands_1316_pt"     , &chpfcands_1316_pt   );
-  BabyTree_->Branch("chpfcands_1624_pt"     , &chpfcands_1624_pt   );
-  BabyTree_->Branch("chpfcands_2430_pt"     , &chpfcands_2430_pt   );
-  BabyTree_->Branch("chpfcands_30in_pt"     , &chpfcands_30in_pt   );
-  BabyTree_->Branch("phpfcands_0013_pt"     , &phpfcands_0013_pt   );
-  BabyTree_->Branch("phpfcands_1316_pt"     , &phpfcands_1316_pt   );
-  BabyTree_->Branch("phpfcands_1624_pt"     , &phpfcands_1624_pt   );
-  BabyTree_->Branch("phpfcands_2430_pt"     , &phpfcands_2430_pt   );
-  BabyTree_->Branch("phpfcands_30in_pt"     , &phpfcands_30in_pt   );
-  BabyTree_->Branch("nupfcands_0013_pt"     , &nupfcands_0013_pt   );
-  BabyTree_->Branch("nupfcands_1316_pt"     , &nupfcands_1316_pt   );
-  BabyTree_->Branch("nupfcands_1624_pt"     , &nupfcands_1624_pt   );
-  BabyTree_->Branch("nupfcands_2430_pt"     , &nupfcands_2430_pt   );
-  BabyTree_->Branch("nupfcands_30in_pt"     , &nupfcands_30in_pt   );
+  // BabyTree_->Branch("chpfcands_0013_pt"     , &chpfcands_0013_pt   );
+  // BabyTree_->Branch("chpfcands_1316_pt"     , &chpfcands_1316_pt   );
+  // BabyTree_->Branch("chpfcands_1624_pt"     , &chpfcands_1624_pt   );
+  // BabyTree_->Branch("chpfcands_2430_pt"     , &chpfcands_2430_pt   );
+  // BabyTree_->Branch("chpfcands_30in_pt"     , &chpfcands_30in_pt   );
+  // BabyTree_->Branch("phpfcands_0013_pt"     , &phpfcands_0013_pt   );
+  // BabyTree_->Branch("phpfcands_1316_pt"     , &phpfcands_1316_pt   );
+  // BabyTree_->Branch("phpfcands_1624_pt"     , &phpfcands_1624_pt   );
+  // BabyTree_->Branch("phpfcands_2430_pt"     , &phpfcands_2430_pt   );
+  // BabyTree_->Branch("phpfcands_30in_pt"     , &phpfcands_30in_pt   );
+  // BabyTree_->Branch("nupfcands_0013_pt"     , &nupfcands_0013_pt   );
+  // BabyTree_->Branch("nupfcands_1316_pt"     , &nupfcands_1316_pt   );
+  // BabyTree_->Branch("nupfcands_1624_pt"     , &nupfcands_1624_pt   );
+  // BabyTree_->Branch("nupfcands_2430_pt"     , &nupfcands_2430_pt   );
+  // BabyTree_->Branch("nupfcands_30in_pt"     , &nupfcands_30in_pt   );
    
-  BabyTree_->Branch("chpfcands_0013_sumet"     , &chpfcands_0013_sumet   );
-  BabyTree_->Branch("chpfcands_1316_sumet"     , &chpfcands_1316_sumet   );
-  BabyTree_->Branch("chpfcands_1624_sumet"     , &chpfcands_1624_sumet   );
-  BabyTree_->Branch("chpfcands_2430_sumet"     , &chpfcands_2430_sumet   );
-  BabyTree_->Branch("chpfcands_30in_sumet"     , &chpfcands_30in_sumet   );
-  BabyTree_->Branch("phpfcands_0013_sumet"     , &phpfcands_0013_sumet   );
-  BabyTree_->Branch("phpfcands_1316_sumet"     , &phpfcands_1316_sumet   );
-  BabyTree_->Branch("phpfcands_1624_sumet"     , &phpfcands_1624_sumet   );
-  BabyTree_->Branch("phpfcands_2430_sumet"     , &phpfcands_2430_sumet   );
-  BabyTree_->Branch("phpfcands_30in_sumet"     , &phpfcands_30in_sumet   );
-  BabyTree_->Branch("nupfcands_0013_sumet"     , &nupfcands_0013_sumet   );
-  BabyTree_->Branch("nupfcands_1316_sumet"     , &nupfcands_1316_sumet   );
-  BabyTree_->Branch("nupfcands_1624_sumet"     , &nupfcands_1624_sumet   );
-  BabyTree_->Branch("nupfcands_2430_sumet"     , &nupfcands_2430_sumet   );
-  BabyTree_->Branch("nupfcands_30in_sumet"     , &nupfcands_30in_sumet   );
+  // BabyTree_->Branch("chpfcands_0013_sumet"     , &chpfcands_0013_sumet   );
+  // BabyTree_->Branch("chpfcands_1316_sumet"     , &chpfcands_1316_sumet   );
+  // BabyTree_->Branch("chpfcands_1624_sumet"     , &chpfcands_1624_sumet   );
+  // BabyTree_->Branch("chpfcands_2430_sumet"     , &chpfcands_2430_sumet   );
+  // BabyTree_->Branch("chpfcands_30in_sumet"     , &chpfcands_30in_sumet   );
+  // BabyTree_->Branch("phpfcands_0013_sumet"     , &phpfcands_0013_sumet   );
+  // BabyTree_->Branch("phpfcands_1316_sumet"     , &phpfcands_1316_sumet   );
+  // BabyTree_->Branch("phpfcands_1624_sumet"     , &phpfcands_1624_sumet   );
+  // BabyTree_->Branch("phpfcands_2430_sumet"     , &phpfcands_2430_sumet   );
+  // BabyTree_->Branch("phpfcands_30in_sumet"     , &phpfcands_30in_sumet   );
+  // BabyTree_->Branch("nupfcands_0013_sumet"     , &nupfcands_0013_sumet   );
+  // BabyTree_->Branch("nupfcands_1316_sumet"     , &nupfcands_1316_sumet   );
+  // BabyTree_->Branch("nupfcands_1624_sumet"     , &nupfcands_1624_sumet   );
+  // BabyTree_->Branch("nupfcands_2430_sumet"     , &nupfcands_2430_sumet   );
+  // BabyTree_->Branch("nupfcands_30in_sumet"     , &nupfcands_30in_sumet   );
 
-  BabyTree_->Branch("chpfcands_0013_phi"     , &chpfcands_0013_phi   );
-  BabyTree_->Branch("chpfcands_1316_phi"     , &chpfcands_1316_phi   );
-  BabyTree_->Branch("chpfcands_1624_phi"     , &chpfcands_1624_phi   );
-  BabyTree_->Branch("chpfcands_2430_phi"     , &chpfcands_2430_phi   );
-  BabyTree_->Branch("chpfcands_30in_phi"     , &chpfcands_30in_phi   );
-  BabyTree_->Branch("phpfcands_0013_phi"     , &phpfcands_0013_phi   );
-  BabyTree_->Branch("phpfcands_1316_phi"     , &phpfcands_1316_phi   );
-  BabyTree_->Branch("phpfcands_1624_phi"     , &phpfcands_1624_phi   );
-  BabyTree_->Branch("phpfcands_2430_phi"     , &phpfcands_2430_phi   );
-  BabyTree_->Branch("phpfcands_30in_phi"     , &phpfcands_30in_phi   );
-  BabyTree_->Branch("nupfcands_0013_phi"     , &nupfcands_0013_phi   );
-  BabyTree_->Branch("nupfcands_1316_phi"     , &nupfcands_1316_phi   );
-  BabyTree_->Branch("nupfcands_1624_phi"     , &nupfcands_1624_phi   );
-  BabyTree_->Branch("nupfcands_2430_phi"     , &nupfcands_2430_phi   );
-  BabyTree_->Branch("nupfcands_30in_phi"     , &nupfcands_30in_phi   );
+  // BabyTree_->Branch("chpfcands_0013_phi"     , &chpfcands_0013_phi   );
+  // BabyTree_->Branch("chpfcands_1316_phi"     , &chpfcands_1316_phi   );
+  // BabyTree_->Branch("chpfcands_1624_phi"     , &chpfcands_1624_phi   );
+  // BabyTree_->Branch("chpfcands_2430_phi"     , &chpfcands_2430_phi   );
+  // BabyTree_->Branch("chpfcands_30in_phi"     , &chpfcands_30in_phi   );
+  // BabyTree_->Branch("phpfcands_0013_phi"     , &phpfcands_0013_phi   );
+  // BabyTree_->Branch("phpfcands_1316_phi"     , &phpfcands_1316_phi   );
+  // BabyTree_->Branch("phpfcands_1624_phi"     , &phpfcands_1624_phi   );
+  // BabyTree_->Branch("phpfcands_2430_phi"     , &phpfcands_2430_phi   );
+  // BabyTree_->Branch("phpfcands_30in_phi"     , &phpfcands_30in_phi   );
+  // BabyTree_->Branch("nupfcands_0013_phi"     , &nupfcands_0013_phi   );
+  // BabyTree_->Branch("nupfcands_1316_phi"     , &nupfcands_1316_phi   );
+  // BabyTree_->Branch("nupfcands_1624_phi"     , &nupfcands_1624_phi   );
+  // BabyTree_->Branch("nupfcands_2430_phi"     , &nupfcands_2430_phi   );
+  // BabyTree_->Branch("nupfcands_30in_phi"     , &nupfcands_30in_phi   );
 
   BabyTree_->Branch("met_T1CHS_pt"               , &met_T1CHS_pt               );
   BabyTree_->Branch("met_T1CHS_phi"              , &met_T1CHS_phi              );
@@ -1647,6 +1661,13 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("isrboost"   , &isrboost   );
 
+  BabyTree_->Branch("diphotonjets_p4"       , &diphotonjets_p4       );
+  BabyTree_->Branch("diphotonjets_EMF97_p4" , &diphotonjets_EMF97_p4 );
+  BabyTree_->Branch("diphotonjets_EMF"      , &diphotonjets_EMF      );
+  BabyTree_->Branch("mjj_atleastoneEMF97"   , &mjj_atleastoneEMF97   );
+  BabyTree_->Branch("mjj_atleasttwoEMF97"   , &mjj_atleasttwoEMF97   );
+  BabyTree_->Branch("mjj_EMF97"             , &mjj_EMF97             );
+  
   return;
 }
 
@@ -1946,6 +1967,13 @@ void babyMaker::InitBabyNtuple () {
   mass_LSP    = -999;
   
   isrboost    = -999;
+
+  diphotonjets_p4       .clear();
+  diphotonjets_EMF97_p4 .clear();
+  diphotonjets_EMF      .clear();
+  mjj_atleastoneEMF97 = -999.0;
+  mjj_atleasttwoEMF97 = -999.0;
+  mjj_EMF97           = -999.0;
 
   return;
 }
