@@ -23,12 +23,14 @@ fi
 
 
 # 2016 data
-#run data_2016B_Prompt_ee_v1
-#run data_2016B_Prompt_mm_v1
-#run data_2016B_Prompt_ee_v2
+run data_2016B_Prompt_ee_v1
+run data_2016B_Prompt_mm_v1
+run data_2016B_Prompt_ee_v2
 #run data_2016B_Prompt_mm_v2
-#run data_2016B_Prompt_em
-#run data_2016B_Prompt_ph
+#run data_2016B_Prompt_em_v1
+#run data_2016B_Prompt_em_v2
+run data_2016B_Prompt_ph_v1
+#run data_2016B_Prompt_ph_v2
 
 # # 2016 MC
 
