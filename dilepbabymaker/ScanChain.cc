@@ -27,6 +27,7 @@
 #include "../CORE/VertexSelections.h"
 #include "../CORE/MCSelections.h"
 #include "../CORE/MetSelections.h"
+#include "../CORE/SimPa.h"
 #include "../CORE/Tools/jetcorr/FactorizedJetCorrector.h"
 #include "../CORE/Tools/JetCorrector.h"
 #include "../CORE/Tools/jetcorr/JetCorrectionUncertainty.h"
@@ -762,8 +763,24 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		float dPhill = acos( cos( lep_p4.at(hyp_indices.first).phi() - lep_p4.at(hyp_indices.second).phi() ) );
 		dRll = sqrt(pow( dEtall, 2) + pow( dPhill, 2));
 		
-	  }else{
+	  }else if( ngamma > 0 ) {// here are the photon only variables
 		evt_type = 2; // photon + jets event
+
+		//start from here
+		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = returnDecayProducts( gamma_p4.at(0) );
+		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
+		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
+
+		mt2 = 0;
+		if( abs(decayedphoton_lep1_p4.eta()) < 2.4 && abs(decayedphoton_lep2_p4.eta()) < 2.4  ){
+		  if( (abs(decayedphoton_lep1_p4.eta()) < 1.4 || abs(decayedphoton_lep1_p4.eta()) > 1.6) &&
+			  (abs(decayedphoton_lep2_p4.eta()) < 1.4 || abs(decayedphoton_lep2_p4.eta()) > 1.6) ){
+			mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
+		  }
+		}
+		
+	  }else{
+		continue; // leftovers
 	  }
        	  
 	  if (verbose) cout << "before jets" << endl;
@@ -1618,6 +1635,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("met_T1CHS_miniAOD_CORE_dn_pt"      , &met_T1CHS_miniAOD_CORE_dn_pt      );
   BabyTree_->Branch("met_T1CHS_miniAOD_CORE_dn_phi"     , &met_T1CHS_miniAOD_CORE_dn_phi     );
 
+  BabyTree_->Branch("decayedphoton_lep1_p4", &decayedphoton_lep1_p4 );
+  BabyTree_->Branch("decayedphoton_lep2_p4", &decayedphoton_lep2_p4 );
   
   BabyTree_->Branch("hyp_type", &hyp_type);
   BabyTree_->Branch("evt_type", &evt_type);
@@ -1921,6 +1940,9 @@ void babyMaker::InitBabyNtuple () {
   met_T1CHS_miniAOD_CORE_up_phi = -999;
   met_T1CHS_miniAOD_CORE_dn_pt  = -999;
   met_T1CHS_miniAOD_CORE_dn_phi = -999;
+
+  decayedphoton_lep1_p4 = LorentzVector(0,0,0,0);
+  decayedphoton_lep2_p4 = LorentzVector(0,0,0,0);
 
   mass_gluino = -999;
   mass_LSP    = -999;
