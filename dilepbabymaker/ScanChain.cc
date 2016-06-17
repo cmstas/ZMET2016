@@ -62,7 +62,12 @@ inline bool sortByPt(const LorentzVector &vec1, const LorentzVector &vec2 ) {
   return vec1.pt() > vec2.pt();
 }
 
-//--------------------------------------------------------------------
+// This is meant to be passed as the third argument, the predicate, of the standard library sort algorithm
+inline bool sortByValue(const std::pair<int,float>& pair1, const std::pair<int,float>& pair2 ) {
+  return pair1.second > pair2.second;
+}
+ 
+ //--------------------------------------------------------------------
 
 void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
@@ -516,8 +521,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  }
 
       //LEPTONS
-      std::map<float, int> lep_pt_ordering;
-      vector<float>vec_lep_pt;
+	  std::vector<std::pair<int, float> > lep_pt_ordering;
+	  vector<float>vec_lep_pt;
       vector<float>vec_lep_eta;
       vector<float>vec_lep_phi;
       vector<float>vec_lep_mass;
@@ -555,7 +560,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
         nElectrons10++;
 
 		if( cms3.els_p4().at(iEl).pt() > 10.0 ){
-		  lep_pt_ordering[cms3.els_p4().at(iEl).pt()] = nlep;
+		  lep_pt_ordering	   .push_back( std::pair<int, float>(nlep, cms3.els_p4().at(iEl).pt()));
 		  vec_lep_p4s          .push_back( cms3.els_p4().at(iEl)           );
 		  vec_lep_pt           .push_back( cms3.els_p4().at(iEl).pt()      );
 		  vec_lep_eta          .push_back( cms3.els_p4().at(iEl).eta()     ); //save eta, even though we use SCeta for ID
@@ -570,20 +575,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
 		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
 
-		  // if( !isData){
 		  if (!isData && (cms3.els_mc3dr().at(iEl) < 0.2 && cms3.els_mc3idx().at(iEl) != -9999 && abs(cms3.els_mc3_id().at(iEl)) == 11 )) { // matched to a prunedGenParticle electron?
 			  int momid =  abs(genPart_motherId[cms3.els_mc3idx().at(iEl)]);
 			  vec_lep_mcMatchId.push_back ( momid != 11 ? momid : genPart_grandmaId[cms3.els_mc3idx().at(iEl)]); // if mother is different store mother, otherwise store grandmother
 			}
 			else{ vec_lep_mcMatchId.push_back (0);}
-		  // }
 		  
 		  vec_lep_lostHits.push_back ( cms3.els_exp_innerlayers().at(iEl)); //cms2.els_lost_pixelhits().at(iEl);
 		  vec_lep_convVeto.push_back ( !cms3.els_conv_vtx_flag().at(iEl));
 		  vec_lep_tightCharge.push_back ( tightChargeEle(iEl));
 
 		  nlep++;
-		  // if( cms3.els_p4().at(iEl).pt() < 20.0 ) continue;
 		}
 
 		if( cms3.els_p4().at(iEl).pt() > 20.0 ){
@@ -607,7 +609,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		
 		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
-		  lep_pt_ordering[cms3.mus_p4().at(iMu).pt()] = nlep;
+ 		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
 		  vec_lep_p4s          .push_back ( cms3.mus_p4().at(iMu)                       );
 		  vec_lep_pt           .push_back ( cms3.mus_p4().at(iMu).pt()                  );
 		  vec_lep_eta          .push_back ( cms3.mus_p4().at(iMu).eta()                 );
@@ -622,13 +624,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()                 );
 		  vec_lep_MVA          .push_back ( -99                                         );
 
-		  // if( !isData){
 		  if (!isData && (cms3.mus_mc3dr().at(iMu) < 0.2 && cms3.mus_mc3idx().at(iMu) != -9999 && abs(cms3.mus_mc3_id().at(iMu)) == 13 )) { // matched to a prunedGenParticle electron?
 			int momid =  abs(genPart_motherId[cms3.mus_mc3idx().at(iMu)]);
 			vec_lep_mcMatchId.push_back ( momid != 13 ? momid : genPart_grandmaId[cms3.mus_mc3idx().at(iMu)]); // if mother is different store mother, otherwise store grandmother
 		  }
 		  else vec_lep_mcMatchId.push_back (0);
-		  // }
 
 		  vec_lep_lostHits.push_back ( cms3.mus_exp_innerlayers().at(iMu)); // use defaults as if "good electron"
 		  vec_lep_convVeto.push_back ( 1);// use defaults as if "good electron"
@@ -636,7 +636,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		  nlep++;
 
-		  // if( cms3.mus_p4().at(iMu).pt() < 20.0 ) continue;
 		}
 
 		if( cms3.mus_p4().at(iMu).pt() > 20.0 ){
@@ -650,24 +649,25 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       // Implement pT ordering for leptons (it's irrelevant but easier for us to add than for ETH to remove)
       //now fill arrays from vectors, isotracks with largest pt first
       int i = 0;
-      for(std::map<float, int>::reverse_iterator it = lep_pt_ordering.rbegin(); it!= lep_pt_ordering.rend(); ++it){
-		lep_p4           .push_back( vec_lep_p4s          .at(it->second));
-		lep_pt           .push_back( vec_lep_pt           .at(it->second));
-		lep_eta          .push_back( vec_lep_eta          .at(it->second));
-		lep_phi          .push_back( vec_lep_phi          .at(it->second));
-		lep_mass         .push_back( vec_lep_mass         .at(it->second));
-		lep_charge       .push_back( vec_lep_charge       .at(it->second));
-		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->second));
-		lep_dz           .push_back( vec_lep_dz           .at(it->second));
-		lep_dxy          .push_back( vec_lep_dxy          .at(it->second));
-        lep_etaSC        .push_back( vec_lep_etaSC        .at(it->second));
-		lep_tightId      .push_back( vec_lep_tightId      .at(it->second));
-		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->second));
-		lep_mcMatchId    .push_back( vec_lep_mcMatchId    .at(it->second));
-		lep_lostHits     .push_back( vec_lep_lostHits     .at(it->second));
-		lep_convVeto     .push_back( vec_lep_convVeto     .at(it->second));
-		lep_tightCharge  .push_back( vec_lep_tightCharge  .at(it->second));
-		lep_MVA          .push_back( vec_lep_MVA          .at(it->second));
+      std::sort(lep_pt_ordering.begin(), lep_pt_ordering.end(), sortByValue);
+      for(std::vector<std::pair<int, float> >::iterator it = lep_pt_ordering.begin(); it!= lep_pt_ordering.end(); ++it){
+		lep_p4           .push_back( vec_lep_p4s          .at(it->first));
+		lep_pt           .push_back( vec_lep_pt           .at(it->first));
+		lep_eta          .push_back( vec_lep_eta          .at(it->first));
+		lep_phi          .push_back( vec_lep_phi          .at(it->first));
+		lep_mass         .push_back( vec_lep_mass         .at(it->first));
+		lep_charge       .push_back( vec_lep_charge       .at(it->first));
+		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->first));
+		lep_dz           .push_back( vec_lep_dz           .at(it->first));
+		lep_dxy          .push_back( vec_lep_dxy          .at(it->first));
+		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->first));
+		lep_tightId      .push_back( vec_lep_tightId      .at(it->first));
+		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->first));
+		lep_mcMatchId    .push_back( vec_lep_mcMatchId    .at(it->first));
+		lep_lostHits     .push_back( vec_lep_lostHits     .at(it->first));
+		lep_convVeto     .push_back( vec_lep_convVeto     .at(it->first));
+		lep_tightCharge  .push_back( vec_lep_tightCharge  .at(it->first));
+		lep_MVA          .push_back( vec_lep_MVA          .at(it->first));
 		i++;
       }
         
