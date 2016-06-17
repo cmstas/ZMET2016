@@ -14,7 +14,7 @@
 typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 
 // Generated with the command
-// makeCMS3ClassFiles("chain files", "t", "ZMET", "ZMet", "zmet")
+// makeCMS3ClassFiles("", "t", "ZMET", "ZMet", "zmet")
 
 using namespace std; 
 class ZMET {
@@ -732,6 +732,12 @@ protected:
 	float	met_T1CHS_miniAOD_CORE_dn_phi_;
 	TBranch *met_T1CHS_miniAOD_CORE_dn_phi_branch;
 	bool met_T1CHS_miniAOD_CORE_dn_phi_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *decayedphoton_lep1_p4_;
+	TBranch *decayedphoton_lep1_p4_branch;
+	bool decayedphoton_lep1_p4_isLoaded;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > *decayedphoton_lep2_p4_;
+	TBranch *decayedphoton_lep2_p4_branch;
+	bool decayedphoton_lep2_p4_isLoaded;
 	int	hyp_type_;
 	TBranch *hyp_type_branch;
 	bool hyp_type_isLoaded;
@@ -988,6 +994,8 @@ void LoadAllBranches();
 	const float &met_T1CHS_miniAOD_CORE_up_phi();
 	const float &met_T1CHS_miniAOD_CORE_dn_pt();
 	const float &met_T1CHS_miniAOD_CORE_dn_phi();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_lep1_p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_lep2_p4();
 	const int &hyp_type();
 	const int &evt_type();
 	const int &mass_gluino();
@@ -1239,6 +1247,8 @@ namespace ZMet {
 	const float &met_T1CHS_miniAOD_CORE_up_phi();
 	const float &met_T1CHS_miniAOD_CORE_dn_pt();
 	const float &met_T1CHS_miniAOD_CORE_dn_phi();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_lep1_p4();
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_lep2_p4();
 	const int &hyp_type();
 	const int &evt_type();
 	const int &mass_gluino();

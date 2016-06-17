@@ -218,7 +218,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		}		
 	  }
 
-	  else if( TString(currentFile->GetTitle()).Contains("80MiniAODv1") ){
+	  else if( TString(currentFile->GetTitle()).Contains("80MiniAODv") ){
 		// files for 80X MC
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L2Relative_AK4PFchs.txt"  );
@@ -226,11 +226,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_Uncertainty_AK4PFchs.txt" );
 	  }
 		
-	  else if( TString(currentFile->GetTitle()).Contains("Run2016B") ){
+	  else if( TString(currentFile->GetTitle()).Contains("Run2016") ){
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L2Relative_AK4PFchs.txt"  );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L3Absolute_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L2L3Residual_AK4PFchs.txt");
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV3_DATA_L2L3Residual_AK4PFchs.txt");
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_Uncertainty_AK4PFchs.txt" );
 	  }
 

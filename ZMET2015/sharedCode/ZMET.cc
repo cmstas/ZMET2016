@@ -37,6 +37,16 @@ void ZMET::Init(TTree *tree) {
 		jets_up_p4_branch = tree->GetBranch("jets_up_p4");
 		if (jets_up_p4_branch) {jets_up_p4_branch->SetAddress(&jets_up_p4_);}
 	}
+	decayedphoton_lep1_p4_branch = 0;
+	if (tree->GetBranch("decayedphoton_lep1_p4") != 0) {
+		decayedphoton_lep1_p4_branch = tree->GetBranch("decayedphoton_lep1_p4");
+		if (decayedphoton_lep1_p4_branch) {decayedphoton_lep1_p4_branch->SetAddress(&decayedphoton_lep1_p4_);}
+	}
+	decayedphoton_lep2_p4_branch = 0;
+	if (tree->GetBranch("decayedphoton_lep2_p4") != 0) {
+		decayedphoton_lep2_p4_branch = tree->GetBranch("decayedphoton_lep2_p4");
+		if (decayedphoton_lep2_p4_branch) {decayedphoton_lep2_p4_branch->SetAddress(&decayedphoton_lep2_p4_);}
+	}
   tree->SetMakeClass(1);
 	run_branch = 0;
 	if (tree->GetBranch("run") != 0) {
@@ -1456,6 +1466,8 @@ void ZMET::GetEntry(unsigned int idx)
 		met_T1CHS_miniAOD_CORE_up_phi_isLoaded = false;
 		met_T1CHS_miniAOD_CORE_dn_pt_isLoaded = false;
 		met_T1CHS_miniAOD_CORE_dn_phi_isLoaded = false;
+		decayedphoton_lep1_p4_isLoaded = false;
+		decayedphoton_lep2_p4_isLoaded = false;
 		hyp_type_isLoaded = false;
 		evt_type_isLoaded = false;
 		mass_gluino_isLoaded = false;
@@ -1703,6 +1715,8 @@ void ZMET::LoadAllBranches()
 	if (met_T1CHS_miniAOD_CORE_up_phi_branch != 0) met_T1CHS_miniAOD_CORE_up_phi();
 	if (met_T1CHS_miniAOD_CORE_dn_pt_branch != 0) met_T1CHS_miniAOD_CORE_dn_pt();
 	if (met_T1CHS_miniAOD_CORE_dn_phi_branch != 0) met_T1CHS_miniAOD_CORE_dn_phi();
+	if (decayedphoton_lep1_p4_branch != 0) decayedphoton_lep1_p4();
+	if (decayedphoton_lep2_p4_branch != 0) decayedphoton_lep2_p4();
 	if (hyp_type_branch != 0) hyp_type();
 	if (evt_type_branch != 0) evt_type();
 	if (mass_gluino_branch != 0) mass_gluino();
@@ -4791,6 +4805,32 @@ void ZMET::LoadAllBranches()
 		}
 		return met_T1CHS_miniAOD_CORE_dn_phi_;
 	}
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ZMET::decayedphoton_lep1_p4()
+	{
+		if (not decayedphoton_lep1_p4_isLoaded) {
+			if (decayedphoton_lep1_p4_branch != 0) {
+				decayedphoton_lep1_p4_branch->GetEntry(index);
+			} else { 
+				printf("branch decayedphoton_lep1_p4_branch does not exist!\n");
+				exit(1);
+			}
+			decayedphoton_lep1_p4_isLoaded = true;
+		}
+		return *decayedphoton_lep1_p4_;
+	}
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ZMET::decayedphoton_lep2_p4()
+	{
+		if (not decayedphoton_lep2_p4_isLoaded) {
+			if (decayedphoton_lep2_p4_branch != 0) {
+				decayedphoton_lep2_p4_branch->GetEntry(index);
+			} else { 
+				printf("branch decayedphoton_lep2_p4_branch does not exist!\n");
+				exit(1);
+			}
+			decayedphoton_lep2_p4_isLoaded = true;
+		}
+		return *decayedphoton_lep2_p4_;
+	}
 	const int &ZMET::hyp_type()
 	{
 		if (not hyp_type_isLoaded) {
@@ -5115,6 +5155,8 @@ namespace ZMet {
 	const float &met_T1CHS_miniAOD_CORE_up_phi() { return zmet.met_T1CHS_miniAOD_CORE_up_phi(); }
 	const float &met_T1CHS_miniAOD_CORE_dn_pt() { return zmet.met_T1CHS_miniAOD_CORE_dn_pt(); }
 	const float &met_T1CHS_miniAOD_CORE_dn_phi() { return zmet.met_T1CHS_miniAOD_CORE_dn_phi(); }
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_lep1_p4() { return zmet.decayedphoton_lep1_p4(); }
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_lep2_p4() { return zmet.decayedphoton_lep2_p4(); }
 	const int &hyp_type() { return zmet.hyp_type(); }
 	const int &evt_type() { return zmet.evt_type(); }
 	const int &mass_gluino() { return zmet.mass_gluino(); }
