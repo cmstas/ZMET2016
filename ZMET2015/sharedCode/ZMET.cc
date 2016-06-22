@@ -47,6 +47,11 @@ void ZMET::Init(TTree *tree) {
 		decayedphoton_lep2_p4_branch = tree->GetBranch("decayedphoton_lep2_p4");
 		if (decayedphoton_lep2_p4_branch) {decayedphoton_lep2_p4_branch->SetAddress(&decayedphoton_lep2_p4_);}
 	}
+	decayedphoton_bosn_p4_branch = 0;
+	if (tree->GetBranch("decayedphoton_bosn_p4") != 0) {
+		decayedphoton_bosn_p4_branch = tree->GetBranch("decayedphoton_bosn_p4");
+		if (decayedphoton_bosn_p4_branch) {decayedphoton_bosn_p4_branch->SetAddress(&decayedphoton_bosn_p4_);}
+	}
   tree->SetMakeClass(1);
 	run_branch = 0;
 	if (tree->GetBranch("run") != 0) {
@@ -1198,6 +1203,11 @@ void ZMET::Init(TTree *tree) {
 		met_T1CHS_miniAOD_CORE_dn_phi_branch = tree->GetBranch("met_T1CHS_miniAOD_CORE_dn_phi");
 		if (met_T1CHS_miniAOD_CORE_dn_phi_branch) {met_T1CHS_miniAOD_CORE_dn_phi_branch->SetAddress(&met_T1CHS_miniAOD_CORE_dn_phi_);}
 	}
+	decayedphoton_mt2_branch = 0;
+	if (tree->GetBranch("decayedphoton_mt2") != 0) {
+		decayedphoton_mt2_branch = tree->GetBranch("decayedphoton_mt2");
+		if (decayedphoton_mt2_branch) {decayedphoton_mt2_branch->SetAddress(&decayedphoton_mt2_);}
+	}
 	hyp_type_branch = 0;
 	if (tree->GetBranch("hyp_type") != 0) {
 		hyp_type_branch = tree->GetBranch("hyp_type");
@@ -1468,6 +1478,8 @@ void ZMET::GetEntry(unsigned int idx)
 		met_T1CHS_miniAOD_CORE_dn_phi_isLoaded = false;
 		decayedphoton_lep1_p4_isLoaded = false;
 		decayedphoton_lep2_p4_isLoaded = false;
+		decayedphoton_bosn_p4_isLoaded = false;
+		decayedphoton_mt2_isLoaded = false;
 		hyp_type_isLoaded = false;
 		evt_type_isLoaded = false;
 		mass_gluino_isLoaded = false;
@@ -1717,6 +1729,8 @@ void ZMET::LoadAllBranches()
 	if (met_T1CHS_miniAOD_CORE_dn_phi_branch != 0) met_T1CHS_miniAOD_CORE_dn_phi();
 	if (decayedphoton_lep1_p4_branch != 0) decayedphoton_lep1_p4();
 	if (decayedphoton_lep2_p4_branch != 0) decayedphoton_lep2_p4();
+	if (decayedphoton_bosn_p4_branch != 0) decayedphoton_bosn_p4();
+	if (decayedphoton_mt2_branch != 0) decayedphoton_mt2();
 	if (hyp_type_branch != 0) hyp_type();
 	if (evt_type_branch != 0) evt_type();
 	if (mass_gluino_branch != 0) mass_gluino();
@@ -4831,6 +4845,32 @@ void ZMET::LoadAllBranches()
 		}
 		return *decayedphoton_lep2_p4_;
 	}
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &ZMET::decayedphoton_bosn_p4()
+	{
+		if (not decayedphoton_bosn_p4_isLoaded) {
+			if (decayedphoton_bosn_p4_branch != 0) {
+				decayedphoton_bosn_p4_branch->GetEntry(index);
+			} else { 
+				printf("branch decayedphoton_bosn_p4_branch does not exist!\n");
+				exit(1);
+			}
+			decayedphoton_bosn_p4_isLoaded = true;
+		}
+		return *decayedphoton_bosn_p4_;
+	}
+	const float &ZMET::decayedphoton_mt2()
+	{
+		if (not decayedphoton_mt2_isLoaded) {
+			if (decayedphoton_mt2_branch != 0) {
+				decayedphoton_mt2_branch->GetEntry(index);
+			} else { 
+				printf("branch decayedphoton_mt2_branch does not exist!\n");
+				exit(1);
+			}
+			decayedphoton_mt2_isLoaded = true;
+		}
+		return decayedphoton_mt2_;
+	}
 	const int &ZMET::hyp_type()
 	{
 		if (not hyp_type_isLoaded) {
@@ -5157,6 +5197,8 @@ namespace ZMet {
 	const float &met_T1CHS_miniAOD_CORE_dn_phi() { return zmet.met_T1CHS_miniAOD_CORE_dn_phi(); }
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_lep1_p4() { return zmet.decayedphoton_lep1_p4(); }
 	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_lep2_p4() { return zmet.decayedphoton_lep2_p4(); }
+	const ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > &decayedphoton_bosn_p4() { return zmet.decayedphoton_bosn_p4(); }
+	const float &decayedphoton_mt2() { return zmet.decayedphoton_mt2(); }
 	const int &hyp_type() { return zmet.hyp_type(); }
 	const int &evt_type() { return zmet.evt_type(); }
 	const int &mass_gluino() { return zmet.mass_gluino(); }

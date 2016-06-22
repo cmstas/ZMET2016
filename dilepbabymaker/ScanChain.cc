@@ -67,7 +67,19 @@ inline bool sortByPt(const LorentzVector &vec1, const LorentzVector &vec2 ) {
 inline bool sortByValue(const std::pair<int,float>& pair1, const std::pair<int,float>& pair2 ) {
   return pair1.second > pair2.second;
 }
- 
+
+int returnBrokenTrigger( string trigname )
+{
+  if( passHLTTriggerPattern(   trigname.c_str() ) ){
+	return
+	  passHLTTriggerPattern(   trigname.c_str() ) >
+	  HLT_prescale(triggerName(trigname.c_str() )) ?
+	  passHLTTriggerPattern(   trigname.c_str() ) :
+	  HLT_prescale(triggerName(trigname.c_str() ));
+  }
+  return false;
+}
+
  //--------------------------------------------------------------------
 
 void babyMaker::ScanChain(TChain* chain, std::string baby_name){
@@ -84,7 +96,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
   // do this once per job
   // const char* json_file = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_snt.txt";
-  const char* json_file = "golden_json_160616_snt.txt";
+  const char* json_file = "golden_json_220616_snt.txt";
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
@@ -347,45 +359,45 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       //TRIGGER
 	  if( isData ){ // NO TRIGGERS IN MC FOR 80X
 	  // for ATLAS cross checks
-		HLT_singleEl =  HLT_prescale(triggerName("HLT_Ele27_WPTight_Gsf_v" )  );
-		HLT_singleMu = (HLT_prescale(triggerName("HLT_IsoMu22_v"           )) ||
-						HLT_prescale(triggerName("HLT_IsoTkMu22_v"         )) ||
-						HLT_prescale(triggerName("HLT_IsoMu24_v"           )) ||
-						HLT_prescale(triggerName("HLT_IsoTkMu24_v"         )) );
+		HLT_singleEl =  passHLTTriggerPattern("HLT_Ele27_WPTight_Gsf_v"   );
+		HLT_singleMu = (passHLTTriggerPattern("HLT_IsoMu22_v"           ) ||
+						passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
+						passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
+						passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) );
        
 		// Double electron
-		HLT_DoubleEl_noiso = HLT_prescale(triggerName( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"    ));
-		HLT_DoubleEl       = HLT_prescale(triggerName( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   )); // prescaled - turned off
-		HLT_DoubleEl_DZ    = HLT_prescale(triggerName( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")); // prescaled
-		HLT_DoubleEl_DZ_2  = HLT_prescale(triggerName( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")); // new
+		HLT_DoubleEl_noiso = passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"    );
+		HLT_DoubleEl       = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ); // prescaled - turned off
+		HLT_DoubleEl_DZ    = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // prescaled
+		HLT_DoubleEl_DZ_2  = passHLTTriggerPattern( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // new
    
 		// electron-muon
-		HLT_MuEG           = (HLT_prescale(triggerName("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )) ||
-							  HLT_prescale(triggerName("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  )) );
-		HLT_MuEG_2         = (HLT_prescale(triggerName("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )) ||
-							  HLT_prescale(triggerName("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  )) ||
-							  HLT_prescale(triggerName("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  )) );
-		HLT_MuEG_noiso     =  HLT_prescale(triggerName("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"               )  );
+		HLT_MuEG           = (passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
+							  passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  ) );
+		HLT_MuEG_2         = (passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
+							  passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  ) ||
+							  passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  ) );
+		HLT_MuEG_noiso     =  passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"                 );
 
 		// Double electron
-		HLT_DoubleMu_noiso    = (HLT_prescale(triggerName( "HLT_Mu27_TkMu8_v"  )) ||
-								 HLT_prescale(triggerName( "HLT_Mu30_TkMu11_v" )) );
-		HLT_DoubleMu          =  HLT_prescale(triggerName( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"   ));
-		HLT_DoubleMu_tk       =  HLT_prescale(triggerName( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" ));
-		HLT_DoubleMu_nonDZ    =  HLT_prescale(triggerName( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"      ));
-		HLT_DoubleMu_tk_nonDZ =  HLT_prescale(triggerName( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"    )); // new unprescaled : use these
-
+		HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                        ) ||
+								 passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                       ) );
+		HLT_DoubleMu          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"   );
+		HLT_DoubleMu_tk       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
+		HLT_DoubleMu_nonDZ    =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"      );
+		HLT_DoubleMu_tk_nonDZ =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"    ); // new unprescaled : use these
 
 		// Single photon
-		HLT_Photon22_R9Id90_HE10_IsoM  = HLT_prescale(triggerName("HLT_Photon22_R9Id90_HE10_IsoM_v" ));
-		HLT_Photon30_R9Id90_HE10_IsoM  = HLT_prescale(triggerName("HLT_Photon30_R9Id90_HE10_IsoM_v" ));
-		HLT_Photon36_R9Id90_HE10_IsoM  = HLT_prescale(triggerName("HLT_Photon36_R9Id90_HE10_IsoM_v" ));
-		HLT_Photon50_R9Id90_HE10_IsoM  = HLT_prescale(triggerName("HLT_Photon50_R9Id90_HE10_IsoM_v" ));
-		HLT_Photon75_R9Id90_HE10_IsoM  = HLT_prescale(triggerName("HLT_Photon75_R9Id90_HE10_IsoM_v" ));
-		HLT_Photon90_R9Id90_HE10_IsoM  = HLT_prescale(triggerName("HLT_Photon90_R9Id90_HE10_IsoM_v" ));
-		HLT_Photon120_R9Id90_HE10_IsoM = HLT_prescale(triggerName("HLT_Photon120_R9Id90_HE10_IsoM_v"));
-		HLT_Photon165_R9Id90_HE10_IsoM = HLT_prescale(triggerName("HLT_Photon165_R9Id90_HE10_IsoM_v"));
-		HLT_Photon165_HE10             = passHLTTriggerPattern   ("HLT_Photon165_HE10_v"             );
+		HLT_Photon22_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon22_R9Id90_HE10_IsoM_v" );
+		HLT_Photon30_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon30_R9Id90_HE10_IsoM_v" );
+		HLT_Photon36_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon36_R9Id90_HE10_IsoM_v" );
+		HLT_Photon50_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon50_R9Id90_HE10_IsoM_v" );
+		HLT_Photon75_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon75_R9Id90_HE10_IsoM_v" );
+		HLT_Photon90_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon90_R9Id90_HE10_IsoM_v" );
+		HLT_Photon120_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon120_R9Id90_HE10_IsoM_v");
+		HLT_Photon165_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon165_R9Id90_HE10_IsoM_v");
+		HLT_Photon165_HE10             = returnBrokenTrigger("HLT_Photon165_HE10_v"            );
+
 	  }
 
 	  
@@ -762,6 +774,29 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		float dEtall =            lep_p4.at(hyp_indices.first).eta() - lep_p4.at(hyp_indices.second).eta();
 		float dPhill = acos( cos( lep_p4.at(hyp_indices.first).phi() - lep_p4.at(hyp_indices.second).phi() ) );
 		dRll = sqrt(pow( dEtall, 2) + pow( dPhill, 2));
+
+		LorentzVector z_pt(lep_p4.at(hyp_indices.first).X()+lep_p4.at(hyp_indices.second).X(),
+						   lep_p4.at(hyp_indices.first).Y()+lep_p4.at(hyp_indices.second).Y(),
+						   lep_p4.at(hyp_indices.first).Z()+lep_p4.at(hyp_indices.second).Z(),
+						   lep_p4.at(hyp_indices.first).E()+lep_p4.at(hyp_indices.second).E());
+
+		//start from here
+		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = returnDecayProducts( z_pt );
+		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
+		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
+		decayedphoton_bosn_p4 =
+		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
+						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
+						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
+						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
+		
+		decayedphoton_mt2 = 0;
+		if( abs(decayedphoton_lep1_p4.eta()) < 2.4 && abs(decayedphoton_lep2_p4.eta()) < 2.4  ){
+		  if( (abs(decayedphoton_lep1_p4.eta()) < 1.4 || abs(decayedphoton_lep1_p4.eta()) > 1.6) &&
+			  (abs(decayedphoton_lep2_p4.eta()) < 1.4 || abs(decayedphoton_lep2_p4.eta()) > 1.6) ){
+			decayedphoton_mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
+		  }
+		}
 		
 	  }else if( ngamma > 0 ) {// here are the photon only variables
 		evt_type = 2; // photon + jets event
@@ -770,12 +805,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = returnDecayProducts( gamma_p4.at(0) );
 		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
 		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
-
-		mt2 = 0;
+		decayedphoton_bosn_p4 =
+		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
+						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
+						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
+						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
+		
+		decayedphoton_mt2 = 0;
 		if( abs(decayedphoton_lep1_p4.eta()) < 2.4 && abs(decayedphoton_lep2_p4.eta()) < 2.4  ){
 		  if( (abs(decayedphoton_lep1_p4.eta()) < 1.4 || abs(decayedphoton_lep1_p4.eta()) > 1.6) &&
 			  (abs(decayedphoton_lep2_p4.eta()) < 1.4 || abs(decayedphoton_lep2_p4.eta()) > 1.6) ){
-			mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
+			decayedphoton_mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
 		  }
 		}
 		
@@ -1184,12 +1224,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
 
 	  // add kinematic variables to do with jets leps and photons here
-	  // MT2J( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, VECT_P4_Jets, MASS_INVISIBLE_PARTICLE, MT2_CALCULATION_METHOD )
-	  mt2  = -1.0;
-	  mt2j = -1.0;
-	  mt2b = -1.0;
+	  if( lep_p4.size() > 1 && evt_type != 2 ){
+		// MT2J( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, VECT_P4_Jets, MASS_INVISIBLE_PARTICLE, MT2_CALCULATION_METHOD )
+		mt2  = -1.0;
+		mt2j = -1.0;
+		mt2b = -1.0;
 
-	  if( lep_p4.size() > 1 ){
 		mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
  	
  		if( jets_p4.size() > 1 ){
@@ -1201,6 +1241,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		}		
 	  }
 
+	  if( evt_type == 2 ){
+		mt2 = decayedphoton_mt2;
+	  }
+	  
 	  // add kinematic variables to do with ewk signal regions
 	  if( jets_p4.size() > 1 ){
 		mjj = (jets_p4.at(0) + jets_p4.at(1)).mass();
@@ -1637,6 +1681,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("decayedphoton_lep1_p4", &decayedphoton_lep1_p4 );
   BabyTree_->Branch("decayedphoton_lep2_p4", &decayedphoton_lep2_p4 );
+  BabyTree_->Branch("decayedphoton_bosn_p4", &decayedphoton_bosn_p4 );
+  BabyTree_->Branch("decayedphoton_mt2"    , &decayedphoton_mt2     );
   
   BabyTree_->Branch("hyp_type", &hyp_type);
   BabyTree_->Branch("evt_type", &evt_type);
@@ -1943,6 +1989,8 @@ void babyMaker::InitBabyNtuple () {
 
   decayedphoton_lep1_p4 = LorentzVector(0,0,0,0);
   decayedphoton_lep2_p4 = LorentzVector(0,0,0,0);
+  decayedphoton_bosn_p4 = LorentzVector(0,0,0,0);
+  decayedphoton_mt2     = -999.9;
 
   mass_gluino = -999;
   mass_LSP    = -999;

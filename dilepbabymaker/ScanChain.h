@@ -372,8 +372,10 @@ class babyMaker {
   Float_t met_T1CHS_miniAOD_CORE_dn_phi;
 
   //----- decayed photon variables
-  LorentzVector   decayedphoton_lep1_p4;
-  LorentzVector   decayedphoton_lep2_p4;
+  LorentzVector decayedphoton_lep1_p4;
+  LorentzVector decayedphoton_lep2_p4;
+  LorentzVector decayedphoton_bosn_p4;
+  Float_t       decayedphoton_mt2;
   
   // SUSY variables
   Int_t mass_gluino;
