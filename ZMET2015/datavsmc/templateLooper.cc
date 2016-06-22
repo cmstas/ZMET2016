@@ -277,7 +277,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 	  
 	  if( sample == "zjetsmlm" ){
-	  	if( !TString(currentFile->GetTitle()).Contains("llht") ){
+	  	if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
 	  	  if( zmet.gen_ht()    > 100 ) continue;
 	  	}
 	  }	
@@ -332,6 +332,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		weight *= zmet.evt_scale1fb();
 	  	if( TString(currentFile->GetTitle()).Contains("t5zz") ){
 		  weight *= 2.11;
+		}
+	  	if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
+		  weight *= 3.545;
 		}
 	  }
 	  

@@ -44,11 +44,17 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   }
 
   else if( sample == "zjetsmlm" ){
-	ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/zjetsll_25ns_m50mlm*.root"  , iter.c_str() ));
-	ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/zjetsllht100_25ns_m50mlm*.root"  , iter.c_str() ));
-	ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/zjetsllht200_25ns_m50mlm*.root"  , iter.c_str() ));
-	ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/zjetsllht400_25ns_m50mlm*.root"  , iter.c_str() ));
-	ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/zjetsllht600_25ns_m50mlm*.root"  , iter.c_str() ));
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/dy_m50_mgmlm_ext1*.root"  , iter.c_str() ));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/dy_m50_mgmlm_ext1.root"  , iter.c_str() ));
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/dy_m50_mgmlm_ext1_1.root"  , iter.c_str() ));
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/dy_m50_mgmlm_ext1_2.root"  , iter.c_str() ));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/dy_m50_mgmlm_ht100_ext1*.root"  , iter.c_str() ));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/dy_m50_mgmlm_ht200_ext1*.root"  , iter.c_str() ));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/dy_m50_mgmlm_ht400_ext1*.root"  , iter.c_str() ));
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/dy_m50_mgmlm_ht600.root"  , iter.c_str() ));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/dy_m50_mgmlm_ht600_ext1*.root"  , iter.c_str() ));
+
+
   }
 
   else if( sample == "zjinc" ){

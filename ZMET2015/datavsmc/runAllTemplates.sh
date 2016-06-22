@@ -12,11 +12,18 @@ fi
 
 
 # 2016
-selection="_inclusive"
-./runTemplateLooper $selection $analysis_version data &
+# selection="_inclusive"
+# ./runTemplateLooper $selection $analysis_version data &
 # ./runTemplateLooper $selection $analysis_version zjets &
 # ./runTemplateLooper $selection $analysis_version ttbar &
 
+# selection="_2jets_inclusive"
+# # ./runTemplateLooper $selection $analysis_version data &
+# ./runTemplateLooper $selection $analysis_version zjetsmlm
+
+selection="_SR_EWK"
+# ./runTemplateLooper $selection $analysis_version data &
+./runTemplateLooper $selection $analysis_version zjetsmlm
 
 #################
 ## for studies ##

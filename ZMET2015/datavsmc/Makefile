@@ -36,11 +36,11 @@ LINKERFLAGS = $(shell root-config --ldflags --libs) -lEG -lGenVector -lTMVA
 
 DIR = ./
 
-SOURCES = templateLooper.cc runTemplateLooper.cc ../../CORE/Tools/dorky/dorky.cc ../../CORE/Tools/goodrun.cc ../../CORE/Tools/badEventFilter.cc
+SOURCES = templateLooper.cc runTemplateLooper.cc ../../CORE/Tools/dorky/dorky.cc ../../CORE/Tools/goodrun.cc ../../CORE/Tools/badEventFilter.cc ../../CORE/SimPa.cc
 OBJECTS = $(SOURCES:.cc=.o)
 LIB = libTemplateLooper.so
 
-SHAREDSOURCES = $(wildcard ../sharedCode/*.cc)
+SHAREDSOURCES = $(wildcard ../sharedCode/*.cc) $(wildcard ../../CORE/Tools/MT2/*.cc)
 SHAREDOBJECTS = $(SHAREDSOURCES:.cc=.o) 
 SHAREDLIB = libSharedCode.so
 

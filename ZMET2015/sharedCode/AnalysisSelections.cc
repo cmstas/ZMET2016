@@ -13,8 +13,9 @@
 #include "AnalysisSelections.h"
 #include "histTools.h"
 #include "ZMET.h"
-#include "SimPa.h"
+// #include "SimPa.h"
 
+#include "../../CORE/SimPa.h"
 #include "../../CORE/Tools/MT2/MT2.h"
 #include "../../CORE/Tools/MT2/MT2Utility.h"
 
@@ -206,28 +207,28 @@ bool passSignalRegionSelection( string selection )
 	}
   }
 
-  //splitting the photon for MT2
-  // Particle(Float_t pt, Float_t eta, Float_t phi, Float_t mass, Float_t width_);
-  //   //A test Z boson with pt = 100 GeV, eta = 0, phi = 0, mass 91.2GeV, and width 2 GeV
-  Particle lepton1(0, 0, 0, 0, 0);
-  Particle lepton2(0, 0, 0, 0, 0);
+  // //splitting the photon for MT2
+  // // Particle(Float_t pt, Float_t eta, Float_t phi, Float_t mass, Float_t width_);
+  // //   //A test Z boson with pt = 100 GeV, eta = 0, phi = 0, mass 91.2GeV, and width 2 GeV
+  // Particle lepton1(0, 0, 0, 0, 0);
+  // Particle lepton2(0, 0, 0, 0, 0);
 
-  LorentzVector lep1_p4(0,0,0,0);
-  LorentzVector lep2_p4(0,0,0,0);
+  // LorentzVector lep1_p4(0,0,0,0);
+  // LorentzVector lep2_p4(0,0,0,0);
 
-  if( zmet.evt_type() == 2 && zmet.ngamma() > 0 ){
+  // if( zmet.evt_type() == 2 && zmet.ngamma() > 0 ){
 
-	Particle iphoton(0, 0, 0, 0, 0);  
-	iphoton = Particle(zmet.gamma_p4().at(0).pt(), zmet.gamma_p4().at(0).eta(), zmet.gamma_p4().at(0).phi(), 91, 2);
+  // 	Particle iphoton(0, 0, 0, 0, 0);  
+  // 	iphoton = Particle(zmet.gamma_p4().at(0).pt(), zmet.gamma_p4().at(0).eta(), zmet.gamma_p4().at(0).phi(), 91, 2);
 
-	TRandom3 ran(0);   
-	ProduceDecay(ran, &iphoton, &lepton1, &lepton2, 0.001, 0.001); 
+  // 	TRandom3 ran(0);   
+  // 	ProduceDecay(ran, &iphoton, &lepton1, &lepton2, 0.001, 0.001); 
 
-	lep1_p4.SetPx( lepton1.p.X()); lep1_p4.SetPy( lepton1.p.Y()); lep1_p4.SetPz( lepton1.p.Z()); lep1_p4.SetE ( lepton1.p.E());
-	lep2_p4.SetPx( lepton2.p.X()); lep2_p4.SetPy( lepton2.p.Y()); lep2_p4.SetPz( lepton2.p.Z()); lep2_p4.SetE ( lepton2.p.E());
+  // 	lep1_p4.SetPx( lepton1.p.X()); lep1_p4.SetPy( lepton1.p.Y()); lep1_p4.SetPz( lepton1.p.Z()); lep1_p4.SetE ( lepton1.p.E());
+  // 	lep2_p4.SetPx( lepton2.p.X()); lep2_p4.SetPy( lepton2.p.Y()); lep2_p4.SetPz( lepton2.p.Z()); lep2_p4.SetE ( lepton2.p.E());
 
-	// cout<<MT2( event_met_pt, event_met_ph, lep1_p4, lep2_p4, 0.0, false )<<endl;
-  }
+  // 	// cout<<MT2( event_met_pt, event_met_ph, lep1_p4, lep2_p4, 0.0, false )<<endl;
+  // }
 
   int jetind_lowdRgamma = -99;
   float mindR = 5.0;
@@ -270,16 +271,32 @@ bool passSignalRegionSelection( string selection )
 										   ( acos( cos( event_met_ph - zmet.jets_p4().at(1).phi() ) ) > 0.4  ) ) ) )
 		  )return false; //ATLAS run I SR
 
+	  std::pair<LorentzVector, LorentzVector> lepsFromDecayedZ;
+	  if( zmet.evt_type() == 0 && ( zmet.nlep() == 2) ){
+		LorentzVector z_p4(zmet.lep_p4().at(0).X()+zmet.lep_p4().at(1).X(),
+						   zmet.lep_p4().at(0).Y()+zmet.lep_p4().at(1).Y(),
+						   zmet.lep_p4().at(0).Z()+zmet.lep_p4().at(1).Z(),
+						   zmet.lep_p4().at(0).E()+zmet.lep_p4().at(1).E());
+		lepsFromDecayedZ = returnDecayProducts( z_p4 );
+	  }
+	  
 	  if( TString(selection).Contains("SR_EWK" ) && 
-		  !( ( ( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && zmet.mt2() > 80         ) ) || // dilep cuts
+		  !( (
+			  // ( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && zmet.mt2() > 80         ) ) || // dilep cuts
+			  ( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && MT2( event_met_pt, event_met_ph, lepsFromDecayedZ.first, lepsFromDecayedZ.second, 0.0, false ) > 80         ) ) || // dilep cuts
 			  // ( zmet.evt_type() == 2 && ( MT2( event_met_pt, event_met_ph, zmet.gamma_p4().at(0), zmet.jets_p4().at(jetind_lowdRgamma), 0.0, false ) > 80 && zmet.njets() > 2) ) ) && // photon+jets cuts
 			  ( zmet.evt_type() == 2 &&
-				( ( abs(lep1_p4.eta()) < 2.4 && abs(lep2_p4.eta()) < 2.4 ) &&
-				  ( ( abs(lep1_p4.eta()) < 1.4 || abs(lep1_p4.eta()) > 1.6 ) &&
-					( abs(lep2_p4.eta()) < 1.4 || abs(lep2_p4.eta()) > 1.6 ) ) &&
-				  MT2( event_met_pt, event_met_ph, lep1_p4, lep2_p4, 0.0, false ) > 80 ) ) ) && // photon+jets cuts
+				( ( abs(zmet.decayedphoton_lep1_p4().eta()) < 2.4 && abs(zmet.decayedphoton_lep2_p4().eta()) < 2.4 ) &&
+				  ( ( abs(zmet.decayedphoton_lep1_p4().eta()) < 1.4 || abs(zmet.decayedphoton_lep1_p4().eta()) > 1.6 ) &&
+					( abs(zmet.decayedphoton_lep2_p4().eta()) < 1.4 || abs(zmet.decayedphoton_lep2_p4().eta()) > 1.6 ) ) &&
+				  MT2( event_met_pt, event_met_ph, zmet.decayedphoton_lep1_p4(), zmet.decayedphoton_lep2_p4(), 0.0, false ) > 80 ) ) ) && // photon+jets cuts
+			 // ( ( abs(lep1_p4.eta()) < 2.4 && abs(lep2_p4.eta()) < 2.4 ) &&
+			 //   ( ( abs(lep1_p4.eta()) < 1.4 || abs(lep1_p4.eta()) > 1.6 ) &&
+			 // 	( abs(lep2_p4.eta()) < 1.4 || abs(lep2_p4.eta()) > 1.6 ) ) &&
+			 //   MT2( event_met_pt, event_met_ph, lep1_p4, lep2_p4, 0.0, false ) > 80 ) ) ) && // photon+jets cuts
 			 ( zmet.njets() > 1 && zmet.nBJetMedium() == 0 && zmet.dphi_metj1() > 1.0 ) ) // common cuts
 		  )return false; 
+
 	  if( TString(selection).Contains("SR_ZH" ) && 
 		  !( (( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && zmet.mt2b() > 200                          ) ) || // dilep cuts
 			  ( zmet.evt_type() == 2                                                                     ) ) && // photon+jets cuts

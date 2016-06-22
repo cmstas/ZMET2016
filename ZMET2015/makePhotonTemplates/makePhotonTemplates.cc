@@ -29,7 +29,7 @@ using namespace std;
 using namespace duplicate_removal;
 
 const bool debug = false;
-const bool usejson = true;
+const bool usejson = false;
 bool dovtxreweighting = false;
 bool dovtxreweightingformc = false;
 
@@ -133,7 +133,7 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
   // const char* json_file = "/home/users/cwelke/analysis2015/CMSSW_7_4_7_patch2_dilepbabymaker/V07-04-10/json/json_150pb_141015_sntformat.txt";
 
   // const char* json_file = "/home/users/olivito/mt2_74x_dev/MT2Analysis/babymaker/jsons/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 1.3 fb
-  const char* json_file = "/nfs-3/userdata/cwelke/analysis/CMSSW_7_4_14/V07-04-13/ZMET2015/datavsmc/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 2.1 fb-1
+  const char* json_file = "../../json/golden_json_160616_snt.txt"; // 2.1 fb-1
 
   set_goodrun_file(json_file);
 
@@ -285,8 +285,8 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 	  }
 
 	  // define "global" event variables
-	  float event_met_pt = zmet.met_pt();
-	  float event_met_ph = zmet.met_phi();
+	  float event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
+	  float event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
 
 	  if( zmet.isData() ){
 		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
@@ -311,7 +311,6 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 	  // if( zmet.isData() && zmet.met_rawPt() < 0.1 ) continue;
 	  
 	  // everything after this is template specific
-	  if( evt_njets < 2 ) continue;	  	  
 	  if( !passSignalRegionSelection(selection) ) continue;
 	  if( !passMETFilters() ) continue;
 
@@ -358,8 +357,12 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 	  	// else if( ( !zmet.isData() && zmet.gamma_pt().at(0) > 25  ) || passPhotonTrigger22()  ) weight *= h_vtxweight_22  ->GetBinContent(h_vtxweight_22  ->FindBin(zmet.nVert()));
 	  }
 
-
-	  
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht100") ){weight *= 3.905;}
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht200") ){weight *= 17.33;}
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht400") ){weight *= 6.327;}
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht40_") ){weight *= 2.508;}
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht600") ){weight *= 8.194;}
+		
 	  // if( TString(selection).Contains("SR_ATLAS") ) fillHist( "event", "htgt1jets", "passtrig", zmet.gamma_pt().at(0) + evt_ht, weight ); // this is for HT reweighting
 	  // else                                          fillHist( "event", "htgt1jets", "passtrig", zmet.gamma_pt().at(0)         , weight ); // this is for HT reweighting
 
@@ -394,7 +397,7 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 		if( !zmet.isData() && btagcount > 0 ) {
 		  bool hasrealb = false;
 		  for( int jetind = 0; jetind < zmet.njets(); jetind++ ){
-			if( abs(zmet.jet_mcFlavour().at(jetind)) == 5 ) hasrealb = true;
+			if( abs(zmet.jets_mcFlavour().at(jetind)) == 5 ) hasrealb = true;
 			if( hasrealb ) break;
 		  }		
 
