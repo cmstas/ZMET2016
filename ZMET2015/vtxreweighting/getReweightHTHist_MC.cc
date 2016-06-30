@@ -29,8 +29,8 @@ void getReweightHTHist_MC( string signalregion )
   // TFile * f_data = TFile::Open(Form("../output/V07-04-13/zjetsmlm_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");
   // TFile * f_phot = TFile::Open(Form("../output/V07-04-13/All_MC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");  
 
-  TFile * f_data = TFile::Open(Form("../output/V07-04-13_fixedleptons/zjetsmlm_%s_hists.root", signalregion.c_str() )   , "READ");
-  TFile * f_phot = TFile::Open(Form("../output/V07-04-13_fixedleptons/All_MC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");  
+  TFile * f_data = TFile::Open(Form("../output/V08-07-00/zjetsmlm_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");
+  TFile * f_phot = TFile::Open(Form("../output/V08-07-00/All_MC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");  
 
   TH1F * h_data = NULL;
   TH1F * h_data_em = NULL;
@@ -80,16 +80,16 @@ void getReweightHTHist_MC( string signalregion )
   h_phot_120 = (TH1F*) h_phot_120->Rebin(nbins, "h_phot_120_rebinned", bins);
   h_phot_165 = (TH1F*) h_phot_165->Rebin(nbins, "h_phot_165_rebinned", bins);
 
-  // h_data    ->Rebin(25);
-  // h_phot    ->Rebin(25);
-  // h_phot_22 ->Rebin(25);
-  // h_phot_30 ->Rebin(25);
-  // h_phot_36 ->Rebin(25);
-  // h_phot_50 ->Rebin(25);
-  // h_phot_75 ->Rebin(25);
-  // h_phot_90 ->Rebin(25);
-  // h_phot_120->Rebin(25);
-  // h_phot_165->Rebin(25);
+  // h_data    ->Rebin(20);
+  // h_phot    ->Rebin(20);
+  // h_phot_22 ->Rebin(20);
+  // h_phot_30 ->Rebin(20);
+  // h_phot_36 ->Rebin(20);
+  // h_phot_50 ->Rebin(20);
+  // h_phot_75 ->Rebin(20);
+  // h_phot_90 ->Rebin(20);
+  // h_phot_120->Rebin(20);
+  // h_phot_165->Rebin(20);
 
   h_phot->Scale(1./h_phot->GetSumOfWeights());
   h_data->Scale(1./h_data->GetSumOfWeights());
@@ -325,6 +325,16 @@ void getReweightScheme(vector <double> &binning, string selection )
 	// binning.push_back(1300);
 	// binning.push_back(1400);
 	// binning.push_back(1500);
+	binning.push_back(3000);
+  }
+
+  else if( TString(selection).Contains("SR_EWK") ){
+	binning.push_back(0);
+	binning.push_back(75);
+	binning.push_back(100);
+	binning.push_back(125);
+	binning.push_back(150);
+	binning.push_back(200);
 	binning.push_back(3000);
   }
   

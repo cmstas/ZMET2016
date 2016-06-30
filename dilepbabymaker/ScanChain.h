@@ -130,42 +130,52 @@ class babyMaker {
   Float_t         sumet_raw;
   
 //----- MET FILTERS
-  Int_t           Flag_EcalDeadCellTriggerPrimitiveFilter;
-  Int_t           Flag_trkPOG_manystripclus53X;
-  Int_t           Flag_ecalLaserCorrFilter;
-  Int_t           Flag_trkPOG_toomanystripclus53X;
-  Int_t           Flag_hcalLaserEventFilter;
-  Int_t           Flag_trkPOG_logErrorTooManyClusters;
-  Int_t           Flag_trkPOGFilters;
-  Int_t           Flag_trackingFailureFilter;
-  Int_t           Flag_CSCTightHaloFilter;
-  Int_t           Flag_HBHENoiseFilter;
-  Int_t           Flag_HBHEIsoNoiseFilter;
-  Int_t           Flag_goodVertices;
-  Int_t           Flag_eeBadScFilter;
-  Int_t           Flag_METFilters;
+  Int_t Flag_ecalLaserCorrFilter;
+  Int_t Flag_hcalLaserEventFilter;
+  Int_t Flag_trackingFailureFilter;
+  Int_t Flag_CSCTightHaloFilter;
 
-//----- TRIGGER (to be better defined)
-  Int_t           HLT_DoubleEl;   
-  Int_t           HLT_DoubleEl_DZ;   
-  Int_t           HLT_DoubleEl_noiso;   
-  Int_t           HLT_MuEG;   
-  Int_t           HLT_MuEG_noiso;   
-  Int_t           HLT_MuEG_2;   
-  Int_t           HLT_DoubleMu;   
-  Int_t           HLT_DoubleMu_noiso;   
-  Int_t           HLT_DoubleMu_tk;   
-  Int_t           HLT_DoubleMu_nonDZ;   
+  // recommended from twiki
+  Int_t Flag_HBHENoiseFilter                   ;
+  Int_t Flag_HBHEIsoNoiseFilter                ;
+  Int_t Flag_CSCTightHalo2015Filter            ; // check: filt_cscBeamHalo2015
+  Int_t Flag_EcalDeadCellTriggerPrimitiveFilter;
+  Int_t Flag_goodVertices                      ;
+  Int_t Flag_eeBadScFilter                     ;
+  
+  //TRIGGER
+  // for ATLAS cross checks
+  Int_t HLT_singleEl;
+  Int_t HLT_singleMu;
+					  
+  // Double electron
+  Int_t HLT_DoubleEl_noiso;
+  Int_t HLT_DoubleEl      ; // prescaled - turned off
+  Int_t HLT_DoubleEl_DZ   ; // prescaled
+  Int_t HLT_DoubleEl_DZ_2 ; // new
+	  
+  // electron-muon
+  Int_t HLT_MuEG      ;
+  Int_t HLT_MuEG_2    ;
+  Int_t HLT_MuEG_noiso;
 
-  Int_t           HLT_Photon22_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon30_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon36_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon50_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon75_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon90_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon120_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon165_R9Id90_HE10_IsoM;
-  Int_t           HLT_Photon165_HE10;
+  // Double electron
+  Int_t HLT_DoubleMu_noiso   ;
+  Int_t HLT_DoubleMu         ;
+  Int_t HLT_DoubleMu_tk      ;
+  Int_t HLT_DoubleMu_nonDZ   ;
+  Int_t HLT_DoubleMu_tk_nonDZ; // new unprescaled : use these
+
+  // Single photon
+  Int_t HLT_Photon22_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon30_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon36_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon50_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon75_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon90_R9Id90_HE10_IsoM ;
+  Int_t HLT_Photon120_R9Id90_HE10_IsoM;
+  Int_t HLT_Photon165_R9Id90_HE10_IsoM;
+  Int_t HLT_Photon165_HE10            ;
 
   
   //----- LEPTONS
@@ -361,6 +371,12 @@ class babyMaker {
   Float_t met_T1CHS_miniAOD_CORE_dn_pt;
   Float_t met_T1CHS_miniAOD_CORE_dn_phi;
 
+  //----- decayed photon variables
+  LorentzVector decayedphoton_lep1_p4;
+  LorentzVector decayedphoton_lep2_p4;
+  LorentzVector decayedphoton_bosn_p4;
+  Float_t       decayedphoton_mt2;
+  
   // SUSY variables
   Int_t mass_gluino;
   Int_t mass_LSP;

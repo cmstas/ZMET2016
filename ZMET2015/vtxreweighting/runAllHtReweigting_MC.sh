@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# root -b -q "getReweightHTHist_MC.cc+(\"2jets_inclusive\")"
+root -b -q "getReweightHTHist_MC.cc+(\"SR_EWK\")"
 
 # root -b -q "getReweightHTHist_MC.cc+(\"central_twojets\")"
 # root -b -q "getReweightHTHist_MC.cc+(\"central_withb_twojets\")"
@@ -23,4 +25,4 @@
 
 # root -b -q "getReweightHTHist_MC.cc+(\"rawMET_SRA_tailstudy\")"
 # root -b -q "getReweightHTHist_MC.cc+(\"rawMET_SRB_tailstudy\")"
-root -b -q "getReweightHTHist_MC.cc+(\"rawMET_2jets_inclusive_tailstudy\")"
+# root -b -q "getReweightHTHist_MC.cc+(\"rawMET_2jets_inclusive_tailstudy\")"

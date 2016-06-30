@@ -33,7 +33,7 @@ using namespace duplicate_removal;
 const bool debug = false;
 
 const bool usejson              = true;
-const bool dovtxreweighting     = true;
+const bool dovtxreweighting     = false;
 const bool dotemplateprediction = false;
 const bool dotemplatepredictionmc = false;
 
@@ -98,38 +98,38 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   
   bookHistos();
 
-  eventFilter metFilterTxt;
-  if ( TString(sample).Contains("data") ) {
-    cout<<"Loading bad event files ..."<<endl;
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_HTMHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_JetHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MET_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MuonEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleElectron_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SinglePhoton_csc2015.txt");
-    cout<<" ... finished!"<<endl;
-  }
+  // eventFilter metFilterTxt;
+  // if ( TString(sample).Contains("data") ) {
+  //   cout<<"Loading bad event files ..."<<endl;
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleEG_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleMuon_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_HTMHT_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_JetHT_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MET_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MuonEG_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleElectron_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleMuon_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SinglePhoton_csc2015.txt");
+  //   cout<<" ... finished!"<<endl;
+  // }
 
   double npass = 0;
 
@@ -160,7 +160,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
   // which json do you use?
   // const char* json_file = "/home/users/olivito/mt2_74x_dev/MT2Analysis/babymaker/jsons/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 1.3 fb
-  const char* json_file = "Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 2.1 fb
+  // const char* json_file = "Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 2.1 fb
+  const char* json_file = "../../json/DCSONLY_json_160516_snt.txt"; // 2016 data
   
   set_goodrun_file(json_file);
 
@@ -169,10 +170,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   TH1F * h_vtxweight = NULL;
   TFile * f_vtx = NULL;
   if( dovtxreweighting ){
-	// f_vtx = TFile::Open("nvtx_ratio.root","READ");
-	// h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
-	f_vtx = TFile::Open("puWeights_nTrueInt.root","READ");
-	h_vtxweight = (TH1F*)f_vtx->Get("weights")->Clone("h_vtxweight");
+	f_vtx = TFile::Open("nvtx_ratio.root","READ");
+	h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
+	// f_vtx = TFile::Open("puWeights_nTrueInt.root","READ");
+	// h_vtxweight = (TH1F*)f_vtx->Get("weights")->Clone("h_vtxweight");
 	h_vtxweight->SetDirectory(rootdir);
 	f_vtx->Close();
   }
@@ -276,7 +277,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 	  
 	  if( sample == "zjetsmlm" ){
-	  	if( !TString(currentFile->GetTitle()).Contains("llht") ){
+	  	if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
 	  	  if( zmet.gen_ht()    > 100 ) continue;
 	  	}
 	  }	
@@ -332,14 +333,22 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  	if( TString(currentFile->GetTitle()).Contains("t5zz") ){
 		  weight *= 2.11;
 		}
+	  	if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
+		  weight *= 3.545;
+		}
 	  }
 	  
 	  if( !zmet.isData() && dovtxreweighting ){
 	  	// if( !TString(currentFile->GetTitle()).Contains("t5zz") ){
-		  weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nTrueInt()));		
+		  weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nVert()));		
+		  // weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nTrueInt()));		
 		// }
 	  }
 
+	  if( sample == "zjets" ){
+		if( TString(currentFile->GetTitle()).Contains("m50") ) weight *= 14987122./2550912.;
+	  }
+	  
 	  float event_met_pt = zmet.met_pt();
 	  float event_met_ph = zmet.met_phi();
 
@@ -430,10 +439,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  if( !passSignalRegionSelection(selection) ) continue;
 	  if( !passMETFilters() ) continue;
 
-	  if (zmet.isData() && metFilterTxt.eventFails(zmet.run(), zmet.lumi(), zmet.evt())) {
-		//cout<<"Found bad event in data: "<<t.run<<", "<<t.lumi<<", "<<t.evt<<endl;
-		continue;
-      }	  
+	  // if (zmet.isData() && metFilterTxt.eventFails(zmet.run(), zmet.lumi(), zmet.evt())) {
+	  // 	//cout<<"Found bad event in data: "<<t.run<<", "<<t.lumi<<", "<<t.evt<<endl;
+	  // 	continue;
+      // }	  
 	  if( TString(selection).Contains("withtightb") && zmet.nBJetTight() < 1 ) continue;
 	  
 	  //~-~-~-~-~-~-~-~-//
@@ -535,11 +544,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 			  )           ) continue;
 	  }else{
 
-		if( !TString(currentFile->GetTitle()).Contains("t5zz") ){
+		if( !TString(currentFile->GetTitle()).Contains("t5zz") && zmet.isData() ){
 
-		  if( !((( zmet.HLT_DoubleMu()    || zmet.HLT_DoubleMu_tk()   || zmet.HLT_DoubleMu_noiso() ) && zmet.hyp_type() == 1 ) ||
-				(( zmet.HLT_DoubleEl_DZ() || zmet.HLT_DoubleEl_noiso()                             ) && zmet.hyp_type() == 0 ) ||
-				(( zmet.HLT_MuEG()        || zmet.HLT_MuEG_noiso()                                 ) && zmet.hyp_type() == 2 )
+		  if( !((( zmet.HLT_DoubleMu_nonDZ() || zmet.HLT_DoubleMu_tk_nonDZ() || zmet.HLT_DoubleMu_noiso() ) && zmet.hyp_type() == 1 ) ||
+				(( zmet.HLT_DoubleEl_DZ()    || zmet.HLT_DoubleEl_noiso()                                 ) && zmet.hyp_type() == 0 ) ||
+				(( zmet.HLT_MuEG()           || zmet.HLT_MuEG_noiso()                                     ) && zmet.hyp_type() == 2 )
 				)           ) continue;
 		
 		}
@@ -595,6 +604,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  fillHist( "event", "ht"     , "passtrig", zmet.ht()           , weight );
 	  fillHist( "event", "ptl1"   , "passtrig", zmet.lep_pt().at(0) , weight );	  
 	  fillHist( "event", "ptl2"   , "passtrig", zmet.lep_pt().at(1) , weight );	  
+
+	  fillHist( "event", "l1phi"   , "passtrig", zmet.lep_p4().at(0).phi() , weight );	  
+	  fillHist( "event", "l2phi"   , "passtrig", zmet.lep_p4().at(1).phi() , weight );	  
+	  fillHist( "event", "l1eta"   , "passtrig", zmet.lep_p4().at(0).eta() , weight );	  
+	  fillHist( "event", "l2eta"   , "passtrig", zmet.lep_p4().at(1).eta() , weight );	  
 	  fillHist( "event", "nVert"  , "passtrig", zmet.nVert()        , weight );	  
 	  fillHist( "event", "ptdil"  , "passtrig", zmet.dilpt()        , weight );	  
 	  fillHist( "event", "metphi" , "passtrig", event_met_ph        , weight );	  
@@ -605,10 +619,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  if( zmet.njets() > 2 ) fillHist( "event", "ptj3"   , "passtrig", zmet.jets_p4().at(2).pt() , weight );	  
 	  if( zmet.njets() > 3 ) fillHist( "event", "ptj4"   , "passtrig", zmet.jets_p4().at(3).pt() , weight );	  
 
-	  if( zmet.njets() > 0 ) fillHist( "event", "csv1"   , "passtrig", zmet.jet_btagCSV().at(0) , weight );	  
-	  if( zmet.njets() > 1 ) fillHist( "event", "csv2"   , "passtrig", zmet.jet_btagCSV().at(1) , weight );	  
-	  if( zmet.njets() > 2 ) fillHist( "event", "csv3"   , "passtrig", zmet.jet_btagCSV().at(2) , weight );	  
-	  if( zmet.njets() > 3 ) fillHist( "event", "csv4"   , "passtrig", zmet.jet_btagCSV().at(3) , weight );	  
+	  if( zmet.njets() > 0 ) fillHist( "event", "csv1"   , "passtrig", zmet.jets_csv().at(0) , weight );	  
+	  if( zmet.njets() > 1 ) fillHist( "event", "csv2"   , "passtrig", zmet.jets_csv().at(1) , weight );	  
+	  if( zmet.njets() > 2 ) fillHist( "event", "csv3"   , "passtrig", zmet.jets_csv().at(2) , weight );	  
+	  if( zmet.njets() > 3 ) fillHist( "event", "csv4"   , "passtrig", zmet.jets_csv().at(3) , weight );	  
 
 	  //start here
 	  fillHist( "event", "mbb_bpt", "passtrig", zmet.mbb_bpt()   , weight );	  
@@ -658,12 +672,12 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  int bjetind = 0;
 	  int genbjetind = 0;
 	  for( int jetind = 0; jetind < zmet.njets(); jetind++ ){
-		if( zmet.jet_btagCSV().at(jetind) > 0.89 ){
+		if( zmet.jets_csv().at(jetind) > 0.89 ){
 		  if( bjetind+1 > 4 ) continue;
 		  fillHist( "event", Form("ptb%i", bjetind+1)   , "passtrig", zmet.jets_p4().at(jetind).pt() , weight );
 		  bjetind++;
 		}
-		if( zmet.jet_btagCSV().at(jetind) > 0.89 && !zmet.isData() && abs(zmet.jet_mcFlavour().at(jetind)) == 5 ){
+		if( zmet.jets_csv().at(jetind) > 0.89 && !zmet.isData() && abs(zmet.jets_mcFlavour().at(jetind)) == 5 ){
 		  fillHist( "event", Form("pt_matchedbjet%i", genbjetind+1) , "passtrig", zmet.jets_p4().at(jetind).pt() , weight );
 		  genbjetind++;
 		}
@@ -739,7 +753,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		if( !zmet.isData() && btagcount > 0 ) {
 		  bool hasrealb = false;
 		  for( int jetind = 0; jetind < zmet.njets(); jetind++ ){
-			if( abs(zmet.jet_mcFlavour().at(jetind)) == 5 ) hasrealb = true;
+			if( abs(zmet.jets_mcFlavour().at(jetind)) == 5 ) hasrealb = true;
 			if( hasrealb ) break;
 		  }		
 		  allmet_nobreq     += weight;
@@ -997,6 +1011,10 @@ void templateLooper::bookHistos(){
 
   phivars.push_back("metphi");               axislimits.push_back(3.2);
   phivars.push_back("metphir");				 axislimits.push_back(3.2);
+  phivars.push_back("l1phi");                axislimits.push_back(3.2);
+  phivars.push_back("l2phi");                axislimits.push_back(3.2);
+  phivars.push_back("l1eta");                axislimits.push_back(2.5);
+  phivars.push_back("l2eta");                axislimits.push_back(2.5);
 
 
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
