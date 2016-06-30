@@ -19,15 +19,32 @@ void compareMET( std::string iter = "", std::string region = "", float luminosit
 
   string sample = "zjetsmlm";
   
-  std::string filename = Form("../output/%s/%s%s_hists.root", iter.c_str(), sample.c_str(), region.c_str() );
+  std::string filename = Form("../output/%s/%s%s_novtxweight_hists.root", iter.c_str(), sample.c_str(), region.c_str() );
   TFile *infile = new TFile(filename.c_str());
 
   TH1F * h_zll = (TH1F*)infile->Get("h_ll_event_met_rawgt1jet_passtrig")->Clone("h_zll");
-  TH1F * h_pho = (TH1F*)infile->Get("h_templ_met")->Clone("h_pho");
+
+
+  TFile *infile_ph = new TFile(Form("../output/V08-07-00/All_MC%s_novtxweight_templates.root", region.c_str()));
+  TH1F * h_pho = (TH1F*)infile_ph->Get("h_template_njetsind_0_htind_0_ptind_0")->Clone("h_pho");
 
   h_zll->Scale(luminosity);
   h_pho->Scale(luminosity);
 
+  float rescaleEWK_zll = h_zll->Integral(h_zll->FindBin(50),h_zll->FindBin(100));
+  float rescaleEWK_pho = h_pho->Integral(h_zll->FindBin(50),h_zll->FindBin(100));
+
+  float rescaleEWK = rescaleEWK_zll/rescaleEWK_pho;
+
+  h_pho->Scale(1./h_pho->GetSumOfWeights());
+
+  if( region == "_SR_EWK" ){
+	h_pho->Scale(rescaleEWK);
+  }else{
+	h_pho->Scale(h_zll->GetSumOfWeights());
+  }
+
+  
   //MAKE TABLES
   vector <float> metcut;
 
@@ -195,31 +212,34 @@ void printYieldTable( vector <float> metcut, TH1F* h_zll, TH1F* h_pho )
   for( size_t bini = 0; bini < metcut.size()-2; bini++ ){
 	cout<<Form("%.0f - %.0f & ", metcut.at(bini), metcut.at(bini+1) );
   }
-  if( metcut.at(metcut.size()-1) == -1 ) cout<<Form("$\\geq$ %.0f \\\\", metcut.at(metcut.size()-2) );
-  else 	cout<<Form("%.0f - %.0f \\\\", metcut.at(metcut.size()-2), metcut.at(metcut.size()-1) );
+  if( metcut.at(metcut.size()-1) == -1 ){ cout<<Form("$\\geq$ %.0f \\\\", metcut.at(metcut.size()-2) );}
+  else{ 	cout<<Form("%.0f - %.0f \\\\", metcut.at(metcut.size()-2), metcut.at(metcut.size()-1) );}
 
   cout<<endl;
 
   cout<<"\\hline "<<endl;
   cout<<"Z+jets& ";
   for( size_t bini = 0; bini < val_zjets.size()-1; bini++ ){
-	if( bini < val_zjets.size()-2 )
-	  if( val_zjets.at(bini) < 0.05 || err_zjets.at(bini) < 0.05 ) cout<<Form(" %.2f $\\pm$ %.2f & ", val_zjets.at(bini), err_zjets.at(bini));
-	  else                                                         cout<<Form(" %.1f $\\pm$ %.1f & ", val_zjets.at(bini), err_zjets.at(bini));
+	if( bini < val_zjets.size()-2 ){
+	  if( val_zjets.at(bini) < 0.05 || err_zjets.at(bini) < 0.05 ){ cout<<Form(" %.2f $\\pm$ %.2f & ", val_zjets.at(bini), err_zjets.at(bini));}
+	  else{                                                         cout<<Form(" %.1f $\\pm$ %.1f & ", val_zjets.at(bini), err_zjets.at(bini));}
+	}
 	if( bini == val_zjets.size()-2 )
-	  if( val_zjets.at(bini) < 0.05 || err_zjets.at(bini) < 0.05 ) cout<<Form(" %.2f $\\pm$ %.2f \\\\ ", val_zjets.at(bini), err_zjets.at(bini));
-	  else                                                         cout<<Form(" %.1f $\\pm$ %.1f \\\\ ", val_zjets.at(bini), err_zjets.at(bini));
+	  if( val_zjets.at(bini) < 0.05 || err_zjets.at(bini) < 0.05 ){ cout<<Form(" %.2f $\\pm$ %.2f \\\\ ", val_zjets.at(bini), err_zjets.at(bini));}
+	  else{                                                         cout<<Form(" %.1f $\\pm$ %.1f \\\\ ", val_zjets.at(bini), err_zjets.at(bini));}
   }
   cout<<endl;
 
   cout<<"$\\mathrm{\\gamma+jets}$& ";
   for( size_t bini = 0; bini < val_gjets.size()-1; bini++ ){
-	if( bini < val_gjets.size()-2 )
+	if( bini < val_gjets.size()-2 ){
 	  if( val_gjets.at(bini) < 0.05 || err_gjets.at(bini) < 0.05 ) cout<<Form(" %.2f $\\pm$ %.2f & ", val_gjets.at(bini), err_gjets.at(bini));
 	  else                                                         cout<<Form(" %.1f $\\pm$ %.1f & ", val_gjets.at(bini), err_gjets.at(bini));
-	if( bini == val_gjets.size()-2 )
+	}
+	if( bini == val_gjets.size()-2 ){
 	  if( val_gjets.at(bini) < 0.05 || err_zjets.at(bini) < 0.05 ) cout<<Form(" %.2f $\\pm$ %.2f \\\\ ", val_gjets.at(bini), err_gjets.at(bini));
 	  else                                                         cout<<Form(" %.1f $\\pm$ %.1f \\\\ ", val_gjets.at(bini), err_gjets.at(bini));
+	}
   }
   cout<<endl<<"\\hline"<<endl;
 

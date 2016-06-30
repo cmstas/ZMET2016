@@ -19,33 +19,32 @@ using namespace std;
 void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string selection = "_inclusive", string dilep = "ll", string variable = "mll", string region = "passtrig" )
 {
 
-  float RSFOF = 1.051;
+  float RSFOF = 1.06;
   // float RSFOF = 1.026;
-  double RSFOFunc = .038;
+  double RSFOFunc = .06;
 
   bool drawsignal = false;
 
   bool showmoredigits   = true;
 
-  bool binningfortables = false;
-  bool drawassymuncs    = false;
-  bool usetemplates     = false;
-  bool usefsbkg         = false;
-  bool applysysts       = false;
-  bool showunc_main     = false;
-  bool showunc_rati     = false;
-  bool uservariablebins = false;  // use signal region binning for met plots
+  bool binningfortables = true;
+  bool drawassymuncs    = true;
+  bool usetemplates     = true;
+  bool usefsbkg         = true;
+  bool applysysts       = true;
+  bool showunc_main     = true;
+  bool showunc_rati     = true;
+  bool uservariablebins = true;  // use signal region binning for met plots
+  bool combineMCbgs     = true; // 
 
   bool usemgzjets       = false;  // use madgraph zjets sample
-
-  bool renormalizettbar       = true;  // ttbar has too many events
+  bool renormalizettbar = false;  // ttbar has too many events
 
   
-  bool normalized       = true;  // normalize backgrounds to data
-  bool fractionalBG     = false;  // display background numbers as fraction in zjets and fsbkg
+  bool normalized       = false;  // normalize backgrounds to data
 
+  bool fractionalBG     = false;  // display background numbers as fraction in zjets and fsbkg
   bool useedgepreds   = false; // combine z bgs and fs bgs into 2 categories
-  bool combineMCbgs   = false; // 
   bool isblind        = false;
   bool printyields    = true;
 
@@ -81,7 +80,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	// getBackground(  h_ttbar, iter, Form("data%s", selection.c_str() ),    "metgt1jet", "em", "inclusive" );
 	getBackground(  h_ttbar, iter, Form("data%s", selection.c_str() ),    variable, "em", "passtrig" );
   }
-  else           getBackground(  h_ttbar, iter, Form("ttbar%s", selection.c_str() ), variable, dilep, region );
+  else	getBackground(  h_ttbar, iter, Form("ttbar%s", selection.c_str() ), variable, dilep, region );
 
   getBackground(                 h_st   , iter, Form("st%s"   , selection.c_str() ), variable, dilep, region );
   getBackground(                 h_ww   , iter, Form("ww%s"   , selection.c_str() ), variable, dilep, region );
@@ -131,14 +130,17 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_ttv->Scale(luminosity);
   h_vvv->Scale(luminosity);
 
-  if( renormalizettbar )   h_ttbar->Scale(71.542);
-  
-  // h_st ->Scale(0);
-  // h_ww ->Scale(0);
-  // h_wz ->Scale(0);
-  // h_zz ->Scale(0);
-  // h_ttv->Scale(0);
-  // h_vvv->Scale(0);
+  if( renormalizettbar ){
+
+	h_ttbar->Scale(71.542);  
+	h_st ->Scale(0);
+	h_ww ->Scale(0);
+	h_wz ->Scale(0);
+	h_zz ->Scale(0);
+	h_ttv->Scale(0);
+	h_vvv->Scale(0);
+  }
+
   double renorm_unc = 0.0;
   
   if( usetemplates ){
@@ -149,7 +151,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	if( TString(selection).Contains("forward"      ) ){
 	  h_ttbar->Scale(1.049);
 	}
-	if( TString(selection).Contains("SR"      ) ){
+	if( TString(selection).Contains("SR"      ) || TString(selection).Contains("2jets_inclusive" ) ){
 	  if(      dilep == "ee" ) h_ttbar->Scale(0.44);
 	  else if( dilep == "mm" ) h_ttbar->Scale(0.586);
 	  else                     h_ttbar->Scale(RSFOF);
@@ -312,7 +314,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		metcut.push_back(-1);
 
 	  }
-	  else if( TString(selection).Contains("3jets_inclusive"      ) ){
+	  else if( TString(selection).Contains("inclusive_central"      ) ){
 		useedgepreds = true;
 		metcut.clear();
 		metcut.push_back(0.0);
@@ -320,12 +322,13 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		metcut.push_back(50);
 		if( !binningfortables ) metcut.push_back(75);
 		metcut.push_back(100);
+		metcut.push_back(150);
 		metcut.push_back(-1);
 
 	  }
 	  else if( TString(selection).Contains("SR_ATLAS"      ) ){
-		useedgepreds = false;
-		combineMCbgs = true;
+		// useedgepreds = false;
+		// combineMCbgs = true;
 		metcut.clear();
 		metcut.push_back(0.0);
 		if( !binningfortables ) metcut.push_back(25);
@@ -351,6 +354,20 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		metcut.push_back(300);
 		metcut.push_back(-1);
 
+	  }
+
+	  if( TString(selection).Contains("2jets_inclusive") ){
+	  	useedgepreds = true;
+	  	metcut.clear();
+	  	metcut.push_back(0.0);
+	  	if( !binningfortables ) metcut.push_back(25);
+	  	metcut.push_back(50);
+	  	if( !binningfortables ) metcut.push_back(75);
+	  	metcut.push_back(100);
+	  	metcut.push_back(150);
+	  	// metcut.push_back(225);
+	  	// metcut.push_back(300);
+	  	metcut.push_back(-1);
 	  }
 
 	}
@@ -414,119 +431,58 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		// }
 		
 		if(       metcut.at(bini+1)   < 0   ){  
-		  if( TString(selection).Contains("central_loosephoton_twojets"      ) )zsyst = 0.35;
-		  if( TString(selection).Contains("central_loosephoton_withb_twojets") )zsyst = 0.35;
-		  if( TString(selection).Contains("central_loosephoton_with2_twojets") )zsyst = 0.40;
-		  if( TString(selection).Contains("forward_loosephoton_twojets"      ) )zsyst = 0.20;
-		  if( TString(selection).Contains("forward_loosephoton_withb_twojets") )zsyst = 0.50;
-		  if( TString(selection).Contains("forward_loosephoton_with2_twojets") )zsyst = 0.80;
-		  if( TString(selection).Contains("central_loosephoton_3jets_inclusive"      ) )zsyst = 0.15;
-		  if( TString(selection).Contains("central_loosephoton_withb_3jets_inclusive") )zsyst = 0.15;
-		  if( TString(selection).Contains("central_loosephoton_with2_3jets_inclusive") )zsyst = 0.25;
-		  if( TString(selection).Contains("forward_loosephoton_3jets_inclusive"      ) )zsyst = 0.15;
-		  if( TString(selection).Contains("forward_loosephoton_withb_3jets_inclusive") )zsyst = 0.25;
-		  if( TString(selection).Contains("forward_loosephoton_with2_3jets_inclusive") )zsyst = 0.40;
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.35;
-		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.40;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.25;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.50;
-		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.10;
+		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.20;
+		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.35;
+		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.30;
+		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.35;
+		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.20;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.15;
+		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.05;
 
 		}else if( metcut.at(bini+1)-1 < 50  ){  
-		  if( TString(selection).Contains("central_loosephoton_twojets"      ) )zsyst = 0.01;
-		  if( TString(selection).Contains("central_loosephoton_withb_twojets") )zsyst = 0.01;
-		  if( TString(selection).Contains("central_loosephoton_with2_twojets") )zsyst = 0.05;
-		  if( TString(selection).Contains("forward_loosephoton_twojets"      ) )zsyst = 0.01;
-		  if( TString(selection).Contains("forward_loosephoton_withb_twojets") )zsyst = 0.02;
-		  if( TString(selection).Contains("forward_loosephoton_with2_twojets") )zsyst = 0.10;
-		  if( TString(selection).Contains("central_loosephoton_3jets_inclusive"      ) )zsyst = 0.01;
-		  if( TString(selection).Contains("central_loosephoton_withb_3jets_inclusive") )zsyst = 0.01;
-		  if( TString(selection).Contains("central_loosephoton_with2_3jets_inclusive") )zsyst = 0.03;
-		  if( TString(selection).Contains("forward_loosephoton_3jets_inclusive"      ) )zsyst = 0.01;
-		  if( TString(selection).Contains("forward_loosephoton_withb_3jets_inclusive") )zsyst = 0.02;
-		  if( TString(selection).Contains("forward_loosephoton_with2_3jets_inclusive") )zsyst = 0.05;
 		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.01;
 		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.01;
 		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.01;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.02;
-		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.02;
-
+		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.01;
+		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.01;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.20;
+		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.01;
 
 		}else if( metcut.at(bini+1)-1 < 100 ){
-		  if( TString(selection).Contains("central_loosephoton_twojets"      ) )zsyst = 0.01;
-		  if( TString(selection).Contains("central_loosephoton_withb_twojets") )zsyst = 0.05;
-		  if( TString(selection).Contains("central_loosephoton_with2_twojets") )zsyst = 0.15;
-		  if( TString(selection).Contains("forward_loosephoton_twojets"      ) )zsyst = 0.03;
-		  if( TString(selection).Contains("forward_loosephoton_withb_twojets") )zsyst = 0.10;
-		  if( TString(selection).Contains("forward_loosephoton_with2_twojets") )zsyst = 0.30;
-		  if( TString(selection).Contains("central_loosephoton_3jets_inclusive"      ) )zsyst = 0.05;
-		  if( TString(selection).Contains("central_loosephoton_withb_3jets_inclusive") )zsyst = 0.05;
-		  if( TString(selection).Contains("central_loosephoton_with2_3jets_inclusive") )zsyst = 0.10;
-		  if( TString(selection).Contains("forward_loosephoton_3jets_inclusive"      ) )zsyst = 0.10;
-		  if( TString(selection).Contains("forward_loosephoton_withb_3jets_inclusive") )zsyst = 0.10;
-		  if( TString(selection).Contains("forward_loosephoton_with2_3jets_inclusive") )zsyst = 0.10;
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.04;
-		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.03;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.02;
+		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.05;
+		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.05;
+		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.05;
 		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.03;
-		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.02;
+		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.10;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.02;
+		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.01;
 
 		}else if( metcut.at(bini+1)-1 < 150 ){
-		  if( TString(selection).Contains("central_loosephoton_twojets"      ) )zsyst = 0.10;
-		  if( TString(selection).Contains("central_loosephoton_withb_twojets") )zsyst = 0.25;
-		  if( TString(selection).Contains("central_loosephoton_with2_twojets") )zsyst = 0.35;
-		  if( TString(selection).Contains("forward_loosephoton_twojets"      ) )zsyst = 0.15;
-		  if( TString(selection).Contains("forward_loosephoton_withb_twojets") )zsyst = 0.30;
-		  if( TString(selection).Contains("forward_loosephoton_with2_twojets") )zsyst = 0.80;
-		  if( TString(selection).Contains("central_loosephoton_3jets_inclusive"      ) )zsyst = 0.05;
-		  if( TString(selection).Contains("central_loosephoton_withb_3jets_inclusive") )zsyst = 0.10;
-		  if( TString(selection).Contains("central_loosephoton_with2_3jets_inclusive") )zsyst = 0.15;
-		  if( TString(selection).Contains("forward_loosephoton_3jets_inclusive"      ) )zsyst = 0.10;
-		  if( TString(selection).Contains("forward_loosephoton_withb_3jets_inclusive") )zsyst = 0.40;
-		  if( TString(selection).Contains("forward_loosephoton_with2_3jets_inclusive") )zsyst = 0.60;
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.04;
-		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.05;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.04;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.10;
+		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.15;
+		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.10;
+		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.15;
+		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.15;
 		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.10;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.15;
+		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.02;
 
 		}else if( metcut.at(bini+1)-1 < 225 ){ 
-		  if( TString(selection).Contains("central_loosephoton_twojets"      ) )zsyst = 0.10;
-		  if( TString(selection).Contains("central_loosephoton_withb_twojets") )zsyst = 0.25;
-		  if( TString(selection).Contains("central_loosephoton_with2_twojets") )zsyst = 0.35;
-		  if( TString(selection).Contains("forward_loosephoton_twojets"      ) )zsyst = 0.15;
-		  if( TString(selection).Contains("forward_loosephoton_withb_twojets") )zsyst = 0.30;
-		  if( TString(selection).Contains("forward_loosephoton_with2_twojets") )zsyst = 0.80;
-		  if( TString(selection).Contains("central_loosephoton_3jets_inclusive"      ) )zsyst = 0.05;
-		  if( TString(selection).Contains("central_loosephoton_withb_3jets_inclusive") )zsyst = 0.10;
-		  if( TString(selection).Contains("central_loosephoton_with2_3jets_inclusive") )zsyst = 0.15;
-		  if( TString(selection).Contains("forward_loosephoton_3jets_inclusive"      ) )zsyst = 0.10;
-		  if( TString(selection).Contains("forward_loosephoton_withb_3jets_inclusive") )zsyst = 0.40;
-		  if( TString(selection).Contains("forward_loosephoton_with2_3jets_inclusive") )zsyst = 0.60;
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.05;
+		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.15;
 		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.10;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.10;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.10;
+		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.20;
+		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.15;
 		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.10;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.15;
+		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.05;
 
 		}else if( metcut.at(bini+1)-1 < 300 ){
-		  if( TString(selection).Contains("central_loosephoton_twojets"      ) )zsyst = 0.10;
-		  if( TString(selection).Contains("central_loosephoton_withb_twojets") )zsyst = 0.25;
-		  if( TString(selection).Contains("central_loosephoton_with2_twojets") )zsyst = 0.35;
-		  if( TString(selection).Contains("forward_loosephoton_twojets"      ) )zsyst = 0.15;
-		  if( TString(selection).Contains("forward_loosephoton_withb_twojets") )zsyst = 0.30;
-		  if( TString(selection).Contains("forward_loosephoton_with2_twojets") )zsyst = 0.80;
-		  if( TString(selection).Contains("central_loosephoton_3jets_inclusive"      ) )zsyst = 0.05;
-		  if( TString(selection).Contains("central_loosephoton_withb_3jets_inclusive") )zsyst = 0.10;
-		  if( TString(selection).Contains("central_loosephoton_with2_3jets_inclusive") )zsyst = 0.15;
-		  if( TString(selection).Contains("forward_loosephoton_3jets_inclusive"      ) )zsyst = 0.10;
-		  if( TString(selection).Contains("forward_loosephoton_withb_3jets_inclusive") )zsyst = 0.40;
-		  if( TString(selection).Contains("forward_loosephoton_with2_3jets_inclusive") )zsyst = 0.60;
 		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.15;
 		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.30;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.20;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.50;
-		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.10;
+		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.30;
+		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.25;
+		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.25;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.15;
+		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.05;
 
 		}
 
@@ -592,13 +548,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  if( applysysts ){
 		err_zjets.at(bini) = sqrt( pow( err_zjets.at(bini), 2 ) + pow( val_zjets.at(bini)*zsyst, 2 ) + pow( val_zjets.at(bini)*renorm_unc, 2 ) );
 
-		if( TString(selection).Contains("central"      ) ){
-		  err_fsbkg.at(bini) = sqrt( pow( err_fsbkg.at(bini), 2 ) + pow( val_fsbkg.at(bini)*.06, 2 ) );
-		}
-		if( TString(selection).Contains("forward"      ) ){
-		  err_fsbkg.at(bini) = sqrt( pow( err_fsbkg.at(bini), 2 ) + pow( val_fsbkg.at(bini)*.08, 2 ) );
-		}
-		if( TString(selection).Contains("SR"      ) ){
+		if( TString(selection).Contains("SR" ) || TString(selection).Contains("2jets_inclusive" ) ){
 		  err_fsbkg.at(bini) = sqrt( pow( err_fsbkg.at(bini), 2 ) + pow( val_fsbkg.at(bini)*.05, 2 ) );
 		}
 		  
@@ -658,7 +608,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		  eyh[bini] = err_allbg_up.at(bini);
 		  if( bini == metcut.size()-2 ){
 
-			if( TString(selection).Contains("SR") ){
+			if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ){
 			  x[bini] = metcut.at(bini) + 0.5*(350-metcut.at(bini));
 			  y[bini] *= 25/(350-metcut.at(bini));
 			  eyl[bini] *= 25/(350-metcut.at(bini));
@@ -682,7 +632,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		  r_eyh[bini] = err_allbg_up.at(bini)/val_allbg.at(bini);
 		  if( bini == metcut.size()-2 ){
 
-			if( TString(selection).Contains("SR") ){
+			if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ){
 			  r_x[bini] = metcut.at(bini) + 0.5*(350-metcut.at(bini));
 			}
 			r_exl[bini] = 0.5*(350-metcut.at(bini));
@@ -702,7 +652,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		  // rc_eyh[bini] = err_ratio_up.at(bini);
 		  if( bini == metcut.size()-2 ){
 
-			if( TString(selection).Contains("SR") ){
+			if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ){
 			  rc_x[bini] = metcut.at(bini) + 0.5*(350-metcut.at(bini));
 			}
 			// rc_exl[bini] = 0.5*(350-metcut.at(bini));
@@ -1093,6 +1043,10 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   if( dilep == "em" ){
 	xmax = 250;
   }
+  if( TString(variable).Contains("mll") ){
+	xmin = 10;
+  }
+  
   if( TString(variable).Contains("ptdil") ){
 	xmax = 500;
   }
@@ -1186,11 +1140,6 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	if( usefsbkg ){
 	  xmax = 350;
 	  rebin = 25;
-
-	  if( TString(selection).Contains("central") || TString(selection).Contains("forward") ){
-		rebin = 25;
-		xmax = 200;
-	  }
 		
 	}
 	else{
@@ -1219,11 +1168,6 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  }
 	}
   }
-		
-  if( TString(selection).Contains("inclusive_withb") ){
-	rebin = 5;
-	xmax = 200;
-  }
 
   if( variable == "ht_highbin" ||variable == "ht_highbin_3jets" ||variable == "ht_highbin_2jets" ){
 	if( TString(selection).Contains("SRA") ){
@@ -1251,12 +1195,14 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  rebin = 10;
 	}
   }
+
   if( TString(variable).Contains("ptl") && !TString(variable).Contains("met") ){
 	xmin = 0;
 	xmax = 800;
     // ymax = 5e1;
 	rebin = 50;
   }
+
   if( variable == "nbjets" || variable == "njets" || variable == "nFWjets" || TString(variable).Contains("njt") ){
 	xmin = 0;
 	xmax = 10;
@@ -1284,6 +1230,21 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	ymax = 1000;
 	rebin = 5;
   }
+
+  if( TString(variable).Contains("l2phi") || variable == "l1phi" ){
+	xmin = -3.2;
+	xmax = 3.2;
+	ymax = 1000;
+	rebin = 5;
+  }
+
+  if( TString(variable).Contains("l2eta") || variable == "l1eta" ){
+	xmin = -2.4;
+	xmax = 2.4;
+	ymax = 1000;
+	rebin = 5;
+  }
+
   if( TString(variable).Contains("metx") || TString(variable).Contains("mety") ){
 	xmin = -150;
 	xmax =  150;
@@ -1327,29 +1288,20 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	v_bin.push_back(100);
 	v_bin.push_back(150);
 	v_bin.push_back(225);
-	if( !TString(selection).Contains("SR_ATLAS"             ) ) v_bin.push_back(300);
+	if( !TString(selection).Contains("SR_ATLAS"             ) )
+	  v_bin.push_back(300);
 	v_bin.push_back(xmax);
 
-	if( TString(selection).Contains("twojets"      ) ) {
-	  v_bin.clear();
-	  v_bin.push_back(0);
-	  v_bin.push_back(25);
-	  v_bin.push_back(50);
-	  v_bin.push_back(75);
-	  v_bin.push_back(100);
-	  v_bin.push_back(150);
-	  v_bin.push_back(xmax);
-	}
-
-	if( TString(selection).Contains("_3jets"      ) ) {
-	  v_bin.clear();
-	  v_bin.push_back(0);
-	  v_bin.push_back(25);
-	  v_bin.push_back(50);
-	  v_bin.push_back(75);
-	  v_bin.push_back(100);
-	  v_bin.push_back(xmax);
-	}
+	// if( TString(selection).Contains("2jets_inclusive"      ) ) {
+	//   v_bin.clear();
+	//   v_bin.push_back(0);
+	//   v_bin.push_back(25);
+	//   v_bin.push_back(50);
+	//   v_bin.push_back(75);
+	//   v_bin.push_back(100);
+	//   v_bin.push_back(150);
+	//   v_bin.push_back(xmax);
+	// }
 
 	
 	int nbins = v_bin.size()-1;
@@ -1409,7 +1361,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   pad->SetLeftMargin(0.18);
   pad->Draw();
   pad->cd();
-  if( !(TString(variable).Contains("phi") || variable == "nVert" || variable == "mhtphi" || dilep == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" || TString(variable).Contains("njt") || variable == "metall" || variable == "mll_fkw") ){
+  if( !(TString(variable).Contains("phi") || TString(variable).Contains("eta") || variable == "nVert" || variable == "mhtphi" || dilep == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" || TString(variable).Contains("njt") || variable == "metall" || variable == "mll_fkw") ){
 	pad->SetLogy();
   }
   
@@ -1532,9 +1484,11 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   
   h_data->GetXaxis()->SetLabelSize(0);
   h_data->GetYaxis()->SetLabelSize(0.05);
+  h_data->GetYaxis()->SetLabelFont(42);
   h_data->GetYaxis()->SetTitleOffset(1.5);
   h_data->GetYaxis()->SetTitleSize(0.05);
-  h_data->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
+  h_data->GetYaxis()->SetTitleFont(42);
+  h_data->GetYaxis()->SetTitle(Form("Events / %.0f GeV", (float)rebin));
 
   if( variable == "mll_fkw" ){
 	h_data->GetYaxis()->SetRangeUser(0, 40 );  
@@ -1542,7 +1496,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	h_data->GetYaxis()->SetRangeUser(0, h_data->GetMaximum()*1.4 );  
   }
 
-  if( TString(variable).Contains("phi") || variable == "mhtphi" || dilep    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir"  ){
+  if( TString(variable).Contains("phi") ||  TString(variable).Contains("eta") || variable == "mhtphi" || dilep    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir"  ){
 
 	if( variable == "mll_fkw" ){
 	  h_data->GetYaxis()->SetRangeUser(0, 40 );  
@@ -1551,11 +1505,12 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	}
 
 	if( TString(variable).Contains("phi") )h_data->GetYaxis()->SetTitle(Form("Events/%.2f", (2*3.14159)/200*(float)rebin));
+	if( TString(variable).Contains("eta") )h_data->GetYaxis()->SetTitle(Form("Events/%.2f", (2*2.4)/200*(float)rebin));
   }
   else{
 	h_data->GetYaxis()->SetRangeUser(ymin*luminosity, h_data->GetMaximum() * ymax );
   }
-  if( TString(variable).Contains("phi") || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
+  if( TString(variable).Contains("phi") ||  TString(variable).Contains("eta") || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
 	h_data->GetYaxis()->SetRangeUser(0, h_data->GetMaximum()*1.4 );  
   }
 
@@ -1582,22 +1537,27 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   }
 
 
-  if( TString(selection).Contains("SR") ){
-	// if( TString(selection).Contains("signalcontamination") ){
-	//   h_data->GetYaxis()->SetRangeUser(2e-1, 8e3 );  
+  if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive") ){
 
-	// }else
-	if( !TString(selection).Contains("withb") ){
-	  h_data->GetYaxis()->SetRangeUser(2e-1, 2e3 );  
+	h_data->GetYaxis()->SetRangeUser(2e-1, 2e3 );  
+	// pad->SetLogy(0);
+	if( TString(selection).Contains("SRB_bveto") ){
+	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 6e3 );  
 	}
-	else{
+	if( TString(selection).Contains("SRB_withb") ){
+	  h_data->GetYaxis()->SetRangeUser(7e-2, 9e3 );  
+	}
+
+	if( TString(selection).Contains("SRA_bveto") ){
+	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 8e3 );  
+	}
+	if( TString(selection).Contains("SRA_withb") ){
+	  h_data->GetYaxis()->SetRangeUser(2e-2, 6e3 );  
+	  // h_data->GetYaxis()->SetRangeUser(0, 1.4e2 );  
 	  // pad->SetLogy(0);
-	  if( TString(selection).Contains("SRB") ){
-		h_data->GetYaxis()->SetRangeUser(1.1e-1, 1e3 );  
-	  }
-	  if( TString(selection).Contains("SRA") ){
-		h_data->GetYaxis()->SetRangeUser(5e-2, 5e2 );  
-	  }
+	}
+	if( TString(selection).Contains("SR_ATLAS") ){
+	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 1e4 );  
 	}
   }
   
@@ -1678,21 +1638,23 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   l1->SetLineColor(kWhite);    
   l1->SetShadowColor(kWhite);    
   l1->SetFillColor(kWhite);    
+  l1->SetTextFont(42);    
+  l1->SetTextSize(0.04);
 
   if( TString(selection).Contains("signalcontamination") ){
 	l1->AddEntry( h_data    , "data + Signal" , "lpe");
   }else{
-	l1->AddEntry( h_data    , "data"          , "lpe");
+	l1->AddEntry( h_data    , "Data"          , "lpe");
   }
 	  
   if( combineMCbgs ){
-	l1->AddEntry( h_zjets , "MET Templates" , "f");
+	l1->AddEntry( h_zjets , "MET Templates"   , "f");
 	l1->AddEntry( h_allFSbg , "FS background" , "f");   
-	l1->AddEntry( h_otherbg , "Other SM"   , "f");   
+	l1->AddEntry( h_otherbg , "Other SM"      , "f");   
 
   }else
 	if( useedgeplots ){
-	  l1->AddEntry( h_allZJbg , "Z background" , "f");   
+	  l1->AddEntry( h_allZJbg , "Z background"  , "f");   
 	  l1->AddEntry( h_allFSbg , "FS background" , "f");   
 	}  
 
@@ -1700,19 +1662,19 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  if( usetemplates ){
 		l1->AddEntry( h_zjets , "MET Templates" , "f");
 	  }else{
-		l1->AddEntry( h_zjets , "Z+jets MC" , "f");
+		l1->AddEntry( h_zjets , "Z+jets MC"     , "f");
 	  }
 	  if( usefsbkg ){
-		l1->AddEntry( h_ttbar , "FS Bkg"       , "f");
+		l1->AddEntry( h_ttbar , "FS Bkg"        , "f");
 	  }else{
-		l1->AddEntry( h_ttbar , "t#bar{t} MC"       , "f");
-		l1->AddEntry( h_st , "Single-top MC"       , "f");
-		l1->AddEntry( h_ww , "WW MC"       , "f");
+		l1->AddEntry( h_ttbar , "t#bar{t} MC"   , "f");
+		l1->AddEntry( h_st , "Single-top MC"    , "f");
+		l1->AddEntry( h_ww , "WW MC"            , "f");
 	  }
-	  l1->AddEntry( h_wz    , "WZ MC"     , "f");
-	  l1->AddEntry( h_zz    , "ZZ MC"     , "f");
-	  l1->AddEntry( h_vvv , "VVV MC"       , "f");
-	  l1->AddEntry( h_ttv , "t#bar{t}V MC"       , "f");
+	  l1->AddEntry( h_wz    , "WZ MC"           , "f");
+	  l1->AddEntry( h_zz    , "ZZ MC"           , "f");
+	  l1->AddEntry( h_vvv , "VVV MC"            , "f");
+	  l1->AddEntry( h_ttv , "t#bar{t}V MC"      , "f");
 	}
   if( drawsignal ) l1->AddEntry( h_signal1 , "m(#tilde{g})=1050; m_{LSP}=200"       , "l");
 
@@ -1758,11 +1720,14 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_rat->GetYaxis()->SetTitle("#frac{Data}{Prediction}");
   h_rat->GetYaxis()->SetTitleSize(0.12);
   h_rat->GetYaxis()->SetTitleOffset(0.5);
+  h_rat->GetYaxis()->SetLabelFont(42);
+  h_rat->GetXaxis()->SetLabelFont(42);
+  h_rat->GetYaxis()->SetTitleFont(42);
   h_rat->GetYaxis()->CenterTitle();
-  // cout<<h_rat->GetYaxis()->GetTitleSize()<<endl;
-
+  h_rat->GetXaxis()->SetTitleFont(42);
+  
   if( variable == "nVert"               ) h_rat->GetXaxis()->SetTitle("N_{vtx}");
-  if( TString(variable).Contains("met") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} GeV");
+  if( TString(variable).Contains("met") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
   if( TString(variable).Contains("sumet") ) h_rat->GetXaxis()->SetTitle("sum E_{T} GeV");
   if( TString(variable).Contains("MHT") ) h_rat->GetXaxis()->SetTitle("H_{T}^{miss} GeV");
   if( TString(variable).Contains("mhtphi") ) h_rat->GetXaxis()->SetTitle("H_{T} Phi");
@@ -1772,6 +1737,10 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   if( variable == "nbjets"               ) h_rat->GetXaxis()->SetTitle("N_{b-jets}");  
   if( variable == "mll"                 ) h_rat->GetXaxis()->SetTitle("M_{\\ell\\ell} GeV");
   if( TString(variable).Contains("phi") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
+  if( TString(variable).Contains("l1phi") ) h_rat->GetXaxis()->SetTitle("leading lepton #phi");
+  if( TString(variable).Contains("l2phi") ) h_rat->GetXaxis()->SetTitle("sub-leading lepton #phi");
+  if( TString(variable).Contains("l1eta") ) h_rat->GetXaxis()->SetTitle("leading lepton #eta");
+  if( TString(variable).Contains("l2eta") ) h_rat->GetXaxis()->SetTitle("sub-leading lepton #eta");
   if( TString(variable).Contains("_pt") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} [GeV]");
   if( TString(variable).Contains("ptj1")) h_rat->GetXaxis()->SetTitle("p_{T} jet 1 [GeV]");
   if( TString(variable).Contains("ptj2")) h_rat->GetXaxis()->SetTitle("p_{T} jet 2 [GeV]");
@@ -1816,7 +1785,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   // if( luminosity*norm_factor < 0.0161 ) drawCMSLatex( c1, 0.0161 );
   // else                                  drawCMSLatex( c1, luminosity*norm_factor );
 
-  drawCMSLatex( c1, luminosity*norm_factor );
+  if( !( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ) && luminosity*norm_factor < 4.0 ) drawCMSLatex( c1, 4.0 );
+  else drawCMSLatex( c1, luminosity*norm_factor );
 
   if( !TString(selection).Contains("signalcontamination") ){
 	drawSRLatex(  c1, selection, 0.35, 0.35 );
