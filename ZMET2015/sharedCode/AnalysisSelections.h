@@ -23,6 +23,7 @@ bool passPhotonTrigger120();
 bool passPhotonTrigger165();
 int  getPrescale();
 int getPrescaleNoBins();
+int getPrescaleNoBins_nol1ps();
 bool highHT_zjinc( std::string samplename );
 
 

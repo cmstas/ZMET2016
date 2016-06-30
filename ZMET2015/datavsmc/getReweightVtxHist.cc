@@ -9,11 +9,17 @@ using namespace std;
 void getReweightVtxHist()
 {
 
-  TFile * f_data = TFile::Open("../output/V7680-hybrid-00/data_inclusive_novtxweight_hists.root"  , "READ");
-  TFile * f_zjet = TFile::Open("../output/V7680-hybrid-00/zjets_inclusive_novtxweight_hists.root" , "READ");
+  // TFile * f_data = TFile::Open("../output/V08-07-01/data_2jets_inclusive_novtxweight_hists.root"  , "READ");
+  // TFile * f_zjet = TFile::Open("../output/V08-07-01/zjets_2jets_inclusive_novtxweight_hists.root" , "READ");
 
-  TH1F * h_data = (TH1F*)f_data->Get("h_ll_event_nVert_passtrig")->Clone("h_data");
-  TH1F * h_zjet = (TH1F*)f_zjet->Get("h_ll_event_nVert_passtrig")->Clone("h_zjet");
+  // TH1F * h_data = (TH1F*)f_data->Get("h_ll_event_nVert_passtrig")->Clone("h_data");
+  // TH1F * h_zjet = (TH1F*)f_zjet->Get("h_ll_event_nVert_passtrig")->Clone("h_zjet");
+
+  TFile * f_data = TFile::Open("pileup_4p0fb.root"  , "READ");
+  TFile * f_zjet = TFile::Open("../output/V08-07-01/zjets_inclusive_novtxweight_hists.root" , "READ");
+
+  TH1F * h_data = (TH1F*)f_data->Get("pileup")->Clone("h_data");
+  TH1F * h_zjet = (TH1F*)f_zjet->Get("h_ll_event_nVert_true_passtrig")->Clone("h_zjet");
 
   // double bins[23] = {0,5,6,7,8,
   // 					9,10,11,12,13,
@@ -34,7 +40,7 @@ void getReweightVtxHist()
   TH1F * h_vtx_ratio = (TH1F*) h_data->Clone("h_vtx_ratio");
   h_vtx_ratio->Divide(h_zjet);
 
-  TFile * file = TFile::Open("nvtx_ratio.root","RECREATE");
+  TFile * file = TFile::Open("nvtx_ratio_4p0fb.root","RECREATE");
   file->cd();
   h_vtx_ratio->Write();
   h_data->Write();
