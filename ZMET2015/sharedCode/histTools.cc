@@ -81,11 +81,18 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity )
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.18,0.95, "CMS Preliminary" );    
+  cmstex = new TLatex(0.21,0.90, "CMS" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.04);    
   cmstex->SetLineWidth(2);
   cmstex->SetTextFont(62);    
+  cmstex->Draw();
+
+  cmstex = new TLatex(0.30,0.90, "Preliminary" );    
+  cmstex->SetNDC();    
+  cmstex->SetTextSize(0.03);    
+  cmstex->SetLineWidth(2);
+  cmstex->SetTextFont(12);    
   cmstex->Draw();
 
   return;
@@ -128,56 +135,63 @@ void drawSRLatex( TCanvas * &canvas, string signalregion, float cmsleftmargin, f
   srtex->SetLineWidth(2);
   // srtex->SetTextFont(42);    
 
+  if( TString(signalregion).Contains("2jets_inclusive") ){
+	srtex = new TLatex(lumileftmargin, top       , "N_{jets} #geq 2" );    
+	srtex->SetTextSize(0.035);    
+	srtex->SetTextFont(42);    
+	srtex->Draw();
+  }
 
-  if( TString(signalregion).Contains("withb_SRA") ){
+
+  if( TString(signalregion).Contains("SRA_withb") ){
 	srtex = new TLatex(lumileftmargin, top       , "H_{T} > 400 GeV" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
 	srtex = new TLatex(lumileftmargin, top - 0.05, "N_{jets}: 2-3" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
 	srtex = new TLatex(lumileftmargin, top - 0.10, "N_{b-tags} #geq 1" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
   }
 
-  if( TString(signalregion).Contains("bveto_SRA") ){
+  if( TString(signalregion).Contains("SRA_bveto") ){
 	srtex = new TLatex(lumileftmargin, top       , "H_{T} > 400 GeV" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
 	srtex = new TLatex(lumileftmargin, top - 0.05, "N_{jets}: 2-3" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
 	srtex = new TLatex(lumileftmargin, top - 0.10, "N_{b-tags} = 0" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
   }
 
-  if( TString(signalregion).Contains("withb_SRB") ){
+  if( TString(signalregion).Contains("SRB_withb") ){
 	srtex = new TLatex(lumileftmargin, top, "N_{jets} #geq 4" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
 	srtex = new TLatex(lumileftmargin, top - 0.05, "N_{b-tags} #geq 1" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
   }
 
-  if( TString(signalregion).Contains("bveto_SRB") ){
+  if( TString(signalregion).Contains("SRB_bveto") ){
 	srtex = new TLatex(lumileftmargin, top, "N_{jets} #geq 4" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
 	srtex = new TLatex(lumileftmargin, top - 0.05, "N_{b-tags} = 0" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
   }
 
@@ -185,16 +199,16 @@ void drawSRLatex( TCanvas * &canvas, string signalregion, float cmsleftmargin, f
 	// srtex = new TLatex(lumileftmargin-0.15, top + 0.05, "p_{T}(\\ell_{1})+p_{T}(\\ell_{2})" );    
 	srtex = new TLatex(lumileftmargin+ 0.15, top - 0.18, "#Sigma p_{T}(lep_{1,2})+ H_{T} > 600 GeV" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
 	srtex = new TLatex(lumileftmargin+ 0.20, top - 0.23, "#Delta#phi(E_{T}^{miss}, (jet_{1,2})) > 0.4" );    
 	srtex->SetTextSize(0.035);    
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
 	srtex = new TLatex(lumileftmargin+ 0.35, top - 0.28, "N_{jets} #geq 2" );    
 	srtex->SetTextSize(0.035);    
 	srtex->SetLineWidth(2);
-	srtex->SetTextFont(62);    
+	srtex->SetTextFont(42);    
 	srtex->Draw();
   }
 
