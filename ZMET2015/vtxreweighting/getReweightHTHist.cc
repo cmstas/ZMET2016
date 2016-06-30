@@ -26,15 +26,11 @@ void getReweightHTHist( string signalregion )
   TFile * f_data = NULL;
   TFile * f_phot = NULL;
 
- 
-  // f_data = TFile::Open(Form("../output/V07-04-13_fixedleptons/data_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");			  
-  // f_phot = TFile::Open(Form("../output/V07-04-13_fixedleptons/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
+  // f_data = TFile::Open(Form("../output/V07-04-13_fixedleptons_alldata_updatedJECS/data_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");			  
+  // f_phot = TFile::Open(Form("../output/V07-04-13_fixedleptons_alldata_updatedJECS/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
 
-  f_data = TFile::Open(Form("../output/V07-04-13_fixedleptons_alldata_updatedJECS/data_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");			  
-  f_phot = TFile::Open(Form("../output/V07-04-13_fixedleptons_alldata_updatedJECS/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
-
-  // f_data = TFile::Open(Form("../output/V07-04-13_fixedleptons/data_%s_hists.root", signalregion.c_str() )   , "READ");			  
-  // f_phot = TFile::Open(Form("../output/V07-04-13_fixedleptons/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
+  f_data = TFile::Open(Form("../output/V08-07-01/data_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");			  
+  f_phot = TFile::Open(Form("../output/V08-07-01/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
 
   TH1F * h_data = NULL;
   TH1F * h_data_em = NULL;
@@ -325,17 +321,8 @@ void getReweightScheme(vector <double> &binning, string selection )
 	// // binning.push_back(300);
   	// binning.push_back(3000);
   }
-
-
   
-  else if( TString(selection).Contains("forward") && TString(selection).Contains("twojets") && !TString(selection).Contains("with2_twojets") ){
-	binning.push_back(0);
-	binning.push_back(33);
-	binning.push_back(60);
-	binning.push_back(3000);
-  }
-  
-  else if( TString(selection).Contains("inclusive") && !TString(selection).Contains("3jets_inclusive") ){
+  else if( TString(selection).Contains("2jets_inclusive") ){
 	binning.push_back(0);
 	binning.push_back(33);
 	binning.push_back(50);
@@ -343,24 +330,9 @@ void getReweightScheme(vector <double> &binning, string selection )
 	binning.push_back(90);
 	binning.push_back(120);
 	binning.push_back(165);
-	binning.push_back(3000);
-  }
-
-  
-  else if( TString(selection).Contains("twojets") && !TString(selection).Contains("with2_twojets") ){
-	binning.push_back(0);
-	binning.push_back(33);
-	binning.push_back(50);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	binning.push_back(3000);
-  }
-
-  else if( TString(selection).Contains("with2_twojets") ){
-	binning.push_back(0);
-	binning.push_back(60);
-	binning.push_back(120);
+	binning.push_back(200);
+	binning.push_back(300);
+	binning.push_back(500);
 	binning.push_back(3000);
   }
   
