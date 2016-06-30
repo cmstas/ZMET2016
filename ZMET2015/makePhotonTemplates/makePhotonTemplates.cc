@@ -92,37 +92,37 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
   bookHistos();
 
   eventFilter metFilterTxt;
-  if ( TString(sample).Contains("data") ) {
-    cout<<"Loading bad event files ..."<<endl;
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_ecalscn1043093.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_HTMHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_JetHT_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MET_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MuonEG_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleElectron_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleMuon_csc2015.txt");
-    metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SinglePhoton_csc2015.txt");
-    cout<<" ... finished!"<<endl;
-  }
+  // if ( TString(sample).Contains("data") ) {
+  //   cout<<"Loading bad event files ..."<<endl;
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_ecalscn1043093.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleEG_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleMuon_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_HTMHT_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_JetHT_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MET_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MuonEG_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleElectron_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleMuon_csc2015.txt");
+  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SinglePhoton_csc2015.txt");
+  //   cout<<" ... finished!"<<endl;
+  // }
 
   // do this once per job
   // const char* json_file = "../../json/json_golden_168pb_290915_sntformat.txt"; // 116 pb
@@ -133,7 +133,8 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
   // const char* json_file = "/home/users/cwelke/analysis2015/CMSSW_7_4_7_patch2_dilepbabymaker/V07-04-10/json/json_150pb_141015_sntformat.txt";
 
   // const char* json_file = "/home/users/olivito/mt2_74x_dev/MT2Analysis/babymaker/jsons/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 1.3 fb
-  const char* json_file = "/nfs-3/userdata/cwelke/analysis/CMSSW_7_4_14/V07-04-13/ZMET2015/datavsmc/Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 2.1 fb-1
+  // const char* json_file = "../../json/Cert_271036-274240_13TeV_PromptReco_Collisions16_JSON_snt.txt"; // 0.8 fb-1 for FSR
+  const char* json_file = "../../json/golden_json_220616_snt.txt"; // 4.0 fb, for preapproval
 
   set_goodrun_file(json_file);
 
@@ -285,8 +286,8 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 	  }
 
 	  // define "global" event variables
-	  float event_met_pt = zmet.met_pt();
-	  float event_met_ph = zmet.met_phi();
+	  float event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
+	  float event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
 
 	  if( zmet.isData() ){
 		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
@@ -311,14 +312,14 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 	  // if( zmet.isData() && zmet.met_rawPt() < 0.1 ) continue;
 	  
 	  // everything after this is template specific
-	  if( evt_njets < 2 ) continue;	  	  
 	  if( !passSignalRegionSelection(selection) ) continue;
 	  if( !passMETFilters() ) continue;
 
-	  if (zmet.isData() && metFilterTxt.eventFails(zmet.run(), zmet.lumi(), zmet.evt())) {
-		//cout<<"Found bad event in data: "<<t.run<<", "<<t.lumi<<", "<<t.evt<<endl;
-		continue;
-      }	  
+	  // if (zmet.isData() && metFilterTxt.eventFails(zmet.run(), zmet.lumi(), zmet.evt())) {
+	  // 	//cout<<"Found bad event in data: "<<t.run<<", "<<t.lumi<<", "<<t.evt<<endl;
+	  // 	continue;
+      // }	  
+
 	  if( TString(selection).Contains("withtightb") && zmet.nBJetTight() < 1 ) continue;
 
 	  // cout<<getPrescaleNoBins()<<endl;
@@ -326,7 +327,8 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 	  // cout<<"30 pscale:  "<<zmet.HLT_Photon30_R9Id90_HE10_IsoM()<<endl;
 	  if( zmet.isData() ){  
 	  	// weight *= (float) getPrescale();
-	  	weight *= (float) getPrescaleNoBins();
+	  	// weight *= (float) getPrescaleNoBins();
+	  	weight *= (float) getPrescaleNoBins_nol1ps();
 	  }
 	  
 	  n_allphotons += weight;
@@ -358,8 +360,12 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 	  	// else if( ( !zmet.isData() && zmet.gamma_pt().at(0) > 25  ) || passPhotonTrigger22()  ) weight *= h_vtxweight_22  ->GetBinContent(h_vtxweight_22  ->FindBin(zmet.nVert()));
 	  }
 
-
-	  
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht100") ){weight *= 3.905;}
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht200") ){weight *= 17.33;}
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht400") ){weight *= 6.327;}
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht40_") ){weight *= 2.508;}
+	  if( TString(currentFile->GetTitle()).Contains("gjetsht600") ){weight *= 8.194;}
+		
 	  // if( TString(selection).Contains("SR_ATLAS") ) fillHist( "event", "htgt1jets", "passtrig", zmet.gamma_pt().at(0) + evt_ht, weight ); // this is for HT reweighting
 	  // else                                          fillHist( "event", "htgt1jets", "passtrig", zmet.gamma_pt().at(0)         , weight ); // this is for HT reweighting
 
@@ -394,7 +400,7 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 		if( !zmet.isData() && btagcount > 0 ) {
 		  bool hasrealb = false;
 		  for( int jetind = 0; jetind < zmet.njets(); jetind++ ){
-			if( abs(zmet.jet_mcFlavour().at(jetind)) == 5 ) hasrealb = true;
+			if( abs(zmet.jets_mcFlavour().at(jetind)) == 5 ) hasrealb = true;
 			if( hasrealb ) break;
 		  }		
 
