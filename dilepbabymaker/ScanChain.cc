@@ -987,7 +987,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
           int iJet = passJets.at(passIdx);
 
           if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
-					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.890))) continue;
+					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.800))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_50nsV1(iJet) || isSMSScan) ) continue;
 
@@ -1024,7 +1024,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
           int iJet = passJets.at(passIdx);
 
           if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
-					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.890))) continue;
+					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.800))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_50nsV1(iJet) || isSMSScan) ) continue;
 
@@ -1106,7 +1106,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
  		  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
  		  jets_csv                                      .push_back(current_csv_val);
-		  if( current_csv_val >= 0.890 ){ jets_medb_p4  .push_back(p4sCorrJets.at(iJet));}	   
+		  if( current_csv_val >= 0.800 ){ jets_medb_p4  .push_back(p4sCorrJets.at(iJet));}	   
 
 		  if( !isData){
 			jets_mcFlavour   .push_back(cms3.pfjets_partonFlavour().at(iJet));
@@ -1116,9 +1116,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  // require pT > 35 for HT
 		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); }
 		
-		  if(current_csv_val >= 0.970) { nBJetTight++; }
+		  if(current_csv_val >= 0.935) { nBJetTight++; }
 
-		  if(current_csv_val >= 0.890) {
+		  if(current_csv_val >= 0.800) {
 			nBJetMedium++;
 
 			// for applying btagging SFs
@@ -1196,7 +1196,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			}
 		  }
 		
-		  if(current_csv_val >= 0.605) { nBJetLoose++; }
+		  if(current_csv_val >= 0.460) { nBJetLoose++; }
 
 		  //require pT > 35 for jet counting
 		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ njets++; }
@@ -1209,9 +1209,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
  		  jets_up_p4    .push_back((jet_corrfactor_up.at(iJet))*p4sCorrJets.at(iJet));
 
 		  if( (jet_corrfactor_up.at(iJet))*p4sCorrJets.at(iJet).pt() > 35.0 ){ ht_up+=(jet_corrfactor_up.at(iJet))*p4sCorrJets.at(iJet).pt(); }
-		  if(current_csv_val >= 0.970) { nBJetTight_up++; }
-		  if(current_csv_val >= 0.890) { nBJetMedium_up++; }
-		  if(current_csv_val >= 0.605) { nBJetLoose_up++; }
+		  if(current_csv_val >= 0.935) { nBJetTight_up++; }
+		  if(current_csv_val >= 0.800) { nBJetMedium_up++; }
+		  if(current_csv_val >= 0.460) { nBJetLoose_up++; }
 		  if( (jet_corrfactor_up.at(iJet))*p4sCorrJets.at(iJet).pt() > 35.0 ){ njets_up++; }
 		}
 
@@ -1221,9 +1221,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			abs((jet_corrfactor_dn.at(iJet))*p4sCorrJets.at(iJet).eta()) < 2.4 ){
  		  jets_dn_p4    .push_back(p4sCorrJets.at(iJet)*jet_corrfactor_dn.at(iJet));
 		  if( (jet_corrfactor_dn.at(iJet))*p4sCorrJets.at(iJet).pt() > 35.0 ){ ht_dn+=(jet_corrfactor_dn.at(iJet))*p4sCorrJets.at(iJet).pt(); }
-		  if(current_csv_val >= 0.970) { nBJetTight_dn++; }
-		  if(current_csv_val >= 0.890) { nBJetMedium_dn++; }
-		  if(current_csv_val >= 0.605) { nBJetLoose_dn++; }
+		  if(current_csv_val >= 0.935) { nBJetTight_dn++; }
+		  if(current_csv_val >= 0.800) { nBJetMedium_dn++; }
+		  if(current_csv_val >= 0.460) { nBJetLoose_dn++; }
 		  if( (jet_corrfactor_dn.at(iJet))*p4sCorrJets.at(iJet).pt() > 35.0 ){ njets_dn++; }
 		}	  
       }
@@ -2119,23 +2119,18 @@ float babyMaker::sum_mlb()
 {
   float min_mlb_1 = 10000.;
   float min_mlb_2 = 10000.;
-  
-  // TLorentzVector lb (0.,0.,0.,0.);
-  
-  // int leptonNumber = 0;
+
+  float mlb_temp_1 = min_mlb_1;
+  float mlb_temp_2 = min_mlb_2;
 
   int jet_tempind_1 = -1;
   int jet_tempind_2 = -1;
 
   if (jets_medb_p4.size() > 1) {
 
-	cout<<"nleps: "<<lep_p4.size()<<endl;
-	cout<<"nbjes: "<<jets_medb_p4.size()<<endl;
+	// cout<<"nleps: "<<lep_p4.size()<<endl;
+	// cout<<"nbjes: "<<jets_medb_p4.size()<<endl;
 
-	int bJetNumber = 0;
-	int bJet1 = 0;
-
-	float mlb_temp_1 = min_mlb_1;
 
 	// Find lowest Mlb for lep 1
 	for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){ // loop over jets
@@ -2146,7 +2141,7 @@ float babyMaker::sum_mlb()
 	  }
 	}
 
-	float mlb_temp_2 = (lep_p4.at(1) + jets_medb_p4.at(jet_tempind_1)).M();
+    mlb_temp_2 = (lep_p4.at(1) + jets_medb_p4.at(jet_tempind_1)).M();
 	if( mlb_temp_2 < mlb_temp_1 ){ // mlb2 is smaller, gotta search again
 
 	  min_mlb_2 = mlb_temp_2;
@@ -2167,7 +2162,7 @@ float babyMaker::sum_mlb()
 
 	else{ // mlb1 is smaller, we are fine
 
-	  // Find lowest Mlb for lep 1 again
+	  // Find lowest Mlb for lep 2
 	  for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){
 		if( jetind == jet_tempind_1 ) continue;
 		mlb_temp_2 = (lep_p4.at(1) + jets_medb_p4.at(jetind)).M();
@@ -2178,143 +2173,51 @@ float babyMaker::sum_mlb()
 	  }
 	}
 	
-	cout<<"mlb1: "<<min_mlb_1<<" | "<< jet_tempind_1 <<endl;
-	cout<<"mlb2: "<<min_mlb_2<<" | "<< jet_tempind_2 <<endl;
-	cout<<endl<<"mlb1_max: "<<(lep_p4.at(0) + jets_medb_p4.at(jet_tempind_2)).M() <<endl;
-	cout      <<"mlb2_max: "<<(lep_p4.at(1) + jets_medb_p4.at(jet_tempind_1)).M() <<endl;
+	// cout<<"mlb1: "<<min_mlb_1<<" | "<< jet_tempind_1 <<endl;
+	// cout<<"mlb2: "<<min_mlb_2<<" | "<< jet_tempind_2 <<endl;
+	// cout<<endl<<"mlb1_max: "<<(lep_p4.at(0) + jets_medb_p4.at(jet_tempind_2)).M() <<endl;
+	// cout      <<"mlb2_max: "<<(lep_p4.at(1) + jets_medb_p4.at(jet_tempind_1)).M() <<endl;
 	
-  }else{
-	min_mlb_1 = 0;
-	min_mlb_2 = 0;
+  }else if(jets_medb_p4.size() == 1 && jets_p4.size() > 1){
+	mlb_temp_1 = (lep_p4.at(0) + jets_medb_p4.at(0)).M();      // store mlb1 temp
+	mlb_temp_2 = (lep_p4.at(1) + jets_medb_p4.at(0)).M();      // store mlb2 temp
+
+	mlb_temp_1 < mlb_temp_2 ? min_mlb_1 = mlb_temp_1 : min_mlb_2 = mlb_temp_2;
+
+	if( mlb_temp_1 < mlb_temp_2 ){
+
+	  // Find lowest Mlb for lep 2
+	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
+		if( jets_csv.at(jetind) > 0.800 ) continue; // don't double count b-jets
+		mlb_temp_2 = (lep_p4.at(1) + jets_p4.at(jetind)).M();
+		if(mlb_temp_2 < min_mlb_2){
+		  min_mlb_2 = mlb_temp_2;
+		}
+	  }
+	}else{
+
+	  // Find lowest Mlb for lep 1
+	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
+		if( jets_csv.at(jetind) > 0.800 ) continue; // don't double count b-jets
+		mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();
+		if(mlb_temp_1 < min_mlb_1){
+		  min_mlb_1 = mlb_temp_1;
+		}
+	  }
+	  
+	}
+	
+	// min_mlb_1 = 0;
+	// min_mlb_2 = 0;
+
+	cout<<"mlb1: "<<min_mlb_1<<endl;
+	cout<<"mlb2: "<<min_mlb_2<<endl;
+	cout<<endl;
+	cout<<"mlb1_switch: "<<(lep_p4.at(0) + jets_medb_p4.at(0)).M()<<endl;
+	cout<<"mlb2_switch: "<<(lep_p4.at(1) + jets_medb_p4.at(0)).M()<<endl;
+
   }
 	  
-	  // // Get minimal mlB
-	  // for(std::vector<pat::Jet>::const_iterator it = jets_medb_p4.begin(); it != jets_medb_p4.end() ; ++it){
-	  // 	  bJetNumber += 1;
-	  // 	  TLorentzVector bJetVector1( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
-	  // 	  TLorentzVector lb1 = aVec + bJetVector1;
-	  // 	  TLorentzVector lb2 = bVec + bJetVector1;
-	  // 	  if ( lb1.M() < lb2.M()) {
-	  // 		  if (lb1.M() < min_mlb_1){
-	  // 			  min_mlb_1 = lb1.M();
-	  // 			  bJet1 = bJetNumber;
-	  // 			  leptonNumber = 1;
-	  // 		  }
-	  // 	  }
-	  // 	  else {
-	  // 		  if (lb2.M() < min_mlb_1){
-	  // 			  min_mlb_1 = lb2.M();
-	  // 			  bJet1 = bJetNumber;
-	  // 			  leptonNumber = 2;
-	  // 		  }
-	  // 	  }
-	  // }
-	  
-  // 	  // Get minimal mlb for second lepton
-  // 	  bJetNumber = 0;
-  // 	  for(std::vector<pat::Jet>::const_iterator it = jets_medb_p4.begin(); it != jets_medb_p4.end() ; ++it){
-  // 		  bJetNumber += 1;
-  // 		  if (bJetNumber == bJet1) continue;
-  // 		  TLorentzVector bJetVector2( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
-		  
-  // 		  if (leptonNumber == 1) {
-  // 			  TLorentzVector lb = bVec + bJetVector2;
-  // 		  }
-  // 		  else {
-  // 			  TLorentzVector lb = aVec + bJetVector2;
-  // 		  }
-  // 		  if (lb.M() < min_mlb_2){
-  // 			  min_mlb_2 = lb.M();
-  // 		  }
-  // 	  }
-  // }
-  
-  // if (jets_medb_p4.size() == 1) {
-	  
-  // 	  // Get minimal mlB
-  // 	  TLorentzVector bJetVector( jets_medb_p4.at(0).px(), jets_medb_p4.at(0).py(), jets_medb_p4.at(0).pz(), jets_medb_p4.at(0).energy() );
-  // 	  TLorentzVector lb1 = aVec + bJetVector;
-  // 	  TLorentzVector lb2 = bVec + bJetVector;
-  // 		  if ( lb1.M() < lb2.M()) {
-  // 			  min_mlb_1 = lb1.M();
-  // 			  leptonNumber = 1;
-  // 		  }
-  // 		  else {
-  // 			  min_mlb_1 = lb2.M();
-  // 			  leptonNumber = 1;
-  // 		  }
-	  
-  // 	  // Get minimal mlj for second lepton 
-  // 	  for(std::vector<pat::Jet>::const_iterator it = jets.begin(); it != jets.end() ; ++it){
-  // 		  if ((*it).pt() >=35.0 && fabs((*it).eta())<2.4){
-  // 			  TLorentzVector jetVector( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
-  // 			  if (jetVector.DeltaR( bJetVector ) < 0.3) continue;
-			  
-  // 			  if (leptonNumber == 1) {
-  // 				  TLorentzVector lb = bVec + jetVector;
-  // 			  }
-  // 			  else {
-  // 				  TLorentzVector lb = aVec + jetVector;
-  // 			  }
-  // 			  if (lb.M() < min_mlb_2){
-  // 				  min_mlb_2 = lb.M();
-  // 			  }
-  // 		  }
-  // 	  }
-  // }
-  
-  // if (jets_medb_p4.size() == 0) {
-  // 	  int jetNumber = 0;
-  // 	  int jet1 = 0;
-	  
-  // 	  // Loop over jets if no b-jets are present
-  // 	  for(std::vector<pat::Jet>::const_iterator it = jets.begin(); it != jets.end() ; ++it){
-		  
-  // 		  if ((*it).pt() >=35.0 && fabs((*it).eta())<2.4){
-  // 			  jetNumber += 1;
-  // 			  TLorentzVector jetVector1( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
-  // 			  TLorentzVector lb1 = aVec + jetVector1;
-  // 			  TLorentzVector lb2 = bVec + jetVector1;
-  // 			  if ( lb1.M() < lb2.M()) {
-  // 				  if (lb1.M() < min_mlb_1){
-  // 					  min_mlb_1 = lb1.M();
-  // 					  jet1 = jetNumber;
-  // 					  leptonNumber = 1;
-  // 				  }
-  // 			  }
-  // 			  else {
-  // 				  if (lb2.M() < min_mlb_1){
-  // 					  min_mlb_1 = lb2.M();
-  // 					  jet1 = jetNumber;
-  // 					  leptonNumber = 2;
-  // 				  }
-  // 			  }
-  // 		  }
-  // 	  }
-	  
-  // 	  // Get minimal mlj for second lepton
-  // 	  jetNumber = 0;
-  // 	  for(std::vector<pat::Jet>::const_iterator it = jets.begin(); it != jets.end() ; ++it){
-  // 		  if ((*it).pt() >=35.0 && fabs((*it).eta())<2.4){
-  // 			  jetNumber += 1;
-  // 			  if (jetNumber == jet1) continue;
-  // 			  TLorentzVector jetVector2( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
-			  
-  // 			  if (leptonNumber == 1) {
-  // 				  TLorentzVector lb = bVec + jetVector2;
-  // 			  }
-  // 			  else {
-  // 				  TLorentzVector lb = aVec + jetVector2;
-  // 			  }
-  // 			  if (lb.M() < min_mlb_2){
-  // 				  min_mlb_2 = lb.M();
-  // 			  }
-  // 		  }
-  // 	  }
-  // }
-  // if (min_mlb_1 == 10000.) min_mlb_1 = 0.001;
-  // if (min_mlb_2 == 10000.) min_mlb_2 = 0.001;
-  
   return min_mlb_1 + min_mlb_2; 
 
 }
