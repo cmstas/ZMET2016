@@ -45,6 +45,7 @@ class babyMaker {
   TTree *BabyTree_;
 
   float getBtagEffFromFile(float pt, float eta, int mcFlavour, bool isFastsim);
+  float sum_mlb();
   
   // for btag SFs
   BTagCalibration* calib;
@@ -120,6 +121,8 @@ class babyMaker {
 
   Float_t         met_pt;
   Float_t         met_phi;
+  Float_t         met_calo_pt;
+  Float_t         met_calo_phi;
   Float_t         met_rawPt;
   Float_t         met_rawPhi;
   Float_t         met_caloPt;
@@ -142,7 +145,10 @@ class babyMaker {
   Int_t Flag_EcalDeadCellTriggerPrimitiveFilter;
   Int_t Flag_goodVertices                      ;
   Int_t Flag_eeBadScFilter                     ;
-  
+  Int_t Flag_badChargedCandidateFilter         ;
+  Int_t Flag_badMuonFilter                     ;
+  Int_t Flag_globalTightHalo2016               ;
+
   //TRIGGER
   // for ATLAS cross checks
   Int_t HLT_singleEl;
@@ -158,6 +164,11 @@ class babyMaker {
   Int_t HLT_MuEG      ;
   Int_t HLT_MuEG_2    ;
   Int_t HLT_MuEG_noiso;
+  Int_t HLT_Mu8_EG17  ;
+  Int_t HLT_Mu8_EG23  ;
+  Int_t HLT_Mu17_EG12 ;
+  Int_t HLT_Mu23_EG12 ;
+  Int_t HLT_Mu23_EG8  ;
 
   // Double electron
   Int_t HLT_DoubleMu_noiso   ;
@@ -177,9 +188,13 @@ class babyMaker {
   Int_t HLT_Photon165_R9Id90_HE10_IsoM;
   Int_t HLT_Photon165_HE10            ;
 
+  Int_t HLT_CaloJet500_NoJetID;
+  Int_t HLT_ECALHT800_NoJetID ;
+
   
   //----- LEPTONS
   Int_t           nlep;
+  Int_t           nveto_leptons;
   std::vector <LorentzVector> lep_p4;
   std::vector <Float_t> lep_pt         ;   //[nlep]
   std::vector <Float_t> lep_eta        ;   //[nlep]
@@ -297,6 +312,8 @@ class babyMaker {
   Float_t         mbb_csv;
   Float_t         mbb_bpt;
   Float_t         dphi_jj;
+  Float_t         mlbmin;
+  Float_t         dphi_ll;
   Float_t         deta_jj;
   Float_t         dR_jj;
 

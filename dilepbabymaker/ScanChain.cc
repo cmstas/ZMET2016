@@ -334,7 +334,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       
       met_pt     = cms3.evt_pfmet();
       met_phi    = cms3.evt_pfmetPhi();
-      met_genPt  = cms3.gen_met();
+
+      met_calo_pt  = cms3.evt_calomet();
+      met_calo_phi = cms3.evt_calometPhi();
+	  
+	  met_genPt  = cms3.gen_met();
       met_genPhi = cms3.gen_metPhi();
       met_rawPt  = cms3.evt_pfmet_raw();
       met_rawPhi = cms3.evt_pfmetPhi_raw();
@@ -354,6 +358,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
 		Flag_goodVertices                       = cms3.filt_goodVertices();
 		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
+		Flag_globalTightHalo2016                = cms3.filt_globalTightHalo2016();
+		Flag_badMuonFilter                      = badMuonFilter();
+		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
+
 	  }
 	  
       //TRIGGER
@@ -364,7 +372,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 						passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
 						passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
 						passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) );
-       
+
 		// Double electron
 		HLT_DoubleEl_noiso = passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"    );
 		HLT_DoubleEl       = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ); // prescaled - turned off
@@ -379,6 +387,16 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 							  passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  ) );
 		HLT_MuEG_noiso     =  passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"                 );
 
+		//separate emu trigs
+		HLT_Mu8_EG17      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  );
+		HLT_Mu8_EG23      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  );
+		HLT_Mu17_EG12     = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
+		HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
+		HLT_Mu23_EG8      = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  );
+							 
+							 
+
+		
 		// Double electron
 		HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                        ) ||
 								 passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                       ) );
@@ -397,6 +415,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		HLT_Photon120_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon120_R9Id90_HE10_IsoM_v");
 		HLT_Photon165_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon165_R9Id90_HE10_IsoM_v");
 		HLT_Photon165_HE10             = returnBrokenTrigger("HLT_Photon165_HE10_v"            );
+
+		// for high pT photon efficiency checks
+		HLT_CaloJet500_NoJetID = returnBrokenTrigger("HLT_CaloJet500_NoJetID_v" );
+		HLT_ECALHT800_NoJetID  = returnBrokenTrigger("HLT_ECALHT800_NoJetID_v"  );
 
 	  }
 
@@ -560,14 +582,19 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	  vector<LorentzVector> p4sLeptonsForJetCleaning;
 
+	  nveto_leptons = 0;
+	  
       if (verbose) cout << "before electrons" << endl;
 
       //ELECTRONS
       nlep = 0;
       nElectrons10 = 0;
 	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
+		if( passElectronSelection_ZMET_thirdlepton_v1( iEl, true, true ) ){
+		  nveto_leptons++;
+		}
  	  	if( !passElectronSelection_ZMET( iEl ) ) continue;
-
+		
 		// cout<<<<endl;
 		
         nElectrons10++;
@@ -617,6 +644,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
+		if( passMuonSelection_ZMET_veto_v1( iMu, true, true ) ){
+		  nveto_leptons++;
+		}
  	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
 		nMuons10++;
 
@@ -657,6 +687,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
       }
 
+	  // veto leptons are looser than analysis leptons
+	  nveto_leptons -= nlep;
+	  
 	  if (verbose) cout<<" before ordering"<<endl;
 	  
       // Implement pT ordering for leptons (it's irrelevant but easier for us to add than for ETH to remove)
@@ -1239,6 +1272,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		if( jets_medb_p4.size() > 1 ){
  		  mt2b = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
 		}		
+
+		mlbmin = sum_mlb();
+		dphi_ll = acos(cos(lep_p4 .at(0).phi() - lep_p4 .at(1).phi()));
+		
 	  }
 
 	  if( evt_type == 2 ){
@@ -1258,7 +1295,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		if( jets_medb_p4.size() > 1 ){
 		  mbb_bpt = (jets_medb_p4.at(0) + jets_medb_p4.at(1)).mass();
 		  mbb_csv = mbb_highest_csv( jets_p4, jets_csv );
-		}
+		}	  
 	  }
 
 		
@@ -1431,16 +1468,17 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nElectrons10", &nElectrons10 );
   BabyTree_->Branch("nGammas20", &nGammas20 );
 
-  BabyTree_->Branch("met_pt", &met_pt );
-  BabyTree_->Branch("met_phi", &met_phi );
-  BabyTree_->Branch("met_rawPt",  &met_rawPt );
-  BabyTree_->Branch("met_rawPhi", &met_rawPhi );
-  BabyTree_->Branch("met_caloPt",  &met_caloPt );
-  BabyTree_->Branch("met_caloPhi", &met_caloPhi );
-  BabyTree_->Branch("met_genPt",  &met_genPt );
-  BabyTree_->Branch("met_genPhi", &met_genPhi );
-
-  BabyTree_->Branch("sumet_raw", &sumet_raw );
+  BabyTree_->Branch("met_pt"      , &met_pt       );
+  BabyTree_->Branch("met_phi"     , &met_phi      );
+  BabyTree_->Branch("met_calo_pt" , &met_calo_pt  );
+  BabyTree_->Branch("met_calo_phi", &met_calo_phi );
+  BabyTree_->Branch("met_rawPt"   , &met_rawPt    );
+  BabyTree_->Branch("met_rawPhi"  , &met_rawPhi   );
+  BabyTree_->Branch("met_caloPt"  , &met_caloPt   );
+  BabyTree_->Branch("met_caloPhi" , &met_caloPhi  );
+  BabyTree_->Branch("met_genPt"   , &met_genPt    );
+  BabyTree_->Branch("met_genPhi"  , &met_genPhi   );
+  BabyTree_->Branch("sumet_raw"   , &sumet_raw    );
   
   //MET Filters
   BabyTree_->Branch("Flag_ecalLaserCorrFilter"   , &Flag_ecalLaserCorrFilter   );
@@ -1455,7 +1493,11 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("Flag_EcalDeadCellTriggerPrimitiveFilter" , &Flag_EcalDeadCellTriggerPrimitiveFilter );
   BabyTree_->Branch("Flag_goodVertices"                       , &Flag_goodVertices                       );
   BabyTree_->Branch("Flag_eeBadScFilter"                      , &Flag_eeBadScFilter                      );
+  BabyTree_->Branch("Flag_globalTightHalo2016"                , &Flag_globalTightHalo2016                );
 
+  BabyTree_->Branch("Flag_badMuonFilter"                , &Flag_badMuonFilter             );
+  BabyTree_->Branch("Flag_badChargedCandidateFilter"    , &Flag_badChargedCandidateFilter );
+		
   //TRIGGER
   // for ATLAS cross checks
   BabyTree_->Branch("HLT_singleEl"      , &HLT_singleEl );
@@ -1471,6 +1513,12 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_MuEG"       , &HLT_MuEG       );
   BabyTree_->Branch("HLT_MuEG_2"     , &HLT_MuEG_2     );
   BabyTree_->Branch("HLT_MuEG_noiso" , &HLT_MuEG_noiso );
+
+  BabyTree_->Branch("HLT_Mu8_EG17"           , &HLT_Mu8_EG17           );
+  BabyTree_->Branch("HLT_Mu8_EG23"           , &HLT_Mu8_EG23           );
+  BabyTree_->Branch("HLT_Mu17_EG12"          , &HLT_Mu17_EG12          );
+  BabyTree_->Branch("HLT_Mu23_EG12"          , &HLT_Mu23_EG12          );
+  BabyTree_->Branch("HLT_Mu23_EG8"           , &HLT_Mu23_EG8           );
 
   // Double electron
   BabyTree_->Branch("HLT_DoubleMu_noiso"    , &HLT_DoubleMu_noiso    );
@@ -1490,6 +1538,9 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_Photon165_R9Id90_HE10_IsoM" , &HLT_Photon165_R9Id90_HE10_IsoM );
   BabyTree_->Branch("HLT_Photon165_HE10"             , &HLT_Photon165_HE10             );
 
+  BabyTree_->Branch("HLT_CaloJet500_NoJetID" , &HLT_CaloJet500_NoJetID );
+  BabyTree_->Branch("HLT_ECALHT800_NoJetID"  , &HLT_ECALHT800_NoJetID  );
+
   BabyTree_->Branch("dilmass", &dilmass );
   BabyTree_->Branch("dilpt"  , &dilpt );
   BabyTree_->Branch("dRll"   , &dRll );
@@ -1498,7 +1549,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("matched_emf"       , &matched_emf );
   BabyTree_->Branch("elveto", &elveto );
 
-  BabyTree_->Branch("nlep", &nlep, "nlep/I" );
+  BabyTree_->Branch("nlep"           , &nlep, "nlep/I" );
+  BabyTree_->Branch("nveto_leptons"  , &nveto_leptons );
   BabyTree_->Branch("lep_p4"         , &lep_p4         );
   BabyTree_->Branch("lep_pt"         , "std::vector< Float_t >"       , &lep_pt         );
   BabyTree_->Branch("lep_eta"        , "std::vector< Float_t >"       , &lep_eta        );
@@ -1607,6 +1659,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("mbb_csv", &mbb_csv );
   BabyTree_->Branch("mbb_bpt", &mbb_bpt );
   BabyTree_->Branch("dphi_jj", &dphi_jj );
+  BabyTree_->Branch("dphi_ll", &dphi_ll );
+  BabyTree_->Branch("mlbmin" , &mlbmin  );
   BabyTree_->Branch("deta_jj", &deta_jj );
   BabyTree_->Branch("dR_jj"  , &dR_jj   );
 
@@ -1731,14 +1785,16 @@ void babyMaker::InitBabyNtuple () {
 
   gen_ht = -999.0;
 
-  met_pt      = -999.0;
-  met_phi     = -999.0;
-  met_rawPt   = -999.0;
-  met_rawPhi  = -999.0;
-  met_caloPt  = -999.0;
-  met_caloPhi = -999.0;
-  met_genPt   = -999.0;
-  met_genPhi  = -999.0;
+  met_pt       = -999.0;
+  met_phi      = -999.0;
+  met_calo_pt  = -999.0;
+  met_calo_phi = -999.0;
+  met_rawPt    = -999.0;
+  met_rawPhi   = -999.0;
+  met_caloPt   = -999.0;
+  met_caloPhi  = -999.0;
+  met_genPt    = -999.0;
+  met_genPhi   = -999.0;
 
   sumet_raw = -999.0;
 
@@ -1756,6 +1812,9 @@ void babyMaker::InitBabyNtuple () {
   Flag_goodVertices                       = -999;
   Flag_eeBadScFilter                      = -999;
 
+  Flag_badMuonFilter              = -999;
+  Flag_badChargedCandidateFilter  = -999;
+  Flag_globalTightHalo2016        = -999;
 
   //TRIGGER
   // for ATLAS cross checks
@@ -1772,6 +1831,12 @@ void babyMaker::InitBabyNtuple () {
   HLT_MuEG       = -999;
   HLT_MuEG_2     = -999;
   HLT_MuEG_noiso = -999;
+
+  HLT_Mu8_EG17           = -999;
+  HLT_Mu8_EG23           = -999;
+  HLT_Mu17_EG12          = -999;
+  HLT_Mu23_EG12          = -999;
+  HLT_Mu23_EG8           = -999;
 
   // Double electron
   HLT_DoubleMu_noiso    = -999;
@@ -1791,6 +1856,9 @@ void babyMaker::InitBabyNtuple () {
   HLT_Photon165_R9Id90_HE10_IsoM = -999;
   HLT_Photon165_HE10             = -999;
 
+  HLT_CaloJet500_NoJetID = -999;
+  HLT_ECALHT800_NoJetID  = -999;
+  
   dilmass = -999;
   dilpt   = -999;
   dRll    = -999;
@@ -1803,6 +1871,7 @@ void babyMaker::InitBabyNtuple () {
   evt_type = -999;
   
   nlep = -999;
+  nveto_leptons = -999;
   lep_p4         .clear();   //[nlep]
   lep_pt         .clear();   //[nlep]
   lep_eta        .clear();   //[nlep]
@@ -1913,6 +1982,8 @@ void babyMaker::InitBabyNtuple () {
   mbb_csv  = -999.0;
   mbb_bpt  = -999.0;
   dphi_jj  = -999.0;
+  mlbmin   = -999.0;
+  dphi_ll  = -999.0;
   deta_jj  = -999.0;
   dR_jj    = -999.0;
   
@@ -2041,4 +2112,209 @@ float babyMaker::getBtagEffFromFile(float pt, float eta, int mcFlavour, bool isF
   int binx = h->GetXaxis()->FindBin(pt_cutoff);
   int biny = h->GetYaxis()->FindBin(fabs(eta));
   return h->GetBinContent(binx,biny);
+}
+
+// get sum Mlb for NLL
+float babyMaker::sum_mlb()
+{
+  float min_mlb_1 = 10000.;
+  float min_mlb_2 = 10000.;
+  
+  // TLorentzVector lb (0.,0.,0.,0.);
+  
+  // int leptonNumber = 0;
+
+  int jet_tempind_1 = -1;
+  int jet_tempind_2 = -1;
+
+  if (jets_medb_p4.size() > 1) {
+
+	cout<<"nleps: "<<lep_p4.size()<<endl;
+	cout<<"nbjes: "<<jets_medb_p4.size()<<endl;
+
+	int bJetNumber = 0;
+	int bJet1 = 0;
+
+	float mlb_temp_1 = min_mlb_1;
+
+	// Find lowest Mlb for lep 1
+	for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){ // loop over jets
+	  mlb_temp_1 = (lep_p4.at(0) + jets_medb_p4.at(jetind)).M();      // store mlb1 temp
+	  if(mlb_temp_1 < min_mlb_1){                                     // find min val
+		min_mlb_1 = mlb_temp_1;
+		jet_tempind_1 = jetind;                                       // find min val index
+	  }
+	}
+
+	float mlb_temp_2 = (lep_p4.at(1) + jets_medb_p4.at(jet_tempind_1)).M();
+	if( mlb_temp_2 < mlb_temp_1 ){ // mlb2 is smaller, gotta search again
+
+	  min_mlb_2 = mlb_temp_2;
+	  jet_tempind_2 = jet_tempind_1;
+	  
+	  min_mlb_1 = 10000.;
+	  // Find lowest Mlb for lep 1 again
+	  for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){
+		if( jetind == jet_tempind_1 ) continue;
+		mlb_temp_1 = (lep_p4.at(0) + jets_medb_p4.at(jetind)).M();
+		if(mlb_temp_1 < min_mlb_1){
+		  min_mlb_1 = mlb_temp_1;
+		  jet_tempind_1 = jetind;
+		}
+	  }
+
+	}
+
+	else{ // mlb1 is smaller, we are fine
+
+	  // Find lowest Mlb for lep 1 again
+	  for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){
+		if( jetind == jet_tempind_1 ) continue;
+		mlb_temp_2 = (lep_p4.at(1) + jets_medb_p4.at(jetind)).M();
+		if(mlb_temp_2 < min_mlb_2){
+		  min_mlb_2 = mlb_temp_2;
+		  jet_tempind_2 = jetind;
+		}
+	  }
+	}
+	
+	cout<<"mlb1: "<<min_mlb_1<<" | "<< jet_tempind_1 <<endl;
+	cout<<"mlb2: "<<min_mlb_2<<" | "<< jet_tempind_2 <<endl;
+	cout<<endl<<"mlb1_max: "<<(lep_p4.at(0) + jets_medb_p4.at(jet_tempind_2)).M() <<endl;
+	cout      <<"mlb2_max: "<<(lep_p4.at(1) + jets_medb_p4.at(jet_tempind_1)).M() <<endl;
+	
+  }else{
+	min_mlb_1 = 0;
+	min_mlb_2 = 0;
+  }
+	  
+	  // // Get minimal mlB
+	  // for(std::vector<pat::Jet>::const_iterator it = jets_medb_p4.begin(); it != jets_medb_p4.end() ; ++it){
+	  // 	  bJetNumber += 1;
+	  // 	  TLorentzVector bJetVector1( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
+	  // 	  TLorentzVector lb1 = aVec + bJetVector1;
+	  // 	  TLorentzVector lb2 = bVec + bJetVector1;
+	  // 	  if ( lb1.M() < lb2.M()) {
+	  // 		  if (lb1.M() < min_mlb_1){
+	  // 			  min_mlb_1 = lb1.M();
+	  // 			  bJet1 = bJetNumber;
+	  // 			  leptonNumber = 1;
+	  // 		  }
+	  // 	  }
+	  // 	  else {
+	  // 		  if (lb2.M() < min_mlb_1){
+	  // 			  min_mlb_1 = lb2.M();
+	  // 			  bJet1 = bJetNumber;
+	  // 			  leptonNumber = 2;
+	  // 		  }
+	  // 	  }
+	  // }
+	  
+  // 	  // Get minimal mlb for second lepton
+  // 	  bJetNumber = 0;
+  // 	  for(std::vector<pat::Jet>::const_iterator it = jets_medb_p4.begin(); it != jets_medb_p4.end() ; ++it){
+  // 		  bJetNumber += 1;
+  // 		  if (bJetNumber == bJet1) continue;
+  // 		  TLorentzVector bJetVector2( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
+		  
+  // 		  if (leptonNumber == 1) {
+  // 			  TLorentzVector lb = bVec + bJetVector2;
+  // 		  }
+  // 		  else {
+  // 			  TLorentzVector lb = aVec + bJetVector2;
+  // 		  }
+  // 		  if (lb.M() < min_mlb_2){
+  // 			  min_mlb_2 = lb.M();
+  // 		  }
+  // 	  }
+  // }
+  
+  // if (jets_medb_p4.size() == 1) {
+	  
+  // 	  // Get minimal mlB
+  // 	  TLorentzVector bJetVector( jets_medb_p4.at(0).px(), jets_medb_p4.at(0).py(), jets_medb_p4.at(0).pz(), jets_medb_p4.at(0).energy() );
+  // 	  TLorentzVector lb1 = aVec + bJetVector;
+  // 	  TLorentzVector lb2 = bVec + bJetVector;
+  // 		  if ( lb1.M() < lb2.M()) {
+  // 			  min_mlb_1 = lb1.M();
+  // 			  leptonNumber = 1;
+  // 		  }
+  // 		  else {
+  // 			  min_mlb_1 = lb2.M();
+  // 			  leptonNumber = 1;
+  // 		  }
+	  
+  // 	  // Get minimal mlj for second lepton 
+  // 	  for(std::vector<pat::Jet>::const_iterator it = jets.begin(); it != jets.end() ; ++it){
+  // 		  if ((*it).pt() >=35.0 && fabs((*it).eta())<2.4){
+  // 			  TLorentzVector jetVector( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
+  // 			  if (jetVector.DeltaR( bJetVector ) < 0.3) continue;
+			  
+  // 			  if (leptonNumber == 1) {
+  // 				  TLorentzVector lb = bVec + jetVector;
+  // 			  }
+  // 			  else {
+  // 				  TLorentzVector lb = aVec + jetVector;
+  // 			  }
+  // 			  if (lb.M() < min_mlb_2){
+  // 				  min_mlb_2 = lb.M();
+  // 			  }
+  // 		  }
+  // 	  }
+  // }
+  
+  // if (jets_medb_p4.size() == 0) {
+  // 	  int jetNumber = 0;
+  // 	  int jet1 = 0;
+	  
+  // 	  // Loop over jets if no b-jets are present
+  // 	  for(std::vector<pat::Jet>::const_iterator it = jets.begin(); it != jets.end() ; ++it){
+		  
+  // 		  if ((*it).pt() >=35.0 && fabs((*it).eta())<2.4){
+  // 			  jetNumber += 1;
+  // 			  TLorentzVector jetVector1( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
+  // 			  TLorentzVector lb1 = aVec + jetVector1;
+  // 			  TLorentzVector lb2 = bVec + jetVector1;
+  // 			  if ( lb1.M() < lb2.M()) {
+  // 				  if (lb1.M() < min_mlb_1){
+  // 					  min_mlb_1 = lb1.M();
+  // 					  jet1 = jetNumber;
+  // 					  leptonNumber = 1;
+  // 				  }
+  // 			  }
+  // 			  else {
+  // 				  if (lb2.M() < min_mlb_1){
+  // 					  min_mlb_1 = lb2.M();
+  // 					  jet1 = jetNumber;
+  // 					  leptonNumber = 2;
+  // 				  }
+  // 			  }
+  // 		  }
+  // 	  }
+	  
+  // 	  // Get minimal mlj for second lepton
+  // 	  jetNumber = 0;
+  // 	  for(std::vector<pat::Jet>::const_iterator it = jets.begin(); it != jets.end() ; ++it){
+  // 		  if ((*it).pt() >=35.0 && fabs((*it).eta())<2.4){
+  // 			  jetNumber += 1;
+  // 			  if (jetNumber == jet1) continue;
+  // 			  TLorentzVector jetVector2( (*it).px(), (*it).py(), (*it).pz(), (*it).energy() );
+			  
+  // 			  if (leptonNumber == 1) {
+  // 				  TLorentzVector lb = bVec + jetVector2;
+  // 			  }
+  // 			  else {
+  // 				  TLorentzVector lb = aVec + jetVector2;
+  // 			  }
+  // 			  if (lb.M() < min_mlb_2){
+  // 				  min_mlb_2 = lb.M();
+  // 			  }
+  // 		  }
+  // 	  }
+  // }
+  // if (min_mlb_1 == 10000.) min_mlb_1 = 0.001;
+  // if (min_mlb_2 == 10000.) min_mlb_2 = 0.001;
+  
+  return min_mlb_1 + min_mlb_2; 
+
 }
