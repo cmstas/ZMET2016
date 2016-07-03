@@ -96,7 +96,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
   // do this once per job
   // const char* json_file = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_snt.txt";
-  const char* json_file = "golden_json_220616_snt.txt";
+  // const char* json_file = "golden_json_220616_snt.txt"; // 4p0 fb
+  const char* json_file = "golden_json_010716_snt.txt"; // 5p7 fb
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
@@ -2146,7 +2147,7 @@ float babyMaker::sum_mlb()
 	  min_mlb_1 = 10000.;
 	  // Find lowest Mlb for lep 1 again
 	  for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){
-		if( jetind == jet_tempind_1 ) continue;
+		if( jetind == (size_t)jet_tempind_1 ) continue;
 		mlb_temp_1 = (lep_p4.at(0) + jets_medb_p4.at(jetind)).M();
 		if(mlb_temp_1 < min_mlb_1){
 		  min_mlb_1 = mlb_temp_1;
@@ -2160,7 +2161,7 @@ float babyMaker::sum_mlb()
 
 	  // Find lowest Mlb for lep 2
 	  for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){
-		if( jetind == jet_tempind_1 ) continue;
+		if( jetind == (size_t)jet_tempind_1 ) continue;
 		mlb_temp_2 = (lep_p4.at(1) + jets_medb_p4.at(jetind)).M();
 		if(mlb_temp_2 < min_mlb_2){
 		  min_mlb_2 = mlb_temp_2;
@@ -2218,7 +2219,7 @@ float babyMaker::sum_mlb()
 	  min_mlb_1 = 10000.;
 	  // Find lowest Mlb for lep 1 again
 	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
-		if( jetind == jet_tempind_1 ) continue;
+		if( jetind == (size_t)jet_tempind_1 ) continue;
 		mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();
 		if(mlb_temp_1 < min_mlb_1){
 		  min_mlb_1 = mlb_temp_1;
@@ -2230,7 +2231,7 @@ float babyMaker::sum_mlb()
 
 	  // Find lowest Mlb for lep 2
 	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
-		if( jetind == jet_tempind_1 ) continue;
+		if( jetind == (size_t)jet_tempind_1 ) continue;
 		mlb_temp_2 = (lep_p4.at(1) + jets_p4.at(jetind)).M();
 		if(mlb_temp_2 < min_mlb_2){
 		  min_mlb_2 = mlb_temp_2;
