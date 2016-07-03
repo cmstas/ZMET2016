@@ -2128,10 +2128,6 @@ float babyMaker::sum_mlb()
 
   if (jets_medb_p4.size() > 1) {
 
-	// cout<<"nleps: "<<lep_p4.size()<<endl;
-	// cout<<"nbjes: "<<jets_medb_p4.size()<<endl;
-
-
 	// Find lowest Mlb for lep 1
 	for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){ // loop over jets
 	  mlb_temp_1 = (lep_p4.at(0) + jets_medb_p4.at(jetind)).M();      // store mlb1 temp
@@ -2173,11 +2169,6 @@ float babyMaker::sum_mlb()
 	  }
 	}
 	
-	// cout<<"mlb1: "<<min_mlb_1<<" | "<< jet_tempind_1 <<endl;
-	// cout<<"mlb2: "<<min_mlb_2<<" | "<< jet_tempind_2 <<endl;
-	// cout<<endl<<"mlb1_max: "<<(lep_p4.at(0) + jets_medb_p4.at(jet_tempind_2)).M() <<endl;
-	// cout      <<"mlb2_max: "<<(lep_p4.at(1) + jets_medb_p4.at(jet_tempind_1)).M() <<endl;
-	
   }else if(jets_medb_p4.size() == 1 && jets_p4.size() > 1){
 	mlb_temp_1 = (lep_p4.at(0) + jets_medb_p4.at(0)).M();      // store mlb1 temp
 	mlb_temp_2 = (lep_p4.at(1) + jets_medb_p4.at(0)).M();      // store mlb2 temp
@@ -2204,20 +2195,59 @@ float babyMaker::sum_mlb()
 		  min_mlb_1 = mlb_temp_1;
 		}
 	  }
-	  
 	}
 	
-	// min_mlb_1 = 0;
-	// min_mlb_2 = 0;
+  }else if(jets_medb_p4.size() < 1 && jets_p4.size() > 1){
 
-	cout<<"mlb1: "<<min_mlb_1<<endl;
-	cout<<"mlb2: "<<min_mlb_2<<endl;
-	cout<<endl;
-	cout<<"mlb1_switch: "<<(lep_p4.at(0) + jets_medb_p4.at(0)).M()<<endl;
-	cout<<"mlb2_switch: "<<(lep_p4.at(1) + jets_medb_p4.at(0)).M()<<endl;
+
+	// Find lowest Mlb for lep 1
+	for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){ // loop over jets
+	  mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();      // store mlb1 temp
+	  if(mlb_temp_1 < min_mlb_1){                                     // find min val
+		min_mlb_1 = mlb_temp_1;
+		jet_tempind_1 = jetind;                                       // find min val index
+	  }
+	}
+
+	mlb_temp_2 = (lep_p4.at(1) + jets_p4.at(jet_tempind_1)).M();
+	if( mlb_temp_2 < mlb_temp_1 ){ // mlb2 is smaller, gotta search again
+
+	  min_mlb_2 = mlb_temp_2;
+	  jet_tempind_2 = jet_tempind_1;
+	  
+	  min_mlb_1 = 10000.;
+	  // Find lowest Mlb for lep 1 again
+	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
+		if( jetind == jet_tempind_1 ) continue;
+		mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();
+		if(mlb_temp_1 < min_mlb_1){
+		  min_mlb_1 = mlb_temp_1;
+		  jet_tempind_1 = jetind;
+		}
+	  }
+
+	}else{ // mlb1 is smaller, we are fine
+
+	  // Find lowest Mlb for lep 2
+	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
+		if( jetind == jet_tempind_1 ) continue;
+		mlb_temp_2 = (lep_p4.at(1) + jets_p4.at(jetind)).M();
+		if(mlb_temp_2 < min_mlb_2){
+		  min_mlb_2 = mlb_temp_2;
+		  jet_tempind_2 = jetind;
+		}
+	  }
+	}	
+	
+	// cout<<"mlb1: "<<min_mlb_1<<endl;
+	// cout<<"mlb2: "<<min_mlb_2<<endl;		
+	
+  }else if( jets_p4.size() < 2 ){
+
+	min_mlb_1 = 0.0;
+	min_mlb_2 = 0.0;
 
   }
-	  
-  return min_mlb_1 + min_mlb_2; 
 
+  return min_mlb_1 + min_mlb_2; 
 }
