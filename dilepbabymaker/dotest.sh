@@ -52,6 +52,8 @@ cp ../json/DCSONLY_json_160516_snt.txt .
 
 # ./processBaby test_80_data /hadoop/cms/store/group/snt/run2_data/Run2016B_DoubleEG_MINIAOD_PromptReco-v2/merged/V08-00-04/merged_ntuple_32.root
 
-./processBaby test_80_data /hadoop/cms/store/group/snt/run2_data/Run2016B_DoubleEG_MINIAOD_PromptReco-v2/merged/V08-00-06/merged_ntuple_32.root
-# ./processBaby test_80_data_photon /hadoop/cms/store/group/snt/run2_data/Run2016B_SinglePhoton_MINIAOD_PromptReco-v2/merged/V08-00-04/merged_ntuple_200.root
-# ./processBaby test_80_data_photon_fixed /hadoop/cms/store/user/cwelke/SinglePhoton/crab_SinglePhoton_Run2016B-PromptReco-v2/160621_111913/0000/ntuple_80.root 
+# ./processBaby test_80_data /hadoop/cms/store/group/snt/run2_data/Run2016B_DoubleEG_MINIAOD_PromptReco-v2/merged/V08-00-06/merged_ntuple_32.root
+# # ./processBaby test_80_data_photon /hadoop/cms/store/group/snt/run2_data/Run2016B_SinglePhoton_MINIAOD_PromptReco-v2/merged/V08-00-04/merged_ntuple_200.root
+# # ./processBaby test_80_data_photon_fixed /hadoop/cms/store/user/cwelke/SinglePhoton/crab_SinglePhoton_Run2016B-PromptReco-v2/160621_111913/0000/ntuple_80.root 
+
+./processBaby test_80_t5zz_fastsim /hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2_fastsim/SMS-T5ZZ_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/V08-00-05/merged_ntuple_1.root

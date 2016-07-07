@@ -249,11 +249,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	  else if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ){
 		// files for 25ns Data
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/MCRUN2_74_V9_L1FastJet_AK4PFchs.txt"   );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/MCRUN2_74_V9_L2Relative_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/MCRUN2_74_V9_L3Absolute_AK4PFchs.txt"  );
-		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/MCRUN2_74_V9_Uncertainty_AK4PFchs.txt" );
-
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L1FastJet_AK4PFchs.txt"   );
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L2Relative_AK4PFchs.txt"  );
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L3Absolute_AK4PFchs.txt"  );
+		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_Uncertainty_AK4PFchs.txt" );
 	  }
    	  
       jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
@@ -289,7 +288,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		mass_LSP    = cms3.sparm_values().at(1);
 
 		evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
-		evt_xsec     = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino));
+		evt_xsec     = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
 		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
 		LorentzVector isrSystem_p4;
