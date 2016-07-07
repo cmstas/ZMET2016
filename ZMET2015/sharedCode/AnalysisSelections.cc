@@ -34,10 +34,13 @@ bool passMETFilters()
 	if (zmet.nVert                                   () == 0 ) return false;
 	if (!zmet.Flag_HBHENoiseFilter                   ()      ) return false;
 	if (!zmet.Flag_HBHEIsoNoiseFilter                ()      ) return false;
-	if (!zmet.Flag_CSCTightHalo2015Filter            ()      ) return false;
+	// if (!zmet.Flag_CSCTightHalo2015Filter            ()      ) return false;
 	if (!zmet.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) return false;
 	if (!zmet.Flag_goodVertices                      ()      ) return false;
 	if (!zmet.Flag_eeBadScFilter                     ()      ) return false;
+	if (!zmet.Flag_globalTightHalo2016               ()      ) return false;
+	if (!zmet.Flag_badMuonFilter                     ()      ) return false;
+	if (!zmet.Flag_badChargedCandidateFilter         ()      ) return false;
 
   }
   return true;
