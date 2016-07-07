@@ -215,6 +215,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  //JECs for 76X
 	  if( TString(currentFile->GetTitle()).Contains("16Dec2015") || TString(currentFile->GetTitle()).Contains("76X_mcRun2") ){
 		if( TString(currentFile->GetTitle()).Contains("Run2015C") || TString(currentFile->GetTitle()).Contains("Run2015D") ){
+		  jetcorr_filenames_pfL1FastJetL2L3.clear();
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt"   );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2Relative_AK4PFchs.txt"  );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L3Absolute_AK4PFchs.txt"  );
@@ -224,6 +225,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		else{
 		  // files for 76X MC
+		  jetcorr_filenames_pfL1FastJetL2L3.clear();
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L1FastJet_AK4PFchs.txt"   );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L2Relative_AK4PFchs.txt"  );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L3Absolute_AK4PFchs.txt"  );
@@ -233,29 +235,32 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	  else if( TString(currentFile->GetTitle()).Contains("80MiniAODv") ){
 		// files for 80X MC
+		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L2Relative_AK4PFchs.txt"  );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L3Absolute_AK4PFchs.txt"  );
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_Uncertainty_AK4PFchs.txt" );
 	  }
 		
-	  else if( TString(currentFile->GetTitle()).Contains("Run2016") ){
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L1FastJet_AK4PFchs.txt"   );
+	  else if( TString(currentFile->GetTitle()).Contains("Run2016") || TString(currentFile->GetTitle()).Contains("CMSSW_8_0_11_V08-00-06") ){
+		jetcorr_filenames_pfL1FastJetL2L3.clear();
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L2Relative_AK4PFchs.txt"  );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L3Absolute_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV3_DATA_L2L3Residual_AK4PFchs.txt");
-		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_Uncertainty_AK4PFchs.txt" );
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
+		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
 	  }
 
 	  else if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ){
 		// files for 25ns Data
+		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L2Relative_AK4PFchs.txt"  );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L3Absolute_AK4PFchs.txt"  );
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_Uncertainty_AK4PFchs.txt" );
 	  }
-   	  
-      jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
+
+	  jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
     }
 
     // Event Loop
@@ -644,12 +649,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
-		if( passMuonSelection_ZMET_veto_v1( iMu, true, true ) ){
+		if( passMuonSelection_ZMET_veto_v2( iMu, true, true ) ){
 		  nveto_leptons++;
 		}
  	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
 		nMuons10++;
-
 		
 		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
  		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
@@ -1104,11 +1108,19 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
 
 		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
- 		  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
- 		  jets_csv                                      .push_back(current_csv_val);
-		  if( current_csv_val >= 0.800 ){ jets_medb_p4  .push_back(p4sCorrJets.at(iJet));}	   
+ 		  if( p4sCorrJets.at(iJet).pt() > 35.0 ) {
+			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
+			jets_csv                                      .push_back(current_csv_val);
+		  }
+		  if( current_csv_val >= 0.800 ){
+			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
+			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
+			  jets_csv                                      .push_back(current_csv_val);
+			}
+			jets_medb_p4  .push_back(p4sCorrJets.at(iJet));
+		  }	   
 
-		  if( !isData){
+		  if( !isData ){
 			jets_mcFlavour   .push_back(cms3.pfjets_partonFlavour().at(iJet));
 		  	jets_mcHadronFlav.push_back(cms3.pfjets_hadronFlavour().at(iJet));
 		  }
@@ -2126,6 +2138,22 @@ float babyMaker::sum_mlb()
   int jet_tempind_1 = -1;
   int jet_tempind_2 = -1;
 
+  // if( evt == 676825669 ){
+
+  // 	cout<<"njets:      "<<njets<<endl;
+  // 	cout<<"nbjets:     "<<nBJetMedium<<endl;
+  // 	cout<<"nbjets_vec: "<<jets_medb_p4.size()<<endl;
+  // 	cout<<"najets:     "<<jets_p4.size()<<endl;
+
+  // 	cout<<"mlb_1: "<<(lep_p4.at(0) + jets_p4.at(0)).M()<<endl;      // store mlb1 temp
+  // 	cout<<"mlb_2: "<<(lep_p4.at(1) + jets_p4.at(1)).M()<<endl;      // store mlb1 temp
+
+  // 	cout<<"mlb_1: "<<(lep_p4.at(1) + jets_p4.at(0)).M()<<endl;      // store mlb1 temp
+  // 	cout<<"mlb_2: "<<(lep_p4.at(0) + jets_p4.at(1)).M()<<endl;      // store mlb1 temp
+
+	
+  // }
+  
   if (jets_medb_p4.size() > 1) {
 
 	// Find lowest Mlb for lep 1
@@ -2146,7 +2174,7 @@ float babyMaker::sum_mlb()
 	  min_mlb_1 = 10000.;
 	  // Find lowest Mlb for lep 1 again
 	  for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){
-		if( jetind == (size_t)jet_tempind_1 ) continue;
+		if( jetind == (size_t)jet_tempind_2 ) continue;
 		mlb_temp_1 = (lep_p4.at(0) + jets_medb_p4.at(jetind)).M();
 		if(mlb_temp_1 < min_mlb_1){
 		  min_mlb_1 = mlb_temp_1;
@@ -2199,7 +2227,6 @@ float babyMaker::sum_mlb()
 	
   }else if(jets_medb_p4.size() < 1 && jets_p4.size() > 1){
 
-
 	// Find lowest Mlb for lep 1
 	for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){ // loop over jets
 	  mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();      // store mlb1 temp
@@ -2218,7 +2245,7 @@ float babyMaker::sum_mlb()
 	  min_mlb_1 = 10000.;
 	  // Find lowest Mlb for lep 1 again
 	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
-		if( jetind == (size_t)jet_tempind_1 ) continue;
+		if( jetind == (size_t)jet_tempind_2 ) continue;
 		mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();
 		if(mlb_temp_1 < min_mlb_1){
 		  min_mlb_1 = mlb_temp_1;
