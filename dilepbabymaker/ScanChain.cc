@@ -95,9 +95,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   MakeBabyNtuple( Form("%s.root", baby_name.c_str()) );
 
   // do this once per job
-  // const char* json_file = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_snt.txt";
-  // const char* json_file = "golden_json_220616_snt.txt"; // 4p0 fb
-  const char* json_file = "golden_json_010716_snt.txt"; // 5p7 fb
+  const char* json_file = "golden_json_080716_snt.txt"; // 6p26 fb
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
