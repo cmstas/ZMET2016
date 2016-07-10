@@ -616,7 +616,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
 		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
 		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
-		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl )      );
+		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
+		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl, 1 )   );
 		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
 		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
 
@@ -657,19 +658,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		
 		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
  		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
-		  vec_lep_p4s          .push_back ( cms3.mus_p4().at(iMu)                       );
-		  vec_lep_pt           .push_back ( cms3.mus_p4().at(iMu).pt()                  );
-		  vec_lep_eta          .push_back ( cms3.mus_p4().at(iMu).eta()                 );
-		  vec_lep_phi          .push_back ( cms3.mus_p4().at(iMu).phi()                 );
-		  vec_lep_mass         .push_back ( cms3.mus_mass().at(iMu)                     );
-		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)                   );
-		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13)             );
-		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV().at(iMu)                    );
-		  vec_lep_dz           .push_back ( cms3.mus_dzPV().at(iMu)                     );
-		  vec_lep_tightId      .push_back ( muTightID(iMu, ZMET)                        );
-		  vec_lep_relIso03MREA .push_back ( muMiniRelIso( iMu, true , 0.5, false, true ));
-		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()                 );
-		  vec_lep_MVA          .push_back ( -99                                         );
+		  vec_lep_p4s          .push_back ( cms3.mus_p4()    .at(iMu)       );
+		  vec_lep_pt           .push_back ( cms3.mus_p4()    .at(iMu).pt()  );
+		  vec_lep_eta          .push_back ( cms3.mus_p4()    .at(iMu).eta() );
+		  vec_lep_phi          .push_back ( cms3.mus_p4()    .at(iMu).phi() );
+		  vec_lep_mass         .push_back ( cms3.mus_mass()  .at(iMu)       );
+		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)       );
+		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13) );
+		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
+		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
+		  vec_lep_tightId      .push_back ( muTightID(iMu, ZMET)            );
+		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
+		  vec_lep_relIso03MREA .push_back ( (muMiniRelIsoCMS3_EA( iMu, 1)   );
+		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
+		  vec_lep_MVA          .push_back ( -99                             );
 
 		  if (!isData && (cms3.mus_mc3dr().at(iMu) < 0.2 && cms3.mus_mc3idx().at(iMu) != -9999 && abs(cms3.mus_mc3_id().at(iMu)) == 13 )) { // matched to a prunedGenParticle electron?
 			int momid =  abs(genPart_motherId[cms3.mus_mc3idx().at(iMu)]);
@@ -919,6 +921,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		// note this uses the eta of the jet as stored in CMS3
 		//  chance for small discrepancies if JEC changes direction slightly..
         if(!isLoosePFJet_50nsV1(iJet) && !isSMSScan) continue;
+		if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 		passJets.push_back(iJet);
       }
 
@@ -994,6 +997,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.800))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_50nsV1(iJet) || isSMSScan) ) continue;
+		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 
           bool alreadyRemoved = false;
           for(unsigned int j=0; j<removedJets.size(); j++){
@@ -1031,7 +1035,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.800))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_50nsV1(iJet) || isSMSScan) ) continue;
-
+		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
+		
           bool alreadyRemoved = false;
           for(unsigned int j=0; j<removedJetsGamma.size(); j++){
             if(iJet == removedJetsGamma.at(j)){
@@ -1486,8 +1491,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("met_calo_phi", &met_calo_phi );
   BabyTree_->Branch("met_rawPt"   , &met_rawPt    );
   BabyTree_->Branch("met_rawPhi"  , &met_rawPhi   );
-  BabyTree_->Branch("met_caloPt"  , &met_caloPt   );
-  BabyTree_->Branch("met_caloPhi" , &met_caloPhi  );
   BabyTree_->Branch("met_genPt"   , &met_genPt    );
   BabyTree_->Branch("met_genPhi"  , &met_genPhi   );
   BabyTree_->Branch("sumet_raw"   , &sumet_raw    );
@@ -1803,8 +1806,6 @@ void babyMaker::InitBabyNtuple () {
   met_calo_phi = -999.0;
   met_rawPt    = -999.0;
   met_rawPhi   = -999.0;
-  met_caloPt   = -999.0;
-  met_caloPhi  = -999.0;
   met_genPt    = -999.0;
   met_genPhi   = -999.0;
 
