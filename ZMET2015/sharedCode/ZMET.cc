@@ -223,16 +223,6 @@ void ZMET::Init(TTree *tree) {
 		met_rawPhi_branch = tree->GetBranch("met_rawPhi");
 		if (met_rawPhi_branch) {met_rawPhi_branch->SetAddress(&met_rawPhi_);}
 	}
-	met_caloPt_branch = 0;
-	if (tree->GetBranch("met_caloPt") != 0) {
-		met_caloPt_branch = tree->GetBranch("met_caloPt");
-		if (met_caloPt_branch) {met_caloPt_branch->SetAddress(&met_caloPt_);}
-	}
-	met_caloPhi_branch = 0;
-	if (tree->GetBranch("met_caloPhi") != 0) {
-		met_caloPhi_branch = tree->GetBranch("met_caloPhi");
-		if (met_caloPhi_branch) {met_caloPhi_branch->SetAddress(&met_caloPhi_);}
-	}
 	met_genPt_branch = 0;
 	if (tree->GetBranch("met_genPt") != 0) {
 		met_genPt_branch = tree->GetBranch("met_genPt");
@@ -1348,8 +1338,6 @@ void ZMET::GetEntry(unsigned int idx)
 		met_calo_phi_isLoaded = false;
 		met_rawPt_isLoaded = false;
 		met_rawPhi_isLoaded = false;
-		met_caloPt_isLoaded = false;
-		met_caloPhi_isLoaded = false;
 		met_genPt_isLoaded = false;
 		met_genPhi_isLoaded = false;
 		sumet_raw_isLoaded = false;
@@ -1614,8 +1602,6 @@ void ZMET::LoadAllBranches()
 	if (met_calo_phi_branch != 0) met_calo_phi();
 	if (met_rawPt_branch != 0) met_rawPt();
 	if (met_rawPhi_branch != 0) met_rawPhi();
-	if (met_caloPt_branch != 0) met_caloPt();
-	if (met_caloPhi_branch != 0) met_caloPhi();
 	if (met_genPt_branch != 0) met_genPt();
 	if (met_genPhi_branch != 0) met_genPhi();
 	if (sumet_raw_branch != 0) sumet_raw();
@@ -2284,32 +2270,6 @@ void ZMET::LoadAllBranches()
 			met_rawPhi_isLoaded = true;
 		}
 		return met_rawPhi_;
-	}
-	const float &ZMET::met_caloPt()
-	{
-		if (not met_caloPt_isLoaded) {
-			if (met_caloPt_branch != 0) {
-				met_caloPt_branch->GetEntry(index);
-			} else { 
-				printf("branch met_caloPt_branch does not exist!\n");
-				exit(1);
-			}
-			met_caloPt_isLoaded = true;
-		}
-		return met_caloPt_;
-	}
-	const float &ZMET::met_caloPhi()
-	{
-		if (not met_caloPhi_isLoaded) {
-			if (met_caloPhi_branch != 0) {
-				met_caloPhi_branch->GetEntry(index);
-			} else { 
-				printf("branch met_caloPhi_branch does not exist!\n");
-				exit(1);
-			}
-			met_caloPhi_isLoaded = true;
-		}
-		return met_caloPhi_;
 	}
 	const float &ZMET::met_genPt()
 	{
@@ -5292,8 +5252,6 @@ namespace ZMet {
 	const float &met_calo_phi() { return zmet.met_calo_phi(); }
 	const float &met_rawPt() { return zmet.met_rawPt(); }
 	const float &met_rawPhi() { return zmet.met_rawPhi(); }
-	const float &met_caloPt() { return zmet.met_caloPt(); }
-	const float &met_caloPhi() { return zmet.met_caloPhi(); }
 	const float &met_genPt() { return zmet.met_genPt(); }
 	const float &met_genPhi() { return zmet.met_genPhi(); }
 	const float &sumet_raw() { return zmet.sumet_raw(); }

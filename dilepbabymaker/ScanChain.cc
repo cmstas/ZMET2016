@@ -669,7 +669,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
 		  vec_lep_tightId      .push_back ( muTightID(iMu, ZMET)            );
 		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
-		  vec_lep_relIso03MREA .push_back ( (muMiniRelIsoCMS3_EA( iMu, 1)   );
+		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)    );
 		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
 		  vec_lep_MVA          .push_back ( -99                             );
 
