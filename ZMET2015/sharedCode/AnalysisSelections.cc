@@ -169,6 +169,9 @@ bool passSignalRegionSelection( string selection )
   float event_met_pt = zmet.met_pt();
   float event_met_ph = zmet.met_phi();
 
+  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
+  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
+
   float event_ht    = zmet.ht();
   float event_njets = zmet.njets();
 

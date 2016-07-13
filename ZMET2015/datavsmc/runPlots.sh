@@ -32,17 +32,17 @@ fi
 # root -b -q "compareMET.cc+( \"$analysis_version\", \"_rawMET_withb_SRA_novtxweight\", 1.0 )"
 # root -b -q "compareMET.cc+( \"$analysis_version\", \"_rawMET_SR_ATLAS_novtxweight\" , 1.0 )"
 
-lumi=4.0
+lumi=6.26
 # root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_2jets_inclusive_central\"       , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
 # root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_3jets_inclusive_central\"       , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
 
-# root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_2jets_inclusive\"       , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
-# root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SRA_bveto\"             , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
-# root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SRB_bveto\"             , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
-# root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SRA_withb\"             , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
-# root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SRB_withb\"             , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_2jets_inclusive\"       , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SRA_bveto\"             , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SRB_bveto\"             , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SRA_withb\"             , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SRB_withb\"             , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
 root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SR_EWK\"                , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
-# root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SR_ATLAS\"              , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
+root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SR_ATLAS\"              , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
 
 # root -b -q "drawDatavsMC.cc+( \"$analysis_version\", $lumi, \"_SR_ZH\"                 , \"ll\", \"met_rawgt1jet\",       \"passtrig\" )"  
 

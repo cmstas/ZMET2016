@@ -21,17 +21,16 @@ if [ ! -d "merge_logs_${TAG}" ]; then
 	mkdir merge_logs_${TAG}
 fi
 
-
-# 2016 data
-run data_2016B_Prompt_ee_v1
-# run data_2016B_Prompt_mm_v1
-# run data_2016B_Prompt_em_v1
-# run data_2016B_Prompt_ph_v1
-
-run data_2016B_Prompt_ee_v2
+# # 2016 data
+# run data_2016B_Prompt_ee_v2
 # run data_2016B_Prompt_mm_v2
 # run data_2016B_Prompt_em_v2
 # run data_2016B_Prompt_ph_v2
+
+# run data_2016C_Prompt_ee_v2
+run data_2016C_Prompt_mm_v2
+# run data_2016C_Prompt_em_v2
+# run data_2016C_Prompt_ph_v2
 
 # # 2016 MC
 
@@ -41,6 +40,9 @@ run data_2016B_Prompt_ee_v2
 
 # # ttbar
 # run ttbar_dilep_mgmlm
+# run ttbar_dilep_powheg
+# run ttbar_1ltop_mgmlm
+# run ttbar_1ltbr_mgmlm
 
 # # single top
 # run sttw_antitop_powheg
@@ -48,29 +50,43 @@ run data_2016B_Prompt_ee_v2
 
 # # VV
 # run ww_2l2nu_powheg
+# run ww_lnuqq_powheg
+# run wz_lnqq_amcnlo
+# run wz_1l3n_amcnlo
 # run wz_2l2q_amcnlo
 # run wz_3lnu_powheg
-# run zz_2l2nu_powheg
+# run zz_2l2n_powheg
 # run zz_2l2q_amcnlo
+# run zz_2q2n_amcnlo
+# run zz_4l_powheg
 
 # # ttV
 # run ttw_incl_mgmlm
 # run ttz_incl_mgmlm
+# run ttbb_incl_amcnlo
+# run ttz_2l2n_amcnlo
+# run ttz_qq_amcnlo
+# run ttg_incl_mgmlm
+# run ttw_ln_amcnlo
+# run ttw_qq_amcnlo
 
 # # VVV
-# run www_incl_amcnlo
-# run wwz_incl_amcnlo
-# run wzz_incl_amcnlo
+# run www_incl_mgmlm
+# run wwz_incl_mgmlm
+# run wzz_incl_mgmlm
 # run zzz_incl_mgmlm
 
+# # WJets
+# run wjets_incl_amcnlo
+
 # # samples for closure
-
-# # will use this for first closure studies
-# run dy_m1050_mgmlm_ext1
-
-# will do these later. Focus on the main samples for now
-# /DYJetsToLL_M-5to50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1
-# /DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv1-PUSpring16_80X_mcRun2_asymptotic_2016_v3_ext1-v1
+# run dy_m1050_mgmlm
+# run dy_m50_mgmlm_ext1
+# run dy_m50_mgmlm_ht100_ext1
+# run dy_m50_mgmlm_ht200_ext1
+# run dy_m50_mgmlm_ht400_ext1
+# run dy_m50_mgmlm_ht600
+# run dy_m50_mgmlm_ht600_ext1
 
 # # gjets
 # run gjetsht100_dr0p4_mgmlm

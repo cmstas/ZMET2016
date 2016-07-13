@@ -29,8 +29,8 @@ void getReweightHTHist( string signalregion )
   // f_data = TFile::Open(Form("../output/V07-04-13_fixedleptons_alldata_updatedJECS/data_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");			  
   // f_phot = TFile::Open(Form("../output/V07-04-13_fixedleptons_alldata_updatedJECS/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
 
-  f_data = TFile::Open(Form("../output/V08-07-01/data_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");			  
-  f_phot = TFile::Open(Form("../output/V08-07-01/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
+  f_data = TFile::Open(Form("../output/V08-11-00/data_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");			  
+  f_phot = TFile::Open(Form("../output/V08-11-00/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
 
   TH1F * h_data = NULL;
   TH1F * h_data_em = NULL;

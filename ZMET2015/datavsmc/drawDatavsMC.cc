@@ -27,7 +27,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   bool showmoredigits   = true;
 
-  bool binningfortables = true;
+  bool binningfortables = false;
   bool drawassymuncs    = true;
   bool usetemplates     = true;
   bool usefsbkg         = true;
@@ -37,6 +37,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   bool uservariablebins = true;  // use signal region binning for met plots
   bool combineMCbgs     = true; // 
 
+
+  // bool applytrigeffs    = true;
   bool usemgzjets       = false;  // use madgraph zjets sample
   bool renormalizettbar = false;  // ttbar has too many events
 
@@ -82,15 +84,15 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   }
   else	getBackground(  h_ttbar, iter, Form("ttbar%s", selection.c_str() ), variable, dilep, region );
 
-  getBackground(                 h_st   , iter, Form("zjets%s"   , selection.c_str() ), variable, dilep, region );
-  getBackground(                 h_ww   , iter, Form("zjets%s"   , selection.c_str() ), variable, dilep, region );
-  getBackground(                 h_ttv  , iter, Form("zjets%s"  , selection.c_str() ), variable, dilep, region );
-  getBackground(                 h_vvv  , iter, Form("zjets%s"  , selection.c_str() ), variable, dilep, region );
+  getBackground(                 h_st   , iter, Form("st%s"   , selection.c_str() ), variable, dilep, region );
+  getBackground(                 h_ww   , iter, Form("ww%s"   , selection.c_str() ), variable, dilep, region );
+  getBackground(                 h_ttv  , iter, Form("ttv%s"  , selection.c_str() ), variable, dilep, region );
+  getBackground(                 h_vvv  , iter, Form("vvv%s"  , selection.c_str() ), variable, dilep, region );
 
   if( usetemplates ){
 	getTemplateMET( h_zjets, iter, Form("data%s", selection.c_str() ) );
-	getBackground(  h_wz   , iter, Form("zjets%s"   , selection.c_str() ), variable, dilep, region );
-	getBackground(  h_zz   , iter, Form("zjets%s"   , selection.c_str() ), variable, dilep, region );
+	getBackground(  h_wz   , iter, Form("wz%s"   , selection.c_str() ), variable, dilep, region );
+	getBackground(  h_zz   , iter, Form("zz%s"   , selection.c_str() ), variable, dilep, region );
   }
   else{
 	if( usemgzjets ){
@@ -98,8 +100,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	}else{
 	  getBackground(  h_zjets, iter, Form("zjets%s" , selection.c_str() ), variable, dilep, region );
 	}
-	getBackground(  h_wz   , iter, Form("zjets%s", selection.c_str() ), variable, dilep, region );
-	getBackground(  h_zz   , iter, Form("zjets%s", selection.c_str() ), variable, dilep, region );
+	getBackground(  h_wz   , iter, Form("wz_inc%s", selection.c_str() ), variable, dilep, region );
+	getBackground(  h_zz   , iter, Form("zz_inc%s", selection.c_str() ), variable, dilep, region );
   }
   
   if( isblind ){
@@ -123,12 +125,12 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	}
   }
   
-  // h_st ->Scale(luminosity);
-  // h_ww ->Scale(luminosity);
-  // h_wz ->Scale(luminosity);
-  // h_zz ->Scale(luminosity);
-  // h_ttv->Scale(luminosity);
-  // h_vvv->Scale(luminosity);
+  h_st ->Scale(luminosity);
+  h_ww ->Scale(luminosity);
+  h_wz ->Scale(luminosity);
+  h_zz ->Scale(luminosity);
+  h_ttv->Scale(luminosity);
+  h_vvv->Scale(luminosity);
 
   if( renormalizettbar ){
 
@@ -152,8 +154,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  h_ttbar->Scale(1.049);
 	}
 	if( TString(selection).Contains("SR"      ) || TString(selection).Contains("2jets_inclusive" ) ){
-	  if(      dilep == "ee" ) h_ttbar->Scale(0.44);
-	  else if( dilep == "mm" ) h_ttbar->Scale(0.586);
+	  if(      dilep == "ee" ) h_ttbar->Scale(0.461);
+	  else if( dilep == "mm" ) h_ttbar->Scale(0.623);
 	  else                     h_ttbar->Scale(RSFOF);
 	}
 	// h_zjets->Scale(1./h_zjets->GetSumOfWeights());
@@ -1203,10 +1205,18 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	rebin = 50;
   }
 
-  if( variable == "nbjets" || variable == "njets" || variable == "nFWjets" || TString(variable).Contains("njt") ){
+  if( variable == "nbjets" ||
+	  variable == "nlep" ||
+	  variable == "nlep_abovez" ||
+	  variable == "njets" ||
+	  variable == "njets_nomll" ||
+	  variable == "njets_abovez" ||
+	  variable == "nbjets_abovez" ||
+	  variable == "nFWjets" ||
+	  TString(variable).Contains("njt") ){
 	xmin = 0;
 	xmax = 10;
-    ymax = 5e1;
+    ymax = 200;
 	rebin = 1;
 
 	if( TString(selection).Contains("CR3") ){
@@ -1292,16 +1302,16 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  v_bin.push_back(300);
 	v_bin.push_back(xmax);
 
-	// if( TString(selection).Contains("2jets_inclusive"      ) ) {
-	//   v_bin.clear();
-	//   v_bin.push_back(0);
-	//   v_bin.push_back(25);
-	//   v_bin.push_back(50);
-	//   v_bin.push_back(75);
-	//   v_bin.push_back(100);
-	//   v_bin.push_back(150);
-	//   v_bin.push_back(xmax);
-	// }
+	if( TString(selection).Contains("2jets_inclusive"      ) ) {
+	  v_bin.clear();
+	  v_bin.push_back(0);
+	  v_bin.push_back(25);
+	  v_bin.push_back(50);
+	  v_bin.push_back(75);
+	  v_bin.push_back(100);
+	  v_bin.push_back(150);
+	  v_bin.push_back(xmax);
+	}
 
 	
 	int nbins = v_bin.size()-1;
@@ -1361,7 +1371,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   pad->SetLeftMargin(0.18);
   pad->Draw();
   pad->cd();
-  if( !(TString(variable).Contains("phi") || TString(variable).Contains("eta") || variable == "nVert" || variable == "mhtphi" || dilep == "em" || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" || TString(variable).Contains("njt") || variable == "metall" || variable == "mll_fkw") ){
+  if( !(TString(variable).Contains("phi") || TString(variable).Contains("eta") || variable == "nVert" || variable == "mhtphi" /*|| dilep == "em"*/ || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" || TString(variable).Contains("njt") || variable == "metall" || variable == "mll_fkw") ){
 	pad->SetLogy();
   }
   
@@ -1480,85 +1490,25 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	else{
 	  stack->Add(h_zjets);
 	}
-  }
-  
-  h_data->GetXaxis()->SetLabelSize(0);
-  h_data->GetYaxis()->SetLabelSize(0.05);
-  h_data->GetYaxis()->SetLabelFont(42);
-  h_data->GetYaxis()->SetTitleOffset(1.5);
-  h_data->GetYaxis()->SetTitleSize(0.05);
-  h_data->GetYaxis()->SetTitleFont(42);
-  h_data->GetYaxis()->SetTitle(Form("Events / %.0f GeV", (float)rebin));
+  }  
 
-  if( variable == "mll_fkw" ){
-	h_data->GetYaxis()->SetRangeUser(0, 40 );  
-  }else{
+  if(
+	 TString(variable).Contains("phi") ||
+	 TString(variable).Contains("eta") ||
+	 variable == "metphi"   ||
+	 variable == "metphi20" ||
+	 variable == "metphi40" ||
+	 variable == "metphi60" ||
+	 variable == "metphir"  ){
 	h_data->GetYaxis()->SetRangeUser(0, h_data->GetMaximum()*1.4 );  
   }
 
-  if( TString(variable).Contains("phi") ||  TString(variable).Contains("eta") || variable == "mhtphi" || dilep    == "em" || variable == "nVert" ||variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir"  ){
-
-	if( variable == "mll_fkw" ){
-	  h_data->GetYaxis()->SetRangeUser(0, 40 );  
-	}else{
-	  h_data->GetYaxis()->SetRangeUser(0, h_data->GetMaximum()*1.4 );  
-	}
-
-	if( TString(variable).Contains("phi") )h_data->GetYaxis()->SetTitle(Form("Events/%.2f", (2*3.14159)/200*(float)rebin));
-	if( TString(variable).Contains("eta") )h_data->GetYaxis()->SetTitle(Form("Events/%.2f", (2*2.4)/200*(float)rebin));
-  }
-  else{
-	h_data->GetYaxis()->SetRangeUser(ymin*luminosity, h_data->GetMaximum() * ymax );
-  }
-  if( TString(variable).Contains("phi") ||  TString(variable).Contains("eta") || variable == "metphi" || variable == "metphi20" || variable == "metphi40" || variable == "metphi60" || variable == "metphir" ){
-	h_data->GetYaxis()->SetRangeUser(0, h_data->GetMaximum()*1.4 );  
-  }
-
+  if( TString(variable).Contains("phi") )h_data->GetYaxis()->SetTitle(Form("Events/%.2f", (2*3.14159)/200*(float)rebin));
+  if( TString(variable).Contains("eta") )h_data->GetYaxis()->SetTitle(Form("Events/%.2f", (2*2.4)/200*(float)rebin));
   if( TString(variable).Contains("njets") || TString(variable).Contains("njt") )h_data->GetYaxis()->SetTitle("Events");
   
-  h_data->GetXaxis()->SetRangeUser(xmin, xmax);
-  h_data->SetMarkerStyle(8);
-  h_data->SetMarkerSize(0.75);
-
   if( variable == "mll_fkw" ){
-	h_data->GetYaxis()->SetRangeUser(0, 60 );  
-	if( TString(selection).Contains("SRA") ){
-	  h_data->GetYaxis()->SetRangeUser(0, 45 );  
-	}
-  }
-
-  if( TString(variable).Contains("pt_matchedbjet") ){
-	if( h_zjets->GetMaximum() > h_ttbar->GetMaximum()){
-	  h_data->GetYaxis()->SetRangeUser(1e-1, h_zjets->GetMaximum()*1e1 );  
-	}
-	else{
-	  h_data->GetYaxis()->SetRangeUser(1e-1, h_ttbar->GetMaximum()*1e1 );  
-	}
-  }
-
-
-  if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive") ){
-
-	h_data->GetYaxis()->SetRangeUser(2e-1, 2e3 );  
-	// pad->SetLogy(0);
-	if( TString(selection).Contains("SRB_bveto") ){
-	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 6e3 );  
-	}
-	if( TString(selection).Contains("SRB_withb") ){
-	  h_data->GetYaxis()->SetRangeUser(7e-2, 9e3 );  
-	}
-
-	if( TString(selection).Contains("SRA_bveto") ){
-	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 8e3 );  
-	}
-	if( TString(selection).Contains("SRA_withb") ){
-	  h_data->GetYaxis()->SetRangeUser(2e-2, 6e3 );  
-	  // h_data->GetYaxis()->SetRangeUser(0, 1.4e2 );  
-	  // pad->SetLogy(0);
-	}
-	if( TString(selection).Contains("SR_ATLAS") ){
-	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 1e4 );  
-	}
+	h_data->GetYaxis()->SetRangeUser(0, 25 );  
   }
   
   TH1F* h_unc    = (TH1F*)h_data  -> Clone("h_unc");
@@ -1617,6 +1567,65 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	h_signal1->SetMarkerSize(0);	
   }
   
+
+  // if( dilep    == "em" ){
+  // 	ymin = 1e-1;
+  // 	ymax = 10;
+  // 	pad->SetLogy(1);
+  // }  
+
+  // if( TString(variable).Contains("nbjets") ||
+  // 	  TString(variable).Contains("nlep")   ){
+  // 	ymin = 1e-1;
+  // 	ymax = 200;
+  // 	xmax = 10;
+  // 	pad->SetLogy(1);
+  // }  
+
+  // if( TString(variable).Contains("mll") ){
+  // 	ymin = 1e-1;
+  // 	ymax = 100;
+  // 	pad->SetLogy(1);
+  // }  
+  
+  if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive") ){
+
+	h_data->GetYaxis()->SetRangeUser(2e-1, 2e3 );  
+	if( TString(selection).Contains("SRB_bveto") ){
+	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 6e3 );  
+	}
+	if( TString(selection).Contains("SRB_withb") ){
+	  h_data->GetYaxis()->SetRangeUser(7e-2, 9e3 );  
+	}
+
+	if( TString(selection).Contains("SRA_bveto") ){
+	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 4e4 );  
+	}
+	if( TString(selection).Contains("SRA_withb") ){
+	  h_data->GetYaxis()->SetRangeUser(2e-2, 6e3 );  
+	}
+	if( TString(selection).Contains("SR_ATLAS") ){
+	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 5e4 );  
+	}
+	if( TString(selection).Contains("2jets_inclusive") ){
+	  h_data->GetYaxis()->SetRangeUser(2e0, 8e5 );  
+	}
+  }else{
+	h_data->GetYaxis()->SetRangeUser(2e-1, h_data->GetMaximum() * 10 );
+  }
+
+  // h_data->GetYaxis()->SetRangeUser(ymin, ymax);
+  h_data->GetXaxis()->SetRangeUser(xmin, xmax);
+
+  h_data->GetXaxis()->SetLabelSize(0);
+  h_data->GetYaxis()->SetLabelSize(0.05);
+  h_data->GetYaxis()->SetLabelFont(42);
+  h_data->GetYaxis()->SetTitleOffset(1.5);
+  h_data->GetYaxis()->SetTitleSize(0.05);
+  h_data->GetYaxis()->SetTitleFont(42);
+  h_data->GetYaxis()->SetTitle(Form("Events / %.0f GeV", (float)rebin));
+  h_data->SetMarkerStyle(8);
+  h_data->SetMarkerSize(0.75);
 
   h_data->Draw("x0e1");
   stack->Draw("samehist");
@@ -1735,7 +1744,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   if( TString(variable).Contains("pt")  ) h_rat->GetXaxis()->SetTitle("p_{T} GeV");
   if( variable == "njets"  || TString(variable).Contains("njt") ) h_rat->GetXaxis()->SetTitle("N_{jets}");  
   if( variable == "nbjets"               ) h_rat->GetXaxis()->SetTitle("N_{b-jets}");  
-  if( variable == "mll"                 ) h_rat->GetXaxis()->SetTitle("M_{\\ell\\ell} GeV");
+  if( TString(variable).Contains("mll_") ) h_rat->GetXaxis()->SetTitle("M_{\\ell\\ell} [GeV]");
   if( TString(variable).Contains("phi") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
   if( TString(variable).Contains("l1phi") ) h_rat->GetXaxis()->SetTitle("leading lepton #phi");
   if( TString(variable).Contains("l2phi") ) h_rat->GetXaxis()->SetTitle("sub-leading lepton #phi");
@@ -1785,7 +1794,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   // if( luminosity*norm_factor < 0.0161 ) drawCMSLatex( c1, 0.0161 );
   // else                                  drawCMSLatex( c1, luminosity*norm_factor );
 
-  if( !( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ) && luminosity*norm_factor < 4.0 ) drawCMSLatex( c1, 4.0 );
+  if( (TString(variable).Contains("mll_")) ||
+	  (!( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ) && luminosity*norm_factor < 4.0) ) drawCMSLatex( c1, 4.0 );
   else drawCMSLatex( c1, luminosity*norm_factor );
 
   if( !TString(selection).Contains("signalcontamination") ){

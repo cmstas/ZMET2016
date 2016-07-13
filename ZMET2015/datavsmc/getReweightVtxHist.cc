@@ -15,7 +15,7 @@ void getReweightVtxHist()
   // TH1F * h_data = (TH1F*)f_data->Get("h_ll_event_nVert_passtrig")->Clone("h_data");
   // TH1F * h_zjet = (TH1F*)f_zjet->Get("h_ll_event_nVert_passtrig")->Clone("h_zjet");
 
-  TFile * f_data = TFile::Open("pileup_4p0fb.root"  , "READ");
+  TFile * f_data = TFile::Open("pileup_central_6p26fb.root"  , "READ");
   TFile * f_zjet = TFile::Open("../output/V08-07-01/zjets_inclusive_novtxweight_hists.root" , "READ");
 
   TH1F * h_data = (TH1F*)f_data->Get("pileup")->Clone("h_data");
@@ -40,7 +40,7 @@ void getReweightVtxHist()
   TH1F * h_vtx_ratio = (TH1F*) h_data->Clone("h_vtx_ratio");
   h_vtx_ratio->Divide(h_zjet);
 
-  TFile * file = TFile::Open("nvtx_ratio_4p0fb.root","RECREATE");
+  TFile * file = TFile::Open("nvtx_ratio_6p26fb.root","RECREATE");
   file->cd();
   h_vtx_ratio->Write();
   h_data->Write();

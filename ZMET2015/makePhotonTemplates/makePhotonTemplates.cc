@@ -134,7 +134,7 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 
   // const char* json_file = "/home/users/olivito/mt2_74x_dev/MT2Analysis/babymaker/jsons/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 1.3 fb
   // const char* json_file = "../../json/Cert_271036-274240_13TeV_PromptReco_Collisions16_JSON_snt.txt"; // 0.8 fb-1 for FSR
-  const char* json_file = "../../json/golden_json_220616_snt.txt"; // 4.0 fb, for preapproval
+  const char* json_file = "../../json/golden_json_080716_snt.txt"; // 6.26 fb, for preapproval
 
   set_goodrun_file(json_file);
 
@@ -307,7 +307,8 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
       if( !usejson && zmet.isData() && !zmet.evt_passgoodrunlist() ) continue; // use json applied at babymaking
       if( zmet.isData() && zmet.nVert() == 0                       ) continue; // special selection for now
 	  // if( zmet.isData() && !passPhotonTrigger()                    ) continue; // pass trigger for data
-	  if( zmet.isData() && getPrescaleNoBins() <= 0                ) continue; // pass trigger for data
+	  if( zmet.isData() && getPrescaleNoBins_nol1ps() <= 0         ) continue; // pass trigger for data
+	  if( zmet.nlep()>0         ) continue; // pass trigger for data
 
 	  // if( zmet.isData() && zmet.met_rawPt() < 0.1 ) continue;
 	  
@@ -322,9 +323,6 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 
 	  if( TString(selection).Contains("withtightb") && zmet.nBJetTight() < 1 ) continue;
 
-	  // cout<<getPrescaleNoBins()<<endl;
-	  // cout<<"165 pscale: "<<zmet.HLT_Photon165_R9Id90_HE10_IsoM()<<endl;
-	  // cout<<"30 pscale:  "<<zmet.HLT_Photon30_R9Id90_HE10_IsoM()<<endl;
 	  if( zmet.isData() ){  
 	  	// weight *= (float) getPrescale();
 	  	// weight *= (float) getPrescaleNoBins();
