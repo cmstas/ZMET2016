@@ -32,9 +32,10 @@ using namespace duplicate_removal;
 
 const bool debug = false;
 
-const bool usejson              = true;
-const bool dovtxreweighting     = true;
-const bool dotemplateprediction = true;
+const bool usejson                 = true;
+const bool dovtxreweighting        = true;
+const bool dotemplateprediction    = true;
+const bool correctewkcontamination = true;
 const bool dotemplatepredictionmc = false;
 
 // Used for MC, to calculate nominal values
@@ -135,10 +136,19 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
   METTemplates mettemplates( selection );
   TH1F* currentMETTemplate = NULL;
+
+  METTemplates mettemplates_ewk( selection );
+  TH1F* currentMETTemplate_ewk = NULL;
   if( dotemplateprediction ){
 	// mettemplates.loadTemplatesFromFile( Form("../output/%s/data%s_novtxweight_ptweight_templates.root", iter.c_str(), selection.c_str()), mettemplate_hists );
 	mettemplates.loadTemplatesFromFile( Form("../output/%s/data%s_novtxweight_templates.root", iter.c_str(), selection.c_str()), mettemplate_hists );
 	mettemplates.setBins( selection );
+
+	if( correctewkcontamination ){
+	  mettemplates_ewk.loadTemplatesFromFile( Form("../output/%s/data_withMC%s_novtxweight_templates.root", iter.c_str(), selection.c_str()), mettemplate_hists_ewk );
+	  mettemplates_ewk.setBins( selection );
+	}
+	
   }
   if( dotemplatepredictionmc ){
 	// mettemplates.loadTemplatesFromFile( Form("../output/%s/data_inclusive_templates.root", iter.c_str(), selection.c_str()), mettemplate_hists );
@@ -1817,6 +1827,21 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		if( (zmet.hyp_type() == 0 || zmet.hyp_type() == 1 ) ){
 		  currentMETTemplate = mettemplates.pickTemplate( mettemplate_hists, zmet.njets(), zmet.ht(), zmet.dilpt() );
 		  mettemplates.countTemplate( zmet.njets(), zmet.ht(), zmet.dilpt(), weight );
+
+		  if( correctewkcontamination ){
+			currentMETTemplate_ewk = mettemplates_ewk.pickTemplate( mettemplate_hists_ewk, zmet.njets(), zmet.ht(), zmet.dilpt() );
+			mettemplates_ewk.countTemplate( zmet.njets(), zmet.ht(), zmet.dilpt(), weight );
+			try
+			  {
+				event_hists.at( "h_templ_met_ewk" ) -> Add( currentMETTemplate_ewk, weight );		
+			  }
+			catch(exception &e)
+			  {
+				cout<<"Hist: h_templ_met_ewk Does not exist!"<<endl;
+				exit(1);
+			  }
+		  }
+		  
 		  try
 		  	{
 		  	  event_hists.at( "h_templ_met" ) -> Add( currentMETTemplate, weight );		
@@ -1862,9 +1887,12 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   }
   
   // mettemplates.NormalizeTemplates(mettemplate_hists);
-  mettemplates.correctBinUncertainty( mettemplate_hists, event_hists.at("h_templ_met") );
+  mettemplates     . correctBinUncertainty( mettemplate_hists,     event_hists.at("h_templ_met"    ) );
+  mettemplates_ewk . correctBinUncertainty( mettemplate_hists_ewk, event_hists.at("h_templ_met_ewk") );
 
-  
+  event_hists.at("h_templ_met_ewk_subtracted") = (TH1F*)event_hists.at("h_templ_met_ewk")->Clone("h_templ_met_ewk_subtracted");
+  event_hists.at("h_templ_met_ewk_difference") = (TH1F*)event_hists.at("h_templ_met"    )->Clone("h_templ_met_ewk_difference");
+  event_hists.at("h_templ_met_ewk_difference") -> Add(  event_hists.at("h_templ_met_ewk"), -1.0 ); // get nominal with ewk subtracted
   if (nEventsChain != nEventsTotal)
     std::cout << "ERROR: number of events from files is not equal to total number of events" << std::endl;
 
@@ -2016,6 +2044,9 @@ void templateLooper::bookHistos(){
 
   // random extra hists here
   bookHist("h_templ_met", "h_templ_met", 500,0,500);
+  bookHist("h_templ_met_ewk", "h_templ_met_ewk", 500,0,500);
+  bookHist("h_templ_met_ewk_subtracted", "h_templ_met_ewk_subtracted", 500,0,500);
+  bookHist("h_templ_met_ewk_difference", "h_templ_met_ewk_difference", 500,0,500);
 
   vector <string> phivars;
   vector <float> axislimits;

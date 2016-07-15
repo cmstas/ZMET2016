@@ -558,15 +558,26 @@ int getPrescaleNoBins_nol1ps()
 		 zmet.HLT_Photon165_HE10() > 0
 		 ) ) return 0;
   if(     (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
-		   zmet.HLT_Photon165_HE10() > 0)            ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
+  		   zmet.HLT_Photon165_HE10() > 0)            &&                               zmet.gamma_pt().at(0) > 180 ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 &&                               zmet.gamma_pt().at(0) > 135 ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 105 ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 85  ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 55  ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
+  // normalized using higher pT trigger
+  else if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 55 && zmet.gamma_pt().at(0) > 40 ) return 118;
+  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 40 && zmet.gamma_pt().at(0) > 33 ) return 231;
+  else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return 1281;
 
-  else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 50 ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
-  if(      zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 50                               ) return zmet.HLT_Photon36_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 33 ) return zmet.HLT_Photon30_R9Id90_HE10_IsoM();
-  if(      zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return zmet.HLT_Photon22_R9Id90_HE10_IsoM();
+  // if(     (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
+  // 		   zmet.HLT_Photon165_HE10() > 0)             ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0  ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0  ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0  ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 55 ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
+  // if(      zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 55                               ) return zmet.HLT_Photon36_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 33 ) return zmet.HLT_Photon30_R9Id90_HE10_IsoM();
+  // if(      zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return zmet.HLT_Photon22_R9Id90_HE10_IsoM();
+
   // else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ) return 0;
   return -1; // should not get here
 }

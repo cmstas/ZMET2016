@@ -21,6 +21,7 @@ public:
 private:
 
   std::map<std::string, TH1F*> mettemplate_hists;
+  std::map<std::string, TH1F*> mettemplate_hists_ewk;
   std::map<std::string, TH1F*> event_hists;
 
   TH2F * h_signalyields_met100to150_ee;

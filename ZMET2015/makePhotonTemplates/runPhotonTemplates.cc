@@ -18,17 +18,18 @@ void runPhotonTemplates( std::string selection = "", std::string iter = "", std:
   TChain* ch = new TChain("t");
 
   if ( sample == "data" ){
-	// ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/data_2015C25ns05Oct2015_ph*.root" , iter.c_str() ));
-	// ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/data_2015D25ns05Oct2015_ph*.root" , iter.c_str() ));
-	// ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/data_2015D25nsPromptv4_ph*.root"  , iter.c_str() ));
-
-	// ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/data_2015C25ns05Oct2015_ph*.root" , iter.c_str() ));
-	// ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/data_2015D25ns05Oct2015_ph*.root" , iter.c_str() ));
-	// ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/data_2015D25nsPromptv4_ph*.root"  , iter.c_str() ));
-
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_ph_v2*.root"));
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_ph_v2*.root"));
-	
+
+	}
+
+  if ( sample == "data_withMC" ){
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_ph_v2*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_ph_v2*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wgjets_incl_amcnlo*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltbr_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltop_mgmlm*.root"));
+
 	}
 
   else if ( sample == "All_MC" ){

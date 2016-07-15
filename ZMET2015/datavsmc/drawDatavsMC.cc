@@ -27,7 +27,9 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   bool showmoredigits   = true;
 
-  bool binningfortables = false;
+  bool correctewk       = true;
+
+  bool binningfortables = true;
   bool drawassymuncs    = true;
   bool usetemplates     = true;
   bool usefsbkg         = true;
@@ -53,6 +55,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   bool useedgeplots   = false; // combine z bgs and fs bgs into 2 categories
 
   TH1F * h_data  = NULL;
+  TH1F * h_zjets_ewk_diff  = NULL;
   TH1F * h_zjets = NULL;
   TH1F * h_ttbar = NULL;
   TH1F * h_wz    = NULL;
@@ -90,7 +93,13 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   getBackground(                 h_vvv  , iter, Form("vvv%s"  , selection.c_str() ), variable, dilep, region );
 
   if( usetemplates ){
-	getTemplateMET( h_zjets, iter, Form("data%s", selection.c_str() ) );
+	getTemplateMET( h_zjets, iter, Form("data%s", selection.c_str() ), correctewk );
+	if( correctewk ){
+	  std::string filename = Form("../output/%s/data%s_hists.root", iter.c_str(), selection.c_str() );
+	  cout<<"Getting template MET from "<<filename<<endl;
+	  TFile *infile = TFile::Open(filename.c_str(),"READ");
+	  h_zjets_ewk_diff = dynamic_cast<TH1F*>(infile->Get("h_templ_met_ewk_difference")->Clone(Form("h_zjets_ewk_diff")));
+	}
 	getBackground(  h_wz   , iter, Form("wz%s"   , selection.c_str() ), variable, dilep, region );
 	getBackground(  h_zz   , iter, Form("zz%s"   , selection.c_str() ), variable, dilep, region );
   }
@@ -176,6 +185,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   
 	float scaleval = ((val_data-val_ttbar)/(val_zjets));
 	h_zjets->Scale(scaleval);
+	if( correctewk ) h_zjets_ewk_diff->Scale(scaleval);
 
 	cout<<"Scaling template prediction by: "<<scaleval<<endl;
 
@@ -207,6 +217,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   vector <double> val_zjets;
   vector <double> err_zjets;
+
+  vector <double> val_zjets_ewk_diff;
 
   vector <double> val_fsbkg;
   vector <double> err_fsbkg;
@@ -380,6 +392,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  val_signal.push_back(0);
 	  err_signal.push_back(0);
 	  val_zjets.push_back(0);
+	  if( correctewk ) val_zjets_ewk_diff.push_back(0);
 	  err_zjets.push_back(0);
 	  val_fsbkg.push_back(0);
 	  err_fsbkg.push_back(0);
@@ -421,6 +434,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		val_data .at(bini) = h_data ->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_data .at(bini));
 		if( drawsignal ) val_signal.at(bini)= h_signal1->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_signal .at(bini));
 		val_zjets.at(bini) = h_zjets->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_zjets.at(bini));
+		if( correctewk ) val_zjets_ewk_diff.at(bini) = h_zjets_ewk_diff->Integral( metcut.at(bini)+1, metcut.at(bini+1));
 		val_fsbkg.at(bini) = h_ttbar->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_fsbkg.at(bini));
 		val_ttvbg.at(bini) = h_ttv  ->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_ttvbg.at(bini));
 		val_vvvbg.at(bini) = h_vvv  ->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_vvvbg.at(bini));
@@ -497,6 +511,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		val_data .at(bini) = h_data ->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_data .at(bini));
 		if( drawsignal ) val_signal.at(bini)= h_signal1->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_signal .at(bini));
 		val_zjets.at(bini) = h_zjets->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_zjets.at(bini));
+		if( correctewk ) val_zjets_ewk_diff.at(bini) = h_zjets_ewk_diff->Integral( metcut.at(bini)+1, metcut.at(bini+1));
 		val_fsbkg.at(bini) = h_ttbar->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_fsbkg.at(bini));
 		val_ttvbg.at(bini) = h_ttv  ->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_ttvbg.at(bini));
 		val_vvvbg.at(bini) = h_vvv  ->IntegralAndError( metcut.at(bini)+1, metcut.at(bini+1), err_vvvbg.at(bini));
@@ -549,6 +564,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  
 	  if( applysysts ){
 		err_zjets.at(bini) = sqrt( pow( err_zjets.at(bini), 2 ) + pow( val_zjets.at(bini)*zsyst, 2 ) + pow( val_zjets.at(bini)*renorm_unc, 2 ) );
+		if( correctewk ){ err_zjets.at(bini) = sqrt( pow( err_zjets.at(bini), 2 ) + pow( val_zjets_ewk_diff.at(bini), 2 ) );}
 
 		if( TString(selection).Contains("SR" ) || TString(selection).Contains("2jets_inclusive" ) ){
 		  err_fsbkg.at(bini) = sqrt( pow( err_fsbkg.at(bini), 2 ) + pow( val_fsbkg.at(bini)*.05, 2 ) );
@@ -1278,6 +1294,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   
   updateoverflow( h_data , xmax );
   updateoverflow( h_zjets, xmax );
+  if( correctewk ) updateoverflow( h_zjets_ewk_diff, xmax );
   updateoverflow( h_ttbar, xmax );
   updateoverflow( h_st   , xmax );
   updateoverflow( h_wz   , xmax );
@@ -1324,6 +1341,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
 	h_data  = (TH1F*) h_data  -> Rebin(nbins, "h_data_rebinned", bins);
 	h_zjets = (TH1F*) h_zjets -> Rebin(nbins, "h_zjets_rebinned", bins);
+	if( correctewk ) h_zjets_ewk_diff = (TH1F*) h_zjets_ewk_diff -> Rebin(nbins, "h_zjets_ewk_diff_rebinned", bins);
 	h_ttbar = (TH1F*) h_ttbar -> Rebin(nbins, "h_ttbar_rebinned", bins);
 	h_st    = (TH1F*) h_st    -> Rebin(nbins, "h_st_rebinned", bins);
 	h_wz    = (TH1F*) h_wz    -> Rebin(nbins, "h_wz_rebinned", bins);
@@ -1335,6 +1353,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
 	renormalizebins( h_data  );
 	renormalizebins( h_zjets );
+	if( correctewk )renormalizebins( h_zjets_ewk_diff );
 	renormalizebins( h_ttbar );
 	renormalizebins( h_st    );
 	renormalizebins( h_wz    );
@@ -1803,8 +1822,16 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   }
 	
   if( usefsbkg ) {
-	c1->SaveAs(Form("../output/ZMET2015/%s/plots/Closure/h_%s_%s_signalregion%s_fsbkg_%s.png", iter.c_str(), variable.c_str(), dilep.c_str(), selection.c_str(), region.c_str() ));
-	c1->SaveAs(Form("../output/ZMET2015/%s/plots/Closure/h_%s_%s_signalregion%s_fsbkg_%s.pdf", iter.c_str(), variable.c_str(), dilep.c_str(), selection.c_str(), region.c_str() ));
+
+	if( correctewk ){
+	  c1->SaveAs(Form("../output/ZMET2015/%s/plots/Closure/h_%s_%s_signalregion%s_fsbkg_%s_ewkcorrected.png", iter.c_str(), variable.c_str(), dilep.c_str(), selection.c_str(), region.c_str() ));
+	  c1->SaveAs(Form("../output/ZMET2015/%s/plots/Closure/h_%s_%s_signalregion%s_fsbkg_%s_ewkcorrected.pdf", iter.c_str(), variable.c_str(), dilep.c_str(), selection.c_str(), region.c_str() ));
+
+	}else{
+	  c1->SaveAs(Form("../output/ZMET2015/%s/plots/Closure/h_%s_%s_signalregion%s_fsbkg_%s.png", iter.c_str(), variable.c_str(), dilep.c_str(), selection.c_str(), region.c_str() ));
+	  c1->SaveAs(Form("../output/ZMET2015/%s/plots/Closure/h_%s_%s_signalregion%s_fsbkg_%s.pdf", iter.c_str(), variable.c_str(), dilep.c_str(), selection.c_str(), region.c_str() ));
+	}
+
   }else{
 	if( usemgzjets ){
 	  c1->SaveAs(Form("../output/ZMET2015/%s/plots/Closure/h_%s_%s_signalregion%s_%smlm.png", iter.c_str(), variable.c_str(), dilep.c_str(), selection.c_str(), region.c_str() ));

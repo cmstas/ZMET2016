@@ -20,7 +20,7 @@ void renormhists( TH1F * &h_data, TH1F * &h_rescaleme )
   return;
 }
 
-void getReweightHTHist( string signalregion )
+void getReweightHTHist( string signalregion, bool ewkcontam = false )
 {
 
   TFile * f_data = NULL;
@@ -30,8 +30,13 @@ void getReweightHTHist( string signalregion )
   // f_phot = TFile::Open(Form("../output/V07-04-13_fixedleptons_alldata_updatedJECS/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
 
   f_data = TFile::Open(Form("../output/V08-11-00/data_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");			  
-  f_phot = TFile::Open(Form("../output/V08-11-00/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
 
+  if( ewkcontam == true ){
+	f_phot = TFile::Open(Form("../output/V08-11-00/data_withMC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
+  }else{
+	f_phot = TFile::Open(Form("../output/V08-11-00/data_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");
+  }
+  
   TH1F * h_data = NULL;
   TH1F * h_data_em = NULL;
   TH1F * h_phot = NULL;
@@ -170,7 +175,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  // binning.clear();
 	  // binning.push_back(0);
 	  // binning.push_back(33);
-	  // binning.push_back(50);
+	  // binning.push_back(55);
 	  // binning.push_back(75);
 	  // binning.push_back(90);
 	  // binning.push_back(120);
@@ -179,7 +184,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
-	  binning.push_back(50);
+	  binning.push_back(55);
 	  binning.push_back(75);
 	  binning.push_back(90);
 	  binning.push_back(120);
@@ -193,7 +198,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
-	  binning.push_back(50);
+	  binning.push_back(55);
 	  binning.push_back(75);
 	  binning.push_back(90);
 	  binning.push_back(120);
@@ -211,7 +216,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
-	  binning.push_back(50);
+	  binning.push_back(55);
 	  binning.push_back(75);
 	  binning.push_back(90);
 	  binning.push_back(120);
@@ -226,7 +231,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
-	  binning.push_back(50);
+	  binning.push_back(55);
 	  binning.push_back(75);
 	  binning.push_back(90);
 	  binning.push_back(120);
@@ -244,7 +249,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  // binning.clear();
 	  // binning.push_back(0);
 	  // binning.push_back(33);
-	  // binning.push_back(50);
+	  // binning.push_back(55);
 	  // binning.push_back(75);
 	  // binning.push_back(90);
 	  // binning.push_back(120);
@@ -255,7 +260,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
-	  binning.push_back(50);
+	  binning.push_back(55);
 	  binning.push_back(75);
 	  binning.push_back(90);
 	  binning.push_back(120);
@@ -269,7 +274,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
-	  binning.push_back(50);
+	  binning.push_back(55);
 	  binning.push_back(75);
 	  binning.push_back(90);
 	  binning.push_back(120);
@@ -287,7 +292,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
-	  binning.push_back(50);
+	  binning.push_back(55);
 	  binning.push_back(75);
 	  binning.push_back(90);
 	  binning.push_back(120);
@@ -302,7 +307,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
-	  binning.push_back(50);
+	  binning.push_back(55);
 	  binning.push_back(75);
 	  binning.push_back(90);
 	  binning.push_back(120);
@@ -312,7 +317,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.push_back(3000);
 	// binning.push_back(0);
 	// // binning.push_back(33);
-	// binning.push_back(50);
+	// binning.push_back(55);
 	// // binning.push_back(75);
 	// // binning.push_back(90);
 	// binning.push_back(120);
@@ -325,7 +330,7 @@ void getReweightScheme(vector <double> &binning, string selection )
   else if( TString(selection).Contains("2jets_inclusive") ){
 	binning.push_back(0);
 	binning.push_back(33);
-	binning.push_back(50);
+	binning.push_back(55);
 	binning.push_back(75);
 	binning.push_back(90);
 	binning.push_back(120);
@@ -340,7 +345,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 
   	binning.push_back(0);
 	binning.push_back(33);
-	binning.push_back(50);
+	binning.push_back(55);
 	binning.push_back(75);
 	binning.push_back(90);
 	binning.push_back(120);

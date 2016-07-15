@@ -283,6 +283,7 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 		weight = 1.0;
 	  }else if( !zmet.isData() ){
 		weight *= zmet.evt_scale1fb();
+		weight *= -6.26;
 	  }
 
 	  // define "global" event variables
@@ -308,9 +309,7 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
       if( zmet.isData() && zmet.nVert() == 0                       ) continue; // special selection for now
 	  // if( zmet.isData() && !passPhotonTrigger()                    ) continue; // pass trigger for data
 	  if( zmet.isData() && getPrescaleNoBins_nol1ps() <= 0         ) continue; // pass trigger for data
-	  if( zmet.nlep()>0         ) continue; // pass trigger for data
-
-	  // if( zmet.isData() && zmet.met_rawPt() < 0.1 ) continue;
+	  if( zmet.nlep()>0         ) continue; // lepton veto
 	  
 	  // everything after this is template specific
 	  if( !passSignalRegionSelection(selection) ) continue;
@@ -649,23 +648,23 @@ void makePhotonTemplates::fillHist( string obj, string var, string sel, float va
 		// if( passPhotonTrigger30()  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig30" ) ), value, weight);
 		// if( passPhotonTrigger22()  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig22" ) ), value, weight);
 
-		if(      zmet.gamma_pt().at(0) > 165 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig165") ), value, weight);
-		else if( zmet.gamma_pt().at(0) > 120 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig120") ), value, weight);
-		else if( zmet.gamma_pt().at(0) > 90  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig90" ) ), value, weight);
-		else if( zmet.gamma_pt().at(0) > 75  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig75" ) ), value, weight);
-		else if( zmet.gamma_pt().at(0) > 50  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig50" ) ), value, weight);
-		else if( zmet.gamma_pt().at(0) > 36  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig36" ) ), value, weight);
-		else if( zmet.gamma_pt().at(0) > 33  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig30" ) ), value, weight);
-		else if( zmet.gamma_pt().at(0) > 22  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig22" ) ), value, weight);
+		// if(      zmet.gamma_pt().at(0) > 165 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig165") ), value, weight);
+		// else if( zmet.gamma_pt().at(0) > 120 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig120") ), value, weight);
+		// else if( zmet.gamma_pt().at(0) > 90  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig90" ) ), value, weight);
+		// else if( zmet.gamma_pt().at(0) > 75  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig75" ) ), value, weight);
+		// else if( zmet.gamma_pt().at(0) > 50  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig50" ) ), value, weight);
+		// else if( zmet.gamma_pt().at(0) > 36  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig36" ) ), value, weight);
+		// else if( zmet.gamma_pt().at(0) > 33  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig30" ) ), value, weight);
+		// else if( zmet.gamma_pt().at(0) > 22  ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig22" ) ), value, weight);
 
-		// if(      zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig165") ), value, weight);
-		// else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig120") ), value, weight);
-		// else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig90" ) ), value, weight);
-		// else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig75" ) ), value, weight);
-		// else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig50" ) ), value, weight);
-		// else if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig36" ) ), value, weight);
-		// else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) > 33 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig30" ) ), value, weight);
-		// else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig22" ) ), value, weight);
+		if( zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig165") ), value, weight);
+		if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig120") ), value, weight);
+		if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig90" ) ), value, weight);
+		if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig75" ) ), value, weight);
+		if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig50" ) ), value, weight);
+		if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig36" ) ), value, weight);
+		if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) > 33 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig30" ) ), value, weight);
+		else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33 ) fillUnderOverFlow(event_hists.at( Form("h_ph_%s_%s_%s", obj.c_str(), var.c_str(), "passtrig22" ) ), value, weight);
 
 	  }else if( zmet.evt_type() == 0 ){		  
 		if( zmet.hyp_type() == 0 ){

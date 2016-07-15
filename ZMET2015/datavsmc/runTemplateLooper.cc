@@ -98,15 +98,10 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
   else if( sample == "wz" ){
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wz_3lnu_powheg*.root" ));
-
-	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/wz_3lnu_powheg*.root" ));
-
   }
 
   else if( sample == "zz" ){
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/zz_2l2n_powheg*.root" ));
-	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/zz_2l2nu_powheg*.root" ));
-
   }
 
   else if( sample == "vvv" ){
@@ -114,11 +109,6 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wwz_incl_mgmlm*.root" ));
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wzz_incl_mgmlm*.root" ));
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/zzz_incl_mgmlm*.root" ));
-
-	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/www_incl_amcnlo*.root" ));
-	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/wwz_incl_amcnlo*.root" ));
-	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/wzz_incl_amcnlo*.root" ));
-	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/zzz_incl_mgmlm*.root"  ));
   }
 
   else if( sample == "ttv" ){
@@ -131,9 +121,6 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttz_2l2n_amcnlo*.root"  ));
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttz_qq_amcnlo*.root"    ));
-
-	// ch->Add(Form("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-07-00_ttw_ln_amcnlo/wjets*.root"));
-	// ch->Add(Form("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-07-00_ttz_llnn_amcnlo/unknown*.root"));
   }
   
   templateLooper* myLooper = new templateLooper();

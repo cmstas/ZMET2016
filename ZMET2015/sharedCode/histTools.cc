@@ -234,12 +234,17 @@ void getBackground( TH1F* &backgroundhist, std::string iter, std::string bgfilep
   return;
 }
 
-void getTemplateMET( TH1F* &methist, std::string iter, std::string bgfileprefix )
+void getTemplateMET( TH1F* &methist, std::string iter, std::string bgfileprefix, bool correctewk = false )
 {
   std::string filename = Form("../output/%s/%s_hists.root", iter.c_str(), bgfileprefix.c_str() );
   cout<<"Getting template MET from "<<filename<<endl;
   TFile *infile = TFile::Open(filename.c_str(),"READ");
-  methist = dynamic_cast<TH1F*>(infile->Get("h_templ_met")->Clone(Form("methist_%s", bgfileprefix.c_str())));  
+  if( correctewk ){
+	methist = dynamic_cast<TH1F*>(infile->Get("h_templ_met_ewk_subtracted")->Clone(Form("methist_%s", bgfileprefix.c_str())));  
+  }else{
+	methist = dynamic_cast<TH1F*>(infile->Get("h_templ_met")->Clone(Form("methist_%s", bgfileprefix.c_str())));  
+  }
+
   return;
 }
 
