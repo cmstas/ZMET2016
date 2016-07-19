@@ -12,10 +12,12 @@
 #include "TStyle.h"
 #include "TFile.h"
 #include "TBox.h"
+#include "TGraph.h"
+#include "TGraph2D.h"
 
 using namespace std;
 
-int makeLimitHists()
+int makeLimitHist()
 {
 
   
@@ -48,15 +50,15 @@ int makeLimitHists()
   TH2F * massplane_exp_dn = (TH2F*) f_rvalues->Get("hExp1m") -> Clone("massplane_exp_dn");
   // TH2F * massplane_xsec   = new TH2F("massplane_xsec","", 27,25,1375,25,75.0,1325.0);
 
-  TH2F * massplane_xsec   = (TH2F*) massplane->Clone("massplane_xsec");
-  TH2F * efficiency       = (TH2F*) massplane->Clone("efficiency"    );
+  TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_xsec");
+  TH2F * efficiency       = (TH2F*) massplane    -> Clone("efficiency"    );
 
   double contours[1];
   contours[0] = 1.0;
 
   TH2F * contourplot = dynamic_cast<TH2F*>(massplane->Clone("contourplot"));
 
-  massplane_xsec->GetXaxis()->SetRangeUser(975,1775);
+  massplane_xsec->GetXaxis()->SetRangeUser(1025,1725);
   // massplane_xsec->GetYaxis()->SetRangeUser(125,1925);
 
   massplane_xsec->GetXaxis()->SetLabelSize(0.035);
@@ -127,36 +129,48 @@ int makeLimitHists()
 	  // 	if( biny*50 > (binx*50 - 100) ) massplane_xsec  ->SetBinContent(mainbin,0.0);
 	  // }
 
-  	  // if( (biny*50 - binx*50) > 350 ) contourplot->SetBinContent(binx,biny,1.0);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_obs->SetBinContent(binx,biny,1.0);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_obs_up->SetBinContent(binx,biny,1.0);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_obs_dn->SetBinContent(binx,biny,1.0);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_exp_up->SetBinContent(binx,biny,1.0);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_exp_dn->SetBinContent(binx,biny,1.0);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_xsec->SetBinContent(binx,biny,0.0);
+	  // cout<<biny*50<<" | "<<binx*50+500<<endl;
+	  
+	  // // if( binx*50 > 975 ){
+	  // 	if( (biny*50 - binx*50) > 400 ) contourplot     ->SetBinContent(binx,biny, 100);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs   ->SetBinContent(binx,biny, 100);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs_up->SetBinContent(binx,biny, 100);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs_dn->SetBinContent(binx,biny, 100);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_exp_up->SetBinContent(binx,biny, 100);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_exp_dn->SetBinContent(binx,biny, 100);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_xsec  ->SetBinContent(binx,biny, 0.0);
+	  // // }
+	
+  	  // if( (biny*50 - binx*50) > 400 ) contourplot     ->SetBinContent(binx,biny,0.00);
+  	  // if( (biny*50 - binx*50) > 400 ) massplane_obs   ->SetBinContent(binx,biny,0.00);
+  	  // if( (biny*50 - binx*50) > 400 ) massplane_obs_up->SetBinContent(binx,biny,0.00);
+  	  // if( (biny*50 - binx*50) > 400 ) massplane_obs_dn->SetBinContent(binx,biny,0.00);
+  	  // if( (biny*50 - binx*50) > 400 ) massplane_exp_up->SetBinContent(binx,biny,0.00);
+  	  // if( (biny*50 - binx*50) > 400 ) massplane_exp_dn->SetBinContent(binx,biny,0.00);
+  	  // if( (biny*50 - binx*50) > 400 ) massplane_xsec  ->SetBinContent(binx,biny,0.00);
 
-  	  if( (biny*50 - binx*50) > 350 ) contourplot     ->SetBinContent(binx,biny,0.99);
-  	  if( (biny*50 - binx*50) > 350 ) massplane_obs   ->SetBinContent(binx,biny,0.99);
-  	  if( (biny*50 - binx*50) > 350 ) massplane_obs_up->SetBinContent(binx,biny,0.99);
-  	  if( (biny*50 - binx*50) > 350 ) massplane_obs_dn->SetBinContent(binx,biny,0.99);
-  	  if( (biny*50 - binx*50) > 350 ) massplane_exp_up->SetBinContent(binx,biny,0.99);
-  	  if( (biny*50 - binx*50) > 350 ) massplane_exp_dn->SetBinContent(binx,biny,0.99);
-  	  if( (biny*50 - binx*50) > 350 ) massplane_xsec  ->SetBinContent(binx,biny,0.0);
+  	  // if( (biny*50 - binx*50) > 350 ) contourplot     ->SetBinContent(binx,biny,0.99);
+  	  // if( (biny*50 - binx*50) > 350 ) massplane_obs   ->SetBinContent(binx,biny,0.99);
+  	  // if( (biny*50 - binx*50) > 350 ) massplane_obs_up->SetBinContent(binx,biny,0.99);
+  	  // if( (biny*50 - binx*50) > 350 ) massplane_obs_dn->SetBinContent(binx,biny,0.99);
+  	  // if( (biny*50 - binx*50) > 350 ) massplane_exp_up->SetBinContent(binx,biny,0.99);
+  	  // if( (biny*50 - binx*50) > 350 ) massplane_exp_dn->SetBinContent(binx,biny,0.99);
+  	  // if( (biny*50 - binx*50) > 350 ) massplane_xsec  ->SetBinContent(binx,biny,0.0);
 
-	  if( binx*50 > 1725 ){
-		if( (biny*50 - binx*50) > 400 ) contourplot     ->SetBinContent(binx,biny,0.0);
-		if( (biny*50 - binx*50) > 400 ) massplane_obs   ->SetBinContent(binx,biny,0.0);
-		if( (biny*50 - binx*50) > 400 ) massplane_obs_up->SetBinContent(binx,biny,0.0);
-		if( (biny*50 - binx*50) > 400 ) massplane_obs_dn->SetBinContent(binx,biny,0.0);
-		if( (biny*50 - binx*50) > 400 ) massplane_exp_up->SetBinContent(binx,biny,0.0);
-		if( (biny*50 - binx*50) > 400 ) massplane_exp_dn->SetBinContent(binx,biny,0.0);
-		if( (biny*50 - binx*50) > 400 ) massplane_xsec  ->SetBinContent(binx,biny,0.0);
-	  }
+	  // if( binx*50 > 1775 ){
+	  // 	if( (biny*50 - binx*50) > 400 ) contourplot     ->SetBinContent(binx,biny,0.0);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs   ->SetBinContent(binx,biny,0.0);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs_up->SetBinContent(binx,biny,0.0);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs_dn->SetBinContent(binx,biny,0.0);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_exp_up->SetBinContent(binx,biny,0.0);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_exp_dn->SetBinContent(binx,biny,0.0);
+	  // 	if( (biny*50 - binx*50) > 400 ) massplane_xsec  ->SetBinContent(binx,biny,0.0);
+	  // }
 	}
   }
 
   // multiply by susy xsec
-  for( int binx = 12; binx < 36; binx++ ){
+  for( int binx = 12; binx < 40; binx++ ){
   	for( int biny = 2; biny < binx-1; biny++ ){
 	  int mgluino = binx*50;
 	  int truebin = massplane_xsec->FindBin(binx*50,biny*50);
@@ -168,6 +182,123 @@ int makeLimitHists()
   }
   
   massplane_xsec->Draw("colz");
+  // contourplot->Draw("samecont3");
+  // // contourplot->Draw("colz");
+  // massplane_obs->Draw("samecont2");
+  // massplane_obs_up->Draw("samecont2");
+  // massplane_obs_dn->Draw("samecont2");
+  // massplane_exp_up->Draw("samecont3");
+  // massplane_exp_dn->Draw("samecont3");
+
+//binning needs to correspond to actual binning of TH2F with limits
+  vector<double> vmx, vmy, vxsec, vobs, vobsup, vobsdown, vexp, vup, vdown;  
+  for( int binx = 18; binx < 44; binx++ ){
+  	for( int biny = 2; biny < binx+2; biny++ ){
+	  int truebin = massplane_xsec->FindBin(binx*50,biny*50);
+	  vmx.push_back(binx*50); vmy.push_back(biny*50);
+	  vxsec    . push_back(h_susyxsecs      -> GetBinContent(h_susyxsecs->FindBin(binx*50)));
+	  vobs     . push_back(massplane_obs    -> GetBinContent(truebin));
+	  vobsup   . push_back(massplane_obs_up -> GetBinContent(truebin));
+	  vobsdown . push_back(massplane_obs_dn -> GetBinContent(truebin));
+	  vexp     . push_back(massplane        -> GetBinContent(truebin));
+	  vup      . push_back(massplane_exp_up -> GetBinContent(truebin));
+	  vdown    . push_back(massplane_exp_dn -> GetBinContent(truebin));
+
+	}
+  }
+
+  vector<double> vlim(vxsec.size());
+  for(size_t i = 0; i < vxsec.size(); ++i){
+    vlim.at(i) = vxsec.at(i) * vobs.at(i);
+    vlim.at(i) = vxsec.at(i) * vobs.at(i)*(7.65);
+    // vlim.at(i) = vxsec.at(i) * vobs.at(i)*(7.65)*(0.19175);
+  }
+  
+  TGraph2D glim("glim", "Cross-Section Limit"            , vlim    .size(), &vmx.at(0), &vmy.at(0), &vlim    .at(0));
+  TGraph2D gobs("gobs", "Observed Limit"                 , vobs    .size(), &vmx.at(0), &vmy.at(0), &vobs    .at(0));
+  TGraph2D gobsup("gobsup", "Observed +1#sigma Limit"    , vobsup  .size(), &vmx.at(0), &vmy.at(0), &vobsup  .at(0));
+  TGraph2D gobsdown("gobsdown", "Observed -1#sigma Limit", vobsdown.size(), &vmx.at(0), &vmy.at(0), &vobsdown.at(0));
+  TGraph2D gexp("gexp", "Expected Limit"                 , vexp    .size(), &vmx.at(0), &vmy.at(0), &vexp    .at(0));
+  TGraph2D gup("gup", "Expected +1#sigma Limit"          , vup     .size(), &vmx.at(0), &vmy.at(0), &vup     .at(0));
+  TGraph2D gdown("gdown", "Expected -1#sigma Limit"      , vdown   .size(), &vmx.at(0), &vmy.at(0), &vdown   .at(0));
+  TGraph dots(vmx.size(), &vmx.at(0), &vmy.at(0));
+
+  double xmin = *min_element(vmx.cbegin(), vmx.cend());
+  double xmax = *max_element(vmx.cbegin(), vmx.cend());
+  double ymin = *min_element(vmy.cbegin(), vmy.cend());
+  double ymax = *max_element(vmy.cbegin(), vmy.cend());
+  double bin_size = 12.5;
+  int nxbins = max(1, min(500, static_cast<int>(ceil((xmax-xmin)/bin_size))));
+  int nybins = max(1, min(500, static_cast<int>(ceil((ymax-ymin)/bin_size))));
+  glim.SetNpx(nxbins);
+  glim.SetNpy(nybins);
+  gexp.SetNpx(nxbins);
+  gexp.SetNpy(nybins);
+  gobs.SetNpx(nxbins);
+  gobs.SetNpy(nybins);
+  gobsdown.SetNpx(nxbins);
+  gobsdown.SetNpy(nybins);
+  gobsup.SetNpx(nxbins);
+  gobsup.SetNpy(nybins);
+  gup.SetNpx(nxbins);
+  gup.SetNpy(nybins);
+  gdown.SetNpx(nxbins);
+  gdown.SetNpy(nybins);
+  
+  TH2D *hlim = glim.GetHistogram();
+  hlim->SetTitle(";m_{gluino} [GeV];m_{LSP} [GeV]");
+  hlim->GetZaxis()->SetRangeUser(1e-2,1);
+  hlim->GetZaxis()->SetLabelSize(0);
+
+  TH2D *hexp = gexp.GetHistogram();
+  hexp->SetContour(1, contours);
+  hexp->SetLineWidth(4);
+  hexp->SetLineStyle(2);
+  hexp->SetLineColor(kRed);
+  hexp->Smooth();
+
+  TH2D *hobs = gobs.GetHistogram();
+  hobs->SetContour(1, contours);
+  hobs->SetLineWidth(4);
+  hobs->SetLineStyle(1);
+  hobs->SetLineColor(kBlack);
+  hobs->Smooth();
+
+  TH2D *hobs_up = gobsup.GetHistogram();
+  hobs_up->SetContour(1, contours);
+  hobs_up->SetLineWidth(2);
+  hobs_up->SetLineStyle(1);
+  hobs_up->SetLineColor(kBlack);
+  hobs_up->Smooth();
+
+  TH2D *hobs_dn = gobsdown.GetHistogram();
+  hobs_dn->SetContour(1, contours);
+  hobs_dn->SetLineWidth(2);
+  hobs_dn->SetLineStyle(1);
+  hobs_dn->SetLineColor(kBlack);
+  hobs_dn->Smooth();
+
+  TH2D *hexp_up = gup.GetHistogram();
+  hexp_up->SetContour(1, contours);
+  hexp_up->SetLineWidth(2);
+  hexp_up->SetLineStyle(2);
+  hexp_up->SetLineColor(kRed);
+  hexp_up->Smooth();
+
+  TH2D *hexp_dn = gdown.GetHistogram();
+  hexp_dn->SetContour(1, contours);
+  hexp_dn->SetLineWidth(2);
+  hexp_dn->SetLineStyle(2);
+  hexp_dn->SetLineColor(kRed);
+  hexp_dn->Smooth();
+  
+  hlim   ->Draw("samecolz");
+  // hobs   ->Draw("samecont3");
+  // hobs_dn->Draw("samecont2");
+  // hobs_up->Draw("samecont2");
+  // hexp   ->Draw("samecont3");
+  // hexp_dn->Draw("samecont2");
+  // hexp_up->Draw("samecont2");
   contourplot->Draw("samecont3");
   // contourplot->Draw("colz");
   massplane_obs->Draw("samecont2");
@@ -176,51 +307,39 @@ int makeLimitHists()
   massplane_exp_up->Draw("samecont3");
   massplane_exp_dn->Draw("samecont3");
 
-  TLine * diag_01 = new TLine(975,835,1675,1535);
-  diag_01->SetLineWidth(7);
-  diag_01->SetLineColor(kWhite);
-  diag_01->SetLineStyle(1);
-  diag_01->Draw("same");
-
-  TLine * diag_0 = new TLine(975,855,1675,1555);
+  TLine * diag_0 = new TLine(1025,1035,1675,1685);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
-  TLine * diag_1 = new TLine(975,875,1675,1575);
-  diag_1->SetLineWidth(7);
-  diag_1->SetLineColor(kWhite);
-  diag_1->SetLineStyle(1);
-  diag_1->Draw("same");
+  diag_0 = new TLine(1025,1055,1675,1705);
+  diag_0->SetLineWidth(7);
+  diag_0->SetLineColor(kWhite);
+  diag_0->SetLineStyle(1);
+  diag_0->Draw("same");
 
-  TLine * diag_2 = new TLine(975,895,1675,1595);
-  diag_2->SetLineWidth(7);
-  diag_2->SetLineColor(kWhite);
-  diag_2->SetLineStyle(1);
-  diag_2->Draw("same");
+  diag_0 = new TLine(1025,1075,1675,1725);
+  diag_0->SetLineWidth(7);
+  diag_0->SetLineColor(kWhite);
+  diag_0->SetLineStyle(1);
+  diag_0->Draw("same");
 
-  TLine * diag_3 = new TLine(975,915,1675,1615);
-  diag_3->SetLineWidth(7);
-  diag_3->SetLineColor(kWhite);
-  diag_3->SetLineStyle(1);
-  diag_3->Draw("same");
+  diag_0 = new TLine(1025,1095,1675,1745);
+  diag_0->SetLineWidth(7);
+  diag_0->SetLineColor(kWhite);
+  diag_0->SetLineStyle(1);
+  diag_0->Draw("same");
 
-  TLine * diag_4 = new TLine(975,935,1675,1635);
-  diag_4->SetLineWidth(7);
-  diag_4->SetLineColor(kWhite);
-  diag_4->SetLineStyle(1);
-  diag_4->Draw("same");
-
-  TLine * diag_5 = new TLine(975,955,1675,1655);
-  diag_5->SetLineWidth(7);
-  diag_5->SetLineColor(kWhite);
-  diag_5->SetLineStyle(1);
-  diag_5->Draw("same");
+  diag_0 = new TLine(1025,1115,1675,1765);
+  diag_0->SetLineWidth(7);
+  diag_0->SetLineColor(kWhite);
+  diag_0->SetLineStyle(1);
+  diag_0->Draw("same");
 
   padt->RedrawAxis();
 
-  TBox * box = new TBox(975,1500,1775,1925);
+  TBox * box = new TBox(1025,1500,1725,1925);
   box->SetFillColor(kWhite);
   box->Draw("same");
 
@@ -235,25 +354,25 @@ int makeLimitHists()
   l1->AddEntry(massplane_obs , "Observed limit, #pm 1 #sigma_{theory}"            , "l");
   l1->Draw("same");
 
-  TLine * top_margin = new TLine(975,1875,1775,1875);
+  TLine * top_margin = new TLine(1025,1925,1725,1925);
   top_margin->SetLineWidth(4);
   top_margin->SetLineColor(kBlack);
   top_margin->SetLineStyle(1);
   top_margin->Draw("same");
 
-  TLine * bot_margin = new TLine(975,1500,1775,1500);
+  TLine * bot_margin = new TLine(1025,1500,1725,1500);
   bot_margin->SetLineWidth(4);
   bot_margin->SetLineColor(kBlack);
   bot_margin->SetLineStyle(1);
   bot_margin->Draw("same");
 
-  TLine * lef_margin = new TLine(975,1500,975,1875);
+  TLine * lef_margin = new TLine(1025,1500,1025,1925);
   lef_margin->SetLineWidth(4);
   lef_margin->SetLineColor(kBlack);
   lef_margin->SetLineStyle(1);
   lef_margin->Draw("same");
 
-  TLine * rig_margin = new TLine(1775,1500,1775,1875);
+  TLine * rig_margin = new TLine(1725,1500,1725,1925);
   rig_margin->SetLineWidth(4);
   rig_margin->SetLineColor(kBlack);
   rig_margin->SetLineStyle(1);
