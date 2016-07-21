@@ -34,10 +34,13 @@ bool passMETFilters()
 	if (zmet.nVert                                   () == 0 ) return false;
 	if (!zmet.Flag_HBHENoiseFilter                   ()      ) return false;
 	if (!zmet.Flag_HBHEIsoNoiseFilter                ()      ) return false;
-	if (!zmet.Flag_CSCTightHalo2015Filter            ()      ) return false;
+	// if (!zmet.Flag_CSCTightHalo2015Filter            ()      ) return false;
 	if (!zmet.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) return false;
 	if (!zmet.Flag_goodVertices                      ()      ) return false;
 	if (!zmet.Flag_eeBadScFilter                     ()      ) return false;
+	if (!zmet.Flag_globalTightHalo2016               ()      ) return false;
+	if (!zmet.Flag_badMuonFilter                     ()      ) return false;
+	if (!zmet.Flag_badChargedCandidateFilter         ()      ) return false;
 
   }
   return true;
@@ -166,6 +169,9 @@ bool passSignalRegionSelection( string selection )
   float event_met_pt = zmet.met_pt();
   float event_met_ph = zmet.met_phi();
 
+  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
+  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
+
   float event_ht    = zmet.ht();
   float event_njets = zmet.njets();
 
@@ -282,11 +288,11 @@ bool passSignalRegionSelection( string selection )
 	  
 	  if( TString(selection).Contains("SR_EWK" ) && 
 		  !( (
-			  ( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && zmet.mt2() > 80         ) ) || // dilep cuts
+			  ( zmet.evt_type() == 0 && ( zmet.nveto_leptons() < 1 && zmet.mt2() > 80         ) ) || // dilep cuts
 			  // ( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && MT2( event_met_pt, event_met_ph, lepsFromDecayedZ.first, lepsFromDecayedZ.second, 0.0, false ) > 80         ) ) || // dilep cuts
 			  // ( zmet.evt_type() == 2 && ( MT2( event_met_pt, event_met_ph, zmet.gamma_p4().at(0), zmet.jets_p4().at(jetind_lowdRgamma), 0.0, false ) > 80 && zmet.njets() > 2) ) ) && // photon+jets cuts
 			  ( zmet.evt_type() == 2 &&
-				( ( abs(zmet.decayedphoton_lep1_p4().eta()) < 2.4 && abs(zmet.decayedphoton_lep2_p4().eta()) < 2.4 ) &&
+				( (   abs(zmet.decayedphoton_lep1_p4().eta()) < 2.4 && abs(zmet.decayedphoton_lep2_p4().eta()) < 2.4 ) &&
 				  ( ( abs(zmet.decayedphoton_lep1_p4().eta()) < 1.4 || abs(zmet.decayedphoton_lep1_p4().eta()) > 1.6 ) &&
 					( abs(zmet.decayedphoton_lep2_p4().eta()) < 1.4 || abs(zmet.decayedphoton_lep2_p4().eta()) > 1.6 ) ) &&
 				  MT2( event_met_pt, event_met_ph, zmet.decayedphoton_lep1_p4(), zmet.decayedphoton_lep2_p4(), 0.0, false ) > 80 ) ) ) && // photon+jets cuts
@@ -552,15 +558,26 @@ int getPrescaleNoBins_nol1ps()
 		 zmet.HLT_Photon165_HE10() > 0
 		 ) ) return 0;
   if(     (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
-		   zmet.HLT_Photon165_HE10() > 0)            ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
+  		   zmet.HLT_Photon165_HE10() > 0)            &&                               zmet.gamma_pt().at(0) > 180 ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 &&                               zmet.gamma_pt().at(0) > 135 ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 105 ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 85  ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 55  ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
+  // normalized using higher pT trigger
+  else if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 55 && zmet.gamma_pt().at(0) > 40 ) return 118;
+  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 40 && zmet.gamma_pt().at(0) > 33 ) return 231;
+  else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return 1281;
 
-  else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 50 ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
-  if(      zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 50                               ) return zmet.HLT_Photon36_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 33 ) return zmet.HLT_Photon30_R9Id90_HE10_IsoM();
-  if(      zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return zmet.HLT_Photon22_R9Id90_HE10_IsoM();
+  // if(     (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
+  // 		   zmet.HLT_Photon165_HE10() > 0)             ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0  ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0  ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0  ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 55 ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
+  // if(      zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 55                               ) return zmet.HLT_Photon36_R9Id90_HE10_IsoM();
+  // else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 33 ) return zmet.HLT_Photon30_R9Id90_HE10_IsoM();
+  // if(      zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return zmet.HLT_Photon22_R9Id90_HE10_IsoM();
+
   // else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ) return 0;
   return -1; // should not get here
 }

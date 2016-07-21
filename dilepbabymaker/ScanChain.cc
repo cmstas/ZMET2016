@@ -95,9 +95,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   MakeBabyNtuple( Form("%s.root", baby_name.c_str()) );
 
   // do this once per job
-  // const char* json_file = "Cert_13TeV_16Dec2015ReReco_Collisions15_25ns_JSON_snt.txt";
-  // const char* json_file = "golden_json_220616_snt.txt"; // 4p0 fb
-  const char* json_file = "golden_json_010716_snt.txt"; // 5p7 fb
+  const char* json_file = "golden_json_080716_snt.txt"; // 6p26 fb
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
@@ -215,6 +213,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  //JECs for 76X
 	  if( TString(currentFile->GetTitle()).Contains("16Dec2015") || TString(currentFile->GetTitle()).Contains("76X_mcRun2") ){
 		if( TString(currentFile->GetTitle()).Contains("Run2015C") || TString(currentFile->GetTitle()).Contains("Run2015D") ){
+		  jetcorr_filenames_pfL1FastJetL2L3.clear();
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt"   );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2Relative_AK4PFchs.txt"  );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L3Absolute_AK4PFchs.txt"  );
@@ -224,6 +223,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		else{
 		  // files for 76X MC
+		  jetcorr_filenames_pfL1FastJetL2L3.clear();
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L1FastJet_AK4PFchs.txt"   );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L2Relative_AK4PFchs.txt"  );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L3Absolute_AK4PFchs.txt"  );
@@ -233,30 +233,32 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	  else if( TString(currentFile->GetTitle()).Contains("80MiniAODv") ){
 		// files for 80X MC
+		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L2Relative_AK4PFchs.txt"  );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L3Absolute_AK4PFchs.txt"  );
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_Uncertainty_AK4PFchs.txt" );
 	  }
 		
-	  else if( TString(currentFile->GetTitle()).Contains("Run2016") ){
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L1FastJet_AK4PFchs.txt"   );
+	  else if( TString(currentFile->GetTitle()).Contains("Run2016") || TString(currentFile->GetTitle()).Contains("CMSSW_8_0_11_V08-00-06") ){
+		jetcorr_filenames_pfL1FastJetL2L3.clear();
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L2Relative_AK4PFchs.txt"  );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L3Absolute_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV3_DATA_L2L3Residual_AK4PFchs.txt");
-		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_Uncertainty_AK4PFchs.txt" );
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
+		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
 	  }
 
 	  else if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ){
 		// files for 25ns Data
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/MCRUN2_74_V9_L1FastJet_AK4PFchs.txt"   );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/MCRUN2_74_V9_L2Relative_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/MCRUN2_74_V9_L3Absolute_AK4PFchs.txt"  );
-		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/MCRUN2_74_V9_Uncertainty_AK4PFchs.txt" );
-
+		jetcorr_filenames_pfL1FastJetL2L3.clear();
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L1FastJet_AK4PFchs.txt"   );
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L2Relative_AK4PFchs.txt"  );
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L3Absolute_AK4PFchs.txt"  );
+		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_Uncertainty_AK4PFchs.txt" );
 	  }
-   	  
-      jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
+
+	  jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
     }
 
     // Event Loop
@@ -289,7 +291,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		mass_LSP    = cms3.sparm_values().at(1);
 
 		evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
-		evt_xsec     = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino));
+		evt_xsec     = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
 		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
 		LorentzVector isrSystem_p4;
@@ -612,7 +614,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
 		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
 		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
-		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl )      );
+		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
+		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl, 1 )   );
 		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
 		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
 
@@ -645,28 +648,28 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
-		if( passMuonSelection_ZMET_veto_v1( iMu, true, true ) ){
+		if( passMuonSelection_ZMET_veto_v2( iMu, true, true ) ){
 		  nveto_leptons++;
 		}
  	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
 		nMuons10++;
-
 		
 		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
  		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
-		  vec_lep_p4s          .push_back ( cms3.mus_p4().at(iMu)                       );
-		  vec_lep_pt           .push_back ( cms3.mus_p4().at(iMu).pt()                  );
-		  vec_lep_eta          .push_back ( cms3.mus_p4().at(iMu).eta()                 );
-		  vec_lep_phi          .push_back ( cms3.mus_p4().at(iMu).phi()                 );
-		  vec_lep_mass         .push_back ( cms3.mus_mass().at(iMu)                     );
-		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)                   );
-		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13)             );
-		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV().at(iMu)                    );
-		  vec_lep_dz           .push_back ( cms3.mus_dzPV().at(iMu)                     );
-		  vec_lep_tightId      .push_back ( muTightID(iMu, ZMET)                        );
-		  vec_lep_relIso03MREA .push_back ( muMiniRelIso( iMu, true , 0.5, false, true ));
-		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()                 );
-		  vec_lep_MVA          .push_back ( -99                                         );
+		  vec_lep_p4s          .push_back ( cms3.mus_p4()    .at(iMu)       );
+		  vec_lep_pt           .push_back ( cms3.mus_p4()    .at(iMu).pt()  );
+		  vec_lep_eta          .push_back ( cms3.mus_p4()    .at(iMu).eta() );
+		  vec_lep_phi          .push_back ( cms3.mus_p4()    .at(iMu).phi() );
+		  vec_lep_mass         .push_back ( cms3.mus_mass()  .at(iMu)       );
+		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)       );
+		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13) );
+		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
+		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
+		  vec_lep_tightId      .push_back ( muTightID(iMu, ZMET)            );
+		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
+		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)    );
+		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
+		  vec_lep_MVA          .push_back ( -99                             );
 
 		  if (!isData && (cms3.mus_mc3dr().at(iMu) < 0.2 && cms3.mus_mc3idx().at(iMu) != -9999 && abs(cms3.mus_mc3_id().at(iMu)) == 13 )) { // matched to a prunedGenParticle electron?
 			int momid =  abs(genPart_motherId[cms3.mus_mc3idx().at(iMu)]);
@@ -916,6 +919,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		// note this uses the eta of the jet as stored in CMS3
 		//  chance for small discrepancies if JEC changes direction slightly..
         if(!isLoosePFJet_50nsV1(iJet) && !isSMSScan) continue;
+		if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 		passJets.push_back(iJet);
       }
 
@@ -991,6 +995,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.800))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_50nsV1(iJet) || isSMSScan) ) continue;
+		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 
           bool alreadyRemoved = false;
           for(unsigned int j=0; j<removedJets.size(); j++){
@@ -1028,7 +1033,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.800))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_50nsV1(iJet) || isSMSScan) ) continue;
-
+		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
+		
           bool alreadyRemoved = false;
           for(unsigned int j=0; j<removedJetsGamma.size(); j++){
             if(iJet == removedJetsGamma.at(j)){
@@ -1105,11 +1111,19 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
 
 		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
- 		  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
- 		  jets_csv                                      .push_back(current_csv_val);
-		  if( current_csv_val >= 0.800 ){ jets_medb_p4  .push_back(p4sCorrJets.at(iJet));}	   
+ 		  if( p4sCorrJets.at(iJet).pt() > 35.0 ) {
+			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
+			jets_csv                                      .push_back(current_csv_val);
+		  }
+		  if( current_csv_val >= 0.800 ){
+			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
+			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
+			  jets_csv                                      .push_back(current_csv_val);
+			}
+			jets_medb_p4  .push_back(p4sCorrJets.at(iJet));
+		  }	   
 
-		  if( !isData){
+		  if( !isData ){
 			jets_mcFlavour   .push_back(cms3.pfjets_partonFlavour().at(iJet));
 		  	jets_mcHadronFlav.push_back(cms3.pfjets_hadronFlavour().at(iJet));
 		  }
@@ -1475,8 +1489,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("met_calo_phi", &met_calo_phi );
   BabyTree_->Branch("met_rawPt"   , &met_rawPt    );
   BabyTree_->Branch("met_rawPhi"  , &met_rawPhi   );
-  BabyTree_->Branch("met_caloPt"  , &met_caloPt   );
-  BabyTree_->Branch("met_caloPhi" , &met_caloPhi  );
   BabyTree_->Branch("met_genPt"   , &met_genPt    );
   BabyTree_->Branch("met_genPhi"  , &met_genPhi   );
   BabyTree_->Branch("sumet_raw"   , &sumet_raw    );
@@ -1792,8 +1804,6 @@ void babyMaker::InitBabyNtuple () {
   met_calo_phi = -999.0;
   met_rawPt    = -999.0;
   met_rawPhi   = -999.0;
-  met_caloPt   = -999.0;
-  met_caloPhi  = -999.0;
   met_genPt    = -999.0;
   met_genPhi   = -999.0;
 
@@ -2127,6 +2137,22 @@ float babyMaker::sum_mlb()
   int jet_tempind_1 = -1;
   int jet_tempind_2 = -1;
 
+  // if( evt == 676825669 ){
+
+  // 	cout<<"njets:      "<<njets<<endl;
+  // 	cout<<"nbjets:     "<<nBJetMedium<<endl;
+  // 	cout<<"nbjets_vec: "<<jets_medb_p4.size()<<endl;
+  // 	cout<<"najets:     "<<jets_p4.size()<<endl;
+
+  // 	cout<<"mlb_1: "<<(lep_p4.at(0) + jets_p4.at(0)).M()<<endl;      // store mlb1 temp
+  // 	cout<<"mlb_2: "<<(lep_p4.at(1) + jets_p4.at(1)).M()<<endl;      // store mlb1 temp
+
+  // 	cout<<"mlb_1: "<<(lep_p4.at(1) + jets_p4.at(0)).M()<<endl;      // store mlb1 temp
+  // 	cout<<"mlb_2: "<<(lep_p4.at(0) + jets_p4.at(1)).M()<<endl;      // store mlb1 temp
+
+	
+  // }
+  
   if (jets_medb_p4.size() > 1) {
 
 	// Find lowest Mlb for lep 1
@@ -2147,7 +2173,7 @@ float babyMaker::sum_mlb()
 	  min_mlb_1 = 10000.;
 	  // Find lowest Mlb for lep 1 again
 	  for( size_t jetind = 0; jetind < jets_medb_p4.size(); jetind++ ){
-		if( jetind == (size_t)jet_tempind_1 ) continue;
+		if( jetind == (size_t)jet_tempind_2 ) continue;
 		mlb_temp_1 = (lep_p4.at(0) + jets_medb_p4.at(jetind)).M();
 		if(mlb_temp_1 < min_mlb_1){
 		  min_mlb_1 = mlb_temp_1;
@@ -2200,7 +2226,6 @@ float babyMaker::sum_mlb()
 	
   }else if(jets_medb_p4.size() < 1 && jets_p4.size() > 1){
 
-
 	// Find lowest Mlb for lep 1
 	for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){ // loop over jets
 	  mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();      // store mlb1 temp
@@ -2219,7 +2244,7 @@ float babyMaker::sum_mlb()
 	  min_mlb_1 = 10000.;
 	  // Find lowest Mlb for lep 1 again
 	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
-		if( jetind == (size_t)jet_tempind_1 ) continue;
+		if( jetind == (size_t)jet_tempind_2 ) continue;
 		mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();
 		if(mlb_temp_1 < min_mlb_1){
 		  min_mlb_1 = mlb_temp_1;

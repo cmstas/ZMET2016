@@ -125,8 +125,6 @@ class babyMaker {
   Float_t         met_calo_phi;
   Float_t         met_rawPt;
   Float_t         met_rawPhi;
-  Float_t         met_caloPt;
-  Float_t         met_caloPhi;
   Float_t         met_genPt;
   Float_t         met_genPhi;
 

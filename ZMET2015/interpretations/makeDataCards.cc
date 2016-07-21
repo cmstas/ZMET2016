@@ -27,10 +27,10 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
 
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 
-  TFile * f_eventcounts_bveto_SRA = TFile::Open("../output/V07-04-13_fixedleptons_alldata_updatedJECS/fullscan_rawMET_loosephoton_bveto_SRA_hists.root","READ");
-  TFile * f_eventcounts_withb_SRA = TFile::Open("../output/V07-04-13_fixedleptons_alldata_updatedJECS/fullscan_rawMET_loosephoton_withb_SRA_hists.root","READ");
-  TFile * f_eventcounts_bveto_SRB = TFile::Open("../output/V07-04-13_fixedleptons_alldata_updatedJECS/fullscan_rawMET_loosephoton_bveto_SRB_hists.root","READ");
-  TFile * f_eventcounts_withb_SRB = TFile::Open("../output/V07-04-13_fixedleptons_alldata_updatedJECS/fullscan_rawMET_loosephoton_withb_SRB_hists.root","READ");
+  TFile * f_eventcounts_bveto_SRA = TFile::Open("../output/V08-11-00/fullscan_SRA_bveto_hists.root","READ");
+  TFile * f_eventcounts_withb_SRA = TFile::Open("../output/V08-11-00/fullscan_SRA_withb_hists.root","READ");
+  TFile * f_eventcounts_bveto_SRB = TFile::Open("../output/V08-11-00/fullscan_SRB_bveto_hists.root","READ");
+  TFile * f_eventcounts_withb_SRB = TFile::Open("../output/V08-11-00/fullscan_SRB_withb_hists.root","READ");
   
   TH2F * h_eventcounts_bveto_SRA_met100to150 = NULL; TH2F * h_eventcounts_bveto_SRB_met100to150 = NULL;
   TH2F * h_eventcounts_bveto_SRA_met150to225 = NULL; TH2F * h_eventcounts_bveto_SRB_met150to225 = NULL;
@@ -109,22 +109,22 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   // channel.push_back("withb_SRA_met300toinf");
   
   vector <double> val_data;  
-  val_data.push_back(20);  
-  val_data.push_back(10);  
-  val_data.push_back( 2);  
-  val_data.push_back( 0);  
-  val_data.push_back(45);//43
-  val_data.push_back(23);//22
-  val_data.push_back( 4);//3
-  val_data.push_back( 3);
-  val_data.push_back(28);  
-  val_data.push_back( 6);  
-  val_data.push_back( 5);  
-  val_data.push_back( 6);  
-  val_data.push_back(21);
-  val_data.push_back( 6);
-  val_data.push_back( 1);
-  val_data.push_back( 3);
+  val_data.push_back( 85);  
+  val_data.push_back( 26);  
+  val_data.push_back(  9);  
+  val_data.push_back(  2);  
+  val_data.push_back(138);//43
+  val_data.push_back( 64);//22
+  val_data.push_back( 15);//3
+  val_data.push_back(  2);
+  val_data.push_back( 28);  
+  val_data.push_back(  6);  
+  val_data.push_back(  5);  
+  val_data.push_back(  6);  
+  val_data.push_back( 21);
+  val_data.push_back(  6);
+  val_data.push_back(  1);
+  val_data.push_back(  3);
   
   int signalbin = h_eventcounts_bveto_SRA_met100to150->FindBin(mglu,mlsp);
   
@@ -150,14 +150,14 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   vector <double> val_zjets;  
   vector <double> err_zjets;  
   vector <double> err_zjets_closure;  
-  val_zjets.push_back( 9.95); err_zjets.push_back( 0.87); err_zjets_closure.push_back(1.04); // bveto
-  val_zjets.push_back( 3.18); err_zjets.push_back( 0.61); err_zjets_closure.push_back(1.10);
-  val_zjets.push_back( 0.31); err_zjets.push_back( 0.13); err_zjets_closure.push_back(1.20);
-  val_zjets.push_back( 0.14); err_zjets.push_back( 0.08); err_zjets_closure.push_back(1.25);
-  val_zjets.push_back( 5.03); err_zjets.push_back( 0.90); err_zjets_closure.push_back(1.04); // withb
-  val_zjets.push_back( 1.61); err_zjets.push_back( 0.35); err_zjets_closure.push_back(1.10);
-  val_zjets.push_back( 0.41); err_zjets.push_back( 0.25); err_zjets_closure.push_back(1.20);
-  val_zjets.push_back( 0.29); err_zjets.push_back( 0.19); err_zjets_closure.push_back(1.25);
+  val_zjets.push_back(33.22); err_zjets.push_back( 3.59); err_zjets_closure.push_back(1.15); // bveto
+  val_zjets.push_back( 7.56); err_zjets.push_back( 2.19); err_zjets_closure.push_back(1.20);
+  val_zjets.push_back( 1.06); err_zjets.push_back( 0.63); err_zjets_closure.push_back(1.30);
+  val_zjets.push_back( 0.86); err_zjets.push_back( 0.86); err_zjets_closure.push_back(1.30);
+  val_zjets.push_back(11.26); err_zjets.push_back( 6.87); err_zjets_closure.push_back(1.15); // withb
+  val_zjets.push_back( 0.28); err_zjets.push_back( 3.31); err_zjets_closure.push_back(1.15);
+  val_zjets.push_back( 0.30); err_zjets.push_back( 0.30); err_zjets_closure.push_back(1.25);
+  val_zjets.push_back( 0.00); err_zjets.push_back( 0.50); err_zjets_closure.push_back(1.35);
   // val_zjets.push_back( 9.62); err_zjets.push_back( 0.72); err_zjets_closure.push_back(1.04); // bveto
   // val_zjets.push_back( 3.21); err_zjets.push_back( 0.52); err_zjets_closure.push_back(1.10);
   // val_zjets.push_back( 0.32); err_zjets.push_back( 0.12); err_zjets_closure.push_back(1.20);
@@ -177,35 +177,37 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   
   vector <double> val_fsbkg;  
   vector <double> err_fsbkg;  
-  val_fsbkg.push_back(12.6); err_fsbkg.push_back( 4.8); 
-  val_fsbkg.push_back( 4.2); err_fsbkg.push_back( 3.3); 
-  val_fsbkg.push_back( 0.0); err_fsbkg.push_back( 1.2); 
-  val_fsbkg.push_back( 1.1); err_fsbkg.push_back( 2.4); 
-  val_fsbkg.push_back(38.9); err_fsbkg.push_back( 7.6);
-  val_fsbkg.push_back(14.7); err_fsbkg.push_back( 5.1);
-  val_fsbkg.push_back( 0.0); err_fsbkg.push_back( 1.2);
-  val_fsbkg.push_back( 1.1); err_fsbkg.push_back( 2.4);
-  val_fsbkg.push_back( 3.2); err_fsbkg.push_back( 3.1); 
-  val_fsbkg.push_back( 3.2); err_fsbkg.push_back( 3.1); 
-  val_fsbkg.push_back( 1.1); err_fsbkg.push_back( 2.4); 
-  val_fsbkg.push_back( 0.0); err_fsbkg.push_back( 1.2); 
-  val_fsbkg.push_back( 9.5); err_fsbkg.push_back( 4.3);
-  val_fsbkg.push_back( 4.2); err_fsbkg.push_back( 3.3);
-  val_fsbkg.push_back( 4.2); err_fsbkg.push_back( 3.3);
-  val_fsbkg.push_back( 1.1); err_fsbkg.push_back( 2.4);
+  val_fsbkg.push_back( 22.3); err_fsbkg.push_back( 6.1); 
+  val_fsbkg.push_back( 14.8); err_fsbkg.push_back( 5.2); 
+  val_fsbkg.push_back(  4.2); err_fsbkg.push_back( 3.4); 
+  val_fsbkg.push_back(  2.1); err_fsbkg.push_back( 2.8); 
+  val_fsbkg.push_back(123.0); err_fsbkg.push_back(15.0);
+  val_fsbkg.push_back( 48.8); err_fsbkg.push_back( 8.8);
+  val_fsbkg.push_back( 18.0); err_fsbkg.push_back( 5.6);
+  val_fsbkg.push_back(  5.3); err_fsbkg.push_back( 3.6);
 
-  double Rsfof = 1.051;
+  val_fsbkg.push_back(  3.2); err_fsbkg.push_back( 3.1); 
+  val_fsbkg.push_back(  3.2); err_fsbkg.push_back( 3.1); 
+  val_fsbkg.push_back(  1.1); err_fsbkg.push_back( 2.4); 
+  val_fsbkg.push_back(  0.0); err_fsbkg.push_back( 1.2); 
+  val_fsbkg.push_back(  9.5); err_fsbkg.push_back( 4.3);
+  val_fsbkg.push_back(  4.2); err_fsbkg.push_back( 3.3);
+  val_fsbkg.push_back(  4.2); err_fsbkg.push_back( 3.3);
+  val_fsbkg.push_back(  1.1); err_fsbkg.push_back( 2.4);
+
+  double Rsfof = 1.06;
   
   vector <double> val_mcbkg;  
   vector <double> err_mcbkg;  
-  val_mcbkg.push_back( 1.0); err_mcbkg.push_back( 0.40); 
-  val_mcbkg.push_back( 0.8); err_mcbkg.push_back( 0.30); 
-  val_mcbkg.push_back( 0.5); err_mcbkg.push_back( 0.20); 
-  val_mcbkg.push_back( 0.3); err_mcbkg.push_back( 0.10); 
+  val_mcbkg.push_back( 3.1); err_mcbkg.push_back( 1.55); 
+  val_mcbkg.push_back( 2.3); err_mcbkg.push_back( 1.15); 
   val_mcbkg.push_back( 0.8); err_mcbkg.push_back( 0.40); 
-  val_mcbkg.push_back( 0.5); err_mcbkg.push_back( 0.25); 
-  val_mcbkg.push_back( 0.2); err_mcbkg.push_back( 0.10); 
-  val_mcbkg.push_back( 0.1); err_mcbkg.push_back( 0.05); 
+  val_mcbkg.push_back( 1.1); err_mcbkg.push_back( 0.55); 
+  val_mcbkg.push_back( 3.3); err_mcbkg.push_back( 1.65); 
+  val_mcbkg.push_back( 2.0); err_mcbkg.push_back( 1.0); 
+  val_mcbkg.push_back( 0.7); err_mcbkg.push_back( 0.35); 
+  val_mcbkg.push_back( 0.4); err_mcbkg.push_back( 0.2); 
+
   val_mcbkg.push_back( 1.5); err_mcbkg.push_back( 0.75); 
   val_mcbkg.push_back( 1.2); err_mcbkg.push_back( 0.60); 
   val_mcbkg.push_back( 0.8); err_mcbkg.push_back( 0.40); 
@@ -411,7 +413,7 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   for( size_t binind = 0; binind < channel.size(); binind++ ){	
 	fout << setw(25) << right << "-";
 	fout << setw(25) << right << "-";
-	fout << setw(25) << right <<  Form("%.3f", 1.038);   
+	fout << setw(25) << right <<  Form("%.3f", 1.06);   
 	fout << setw(25) << right << "-";
   }
   fout << endl;
@@ -553,8 +555,8 @@ void makeDataCards()
   // 	}
   // }
 
-  for( int xbinind = 12; xbinind < 32; xbinind++ ){
-  	for( int ybinind = 2; ybinind < xbinind-2; ybinind++ ){
+  for( int xbinind = 12; xbinind < 36; xbinind++ ){
+  	for( int ybinind = 2; ybinind < xbinind+1; ybinind++ ){
   	  cout<<Form("Making datacard for %i | %i",xbinind*50,ybinind*50)<<endl;
   	  makeDataCard(xbinind*50, ybinind*50);
   	}

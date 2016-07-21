@@ -32,9 +32,10 @@ using namespace duplicate_removal;
 
 const bool debug = false;
 
-const bool usejson              = true;
-const bool dovtxreweighting     = true;
-const bool dotemplateprediction = true;
+const bool usejson                 = true;
+const bool dovtxreweighting        = true;
+const bool dotemplateprediction    = true;
+const bool correctewkcontamination = true;
 const bool dotemplatepredictionmc = false;
 
 // Used for MC, to calculate nominal values
@@ -135,10 +136,19 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
   METTemplates mettemplates( selection );
   TH1F* currentMETTemplate = NULL;
+
+  METTemplates mettemplates_ewk( selection );
+  TH1F* currentMETTemplate_ewk = NULL;
   if( dotemplateprediction ){
 	// mettemplates.loadTemplatesFromFile( Form("../output/%s/data%s_novtxweight_ptweight_templates.root", iter.c_str(), selection.c_str()), mettemplate_hists );
 	mettemplates.loadTemplatesFromFile( Form("../output/%s/data%s_novtxweight_templates.root", iter.c_str(), selection.c_str()), mettemplate_hists );
 	mettemplates.setBins( selection );
+
+	if( correctewkcontamination ){
+	  mettemplates_ewk.loadTemplatesFromFile( Form("../output/%s/data_withMC%s_novtxweight_templates.root", iter.c_str(), selection.c_str()), mettemplate_hists_ewk );
+	  mettemplates_ewk.setBins( selection );
+	}
+	
   }
   if( dotemplatepredictionmc ){
 	// mettemplates.loadTemplatesFromFile( Form("../output/%s/data_inclusive_templates.root", iter.c_str(), selection.c_str()), mettemplate_hists );
@@ -163,8 +173,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   // const char* json_file = "Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 2.1 fb
   // const char* json_file = "../../json/DCSONLY_json_160516_snt.txt"; // 2016 data
   // const char* json_file = "../../json/Cert_271036-274240_13TeV_PromptReco_Collisions16_JSON_snt.txt"; // 0.8 fb-1 for FSR
-  const char* json_file = "../../json/golden_json_220616_snt.txt"; // 4.0 fb, for preapproval
-  
+  // const char* json_file = "../../json/golden_json_080716_snt.txt"; // 4.0 fb, for preapproval
+  const char* json_file = "../../json/golden_json_080716_7p65fb_snt.txt"; // 7.65 fb, for preapproval
+	
   set_goodrun_file(json_file);
 
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
@@ -172,10 +183,12 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   TH1F * h_vtxweight = NULL;
   TFile * f_vtx = NULL;
   if( dovtxreweighting ){
-	f_vtx = TFile::Open("nvtx_ratio_4p0fb.root","READ");
-	h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
+	// f_vtx = TFile::Open("nvtx_ratio_6p26fb.root","READ");
+	// h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
+
+	f_vtx = TFile::Open("pileup_jul17_nominalUpDown.root","READ");
 	// f_vtx = TFile::Open("puWeights_nTrueInt.root","READ");
-	// h_vtxweight = (TH1F*)f_vtx->Get("weights")->Clone("h_vtxweight");
+	h_vtxweight = (TH1F*)f_vtx->Get("weightsNominal")->Clone("h_vtxweight");
 	h_vtxweight->SetDirectory(rootdir);
 	f_vtx->Close();
   }
@@ -275,11 +288,47 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
         }
       }
 
+// 	  if(
+// 		 // (zmet.run() == 273725 && zmet.lumi() == 306 && zmet.evt() == 446408946 ) || 
+// 		 // (zmet.run() == 273730 && zmet.lumi() == 833 && zmet.evt() == 889427793 ) ||
+// 		 // (zmet.run() == 274968 && zmet.lumi() == 686 && zmet.evt() == 1301248891) ||
+// 		 // (zmet.run() == 275837 && zmet.lumi() == 688 && zmet.evt() == 1066481668)
+// 		 // zmet.evt() == 470836340  ||
+// 		 // zmet.evt() == 726705664  ||
+// 		 // zmet.evt() == 1268760057 ||
+// 		 // zmet.evt() == 1113504849 ||
+// 		 // zmet.evt() == 173918891  ||
+// 		 // zmet.evt() == 3089654438
+// zmet.evt() == 211268536 ||
+// zmet.evt() == 682190484 ||
+// zmet.evt() == 960899337
+// 		 ){
+
+// 		cout<<zmet.njets()<<" | ";
+// 		cout<<zmet.nlep()<<" | ";
+// 		cout<<zmet.hyp_type()<<" | ";
+// 		cout<<zmet.evt_type()<<" | ";
+// 		cout<<zmet.lep_pt().at(0)<<" | ";
+// 		cout<<zmet.lep_pt().at(1)<<" | ";
+// 		cout<<zmet.lep_eta().at(0)<<" | ";
+// 		cout<<zmet.lep_eta().at(1)<<" | ";
+// 		cout<<zmet.jets_p4().at(0).pt()<<" | ";
+// 		cout<<zmet.jets_p4().at(1).pt()<<" | ";
+// 		cout<<zmet.jets_p4().at(0).eta()<<" | ";
+// 		cout<<zmet.jets_p4().at(1).eta()<<" | ";
+// 		cout<<zmet.dRll()<<" | ";
+// 		cout<<zmet.ht()<<" | ";
+// 		cout<<zmet.met_T1CHS_miniAOD_CORE_pt()<<" | ";
+// 		cout<<passMETFilters()<<" | ";
+// 		// cout<<zmet.mlbmin()<<" | ";
+// 		// cout<<zmet.nlep()<<" | ";
+// 		// cout<<zmet.nlep()<<" | ";
+// 		cout<<endl;
+// 	  }
+	  
 	  //~-~-~-~-~-~-~-~~-//
 	  //Stitch DY samples//
 	  //~-~-~-~-~-~-~-~-~//
-
-	  
 	  if( sample == "zjetsmlm" ){
 	  	if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
 	  	  if( zmet.gen_ht()    > 100 ) continue;
@@ -298,12 +347,14 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 			// cout<<"mom "<<zmet.genPart_motherId().at(genind) << " | stat "<< zmet.genPart_status().at(genind) <<  " | id "<< zmet.genPart_pdgId().at(genind) << endl;
 			hasrealmet = true;
 		  }
-		  if( zmet.genPart_motherId().at(genind) == 23 &&
-			  zmet.genPart_status().at(genind) == 23 &&
-			  (abs(zmet.genPart_pdgId().at(genind))==11 ||
-			   abs(zmet.genPart_pdgId().at(genind))==13) ){
+		  if( ( zmet.genPart_motherId().at(genind) == 23 ||
+				zmet.genPart_grandmaId().at(genind) == 23 ) &&   // mother is a Z, or grandmother
+			  ( zmet.genPart_status().at(genind) == 1 ||
+				zmet.genPart_status().at(genind) == 23 ) &&     // status of lepton is 1 or 23
+			  (abs(zmet.genPart_pdgId().at(genind))==11 ||  // is an electron
+			   abs(zmet.genPart_pdgId().at(genind))==13) ){ // is a muon
+			realzpair = true;
 		  }
-		  realzpair = true;
 		}
 		if( !hasrealmet || !realzpair ) continue;
 	  }
@@ -335,7 +386,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  }else if( !zmet.isData() ){
 		weight *= zmet.evt_scale1fb();
 	  	if( TString(currentFile->GetTitle()).Contains("t5zz") ){
-		  weight *= 2.11;
+		  weight *= 7.65;
 		}
 	  	if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
 		  weight *= 3.545;
@@ -357,65 +408,51 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  float event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
 	  float event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
 
-	  
-	  // float event_ht    = zmet.ht();
-	  // float event_njets = zmet.njets();
+	  // if( TString(currentFile->GetTitle()).Contains("t5zz") ){
+	  // 	// if( zmet.met_T1CHS_miniAOD_CORE_pt() > 6500 ) continue;
 
-	  // if( jes_up ){
-	  // 	event_ht    = zmet.ht_up();
-	  // 	event_njets = zmet.njets_up();
+	  // 	// if( !(zmet.mass_gluino() == 1050 && zmet.mass_LSP() == 800) ) continue;
+	  // 	// if( (zmet.mass_gluino() == 1050 && zmet.mass_LSP() == 850) ){
+	  // 	// // if( zmet.met_T1CHS_miniAOD_CORE_pt() > 6500 && zmet.met_pt() < 6500 ){
+	  // 	//   cout<<"miniAOD met: "<<zmet.met_pt()<<" | rawMET: "<<zmet.met_rawPt()<<" | COREMET: "<<zmet.met_T1CHS_miniAOD_CORE_pt()<<endl;
+	  // 	// }
+	  // 	if( zmet.met_T1CHS_miniAOD_CORE_pt() < 6500 ){
+	  // 	  if( jes_up ){
+	  // 		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
+	  // 		event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
 
-	  // }else if( jes_dn ){
-	  // 	event_ht    = zmet.ht_dn();
-	  // 	event_njets = zmet.njets_dn();
+	  // 	  }else if( jes_dn ){
+	  // 		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
+	  // 		event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
 
-	  // }
+	  // 	  }else{
+	  // 		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
+	  // 		event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
+	  // 	  }
+	  // 	}else if( zmet.met_pt() > 6500 ){
+	  // 	  // cout<<"miniAOD met: "<<zmet.met_pt()<<" | rawMET: "<<zmet.met_rawPt()<<endl;
+	  // 	  // cout<<zmet.evt_xsec()<<endl;
+	  // 	  // cout<<zmet.evt_nEvts()<<endl;
+	  // 	  // cout<<zmet.evt_scale1fb()<<endl;
+	  // 	  // cout<<zmet.nTrueInt()<<endl;
+	  // 	  continue;
+	  // 	}
 
-	  if( TString(currentFile->GetTitle()).Contains("t5zz") ){
-		// if( zmet.met_T1CHS_miniAOD_CORE_pt() > 6500 ) continue;
+	  // }else{
+	  // 	if( jes_up ){
+	  // 	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
+	  // 	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
 
-		// if( !(zmet.mass_gluino() == 1050 && zmet.mass_LSP() == 800) ) continue;
-	  	// if( (zmet.mass_gluino() == 1050 && zmet.mass_LSP() == 850) ){
-	  	// // if( zmet.met_T1CHS_miniAOD_CORE_pt() > 6500 && zmet.met_pt() < 6500 ){
-	  	//   cout<<"miniAOD met: "<<zmet.met_pt()<<" | rawMET: "<<zmet.met_rawPt()<<" | COREMET: "<<zmet.met_T1CHS_miniAOD_CORE_pt()<<endl;
-	  	// }
-	  	if( zmet.met_T1CHS_miniAOD_CORE_pt() < 6500 ){
-		  if( jes_up ){
-			event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
-			event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
+	  // 	}else if( jes_dn ){
+	  // 	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
+	  // 	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
 
-		  }else if( jes_dn ){
-			event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
-			event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
-
-		  }else{
-			event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
-			event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
-		  }
-	  	}else if( zmet.met_pt() > 6500 ){
-	  	  // cout<<"miniAOD met: "<<zmet.met_pt()<<" | rawMET: "<<zmet.met_rawPt()<<endl;
-	  	  // cout<<zmet.evt_xsec()<<endl;
-	  	  // cout<<zmet.evt_nEvts()<<endl;
-	  	  // cout<<zmet.evt_scale1fb()<<endl;
-	  	  // cout<<zmet.nTrueInt()<<endl;
-	  	  continue;
-	  	}
-
-	  }else{
-		if( jes_up ){
-		  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
-		  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
-
-		}else if( jes_dn ){
-		  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
-		  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
-
-		}else{
-		  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
-		  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
-		}
+	  // 	}else{
+	  // 	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
+	  // 	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
+	  // 	}
 		
-	  }
+	  // }
 	  
 	  if( TString(currentFile->GetTitle()).Contains("t5zz") ){
 		if( TString(sample).Contains("signal1100200") && !(zmet.mass_gluino() == 1000 && zmet.mass_LSP() == 800) ) continue;
@@ -423,987 +460,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		if( event_met_pt > 225 ) nlosplit += weight;
 		if( TString(selection).Contains("hisplit") && !(zmet.mass_gluino() == 1050 && zmet.mass_LSP() == 400) ) continue;
 		if( event_met_pt > 225 ) nhisplit += weight;
-	  }
-
-	  if(
-		 // 1460034810 ||
-		 //  240607834 ||
-		 //  838557150 ){
-
-// zmet.evt() == 934930608 ||
-// zmet.evt() == 272622131 ||
-// zmet.evt() == 2097023176
-
-		 // christian events
-zmet.evt() ==      91733880 ||
-zmet.evt() ==     995726603 ||
-zmet.evt() ==     384783207 ||
-zmet.evt() ==     581236778 ||
-zmet.evt() ==    1128357558 ||
-zmet.evt() ==     403253061 ||
-zmet.evt() ==     898021054 ||
-zmet.evt() ==     532257885 ||
-zmet.evt() ==     828778701 ||
-zmet.evt() ==    1341174591 ||
-zmet.evt() ==     272708087 ||
-zmet.evt() ==    1321540936 ||
-zmet.evt() ==     189657985 ||
-zmet.evt() ==    1523328940 ||
-zmet.evt() ==    1523877064 ||
-zmet.evt() ==     498745462 ||
-zmet.evt() ==    1458781899 ||
-zmet.evt() ==     534484562 ||
-zmet.evt() ==    1395571756 ||
-zmet.evt() ==    1640674051 ||
-zmet.evt() ==     428341485 ||
-zmet.evt() ==     518382269 ||
-zmet.evt() ==     408995381 ||
-zmet.evt() ==     662566378 ||
-zmet.evt() ==     663855252 ||
-zmet.evt() ==     856330582 ||
-zmet.evt() ==      94079532 ||
-zmet.evt() ==     269336427 ||
-zmet.evt() ==     275389649 ||
-zmet.evt() ==     583823335 ||
-zmet.evt() ==     955296115 ||
-zmet.evt() ==     105865683 ||
-zmet.evt() ==     170110611 ||
-zmet.evt() ==     115572426 ||
-zmet.evt() ==     375620266 ||
-zmet.evt() ==     433563640 ||
-zmet.evt() ==     514067061 ||
-zmet.evt() ==     658381701 ||
-zmet.evt() ==    2887934467 ||
-zmet.evt() ==    3119457226 ||
-zmet.evt() ==     305938885 ||
-zmet.evt() ==    1433198965 ||
-zmet.evt() ==    1180144798 ||
-zmet.evt() ==    1955523829 ||
-zmet.evt() ==    1240111493 ||
-zmet.evt() ==    2690660742 ||
-zmet.evt() ==     311377665 ||
-zmet.evt() ==    1062159148 ||
-zmet.evt() ==     466300021 ||
-zmet.evt() ==     552331404 ||
-zmet.evt() ==    1017097676 ||
-zmet.evt() ==    1148935813 ||
-zmet.evt() ==    2166823585 ||
-zmet.evt() ==    2963378283 ||
-zmet.evt() ==    3010206426 ||
-zmet.evt() ==     275682628 ||
-zmet.evt() ==     328622283 ||
-zmet.evt() ==     365129122 ||
-zmet.evt() ==     212481745 ||
-zmet.evt() ==     425075862 ||
-zmet.evt() ==     397385233 ||
-zmet.evt() ==      36914698 ||
-zmet.evt() ==      84067364 ||
-zmet.evt() ==     692149758 ||
-zmet.evt() ==     674743624 ||
-zmet.evt() ==      39751186 ||
-zmet.evt() ==     281655459 ||
-zmet.evt() ==     164344750 ||
-zmet.evt() ==    1834915362 ||
-zmet.evt() ==    1734542357 ||
-zmet.evt() ==    1750311294 ||
-zmet.evt() ==     387754935 ||
-zmet.evt() ==    1629797629 ||
-zmet.evt() ==     798835684 ||
-zmet.evt() ==    1114679529 ||
-zmet.evt() ==    2188652359 ||
-zmet.evt() ==    2231938513 ||
-zmet.evt() ==    3269629166 ||
-zmet.evt() ==    3296086248 ||
-zmet.evt() ==    3442144600 ||
-zmet.evt() ==    3558707175 ||
-zmet.evt() ==     556529889 ||
-zmet.evt() ==     287630862 ||
-zmet.evt() ==     336250172 ||
-zmet.evt() ==     507830966 ||
-zmet.evt() ==     705392050 ||
-zmet.evt() ==     170022302 ||
-zmet.evt() ==     493041919 ||
-zmet.evt() ==     674186184 ||
-zmet.evt() ==      96555225 ||
-zmet.evt() ==     176770264 ||
-zmet.evt() ==     440274765 ||
-zmet.evt() ==     658814007 ||
-zmet.evt() ==    1202555176 ||
-zmet.evt() ==    1222405135 ||
-zmet.evt() ==    1257377315 ||
-zmet.evt() ==     105811178 ||
-zmet.evt() ==    1638368691 ||
-zmet.evt() ==    1716250145 ||
-zmet.evt() ==    1642957017 ||
-zmet.evt() ==    1696298344 ||
-zmet.evt() ==     319646535 ||
-zmet.evt() ==     663402455 ||
-zmet.evt() ==    1286269698 ||
-zmet.evt() ==    1625300720 ||
-zmet.evt() ==     223264003 ||
-zmet.evt() ==     961253777 ||
-zmet.evt() ==     586706890 ||
-zmet.evt() ==    1266094471 ||
-zmet.evt() ==      90768710 ||
-zmet.evt() ==    1147003038 ||
-zmet.evt() ==    1177797272 ||
-zmet.evt() ==     760744135 ||
-zmet.evt() ==     763385219 ||
-zmet.evt() ==    1251599978 ||
-zmet.evt() ==    1462634786 ||
-zmet.evt() ==     833004454 ||
-zmet.evt() ==    1660391926 ||
-zmet.evt() ==      33055224 ||
-zmet.evt() ==     157025333 ||
-zmet.evt() ==     708450771 ||
-zmet.evt() ==    1168308546 ||
-zmet.evt() ==    1297161823 ||
-zmet.evt() ==    1419703703 ||
-zmet.evt() ==     740368788 ||
-zmet.evt() ==    1198414201 ||
-zmet.evt() ==    1032548693 ||
-zmet.evt() ==    1329726811 ||
-zmet.evt() ==    1595737936 ||
-zmet.evt() ==      21182302 ||
-zmet.evt() ==     263057789 ||
-zmet.evt() ==    1082328063 ||
-zmet.evt() ==    1308660423 ||
-zmet.evt() ==     103484639 ||
-zmet.evt() ==    1745972648 ||
-zmet.evt() ==     776844947 ||
-zmet.evt() ==    1505184501 ||
-zmet.evt() ==    1985282889 ||
-zmet.evt() ==    2065291556 ||
-zmet.evt() ==      20322433 ||
-zmet.evt() ==      41245134 ||
-zmet.evt() ==      73041017 ||
-zmet.evt() ==     107295541 ||
-zmet.evt() ==     128078212 ||
-zmet.evt() ==     225502854 ||
-zmet.evt() ==     300627332 ||
-zmet.evt() ==     516873912 ||
-zmet.evt() ==     539562778 ||
-zmet.evt() ==     696450320 ||
-zmet.evt() ==     892661884 ||
-zmet.evt() ==    1069734519 ||
-zmet.evt() ==    1108172148 ||
-zmet.evt() ==    1267399188 ||
-zmet.evt() ==    1443741303 ||
-zmet.evt() ==    1537520654 ||
-zmet.evt() ==    1919340805 ||
-zmet.evt() ==    2430209084 ||
-zmet.evt() ==      26822349 ||
-zmet.evt() ==      41490551 ||
-zmet.evt() ==     234081679 ||
-zmet.evt() ==     341764569 ||
-zmet.evt() ==     692823763 ||
-zmet.evt() ==    1048404243 ||
-zmet.evt() ==     925671441 ||
-zmet.evt() ==      89897426 ||
-zmet.evt() ==    1309811653 ||
-zmet.evt() ==     274514821 ||
-zmet.evt() ==     722710893 ||
-zmet.evt() ==     796106322 ||
-zmet.evt() ==     827180522 ||
-zmet.evt() ==     986784684 ||
-zmet.evt() ==     103482138 ||
-zmet.evt() ==     392864049 ||
-zmet.evt() ==      20367250 ||
-zmet.evt() ==     177284394 ||
-zmet.evt() ==     324611814 ||
-zmet.evt() ==     380434487 ||
-zmet.evt() ==     482357173 ||
-zmet.evt() ==     505634325 ||
-zmet.evt() ==     612827466 ||
-zmet.evt() ==     621448549 ||
-zmet.evt() ==     677296557 ||
-zmet.evt() ==     805055209 ||
-zmet.evt() ==     881389384 ||
-zmet.evt() ==     584707881 ||
-zmet.evt() ==     568343962 ||
-zmet.evt() ==     670205982 ||
-zmet.evt() ==     650224687 ||
-zmet.evt() ==      67471649 ||
-zmet.evt() ==     210897611 ||
-zmet.evt() ==     814487875 ||
-zmet.evt() ==     323009928 ||
-zmet.evt() ==     349280206 ||
-zmet.evt() ==    1054668903 ||
-zmet.evt() ==    1497212768 ||
-zmet.evt() ==    1215849521 ||
-zmet.evt() ==    1430059679 ||
-zmet.evt() ==    1436702562 ||
-zmet.evt() ==     316334358 ||
-zmet.evt() ==    1010594407 ||
-zmet.evt() ==    1251770301 ||
-zmet.evt() ==    1359038487 ||
-zmet.evt() ==    1650117307 ||
-zmet.evt() ==     226812915 ||
-zmet.evt() ==     275115746 ||
-zmet.evt() ==       6795480 ||
-zmet.evt() ==     233729788 ||
-zmet.evt() ==      93371983 ||
-zmet.evt() ==     258991225 ||
-zmet.evt() ==     178977223 ||
-zmet.evt() ==     602592167 ||
-zmet.evt() ==     795095755 ||
-zmet.evt() ==      20822516 ||
-zmet.evt() ==      41466128 ||
-zmet.evt() ==     249587960 ||
-zmet.evt() ==      31796123 ||
-zmet.evt() ==     116612272 ||
-zmet.evt() ==     454339165 ||
-zmet.evt() ==      42618760 ||
-zmet.evt() ==      12889205 ||
-zmet.evt() ==     426849303 ||
-zmet.evt() ==     482528238 ||
-zmet.evt() ==     550346018 ||
-zmet.evt() ==     233577435 ||
-zmet.evt() ==     189902157 ||
-zmet.evt() ==     269698707 ||
-zmet.evt() ==     361634321 ||
-zmet.evt() ==     523496749 ||
-zmet.evt() ==    1052179793 ||
-zmet.evt() ==     239191202 ||
-zmet.evt() ==     240387660 ||
-zmet.evt() ==     256370278 ||
-zmet.evt() ==      21882343 ||
-zmet.evt() ==     140053977 ||
-zmet.evt() ==     193470262 ||
-zmet.evt() ==     902808627 ||
-zmet.evt() ==    1790571179 ||
-zmet.evt() ==    2317515384 ||
-zmet.evt() ==     231914682 ||
-zmet.evt() ==     252429405 ||
-zmet.evt() ==    1337085261 ||
-zmet.evt() ==    1350737159 ||
-zmet.evt() ==    1403642411 ||
-zmet.evt() ==    1688970085 ||
-zmet.evt() ==    1969166416 ||
-zmet.evt() ==    2005492283 ||
-zmet.evt() ==    2341583076 ||
-zmet.evt() ==    2858185346 ||
-zmet.evt() ==    3138551976 ||
-zmet.evt() ==    3231057927 ||
-zmet.evt() ==    3441044752 ||
-zmet.evt() ==    3514810443 ||
-zmet.evt() ==      69572768 ||
-zmet.evt() ==     589934139 ||
-zmet.evt() ==    1301796409 ||
-zmet.evt() ==    1481747361 ||
-zmet.evt() ==      11489442 ||
-zmet.evt() ==     173491301 ||
-zmet.evt() ==      55486631 ||
-zmet.evt() ==      96523447 ||
-zmet.evt() ==     108218573 ||
-zmet.evt() ==     409198651 ||
-zmet.evt() ==     423438580 ||
-zmet.evt() ==     185546020 ||
-zmet.evt() ==     184681443 ||
-zmet.evt() ==     457764099 ||
-zmet.evt() ==     171857983 ||
-zmet.evt() ==     255631616 ||
-zmet.evt() ==     446828372 ||
-zmet.evt() ==     920947145 ||
-zmet.evt() ==     204405015 ||
-zmet.evt() ==     388862460 ||
-zmet.evt() ==     447150883 ||
-zmet.evt() ==     746925313 ||
-zmet.evt() ==     874046137 ||
-zmet.evt() ==     590055906 ||
-zmet.evt() ==     705577258 ||
-zmet.evt() ==    1539053393 ||
-zmet.evt() ==     256288625 ||
-zmet.evt() ==    1154074355 ||
-zmet.evt() ==    1657475558 ||
-zmet.evt() ==     863560427 ||
-zmet.evt() ==     995958611 ||
-zmet.evt() ==     823781616 ||
-zmet.evt() ==    1813666219 ||
-zmet.evt() ==      27576865 ||
-zmet.evt() ==      99784606 ||
-zmet.evt() ==     230060291 ||
-zmet.evt() ==     614060858 ||
-zmet.evt() ==     723737061 ||
-zmet.evt() ==     768202876 ||
-zmet.evt() ==     339134901 ||
-zmet.evt() ==     441670092 ||
-zmet.evt() ==     774419736 ||
-zmet.evt() ==    1277085482 ||
-zmet.evt() ==     931984973 ||
-zmet.evt() ==       9762539 ||
-zmet.evt() ==      44746550 ||
-zmet.evt() ==     280874354 ||
-zmet.evt() ==     308720504 ||
-zmet.evt() ==      52223949 ||
-zmet.evt() ==     797710850 ||
-zmet.evt() ==      85386071 ||
-zmet.evt() ==     259332110 ||
-zmet.evt() ==      86218312 ||
-zmet.evt() ==     202232107 ||
-zmet.evt() ==     215641741 ||
-zmet.evt() ==     130255936 ||
-zmet.evt() ==     218517351 ||
-zmet.evt() ==     382711079 ||
-zmet.evt() ==     302925101 ||
-zmet.evt() ==     611814869 ||
-zmet.evt() ==     618004443 ||
-zmet.evt() ==    1367091805 ||
-zmet.evt() ==    1655930974 ||
-zmet.evt() ==     521489326 ||
-zmet.evt() ==    1045382283 ||
-zmet.evt() ==     481180724 ||
-zmet.evt() ==     491326881 ||
-zmet.evt() ==     478861948 ||
-zmet.evt() ==     388546353 ||
-zmet.evt() ==       6777225 ||
-zmet.evt() ==     267790777 ||
-zmet.evt() ==     510340245 ||
-zmet.evt() ==     544361601 ||
-zmet.evt() ==     688272335 ||
-zmet.evt() ==     261570755 ||
-zmet.evt() ==     205417500 ||
-zmet.evt() ==      48441630 ||
-zmet.evt() ==     421581016 ||
-zmet.evt() ==    1056833375 ||
-zmet.evt() ==     600933415 ||
-zmet.evt() ==      72219652 ||
-zmet.evt() ==      96856536 ||
-zmet.evt() ==     448114023 ||
-zmet.evt() ==    2315755316 ||
-zmet.evt() ==    2690608828 ||
-zmet.evt() ==     931364577 ||
-zmet.evt() ==     669038277 ||
-zmet.evt() ==    2128382035 ||
-zmet.evt() ==    2587403505 ||
-zmet.evt() ==    3310676988 ||
-zmet.evt() ==    2303569008 ||
-zmet.evt() ==      30892588 ||
-zmet.evt() ==     115352716 ||
-zmet.evt() ==     583216391 ||
-zmet.evt() ==     652937977 ||
-zmet.evt() ==     139295063 ||
-zmet.evt() ==     247646752 ||
-zmet.evt() ==     372121983 ||
-zmet.evt() ==      50972622 ||
-zmet.evt() ==      40549049 ||
-zmet.evt() ==     189966915 ||
-zmet.evt() ==    1281136923 ||
-zmet.evt() ==    1265551771 ||
-zmet.evt() ==     388943916 ||
-zmet.evt() ==     417395249 ||
-zmet.evt() ==    1799203724 ||
-zmet.evt() ==     648698515 ||
-zmet.evt() ==    1334283906 ||
-zmet.evt() ==     290817740 ||
-zmet.evt() ==     467127513 ||
-zmet.evt() ==       3926234 ||
-zmet.evt() ==     742485378 ||
-zmet.evt() ==     704674488 ||
-zmet.evt() ==     455878919 ||
-zmet.evt() ==     244164241 ||
-zmet.evt() ==     314328975 ||
-zmet.evt() ==      55334056 ||
-zmet.evt() ==     776799990 ||
-zmet.evt() ==     487741834 ||
-zmet.evt() ==     207851666 ||
-zmet.evt() ==      13699553 ||
-zmet.evt() ==     102443765 ||
-zmet.evt() ==     260382774 ||
-zmet.evt() ==     761008490 ||
-zmet.evt() ==    1502453305 ||
-zmet.evt() ==     375567487 ||
-zmet.evt() ==     345411333 ||
-zmet.evt() ==    1497446944 ||
-zmet.evt() ==     949766574 ||
-zmet.evt() ==     999398727 ||
-zmet.evt() ==    1218844064 ||
-zmet.evt() ==     273328343 ||
-zmet.evt() ==     188898327 ||
-zmet.evt() ==      80298093 ||
-zmet.evt() ==     153686592 ||
-zmet.evt() ==     792067175 ||
-zmet.evt() ==    1207963905 ||
-zmet.evt() ==    1545750828 ||
-zmet.evt() ==    1095160227 ||
-zmet.evt() ==       7021394 ||
-zmet.evt() ==      64918964 ||
-zmet.evt() ==      66079462 ||
-zmet.evt() ==     204066420 ||
-zmet.evt() ==     533454589 ||
-zmet.evt() ==     158833244 ||
-zmet.evt() ==     485961381 ||
-zmet.evt() ==    1065715946 ||
-zmet.evt() ==    1071386649 ||
-zmet.evt() ==    1184355622 ||
-zmet.evt() ==     712063922 ||
-zmet.evt() ==     548587800 ||
-zmet.evt() ==     135484035 ||
-zmet.evt() ==    3103235364 ||
-zmet.evt() ==      55729742 ||
-zmet.evt() ==     914932148 ||
-zmet.evt() ==    1892183801 ||
-zmet.evt() ==    2993442939 ||
-zmet.evt() ==    2061973406 ||
-zmet.evt() ==     253016921 ||
-zmet.evt() ==    2668631268 ||
-zmet.evt() ==     516214375 ||
-zmet.evt() ==    3087525423 ||
-zmet.evt() ==    2745610726 ||
-zmet.evt() ==     248089675 ||
-zmet.evt() ==     211352775 ||
-zmet.evt() ==     309534705 ||
-zmet.evt() ==     342814344 ||
-zmet.evt() ==     373152966 ||
-zmet.evt() ==     589226659 ||
-zmet.evt() ==    1103925997 ||
-zmet.evt() ==     149907153 ||
-zmet.evt() ==     435906043 ||
-zmet.evt() ==    2715088145 ||
-zmet.evt() ==    2176509129 ||
-zmet.evt() ==     760109811 ||
-zmet.evt() ==    3417736598 ||
-zmet.evt() ==    2358114572 ||
-zmet.evt() ==    2564333855 ||
-zmet.evt() ==     212214576 ||
-zmet.evt() ==     203727723 ||
-zmet.evt() ==      71175647 ||
-zmet.evt() ==     402742312 ||
-zmet.evt() ==     284169581 ||
-zmet.evt() ==     482756421 ||
-zmet.evt() ==     399252691 ||
-zmet.evt() ==     305116194 ||
-zmet.evt() ==     713161305 ||
-zmet.evt() ==     245278791 ||
-zmet.evt() ==     549092878 ||
-zmet.evt() ==    1069218258 ||
-zmet.evt() ==     151001659 ||
-zmet.evt() ==     162308383 ||
-zmet.evt() ==    2187998222 ||
-zmet.evt() ==     965812963 ||
-zmet.evt() ==     789229786 ||
-zmet.evt() ==    1227277425 ||
-zmet.evt() ==    1386963055 ||
-zmet.evt() ==    1023856829 ||
-zmet.evt() ==     171372591 ||
-zmet.evt() ==      56042653 ||
-zmet.evt() ==     499309199 ||
-zmet.evt() ==     293953355 ||
-zmet.evt() ==    1225902613 ||
-zmet.evt() ==     581337343 ||
-zmet.evt() ==     302555094 ||
-zmet.evt() ==     482931214 ||
-zmet.evt() ==    1441663995 ||
-zmet.evt() ==    1647550356 ||
-zmet.evt() ==     114775916 ||
-zmet.evt() ==     635225700 ||
-zmet.evt() ==     824897420 ||
-zmet.evt() ==     336862499 ||
-zmet.evt() ==    1050955298 ||
-zmet.evt() ==    1045691850 ||
-zmet.evt() ==     418321233 ||
-zmet.evt() ==     889776468 ||
-zmet.evt() ==    1350291194 ||
-zmet.evt() ==     868701812 ||
-zmet.evt() ==     889831759 ||
-zmet.evt() ==     567897420 ||
-zmet.evt() ==    1205896224 ||
-zmet.evt() ==    1251222929 ||
-zmet.evt() ==     621648474 ||
-zmet.evt() ==    1408354490 ||
-zmet.evt() ==     154768076 ||
-zmet.evt() ==     403556326 ||
-zmet.evt() ==    1015112549 ||
-zmet.evt() ==     718406407 ||
-zmet.evt() ==    1545104200 ||
-zmet.evt() ==     552872609 ||
-zmet.evt() ==    2075765256 ||
-zmet.evt() ==     691628918 ||
-zmet.evt() ==    2103245964 ||
-zmet.evt() ==    2621636555 ||
-zmet.evt() ==     698145799 ||
-zmet.evt() ==     675906514 ||
-zmet.evt() ==     818669081 ||
-zmet.evt() ==    1259942938 ||
-zmet.evt() ==      96262357 ||
-zmet.evt() ==    1399666684 ||
-zmet.evt() ==    1012558153 ||
-zmet.evt() ==     337771862 ||
-zmet.evt() ==      78609791 ||
-zmet.evt() ==     317584316 ||
-zmet.evt() ==     987863912 ||
-zmet.evt() ==     217828533 ||
-zmet.evt() ==     801598703 ||
-zmet.evt() ==     347886779 ||
-zmet.evt() ==     316828761 ||
-zmet.evt() ==     280834948 ||
-zmet.evt() ==     626617344 ||
-zmet.evt() ==     639630718 ||
-zmet.evt() ==     323939122 ||
-zmet.evt() ==     607604321 ||
-zmet.evt() ==     517145322 ||
-zmet.evt() ==     283152961 ||
-zmet.evt() ==     355470728 ||
-zmet.evt() ==     208092780 ||
-zmet.evt() ==     260777411 ||
-zmet.evt() ==      32681474 ||
-zmet.evt() ==     712905114 ||
-zmet.evt() ==      99456957 ||
-zmet.evt() ==     143234971 ||
-zmet.evt() ==      11771600 ||
-zmet.evt() ==     571880296 ||
-zmet.evt() ==     587721399 ||
-zmet.evt() ==     142895111 ||
-zmet.evt() ==     299598103 ||
-zmet.evt() ==     152292614 ||
-zmet.evt() ==     226768511 ||
-zmet.evt() ==     467416442 ||
-zmet.evt() ==     473850942 ||
-zmet.evt() ==     509546090 ||
-zmet.evt() ==      76515231 ||
-zmet.evt() ==      93057487 ||
-zmet.evt() ==     750950700 ||
-zmet.evt() ==     521792516 ||
-zmet.evt() ==     273418079 ||
-zmet.evt() ==     285432473 ||
-zmet.evt() ==     127346500 ||
-zmet.evt() ==     243699833 ||
-zmet.evt() ==     201916331 ||
-zmet.evt() ==     743124668 ||
-zmet.evt() ==     855783995 ||
-zmet.evt() ==    1190849019 ||
-zmet.evt() ==     244418368 ||
-zmet.evt() ==     477494557 ||
-zmet.evt() ==     293458372 ||
-zmet.evt() ==     797345754 ||
-zmet.evt() ==     898880648 ||
-zmet.evt() ==     548388181 ||
-zmet.evt() ==     251428268 ||
-zmet.evt() ==     276683519 ||
-zmet.evt() ==     420148880 ||
-zmet.evt() ==     480307076 ||
-zmet.evt() ==      26420076 ||
-zmet.evt() ==      48199504 ||
-zmet.evt() ==     598019576 ||
-zmet.evt() ==     178043401 ||
-zmet.evt() ==    1280019522 ||
-zmet.evt() ==    2559753570 ||
-zmet.evt() ==     285272317 ||
-zmet.evt() ==    1717661178 ||
-zmet.evt() ==    1360605293 ||
-zmet.evt() ==    1756650511 ||
-zmet.evt() ==    1995754313 ||
-zmet.evt() ==    3203785513 ||
-zmet.evt() ==    2629478864 ||
-zmet.evt() ==    2193922587 ||
-zmet.evt() ==    2499148870 ||
-zmet.evt() ==    2587525031 ||
-zmet.evt() ==    2950925878 ||
-zmet.evt() ==    3003459558 ||
-zmet.evt() ==    3402590460 ||
-zmet.evt() ==     658222948 ||
-zmet.evt() ==    1407348043 ||
-zmet.evt() ==    1695455893 ||
-zmet.evt() ==     168251361 ||
-zmet.evt() ==     907136773 ||
-zmet.evt() ==     603582911 ||
-zmet.evt() ==     856114721 ||
-zmet.evt() ==    1664531313 ||
-zmet.evt() ==    2313855924 ||
-zmet.evt() ==     272557052 ||
-zmet.evt() ==      14931594 ||
-zmet.evt() ==      54193754 ||
-zmet.evt() ==      34949358 ||
-zmet.evt() ==     113999620 ||
-zmet.evt() ==     165179967 ||
-zmet.evt() ==     105579285 ||
-zmet.evt() ==     189538761 ||
-zmet.evt() ==     721678167 ||
-zmet.evt() ==     203471341 ||
-zmet.evt() ==     282901028 ||
-zmet.evt() ==     633616507 ||
-zmet.evt() ==     663003077 ||
-zmet.evt() ==     967457859 ||
-zmet.evt() ==      63099359 ||
-zmet.evt() ==     565319735 ||
-zmet.evt() ==     571126039 ||
-zmet.evt() ==     879605239 ||
-zmet.evt() ==     402962104 ||
-zmet.evt() ==    1041351720 ||
-zmet.evt() ==    1090574508 ||
-zmet.evt() ==     380709044 ||
-zmet.evt() ==     781872540 ||
-zmet.evt() ==     451128819 ||
-zmet.evt() ==     479676628 ||
-zmet.evt() ==     612218467 ||
-zmet.evt() ==     917986500 ||
-zmet.evt() ==     810680183 ||
-zmet.evt() ==     900433382 ||
-zmet.evt() ==     912927068 ||
-zmet.evt() ==     162707819 ||
-zmet.evt() ==     580457656 ||
-zmet.evt() ==     879809183 ||
-zmet.evt() ==    1042537633 ||
-zmet.evt() ==    1058516872 ||
-zmet.evt() ==      21099196 ||
-zmet.evt() ==     578469048 ||
-zmet.evt() ==     603939460 ||
-zmet.evt() ==     971745638 ||
-zmet.evt() ==    1443630988 ||
-zmet.evt() ==    1569220948 ||
-zmet.evt() ==      89918855 ||
-zmet.evt() ==     644493112 ||
-zmet.evt() ==     647152059 ||
-zmet.evt() ==     653241393 ||
-zmet.evt() ==    1264343098 ||
-zmet.evt() ==     821461335 ||
-zmet.evt() ==     189987738 ||
-zmet.evt() ==     394528714 ||
-zmet.evt() ==       6843671 ||
-zmet.evt() ==     368579656 ||
-zmet.evt() ==     643476202 ||
-zmet.evt() ==     326140164 ||
-zmet.evt() ==     382433705 ||
-zmet.evt() ==     507819696 ||
-zmet.evt() ==     697700244 ||
-zmet.evt() ==    1179116495 ||
-zmet.evt() ==    1278270700 ||
-zmet.evt() ==    1126520272 ||
-zmet.evt() ==     423652875 ||
-zmet.evt() ==    1029550055 ||
-zmet.evt() ==    1296297613 ||
-zmet.evt() ==      41382691 ||
-zmet.evt() ==     232243102 ||
-zmet.evt() ==    1000807674 ||
-zmet.evt() ==     558654296 ||
-zmet.evt() ==     892773393 ||
-zmet.evt() ==    1020505524 ||
-zmet.evt() ==    1104037552 ||
-zmet.evt() ==     928630480 ||
-zmet.evt() ==     824577530 ||
-zmet.evt() ==      17698835 ||
-zmet.evt() ==      46161172 ||
-zmet.evt() ==     242909619 ||
-zmet.evt() ==     821491164 ||
-zmet.evt() ==     461377290 ||
-zmet.evt() ==     222606973 ||
-zmet.evt() ==     413396338 ||
-zmet.evt() ==     347720004 ||
-zmet.evt() ==       2414337 ||
-zmet.evt() ==      36803384 ||
-zmet.evt() ==      82598744 ||
-zmet.evt() ==      84159245 ||
-zmet.evt() ==     475487001 ||
-zmet.evt() ==     121307571 ||
-zmet.evt() ==     286742443 ||
-zmet.evt() ==     874992762 ||
-zmet.evt() ==     292565379 ||
-zmet.evt() ==     865216936 ||
-zmet.evt() ==    1320451288 ||
-zmet.evt() ==     175974976 ||
-zmet.evt() ==     818050186 ||
-zmet.evt() ==     120770119 ||
-zmet.evt() ==    1516864277 ||
-zmet.evt() ==     285293893 ||
-zmet.evt() ==     484449780 ||
-zmet.evt() ==    1327264605 ||
-zmet.evt() ==     449644895 ||
-zmet.evt() ==     497259629 ||
-zmet.evt() ==    1053655257 ||
-zmet.evt() ==     514371613 ||
-zmet.evt() ==    1234599047 ||
-zmet.evt() ==    1304650600 ||
-zmet.evt() ==     112561198 ||
-zmet.evt() ==     298455048 ||
-zmet.evt() ==      40042896 ||
-zmet.evt() ==     573585241 ||
-zmet.evt() ==    1432601602 ||
-zmet.evt() ==    1790011864 ||
-zmet.evt() ==    1795220892 ||
-zmet.evt() ==     208963482 ||
-zmet.evt() ==     647041243 ||
-zmet.evt() ==      92155055 ||
-zmet.evt() ==     953914919 ||
-zmet.evt() ==     515657902 ||
-zmet.evt() ==    1555764824 ||
-zmet.evt() ==     759747604 ||
-zmet.evt() ==     392938409 ||
-zmet.evt() ==       5577712 ||
-zmet.evt() ==     996424895 ||
-zmet.evt() ==      49226259 ||
-zmet.evt() ==     906496573 ||
-zmet.evt() ==     906665245 ||
-zmet.evt() ==     938643414 ||
-zmet.evt() ==    1086506314 ||
-zmet.evt() ==    1091603529 ||
-zmet.evt() ==     872174795 ||
-zmet.evt() ==    1162004400 ||
-zmet.evt() ==     717151654 ||
-zmet.evt() ==     947600111 ||
-zmet.evt() ==      63137127 ||
-zmet.evt() ==     393866247 ||
-zmet.evt() ==     490698250 ||
-zmet.evt() ==     317298556 ||
-zmet.evt() ==     781166252 ||
-zmet.evt() ==     102058575 ||
-zmet.evt() ==     169394828 ||
-zmet.evt() ==     287960682 ||
-zmet.evt() ==     698981990 ||
-zmet.evt() ==     300541745 ||
-zmet.evt() ==     477221680 ||
-zmet.evt() ==    2576560117 ||
-zmet.evt() ==      12809651 ||
-zmet.evt() ==    2971690922 ||
-zmet.evt() ==     499734398 ||
-zmet.evt() ==     504185758 ||
-zmet.evt() ==    1372964106 ||
-zmet.evt() ==     587445581 ||
-zmet.evt() ==      67712713 ||
-zmet.evt() ==     525704830 ||
-zmet.evt() ==    1462413113 ||
-zmet.evt() ==     607390354 ||
-zmet.evt() ==    2633165621 ||
-zmet.evt() ==    2660710351 ||
-zmet.evt() ==     338699690 ||
-zmet.evt() ==    1748911874 ||
-zmet.evt() ==    1722962454 ||
-zmet.evt() ==      68872184 ||
-zmet.evt() ==      99835614 ||
-zmet.evt() ==     351313184 ||
-zmet.evt() ==     178726031 ||
-zmet.evt() ==       6564414 ||
-zmet.evt() ==      71461634 ||
-zmet.evt() ==     129373690 ||
-zmet.evt() ==     228148027 ||
-zmet.evt() ==      58259852 ||
-zmet.evt() ==     420025874 ||
-zmet.evt() ==     371374014 ||
-zmet.evt() ==     562356759 ||
-zmet.evt() ==    3220424640 ||
-zmet.evt() ==    1654129838 ||
-zmet.evt() ==    2476194683 ||
-zmet.evt() ==    2479888404 ||
-zmet.evt() ==    2847497629 ||
-zmet.evt() ==    2313534920 ||
-zmet.evt() ==     377618640 ||
-zmet.evt() ==     930088491 ||
-zmet.evt() ==     103864737 ||
-zmet.evt() ==     270345207 ||
-zmet.evt() ==    1846065625 ||
-zmet.evt() ==    3248204216 ||
-zmet.evt() ==    1322389181 ||
-zmet.evt() ==    2601385138 ||
-zmet.evt() ==    1230634172 ||
-zmet.evt() ==    2195167695 ||
-zmet.evt() ==    2956846478 ||
-zmet.evt() ==    3366718235 ||
-zmet.evt() ==    3303027576 ||
-zmet.evt() ==    2134599355 ||
-zmet.evt() ==    2808790844 ||
-zmet.evt() ==    1207320050 ||
-zmet.evt() ==     189328669 ||
-zmet.evt() ==     486254325 ||
-zmet.evt() ==     490451499 ||
-zmet.evt() ==     493274190 ||
-zmet.evt() ==     759479556 ||
-zmet.evt() ==     140722489 ||
-zmet.evt() ==     146951700 ||
-zmet.evt() ==     683315588 ||
-zmet.evt() ==     480808344 ||
-zmet.evt() ==     176618831 ||
-zmet.evt() ==     370465266 ||
-zmet.evt() ==     198093774 ||
-zmet.evt() ==     321327578 ||
-zmet.evt() ==     409166100 ||
-zmet.evt() ==     474452644 ||
-zmet.evt() ==     791478802 ||
-zmet.evt() ==     416177193 ||
-zmet.evt() ==     477692584 ||
-zmet.evt() ==     483316187 ||
-zmet.evt() ==     620961824 ||
-zmet.evt() ==    1268489075 ||
-zmet.evt() ==    1174620486 ||
-zmet.evt() ==     670671202 ||
-zmet.evt() ==    1234332020 ||
-zmet.evt() ==     268711048 ||
-zmet.evt() ==      47477174 ||
-zmet.evt() ==      49293139 ||
-zmet.evt() ==    1660713001 ||
-zmet.evt() ==     685923062 ||
-zmet.evt() ==    1380330960 ||
-zmet.evt() ==      29612091 ||
-zmet.evt() ==     989908318 ||
-zmet.evt() ==     195655000 ||
-zmet.evt() ==    1367664618 ||
-zmet.evt() ==     236873254 ||
-zmet.evt() ==    1326718395 ||
-zmet.evt() ==    1404277461 ||
-zmet.evt() ==    1133737313 ||
-zmet.evt() ==    2125545626 ||
-zmet.evt() ==    1869742529 ||
-zmet.evt() ==    2004270410 ||
-zmet.evt() ==    1560790397 ||
-zmet.evt() ==     776530443 ||
-zmet.evt() ==       2702864 ||
-zmet.evt() ==    1102067159 ||
-zmet.evt() ==    1229506865 ||
-zmet.evt() ==    1627897684 ||
-zmet.evt() ==    1689668021 ||
-zmet.evt() ==    1374265051 ||
-zmet.evt() ==     297581223 ||
-zmet.evt() ==    1304388933 ||
-zmet.evt() ==     891995917 ||
-zmet.evt() ==    1645504623 ||
-zmet.evt() ==      75934337 ||
-zmet.evt() ==    1264647118 ||
-zmet.evt() ==     396186535 ||
-zmet.evt() ==     850011120 ||
-zmet.evt() ==      62587581 ||
-zmet.evt() ==      68538554 ||
-zmet.evt() ==     305562220 ||
-zmet.evt() ==     687086175 ||
-zmet.evt() ==      84349285 ||
-zmet.evt() ==     881071504 ||
-zmet.evt() ==     331066524 ||
-zmet.evt() ==     744899907 ||
-zmet.evt() ==     166763948 ||
-zmet.evt() ==    1393905269 ||
-zmet.evt() ==     434906553 ||
-zmet.evt() ==     256173551 ||
-zmet.evt() ==    1069533136 ||
-zmet.evt() ==    1187446387 ||
-zmet.evt() ==     687026901 ||
-zmet.evt() ==      94901432 ||
-zmet.evt() ==    1317553291 ||
-zmet.evt() ==    1366706099 ||
-zmet.evt() ==    1900053665 ||
-zmet.evt() ==    1013469472 ||
-zmet.evt() ==     917339476 ||
-zmet.evt() ==     446542668 ||
-zmet.evt() ==     626717973 ||
-zmet.evt() ==    1631012758 ||
-zmet.evt() ==     378238847 ||
-zmet.evt() ==    1612071785 ||
-zmet.evt() ==     201218597 ||
-zmet.evt() ==     368290534 ||
-zmet.evt() ==    1071566426 ||
-zmet.evt() ==    1914313487 ||
-zmet.evt() ==     513489867 ||
-zmet.evt() ==    2028601688 ||
-zmet.evt() ==    2115563426 ||
-zmet.evt() ==    2415975642 ||
-zmet.evt() ==     159610020 ||
-zmet.evt() ==     301121450 ||
-zmet.evt() ==     589600919 ||
-zmet.evt() ==    1266947113 ||
-zmet.evt() ==     189726737 ||
-zmet.evt() ==     830633171 ||
-zmet.evt() ==     836245354 ||
-zmet.evt() ==     942213070 ||
-zmet.evt() ==     967421935 ||
-zmet.evt() ==     994642770 ||
-zmet.evt() ==     914150792 ||
-zmet.evt() ==    1417411358 ||
-zmet.evt() ==    2118930519 ||
-zmet.evt() ==    1754407940 ||
-zmet.evt() ==    1766097937 ||
-zmet.evt() ==    1205899387 ||
-zmet.evt() ==    2313284112 ||
-zmet.evt() ==    1342618685 ||
-zmet.evt() ==    1985748206 ||
-zmet.evt() ==    2218529337 ||
-zmet.evt() ==      27280019 ||
-zmet.evt() ==      28371886 ||
-zmet.evt() ==     182518464 ||
-zmet.evt() ==      65661747 ||
-zmet.evt() ==     155669188 ||
-zmet.evt() ==     724428975 ||
-zmet.evt() ==     208639446 ||
-zmet.evt() ==     280314724 ||
-zmet.evt() ==     384337236 ||
-zmet.evt() ==     645341182 ||
-zmet.evt() ==     985488725 ||
-zmet.evt() ==     281180983 ||
-zmet.evt() ==     858977169 ||
-zmet.evt() ==     127011299 ||
-zmet.evt() ==     911326541 ||
-zmet.evt() ==    1249631602 ||
-zmet.evt() ==     261153617 ||
-zmet.evt() ==     598093576 ||
-zmet.evt() ==     600123618 ||
-zmet.evt() ==     604164884 ||
-zmet.evt() ==    1167654814 ||
-zmet.evt() ==       9981193 ||
-zmet.evt() ==     114820969 ||
-zmet.evt() ==     358096488 ||
-zmet.evt() ==     583524488 ||
-zmet.evt() ==     853536937 ||
-zmet.evt() ==     312859729 ||
-zmet.evt() ==     751643916 ||
-zmet.evt() ==     315731957 ||
-zmet.evt() ==     513910881 ||
-zmet.evt() ==     356618947 ||
-zmet.evt() ==     468603738 ||
-zmet.evt() ==     538092181 ||
-zmet.evt() ==     669151891 ||
-zmet.evt() ==     674185343 ||
-zmet.evt() ==     800787062 ||
-zmet.evt() ==     876242903 ||
-zmet.evt() ==     255298419 ||
-zmet.evt() ==     388089847 ||
-zmet.evt() ==     734404359 ||
-zmet.evt() ==     849936472 ||
-zmet.evt() ==     951978139 ||
-zmet.evt() ==     984338476 ||
-zmet.evt() ==     126212970 ||
-zmet.evt() ==     674037960 ||
-zmet.evt() ==     645127812 ||
-zmet.evt() ==     214100002 ||
-zmet.evt() ==     233083508 ||
-zmet.evt() ==     601723661 ||
-zmet.evt() ==     447300195 ||
-zmet.evt() ==     650959562 ||
-zmet.evt() ==     292850898 ||
-zmet.evt() ==     889794871 ||
-zmet.evt() ==     964275402 ||
-zmet.evt() ==     901466952 ||
-zmet.evt() ==     760577538 ||
-zmet.evt() ==     652232550 ||
-zmet.evt() ==    1301979178 ||
-zmet.evt() ==    1590112800 ||
-zmet.evt() ==     283397410 ||
-zmet.evt() ==     821467814 ||
-zmet.evt() ==     530684314 ||
-zmet.evt() ==    1120098112 ||
-zmet.evt() ==    1123589011 
-
-		 ){
-		cout<<zmet.evt()<<" | "<<event_met_pt<<" | "<<zmet.dphi_metj1()<<" | "<<zmet.mt2()<<" | "<< passMETFilters() <<endl;
-		// cout<<zmet.hyp_type()<<" | "<<zmet.HLT_MuEG()<<" | "<<zmet.HLT_MuEG_2()<<" | "<<zmet.HLT_MuEG_noiso()<<" | "<< endl<<endl;
-		if(!( (zmet.HLT_DoubleMu_nonDZ() || zmet.HLT_DoubleMu_tk_nonDZ() || zmet.HLT_DoubleMu_noiso() ) && zmet.hyp_type() == 1 )){
-		  cout<<zmet.hyp_type()<<" | "<<zmet.HLT_DoubleMu_nonDZ()<<" | "<<zmet.HLT_DoubleMu_tk_nonDZ()<<" | "<<zmet.HLT_DoubleMu_noiso()<<" | "<< endl;
-		  cout<<zmet.hyp_type()<<" | "<<zmet.HLT_DoubleEl_DZ()<<" | "<<zmet.HLT_DoubleEl_noiso()<<" | "<< endl;
-		  cout<<zmet.hyp_type()<<" | "<<zmet.HLT_MuEG()<<" | "<<zmet.HLT_MuEG_2()<<" | "<<zmet.HLT_MuEG_noiso()<<" | "<< endl<<endl;
-		}
-
-		if ( !(( zmet.HLT_DoubleEl_DZ()    || zmet.HLT_DoubleEl_noiso()                                 ) && zmet.hyp_type() == 0 )){
-		  cout<<zmet.hyp_type()<<" | "<<zmet.HLT_DoubleMu_nonDZ()<<" | "<<zmet.HLT_DoubleMu_tk_nonDZ()<<" | "<<zmet.HLT_DoubleMu_noiso()<<" | "<< endl;
-		  cout<<zmet.hyp_type()<<" | "<<zmet.HLT_DoubleEl_DZ()<<" | "<<zmet.HLT_DoubleEl_noiso()<<" | "<< endl;
-		  cout<<zmet.hyp_type()<<" | "<<zmet.HLT_MuEG()<<" | "<<zmet.HLT_MuEG_2()<<" | "<<zmet.HLT_MuEG_noiso()<<" | "<< endl<<endl;
-		}
-
-		if (!( ( zmet.HLT_MuEG()           || zmet.HLT_MuEG_noiso()                                     ) && zmet.hyp_type() == 2 )){
-		  cout<<zmet.hyp_type()<<" | "<<zmet.HLT_DoubleMu_nonDZ()<<" | "<<zmet.HLT_DoubleMu_tk_nonDZ()<<" | "<<zmet.HLT_DoubleMu_noiso()<<" | "<< endl;
-		  cout<<zmet.hyp_type()<<" | "<<zmet.HLT_DoubleEl_DZ()<<" | "<<zmet.HLT_DoubleEl_noiso()<<" | "<< endl;
-		  cout<<zmet.hyp_type()<<" | "<<zmet.HLT_MuEG()<<" | "<<zmet.HLT_MuEG_2()<<" | "<<zmet.HLT_MuEG_noiso()<<" | "<< endl<<endl;
-		}
-
-		if(!(( (zmet.HLT_DoubleMu_nonDZ() || zmet.HLT_DoubleMu_tk_nonDZ() || zmet.HLT_DoubleMu_noiso() ) && zmet.hyp_type() == 1 ) ||
-			 ( (zmet.HLT_DoubleEl_DZ()    || zmet.HLT_DoubleEl_noiso()                                 ) && zmet.hyp_type() == 0 ) ||
-			 ( ( zmet.HLT_MuEG()          || zmet.HLT_MuEG_noiso()                                     ) && zmet.hyp_type() == 2 ) ) ){
-		  badevents++;
-		}
-
 	  }
 
 	  
@@ -1513,10 +569,12 @@ zmet.evt() ==    1123589011
  
 	  }
 
-	  // cout<<"weight before: "<<weightbefore<<endl;
-	  // cout<<"btag sf      : "<<zmet.weight_btagsf()<<endl;
-	  // cout<<"lepton SF    : "<<lepton_SF<<endl;
-	  // cout<<"weight after:  "<<weightafter<<endl;
+	  //flat trigger effs
+	  if( !zmet.isData() ){
+		if( zmet.hyp_type() == 0 ) weight *= 0.969;
+		if( zmet.hyp_type() == 1 ) weight *= 0.946;
+		if( zmet.hyp_type() == 2 ) weight *= 0.894;
+	  }
 	  
       if( !usejson && zmet.isData() && !zmet.evt_passgoodrunlist()   ) continue;
 	  fillHist( "event", "mll"  , "inclusive", zmet.dilmass()  , weight );
@@ -1534,11 +592,21 @@ zmet.evt() ==    1123589011
 
 		if( !TString(currentFile->GetTitle()).Contains("t5zz") && zmet.isData() ){
 
+		  // if( zmet.evt() == 211268536 || zmet.evt() == 682190484 || zmet.evt() == 960899337 ){
+		  // 	cout<<__LINE__<<endl;
+		  // 	cout<<zmet.HLT_DoubleMu_nonDZ()<<" | ";
+		  // 	cout<<zmet.HLT_DoubleMu_tk_nonDZ()<<" | ";
+		  // 	cout<<zmet.HLT_DoubleMu_noiso()<<" | ";
+		  // 	cout<<zmet.HLT_DoubleEl_DZ()<<" | ";
+		  // 	cout<<zmet.HLT_DoubleEl_DZ_2()<<" | ";
+		  // 	cout<<zmet.HLT_DoubleEl_noiso()<<endl;
+		  // }
+		  
 		  if( !((( zmet.HLT_DoubleMu_nonDZ() || zmet.HLT_DoubleMu_tk_nonDZ() || zmet.HLT_DoubleMu_noiso() ) && zmet.hyp_type() == 1 ) ||
-				(( zmet.HLT_DoubleEl_DZ()    || zmet.HLT_DoubleEl_noiso()                                 ) && zmet.hyp_type() == 0 ) ||
-				(( zmet.HLT_MuEG()           || zmet.HLT_MuEG_noiso()                                     ) && zmet.hyp_type() == 2 )
+				(( zmet.HLT_DoubleEl_DZ_2()  || zmet.HLT_DoubleEl_noiso()                                 ) && zmet.hyp_type() == 0 ) ||
+				(( zmet.HLT_MuEG()           || zmet.HLT_MuEG_2()            || zmet.HLT_MuEG_noiso()     ) && zmet.hyp_type() == 2 )
 				)           ) continue;
-		
+
 		}
 	  }
 	  
@@ -1627,36 +695,36 @@ zmet.evt() ==    1123589011
 	  fillHist( "event", "dRjj"   , "passtrig", zmet.dR_jj()    , weight );	  
 
 
-	  fillHist( "event", "chpfcands_0013_pt" , "passtrig", zmet.chpfcands_0013_pt()  , weight );	  
-	  fillHist( "event", "chpfcands_1316_pt" , "passtrig", zmet.chpfcands_1316_pt()  , weight );	  
-	  fillHist( "event", "chpfcands_1624_pt" , "passtrig", zmet.chpfcands_1624_pt()  , weight );	  
-	  fillHist( "event", "chpfcands_2430_pt" , "passtrig", zmet.chpfcands_2430_pt()  , weight );	  
-	  fillHist( "event", "chpfcands_30in_pt" , "passtrig", zmet.chpfcands_30in_pt()  , weight );	  
-	  fillHist( "event", "phpfcands_0013_pt" , "passtrig", zmet.phpfcands_0013_pt()  , weight );	  
-	  fillHist( "event", "phpfcands_1316_pt" , "passtrig", zmet.phpfcands_1316_pt()  , weight );	  
-	  fillHist( "event", "phpfcands_1624_pt" , "passtrig", zmet.phpfcands_1624_pt()  , weight );	  
-	  fillHist( "event", "phpfcands_2430_pt" , "passtrig", zmet.phpfcands_2430_pt()  , weight );	  
-	  fillHist( "event", "phpfcands_30in_pt" , "passtrig", zmet.phpfcands_30in_pt()  , weight );	  
-	  fillHist( "event", "nupfcands_0013_pt" , "passtrig", zmet.nupfcands_0013_pt()  , weight );	  
-	  fillHist( "event", "nupfcands_1316_pt" , "passtrig", zmet.nupfcands_1316_pt()  , weight );	  
-	  fillHist( "event", "nupfcands_1624_pt" , "passtrig", zmet.nupfcands_1624_pt()  , weight );	  
-	  fillHist( "event", "nupfcands_2430_pt" , "passtrig", zmet.nupfcands_2430_pt()  , weight );	  
-	  fillHist( "event", "nupfcands_30in_pt" , "passtrig", zmet.nupfcands_30in_pt()  , weight );	  
-	  fillHist( "event", "chpfcands_0013_sumet" , "passtrig", zmet.chpfcands_0013_sumet()  , weight );	  
-	  fillHist( "event", "chpfcands_1316_sumet" , "passtrig", zmet.chpfcands_1316_sumet()  , weight );	  
-	  fillHist( "event", "chpfcands_1624_sumet" , "passtrig", zmet.chpfcands_1624_sumet()  , weight );	  
-	  fillHist( "event", "chpfcands_2430_sumet" , "passtrig", zmet.chpfcands_2430_sumet()  , weight );	  
-	  fillHist( "event", "chpfcands_30in_sumet" , "passtrig", zmet.chpfcands_30in_sumet()  , weight );	  
-	  fillHist( "event", "phpfcands_0013_sumet" , "passtrig", zmet.phpfcands_0013_sumet()  , weight );	  
-	  fillHist( "event", "phpfcands_1316_sumet" , "passtrig", zmet.phpfcands_1316_sumet()  , weight );	  
-	  fillHist( "event", "phpfcands_1624_sumet" , "passtrig", zmet.phpfcands_1624_sumet()  , weight );	  
-	  fillHist( "event", "phpfcands_2430_sumet" , "passtrig", zmet.phpfcands_2430_sumet()  , weight );	  
-	  fillHist( "event", "phpfcands_30in_sumet" , "passtrig", zmet.phpfcands_30in_sumet()  , weight );	  
-	  fillHist( "event", "nupfcands_0013_sumet" , "passtrig", zmet.nupfcands_0013_sumet()  , weight );	  
-	  fillHist( "event", "nupfcands_1316_sumet" , "passtrig", zmet.nupfcands_1316_sumet()  , weight );	  
-	  fillHist( "event", "nupfcands_1624_sumet" , "passtrig", zmet.nupfcands_1624_sumet()  , weight );	  
-	  fillHist( "event", "nupfcands_2430_sumet" , "passtrig", zmet.nupfcands_2430_sumet()  , weight );	  
-	  fillHist( "event", "nupfcands_30in_sumet" , "passtrig", zmet.nupfcands_30in_sumet()  , weight );	  
+	  // fillHist( "event", "chpfcands_0013_pt" , "passtrig", zmet.chpfcands_0013_pt()  , weight );	  
+	  // fillHist( "event", "chpfcands_1316_pt" , "passtrig", zmet.chpfcands_1316_pt()  , weight );	  
+	  // fillHist( "event", "chpfcands_1624_pt" , "passtrig", zmet.chpfcands_1624_pt()  , weight );	  
+	  // fillHist( "event", "chpfcands_2430_pt" , "passtrig", zmet.chpfcands_2430_pt()  , weight );	  
+	  // fillHist( "event", "chpfcands_30in_pt" , "passtrig", zmet.chpfcands_30in_pt()  , weight );	  
+	  // fillHist( "event", "phpfcands_0013_pt" , "passtrig", zmet.phpfcands_0013_pt()  , weight );	  
+	  // fillHist( "event", "phpfcands_1316_pt" , "passtrig", zmet.phpfcands_1316_pt()  , weight );	  
+	  // fillHist( "event", "phpfcands_1624_pt" , "passtrig", zmet.phpfcands_1624_pt()  , weight );	  
+	  // fillHist( "event", "phpfcands_2430_pt" , "passtrig", zmet.phpfcands_2430_pt()  , weight );	  
+	  // fillHist( "event", "phpfcands_30in_pt" , "passtrig", zmet.phpfcands_30in_pt()  , weight );	  
+	  // fillHist( "event", "nupfcands_0013_pt" , "passtrig", zmet.nupfcands_0013_pt()  , weight );	  
+	  // fillHist( "event", "nupfcands_1316_pt" , "passtrig", zmet.nupfcands_1316_pt()  , weight );	  
+	  // fillHist( "event", "nupfcands_1624_pt" , "passtrig", zmet.nupfcands_1624_pt()  , weight );	  
+	  // fillHist( "event", "nupfcands_2430_pt" , "passtrig", zmet.nupfcands_2430_pt()  , weight );	  
+	  // fillHist( "event", "nupfcands_30in_pt" , "passtrig", zmet.nupfcands_30in_pt()  , weight );	  
+	  // fillHist( "event", "chpfcands_0013_sumet" , "passtrig", zmet.chpfcands_0013_sumet()  , weight );	  
+	  // fillHist( "event", "chpfcands_1316_sumet" , "passtrig", zmet.chpfcands_1316_sumet()  , weight );	  
+	  // fillHist( "event", "chpfcands_1624_sumet" , "passtrig", zmet.chpfcands_1624_sumet()  , weight );	  
+	  // fillHist( "event", "chpfcands_2430_sumet" , "passtrig", zmet.chpfcands_2430_sumet()  , weight );	  
+	  // fillHist( "event", "chpfcands_30in_sumet" , "passtrig", zmet.chpfcands_30in_sumet()  , weight );	  
+	  // fillHist( "event", "phpfcands_0013_sumet" , "passtrig", zmet.phpfcands_0013_sumet()  , weight );	  
+	  // fillHist( "event", "phpfcands_1316_sumet" , "passtrig", zmet.phpfcands_1316_sumet()  , weight );	  
+	  // fillHist( "event", "phpfcands_1624_sumet" , "passtrig", zmet.phpfcands_1624_sumet()  , weight );	  
+	  // fillHist( "event", "phpfcands_2430_sumet" , "passtrig", zmet.phpfcands_2430_sumet()  , weight );	  
+	  // fillHist( "event", "phpfcands_30in_sumet" , "passtrig", zmet.phpfcands_30in_sumet()  , weight );	  
+	  // fillHist( "event", "nupfcands_0013_sumet" , "passtrig", zmet.nupfcands_0013_sumet()  , weight );	  
+	  // fillHist( "event", "nupfcands_1316_sumet" , "passtrig", zmet.nupfcands_1316_sumet()  , weight );	  
+	  // fillHist( "event", "nupfcands_1624_sumet" , "passtrig", zmet.nupfcands_1624_sumet()  , weight );	  
+	  // fillHist( "event", "nupfcands_2430_sumet" , "passtrig", zmet.nupfcands_2430_sumet()  , weight );	  
+	  // fillHist( "event", "nupfcands_30in_sumet" , "passtrig", zmet.nupfcands_30in_sumet()  , weight );	  
 
 	  
 	  // int bjetind = 0;
@@ -1693,6 +761,31 @@ zmet.evt() ==    1123589011
 	  //Fill Template hists//
 	  //-~-~-~-~-~-~-~-~-~-//	  
 	  if( zmet.njets()                        < 2         ) continue; // require at least 2 good jets
+
+	  // // sync with Bobak	  
+	  // if( event_met_pt > 150 ){
+	  // 	cout << setw(10)<<zmet.njets()<<" | ";
+	  // 	cout << setw(10)<<zmet.nlep()<<" | ";
+	  // 	cout << setw(10)<<zmet.hyp_type()<<" | ";
+	  // 	cout << setw(10)<<zmet.evt_type()<<" | ";
+	  // 	cout << setw(10)<<zmet.lep_pt().at(0)<<" | ";
+	  // 	cout << setw(10)<<zmet.lep_pt().at(1)<<" | ";
+	  // 	cout << setw(10)<<zmet.lep_eta().at(0)<<" | ";
+	  // 	cout << setw(10)<<zmet.lep_eta().at(1)<<" | ";
+	  // 	cout << setw(10)<<zmet.jets_p4().at(0).pt()<<" | ";
+	  // 	cout << setw(10)<<zmet.jets_p4().at(1).pt()<<" | ";
+	  // 	cout << setw(10)<<zmet.jets_p4().at(0).eta()<<" | ";
+	  // 	cout << setw(10)<<zmet.jets_p4().at(1).eta()<<" | ";
+	  // 	cout << setw(10)<<zmet.dRll()<<" | ";
+	  // 	cout << setw(10)<<zmet.ht()<<" | ";
+	  // 	cout << setw(10)<<zmet.met_T1CHS_miniAOD_CORE_pt()<<" | ";
+	  // 	cout << setw(10)<<passMETFilters()<<" | ";
+	  // 	// cout<<zmet.mlbmin()<<" | ";
+	  // 	// cout<<zmet.nlep()<<" | ";
+	  // 	// cout<<zmet.nlep()<<" | ";
+	  // 	cout<<endl;
+	  // }
+
 
 	  //synch with Marc
 
@@ -1813,6 +906,21 @@ zmet.evt() ==    1123589011
 		if( (zmet.hyp_type() == 0 || zmet.hyp_type() == 1 ) ){
 		  currentMETTemplate = mettemplates.pickTemplate( mettemplate_hists, zmet.njets(), zmet.ht(), zmet.dilpt() );
 		  mettemplates.countTemplate( zmet.njets(), zmet.ht(), zmet.dilpt(), weight );
+
+		  if( correctewkcontamination ){
+			currentMETTemplate_ewk = mettemplates_ewk.pickTemplate( mettemplate_hists_ewk, zmet.njets(), zmet.ht(), zmet.dilpt() );
+			mettemplates_ewk.countTemplate( zmet.njets(), zmet.ht(), zmet.dilpt(), weight );
+			try
+			  {
+				event_hists.at( "h_templ_met_ewk" ) -> Add( currentMETTemplate_ewk, weight );		
+			  }
+			catch(exception &e)
+			  {
+				cout<<"Hist: h_templ_met_ewk Does not exist!"<<endl;
+				exit(1);
+			  }
+		  }
+		  
 		  try
 		  	{
 		  	  event_hists.at( "h_templ_met" ) -> Add( currentMETTemplate, weight );		
@@ -1858,9 +966,12 @@ zmet.evt() ==    1123589011
   }
   
   // mettemplates.NormalizeTemplates(mettemplate_hists);
-  mettemplates.correctBinUncertainty( mettemplate_hists, event_hists.at("h_templ_met") );
+  mettemplates     . correctBinUncertainty( mettemplate_hists,     event_hists.at("h_templ_met"    ) );
+  mettemplates_ewk . correctBinUncertainty( mettemplate_hists_ewk, event_hists.at("h_templ_met_ewk") );
 
-  
+  event_hists.at("h_templ_met_ewk_subtracted") = (TH1F*)event_hists.at("h_templ_met_ewk")->Clone("h_templ_met_ewk_subtracted");
+  event_hists.at("h_templ_met_ewk_difference") = (TH1F*)event_hists.at("h_templ_met"    )->Clone("h_templ_met_ewk_difference");
+  event_hists.at("h_templ_met_ewk_difference") -> Add(  event_hists.at("h_templ_met_ewk"), -1.0 ); // get nominal with ewk subtracted
   if (nEventsChain != nEventsTotal)
     std::cout << "ERROR: number of events from files is not equal to total number of events" << std::endl;
 
@@ -2012,6 +1123,9 @@ void templateLooper::bookHistos(){
 
   // random extra hists here
   bookHist("h_templ_met", "h_templ_met", 500,0,500);
+  bookHist("h_templ_met_ewk", "h_templ_met_ewk", 500,0,500);
+  bookHist("h_templ_met_ewk_subtracted", "h_templ_met_ewk_subtracted", 500,0,500);
+  bookHist("h_templ_met_ewk_difference", "h_templ_met_ewk_difference", 500,0,500);
 
   vector <string> phivars;
   vector <float> axislimits;
@@ -2091,9 +1205,9 @@ void templateLooper::bookHistos(){
   bookHist("h_ll_event_njtm50_passtrig", "h_ll_event_njtm50_passtrig", 10,0,10);
   bookHist("h_ll_event_metall_passtrig", "h_ll_event_metall_passtrig", 200,0,200);
 
-  h_signalyields_met100to150_ee = new TH2F("h_signalyields_met100to150_ee","h_signalyields_met100to150_ee",(1600-550)/50,575,1625,(1500-50)/50,75,1525);	
-  h_signalyields_met100to150_mm = new TH2F("h_signalyields_met100to150_mm","h_signalyields_met100to150_mm",(1600-550)/50,575,1625,(1500-50)/50,75,1525);	
-  h_signalyields_met100to150_ll = new TH2F("h_signalyields_met100to150_ll","h_signalyields_met100to150_ll",(1600-550)/50,575,1625,(1500-50)/50,75,1525);	
+  h_signalyields_met100to150_ee = new TH2F("h_signalyields_met100to150_ee","h_signalyields_met100to150_ee",(1900-550)/50,575,1925,(1800-50)/50,75,1825);	
+  h_signalyields_met100to150_mm = new TH2F("h_signalyields_met100to150_mm","h_signalyields_met100to150_mm",(1900-550)/50,575,1925,(1800-50)/50,75,1825);	
+  h_signalyields_met100to150_ll = new TH2F("h_signalyields_met100to150_ll","h_signalyields_met100to150_ll",(1900-550)/50,575,1925,(1800-50)/50,75,1825);	
   h_signalyields_met100to150_ee->Sumw2();
   h_signalyields_met100to150_mm->Sumw2();
   h_signalyields_met100to150_ll->Sumw2();
