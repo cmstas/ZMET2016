@@ -172,23 +172,15 @@ void getReweightScheme(vector <double> &binning, string selection )
   if( TString(selection).Contains("SRA") ){
 
 	if( TString(selection).Contains("bveto") ){
-	  // binning.clear();
-	  // binning.push_back(0);
-	  // binning.push_back(33);
-	  // binning.push_back(55);
-	  // binning.push_back(75);
-	  // binning.push_back(90);
-	  // binning.push_back(120);
-	  // binning.push_back(165);
-	  // binning.push_back(3000);
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
+	  binning.push_back(40);
 	  binning.push_back(55);
-	  binning.push_back(75);
-	  binning.push_back(90);
-	  binning.push_back(120);
-	  binning.push_back(165);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
 	  binning.push_back(200);
 	  binning.push_back(300);
 	  binning.push_back(3000);
@@ -198,44 +190,26 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
+	  binning.push_back(40);
 	  binning.push_back(55);
-	  binning.push_back(75);
-	  binning.push_back(90);
-	  binning.push_back(120);
-	  binning.push_back(165);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
 	  binning.push_back(300);
 	  binning.push_back(3000);
-	  // binning.push_back(0);
-	  // binning.push_back(33);
-	  // binning.push_back(75);
-	  // binning.push_back(100);
-	  // binning.push_back(3000);
 	}
 
 	if( TString(selection).Contains("withb") ){
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
+	  binning.push_back(40);
 	  binning.push_back(55);
-	  binning.push_back(75);
-	  binning.push_back(90);
-	  binning.push_back(120);
-	  binning.push_back(165);
-	  binning.push_back(300);
-	  binning.push_back(3000);
-	  // binning.push_back(0);
-	  // binning.push_back(33);
-	  // binning.push_back(75);
-	  // binning.push_back(100);
-	  // binning.push_back(3000);
-	  binning.clear();
-	  binning.push_back(0);
-	  binning.push_back(33);
-	  binning.push_back(55);
-	  binning.push_back(75);
-	  binning.push_back(90);
-	  binning.push_back(120);
-	  binning.push_back(165);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
 	  binning.push_back(200);
 	  binning.push_back(300);
 	  binning.push_back(3000);
@@ -246,25 +220,15 @@ void getReweightScheme(vector <double> &binning, string selection )
   else if( TString(selection).Contains("SRB") ){
 
 	if( TString(selection).Contains("withb") ){
-	  // binning.clear();
-	  // binning.push_back(0);
-	  // binning.push_back(33);
-	  // binning.push_back(55);
-	  // binning.push_back(75);
-	  // binning.push_back(90);
-	  // binning.push_back(120);
-	  // binning.push_back(165);
-	  // binning.push_back(200);
-	  // // binning.push_back(300);
-	  // binning.push_back(3000);
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
+	  binning.push_back(40);
 	  binning.push_back(55);
-	  binning.push_back(75);
-	  binning.push_back(90);
-	  binning.push_back(120);
-	  binning.push_back(165);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
 	  binning.push_back(200);
 	  binning.push_back(300);
 	  binning.push_back(3000);
@@ -274,29 +238,26 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
+	  binning.push_back(40);
 	  binning.push_back(55);
-	  binning.push_back(75);
-	  binning.push_back(90);
-	  binning.push_back(120);
-	  binning.push_back(165);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
 	  binning.push_back(300);
 	  binning.push_back(3000);
-	  // binning.push_back(0);
-	  // binning.push_back(33);
-	  // binning.push_back(75);
-	  // binning.push_back(100);
-	  // binning.push_back(3000);
 	}
 
 	if( TString(selection).Contains("bveto") ){
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
+	  binning.push_back(40);
 	  binning.push_back(55);
-	  binning.push_back(75);
-	  binning.push_back(90);
-	  binning.push_back(120);
-	  binning.push_back(165);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
 	  binning.push_back(200);
 	  binning.push_back(300);
 	  binning.push_back(3000);
@@ -307,34 +268,25 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.clear();
 	  binning.push_back(0);
 	  binning.push_back(33);
+	  binning.push_back(40);
 	  binning.push_back(55);
-	  binning.push_back(75);
-	  binning.push_back(90);
-	  binning.push_back(120);
-	  binning.push_back(165);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
 	  binning.push_back(200);
-	  // binning.push_back(300);
 	  binning.push_back(3000);
-	// binning.push_back(0);
-	// // binning.push_back(33);
-	// binning.push_back(55);
-	// // binning.push_back(75);
-	// // binning.push_back(90);
-	// binning.push_back(120);
-	// binning.push_back(165);
-	// // binning.push_back(200);
-	// // binning.push_back(300);
-  	// binning.push_back(3000);
   }
   
   else if( TString(selection).Contains("2jets_inclusive") ){
 	binning.push_back(0);
 	binning.push_back(33);
+	binning.push_back(40);
 	binning.push_back(55);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	binning.push_back(165);
+	binning.push_back(85);
+	binning.push_back(105);
+	binning.push_back(135);
+	binning.push_back(180);
 	binning.push_back(200);
 	binning.push_back(300);
 	binning.push_back(500);
@@ -345,11 +297,12 @@ void getReweightScheme(vector <double> &binning, string selection )
 
   	binning.push_back(0);
 	binning.push_back(33);
+	binning.push_back(40);
 	binning.push_back(55);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	binning.push_back(165);
+	binning.push_back(85);
+	binning.push_back(105);
+	binning.push_back(135);
+	binning.push_back(180);
 	binning.push_back(200);
 	binning.push_back(300);
 	binning.push_back(3000);

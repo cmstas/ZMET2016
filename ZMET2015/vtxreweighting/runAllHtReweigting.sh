@@ -1,8 +1,10 @@
 #! /bin/bash
 
 
-# root -b -q "getReweightHTHist.cc+(\"3jets_inclusive_central\")"
-# root -b -q "getReweightHTHist.cc+(\"2jets_inclusive_central\")"
+root -b -q "getReweightHTHist.cc+(\"3jets_inclusive_central\")"
+root -b -q "getReweightHTHist.cc+(\"2jets_inclusive_central\")"
+root -b -q "getReweightHTHist.cc+(\"3jets_inclusive_central\", true)"
+root -b -q "getReweightHTHist.cc+(\"2jets_inclusive_central\", true)"
 
 root -b -q "getReweightHTHist.cc+(\"2jets_inclusive\")"
 root -b -q "getReweightHTHist.cc+(\"SRA_bveto\")"

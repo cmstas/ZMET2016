@@ -28,9 +28,9 @@ fi
 # run data_2016B_Prompt_ph_v2
 
 # run data_2016C_Prompt_ee_v2
-run data_2016C_Prompt_mm_v2
+# run data_2016C_Prompt_mm_v2
 # run data_2016C_Prompt_em_v2
-# run data_2016C_Prompt_ph_v2
+# # run data_2016C_Prompt_ph_v2
 
 # # 2016 MC
 
@@ -78,6 +78,14 @@ run data_2016C_Prompt_mm_v2
 
 # # WJets
 # run wjets_incl_amcnlo
+# run wgjets_incl_amcnlo
+# run wjets_ht1200_amcnlo
+# run wjets_ht2500_amcnlo
+# run wjets_ht800_amcnlo
+# run wjets_ht600_amcnlo
+# run wjets_ht400_amcnlo
+# run wjets_ht200_amcnlo
+# run wjets_ht100_amcnlo
 
 # # samples for closure
 # run dy_m1050_mgmlm
@@ -95,7 +103,10 @@ run data_2016C_Prompt_mm_v2
 # run gjetsht600_dr0p4_mgmlm
 # run gjetsht100_mgmlm
 
+# signal
+# run t5zz_80x_v2
 
+run znunugamma_ptg130_mgmlm
 
 # all the data for the MET study
 # run data_2015C25ns16Dec2015_ee

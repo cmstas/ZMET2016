@@ -134,7 +134,8 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 
   // const char* json_file = "/home/users/olivito/mt2_74x_dev/MT2Analysis/babymaker/jsons/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 1.3 fb
   // const char* json_file = "../../json/Cert_271036-274240_13TeV_PromptReco_Collisions16_JSON_snt.txt"; // 0.8 fb-1 for FSR
-  const char* json_file = "../../json/golden_json_080716_snt.txt"; // 6.26 fb, for preapproval
+  // const char* json_file = "../../json/golden_json_080716_snt.txt"; // 6.26 fb, for preapproval
+  const char* json_file = "../../json/golden_json_080716_7p65fb_snt.txt"; // 7.65 fb, for preapproval
 
   set_goodrun_file(json_file);
 
@@ -473,6 +474,24 @@ void makePhotonTemplates::ScanChain ( TChain * chain , const string iter , const
 	  	// else if( ( !zmet.isData() && zmet.gamma_pt().at(0) > 35  ) || passPhotonTrigger30()  ) weight *= h_htweight_30  ->GetBinContent(h_htweight_30  ->FindBin(evt_ht));
 	  	// else if( ( !zmet.isData() && zmet.gamma_pt().at(0) > 25  ) || passPhotonTrigger22()  ) weight *= h_htweight_22  ->GetBinContent(h_htweight_22  ->FindBin(evt_ht));
 	  // }
+
+	  // // synch for Bobak
+	  // if( event_met_pt > 150 ){
+	  // 	cout << setw(10)<<zmet.njets()<<" | ";
+	  // 	cout << setw(10)<<zmet.ngamma()<<" | ";
+	  // 	cout << setw(10)<<zmet.evt_type()<<" | ";
+	  // 	cout << setw(10)<<zmet.gamma_pt().at(0)<<" | ";
+	  // 	cout << setw(10)<<zmet.gamma_eta().at(0)<<" | ";
+	  // 	cout << setw(10)<<zmet.jets_p4().at(0).pt()<<" | ";
+	  // 	cout << setw(10)<<zmet.jets_p4().at(1).pt()<<" | ";
+	  // 	cout << setw(10)<<zmet.jets_p4().at(0).eta()<<" | ";
+	  // 	cout << setw(10)<<zmet.jets_p4().at(1).eta()<<" | ";
+	  // 	cout << setw(10)<<zmet.ht()<<" | ";
+	  // 	cout << setw(10)<<zmet.met_T1CHS_miniAOD_CORE_pt()<<" | ";
+	  // 	cout << setw(10)<<passMETFilters()<<" | ";
+	  // 	cout<<endl;
+	  // }
+
 	  
 	  //-~-~-~-~-~-~-~-~-~-//
 	  //Fill Template hists//

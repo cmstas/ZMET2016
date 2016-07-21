@@ -22,6 +22,10 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/%s/data_2016B_Prompt_mm*.root" , iter.c_str() ));
 	// // ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V7680-hybrid-00/data_2016B_Prompt_ph*.root" , iter.c_str() ));	
 
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_em*.root" ));
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016C_Prompt_em*.root" ));
+
+	
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_ee*.root" ));
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_em*.root" ));
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_mm*.root" ));
@@ -36,7 +40,8 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
   }
 
   if ( sample == "fullscan" || sample == "signal1100200" || sample == "signal900" ){
-	ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/t5zz_mgl*_mlm*.root" , iter.c_str() ));
+	// ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/t5zz_mgl*_mlm*.root" , iter.c_str() ));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/t5zz_80x_v2*.root" , iter.c_str() ));
   }
 
   else if ( sample == "All_MC" ){

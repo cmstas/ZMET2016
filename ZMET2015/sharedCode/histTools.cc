@@ -71,7 +71,7 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity )
 
   canvas->cd();
   TLatex *lumitex = NULL;
-  lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
+  lumitex = new TLatex(0.66,0.955, Form("%.2f fb^{-1} (13 TeV)", luminosity) );    
   // lumitex = new TLatex(0.66,0.955, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
   // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
   lumitex->SetNDC();    

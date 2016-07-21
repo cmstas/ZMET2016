@@ -288,11 +288,11 @@ bool passSignalRegionSelection( string selection )
 	  
 	  if( TString(selection).Contains("SR_EWK" ) && 
 		  !( (
-			  ( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && zmet.mt2() > 80         ) ) || // dilep cuts
+			  ( zmet.evt_type() == 0 && ( zmet.nveto_leptons() < 1 && zmet.mt2() > 80         ) ) || // dilep cuts
 			  // ( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && MT2( event_met_pt, event_met_ph, lepsFromDecayedZ.first, lepsFromDecayedZ.second, 0.0, false ) > 80         ) ) || // dilep cuts
 			  // ( zmet.evt_type() == 2 && ( MT2( event_met_pt, event_met_ph, zmet.gamma_p4().at(0), zmet.jets_p4().at(jetind_lowdRgamma), 0.0, false ) > 80 && zmet.njets() > 2) ) ) && // photon+jets cuts
 			  ( zmet.evt_type() == 2 &&
-				( ( abs(zmet.decayedphoton_lep1_p4().eta()) < 2.4 && abs(zmet.decayedphoton_lep2_p4().eta()) < 2.4 ) &&
+				( (   abs(zmet.decayedphoton_lep1_p4().eta()) < 2.4 && abs(zmet.decayedphoton_lep2_p4().eta()) < 2.4 ) &&
 				  ( ( abs(zmet.decayedphoton_lep1_p4().eta()) < 1.4 || abs(zmet.decayedphoton_lep1_p4().eta()) > 1.6 ) &&
 					( abs(zmet.decayedphoton_lep2_p4().eta()) < 1.4 || abs(zmet.decayedphoton_lep2_p4().eta()) > 1.6 ) ) &&
 				  MT2( event_met_pt, event_met_ph, zmet.decayedphoton_lep1_p4(), zmet.decayedphoton_lep2_p4(), 0.0, false ) > 80 ) ) ) && // photon+jets cuts

@@ -19,17 +19,16 @@ using namespace std;
 void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string selection = "_inclusive", string dilep = "ll", string variable = "mll", string region = "passtrig" )
 {
 
-  float RSFOF = 1.06;
+  float RSFOF = 1.107;
   // float RSFOF = 1.026;
-  double RSFOFunc = .06;
+  double RSFOFunc = .029;
 
   bool drawsignal = false;
 
   bool showmoredigits   = true;
 
-  bool correctewk       = true;
-
   bool binningfortables = true;
+  bool correctewk       = true;
   bool drawassymuncs    = true;
   bool usetemplates     = true;
   bool usefsbkg         = true;
@@ -140,6 +139,10 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   h_zz ->Scale(luminosity);
   h_ttv->Scale(luminosity);
   h_vvv->Scale(luminosity);
+  // h_wz ->Scale(0);
+  // h_zz ->Scale(0);
+  // h_ttv->Scale(0);
+  // h_vvv->Scale(0);
 
   if( renormalizettbar ){
 
@@ -170,14 +173,21 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	// h_zjets->Scale(1./h_zjets->GetSumOfWeights());
 
 	float normmethigh = 50;
+	float metlow_normalization = 1;
+
+	if( TString(selection).Contains("SR_EWK" ) ){
+	  normmethigh = 100;
+	  metlow_normalization = 50;
+	}	  
 	
-	float val_data  = h_data  -> Integral(1,normmethigh);
-	float val_ttbar = h_ttbar -> Integral(1,normmethigh);
-	float val_zjets = h_zjets -> Integral(1,normmethigh);
-	val_ttbar += h_wz  -> Integral(1,normmethigh);
-	val_ttbar += h_zz  -> Integral(1,normmethigh);
-	val_ttbar += h_ttv -> Integral(1,normmethigh);
-	val_ttbar += h_vvv -> Integral(1,normmethigh);
+	float val_data  = h_data  -> Integral(metlow_normalization,normmethigh);
+	float val_ttbar = h_ttbar -> Integral(metlow_normalization,normmethigh);
+	float val_zjets = h_zjets -> Integral(metlow_normalization,normmethigh);
+	if( correctewk ) val_zjets -= h_zjets_ewk_diff -> Integral(metlow_normalization,normmethigh);
+	val_ttbar += h_wz  -> Integral(metlow_normalization,normmethigh);
+	val_ttbar += h_zz  -> Integral(metlow_normalization,normmethigh);
+	val_ttbar += h_ttv -> Integral(metlow_normalization,normmethigh);
+	val_ttbar += h_vvv -> Integral(metlow_normalization,normmethigh);
 
 	// cout<<"data:  "<<val_data<<endl;
 	// cout<<"zjets: "<<val_zjets<<endl;
@@ -192,9 +202,8 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	double err_data = 0.0;
 	double err_zjet = 0.0;
 	
-	val_data  = h_data  -> IntegralAndError(1,normmethigh, err_data);
-	// val_ttbar = h_ttbar -> Integral(1,normmethigh);
-	val_zjets = h_zjets -> IntegralAndError(1,normmethigh, err_zjet);
+	val_data  = h_data  -> IntegralAndError(metlow_normalization,normmethigh, err_data);
+	val_zjets = h_zjets -> IntegralAndError(metlow_normalization,normmethigh, err_zjet);
 
 	// cout<<"data:  "<<val_data<<endl;
 	// cout<<"zjets: "<<val_zjets<<endl;
@@ -1339,6 +1348,14 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  bins[bini] = v_bin.at(bini);
 	}
 
+	if( TString(selection).Contains("SR") ){
+
+	  TFile * template_for_marc = TFile::Open("h_ewk_prediction.root","RECREATE");
+	  template_for_marc->cd();
+	  h_zjets->Write();
+	  template_for_marc->Close();	
+	}
+
 	h_data  = (TH1F*) h_data  -> Rebin(nbins, "h_data_rebinned", bins);
 	h_zjets = (TH1F*) h_zjets -> Rebin(nbins, "h_zjets_rebinned", bins);
 	if( correctewk ) h_zjets_ewk_diff = (TH1F*) h_zjets_ewk_diff -> Rebin(nbins, "h_zjets_ewk_diff_rebinned", bins);
@@ -1611,7 +1628,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
 	h_data->GetYaxis()->SetRangeUser(2e-1, 2e3 );  
 	if( TString(selection).Contains("SRB_bveto") ){
-	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 6e3 );  
+	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 6e4 );  
 	}
 	if( TString(selection).Contains("SRB_withb") ){
 	  h_data->GetYaxis()->SetRangeUser(7e-2, 9e3 );  
@@ -1721,6 +1738,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
   TH1F* h_rat = (TH1F*)h_data  -> Clone("h_rat");
   TH1F* h_den = (TH1F*)h_zjets -> Clone("h_den");
+  if( correctewk )h_den->Add(h_zjets_ewk_diff,-1);
   if( usefsbkg ){
 	h_den->Add(h_ttbar);
   }else{
@@ -1814,7 +1832,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   // else                                  drawCMSLatex( c1, luminosity*norm_factor );
 
   if( (TString(variable).Contains("mll_")) ||
-	  (!( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ) && luminosity*norm_factor < 4.0) ) drawCMSLatex( c1, 4.0 );
+	  (!( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ) && luminosity*norm_factor < 7.65) ) drawCMSLatex( c1, 7.65 );
   else drawCMSLatex( c1, luminosity*norm_factor );
 
   if( !TString(selection).Contains("signalcontamination") ){

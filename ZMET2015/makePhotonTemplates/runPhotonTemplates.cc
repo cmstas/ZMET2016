@@ -29,6 +29,7 @@ void runPhotonTemplates( std::string selection = "", std::string iter = "", std:
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wgjets_incl_amcnlo*.root"));
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltbr_mgmlm*.root"));
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltop_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/znunugamma_ptg130_mgmlm*.root"));
 
 	}
 

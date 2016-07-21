@@ -340,6 +340,10 @@ selection="_rawMET_SRA_tailstudy"
 # selection="_rawMET_loosephoton_withb_SRB_signalcontamination_losplit"
 # ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
 
+# selection="_2jets_inclusive_central"
+# ./makePhotonTemplates $selection $analysis_version data dontdohtreweighting &
+# selection="_3jets_inclusive_central"
+# ./makePhotonTemplates $selection $analysis_version data dontdohtreweighting &
 # selection="_2jets_inclusive"
 # ./makePhotonTemplates $selection $analysis_version data dontdohtreweighting &
 # selection="_SRA_bveto"
@@ -357,6 +361,10 @@ selection="_rawMET_SRA_tailstudy"
 # # # selection="_SR_ZH"
 # # # ./makePhotonTemplates $selection $analysis_version data dontdohtreweighting &
 
+# selection="_2jets_inclusive_central"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dontdohtreweighting &
+# selection="_3jets_inclusive_central"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dontdohtreweighting &
 # selection="_2jets_inclusive"
 # ./makePhotonTemplates $selection $analysis_version data_withMC dontdohtreweighting &
 # selection="_SRA_bveto"
@@ -374,36 +382,47 @@ selection="_rawMET_SRA_tailstudy"
 # # # selection="_SR_ZH"
 # # # ./makePhotonTemplates $selection $analysis_version data_withMC dontdohtreweighting &
 
-selection="_2jets_inclusive"
-./makePhotonTemplates $selection $analysis_version data dohtreweighting &
-selection="_SRA_bveto"
-./makePhotonTemplates $selection $analysis_version data dohtreweighting &
-selection="_SRA_withb"
-./makePhotonTemplates $selection $analysis_version data dohtreweighting &
-selection="_SRB_bveto"
-./makePhotonTemplates $selection $analysis_version data dohtreweighting &
-selection="_SRB_withb"
-./makePhotonTemplates $selection $analysis_version data dohtreweighting &
-selection="_SR_EWK"
-./makePhotonTemplates $selection $analysis_version data dohtreweighting &
-selection="_SR_ATLAS"
-./makePhotonTemplates $selection $analysis_version data dohtreweighting &
-# selection="_SR_ZH"
+# selection="_2jets_inclusive_central"
 # ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
+# selection="_3jets_inclusive_central"
+# ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
+# selection="_2jets_inclusive"
+# ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
+# selection="_SRA_bveto"
+# ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
+# selection="_SRA_withb"
+# ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
+# selection="_SRB_bveto"
+# ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
+# selection="_SRB_withb"
+# ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
+# selection="_SR_EWK"
+# ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
+# selection="_SR_ATLAS"
+# ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
+# # selection="_SR_ZH"
+# # ./makePhotonTemplates $selection $analysis_version data dohtreweighting &
 
-selection="_2jets_inclusive"
-./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
-selection="_SRA_bveto"
-./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
-selection="_SRA_withb"
-./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
-selection="_SRB_bveto"
-./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
-selection="_SRB_withb"
-./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
-selection="_SR_EWK"
-./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
-selection="_SR_ATLAS"
-./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
-# selection="_SR_ZH"
+# selection="_2jets_inclusive"
 # ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+# selection="_SRA_bveto"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+# selection="_SRA_withb"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+# selection="_SRB_bveto"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+# selection="_SRB_withb"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+# selection="_SR_EWK"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+# selection="_SR_ATLAS"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+# # selection="_SR_ZH"
+# # ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+# selection="_2jets_inclusive_central"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+# selection="_3jets_inclusive_central"
+# ./makePhotonTemplates $selection $analysis_version data_withMC dohtreweighting &
+
+selection="_SRA_bveto"
+./makePhotonTemplates $selection $analysis_version data dohtreweighting &
