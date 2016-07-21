@@ -593,6 +593,16 @@ void ZMET::Init(TTree *tree) {
 		lep_MVA_branch = tree->GetBranch("lep_MVA");
 		if (lep_MVA_branch) {lep_MVA_branch->SetAddress(&lep_MVA_);}
 	}
+	lep_validfraction_branch = 0;
+	if (tree->GetBranch("lep_validfraction") != 0) {
+		lep_validfraction_branch = tree->GetBranch("lep_validfraction");
+		if (lep_validfraction_branch) {lep_validfraction_branch->SetAddress(&lep_validfraction_);}
+	}
+	lep_pterr_branch = 0;
+	if (tree->GetBranch("lep_pterr") != 0) {
+		lep_pterr_branch = tree->GetBranch("lep_pterr");
+		if (lep_pterr_branch) {lep_pterr_branch->SetAddress(&lep_pterr_);}
+	}
 	ngamma_branch = 0;
 	if (tree->GetBranch("ngamma") != 0) {
 		ngamma_branch = tree->GetBranch("ngamma");
@@ -1298,6 +1308,21 @@ void ZMET::Init(TTree *tree) {
 		isrboost_branch = tree->GetBranch("isrboost");
 		if (isrboost_branch) {isrboost_branch->SetAddress(&isrboost_);}
 	}
+	isr_njets_branch = 0;
+	if (tree->GetBranch("isr_njets") != 0) {
+		isr_njets_branch = tree->GetBranch("isr_njets");
+		if (isr_njets_branch) {isr_njets_branch->SetAddress(&isr_njets_);}
+	}
+	isr_weight_branch = 0;
+	if (tree->GetBranch("isr_weight") != 0) {
+		isr_weight_branch = tree->GetBranch("isr_weight");
+		if (isr_weight_branch) {isr_weight_branch->SetAddress(&isr_weight_);}
+	}
+	isr_unc_branch = 0;
+	if (tree->GetBranch("isr_unc") != 0) {
+		isr_unc_branch = tree->GetBranch("isr_unc");
+		if (isr_unc_branch) {isr_unc_branch->SetAddress(&isr_unc_);}
+	}
   tree->SetMakeClass(0);
 }
 void ZMET::GetEntry(unsigned int idx) 
@@ -1413,6 +1438,8 @@ void ZMET::GetEntry(unsigned int idx)
 		lep_convVeto_isLoaded = false;
 		lep_tightCharge_isLoaded = false;
 		lep_MVA_isLoaded = false;
+		lep_validfraction_isLoaded = false;
+		lep_pterr_isLoaded = false;
 		ngamma_isLoaded = false;
 		gamma_p4_isLoaded = false;
 		gamma_pt_isLoaded = false;
@@ -1563,6 +1590,9 @@ void ZMET::GetEntry(unsigned int idx)
 		mass_gluino_isLoaded = false;
 		mass_LSP_isLoaded = false;
 		isrboost_isLoaded = false;
+		isr_njets_isLoaded = false;
+		isr_weight_isLoaded = false;
+		isr_unc_isLoaded = false;
 	}
 
 void ZMET::LoadAllBranches() 
@@ -1677,6 +1707,8 @@ void ZMET::LoadAllBranches()
 	if (lep_convVeto_branch != 0) lep_convVeto();
 	if (lep_tightCharge_branch != 0) lep_tightCharge();
 	if (lep_MVA_branch != 0) lep_MVA();
+	if (lep_validfraction_branch != 0) lep_validfraction();
+	if (lep_pterr_branch != 0) lep_pterr();
 	if (ngamma_branch != 0) ngamma();
 	if (gamma_p4_branch != 0) gamma_p4();
 	if (gamma_pt_branch != 0) gamma_pt();
@@ -1827,6 +1859,9 @@ void ZMET::LoadAllBranches()
 	if (mass_gluino_branch != 0) mass_gluino();
 	if (mass_LSP_branch != 0) mass_LSP();
 	if (isrboost_branch != 0) isrboost();
+	if (isr_njets_branch != 0) isr_njets();
+	if (isr_weight_branch != 0) isr_weight();
+	if (isr_unc_branch != 0) isr_unc();
 }
 
 	const int &ZMET::run()
@@ -3245,6 +3280,32 @@ void ZMET::LoadAllBranches()
 			lep_MVA_isLoaded = true;
 		}
 		return *lep_MVA_;
+	}
+	const vector<float> &ZMET::lep_validfraction()
+	{
+		if (not lep_validfraction_isLoaded) {
+			if (lep_validfraction_branch != 0) {
+				lep_validfraction_branch->GetEntry(index);
+			} else { 
+				printf("branch lep_validfraction_branch does not exist!\n");
+				exit(1);
+			}
+			lep_validfraction_isLoaded = true;
+		}
+		return *lep_validfraction_;
+	}
+	const vector<float> &ZMET::lep_pterr()
+	{
+		if (not lep_pterr_isLoaded) {
+			if (lep_pterr_branch != 0) {
+				lep_pterr_branch->GetEntry(index);
+			} else { 
+				printf("branch lep_pterr_branch does not exist!\n");
+				exit(1);
+			}
+			lep_pterr_isLoaded = true;
+		}
+		return *lep_pterr_;
 	}
 	const int &ZMET::ngamma()
 	{
@@ -5196,6 +5257,45 @@ void ZMET::LoadAllBranches()
 		}
 		return isrboost_;
 	}
+	const int &ZMET::isr_njets()
+	{
+		if (not isr_njets_isLoaded) {
+			if (isr_njets_branch != 0) {
+				isr_njets_branch->GetEntry(index);
+			} else { 
+				printf("branch isr_njets_branch does not exist!\n");
+				exit(1);
+			}
+			isr_njets_isLoaded = true;
+		}
+		return isr_njets_;
+	}
+	const float &ZMET::isr_weight()
+	{
+		if (not isr_weight_isLoaded) {
+			if (isr_weight_branch != 0) {
+				isr_weight_branch->GetEntry(index);
+			} else { 
+				printf("branch isr_weight_branch does not exist!\n");
+				exit(1);
+			}
+			isr_weight_isLoaded = true;
+		}
+		return isr_weight_;
+	}
+	const float &ZMET::isr_unc()
+	{
+		if (not isr_unc_isLoaded) {
+			if (isr_unc_branch != 0) {
+				isr_unc_branch->GetEntry(index);
+			} else { 
+				printf("branch isr_unc_branch does not exist!\n");
+				exit(1);
+			}
+			isr_unc_isLoaded = true;
+		}
+		return isr_unc_;
+	}
 
   void ZMET::progress( int nEventsTotal, int nEventsChain ){
     int period = 1000;
@@ -5327,6 +5427,8 @@ namespace ZMet {
 	const vector<int> &lep_convVeto() { return zmet.lep_convVeto(); }
 	const vector<int> &lep_tightCharge() { return zmet.lep_tightCharge(); }
 	const vector<float> &lep_MVA() { return zmet.lep_MVA(); }
+	const vector<float> &lep_validfraction() { return zmet.lep_validfraction(); }
+	const vector<float> &lep_pterr() { return zmet.lep_pterr(); }
 	const int &ngamma() { return zmet.ngamma(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4() { return zmet.gamma_p4(); }
 	const vector<float> &gamma_pt() { return zmet.gamma_pt(); }
@@ -5477,4 +5579,7 @@ namespace ZMet {
 	const int &mass_gluino() { return zmet.mass_gluino(); }
 	const int &mass_LSP() { return zmet.mass_LSP(); }
 	const float &isrboost() { return zmet.isrboost(); }
+	const int &isr_njets() { return zmet.isr_njets(); }
+	const float &isr_weight() { return zmet.isr_weight(); }
+	const float &isr_unc() { return zmet.isr_unc(); }
 }

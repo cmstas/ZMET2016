@@ -348,6 +348,12 @@ protected:
 	vector<float> *lep_MVA_;
 	TBranch *lep_MVA_branch;
 	bool lep_MVA_isLoaded;
+	vector<float> *lep_validfraction_;
+	TBranch *lep_validfraction_branch;
+	bool lep_validfraction_isLoaded;
+	vector<float> *lep_pterr_;
+	TBranch *lep_pterr_branch;
+	bool lep_pterr_isLoaded;
 	int	ngamma_;
 	TBranch *ngamma_branch;
 	bool ngamma_isLoaded;
@@ -798,6 +804,15 @@ protected:
 	float	isrboost_;
 	TBranch *isrboost_branch;
 	bool isrboost_isLoaded;
+	int	isr_njets_;
+	TBranch *isr_njets_branch;
+	bool isr_njets_isLoaded;
+	float	isr_weight_;
+	TBranch *isr_weight_branch;
+	bool isr_weight_isLoaded;
+	float	isr_unc_;
+	TBranch *isr_unc_branch;
+	bool isr_unc_isLoaded;
 public: 
 void Init(TTree *tree);
 void GetEntry(unsigned int idx); 
@@ -911,6 +926,8 @@ void LoadAllBranches();
 	const vector<int> &lep_convVeto();
 	const vector<int> &lep_tightCharge();
 	const vector<float> &lep_MVA();
+	const vector<float> &lep_validfraction();
+	const vector<float> &lep_pterr();
 	const int &ngamma();
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4();
 	const vector<float> &gamma_pt();
@@ -1061,6 +1078,9 @@ void LoadAllBranches();
 	const int &mass_gluino();
 	const int &mass_LSP();
 	const float &isrboost();
+	const int &isr_njets();
+	const float &isr_weight();
+	const float &isr_unc();
 
   static void progress( int nEventsTotal, int nEventsChain );
 };
@@ -1179,6 +1199,8 @@ namespace ZMet {
 	const vector<int> &lep_convVeto();
 	const vector<int> &lep_tightCharge();
 	const vector<float> &lep_MVA();
+	const vector<float> &lep_validfraction();
+	const vector<float> &lep_pterr();
 	const int &ngamma();
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4();
 	const vector<float> &gamma_pt();
@@ -1329,5 +1351,8 @@ namespace ZMet {
 	const int &mass_gluino();
 	const int &mass_LSP();
 	const float &isrboost();
+	const int &isr_njets();
+	const float &isr_weight();
+	const float &isr_unc();
 }
 #endif
