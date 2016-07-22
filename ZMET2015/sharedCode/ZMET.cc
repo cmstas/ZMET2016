@@ -603,6 +603,26 @@ void ZMET::Init(TTree *tree) {
 		lep_pterr_branch = tree->GetBranch("lep_pterr");
 		if (lep_pterr_branch) {lep_pterr_branch->SetAddress(&lep_pterr_);}
 	}
+	nisoTrack_5gev_branch = 0;
+	if (tree->GetBranch("nisoTrack_5gev") != 0) {
+		nisoTrack_5gev_branch = tree->GetBranch("nisoTrack_5gev");
+		if (nisoTrack_5gev_branch) {nisoTrack_5gev_branch->SetAddress(&nisoTrack_5gev_);}
+	}
+	nisoTrack_10gev_branch = 0;
+	if (tree->GetBranch("nisoTrack_10gev") != 0) {
+		nisoTrack_10gev_branch = tree->GetBranch("nisoTrack_10gev");
+		if (nisoTrack_10gev_branch) {nisoTrack_10gev_branch->SetAddress(&nisoTrack_10gev_);}
+	}
+	nisoTrack_lowmt_branch = 0;
+	if (tree->GetBranch("nisoTrack_lowmt") != 0) {
+		nisoTrack_lowmt_branch = tree->GetBranch("nisoTrack_lowmt");
+		if (nisoTrack_lowmt_branch) {nisoTrack_lowmt_branch->SetAddress(&nisoTrack_lowmt_);}
+	}
+	nisoTrack_himt_branch = 0;
+	if (tree->GetBranch("nisoTrack_himt") != 0) {
+		nisoTrack_himt_branch = tree->GetBranch("nisoTrack_himt");
+		if (nisoTrack_himt_branch) {nisoTrack_himt_branch->SetAddress(&nisoTrack_himt_);}
+	}
 	ngamma_branch = 0;
 	if (tree->GetBranch("ngamma") != 0) {
 		ngamma_branch = tree->GetBranch("ngamma");
@@ -1455,6 +1475,10 @@ void ZMET::GetEntry(unsigned int idx)
 		lep_MVA_isLoaded = false;
 		lep_validfraction_isLoaded = false;
 		lep_pterr_isLoaded = false;
+		nisoTrack_5gev_isLoaded = false;
+		nisoTrack_10gev_isLoaded = false;
+		nisoTrack_lowmt_isLoaded = false;
+		nisoTrack_himt_isLoaded = false;
 		ngamma_isLoaded = false;
 		gamma_p4_isLoaded = false;
 		gamma_pt_isLoaded = false;
@@ -1727,6 +1751,10 @@ void ZMET::LoadAllBranches()
 	if (lep_MVA_branch != 0) lep_MVA();
 	if (lep_validfraction_branch != 0) lep_validfraction();
 	if (lep_pterr_branch != 0) lep_pterr();
+	if (nisoTrack_5gev_branch != 0) nisoTrack_5gev();
+	if (nisoTrack_10gev_branch != 0) nisoTrack_10gev();
+	if (nisoTrack_lowmt_branch != 0) nisoTrack_lowmt();
+	if (nisoTrack_himt_branch != 0) nisoTrack_himt();
 	if (ngamma_branch != 0) ngamma();
 	if (gamma_p4_branch != 0) gamma_p4();
 	if (gamma_pt_branch != 0) gamma_pt();
@@ -3327,6 +3355,58 @@ void ZMET::LoadAllBranches()
 			lep_pterr_isLoaded = true;
 		}
 		return *lep_pterr_;
+	}
+	const int &ZMET::nisoTrack_5gev()
+	{
+		if (not nisoTrack_5gev_isLoaded) {
+			if (nisoTrack_5gev_branch != 0) {
+				nisoTrack_5gev_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_5gev_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_5gev_isLoaded = true;
+		}
+		return nisoTrack_5gev_;
+	}
+	const int &ZMET::nisoTrack_10gev()
+	{
+		if (not nisoTrack_10gev_isLoaded) {
+			if (nisoTrack_10gev_branch != 0) {
+				nisoTrack_10gev_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_10gev_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_10gev_isLoaded = true;
+		}
+		return nisoTrack_10gev_;
+	}
+	const int &ZMET::nisoTrack_lowmt()
+	{
+		if (not nisoTrack_lowmt_isLoaded) {
+			if (nisoTrack_lowmt_branch != 0) {
+				nisoTrack_lowmt_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_lowmt_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_lowmt_isLoaded = true;
+		}
+		return nisoTrack_lowmt_;
+	}
+	const int &ZMET::nisoTrack_himt()
+	{
+		if (not nisoTrack_himt_isLoaded) {
+			if (nisoTrack_himt_branch != 0) {
+				nisoTrack_himt_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_himt_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_himt_isLoaded = true;
+		}
+		return nisoTrack_himt_;
 	}
 	const int &ZMET::ngamma()
 	{
@@ -5489,6 +5569,10 @@ namespace ZMet {
 	const vector<float> &lep_MVA() { return zmet.lep_MVA(); }
 	const vector<float> &lep_validfraction() { return zmet.lep_validfraction(); }
 	const vector<float> &lep_pterr() { return zmet.lep_pterr(); }
+	const int &nisoTrack_5gev() { return zmet.nisoTrack_5gev(); }
+	const int &nisoTrack_10gev() { return zmet.nisoTrack_10gev(); }
+	const int &nisoTrack_lowmt() { return zmet.nisoTrack_lowmt(); }
+	const int &nisoTrack_himt() { return zmet.nisoTrack_himt(); }
 	const int &ngamma() { return zmet.ngamma(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4() { return zmet.gamma_p4(); }
 	const vector<float> &gamma_pt() { return zmet.gamma_pt(); }

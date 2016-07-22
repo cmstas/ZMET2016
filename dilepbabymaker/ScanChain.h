@@ -217,6 +217,10 @@ class babyMaker {
   std::vector <Float_t> lep_validfraction;   //[nlep]
   std::vector <Float_t> lep_pterr        ;   //[nlep]
   
+  Int_t nisoTrack_5gev ;
+  Int_t nisoTrack_10gev;
+  Int_t nisoTrack_lowmt;
+  Int_t nisoTrack_himt ;
 
 //----- PHOTONS
   Int_t           ngamma;

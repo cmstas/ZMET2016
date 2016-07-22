@@ -1430,6 +1430,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  nupfcands_2430_sumet = 0.0;
 	  nupfcands_30in_sumet = 0.0;
 
+	  nisoTrack_5gev  = 0;
+	  nisoTrack_10gev = 0;
+	  nisoTrack_lowmt = 0;
+	  nisoTrack_himt  = 0;
+
 	  for( size_t pfind = 0; pfind < cms3.pfcands_p4().size(); pfind++ ){
 
 		LorentzVector pfcand_p4 = cms3.pfcands_p4().at(pfind);
@@ -1459,6 +1464,34 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		if( abs(pfcand_p4.eta()) > 3.0 && abs(cms3.pfcands_charge().at(pfind)) == 0 ){ // HF cands have different particle ID
 		  if( abs(cms3.pfcands_particleId().at(pfind)) == 1 ){ nupfcands_30in_p4 -= pfcand_p4; nupfcands_30in_sumet += pfcand_p4.pt(); }
 		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ){ phpfcands_30in_p4 -= pfcand_p4; phpfcands_30in_sumet += pfcand_p4.pt(); }
+		}
+
+
+        if(      cms3.pfcands_charge().at(pfind)  == 0  ) continue;
+        if( fabs(cms3.pfcands_dz()    .at(pfind)) >  0.1) continue;
+        if(      cms3.pfcands_fromPV().at(pfind)  <= 1  ) continue;
+ 
+        float cand_pt = cms3.pfcands_p4().at(pfind).pt();
+        if(cand_pt < 5) continue;
+
+        float absiso = TrackIso( pfind, 0.3, 0.0, true, false );
+        if(  absiso >= min( 0.2 * cand_pt, 8.0 ) ) continue;
+
+		nisoTrack_5gev++;
+
+        float   mt = MT( cand_pt , cms3.pfcands_p4().at(pfind).phi(), met_pt, met_phi );
+        int  pdgId = abs( cms3.pfcands_particleId().at( pfind ) );
+
+        if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) && (absiso/cand_pt < 0.2) ){
+		  if( mt < 100. ){ 
+			nisoTrack_lowmt++;
+		  }else{
+			nisoTrack_himt++;
+		  }
+		}
+
+        if( cand_pt > 10. && pdgId == 211 && (absiso/cand_pt < 0.1 ) ){ 
+		  nisoTrack_10gev++;
 		}
 
 	  }
@@ -1644,32 +1677,36 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("matched_emf"       , &matched_emf );
   BabyTree_->Branch("elveto", &elveto );
 
-  BabyTree_->Branch("nlep"           , &nlep, "nlep/I" );
-  BabyTree_->Branch("nveto_leptons"  , &nveto_leptons );
-  BabyTree_->Branch("lep_p4"         , &lep_p4         );
-  BabyTree_->Branch("lep_pt"         , "std::vector< Float_t >"       , &lep_pt         );
-  BabyTree_->Branch("lep_eta"        , "std::vector< Float_t >"       , &lep_eta        );
-  BabyTree_->Branch("lep_phi"        , "std::vector< Float_t >"       , &lep_phi        );
-  BabyTree_->Branch("lep_mass"       , "std::vector< Float_t >"       , &lep_mass       );
-  BabyTree_->Branch("lep_charge"     , "std::vector< Int_t >"         , &lep_charge     );
-  BabyTree_->Branch("lep_pdgId"      , "std::vector< Int_t >"         , &lep_pdgId      );
-  BabyTree_->Branch("lep_dxy"        , "std::vector< Float_t >"       , &lep_dxy        );
-  BabyTree_->Branch("lep_etaSC"      , "std::vector< Float_t >"       , &lep_etaSC      );
-  BabyTree_->Branch("lep_dz"         , "std::vector< Float_t >"       , &lep_dz         );
-  BabyTree_->Branch("lep_tightId"    , "std::vector< Int_t >"         , &lep_tightId    );
-  BabyTree_->Branch("lep_relIso03"   , "std::vector< Float_t >"       , &lep_relIso03   );
-  BabyTree_->Branch("lep_relIso03MREA"   , "std::vector< Float_t >"       , &lep_relIso03MREA   );
-  BabyTree_->Branch("lep_relIso03MRDB"   , "std::vector< Float_t >"       , &lep_relIso03MRDB   );
-  BabyTree_->Branch("lep_relIso03MRNC"   , "std::vector< Float_t >"       , &lep_relIso03MRNC   );
-  BabyTree_->Branch("lep_relIso04"   , "std::vector< Float_t >"       , &lep_relIso04   );
-  BabyTree_->Branch("lep_mcMatchId"  , "std::vector< Int_t >"         , &lep_mcMatchId  );
-  BabyTree_->Branch("lep_lostHits"   , "std::vector< Int_t >"         , &lep_lostHits   );
-  BabyTree_->Branch("lep_convVeto"   , "std::vector< Int_t >"         , &lep_convVeto   );
-  BabyTree_->Branch("lep_tightCharge", "std::vector< Int_t >"         , &lep_tightCharge);
-  BabyTree_->Branch("lep_MVA"        , "std::vector< Float_t >"       , &lep_MVA        );
+  BabyTree_->Branch("nlep"             , &nlep, "nlep/I" );
+  BabyTree_->Branch("nveto_leptons"    , &nveto_leptons );
+  BabyTree_->Branch("lep_p4"           , &lep_p4         );
+  BabyTree_->Branch("lep_pt"           , "std::vector< Float_t >"       , &lep_pt         );
+  BabyTree_->Branch("lep_eta"          , "std::vector< Float_t >"       , &lep_eta        );
+  BabyTree_->Branch("lep_phi"          , "std::vector< Float_t >"       , &lep_phi        );
+  BabyTree_->Branch("lep_mass"         , "std::vector< Float_t >"       , &lep_mass       );
+  BabyTree_->Branch("lep_charge"       , "std::vector< Int_t >"         , &lep_charge     );
+  BabyTree_->Branch("lep_pdgId"        , "std::vector< Int_t >"         , &lep_pdgId      );
+  BabyTree_->Branch("lep_dxy"          , "std::vector< Float_t >"       , &lep_dxy        );
+  BabyTree_->Branch("lep_etaSC"        , "std::vector< Float_t >"       , &lep_etaSC      );
+  BabyTree_->Branch("lep_dz"           , "std::vector< Float_t >"       , &lep_dz         );
+  BabyTree_->Branch("lep_tightId"      , "std::vector< Int_t >"         , &lep_tightId    );
+  BabyTree_->Branch("lep_relIso03"     , "std::vector< Float_t >"       , &lep_relIso03   );
+  BabyTree_->Branch("lep_relIso03MREA" , "std::vector< Float_t >"       , &lep_relIso03MREA   );
+  BabyTree_->Branch("lep_relIso03MRDB" , "std::vector< Float_t >"       , &lep_relIso03MRDB   );
+  BabyTree_->Branch("lep_relIso03MRNC" , "std::vector< Float_t >"       , &lep_relIso03MRNC   );
+  BabyTree_->Branch("lep_relIso04"     , "std::vector< Float_t >"       , &lep_relIso04   );
+  BabyTree_->Branch("lep_mcMatchId"    , "std::vector< Int_t >"         , &lep_mcMatchId  );
+  BabyTree_->Branch("lep_lostHits"     , "std::vector< Int_t >"         , &lep_lostHits   );
+  BabyTree_->Branch("lep_convVeto"     , "std::vector< Int_t >"         , &lep_convVeto   );
+  BabyTree_->Branch("lep_tightCharge"  , "std::vector< Int_t >"         , &lep_tightCharge);
+  BabyTree_->Branch("lep_MVA"          , "std::vector< Float_t >"       , &lep_MVA        );
   BabyTree_->Branch("lep_validfraction", &lep_validfraction  );
   BabyTree_->Branch("lep_pterr"        , &lep_pterr          );
 
+  BabyTree_->Branch("nisoTrack_5gev"  , &nisoTrack_5gev  );
+  BabyTree_->Branch("nisoTrack_10gev" , &nisoTrack_10gev );
+  BabyTree_->Branch("nisoTrack_lowmt" , &nisoTrack_lowmt );
+  BabyTree_->Branch("nisoTrack_himt"  , &nisoTrack_himt  );
 
   BabyTree_->Branch("ngamma"             , &ngamma        , "ngamma/I" );
   BabyTree_->Branch("gamma_p4"           , &gamma_p4    );
@@ -1997,6 +2034,11 @@ void babyMaker::InitBabyNtuple () {
   lep_validfraction.clear();   //[nlep]
   lep_pterr        .clear();   //[nlep]
 
+  
+  nisoTrack_5gev  = -1;
+  nisoTrack_10gev = -1;
+  nisoTrack_lowmt = -1;
+  nisoTrack_himt  = -1;
 
   ngamma = -999;
   gamma_p4           .clear();   //[ngamma]
