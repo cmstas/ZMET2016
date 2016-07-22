@@ -757,6 +757,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		gamma_r9           .push_back( cms3.photons_full5x5_r9().at(iGamma)            );
 		gamma_hOverE       .push_back( cms3.photons_full5x5_hOverEtowBC().at(iGamma)   );
 		gamma_idCutBased   .push_back( isTightPhoton(iGamma,HAD) ? 1 : 0               ); 		
+		gamma_hollowtkiso03.push_back( cms3.photons_tkIsoHollow03()   .at(iGamma)      );
+		gamma_ecpfclusiso  .push_back( photonEcalpfClusterIso03EA(iGamma)              );
+		gamma_hcpfclusiso  .push_back( photonHcalpfClusterIso03EA(iGamma)              );
+
 		if(gamma_pt[ngamma] > 20) nGammas20++;
 	
 		// Some work for truth-matching (should be integrated in CMS3 as for the leptons)
@@ -1682,6 +1686,9 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("gamma_r9"           , "std::vector <Float_t>" , &gamma_r9           );
   BabyTree_->Branch("gamma_hOverE"       , "std::vector <Float_t>" , &gamma_hOverE       );
   BabyTree_->Branch("gamma_idCutBased"   , "std::vector <Int_t  >" , &gamma_idCutBased   );
+  BabyTree_->Branch("gamma_ecpfclusiso"  , &gamma_ecpfclusiso      );
+  BabyTree_->Branch("gamma_hcpfclusiso"  , &gamma_hcpfclusiso      );
+  BabyTree_->Branch("gamma_hollowtkiso03", &gamma_hollowtkiso03    );
 
   BabyTree_->Branch("ngenPart"         , &ngenPart        , "ngenPart/I" );
   BabyTree_->Branch("genPart_p4"       , &genPart_p4         );
@@ -2006,6 +2013,9 @@ void babyMaker::InitBabyNtuple () {
   gamma_r9           .clear();   //[ngamma]
   gamma_hOverE       .clear();   //[ngamma]
   gamma_idCutBased   .clear();   //[ngamma]
+  gamma_ecpfclusiso  .clear();
+  gamma_hcpfclusiso  .clear();
+  gamma_hollowtkiso03.clear();
 
   ngenPart = -999;
   ngen_p6s3Part = -999;

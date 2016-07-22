@@ -673,6 +673,21 @@ void ZMET::Init(TTree *tree) {
 		gamma_idCutBased_branch = tree->GetBranch("gamma_idCutBased");
 		if (gamma_idCutBased_branch) {gamma_idCutBased_branch->SetAddress(&gamma_idCutBased_);}
 	}
+	gamma_ecpfclusiso_branch = 0;
+	if (tree->GetBranch("gamma_ecpfclusiso") != 0) {
+		gamma_ecpfclusiso_branch = tree->GetBranch("gamma_ecpfclusiso");
+		if (gamma_ecpfclusiso_branch) {gamma_ecpfclusiso_branch->SetAddress(&gamma_ecpfclusiso_);}
+	}
+	gamma_hcpfclusiso_branch = 0;
+	if (tree->GetBranch("gamma_hcpfclusiso") != 0) {
+		gamma_hcpfclusiso_branch = tree->GetBranch("gamma_hcpfclusiso");
+		if (gamma_hcpfclusiso_branch) {gamma_hcpfclusiso_branch->SetAddress(&gamma_hcpfclusiso_);}
+	}
+	gamma_hollowtkiso03_branch = 0;
+	if (tree->GetBranch("gamma_hollowtkiso03") != 0) {
+		gamma_hollowtkiso03_branch = tree->GetBranch("gamma_hollowtkiso03");
+		if (gamma_hollowtkiso03_branch) {gamma_hollowtkiso03_branch->SetAddress(&gamma_hollowtkiso03_);}
+	}
 	ngenPart_branch = 0;
 	if (tree->GetBranch("ngenPart") != 0) {
 		ngenPart_branch = tree->GetBranch("ngenPart");
@@ -1455,6 +1470,9 @@ void ZMET::GetEntry(unsigned int idx)
 		gamma_r9_isLoaded = false;
 		gamma_hOverE_isLoaded = false;
 		gamma_idCutBased_isLoaded = false;
+		gamma_ecpfclusiso_isLoaded = false;
+		gamma_hcpfclusiso_isLoaded = false;
+		gamma_hollowtkiso03_isLoaded = false;
 		ngenPart_isLoaded = false;
 		genPart_p4_isLoaded = false;
 		genPart_pt_isLoaded = false;
@@ -1724,6 +1742,9 @@ void ZMET::LoadAllBranches()
 	if (gamma_r9_branch != 0) gamma_r9();
 	if (gamma_hOverE_branch != 0) gamma_hOverE();
 	if (gamma_idCutBased_branch != 0) gamma_idCutBased();
+	if (gamma_ecpfclusiso_branch != 0) gamma_ecpfclusiso();
+	if (gamma_hcpfclusiso_branch != 0) gamma_hcpfclusiso();
+	if (gamma_hollowtkiso03_branch != 0) gamma_hollowtkiso03();
 	if (ngenPart_branch != 0) ngenPart();
 	if (genPart_p4_branch != 0) genPart_p4();
 	if (genPart_pt_branch != 0) genPart_pt();
@@ -3501,6 +3522,45 @@ void ZMET::LoadAllBranches()
 			gamma_idCutBased_isLoaded = true;
 		}
 		return *gamma_idCutBased_;
+	}
+	const vector<float> &ZMET::gamma_ecpfclusiso()
+	{
+		if (not gamma_ecpfclusiso_isLoaded) {
+			if (gamma_ecpfclusiso_branch != 0) {
+				gamma_ecpfclusiso_branch->GetEntry(index);
+			} else { 
+				printf("branch gamma_ecpfclusiso_branch does not exist!\n");
+				exit(1);
+			}
+			gamma_ecpfclusiso_isLoaded = true;
+		}
+		return *gamma_ecpfclusiso_;
+	}
+	const vector<float> &ZMET::gamma_hcpfclusiso()
+	{
+		if (not gamma_hcpfclusiso_isLoaded) {
+			if (gamma_hcpfclusiso_branch != 0) {
+				gamma_hcpfclusiso_branch->GetEntry(index);
+			} else { 
+				printf("branch gamma_hcpfclusiso_branch does not exist!\n");
+				exit(1);
+			}
+			gamma_hcpfclusiso_isLoaded = true;
+		}
+		return *gamma_hcpfclusiso_;
+	}
+	const vector<float> &ZMET::gamma_hollowtkiso03()
+	{
+		if (not gamma_hollowtkiso03_isLoaded) {
+			if (gamma_hollowtkiso03_branch != 0) {
+				gamma_hollowtkiso03_branch->GetEntry(index);
+			} else { 
+				printf("branch gamma_hollowtkiso03_branch does not exist!\n");
+				exit(1);
+			}
+			gamma_hollowtkiso03_isLoaded = true;
+		}
+		return *gamma_hollowtkiso03_;
 	}
 	const int &ZMET::ngenPart()
 	{
@@ -5444,6 +5504,9 @@ namespace ZMet {
 	const vector<float> &gamma_r9() { return zmet.gamma_r9(); }
 	const vector<float> &gamma_hOverE() { return zmet.gamma_hOverE(); }
 	const vector<int> &gamma_idCutBased() { return zmet.gamma_idCutBased(); }
+	const vector<float> &gamma_ecpfclusiso() { return zmet.gamma_ecpfclusiso(); }
+	const vector<float> &gamma_hcpfclusiso() { return zmet.gamma_hcpfclusiso(); }
+	const vector<float> &gamma_hollowtkiso03() { return zmet.gamma_hollowtkiso03(); }
 	const int &ngenPart() { return zmet.ngenPart(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4() { return zmet.genPart_p4(); }
 	const vector<float> &genPart_pt() { return zmet.genPart_pt(); }

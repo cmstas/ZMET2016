@@ -234,6 +234,9 @@ class babyMaker {
   std::vector <Int_t  >         gamma_idCutBased   ;   //[ngamma]
   std::vector <Int_t  >         gamma_mcMatchId    ;   //[ngamma]
   std::vector <Float_t>         gamma_genIso       ;   //[ngamma]
+  std::vector <Float_t>         gamma_ecpfclusiso  ;   //[ngamma]
+  std::vector <Float_t>         gamma_hcpfclusiso  ;   //[ngamma]
+  std::vector <Float_t>         gamma_hollowtkiso03;   //[ngamma]
 
 //----- GEN PARTICLES
   Int_t           ngenPart;
