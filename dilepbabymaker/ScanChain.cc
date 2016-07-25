@@ -356,17 +356,18 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		Flag_CSCTightHaloFilter                 = cms3.filt_cscBeamHalo();
 
 		// recommended from twiki
-		Flag_HBHENoiseFilter                    = cms3.filt_hbheNoise();
-		Flag_HBHEIsoNoiseFilter                 = cms3.filt_hbheNoiseIso();
-		Flag_CSCTightHalo2015Filter             = cms3.filt_cscBeamHalo2015();
-		Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
-		Flag_goodVertices                       = cms3.filt_goodVertices();
-		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
-		Flag_globalTightHalo2016                = cms3.filt_globalTightHalo2016();
 		Flag_badMuonFilter                      = badMuonFilter();
-		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
 
 	  }
+
+	  Flag_HBHENoiseFilter                    = cms3.filt_hbheNoise();
+	  Flag_HBHEIsoNoiseFilter                 = cms3.filt_hbheNoiseIso();
+	  Flag_CSCTightHalo2015Filter             = cms3.filt_cscBeamHalo2015();
+	  Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
+	  Flag_goodVertices                       = cms3.filt_goodVertices();
+	  Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
+	  Flag_globalTightHalo2016                = cms3.filt_globalTightHalo2016();
+	  Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
 	  
       //TRIGGER
 	  if( isData ){ // NO TRIGGERS IN MC FOR 80X
