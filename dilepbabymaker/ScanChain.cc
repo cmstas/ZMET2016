@@ -98,8 +98,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   const char* json_file = "golden_json_200716_12p9fb_snt.txt"; // 6p26 fb
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
-  
-  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
+
+  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
   
   if (applyBtagSFs) {
 	// setup btag calibration readers
@@ -152,8 +152,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   //add 2015 data vtx weights for PU
   TH1F * h_vtxweight = NULL;
   TFile * f_vtx = NULL;
-  f_vtx = TFile::Open("nvtx_ratio_76X.root","READ");
-  h_vtxweight = (TH1F*)f_vtx->Get("h_true_vtx_ratio")->Clone("h_vtxweight");
+  f_vtx = TFile::Open("pileup_jul21_nominalUpDown.root","READ");
+  h_vtxweight = (TH1F*)f_vtx->Get("weightsNominal")->Clone("h_vtxweight");
   h_vtxweight->SetDirectory(rootdir);
   f_vtx->Close();
   
@@ -164,12 +164,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   TFile * f_eventcounts = NULL;
 
   if (isSMSScan) {
+
+	cout<<"issmsscan"<<endl;
+	
 	f_susyxsecs = TFile::Open("xsec_susy_13tev.root","READ");
-	h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
+	if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
+	if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
 	h_susyxsecs->SetDirectory(rootdir);
 	f_susyxsecs->Close();
 
-	f_eventcounts = TFile::Open("T5ZZ_entries.root","READ");
+	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_entries_V08-00-05_FS.root","READ");
+	if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("T5ZZ_entries.root"               ,"READ");
 	h_eventcounts = (TH2F*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
 	h_eventcounts->SetDirectory(rootdir);
 	f_eventcounts->Close();
@@ -196,8 +201,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
     tree->SetCacheSize(128*1024*1024);
     cms3.Init(tree);
 
-	if( TString(currentFile->GetTitle()).Contains("SMS") ) isSMSScan = true;
-	
     // ----------------------------------
     // retrieve JEC from files, if using
     // ----------------------------------
@@ -249,7 +252,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
 	  }
 
-	  else if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ){
+	  else if( isSMSScan ){
 		// files for 25ns Data
 		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L1FastJet_AK4PFchs.txt"   );
@@ -291,12 +294,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		mass_LSP    = cms3.sparm_values().at(1);
 
 		evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
-		evt_xsec     = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
+		
+		if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
+		if( TString(currentFile->GetTitle()).Contains("SMS-TChi") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
 		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
 		LorentzVector isrSystem_p4;
 		for( size_t genind = 0; genind < cms3.genps_p4().size(); genind++ ){
-		  if( cms3.genps_isLastCopy().at(genind) == 1 && cms3.genps_id().at(genind) == 1000021 ){
+		  if( cms3.genps_isLastCopy().at(genind) == 1 && (abs(cms3.genps_id().at(genind)) == 1000024 || abs(cms3.genps_id().at(genind)) == 1000023 || cms3.genps_id().at(genind) == 1000021) ){
 			isrSystem_p4 += cms3.genps_p4().at(genind);
 		  }
 		}
@@ -360,14 +365,16 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	  }
 
-	  Flag_HBHENoiseFilter                    = cms3.filt_hbheNoise();
-	  Flag_HBHEIsoNoiseFilter                 = cms3.filt_hbheNoiseIso();
-	  Flag_CSCTightHalo2015Filter             = cms3.filt_cscBeamHalo2015();
-	  Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
-	  Flag_goodVertices                       = cms3.filt_goodVertices();
-	  Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
-	  Flag_globalTightHalo2016                = cms3.filt_globalTightHalo2016();
-	  Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
+	  if( !isSMSScan ){
+		Flag_HBHENoiseFilter                    = cms3.filt_hbheNoise();
+		Flag_HBHEIsoNoiseFilter                 = cms3.filt_hbheNoiseIso();
+		Flag_CSCTightHalo2015Filter             = cms3.filt_cscBeamHalo2015();
+		Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
+		Flag_goodVertices                       = cms3.filt_goodVertices();
+		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
+		Flag_globalTightHalo2016                = cms3.filt_globalTightHalo2016();
+		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
+	  }
 	  
       //TRIGGER
 	  if( isData ){ // NO TRIGGERS IN MC FOR 80X
