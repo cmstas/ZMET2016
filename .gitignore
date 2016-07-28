@@ -10,6 +10,7 @@ Software
 Tools
 ZMET2015/output
 ZMET2015/vtxreweighting/ht_ratio_data_novtx*.root
+ZMET2015/interpretations/datacards/datacard*.txt
 
 dilepbabymaker/batchsubmit/log_merge_*
 dilepbabymaker/batchsubmit/merge_log*
@@ -27,4 +28,3 @@ dilepbabymaker/processBaby
 !dilepbabymaker/batchsubmit/job_input/libMiniFWLite.so
 !dilepbabymaker/batchsubmit/job_input/processBaby.C
 
-ZMET/interpretations/datacards/datacard*
