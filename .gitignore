@@ -26,3 +26,5 @@ dilepbabymaker/processBaby
 !dilepbabymaker/batchsubmit/job_input/.keepme
 !dilepbabymaker/batchsubmit/job_input/libMiniFWLite.so
 !dilepbabymaker/batchsubmit/job_input/processBaby.C
+
+ZMET/interpretations/datacards/datacard*
