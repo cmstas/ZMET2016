@@ -71,7 +71,7 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity )
 
   canvas->cd();
   TLatex *lumitex = NULL;
-  lumitex = new TLatex(0.66,0.955, Form("%.2f fb^{-1} (13 TeV)", luminosity) );    
+  lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
   // lumitex = new TLatex(0.66,0.955, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
   // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
   lumitex->SetNDC();    
@@ -85,14 +85,14 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity )
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.04);    
   cmstex->SetLineWidth(2);
-  cmstex->SetTextFont(62);    
+  cmstex->SetTextFont(61);    
   cmstex->Draw();
 
-  cmstex = new TLatex(0.30,0.90, "Preliminary" );    
+  cmstex = new TLatex(0.21,0.87, "Preliminary" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.03);    
   cmstex->SetLineWidth(2);
-  cmstex->SetTextFont(12);    
+  cmstex->SetTextFont(52);    
   cmstex->Draw();
 
   return;
