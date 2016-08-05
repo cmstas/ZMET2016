@@ -19,15 +19,16 @@ using namespace std;
 void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string selection = "_inclusive", string dilep = "ll", string variable = "mll", string region = "passtrig" )
 {
 
-  float RSFOF = 1.107;
-  // float RSFOF = 1.026;
-  double RSFOFunc = .029;
-
+  float RSFOF = 1.083;
+  // RSFOF = 1.107;
+  double RSFOFunc = .026;
+  // RSFOFunc = .029;
+ 
   bool drawsignal = false;
 
   bool showmoredigits   = true;
 
-  bool binningfortables = true;
+  bool binningfortables = false;
   bool correctewk       = true;
   bool drawassymuncs    = true;
   bool usetemplates     = true;
@@ -165,7 +166,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	if( TString(selection).Contains("forward"      ) ){
 	  h_ttbar->Scale(1.049);
 	}
-	if( TString(selection).Contains("SR"      ) || TString(selection).Contains("2jets_inclusive" ) ){
+	if( TString(selection).Contains("SR"      ) || TString(selection).Contains("jets_inclusive" ) ){
 	  if(      dilep == "ee" ) h_ttbar->Scale(0.461);
 	  else if( dilep == "mm" ) h_ttbar->Scale(0.623);
 	  else                     h_ttbar->Scale(RSFOF);
@@ -183,7 +184,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	float val_data  = h_data  -> Integral(metlow_normalization,normmethigh);
 	float val_ttbar = h_ttbar -> Integral(metlow_normalization,normmethigh);
 	float val_zjets = h_zjets -> Integral(metlow_normalization,normmethigh);
-	if( correctewk ) val_zjets -= h_zjets_ewk_diff -> Integral(metlow_normalization,normmethigh);
+	// if( correctewk ) val_zjets -= h_zjets_ewk_diff -> Integral(metlow_normalization,normmethigh);
 	val_ttbar += h_wz  -> Integral(metlow_normalization,normmethigh);
 	val_ttbar += h_zz  -> Integral(metlow_normalization,normmethigh);
 	val_ttbar += h_ttv -> Integral(metlow_normalization,normmethigh);
@@ -379,7 +380,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 
 	  }
 
-	  if( TString(selection).Contains("2jets_inclusive") ){
+	  if( TString(selection).Contains("jets_inclusive") ){
 	  	useedgepreds = true;
 	  	metcut.clear();
 	  	metcut.push_back(0.0);
@@ -456,58 +457,58 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		// }
 		
 		if(       metcut.at(bini+1)   < 0   ){  
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.20;
-		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.35;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.30;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.35;
-		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.20;
+		  if( TString(selection).Contains("SRA_bveto"            ) )zsyst = 0.25;
+		  if( TString(selection).Contains("SRA_withb"            ) )zsyst = 0.40;
+		  if( TString(selection).Contains("SRB_bveto"            ) )zsyst = 0.35;
+		  if( TString(selection).Contains("SRB_withb"            ) )zsyst = 0.30;
+		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.40;
 		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.15;
-		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.05;
+		  if( TString(selection).Contains("jets_inclusive"       ) )zsyst = 0.07;
 
 		}else if( metcut.at(bini+1)-1 < 50  ){  
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.01;
-		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.01;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.01;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.01;
+		  if( TString(selection).Contains("SRA_bveto"            ) )zsyst = 0.02;
+		  if( TString(selection).Contains("SRA_withb"            ) )zsyst = 0.01;
+		  if( TString(selection).Contains("SRB_bveto"            ) )zsyst = 0.01;
+		  if( TString(selection).Contains("SRB_withb"            ) )zsyst = 0.01;
 		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.01;
-		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.20;
-		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.01;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.25;
+		  if( TString(selection).Contains("jets_inclusive"      ) )zsyst = 0.01;
 
 		}else if( metcut.at(bini+1)-1 < 100 ){
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.05;
-		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.05;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.05;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.03;
+		  if( TString(selection).Contains("SRA_bveto"            ) )zsyst = 0.10;
+		  if( TString(selection).Contains("SRA_withb"            ) )zsyst = 0.05;
+		  if( TString(selection).Contains("SRB_bveto"            ) )zsyst = 0.06;
+		  if( TString(selection).Contains("SRB_withb"            ) )zsyst = 0.10;
 		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.10;
 		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.02;
-		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.01;
+		  if( TString(selection).Contains("jets_inclusive"       ) )zsyst = 0.05;
 
 		}else if( metcut.at(bini+1)-1 < 150 ){
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.15;
-		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.10;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.15;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.15;
-		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.10;
-		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.15;
-		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.02;
+		  if( TString(selection).Contains("SRA_bveto"            ) )zsyst = 0.20;
+		  if( TString(selection).Contains("SRA_withb"            ) )zsyst = 0.20;
+		  if( TString(selection).Contains("SRB_bveto"            ) )zsyst = 0.10;
+		  if( TString(selection).Contains("SRB_withb"            ) )zsyst = 0.20;
+		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.25;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.10;
+		  if( TString(selection).Contains("jets_inclusive"       ) )zsyst = 0.05;
 
 		}else if( metcut.at(bini+1)-1 < 225 ){ 
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.15;
-		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.10;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.20;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.15;
-		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.10;
-		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.15;
-		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.05;
+		  if( TString(selection).Contains("SRA_bveto"            ) )zsyst = 0.20;
+		  if( TString(selection).Contains("SRA_withb"            ) )zsyst = 0.20;
+		  if( TString(selection).Contains("SRB_bveto"            ) )zsyst = 0.10;
+		  if( TString(selection).Contains("SRB_withb"            ) )zsyst = 0.25;
+		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.35;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.10;
+		  if( TString(selection).Contains("jets_inclusive"       ) )zsyst = 0.07;
 
 		}else if( metcut.at(bini+1)-1 < 300 ){
-		  if( TString(selection).Contains("bveto_SRA"            ) )zsyst = 0.15;
-		  if( TString(selection).Contains("withb_SRA"            ) )zsyst = 0.30;
-		  if( TString(selection).Contains("bveto_SRB"            ) )zsyst = 0.30;
-		  if( TString(selection).Contains("withb_SRB"            ) )zsyst = 0.25;
-		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.25;
-		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.15;
-		  if( TString(selection).Contains("2jets_inclusive"      ) )zsyst = 0.05;
+		  if( TString(selection).Contains("SRA_bveto"            ) )zsyst = 0.20;
+		  if( TString(selection).Contains("SRA_withb"            ) )zsyst = 0.40;
+		  if( TString(selection).Contains("SRB_bveto"            ) )zsyst = 0.35;
+		  if( TString(selection).Contains("SRB_withb"            ) )zsyst = 0.30;
+		  if( TString(selection).Contains("SR_ATLAS"             ) )zsyst = 0.40;
+		  if( TString(selection).Contains("SR_EWK"               ) )zsyst = 0.10;
+		  if( TString(selection).Contains("jets_inclusive"       ) )zsyst = 0.07;
 
 		}
 
@@ -575,7 +576,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		err_zjets.at(bini) = sqrt( pow( err_zjets.at(bini), 2 ) + pow( val_zjets.at(bini)*zsyst, 2 ) + pow( val_zjets.at(bini)*renorm_unc, 2 ) );
 		if( correctewk ){ err_zjets.at(bini) = sqrt( pow( err_zjets.at(bini), 2 ) + pow( val_zjets_ewk_diff.at(bini), 2 ) );}
 
-		if( TString(selection).Contains("SR" ) || TString(selection).Contains("2jets_inclusive" ) ){
+		if( TString(selection).Contains("SR" ) || TString(selection).Contains("jets_inclusive" ) ){
 		  err_fsbkg.at(bini) = sqrt( pow( err_fsbkg.at(bini), 2 ) + pow( val_fsbkg.at(bini)*.05, 2 ) );
 		}
 		  
@@ -635,7 +636,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		  eyh[bini] = err_allbg_up.at(bini);
 		  if( bini == metcut.size()-2 ){
 
-			if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ){
+			if( TString(selection).Contains("SR") || TString(selection).Contains("jets_inclusive" ) ){
 			  x[bini] = metcut.at(bini) + 0.5*(350-metcut.at(bini));
 			  y[bini] *= 25/(350-metcut.at(bini));
 			  eyl[bini] *= 25/(350-metcut.at(bini));
@@ -659,7 +660,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		  r_eyh[bini] = err_allbg_up.at(bini)/val_allbg.at(bini);
 		  if( bini == metcut.size()-2 ){
 
-			if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ){
+			if( TString(selection).Contains("SR") || TString(selection).Contains("jets_inclusive" ) ){
 			  r_x[bini] = metcut.at(bini) + 0.5*(350-metcut.at(bini));
 			}
 			r_exl[bini] = 0.5*(350-metcut.at(bini));
@@ -679,7 +680,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		  // rc_eyh[bini] = err_ratio_up.at(bini);
 		  if( bini == metcut.size()-2 ){
 
-			if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ){
+			if( TString(selection).Contains("SR") || TString(selection).Contains("jets_inclusive" ) ){
 			  rc_x[bini] = metcut.at(bini) + 0.5*(350-metcut.at(bini));
 			}
 			// rc_exl[bini] = 0.5*(350-metcut.at(bini));
@@ -1300,6 +1301,12 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
  	  ymax = 5e2;
 	}
   }
+
+  if( TString(variable).Contains("mll_fkw") ){
+	xmax = 400;
+	xmin = 0;
+    rebin = 20;
+  }
   
   updateoverflow( h_data , xmax );
   updateoverflow( h_zjets, xmax );
@@ -1328,7 +1335,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  v_bin.push_back(300);
 	v_bin.push_back(xmax);
 
-	if( TString(selection).Contains("2jets_inclusive"      ) ) {
+	if( TString(selection).Contains("jets_inclusive"      ) ) {
 	  v_bin.clear();
 	  v_bin.push_back(0);
 	  v_bin.push_back(25);
@@ -1543,10 +1550,6 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   if( TString(variable).Contains("eta") )h_data->GetYaxis()->SetTitle(Form("Events/%.2f", (2*2.4)/200*(float)rebin));
   if( TString(variable).Contains("njets") || TString(variable).Contains("njt") )h_data->GetYaxis()->SetTitle("Events");
   
-  if( variable == "mll_fkw" ){
-	h_data->GetYaxis()->SetRangeUser(0, 25 );  
-  }
-  
   TH1F* h_unc    = (TH1F*)h_data  -> Clone("h_unc");
   TH1F* h_unc_bg = (TH1F*)h_data  -> Clone("h_unc_bg");
   
@@ -1624,7 +1627,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   // 	pad->SetLogy(1);
   // }  
   
-  if( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive") ){
+  if( TString(selection).Contains("SR") || TString(selection).Contains("jets_inclusive") ){
 
 	h_data->GetYaxis()->SetRangeUser(2e-1, 2e3 );  
 	if( TString(selection).Contains("SRB_bveto") ){
@@ -1635,15 +1638,15 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	}
 
 	if( TString(selection).Contains("SRA_bveto") ){
-	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 4e4 );  
+	  h_data->GetYaxis()->SetRangeUser(5e-1, 8e4 );  
 	}
 	if( TString(selection).Contains("SRA_withb") ){
-	  h_data->GetYaxis()->SetRangeUser(2e-2, 6e3 );  
+	  h_data->GetYaxis()->SetRangeUser(2e-2, 2e4 );  
 	}
 	if( TString(selection).Contains("SR_ATLAS") ){
 	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 5e4 );  
 	}
-	if( TString(selection).Contains("2jets_inclusive") ){
+	if( TString(selection).Contains("jets_inclusive") ){
 	  h_data->GetYaxis()->SetRangeUser(2e0, 8e5 );  
 	}
   }else{
@@ -1653,6 +1656,13 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   // h_data->GetYaxis()->SetRangeUser(ymin, ymax);
   h_data->GetXaxis()->SetRangeUser(xmin, xmax);
 
+  if( variable == "mll_fkw" ){
+	if( dilep == "ee" ) h_data->GetYaxis()->SetRangeUser(0, 60 );  
+	if( dilep == "mm" ) h_data->GetYaxis()->SetRangeUser(0, 60 );  
+	if( dilep == "em" ) h_data->GetYaxis()->SetRangeUser(0, 80 );  
+	if( dilep == "ll" ) h_data->GetYaxis()->SetRangeUser(0, 80 );  
+  }
+  
   h_data->GetXaxis()->SetLabelSize(0);
   h_data->GetYaxis()->SetLabelSize(0.05);
   h_data->GetYaxis()->SetLabelFont(42);
@@ -1707,19 +1717,19 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  if( usetemplates ){
 		l1->AddEntry( h_zjets , "MET Templates" , "f");
 	  }else{
-		l1->AddEntry( h_zjets , "Z+jets MC"     , "f");
+		l1->AddEntry( h_zjets , "Z+jets"     , "f");
 	  }
 	  if( usefsbkg ){
 		l1->AddEntry( h_ttbar , "FS Bkg"        , "f");
 	  }else{
-		l1->AddEntry( h_ttbar , "t#bar{t} MC"   , "f");
-		l1->AddEntry( h_st , "Single-top MC"    , "f");
-		l1->AddEntry( h_ww , "WW MC"            , "f");
+		l1->AddEntry( h_ttbar , "t#bar{t}"   , "f");
+		l1->AddEntry( h_st , "Single-top"    , "f");
+		l1->AddEntry( h_ww , "WW"            , "f");
 	  }
-	  l1->AddEntry( h_wz    , "WZ MC"           , "f");
-	  l1->AddEntry( h_zz    , "ZZ MC"           , "f");
-	  l1->AddEntry( h_vvv , "VVV MC"            , "f");
-	  l1->AddEntry( h_ttv , "t#bar{t}V MC"      , "f");
+	  l1->AddEntry( h_wz    , "WZ"           , "f");
+	  l1->AddEntry( h_zz    , "ZZ"           , "f");
+	  l1->AddEntry( h_vvv , "VVV"            , "f");
+	  l1->AddEntry( h_ttv , "t#bar{t}V"      , "f");
 	}
   if( drawsignal ) l1->AddEntry( h_signal1 , "m(#tilde{g})=1050; m_{LSP}=200"       , "l");
 
@@ -1782,6 +1792,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   if( variable == "njets"  || TString(variable).Contains("njt") ) h_rat->GetXaxis()->SetTitle("N_{jets}");  
   if( variable == "nbjets"               ) h_rat->GetXaxis()->SetTitle("N_{b-jets}");  
   if( TString(variable).Contains("mll_") ) h_rat->GetXaxis()->SetTitle("M_{\\ell\\ell} [GeV]");
+  if( TString(variable).Contains("mll_fkw") ) h_rat->GetXaxis()->SetTitle("M_{ll} [GeV]");
   if( TString(variable).Contains("phi") ) h_rat->GetXaxis()->SetTitle("E_{T}^{miss} #phi");
   if( TString(variable).Contains("l1phi") ) h_rat->GetXaxis()->SetTitle("leading lepton #phi");
   if( TString(variable).Contains("l2phi") ) h_rat->GetXaxis()->SetTitle("sub-leading lepton #phi");
@@ -1832,7 +1843,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   // else                                  drawCMSLatex( c1, luminosity*norm_factor );
 
   if( (TString(variable).Contains("mll_")) ||
-	  (!( TString(selection).Contains("SR") || TString(selection).Contains("2jets_inclusive" ) ) && luminosity*norm_factor < 7.65) ) drawCMSLatex( c1, 7.65 );
+	  (!( TString(selection).Contains("SR") || TString(selection).Contains("jets_inclusive" ) ) && luminosity*norm_factor < 12.9) ) drawCMSLatex( c1, 12.9 );
   else drawCMSLatex( c1, luminosity*norm_factor );
 
   if( !TString(selection).Contains("signalcontamination") ){

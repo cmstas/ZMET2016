@@ -10,21 +10,36 @@ if [ ! -d "../output/$analysis_version/" ]; then
 	mkdir -p ../output/$analysis_version/
 fi
 
+# selection="_2jets_inclusive"
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# selection="_SRA_bveto"
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# selection="_SRA_withb"
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# selection="_SRB_bveto"
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# selection="_SRB_withb"
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# selection="_SR_ATLAS"
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# selection="_SR_EWK"
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+
 
 # # 2016
 # selection="_inclusive"
 # ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# # ./runTemplateLooper $selection $analysis_version wz_inc &
-# # ./runTemplateLooper $selection $analysis_version zz_inc &
+# ./runTemplateLooper $selection $analysis_version zjets &
+# ./runTemplateLooper $selection $analysis_version ttbar &
+# ./runTemplateLooper $selection $analysis_version st &
+# ./runTemplateLooper $selection $analysis_version ww &
+# ./runTemplateLooper $selection $analysis_version wz &
+# ./runTemplateLooper $selection $analysis_version zz &
+# ./runTemplateLooper $selection $analysis_version ttv &
+# ./runTemplateLooper $selection $analysis_version vvv &
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# ./runTemplateLooper $selection $analysis_version wz_inc &
+# ./runTemplateLooper $selection $analysis_version zz_inc &
 
 # selection="_2jets_inclusive"
 # ./runTemplateLooper $selection $analysis_version data &
@@ -59,17 +74,17 @@ fi
 # # ./runTemplateLooper $selection $analysis_version ttv &
 # # ./runTemplateLooper $selection $analysis_version vvv &
 
-selection="_SRA_bveto"
-./runTemplateLooper $selection $analysis_version data &
-# ./runTemplateLooper $selection $analysis_version zjets &
-# ./runTemplateLooper $selection $analysis_version ttbar &
-# ./runTemplateLooper $selection $analysis_version st &
-# ./runTemplateLooper $selection $analysis_version ww &
-# ./runTemplateLooper $selection $analysis_version wz &
-# ./runTemplateLooper $selection $analysis_version zz &
-# ./runTemplateLooper $selection $analysis_version ttv &
-# ./runTemplateLooper $selection $analysis_version vvv &
-# ./runTemplateLooper $selection $analysis_version fullscan &
+# selection="_SRA_bveto"
+# ./runTemplateLooper $selection $analysis_version data &
+# # ./runTemplateLooper $selection $analysis_version zjets &
+# # ./runTemplateLooper $selection $analysis_version ttbar &
+# # ./runTemplateLooper $selection $analysis_version st &
+# # ./runTemplateLooper $selection $analysis_version ww &
+# # ./runTemplateLooper $selection $analysis_version wz &
+# # ./runTemplateLooper $selection $analysis_version zz &
+# # ./runTemplateLooper $selection $analysis_version ttv &
+# # ./runTemplateLooper $selection $analysis_version vvv &
+# # # # ./runTemplateLooper $selection $analysis_version fullscan &
 
 # selection="_SRA_withb"
 # ./runTemplateLooper $selection $analysis_version data &
@@ -81,38 +96,53 @@ selection="_SRA_bveto"
 # # ./runTemplateLooper $selection $analysis_version zz &
 # # ./runTemplateLooper $selection $analysis_version ttv &
 # # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # # # ./runTemplateLooper $selection $analysis_version fullscan &
 
 # selection="_SRB_bveto"
-# ./runTemplateLooper $selection $analysis_version data &
+# # ./runTemplateLooper $selection $analysis_version data &
 # # ./runTemplateLooper $selection $analysis_version zjets &
 # # ./runTemplateLooper $selection $analysis_version ttbar &
 # # ./runTemplateLooper $selection $analysis_version st &
 # # ./runTemplateLooper $selection $analysis_version ww &
 # # ./runTemplateLooper $selection $analysis_version wz &
 # # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version wz_inc &
-# # ./runTemplateLooper $selection $analysis_version zz_inc &
 # # ./runTemplateLooper $selection $analysis_version ttv &
 # # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # ./runTemplateLooper $selection $analysis_version wz_inc &
+# # ./runTemplateLooper $selection $analysis_version zz_inc &
+# ./runTemplateLooper $selection $analysis_version fullscan 
 
 # selection="_SRB_withb"
-# ./runTemplateLooper $selection $analysis_version data &
+# # ./runTemplateLooper $selection $analysis_version data &
 # # ./runTemplateLooper $selection $analysis_version zjets &
 # # ./runTemplateLooper $selection $analysis_version ttbar &
 # # ./runTemplateLooper $selection $analysis_version st &
 # # ./runTemplateLooper $selection $analysis_version ww &
 # # ./runTemplateLooper $selection $analysis_version wz &
 # # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version wz_inc &
-# # ./runTemplateLooper $selection $analysis_version zz_inc &
 # # ./runTemplateLooper $selection $analysis_version ttv &
 # # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # ./runTemplateLooper $selection $analysis_version wz_inc &
+# # ./runTemplateLooper $selection $analysis_version zz_inc &
+# ./runTemplateLooper $selection $analysis_version fullscan 
+
+selection="_SR_ATLAS"
+./runTemplateLooper $selection $analysis_version data &
+# ./runTemplateLooper $selection $analysis_version zjets &
+# ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# ./runTemplateLooper $selection $analysis_version ttbar &
+# ./runTemplateLooper $selection $analysis_version st &
+# ./runTemplateLooper $selection $analysis_version ww &
+# ./runTemplateLooper $selection $analysis_version wz_inc &
+# ./runTemplateLooper $selection $analysis_version zz_inc &
+# ./runTemplateLooper $selection $analysis_version wz &
+# ./runTemplateLooper $selection $analysis_version zz &
+# ./runTemplateLooper $selection $analysis_version ttv &
+# ./runTemplateLooper $selection $analysis_version vvv &
+# ./runTemplateLooper $selection $analysis_version fullscan 
 
 # selection="_SR_EWK"
-# ./runTemplateLooper $selection $analysis_version data &
+# # ./runTemplateLooper $selection $analysis_version data &
 # # ./runTemplateLooper $selection $analysis_version zjets &
 # # ./runTemplateLooper $selection $analysis_version ttbar &
 # # ./runTemplateLooper $selection $analysis_version st &
@@ -123,17 +153,7 @@ selection="_SRA_bveto"
 # # ./runTemplateLooper $selection $analysis_version vvv &
 # # ./runTemplateLooper $selection $analysis_version wz_inc &
 # # ./runTemplateLooper $selection $analysis_version zz_inc &
-
-# selection="_SR_ATLAS"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
+# ./runTemplateLooper $selection $analysis_version fullscan_tchiwz
 
 # selection="_SR_ZH"
 # ./runTemplateLooper $selection $analysis_version data &
@@ -238,416 +258,6 @@ selection="_SRA_bveto"
 ## for closure ##
 #################
 
-# selection="_central_twojets"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_central_withb_twojets"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_central_with2_twojets"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_central_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_central_withb_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_central_with2_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-
-# selection="_forward_twojets"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_forward_withb_twojets"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_forward_with2_twojets"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_forward_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_forward_withb_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_forward_with2_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-
-# selection="_rawMET_bveto_SRB"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_rawMET_withb_SRB"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_rawMET_bveto_SRA"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_rawMET_withb_SRA"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# selection="_rawMET_SR_ATLAS"
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-
-##################
-## for SR preds ##
-##################
-
-# selection="_central_loosephoton_twojets"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_central_loosephoton_withb_twojets"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_central_loosephoton_with2_twojets"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_central_loosephoton_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_central_loosephoton_withb_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_central_loosephoton_with2_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-
-
-# selection="_forward_loosephoton_twojets"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_forward_loosephoton_withb_twojets"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_forward_loosephoton_with2_twojets"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_forward_loosephoton_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_forward_loosephoton_withb_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_forward_loosephoton_with2_3jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-
-
-
-
-# # selection="_rawMET_SRB"
-# # ./runTemplateLooper $selection $analysis_version data &
-
-# # selection="_rawMET_SRA"
-# # ./runTemplateLooper $selection $analysis_version data &
-
-# selection="_rawMET_bveto_SRB"
-# ./runTemplateLooper $selection $analysis_version data &
-# # # ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# # # # ./runTemplateLooper $selection $analysis_version zjets &
-# # # # # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-# # # # # ./runTemplateLooper $selection $analysis_version wz_inc &
-# # # # # ./runTemplateLooper $selection $analysis_version zz_inc &
-
-# selection="_rawMET_withb_SRB"
-# ./runTemplateLooper $selection $analysis_version data &
-# # # # # ./runTemplateLooper $selection $analysis_version zjets &
-# # # ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# # # # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-# # # # ./runTemplateLooper $selection $analysis_version wz_inc &
-# # # # ./runTemplateLooper $selection $analysis_version zz_inc &
-
-# selection="_rawMET_bveto_SRA"
-# ./runTemplateLooper $selection $analysis_version data &
-# # # # ./runTemplateLooper $selection $analysis_version zjets &
-# # # ./runTemplateLooper $selection $analysis_version zjetsmlm & 
-# # # # # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-# # # # # ./runTemplateLooper $selection $analysis_version wz_inc &
-# # # # # ./runTemplateLooper $selection $analysis_version zz_inc &
-
-# selection="_rawMET_withb_SRA"
-# ./runTemplateLooper $selection $analysis_version data &
-# # # ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# # # # # ./runTemplateLooper $selection $analysis_version zjets &
-# # # # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-# # # # ./runTemplateLooper $selection $analysis_version wz_inc &
-# # # # ./runTemplateLooper $selection $analysis_version zz_inc &
-
-# selection="_rawMET_SR_ATLAS"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version zjets &
-# # ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# # # ./runTemplateLooper $selection $analysis_version ttbar &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-# # # ./runTemplateLooper $selection $analysis_version wz_inc &
-# # # ./runTemplateLooper $selection $analysis_version zz_inc &
-
-
-# selection="_rawMET_2jets_inclusive"
-# ./runTemplateLooper $selection $analysis_version data &
-# ./runTemplateLooper $selection $analysis_version zjets &
-# ./runTemplateLooper $selection $analysis_version ttbar &
-# ./runTemplateLooper $selection $analysis_version st &
-# ./runTemplateLooper $selection $analysis_version ww &
-# ./runTemplateLooper $selection $analysis_version wz &
-# ./runTemplateLooper $selection $analysis_version zz &
-# ./runTemplateLooper $selection $analysis_version ttv &
-# ./runTemplateLooper $selection $analysis_version vvv &
-
-
-# selection="_rawMET_tightphoton_bveto_SRB"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_rawMET_tightphoton_withb_SRB"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_rawMET_tightphoton_bveto_SRA"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_rawMET_tightphoton_withb_SRA"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_rawMET_tightphoton_SR_ATLAS"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-
-# selection="_rawMET_loosephoton_bveto_SRB"
-# # ./runTemplateLooper $selection $analysis_version data &
-# # # ./runTemplateLooper $selection $analysis_version st &
-# # # ./runTemplateLooper $selection $analysis_version ww &
-# # # ./runTemplateLooper $selection $analysis_version wz &
-# # # ./runTemplateLooper $selection $analysis_version zz &
-# # # ./runTemplateLooper $selection $analysis_version ttv &
-# # # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version signal1100200 &
-# ./runTemplateLooper $selection $analysis_version fullscan &
-
-# selection="_rawMET_loosephoton_withb_SRB"
-# # ./runTemplateLooper $selection $analysis_version data &
-# # # ./runTemplateLooper $selection $analysis_version st &
-# # # ./runTemplateLooper $selection $analysis_version ww &
-# # # ./runTemplateLooper $selection $analysis_version wz &
-# # # ./runTemplateLooper $selection $analysis_version zz &
-# # # ./runTemplateLooper $selection $analysis_version ttv &
-# # # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version signal1100200 &
-# ./runTemplateLooper $selection $analysis_version fullscan &
-
-# selection="_rawMET_loosephoton_bveto_SRA"
-# # ./runTemplateLooper $selection $analysis_version data &
-# # # ./runTemplateLooper $selection $analysis_version st &
-# # # ./runTemplateLooper $selection $analysis_version ww &
-# # # ./runTemplateLooper $selection $analysis_version wz &
-# # # ./runTemplateLooper $selection $analysis_version zz &
-# # # ./runTemplateLooper $selection $analysis_version ttv &
-# # # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version signal1100200 &
-# ./runTemplateLooper $selection $analysis_version fullscan &
-
-# selection="_rawMET_loosephoton_withb_SRA"
-# # ./runTemplateLooper $selection $analysis_version data &
-# # # ./runTemplateLooper $selection $analysis_version st &
-# # # ./runTemplateLooper $selection $analysis_version ww &
-# # # ./runTemplateLooper $selection $analysis_version wz &
-# # # ./runTemplateLooper $selection $analysis_version zz &
-# # # ./runTemplateLooper $selection $analysis_version ttv &
-# # # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version signal1100200 &
-# ./runTemplateLooper $selection $analysis_version fullscan &
-
-# selection="_rawMET_loosephoton_SR_ATLAS"
-# # ./runTemplateLooper $selection $analysis_version data &
-# # # ./runTemplateLooper $selection $analysis_version st &
-# # # ./runTemplateLooper $selection $analysis_version ww &
-# # # ./runTemplateLooper $selection $analysis_version wz &
-# # # ./runTemplateLooper $selection $analysis_version zz &
-# # # ./runTemplateLooper $selection $analysis_version ttv &
-# # # ./runTemplateLooper $selection $analysis_version vvv &
-# # ./runTemplateLooper $selection $analysis_version signal1100200 &
-# ./runTemplateLooper $selection $analysis_version fullscan &
-
-
-
-# selection="_rawMET_loosephoton_SR_ATLAS_signalcontamination_hisplit"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-# selection="_rawMET_loosephoton_SR_ATLAS_signalcontamination_losplit"
-# ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-
-
-# selection="_rawMET_loosephoton_withb_SRB_signalcontamination_losplit"
-# # ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-# # # ./runTemplateLooper $selection $analysis_version signal1100200 &
-
-# selection="_rawMET_loosephoton_withb_SRB_signalcontamination_hisplit"
-# # ./runTemplateLooper $selection $analysis_version data &
-# # ./runTemplateLooper $selection $analysis_version st &
-# # ./runTemplateLooper $selection $analysis_version ww &
-# # ./runTemplateLooper $selection $analysis_version wz &
-# # ./runTemplateLooper $selection $analysis_version zz &
-# # ./runTemplateLooper $selection $analysis_version ttv &
-# # ./runTemplateLooper $selection $analysis_version vvv &
-# # # ./runTemplateLooper $selection $analysis_version signal1100200 &
-
 
 # For Systematics
 # selection="_rawMET_loosephoton_withb_SRB"
@@ -689,3 +299,49 @@ selection="_SRA_bveto"
 # ./runTemplateLooper $selection $analysis_version fullscan &
 # selection="_rawMET_loosephoton_bveto_SRB_jes_dn"
 # ./runTemplateLooper $selection $analysis_version fullscan &
+
+
+# selection="_SR_EWK"
+# ./runTemplateLooper $selection $analysis_version fullscan_tchiwz &
+# selection="_SR_EWK_fastsimMET"
+# ./runTemplateLooper $selection $analysis_version fullscan_tchiwz &
+# # selection="_SR_EWK_heavy_UP"
+# # ./runTemplateLooper $selection $analysis_version fullscan_tchiwz &
+# # selection="_SR_EWK_light_UP"
+# # ./runTemplateLooper $selection $analysis_version fullscan_tchiwz &
+# # selection="_SR_EWK_jes_up"
+# # ./runTemplateLooper $selection $analysis_version fullscan_tchiwz &
+# # selection="_SR_EWK_nofastsim"
+# # ./runTemplateLooper $selection $analysis_version fullscan_tchiwz &
+# # selection="_SR_EWK_noleptonid_noleptoniso"
+# # ./runTemplateLooper $selection $analysis_version fullscan_tchiwz &
+
+# selection="_SRB_bveto_fastsimMET"
+# ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_bveto_heavy_UP"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_bveto_light_UP"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_bveto_jes_up"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_bveto_nofastsim"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_bveto_noleptonid_noleptoniso"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_bveto_noisr"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+
+# selection="_SRB_withb_fastsimMET"
+# ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_withb_heavy_UP"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_withb_light_UP"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_withb_jes_up"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_withb_nofastsim"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_withb_noleptonid_noleptoniso"
+# # ./runTemplateLooper $selection $analysis_version fullscan &
+# # selection="_SRB_withb_noisr"
+# # ./runTemplateLooper $selection $analysis_version fullscan &

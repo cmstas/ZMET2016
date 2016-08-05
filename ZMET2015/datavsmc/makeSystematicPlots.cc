@@ -22,7 +22,7 @@ void makeSystematicPlots( string selection  = "bveto_SRB", string systematic = "
 
   gStyle->SetPaintTextFormat(".2f");
    
-  string iter = "V07-04-13_fixedleptons_alldata_updatedJECS";
+  string iter = "V08-11-00";
   // string selection  = "bveto_SRB";
   // string systematic = "_noleptonid_noleptoniso";
   
@@ -30,8 +30,11 @@ void makeSystematicPlots( string selection  = "bveto_SRB", string systematic = "
   TFile * f_nominal = NULL;
   TH2D  * h_varied = NULL;  
   TFile * f_varied = NULL;
-  f_nominal = TFile::Open(Form("../output/%s/fullscan_rawMET_loosephoton_%s_hists.root", iter.c_str(), selection.c_str()), "READ");
-  f_varied  = TFile::Open(Form("../output/%s/fullscan_rawMET_loosephoton_%s%s_hists.root", iter.c_str(), selection.c_str(), systematic.c_str()), "READ");
+  cout<<"Nominal: "<<Form("../output/%s/fullscan_%s_hists.root", iter.c_str(), selection.c_str())<<endl;
+  cout<<"Varied:  "<<Form("../output/%s/fullscan_%s%s_hists.root", iter.c_str(), selection.c_str(), systematic.c_str())<<endl;
+  
+  f_nominal = TFile::Open(Form("../output/%s/fullscan_%s_hists.root", iter.c_str(), selection.c_str()), "READ");
+  f_varied  = TFile::Open(Form("../output/%s/fullscan_%s%s_hists.root", iter.c_str(), selection.c_str(), systematic.c_str()), "READ");
   h_nominal = (TH2D*)f_nominal->Get(Form("h_signalyields_met%s_ll", metcut.c_str() ))->Clone("h_nominal");
   h_varied  = (TH2D*)f_varied ->Get(Form("h_signalyields_met%s_ll", metcut.c_str() ))->Clone("h_varied");
 
@@ -53,7 +56,7 @@ void makeSystematicPlots( string selection  = "bveto_SRB", string systematic = "
   h_difference->Add(h_varied, -1);
   h_difference->Divide(h_nominal);
 
-  h_difference->GetXaxis()->SetRangeUser(975,1575);
+  h_difference->GetXaxis()->SetRangeUser(100,500);
   h_difference->GetZaxis()->SetRangeUser(-0.5,0.5);
   h_difference->GetYaxis()->SetTitle("m(#tilde{#chi}_{0}^{2}) [GeV]");
   h_difference->GetXaxis()->SetTitle("m(#tilde{g}) [GeV]");

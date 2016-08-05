@@ -84,16 +84,17 @@ void getReweightHTHist( string signalregion, bool ewkcontam = false )
   h_phot_120 = (TH1F*) h_phot_120->Rebin(nbins, "h_phot_120_rebinned", bins);
   h_phot_165 = (TH1F*) h_phot_165->Rebin(nbins, "h_phot_165_rebinned", bins);
 
-  // h_data    ->Rebin(25);
-  // h_phot    ->Rebin(25);
-  // h_phot_22 ->Rebin(25);
-  // h_phot_30 ->Rebin(25);
-  // h_phot_36 ->Rebin(25);
-  // h_phot_50 ->Rebin(25);
-  // h_phot_75 ->Rebin(25);
-  // h_phot_90 ->Rebin(25);
-  // h_phot_120->Rebin(25);
-  // h_phot_165->Rebin(25);
+  // h_data    ->Rebin(10);
+  // h_data_em ->Rebin(10);
+  // h_phot    ->Rebin(10);
+  // h_phot_22 ->Rebin(10);
+  // h_phot_30 ->Rebin(10);
+  // h_phot_36 ->Rebin(10);
+  // h_phot_50 ->Rebin(10);
+  // h_phot_75 ->Rebin(10);
+  // h_phot_90 ->Rebin(10);
+  // h_phot_120->Rebin(10);
+  // h_phot_165->Rebin(10);
 
   h_data->Add(h_data_em,-1.);
 
@@ -133,6 +134,7 @@ void getReweightHTHist( string signalregion, bool ewkcontam = false )
   h_ht_ratio_165-> Divide(h_phot_165);
 	   
   string filename = Form("ht_ratio_data_novtx_nohtweight_%s.root", signalregion.c_str() );
+  if( ewkcontam == true ) filename = Form("ht_ratio_data_novtx_nohtweight_ewkcontam_%s.root", signalregion.c_str() );
   
   TFile * file = TFile::Open( filename.c_str() ,"RECREATE");
   file->cd();
@@ -183,6 +185,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.push_back(180);
 	  binning.push_back(200);
 	  binning.push_back(300);
+	  // binning.push_back(500);
 	  binning.push_back(3000);
 	}
 
@@ -212,6 +215,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.push_back(180);
 	  binning.push_back(200);
 	  binning.push_back(300);
+	  // binning.push_back(500);
 	  binning.push_back(3000);
 	}
 
@@ -231,6 +235,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.push_back(180);
 	  binning.push_back(200);
 	  binning.push_back(300);
+	  // binning.push_back(500);
 	  binning.push_back(3000);
 	}
 
@@ -260,6 +265,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.push_back(180);
 	  binning.push_back(200);
 	  binning.push_back(300);
+	  // binning.push_back(500);
 	  binning.push_back(3000);
 	}
   }
@@ -275,6 +281,8 @@ void getReweightScheme(vector <double> &binning, string selection )
 	  binning.push_back(135);
 	  binning.push_back(180);
 	  binning.push_back(200);
+	  // binning.push_back(300);
+	  // binning.push_back(500);
 	  binning.push_back(3000);
   }
   
