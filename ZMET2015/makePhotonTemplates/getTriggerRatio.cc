@@ -9,9 +9,14 @@ void getTriggerRatio()
   TChain ch("t");
 
 
-	ch.Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_ph_v2*.root"));
-	ch.Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_ph_v2*.root"));
+	// ch.Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_ph_v2*.root"));
+	// ch.Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_ph_v2*.root"));
+	// ch.Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016D_Prompt_ph_v2*.root"));
 
+	ch.Add(Form("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-11-01_data_2016B_Prompt_ph_v2/*.root"));
+	ch.Add(Form("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-11-01_data_2016C_Prompt_ph_v2/*.root"));
+	ch.Add(Form("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-11-01_data_2016D_Prompt_ph_v2/*.root"));
+	
     int trig_165 = ch.GetEntries("evt_type==2&&evt_passgoodrunlist>0&&HLT_Photon165_R9Id90_HE10_IsoM>0&&gamma_pt[0]>200");
     int trig_22  = ch.GetEntries("(evt_type==2&&evt_passgoodrunlist>0&&HLT_Photon22_R9Id90_HE10_IsoM>0&& gamma_pt[0]>200)*HLT_Photon22_R9Id90_HE10_IsoM");
     int trig_30  = ch.GetEntries("(evt_type==2&&evt_passgoodrunlist>0&&HLT_Photon30_R9Id90_HE10_IsoM>0&& gamma_pt[0]>200)*HLT_Photon30_R9Id90_HE10_IsoM");

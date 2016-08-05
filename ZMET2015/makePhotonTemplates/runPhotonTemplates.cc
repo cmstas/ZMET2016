@@ -18,29 +18,62 @@ void runPhotonTemplates( std::string selection = "", std::string iter = "", std:
   TChain* ch = new TChain("t");
 
   if ( sample == "data" ){
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_ph_v2*.root"));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_ph_v2*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/data_2016B_Prompt_ph_v2*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/data_2016C_Prompt_ph_v2*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/data_2016D_Prompt_ph_v2*.root"));
 
 	}
 
   if ( sample == "data_withMC" ){
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_ph_v2*.root"));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_ph_v2*.root"));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wgjets_incl_amcnlo*.root"));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltbr_mgmlm*.root"));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltop_mgmlm*.root"));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/znunugamma_ptg130_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/data_2016B_Prompt_ph_v2*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/data_2016C_Prompt_ph_v2*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/data_2016D_Prompt_ph_v2*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/wgjets_incl_amcnlo*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/ttbar_1ltbr_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/ttbar_1ltop_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/znunugamma_ptg130_mgmlm*.root"));
 
 	}
 
-  else if ( sample == "All_MC" ){
 
-	// ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht*.root");
-	ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht40_dr0p4_mgmlm.root");
-	ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht100_dr0p4_mgmlm.root");
-	ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht200_dr0p4_mgmlm.root");
-	ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht400_dr0p4_mgmlm.root");
-	ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht600_dr0p4_mgmlm.root");
+  if ( sample == "allewk" ){
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/wgjets_incl_amcnlo*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/ttbar_1ltbr_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/ttbar_1ltop_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/znunugamma_ptg130_mgmlm*.root"));
+  }
+
+  if ( sample == "wgjets" ){
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/wgjets_incl_amcnlo*.root"));
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/znunugamma_ptg130_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/wgjets_incl_amcnlo*.root"));
+  }
+  if ( sample == "wjets" ){
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/wjets*.root"));
+  }
+  if ( sample == "ttbar" ){
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/ttbar_1ltop_mgmlm*.root"));
+	// ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/ttbar_1ltbr_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/ttbar_1ltbr_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/ttbar_1ltop_mgmlm*.root"));
+  }
+  if ( sample == "ttgamma" ){
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/ttgamma*.root"));
+  }
+  if ( sample == "znunugamma" ){
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/znunugamma_ptg40_mgmlm*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/znunugamma_ptg130_mgmlm*.root"));
+	// ch->Add(Form("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-11-03_znunugamma_ptg130_mgmlm/unknown_merged_ntuple_*.root"));
+  }
+
+  if ( sample == "All_MC" ){
+
+	ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht*.root");
+	// ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht40_dr0p4_mgmlm.root");
+	// ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht100_dr0p4_mgmlm.root");
+	// ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht200_dr0p4_mgmlm.root");
+	// ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht400_dr0p4_mgmlm.root");
+	// ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht600_dr0p4_mgmlm.root");
 
   }
 
