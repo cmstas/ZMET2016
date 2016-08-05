@@ -87,6 +87,22 @@ fi
 # run wjets_ht200_amcnlo
 # run wjets_ht100_amcnlo
 
+
+# # WJets
+run wjets_incl_amcnlo
+run wjets_ht1200_amcnlo
+run wjets_ht2500_amcnlo
+run wjets_ht800_amcnlo
+run wjets_ht600_amcnlo
+run wjets_ht400_amcnlo
+run wjets_ht200_amcnlo
+run wjets_ht100_amcnlo
+run ttgamma_incl_amcnlo
+
+
+# run znunugamma_ptg130_mgmlm
+# run znunugamma_ptg40_mgmlm
+
 # # samples for closure
 # run dy_m1050_mgmlm
 # run dy_m50_mgmlm_ext1
@@ -98,6 +114,7 @@ fi
 
 # # gjets
 # run gjetsht100_dr0p4_mgmlm
+# run gjetsht200_dr0p4_mgmlm
 # run gjetsht400_dr0p4_mgmlm
 # run gjetsht40_dr0p4_mgmlm
 # run gjetsht600_dr0p4_mgmlm
@@ -105,8 +122,9 @@ fi
 
 # signal
 # run t5zz_80x_v2
+# run tchiwz_80x_v2
 
-run znunugamma_ptg130_mgmlm
+# run znunugamma_ptg130_mgmlm
 
 # all the data for the MET study
 # run data_2015C25ns16Dec2015_ee
