@@ -31,18 +31,29 @@ bool passMETFilters()
 {
 
   if( zmet.isData()                   ){
-	if (zmet.nVert                                   () == 0 ) return false;
-	if (!zmet.Flag_HBHENoiseFilter                   ()      ) return false;
-	if (!zmet.Flag_HBHEIsoNoiseFilter                ()      ) return false;
-	// if (!zmet.Flag_CSCTightHalo2015Filter            ()      ) return false;
-	if (!zmet.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) return false;
-	if (!zmet.Flag_goodVertices                      ()      ) return false;
-	if (!zmet.Flag_eeBadScFilter                     ()      ) return false;
-	if (!zmet.Flag_globalTightHalo2016               ()      ) return false;
-	if (!zmet.Flag_badMuonFilter                     ()      ) return false;
-	if (!zmet.Flag_badChargedCandidateFilter         ()      ) return false;
+	if( zmet.mass_gluino() < 0 ){
+	  if (!zmet.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) return false; // MC
+	  if (!zmet.Flag_badChargedCandidateFilter         ()      ) return false; // MC
+	  if (!zmet.Flag_HBHENoiseFilter                   ()      ) return false;
+	  if (!zmet.Flag_HBHEIsoNoiseFilter                ()      ) return false;
+	  if (!zmet.Flag_goodVertices                      ()      ) return false;
+	  if (!zmet.Flag_eeBadScFilter                     ()      ) return false;
+	  if (!zmet.Flag_globalTightHalo2016               ()      ) return false;
+	  // if (zmet.Flag_EcalDeadCellTriggerPrimitiveFilter() != -999 && !zmet.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) return false; // MC
+	  // if (zmet.Flag_badChargedCandidateFilter         () != -999 && !zmet.Flag_badChargedCandidateFilter         ()      ) return false; // MC
 
+	  if( zmet.isData()                   ){
+		if (zmet.nVert                                   () == 0 ) return false;
+		// if (!zmet.Flag_CSCTightHalo2015Filter            ()      ) return false;
+		if (!zmet.Flag_badMuonFilter                     ()      ) return false; // MC
+
+	  }
+	}
+	else{
+	  if( zmet.met_T1CHS_miniAOD_CORE_pt() > 100 && (zmet.met_pt() / zmet.met_calo_pt()) > 5 ) return false;
+	}
   }
+  
   return true;
 }
 
@@ -213,28 +224,33 @@ bool passSignalRegionSelection( string selection )
 	}
   }
 
-  // //splitting the photon for MT2
-  // // Particle(Float_t pt, Float_t eta, Float_t phi, Float_t mass, Float_t width_);
-  // //   //A test Z boson with pt = 100 GeV, eta = 0, phi = 0, mass 91.2GeV, and width 2 GeV
-  // Particle lepton1(0, 0, 0, 0, 0);
-  // Particle lepton2(0, 0, 0, 0, 0);
+  if( TString(selection).Contains("fastsimMET") ){
+	event_met_pt = (zmet.met_T1CHS_miniAOD_CORE_pt()  + zmet.met_genPt() )/2.0;
+	event_met_ph = (zmet.met_T1CHS_miniAOD_CORE_phi() + zmet.met_genPhi())/2.0;
+  }
+  
+  //splitting the photon for MT2
+  // Particle(Float_t pt, Float_t eta, Float_t phi, Float_t mass, Float_t width_);
+  //   //A test Z boson with pt = 100 GeV, eta = 0, phi = 0, mass 91.2GeV, and width 2 GeV
+  Particle lepton1(0, 0, 0, 0, 0);
+  Particle lepton2(0, 0, 0, 0, 0);
 
-  // LorentzVector lep1_p4(0,0,0,0);
-  // LorentzVector lep2_p4(0,0,0,0);
+  LorentzVector lep1_p4(0,0,0,0);
+  LorentzVector lep2_p4(0,0,0,0);
 
-  // if( zmet.evt_type() == 2 && zmet.ngamma() > 0 ){
+  if( zmet.evt_type() == 2 && zmet.ngamma() > 0 ){
 
-  // 	Particle iphoton(0, 0, 0, 0, 0);  
-  // 	iphoton = Particle(zmet.gamma_p4().at(0).pt(), zmet.gamma_p4().at(0).eta(), zmet.gamma_p4().at(0).phi(), 91, 2);
+  	Particle iphoton(0, 0, 0, 0, 0);  
+  	iphoton = Particle(zmet.gamma_p4().at(0).pt(), zmet.gamma_p4().at(0).eta(), zmet.gamma_p4().at(0).phi(), 91, 2);
 
-  // 	TRandom3 ran(0);   
-  // 	ProduceDecay(ran, &iphoton, &lepton1, &lepton2, 0.001, 0.001); 
+  	TRandom3 ran(0);   
+  	ProduceDecay(ran, &iphoton, &lepton1, &lepton2, 0.001, 0.001); 
 
-  // 	lep1_p4.SetPx( lepton1.p.X()); lep1_p4.SetPy( lepton1.p.Y()); lep1_p4.SetPz( lepton1.p.Z()); lep1_p4.SetE ( lepton1.p.E());
-  // 	lep2_p4.SetPx( lepton2.p.X()); lep2_p4.SetPy( lepton2.p.Y()); lep2_p4.SetPz( lepton2.p.Z()); lep2_p4.SetE ( lepton2.p.E());
+  	lep1_p4.SetPx( lepton1.p.X()); lep1_p4.SetPy( lepton1.p.Y()); lep1_p4.SetPz( lepton1.p.Z()); lep1_p4.SetE ( lepton1.p.E());
+  	lep2_p4.SetPx( lepton2.p.X()); lep2_p4.SetPy( lepton2.p.Y()); lep2_p4.SetPz( lepton2.p.Z()); lep2_p4.SetE ( lepton2.p.E());
 
-  // 	// cout<<MT2( event_met_pt, event_met_ph, lep1_p4, lep2_p4, 0.0, false )<<endl;
-  // }
+  	// cout<<MT2( event_met_pt, event_met_ph, lep1_p4, lep2_p4, 0.0, false )<<endl;
+  }
 
   int jetind_lowdRgamma = -99;
   float mindR = 5.0;
@@ -260,24 +276,41 @@ bool passSignalRegionSelection( string selection )
 	  if( TString(selection).Contains("loosephoton"    ) && !((zmet.evt_type() == 2 && isLoosePhoton(0))  || zmet.evt_type() != 2) ) return false; //tight photon selection for systematics study
 	  if( TString(selection).Contains("mediumphoton"   ) && !((zmet.evt_type() == 2 && isMediumPhoton(0)) || zmet.evt_type() != 2) ) return false; //tight photon selection for systematics study
 	  if( TString(selection).Contains("tightphoton"    ) && !((zmet.evt_type() == 2 && isTightPhoton(0))  || zmet.evt_type() != 2) ) return false; //tight photon selection for systematics study
+
+	  if( TString(selection).Contains("withtightb"     ) && zmet.nBJetTight()  < 1 ) return false; // require tight b-tag
+	  if( TString(selection).Contains("bveto"          ) && zmet.nBJetMedium() > 0 ) return false; // bveto
+	  if( TString(selection).Contains("withb"          ) && zmet.nBJetMedium() < 1 ) return false; // at least 1 b-tag
+	  if( TString(selection).Contains("with2"          ) && zmet.nBJetMedium() < 2 ) return false; // at least 2 b-tags
+
 	  if( TString(selection).Contains("SRA"            ) && !((event_njets == 2 ||
 															   event_njets == 3  ) &&
-															  (event_ht    > 400 )) ) return false; //high HT region
-	  if( TString(selection).Contains("SRB"            ) && event_njets < 4         ) return false; //large njets
-	  if( TString(selection).Contains("bveto"          ) && zmet.nBJetMedium() > 0  ) return false; //bveto
-	  if( TString(selection).Contains("withb"          ) && zmet.nBJetMedium() < 1  ) return false; //at least 1 b-tag
-	  if( TString(selection).Contains("with2"          ) && zmet.nBJetMedium() < 2  ) return false; //at least 1 b-tag
-	  if( TString(selection).Contains("twojets"        ) && event_njets > 2         ) return false; //exactly 2 jets
-	  if( TString(selection).Contains("2jets_inclusive") && event_njets < 2         ) return false; //at least 2 jets
-	  if( TString(selection).Contains("3jets_inclusive") && event_njets < 3         ) return false; //at least 3 jets
-	  if( TString(selection).Contains("SR_ATLAS"       ) && 
-		  !( ( ( zmet.evt_type() == 0 && ( ( event_ht + zmet.lep_pt().at(0) + zmet.lep_pt().at(1) ) > 600 ) && zmet.lep_pt().at(0) > 50 && zmet.lep_pt().at(1) > 25 )||
-			   ( zmet.evt_type() == 2 && ( event_ht + zmet.gamma_pt().at(0)                     ) > 600 ) ) &&
-			 ( zmet.njets() > 1       && ( ( acos( cos( event_met_ph - zmet.jets_p4().at(0).phi() ) ) > 0.4  ) &&
-										   ( acos( cos( event_met_ph - zmet.jets_p4().at(1).phi() ) ) > 0.4  ) ) ) )
-		  )return false; //ATLAS run I SR
+															  (event_ht    > 400 )) ) return false; // high HT region
+	  if( TString(selection).Contains("SRB"            ) && event_njets < 4         ) return false; // large njets
 
-	  std::pair<LorentzVector, LorentzVector> lepsFromDecayedZ;
+	  if( TString(selection).Contains("twojets"        ) && event_njets != 2 ) return false; // exactly 2 jets
+	  if( TString(selection).Contains("2jets_inclusive") && event_njets <  2 ) return false; // at least 2 jets
+	  if( TString(selection).Contains("3jets_inclusive") && event_njets <  3 ) return false; // at least 3 jets
+
+	  if( TString(selection).Contains( "SR_ATLAS" ) ){
+		if( zmet.njets() < 2                                               ) return false; // >= 2 jets
+		if( acos( cos( event_met_ph - zmet.jets_p4().at(0).phi() ) ) < 0.4 ) return false; // dphi(MET,jet1) > 0.4
+		if( acos( cos( event_met_ph - zmet.jets_p4().at(1).phi() ) ) < 0.4 ) return false; // dphi(MET,jet2) > 0.4
+		if( zmet.evt_type() == 2 ){
+		  if( event_ht +
+			  zmet.gamma_pt().at(0) < 600 ) return false; // photon + HT > 600
+		}		  
+		if( zmet.evt_type() == 0 ){
+		  if( zmet.lep_pt().at(0) < 50  ) return false; // lep1 > 50 GeV
+		  if( zmet.lep_pt().at(1) < 25  ) return false; // lep1 > 25 GeV
+		  if( event_ht +
+			  zmet.lep_pt().at(0) +
+			  zmet.lep_pt().at(1) < 600 ) return false; // lep1 + lep2 + HT > 600
+		}
+	  }
+		  
+
+
+		  std::pair<LorentzVector, LorentzVector> lepsFromDecayedZ;
 	  if( zmet.evt_type() == 0 && ( zmet.nlep() == 2) ){
 		LorentzVector z_p4(zmet.lep_p4().at(0).X()+zmet.lep_p4().at(1).X(),
 						   zmet.lep_p4().at(0).Y()+zmet.lep_p4().at(1).Y(),
@@ -288,19 +321,20 @@ bool passSignalRegionSelection( string selection )
 	  
 	  if( TString(selection).Contains("SR_EWK" ) && 
 		  !( (
-			  ( zmet.evt_type() == 0 && ( zmet.nveto_leptons() < 1 && zmet.mt2() > 80         ) ) || // dilep cuts
+			  ( zmet.evt_type() == 0 && ( (zmet.nveto_leptons() < 1 && zmet.nlep() == 2 ) && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) > 80         ) ) || // dilep cuts
 			  // ( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && MT2( event_met_pt, event_met_ph, lepsFromDecayedZ.first, lepsFromDecayedZ.second, 0.0, false ) > 80         ) ) || // dilep cuts
 			  // ( zmet.evt_type() == 2 && ( MT2( event_met_pt, event_met_ph, zmet.gamma_p4().at(0), zmet.jets_p4().at(jetind_lowdRgamma), 0.0, false ) > 80 && zmet.njets() > 2) ) ) && // photon+jets cuts
 			  ( zmet.evt_type() == 2 &&
 				( (   abs(zmet.decayedphoton_lep1_p4().eta()) < 2.4 && abs(zmet.decayedphoton_lep2_p4().eta()) < 2.4 ) &&
 				  ( ( abs(zmet.decayedphoton_lep1_p4().eta()) < 1.4 || abs(zmet.decayedphoton_lep1_p4().eta()) > 1.6 ) &&
 					( abs(zmet.decayedphoton_lep2_p4().eta()) < 1.4 || abs(zmet.decayedphoton_lep2_p4().eta()) > 1.6 ) ) &&
-				  MT2( event_met_pt, event_met_ph, zmet.decayedphoton_lep1_p4(), zmet.decayedphoton_lep2_p4(), 0.0, false ) > 80 ) ) ) && // photon+jets cuts
+				  // MT2( event_met_pt, event_met_ph, zmet.decayedphoton_lep1_p4(), zmet.decayedphoton_lep2_p4(), 0.0, false ) > 80 ) ) ) && // photon+jets cuts
+				  MT2( event_met_pt, event_met_ph, lep1_p4, lep2_p4, 0.0, false ) > 80 ) ) ) && // photon+jets cuts
 			 // ( ( abs(lep1_p4.eta()) < 2.4 && abs(lep2_p4.eta()) < 2.4 ) &&
 			 //   ( ( abs(lep1_p4.eta()) < 1.4 || abs(lep1_p4.eta()) > 1.6 ) &&
 			 // 	( abs(lep2_p4.eta()) < 1.4 || abs(lep2_p4.eta()) > 1.6 ) ) &&
 			 //   MT2( event_met_pt, event_met_ph, lep1_p4, lep2_p4, 0.0, false ) > 80 ) ) ) && // photon+jets cuts
-			 ( zmet.njets() > 1 && zmet.nBJetMedium() == 0 && zmet.dphi_metj1() > 1.0 ) ) // common cuts
+			 ( event_njets > 1 && zmet.nBJetMedium() == 0 && zmet.dphi_metj1() > 1.0 ) ) // common cuts
 		  )return false; 
 
 	  if( TString(selection).Contains("SR_ZH" ) && 
@@ -555,18 +589,20 @@ int getPrescaleNoBins_nol1ps()
 		 zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 || 
 		 zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 ||
 		 zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
+		 /*		 zmet.HLT_CaloJet500_NoJetID()         > 0 ||*/
 		 zmet.HLT_Photon165_HE10() > 0
 		 ) ) return 0;
-  if(     (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
+  if(     (/*zmet.HLT_CaloJet500_NoJetID()         > 0 ||*/
+		   zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
   		   zmet.HLT_Photon165_HE10() > 0)            &&                               zmet.gamma_pt().at(0) > 180 ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
   else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 &&                               zmet.gamma_pt().at(0) > 135 ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
   else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 105 ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
   else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 85  ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
   else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 55  ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
   // normalized using higher pT trigger
-  else if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 55 && zmet.gamma_pt().at(0) > 40 ) return 118;
-  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 40 && zmet.gamma_pt().at(0) > 33 ) return 231;
-  else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return 1281;
+  else if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 55 && zmet.gamma_pt().at(0) > 40 ) return 134;
+  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 40 && zmet.gamma_pt().at(0) > 33 ) return 269;
+  else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return 1667;
 
   // if(     (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
   // 		   zmet.HLT_Photon165_HE10() > 0)             ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();

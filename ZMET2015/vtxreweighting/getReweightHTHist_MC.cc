@@ -29,8 +29,8 @@ void getReweightHTHist_MC( string signalregion )
   // TFile * f_data = TFile::Open(Form("../output/V07-04-13/zjetsmlm_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");
   // TFile * f_phot = TFile::Open(Form("../output/V07-04-13/All_MC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");  
 
-  TFile * f_data = TFile::Open(Form("../output/V08-07-00/zjetsmlm_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");
-  TFile * f_phot = TFile::Open(Form("../output/V08-07-00/All_MC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");  
+  TFile * f_data = TFile::Open(Form("../output/V08-11-00/zjetsmlm_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");
+  TFile * f_phot = TFile::Open(Form("../output/V08-11-00/All_MC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");  
 
   TH1F * h_data = NULL;
   TH1F * h_data_em = NULL;
@@ -170,203 +170,115 @@ void getReweightScheme(vector <double> &binning, string selection )
   binning.clear();
 
   if( TString(selection).Contains("SRA") ){
-	binning.push_back(0);
-	// binning.push_back(22);
-	binning.push_back(33);
-	binning.push_back(50);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	binning.push_back(165);
-	binning.push_back(200);
-	// binning.push_back(450);
-	// binning.push_back(500);
-	// binning.push_back(600);
-	// binning.push_back(700);
-	// binning.push_back(800);
-	// binning.push_back(900);
-	// binning.push_back(1000);
-	// binning.push_back(1100);
-	// binning.push_back(1200);
-	// binning.push_back(1300);
-	// binning.push_back(1400);
-	// binning.push_back(1500);
-	binning.push_back(3000);
+
+	if( TString(selection).Contains("bveto") ){
+	  binning.clear();
+	  binning.push_back(0);
+	  binning.push_back(33);
+	  binning.push_back(40);
+	  binning.push_back(55);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
+	  binning.push_back(200);
+	  binning.push_back(300);
+	  binning.push_back(3000);
+	}
+
+	if( TString(selection).Contains("withb") ){
+	  binning.clear();
+	  binning.push_back(0);
+	  binning.push_back(33);
+	  binning.push_back(40);
+	  binning.push_back(55);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
+	  binning.push_back(200);
+	  binning.push_back(300);
+	  binning.push_back(3000);
+	}
+
   }
 
   else if( TString(selection).Contains("SRB") ){
-	binning.push_back(0);
-	// binning.push_back(22);
-	binning.push_back(33);
-	binning.push_back(50);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	binning.push_back(165);
-	binning.push_back(200);
-	binning.push_back(300);
-	// binning.push_back(450);
-	// binning.push_back(500);
-	// binning.push_back(600);
-	// binning.push_back(700);
-	// binning.push_back(800);
-	// binning.push_back(900);
-	// binning.push_back(1000);
-	// binning.push_back(1100);
-	// binning.push_back(1200);
-	// binning.push_back(1300);
-	// binning.push_back(1400);
-	// binning.push_back(1500);
-	binning.push_back(3000);
-  }
 
+	if( TString(selection).Contains("withb") ){
+	  binning.clear();
+	  binning.push_back(0);
+	  binning.push_back(33);
+	  binning.push_back(40);
+	  binning.push_back(55);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
+	  binning.push_back(200);
+	  binning.push_back(300);
+	  binning.push_back(3000);
+	}
+
+	if( TString(selection).Contains("bveto") ){
+	  binning.clear();
+	  binning.push_back(0);
+	  binning.push_back(33);
+	  binning.push_back(40);
+	  binning.push_back(55);
+	  binning.push_back(85);
+	  binning.push_back(105);
+	  binning.push_back(135);
+	  binning.push_back(180);
+	  binning.push_back(200);
+	  binning.push_back(300);
+	  binning.push_back(3000);
+	}
+  }
+  
   else if( TString(selection).Contains("SR_ATLAS") ){
+	binning.clear();
 	binning.push_back(0);
 	binning.push_back(33);
-	// binning.push_back(36);
-	binning.push_back(50);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	binning.push_back(165);
+	binning.push_back(40);
+	binning.push_back(55);
+	binning.push_back(85);
+	binning.push_back(105);
+	binning.push_back(135);
+	binning.push_back(180);
 	binning.push_back(200);
-	// binning.push_back(300);
-	// binning.push_back(400);
-	// binning.push_back(500);
-  	// binning.push_back(600);
-  	// binning.push_back(700);
-  	// binning.push_back(800);
-  	// binning.push_back(900);
-  	// binning.push_back(1000);
-  	binning.push_back(3000);
-  }
-
-
-  
-  else if( TString(selection).Contains("forward") && TString(selection).Contains("twojets") && !TString(selection).Contains("with2_twojets") ){
-	binning.push_back(0);
-	// binning.push_back(22);
-	binning.push_back(33);
-	binning.push_back(36);
-	binning.push_back(50);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	binning.push_back(165);
-	binning.push_back(300);
 	binning.push_back(3000);
   }
   
-  else if( TString(selection).Contains("inclusive") && !TString(selection).Contains("3jets_inclusive") ){
+  else if( TString(selection).Contains("2jets_inclusive") ){
 	binning.push_back(0);
-	// binning.push_back(22);
 	binning.push_back(33);
-	binning.push_back(36);
-	binning.push_back(50);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	binning.push_back(165);
-	binning.push_back(300);
-	binning.push_back(3000);
-  }
-
-  
-  else if( TString(selection).Contains("twojets") && !TString(selection).Contains("with2_twojets") ){
-	binning.push_back(0);
-	// binning.push_back(22);
-	binning.push_back(33);
-	// binning.push_back(36);
-	binning.push_back(50);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	// binning.push_back(165);
-	// binning.push_back(250);
-	// binning.push_back(300);
-	// binning.push_back(350);
-	// binning.push_back(400);
-	// binning.push_back(450);
-	// binning.push_back(500);
-	// binning.push_back(600);
-	// binning.push_back(700);
-	// binning.push_back(800);
-	// binning.push_back(900);
-	// binning.push_back(1000);
-	// binning.push_back(1100);
-	// binning.push_back(1200);
-	// binning.push_back(1300);
-	// binning.push_back(1400);
-	// binning.push_back(1500);
-	binning.push_back(3000);
-  }
-
-  else if( TString(selection).Contains("with2_twojets") ){
-	binning.push_back(0);
-	// binning.push_back(22);
-	// binning.push_back(33);
-	// binning.push_back(36);
-	binning.push_back(60);
-	binning.push_back(120);
-	// binning.push_back(165);
-	// binning.push_back(250);
-	// binning.push_back(300);
-	// binning.push_back(350);
-	// binning.push_back(400);
-	// binning.push_back(450);
-	// binning.push_back(500);
-	// binning.push_back(600);
-	// binning.push_back(700);
-	// binning.push_back(800);
-	// binning.push_back(900);
-	// binning.push_back(1000);
-	// binning.push_back(1100);
-	// binning.push_back(1200);
-	// binning.push_back(1300);
-	// binning.push_back(1400);
-	// binning.push_back(1500);
-	binning.push_back(3000);
-  }
-
-  else if( TString(selection).Contains("SR_EWK") ){
-	binning.push_back(0);
-	binning.push_back(75);
-	binning.push_back(100);
-	binning.push_back(125);
-	binning.push_back(150);
+	binning.push_back(40);
+	binning.push_back(55);
+	binning.push_back(85);
+	binning.push_back(105);
+	binning.push_back(135);
+	binning.push_back(180);
 	binning.push_back(200);
+	binning.push_back(300);
+	binning.push_back(500);
 	binning.push_back(3000);
   }
   
   else{
 
   	binning.push_back(0);
-	// binning.push_back(22);
 	binning.push_back(33);
-	// binning.push_back(36);
-	binning.push_back(50);
-	binning.push_back(75);
-	binning.push_back(90);
-	binning.push_back(120);
-	binning.push_back(165);
+	binning.push_back(40);
+	binning.push_back(55);
+	binning.push_back(85);
+	binning.push_back(105);
+	binning.push_back(135);
+	binning.push_back(180);
 	binning.push_back(200);
 	binning.push_back(300);
-	// binning.push_back(350);
-	// binning.push_back(400);
-	// binning.push_back(450);
-	// binning.push_back(500);
-	// binning.push_back(600);
-	// binning.push_back(700);
-	// binning.push_back(800);
-	// binning.push_back(900);
-	// binning.push_back(1000);
-	// binning.push_back(1100);
-	// binning.push_back(1200);
-	// binning.push_back(1300);
-	// binning.push_back(1400);
-	// binning.push_back(1500);
 	binning.push_back(3000);
-}
+  }
 
   return;
 }
