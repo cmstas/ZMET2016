@@ -13,6 +13,8 @@
 #include "TH2F.h"
 #include "TH3.h"
 #include "TMath.h"
+#include "TGraph.h"
+// #include "TGraphAsymmErrors.h"
 
 #include "Math/VectorUtil.h"
 
@@ -26,6 +28,8 @@
 #include "../../CORE/Tools/dorky/dorky.h"
 #include "../../CORE/Tools/goodrun.h"
 #include "../../CORE/Tools/badEventFilter.h"
+#include "../../CORE/Tools/MT2/MT2.h"
+#include "../../CORE/Tools/MT2/MT2Utility.h"
 
 using namespace std;
 using namespace duplicate_removal;
@@ -39,17 +43,23 @@ const bool correctewkcontamination = true;
 const bool dotemplatepredictionmc = false;
 
 // Used for MC, to calculate nominal values
-const bool doscalefactors       = false;
+const bool doscalefactors       = true;
+const bool do_btagscalefactors  = true;
+const bool do2016METforFS       = true;
+
+// print cutflow values
+bool docutflow = true;
 
 // these are for deriving signal systematics
-bool doisrboost  = true;
-bool heavy_up    = false;
-bool light_up    = false;
-bool jes_up      = false;
-bool jes_dn      = false;
-bool dofastsim   = true;
-bool doleptonid  = true;
-bool doleptoniso = true;
+bool doisrboost   = true;
+bool heavy_up     = false;
+bool light_up     = false;
+bool jes_up       = false;
+bool jes_dn       = false;
+bool dofastsim    = true;
+bool doleptonid   = true;
+bool doleptoniso  = true;
+bool doleptonreco = true;
 
 float nlosplit = 0.0;
 float nhisplit = 0.0;
@@ -66,6 +76,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
   // if( zmet.isData() )        cout << "Running on Data."        << endl;
   // else                       cout << "Running on MC.  "        << endl;
+
+  double nsf_2jets_met_zveto = 0;
+  double nof_2jets_met_zveto = 0;
 
   double nee = 0;
   double nmm = 0;
@@ -97,43 +110,17 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
   cout<<selection<<endl;
   
-  bookHistos();
+  if(      TString(sample).Contains("tchiwz"  ) ) bookHistos("tchiwz");
+  else if( TString(sample).Contains("fullscan") ) bookHistos("t5zz");
+  else bookHistos("t5zz");
 
-  // eventFilter metFilterTxt;
-  // if ( TString(sample).Contains("data") ) {
-  //   cout<<"Loading bad event files ..."<<endl;
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleEG_ecalscn1043093.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/DoubleMuon_ecalscn1043093.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/HTMHT_ecalscn1043093.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/JetHT_ecalscn1043093.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MET_ecalscn1043093.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/MuonEG_ecalscn1043093.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleElectron_ecalscn1043093.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SingleMuon_ecalscn1043093.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/SinglePhoton_ecalscn1043093.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleEG_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_DoubleMuon_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_HTMHT_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_JetHT_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MET_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_MuonEG_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleElectron_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SingleMuon_csc2015.txt");
-  //   metFilterTxt.loadBadEventList("/nfs-6/userdata/mt2utils/eventlist_SinglePhoton_csc2015.txt");
-  //   cout<<" ... finished!"<<endl;
-  // }
-
+  if(      TString(sample).Contains("tchiwz"  ) ) doisrboost = false;
+  
   double npass = 0;
 
+  float cutflow_events[10] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  float cutflow_errors[10] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  
   METTemplates mettemplates( selection );
   TH1F* currentMETTemplate = NULL;
 
@@ -174,8 +161,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   // const char* json_file = "../../json/DCSONLY_json_160516_snt.txt"; // 2016 data
   // const char* json_file = "../../json/Cert_271036-274240_13TeV_PromptReco_Collisions16_JSON_snt.txt"; // 0.8 fb-1 for FSR
   // const char* json_file = "../../json/golden_json_080716_snt.txt"; // 4.0 fb, for preapproval
-  const char* json_file = "../../json/golden_json_080716_7p65fb_snt.txt"; // 7.65 fb, for preapproval
-	
+  // const char* json_file = "../../json/golden_json_080716_7p65fb_snt.txt"; // 7.65 fb, for preapproval
+  const char* json_file = "../../json/golden_json_200716_12p9fb_snt.txt"; // 12.9 fb
+  
   set_goodrun_file(json_file);
 
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
@@ -186,7 +174,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	// f_vtx = TFile::Open("nvtx_ratio_6p26fb.root","READ");
 	// h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
 
-	f_vtx = TFile::Open("pileup_jul17_nominalUpDown.root","READ");
+	f_vtx = TFile::Open("pileup_jul21_nominalUpDown.root","READ");
 	// f_vtx = TFile::Open("puWeights_nTrueInt.root","READ");
 	h_vtxweight = (TH1F*)f_vtx->Get("weightsNominal")->Clone("h_vtxweight");
 	h_vtxweight->SetDirectory(rootdir);
@@ -198,57 +186,110 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   TH2D * h_bsfweights = NULL;
   TH2D * h_bsfweights_heavy_UP = NULL;
   TH2D * h_bsfweights_light_UP = NULL;
-  TH2D * h_eleweights = NULL;
-  TH2D * h_muoweights = NULL;
 
+  TH2D * h_eleweights = NULL; // FS to Fullsim
   TH2D * h_eleweights_id = NULL;
-  TH2D * h_muoweights_id = NULL;
   TH2D * h_eleweightsiso = NULL;
+  TH2D * h_eleweights_reco = NULL;
+
+  TH2D * h_muoweights = NULL; // FS to Fullsim; ID
+  TH2D * h_muoweights_FS_iso = NULL; // FS to Fullsim; ISO
+  TH2D * h_muoweights_FS_ip = NULL; // FS to Fullsim; IP
+
+  TH2D * h_muoweights_id = NULL;
+  TH2D * h_muoweights_ip = NULL;
   TH2D * h_muoweightsiso = NULL;
+  // TGraphAsymmErrors * h_muoweights_HIP = NULL;
+  TH1F * h_muoweights_HIP_hist = NULL;
 
+
+  
   if( doscalefactors ){
-	f_sfweights  = TFile::Open("nsig_weights_T5ZZ.root","READ");
-
-	h_isrweights = (TH2D*)f_sfweights->Get("h_avg_weight_isr")   ->Clone("h_isrweights");
-	h_bsfweights = (TH2D*)f_sfweights->Get("h_avg_weight_btagsf")->Clone("h_bsfweights");
-	h_bsfweights_heavy_UP = (TH2D*)f_sfweights->Get("h_avg_weight_btagsf_heavy_UP")->Clone("h_bsfweights_heavy_UP");
-	h_bsfweights_light_UP = (TH2D*)f_sfweights->Get("h_avg_weight_btagsf_light_UP")->Clone("h_bsfweights_light_UP");
-
-	h_isrweights->SetDirectory(rootdir);
-	h_bsfweights->SetDirectory(rootdir);
-	h_bsfweights_heavy_UP->SetDirectory(rootdir);
-	h_bsfweights_light_UP->SetDirectory(rootdir);
-
+	// electron reconstruction SFs
+	f_sfweights  = TFile::Open("leptonSFs/electrons/egammaEffi.txt_SF2D.root","READ");
+	h_eleweights_reco = (TH2D*) f_sfweights->Get("EGamma_SF2D") -> Clone("h_eleweights_reco");
+	h_eleweights_reco->SetDirectory(rootdir);
 	f_sfweights->Close();
 
-	// for FS to Fullsim
-	f_sfweights  = TFile::Open("sf_el_tight_mini01.root","READ");
-	h_eleweights = (TH2D*)f_sfweights->Get("histo2D")   ->Clone("h_eleweights");
-	h_eleweights->SetDirectory(rootdir);
-	f_sfweights->Close();
-	f_sfweights  = TFile::Open("sf_mu_mediumID_mini02.root","READ");
-	h_muoweights = (TH2D*)f_sfweights->Get("histo2D")   ->Clone("h_muoweights");
-	h_muoweights->SetDirectory(rootdir);
-	f_sfweights->Close();
-
-	// for Fullsim to Data
-	f_sfweights  = TFile::Open("kinematicBinSFele.root","READ");
-	h_eleweights_id = (TH2D*)f_sfweights->Get("MVATight_and_TightIP2D_and_TightIP3D") -> Clone("h_eleweights_id");
-	h_eleweightsiso = (TH2D*)f_sfweights->Get("MiniIso0p1_vs_AbsEta")                 -> Clone("h_eleweightsiso");
+	// electron ID/Iso SFs for Fullsim to Data
+	f_sfweights  = TFile::Open("leptonSFs/electrons/scaleFactors.root","READ");
+	h_eleweights_id = (TH2D*) f_sfweights->Get("GsfElectronToTightID2D3D") -> Clone("h_eleweights_id");
+	h_eleweightsiso = (TH2D*) f_sfweights->Get("MVAVLooseElectronToMini")  -> Clone("h_eleweightsiso");
 	h_eleweights_id->SetDirectory(rootdir);
 	h_eleweightsiso->SetDirectory(rootdir);
 	f_sfweights->Close();
-	f_sfweights  = TFile::Open("TnP_MuonID_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root","READ");
-	h_muoweights_id = (TH2D*)f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_tag_combRelIsoPF04dBeta_bin0_&_tag_pt_bin0_&_tag_IsoMu20_pass")   ->Clone("h_muoweights_id");
-	h_muoweights_id->SetDirectory(rootdir);
-	f_sfweights->Close();
-	f_sfweights  = TFile::Open("TnP_MuonID_NUM_MiniIsoTight_DENOM_LooseID_VAR_map_pt_eta.root","READ");
-	h_muoweightsiso = (TH2D*)f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_tag_combRelIsoPF04dBeta_bin0_&_tag_pt_bin0_&_PF_pass_&_tag_IsoMu20_pass")   ->Clone("h_muoweightsiso");
-	h_muoweightsiso->SetDirectory(rootdir);
+
+	// muon id SF for Fullsim to Data
+	f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root","READ");
+	h_muoweights_id = (TH2D*) f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0") -> Clone("h_muoweights_id");
+	h_muoweights_id	->SetDirectory(rootdir);
 	f_sfweights->Close();
 	
+	// muon iso SF for Fullsim to Data
+	f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_MiniIsoTight_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+	h_muoweightsiso = (TH2D*) f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_Medium2016_pass") -> Clone("h_muoweightsiso");
+	h_muoweightsiso	->SetDirectory(rootdir);
+	f_sfweights->Close();
+
+	// muon tracking SF due to HIPs for Fullsim to Data
+	f_sfweights  = TFile::Open("leptonSFs/muons/general_tracks_and_early_general_tracks_corr_ratio.root","READ");
+	h_muoweights_HIP_hist = (TH1F*) f_sfweights->Get("mutrksfptg10") -> Clone("h_muoweights_HIP_hist");
+	h_muoweights_HIP_hist -> SetDirectory(rootdir);
+	f_sfweights->Close();
+	
+	// f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+	// h_muoweights_HIP = (TGraphAsymmErrors*) f_sfweights->Get("ratio_eta") -> Clone("h_muoweights_HIP");
+	// // h_muoweights_HIP -> SetDirectory(rootdir);
+	// f_sfweights->Close();
+	
+	// muon ip SF for Fullsim to Data
+	f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+	h_muoweights_ip = (TH2D*) f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_Medium2016_pass") -> Clone("h_muoweights_ip");
+	h_muoweights_ip	->SetDirectory(rootdir);
+	f_sfweights->Close();
+	
+	// SFs electrons for FS to Fullsim
+	f_sfweights  = TFile::Open("leptonSFs/FS/sf_el_tightMVA_tight2DIP_vtxC_hitseq0.root","READ");
+	h_eleweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_eleweights");
+	h_eleweights->SetDirectory(rootdir);
+	f_sfweights->Close();
+
+	// SFs muons for FS to Fullsim, medium ID
+	f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_medium.root","READ");
+	h_muoweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights");
+	h_muoweights->SetDirectory(rootdir);
+	f_sfweights->Close();
+
+	// SFs muons for FS to Fullsim, iso
+	f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_mediumID_mini02.root","READ");
+	h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights_FS_iso");
+	h_muoweights_FS_iso->SetDirectory(rootdir);
+	f_sfweights->Close();
+
+	// SFs muons for FS to Fullsim, iso
+	f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_tightIP2D.root","READ");
+	h_muoweights_FS_ip = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights_FS_ip");
+	h_muoweights_FS_ip->SetDirectory(rootdir);
+	f_sfweights->Close();
+
+	// SFs for signal, ISR and btag
+	if(      TString(sample).Contains("tchiwz"  ) ) f_sfweights  = TFile::Open("nsig_weights_fullscan_tchiwz.root","READ");
+	else if( TString(sample).Contains("fullscan") ) f_sfweights  = TFile::Open("nsig_weights_fullscan.root","READ");
+	if( TString(sample).Contains("fullscan") ){
+	  h_isrweights = (TH2D*)f_sfweights->Get("h_avg_weight_isr")   ->Clone("h_isrweights");
+	  h_bsfweights = (TH2D*)f_sfweights->Get("h_avg_weight_btagsf")->Clone("h_bsfweights");
+	  h_bsfweights_heavy_UP = (TH2D*)f_sfweights->Get("h_avg_weight_btagsf_heavy_UP")->Clone("h_bsfweights_heavy_UP");
+	  h_bsfweights_light_UP = (TH2D*)f_sfweights->Get("h_avg_weight_btagsf_light_UP")->Clone("h_bsfweights_light_UP");
+	  h_isrweights->SetDirectory(rootdir);
+	  h_bsfweights->SetDirectory(rootdir);
+	  h_bsfweights_heavy_UP->SetDirectory(rootdir);
+	  h_bsfweights_light_UP->SetDirectory(rootdir);
+	  f_sfweights->Close();
+	}	
+
   }
 
+  
   TObjArray *listOfFiles = chain->GetListOfFiles();
   unsigned int nEventsChain = 0;
   unsigned int nEvents = chain->GetEntries();
@@ -280,7 +321,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  zmet.GetEntry(event);
       ++nEventsTotal;
 
-	  if (nEventsTotal % 1000 == 0){ // progress feedback to user
+	  if (nEventsTotal % 100000 == 0){ // progress feedback to user
 	  	if (isatty(1)){ // xterm magic from L. Vacavant and A. Cerri               
           printf("\015\033[32m ---> \033[1m\033[31m%4.1f%%"
                  "\033[0m\033[32m <---\033[0m\015", (float)nEventsTotal/(nEventsChain*0.01));
@@ -289,41 +330,50 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
       }
 
 // 	  if(
-// 		 // (zmet.run() == 273725 && zmet.lumi() == 306 && zmet.evt() == 446408946 ) || 
-// 		 // (zmet.run() == 273730 && zmet.lumi() == 833 && zmet.evt() == 889427793 ) ||
-// 		 // (zmet.run() == 274968 && zmet.lumi() == 686 && zmet.evt() == 1301248891) ||
-// 		 // (zmet.run() == 275837 && zmet.lumi() == 688 && zmet.evt() == 1066481668)
-// 		 // zmet.evt() == 470836340  ||
-// 		 // zmet.evt() == 726705664  ||
-// 		 // zmet.evt() == 1268760057 ||
-// 		 // zmet.evt() == 1113504849 ||
-// 		 // zmet.evt() == 173918891  ||
-// 		 // zmet.evt() == 3089654438
-// zmet.evt() == 211268536 ||
-// zmet.evt() == 682190484 ||
-// zmet.evt() == 960899337
+// ( zmet.run() == 273502 && zmet.lumi() ==          1034 && zmet.evt() ==    1253949348) ||
+// ( zmet.run() == 274241 && zmet.lumi() ==          1061 && zmet.evt() ==    1716571168) ||
+// ( zmet.run() == 274250 && zmet.lumi() ==           359 && zmet.evt() ==     714603732) ||
+// ( zmet.run() == 274251 && zmet.lumi() ==           208 && zmet.evt() ==     323847967) ||
+// ( zmet.run() == 274284 && zmet.lumi() ==            80 && zmet.evt() ==     161552931) ||
+// ( zmet.run() == 274388 && zmet.lumi() ==           203 && zmet.evt() ==     395052423) ||
+// ( zmet.run() == 274442 && zmet.lumi() ==           464 && zmet.evt() ==     816377062) ||
+// ( zmet.run() == 274998 && zmet.lumi() ==           666 && zmet.evt() ==    1220445466) ||
+// ( zmet.run() == 275311 && zmet.lumi() ==           836 && zmet.evt() ==    1012082659) ||
+// ( zmet.run() == 275847 && zmet.lumi() ==           224 && zmet.evt() ==     301510004) ||
+// ( zmet.run() == 275847 && zmet.lumi() ==           911 && zmet.evt() ==    1176469748) ||
+// ( zmet.run() == 276543 && zmet.lumi() ==           666 && zmet.evt() ==    1215096543) ||
+// ( zmet.run() == 276587 && zmet.lumi() ==           483 && zmet.evt() ==     720558255) ||
+// ( zmet.run() == 276775 && zmet.lumi() ==           204 && zmet.evt() ==     241758803) ||
+// ( zmet.run() == 276775 && zmet.lumi() ==          1051 && zmet.evt() ==    1829473072) ||
+// ( zmet.run() == 276808 && zmet.lumi() ==           516 && zmet.evt() ==     966247493) ||
+// ( zmet.run() == 276811 && zmet.lumi() ==           677 && zmet.evt() ==    1234391680) 
 // 		 ){
 
-// 		cout<<zmet.njets()<<" | ";
-// 		cout<<zmet.nlep()<<" | ";
-// 		cout<<zmet.hyp_type()<<" | ";
-// 		cout<<zmet.evt_type()<<" | ";
-// 		cout<<zmet.lep_pt().at(0)<<" | ";
-// 		cout<<zmet.lep_pt().at(1)<<" | ";
-// 		cout<<zmet.lep_eta().at(0)<<" | ";
-// 		cout<<zmet.lep_eta().at(1)<<" | ";
-// 		cout<<zmet.jets_p4().at(0).pt()<<" | ";
-// 		cout<<zmet.jets_p4().at(1).pt()<<" | ";
-// 		cout<<zmet.jets_p4().at(0).eta()<<" | ";
-// 		cout<<zmet.jets_p4().at(1).eta()<<" | ";
-// 		cout<<zmet.dRll()<<" | ";
+//   		cout << setw(10)<<zmet.run()<<" | ";
+//   		cout << setw(10)<<zmet.lumi()<<" | ";
+//   		cout << setw(10)<<zmet.evt()<<" | ";
+//   		cout << setw(10)<<zmet.njets()<<" | ";
+// 		cout << setw(10)<<zmet.nlep()<<" | ";
+// 	  	cout << setw(10)<<(zmet.nlep()+zmet.nveto_leptons()-2)<<" | ";
+// 		cout << setw(10)<<zmet.hyp_type()<<" | ";
+// 		cout << setw(10)<<zmet.evt_type()<<" | ";
+// 		cout << setw(10)<<zmet.lep_pt().at(0)<<" | ";
+// 		cout << setw(10)<<zmet.lep_pt().at(1)<<" | ";
+// 		cout << setw(10)<<zmet.lep_eta().at(0)<<" | ";
+// 		cout << setw(10)<<zmet.lep_eta().at(1)<<" | ";
+// 		cout << setw(10)<<zmet.dRll()<<" | ";
+// 		cout << setw(10)<<zmet.dilmass()<<" | ";
+// 	  	cout << setw(10)<<zmet.mt2()<<" | ";
+// 	  	cout << setw(10)<<zmet.dphi_metj1()<<" | ";
 // 		cout<<zmet.ht()<<" | ";
-// 		cout<<zmet.met_T1CHS_miniAOD_CORE_pt()<<" | ";
-// 		cout<<passMETFilters()<<" | ";
-// 		// cout<<zmet.mlbmin()<<" | ";
-// 		// cout<<zmet.nlep()<<" | ";
-// 		// cout<<zmet.nlep()<<" | ";
+// 		cout<<zmet.mlbmin()<<" | ";
+// 		cout << setw(10)<<zmet.met_T1CHS_miniAOD_CORE_pt()<<" | ";
+// 		cout << setw(10)<<passMETFilters()<<" | ";
+// 		cout << setw(10)<<(zmet.HLT_DoubleMu_nonDZ() || zmet.HLT_DoubleMu_tk_nonDZ() || zmet.HLT_DoubleMu_noiso() )<<" | ";
+// 		cout << setw(10)<<(zmet.HLT_DoubleEl_DZ_2()  || zmet.HLT_DoubleEl_noiso()                                 )<<" | ";
+// 		cout << setw(10)<<(zmet.HLT_MuEG()           || zmet.HLT_MuEG_2()            || zmet.HLT_MuEG_noiso()     )<<" | ";
 // 		cout<<endl;
+
 // 	  }
 	  
 	  //~-~-~-~-~-~-~-~~-//
@@ -359,8 +409,12 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		if( !hasrealmet || !realzpair ) continue;
 	  }
 	  	  
-	  if ( zmet.isData() && usejson && !goodrun(zmet.run(), zmet.lumi()) ) continue;
-
+	  
+	  if( zmet.isData() ){
+		if(  usejson && !goodrun(zmet.run(), zmet.lumi()) ) continue;
+		if( !usejson && !zmet.evt_passgoodrunlist()       ) continue;
+	  }
+	  
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
 	  //Deal with duplicates in data//
 	  //-~-~-~-~-~-~-~-~-~-~-~-~-~-~//
@@ -370,12 +424,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		  ++nDuplicates;
 		  continue;
 		}
-      }
-	  
-	  //~-~-~-~-~-~-~-~~-//
-	  //trigger variables//
-	  //~-~-~-~-~-~-~-~-~//
-
+      }	  
 	  
 	  //-~-~-~-~-~-~-~-~-~-~-~-//
 	  //Deal with event weights//
@@ -385,12 +434,12 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		weight = 1.0;
 	  }else if( !zmet.isData() ){
 		weight *= zmet.evt_scale1fb();
-	  	if( TString(currentFile->GetTitle()).Contains("t5zz") ){
-		  weight *= 7.65;
+	  	if( TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ){
+		  weight *= 12.9;
 		}
-	  	if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
-		  weight *= 3.545;
-		}
+	  	// if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
+		//   weight *= 3.72;
+		// }
 	  }
 	  
 	  if( !zmet.isData() && dovtxreweighting ){
@@ -399,69 +448,37 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		  weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nTrueInt()));		
 		// }
 	  }
-
-	  // if( sample == "zjets" ){
-	  // 	if( TString(currentFile->GetTitle()).Contains("m50") ) weight *= 14987122./2550912.;
-	  // }
 	  
 
 	  float event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
 	  float event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
 
-	  // if( TString(currentFile->GetTitle()).Contains("t5zz") ){
-	  // 	// if( zmet.met_T1CHS_miniAOD_CORE_pt() > 6500 ) continue;
+	  if( jes_up ){
+		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
+		event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
 
-	  // 	// if( !(zmet.mass_gluino() == 1050 && zmet.mass_LSP() == 800) ) continue;
-	  // 	// if( (zmet.mass_gluino() == 1050 && zmet.mass_LSP() == 850) ){
-	  // 	// // if( zmet.met_T1CHS_miniAOD_CORE_pt() > 6500 && zmet.met_pt() < 6500 ){
-	  // 	//   cout<<"miniAOD met: "<<zmet.met_pt()<<" | rawMET: "<<zmet.met_rawPt()<<" | COREMET: "<<zmet.met_T1CHS_miniAOD_CORE_pt()<<endl;
-	  // 	// }
-	  // 	if( zmet.met_T1CHS_miniAOD_CORE_pt() < 6500 ){
-	  // 	  if( jes_up ){
-	  // 		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
-	  // 		event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
+	  }else if( jes_dn ){
+		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
+		event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
 
-	  // 	  }else if( jes_dn ){
-	  // 		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
-	  // 		event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
-
-	  // 	  }else{
-	  // 		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
-	  // 		event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
-	  // 	  }
-	  // 	}else if( zmet.met_pt() > 6500 ){
-	  // 	  // cout<<"miniAOD met: "<<zmet.met_pt()<<" | rawMET: "<<zmet.met_rawPt()<<endl;
-	  // 	  // cout<<zmet.evt_xsec()<<endl;
-	  // 	  // cout<<zmet.evt_nEvts()<<endl;
-	  // 	  // cout<<zmet.evt_scale1fb()<<endl;
-	  // 	  // cout<<zmet.nTrueInt()<<endl;
-	  // 	  continue;
-	  // 	}
-
-	  // }else{
-	  // 	if( jes_up ){
-	  // 	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
-	  // 	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
-
-	  // 	}else if( jes_dn ){
-	  // 	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
-	  // 	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
-
-	  // 	}else{
-	  // 	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
-	  // 	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
-	  // 	}
-		
-	  // }
-	  
-	  if( TString(currentFile->GetTitle()).Contains("t5zz") ){
-		if( TString(sample).Contains("signal1100200") && !(zmet.mass_gluino() == 1000 && zmet.mass_LSP() == 800) ) continue;
-		if( TString(selection).Contains("losplit") && !(zmet.mass_gluino() == 1000 && zmet.mass_LSP() == 800) ) continue;
-		if( event_met_pt > 225 ) nlosplit += weight;
-		if( TString(selection).Contains("hisplit") && !(zmet.mass_gluino() == 1050 && zmet.mass_LSP() == 400) ) continue;
-		if( event_met_pt > 225 ) nhisplit += weight;
+	  }else{
+		event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
+		event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
 	  }
 
+	  if( do2016METforFS ){
+	  	if( TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ){
+		  event_met_pt = (zmet.met_T1CHS_miniAOD_CORE_pt() + zmet.met_genPt())/2.0;
+		}
+	  }	  
+
+	  if( docutflow ){
+		if( TString(currentFile->GetTitle()).Contains("t5zz")   && !(zmet.mass_gluino() == 1450 && zmet.mass_LSP() == 1000) )continue;
+		if( TString(currentFile->GetTitle()).Contains("tchiwz") && !(zmet.mass_gluino() == 300 && zmet.mass_LSP() == 75    ) )continue;
+		// cout<<zmet.mass_gluino()<<" | "<<zmet.mass_LSP()<<endl;
+		cutflow_events[0] = zmet.evt_nEvts()*zmet.evt_scale1fb()*12.9;
+		cutflow_errors[0] = sqrt(zmet.evt_nEvts())*zmet.evt_scale1fb()*12.9;
+	  }
 	  
 	  //~-~-~-~-~-~-~-~-//
       // event selection// 
@@ -476,138 +493,217 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  	  abs(zmet.lep_p4().at(0).eta())     < 1.6       ) continue; 
 	  if( abs(zmet.lep_p4().at(1).eta())     > 1.4 &&
 	  	  abs(zmet.lep_p4().at(1).eta())     < 1.6       ) continue; // veto xition region
-	  if( zmet.dRll() < 0.1 ) continue;
-	  // if( zmet.dilpt() < 22 ) continue;
-
-	  // // for closure only
-	  if( !passSignalRegionSelection(selection) ) continue;
-	  if( !passMETFilters() ) continue;
-
-	  // if (zmet.isData() && metFilterTxt.eventFails(zmet.run(), zmet.lumi(), zmet.evt())) {
-	  // 	//cout<<"Found bad event in data: "<<t.run<<", "<<t.lumi<<", "<<t.evt<<endl;
-	  // 	continue;
-      // }	  
-	  if( TString(selection).Contains("withtightb") && zmet.nBJetTight() < 1 ) continue;
-	  
-	  //~-~-~-~-~-~-~-~-//
-      // event selection// 
-	  //~-~-~-~-~-~-~-~-//
+	  if( zmet.dRll() < 0.1                              ) continue; // dr between leptons > 0.1
 	  if( !(zmet.hyp_type() == 0 ||          
 	  		zmet.hyp_type() == 1 ||          
 	  		zmet.hyp_type() == 2 )                       ) continue; // require explicit dilepton event
 	  if( !(zmet.evt_type() == 0 )                       ) continue; // require opposite sig
 
+	  // scale factors
 	  float lepton_SF = 1.0;
-	  // float weightbefore = weight;
-	  // float weightafter = weight;
+	  if( !zmet.isData() && do_btagscalefactors && !(TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ) ){
+	  	weight *= zmet.weight_btagsf();		
+	  }
+	  //flat trigger effs
+	  if( !zmet.isData() ){
+		if( zmet.hyp_type() == 0 ) weight *= 0.963;
+		if( zmet.hyp_type() == 1 ) weight *= 0.947;
+		if( zmet.hyp_type() == 2 ) weight *= 0.899;
+	  }
 	  
 	  // deal with other event weights
 	  if( !zmet.isData() && doscalefactors ){
 
 		// btag sf variation
-		if(heavy_up){
-		  weight *= zmet.weight_btagsf_heavy_UP();		
-		  weight *= 1./h_bsfweights_heavy_UP->GetBinContent(h_bsfweights_heavy_UP->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
+		if( !zmet.isData() && do_btagscalefactors && (TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ) ){
+		  if(heavy_up){
+			weight *= zmet.weight_btagsf_heavy_UP();		
+			weight *= 1./h_bsfweights_heavy_UP->GetBinContent(h_bsfweights_heavy_UP->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
 
-		}else if(light_up){
-		  weight *= zmet.weight_btagsf_light_UP();		
-		  weight *= 1./h_bsfweights_light_UP->GetBinContent(h_bsfweights_light_UP->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
+		  }else if(light_up){
+			weight *= zmet.weight_btagsf_light_UP();		
+			weight *= 1./h_bsfweights_light_UP->GetBinContent(h_bsfweights_light_UP->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
 
-		}else{
-		  weight *= zmet.weight_btagsf();		
-		  weight *= 1./h_bsfweights->GetBinContent(h_bsfweights->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
+		  }else{
+			weight *= zmet.weight_btagsf();		
+			weight *= 1./h_bsfweights->GetBinContent(h_bsfweights->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
+		  }
 		}
-
+		
+		// cout<<"btagsf: "<<zmet.weight_btagsf()<<endl;
+		
 		if( doisrboost ){
-		  if(      zmet.isrboost() > 400. && zmet.isrboost() < 600. ) weight *= 0.85;
-		  else if( zmet.isrboost() > 600.                           ) weight *= 0.70;
+		  weight *= zmet.isr_weight();
 		  weight *= 1./h_isrweights->GetBinContent(h_isrweights->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
 		}
 
-		float min_leppt1  = min( 75.0, (double)zmet.lep_pt().at(0));
-		float min_leppt2  = min( 75.0, (double)zmet.lep_pt().at(1));
+		// cout<<"leptsf: "<<lepton_SF<<endl;
+
+		float min_leppt1  = min( 110.0, (double)zmet.lep_pt().at(0));
+		float min_leppt2  = min( 110.0, (double)zmet.lep_pt().at(1));
 		float abs_lepeta1 = abs(zmet.lep_eta().at(0));
 		float abs_lepeta2 = abs(zmet.lep_eta().at(1));
 
-		// trigger scale factors for SF
-		if( zmet.hyp_type() == 0 ) weight *= 0.939;
-		if( zmet.hyp_type() == 1 ) weight *= 0.929;
-		
 		// fullsim to data scale factors
 		if( doleptonid ){
+		  // TH2D * h_eleweights_id = NULL;
 		  if( abs(zmet.lep_pdgId().at(0)) == 11 ) lepton_SF *= h_eleweights_id->GetBinContent(h_eleweights_id->FindBin( min_leppt1, abs_lepeta1 ));
 		  if( abs(zmet.lep_pdgId().at(1)) == 11 ) lepton_SF *= h_eleweights_id->GetBinContent(h_eleweights_id->FindBin( min_leppt2, abs_lepeta2 ));
+		  // TH2D * h_muoweights_id = NULL;
 		  if( abs(zmet.lep_pdgId().at(0)) == 13 ) lepton_SF *= h_muoweights_id->GetBinContent(h_muoweights_id->FindBin( min_leppt1, abs_lepeta1 ));
 		  if( abs(zmet.lep_pdgId().at(1)) == 13 ) lepton_SF *= h_muoweights_id->GetBinContent(h_muoweights_id->FindBin( min_leppt2, abs_lepeta2 ));
+		  // TH2D * h_muoweights_ip = NULL;
+		  if( abs(zmet.lep_pdgId().at(0)) == 13 ) lepton_SF *= h_muoweights_ip->GetBinContent(h_muoweights_ip->FindBin( min_leppt1, abs_lepeta1 ));
+		  if( abs(zmet.lep_pdgId().at(1)) == 13 ) lepton_SF *= h_muoweights_ip->GetBinContent(h_muoweights_ip->FindBin( min_leppt2, abs_lepeta2 ));
 		}
+
+		// cout<<"leptsf_id: "<<lepton_SF<<endl;
 		
 		if( doleptoniso ){
+		  // TH2D * h_eleweightsiso = NULL;
 		  if( abs(zmet.lep_pdgId().at(0)) == 11 ) lepton_SF *= h_eleweightsiso->GetBinContent(h_eleweightsiso->FindBin( min_leppt1, abs_lepeta1 ));
 		  if( abs(zmet.lep_pdgId().at(1)) == 11 ) lepton_SF *= h_eleweightsiso->GetBinContent(h_eleweightsiso->FindBin( min_leppt2, abs_lepeta2 ));
+		  // TH2D * h_muoweightsiso = NULL;
 		  if( abs(zmet.lep_pdgId().at(0)) == 13 ) lepton_SF *= h_muoweightsiso->GetBinContent(h_muoweightsiso->FindBin( min_leppt1, abs_lepeta1 ));
 		  if( abs(zmet.lep_pdgId().at(1)) == 13 ) lepton_SF *= h_muoweightsiso->GetBinContent(h_muoweightsiso->FindBin( min_leppt2, abs_lepeta2 ));
 		}
-  
-		if( dofastsim && TString(currentFile->GetTitle()).Contains("t5zz") ){
+
+		// cout<<"leptsf_id: "<<lepton_SF<<endl;
+
+		if( doleptonreco ){
+		  // TH2D * h_eleweights_reco = NULL;
+		  if( abs(zmet.lep_pdgId().at(0)) == 11 ) lepton_SF *= h_eleweights_reco->GetBinContent(h_eleweights_reco->FindBin( zmet.lep_eta().at(0), min_leppt1 ));
+		  if( abs(zmet.lep_pdgId().at(1)) == 11 ) lepton_SF *= h_eleweights_reco->GetBinContent(h_eleweights_reco->FindBin( zmet.lep_eta().at(1), min_leppt2 ));
+		  // TH1F* h_muoweights_HIP_hist = NULL;
+		  if( abs(zmet.lep_pdgId().at(0)) == 13 ) lepton_SF *= h_muoweights_HIP_hist->GetBinContent(h_muoweights_HIP_hist->FindBin( zmet.lep_eta().at(0) ) );
+		  if( abs(zmet.lep_pdgId().at(1)) == 13 ) lepton_SF *= h_muoweights_HIP_hist->GetBinContent(h_muoweights_HIP_hist->FindBin( zmet.lep_eta().at(1) ) );
+		}
+
+	    // cout<<"leptsf_rc: "<<lepton_SF<<endl;
+
+		if( dofastsim && (TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ) ){
+		  // TH2D * h_eleweights = NULL; // FS to Fullsim
 		  if( abs(zmet.lep_pdgId().at(0)) == 11 ) lepton_SF *= h_eleweights->GetBinContent(h_eleweights->FindBin( min_leppt1, abs_lepeta1 ));
 		  if( abs(zmet.lep_pdgId().at(1)) == 11 ) lepton_SF *= h_eleweights->GetBinContent(h_eleweights->FindBin( min_leppt2, abs_lepeta2 ));
+		  // TH2D * h_muoweights = NULL; // FS to Fullsim; ID
 		  if( abs(zmet.lep_pdgId().at(0)) == 13 ) lepton_SF *= h_muoweights->GetBinContent(h_muoweights->FindBin( min_leppt1, abs_lepeta1 ));
 		  if( abs(zmet.lep_pdgId().at(1)) == 13 ) lepton_SF *= h_muoweights->GetBinContent(h_muoweights->FindBin( min_leppt2, abs_lepeta2 ));
+		  // TH2D * h_muoweights_FS_iso = NULL; // FS to Fullsim; ISO
+		  if( abs(zmet.lep_pdgId().at(0)) == 13 ) lepton_SF *= h_muoweights_FS_iso->GetBinContent(h_muoweights_FS_iso->FindBin( min_leppt1, abs_lepeta1 ));
+		  if( abs(zmet.lep_pdgId().at(1)) == 13 ) lepton_SF *= h_muoweights_FS_iso->GetBinContent(h_muoweights_FS_iso->FindBin( min_leppt2, abs_lepeta2 ));
+		  // TH2D * h_muoweights_FS_ip = NULL; // FS to Fullsim; IP
+		  if( abs(zmet.lep_pdgId().at(0)) == 13 ) lepton_SF *= h_muoweights_FS_ip->GetBinContent(h_muoweights_FS_ip->FindBin( min_leppt1, abs_lepeta1 ));
+		  if( abs(zmet.lep_pdgId().at(1)) == 13 ) lepton_SF *= h_muoweights_FS_ip->GetBinContent(h_muoweights_FS_ip->FindBin( min_leppt2, abs_lepeta2 ));
 		}
-		
-		weight *= lepton_SF;
-		
-		// if( abs(zmet.lep_pdgId().at(0)) == 11 ) weight *= h_eleweights->GetBinContent(h_eleweights->FindBin( zmet.lep_pt().at(0), zmet.lep_eta().at(0), zmet.nVert() ));
-		// if( abs(zmet.lep_pdgId().at(1)) == 11 ) weight *= h_eleweights->GetBinContent(h_eleweights->FindBin( zmet.lep_pt().at(1), zmet.lep_eta().at(1), zmet.nVert() ));
 
-		// if( abs(zmet.lep_pdgId().at(0)) == 13 ) weight *= h_muoweights->GetBinContent(h_muoweights->FindBin( zmet.lep_pt().at(0), zmet.lep_eta().at(0), zmet.nVert() ));
-		// if( abs(zmet.lep_pdgId().at(1)) == 13 ) weight *= h_muoweights->GetBinContent(h_muoweights->FindBin( zmet.lep_pt().at(1), zmet.lep_eta().at(1), zmet.nVert() ));
-
-		if( zmet.mass_gluino() == 1400 && zmet.mass_LSP() == 400 ) weight*=2;
+	    // cout<<"leptsf_fs: "<<lepton_SF<<endl<<endl;
 		
-		// weightafter = weight;
- 
-	  }
+		weight *= lepton_SF;		
+		// weightafter = weight; 
+	  }	  
+	  
+	  if( docutflow ){
+		if( zmet.hyp_type() != 2 ){
+		  if( TString(selection).Contains("SR_ATLAS") && !(zmet.lep_pt().at(0) > 50 && zmet.lep_pt().at(1) > 25) ) continue;
+			cutflow_events[1] += weight; cutflow_errors[1] += weight*weight;
+		  if( zmet.dilmass() > 81 && zmet.dilmass() < 101 ){
+			cutflow_events[2] += weight; cutflow_errors[2] += weight*weight;
 
-	  //flat trigger effs
-	  if( !zmet.isData() ){
-		if( zmet.hyp_type() == 0 ) weight *= 0.969;
-		if( zmet.hyp_type() == 1 ) weight *= 0.946;
-		if( zmet.hyp_type() == 2 ) weight *= 0.894;
+			if( TString(selection).Contains("SR_ATLAS") && zmet.njets() > 1 ){
+			  cutflow_events[3] += weight; cutflow_errors[3] += weight*weight;
+			  if( (zmet.ht() + zmet.lep_pt().at(0) + zmet.lep_pt().at(1)) > 600 ){
+				cutflow_events[4] += weight; cutflow_errors[4] += weight*weight;
+				if( event_met_pt > 225 ){
+				  cutflow_events[5] += weight; cutflow_errors[5] += weight*weight;
+				  if( acos(cos(event_met_ph-zmet.jets_p4().at(0).phi())) > 0.4 && acos(cos(event_met_ph-zmet.jets_p4().at(1).phi())) > 0.4 ){
+					cutflow_events[6] += weight; cutflow_errors[6] += weight*weight;
+				  }
+				}
+			  }
+			}
+			
+			if( TString(selection).Contains("SRB") && zmet.njets() > 3 ){
+			  cutflow_events[3] += weight; cutflow_errors[3] += weight*weight;
+			  if( TString(selection).Contains("withb") && zmet.nBJetMedium() >= 1 ){
+				cutflow_events[4] += weight; cutflow_errors[4] += weight*weight;
+				if( event_met_pt > 100 ){
+				  cutflow_events[5] += weight; cutflow_errors[5] += weight*weight;
+				  if( event_met_pt > 150 ){
+					cutflow_events[6] += weight; cutflow_errors[6] += weight*weight;
+					if( event_met_pt > 225 ){
+					  cutflow_events[7] += weight; cutflow_errors[7] += weight*weight;
+					  if( event_met_pt > 300 ){
+						cutflow_events[8] += weight; cutflow_errors[8] += weight*weight;
+					  }
+					}
+				  }
+				}
+			  }
+
+			  if( TString(selection).Contains("bveto") && zmet.nBJetMedium() == 0 ){
+				cutflow_events[4] += weight; cutflow_errors[4] += weight*weight;
+				if( event_met_pt > 100 ){
+				  cutflow_events[5] += weight; cutflow_errors[5] += weight*weight;
+				  if( event_met_pt > 150 ){
+					cutflow_events[6] += weight; cutflow_errors[6] += weight*weight;
+					if( event_met_pt > 225 ){
+					  cutflow_events[7] += weight; cutflow_errors[7] += weight*weight;
+					  if( event_met_pt > 300 ){
+						cutflow_events[8] += weight; cutflow_errors[8] += weight*weight;
+					  }
+					}
+				  }
+				}
+			  }
+			}			
+		  }
+		}
+
+		if( zmet.hyp_type() != 2 ){
+		  if( TString(selection).Contains("SR_EWK") ){
+			if( (zmet.nveto_leptons() < 1 && zmet.nlep() == 2) && !(zmet.lep_pt().at(0) > 25 && zmet.lep_pt().at(1) > 20) ) continue;
+			cutflow_events[1] += weight; cutflow_errors[1] += weight*weight;
+			if( zmet.dilmass() > 81 && zmet.dilmass() < 101 ){
+			  cutflow_events[2] += weight; cutflow_errors[2] += weight*weight;
+			  if( zmet.njets() > 1 ){
+				cutflow_events[3] += weight; cutflow_errors[3] += weight*weight;
+				if( zmet.nBJetMedium() == 0 ){
+				  cutflow_events[4] += weight; cutflow_errors[4] += weight*weight;
+				  if( zmet.dphi_metj1() > 1.0 ){
+					cutflow_events[5] += weight; cutflow_errors[5] += weight*weight;
+					// if( zmet.mt2() > 80  ){
+					if( MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) > 80 ){
+					  cutflow_events[6] += weight; cutflow_errors[6] += weight*weight;
+					  if( event_met_pt > 150 ){
+						cutflow_events[7] += weight; cutflow_errors[7] += weight*weight;
+						if( event_met_pt > 225 ){
+						  cutflow_events[8] += weight; cutflow_errors[8] += weight*weight;
+						  if( event_met_pt > 300 ){
+							cutflow_events[9] += weight; cutflow_errors[9] += weight*weight;
+						  }
+						}
+					  }
+					}
+				  }
+				}			
+			  }
+			}
+		  }	  	  
+		}
 	  }
 	  
-      if( !usejson && zmet.isData() && !zmet.evt_passgoodrunlist()   ) continue;
+	  // after scale factors and cutflows
+	  if( !passSignalRegionSelection(selection) ) continue;
+	  if( !passMETFilters()                     ) continue;
+
 	  fillHist( "event", "mll"  , "inclusive", zmet.dilmass()  , weight );
+	  if( (zmet.dilmass() > 81 && zmet.dilmass() < 101) ) fillHist( "event", "nVert", "inclusive", zmet.nVert()  , weight );
 
-	  if( (zmet.dilmass() > 81 && zmet.dilmass() < 101) ){ // HT > 100
-		fillHist( "event", "nVert", "inclusive", zmet.nVert()  , weight );	  
-	  }
-
-	  if( TString(selection).Contains("CR") && zmet.evt_type() != 2 ){
-		if( !((( zmet.HLT_DoubleMu()    || zmet.HLT_DoubleMu_tk()   || zmet.HLT_DoubleMu_noiso() )) ||
-			  (( zmet.HLT_DoubleEl_DZ() || zmet.HLT_DoubleEl_noiso()                             )) ||
-			  (( zmet.HLT_MuEG()        || zmet.HLT_MuEG_noiso()                                 ))
+	  if( !(TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz")) && zmet.isData() ){		  
+		if( !((( zmet.HLT_DoubleMu_nonDZ() || zmet.HLT_DoubleMu_tk_nonDZ() || zmet.HLT_DoubleMu_noiso() ) && zmet.hyp_type() == 1 ) ||
+			  (( zmet.HLT_DoubleEl_DZ_2()  || zmet.HLT_DoubleEl_noiso()                                 ) && zmet.hyp_type() == 0 ) ||
+			  (( zmet.HLT_MuEG()           || zmet.HLT_MuEG_2()            || zmet.HLT_MuEG_noiso()     ) && zmet.hyp_type() == 2 )
 			  )           ) continue;
-	  }else{
-
-		if( !TString(currentFile->GetTitle()).Contains("t5zz") && zmet.isData() ){
-
-		  // if( zmet.evt() == 211268536 || zmet.evt() == 682190484 || zmet.evt() == 960899337 ){
-		  // 	cout<<__LINE__<<endl;
-		  // 	cout<<zmet.HLT_DoubleMu_nonDZ()<<" | ";
-		  // 	cout<<zmet.HLT_DoubleMu_tk_nonDZ()<<" | ";
-		  // 	cout<<zmet.HLT_DoubleMu_noiso()<<" | ";
-		  // 	cout<<zmet.HLT_DoubleEl_DZ()<<" | ";
-		  // 	cout<<zmet.HLT_DoubleEl_DZ_2()<<" | ";
-		  // 	cout<<zmet.HLT_DoubleEl_noiso()<<endl;
-		  // }
-		  
-		  if( !((( zmet.HLT_DoubleMu_nonDZ() || zmet.HLT_DoubleMu_tk_nonDZ() || zmet.HLT_DoubleMu_noiso() ) && zmet.hyp_type() == 1 ) ||
-				(( zmet.HLT_DoubleEl_DZ_2()  || zmet.HLT_DoubleEl_noiso()                                 ) && zmet.hyp_type() == 0 ) ||
-				(( zmet.HLT_MuEG()           || zmet.HLT_MuEG_2()            || zmet.HLT_MuEG_noiso()     ) && zmet.hyp_type() == 2 )
-				)           ) continue;
-
-		}
 	  }
 	  
 	  fillHist( "event", "mll"    , "passtrig" , zmet.dilmass()  , weight );
@@ -615,40 +711,21 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		if( zmet.hyp_type() == 2 ) nem_2jets += weight;	  
 		fillHist( "event", "metgt1jet" , "inclusive", event_met_pt        , weight );
 	  }
-	 
-	  // // for CRs
-	  // if( zmet.evt_type() != 2 ){
-	  // // if( TString(selection).Contains("CR") && zmet.evt_type() != 2 ){
-	  // 	// cout<<zmet.jet_p4().size()<<" | "<<zmet.jets_p4().size()<<endl;
-	  // 	int njets_cr = 0;
-	  // 	for( int jetind = 0; jetind < zmet.jet_p4().size(); jetind++ ){
-	  // 	  bool foundmatch = false;
-	  // 	  if( zmet.jet_p4().at(jetind).pt() < 35   ) continue;
-	  // 	  if( zmet.jet_p4().at(jetind).eta() > 2.4 ) continue;
-	  // 	  for( int lepind = 0; lepind < zmet.lep_p4().size(); lepind++ ){
-	  // 		if(  sqrt( pow(zmet.jet_p4().at(jetind).eta() - zmet.lep_p4().at(lepind).eta(), 2) + pow(acos(cos(zmet.jet_p4().at(jetind).phi() - zmet.lep_p4().at(lepind).phi())), 2) ) < 0.4 ){ 
-	  // 		  foundmatch = true;
-	  // 		}
-	  // 	  }
-	  // 	  if( !foundmatch ) njets_cr++;
-	  // 	}
-	  // 	fillUnderOverFlow(event_hists.at( "h_ll_event_njtall_passtrig" ), njets_cr, weight );
-	  // 	if( event_met_pt > 50 ) fillUnderOverFlow(event_hists.at( "h_ll_event_njtm50_passtrig" ), njets_cr, weight );
-	  // 	fillUnderOverFlow(event_hists.at( "h_ll_event_metall_passtrig" ), event_met_pt, weight );
-	  // 	if( njets_cr != zmet.njets() ) continue;
-	  // }
 
-	  if( (event_met_pt > 100) ){
-		fillHist( "event", "mll_fkw", "passtrig", zmet.dilmass()   , weight );	  
+	  if( (event_met_pt > 225) ){
+		if( TString(selection).Contains("SR_ATLAS") && event_met_pt > 225 )fillHist( "event", "mll_fkw", "passtrig", zmet.dilmass()   , weight );	  
+		// else  fillHist( "event", "mll_fkw", "passtrig", zmet.dilmass()   , weight );	  
 	  }
 
-	  if( (!(TString(selection).Contains("CR") )&& zmet.evt_type() != 2) ){
-		if( !(zmet.dilmass() > 81 && zmet.dilmass() < 101) ) continue; // HT > 100
+	  // synch with edgers in off Z region
+	  if( zmet.njets() > 1 && event_met_pt > 150 && (zmet.dilmass() < 81 || zmet.dilmass() > 101 ) && zmet.dilmass() > 20){
+		if( zmet.hyp_type() == 0 || zmet.hyp_type() == 1 ) nsf_2jets_met_zveto ++;
+		if( zmet.hyp_type() == 2                         ) nof_2jets_met_zveto ++;
 	  }
 
-	  if( zmet.njets() > 1 ){
-		if( zmet.hyp_type() == 2 ) nem_2jets_mll += weight;	  
-	  }
+	  if( !(zmet.dilmass() > 81 && zmet.dilmass() < 101) ) continue; // onZ
+
+	  if( zmet.njets() > 1 && zmet.hyp_type() == 2 ) nem_2jets_mll += weight;	  
 
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
@@ -667,6 +744,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  fillHist( "event", "l2eta"   , "passtrig", zmet.lep_p4().at(1).eta() , weight );	  
 	  fillHist( "event", "nVert"   , "passtrig", zmet.nVert()        , weight );	  
 	  fillHist( "event", "ptdil"  , "passtrig", zmet.dilpt()        , weight );	  
+	  fillHist( "event", "ptlep1lep2"  , "passtrig", zmet.lep_pt().at(0) + zmet.lep_pt().at(1), weight );	  
 	  fillHist( "event", "metphi" , "passtrig", event_met_ph        , weight );	  
 	  fillHist( "event", "metphir", "passtrig", zmet.met_rawPhi()   , weight );	  
 
@@ -726,21 +804,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  // fillHist( "event", "nupfcands_2430_sumet" , "passtrig", zmet.nupfcands_2430_sumet()  , weight );	  
 	  // fillHist( "event", "nupfcands_30in_sumet" , "passtrig", zmet.nupfcands_30in_sumet()  , weight );	  
 
-	  
-	  // int bjetind = 0;
-	  // int genbjetind = 0;
-	  // for( int jetind = 0; jetind < zmet.njets(); jetind++ ){
-	  // 	if( zmet.jets_csv().at(jetind) > 0.89 ){
-	  // 	  if( bjetind+1 > 4 ) continue;
-	  // 	  fillHist( "event", Form("ptb%i", bjetind+1)   , "passtrig", zmet.jets_p4().at(jetind).pt() , weight );
-	  // 	  bjetind++;
-	  // 	}
-	  // 	if( zmet.jets_csv().at(jetind) > 0.89 && !zmet.isData() && abs(zmet.jets_mcFlavour().at(jetind)) == 5 ){
-	  // 	  fillHist( "event", Form("pt_matchedbjet%i", genbjetind+1) , "passtrig", zmet.jets_p4().at(jetind).pt() , weight );
-	  // 	  genbjetind++;
-	  // 	}
-	  // }
-	  
 	  fillHist( "event", "ht_highbin", "passtrig", zmet.ht()        , weight );
 	  if( zmet.njets() == 2 ) fillHist( "event", "ht_highbin_2jets", "passtrig", zmet.ht()        , weight );
 	  if( zmet.njets() == 3 ) fillHist( "event", "ht_highbin_3jets", "passtrig", zmet.ht()        , weight );
@@ -762,12 +825,48 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  //-~-~-~-~-~-~-~-~-~-//	  
 	  if( zmet.njets()                        < 2         ) continue; // require at least 2 good jets
 
+
+
+	  // if( zmet.met_T1CHS_miniAOD_CORE_pt() > 100 && (zmet.met_pt() / zmet.met_calo_pt()) > 5 ){
+	  // 	cout << setw(10)<<"calomet is bad | ";
+	  // 	cout << setw(10)<<zmet.run()<<" | ";
+	  // 	cout << setw(5)<<zmet.lumi()<<" | ";
+	  // 	cout << setw(10)<<zmet.evt()<<" | ";
+	  // 	cout << setw(5)<<zmet.hyp_type()<<" | ";
+	  // 	cout << setw(5)<<zmet.nlep()<<" | ";
+	  // 	cout << setw(5)<<zmet.nveto_leptons()<<" | ";
+	  // 	cout<<zmet.met_T1CHS_miniAOD_CORE_pt()<<" | ";
+	  // 	cout<<zmet.met_pt()<<" | ";
+	  // 	cout<<zmet.met_calo_pt()<<" | ";
+	  // 	cout<<endl;
+	  // }
+	  
+	  // if( event_met_pt > 225 ){
+	  // 	cout << setw(10)<<"met>225        | ";
+	  // 	cout << setw(10)<<zmet.run()<<" | ";
+	  // 	cout << setw(5)<<zmet.lumi()<<" | ";
+	  // 	cout << setw(10)<<zmet.evt()<<" | ";
+	  // 	cout << setw(5)<<zmet.hyp_type()<<" | ";
+	  // 	cout << setw(5)<<zmet.nlep()<<" | ";
+	  // 	cout << setw(5)<<zmet.nveto_leptons()<<" | ";
+	  // 	cout<<zmet.met_T1CHS_miniAOD_CORE_pt()<<" | ";
+	  // 	cout<<zmet.met_pt()<<" | ";
+	  // 	cout<<zmet.met_calo_pt()<<" | ";
+	  // 	cout<<endl;
+	  // }
+	  
 	  // // sync with Bobak	  
 	  // if( event_met_pt > 150 ){
-	  // 	cout << setw(10)<<zmet.njets()<<" | ";
-	  // 	cout << setw(10)<<zmet.nlep()<<" | ";
-	  // 	cout << setw(10)<<zmet.hyp_type()<<" | ";
-	  // 	cout << setw(10)<<zmet.evt_type()<<" | ";
+	  // 	cout << setw(10)<<zmet.run()<<" | ";
+	  // 	cout << setw(5)<<zmet.lumi()<<" | ";
+	  // 	cout << setw(10)<<zmet.evt()<<" | ";
+	  // 	cout << setw(5)<<zmet.njets()<<" | ";
+	  // 	cout << setw(5)<<zmet.nlep()<<" | ";
+	  // 	cout<<(zmet.nlep()+zmet.nveto_leptons()-2)<<" | ";
+	  // 	cout << setw(5)<<zmet.hyp_type()<<" | ";
+	  // 	cout << setw(5)<<zmet.evt_type()<<" | ";
+	  // 	cout << setw(10)<<zmet.mt2()<<" | ";
+	  // 	cout << setw(10)<<zmet.dphi_metj1()<<" | ";
 	  // 	cout << setw(10)<<zmet.lep_pt().at(0)<<" | ";
 	  // 	cout << setw(10)<<zmet.lep_pt().at(1)<<" | ";
 	  // 	cout << setw(10)<<zmet.lep_eta().at(0)<<" | ";
@@ -780,8 +879,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  // 	cout << setw(10)<<zmet.ht()<<" | ";
 	  // 	cout << setw(10)<<zmet.met_T1CHS_miniAOD_CORE_pt()<<" | ";
 	  // 	cout << setw(10)<<passMETFilters()<<" | ";
-	  // 	// cout<<zmet.mlbmin()<<" | ";
-	  // 	// cout<<zmet.nlep()<<" | ";
+	  // 	cout<<zmet.mlbmin()<<" | ";
 	  // 	// cout<<zmet.nlep()<<" | ";
 	  // 	cout<<endl;
 	  // }
@@ -801,11 +899,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  // }
 
 	  npass += weight;
-
+	  
 	  fillHist( "event", "ht_gt1j"       , "passtrig", zmet.dilpt(), weight );
 	  fillHist( "event", "atlas_ht_gt1j" , "passtrig", zmet.dilpt(), weight );
 	  fillHist( "event", "met_rawgt1jet" , "passtrig", event_met_pt        , weight );	  
-	  if( TString(currentFile->GetTitle()).Contains("t5zz") && sample == "fullscan" ){
+	  if( (TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ) && TString(sample).Contains("fullscan") ){
 		// fill full scan hist
 		if( event_met_pt > 100 && event_met_pt <= 150 ){
 		  if( zmet.hyp_type() == 0 ) h_signalyields_met100to150_ee -> Fill (zmet.mass_gluino(), zmet.mass_LSP(), weight);
@@ -832,6 +930,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 		}
 
 		if( event_met_pt > 300 ){
+		  if( zmet.mass_gluino() == 300 && zmet.mass_LSP() == 0 ) cout<<event_met_pt<<endl;
 		  if( zmet.hyp_type() == 0 ) h_signalyields_met300toinf_ee -> Fill (zmet.mass_gluino(), zmet.mass_LSP(), weight);
 		  if( zmet.hyp_type() == 1 ) h_signalyields_met300toinf_mm -> Fill (zmet.mass_gluino(), zmet.mass_LSP(), weight);
 		  if( zmet.hyp_type() != 2 ) h_signalyields_met300toinf_ll -> Fill (zmet.mass_gluino(), zmet.mass_LSP(), weight);
@@ -951,6 +1050,51 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   cout<<"nhisplit: "<<nhisplit<<endl;
 
   cout<<"badevents: "<<badevents<<endl;
+
+  if( docutflow && TString(selection).Contains("SR_ATLAS") ){
+	cout<<"Total Events:   "<< cutflow_events[0] << " | " << sqrt(cutflow_errors[0]) << endl;
+	cout<<"2 leptons 5025: "<< cutflow_events[1] << " | " << sqrt(cutflow_errors[1]) << endl;
+	cout<<"mll onZ:        "<< cutflow_events[2] << " | " << sqrt(cutflow_errors[2]) << endl;
+	cout<<"njets:          "<< cutflow_events[3] << " | " << sqrt(cutflow_errors[3]) << endl;
+	cout<<"HT>600:         "<< cutflow_events[4] << " | " << sqrt(cutflow_errors[4]) << endl;
+	cout<<"MET>225:        "<< cutflow_events[5] << " | " << sqrt(cutflow_errors[5]) << endl;
+	cout<<"dphi:           "<< cutflow_events[6] << " | " << sqrt(cutflow_errors[6]) << endl;
+  }
+
+  if( docutflow && TString(selection).Contains("SR_EWK") ){
+	cout<<"Total Events:   "<< cutflow_events[0] << " | " << sqrt(cutflow_errors[0]) << endl;
+	cout<<"exactly 2 leps: "<< cutflow_events[1] << " | " << sqrt(cutflow_errors[1]) << endl;
+	cout<<"mll onZ:        "<< cutflow_events[2] << " | " << sqrt(cutflow_errors[2]) << endl;
+	cout<<"njets:          "<< cutflow_events[3] << " | " << sqrt(cutflow_errors[3]) << endl;
+	cout<<"bveto:          "<< cutflow_events[4] << " | " << sqrt(cutflow_errors[4]) << endl;
+	cout<<"dphi:           "<< cutflow_events[5] << " | " << sqrt(cutflow_errors[5]) << endl;
+	cout<<"mt2:            "<< cutflow_events[6] << " | " << sqrt(cutflow_errors[6]) << endl;
+	cout<<"MET > 150:      "<< cutflow_events[7] << " | " << sqrt(cutflow_errors[7]) << endl;
+	cout<<"MET > 225:      "<< cutflow_events[8] << " | " << sqrt(cutflow_errors[8]) << endl;
+	cout<<"MET > 300:      "<< cutflow_events[9] << " | " << sqrt(cutflow_errors[9]) << endl;
+  }
+
+  if( docutflow && TString(selection).Contains("SRB") ){
+	cout<<"Total Events:   "<< cutflow_events[0] << " | " << sqrt(cutflow_errors[0]) << endl;
+	cout<<"2 leptons 2520: "<< cutflow_events[1] << " | " << sqrt(cutflow_errors[1]) << endl;
+	cout<<"mll onZ:        "<< cutflow_events[2] << " | " << sqrt(cutflow_errors[2]) << endl;
+	cout<<"njets:          "<< cutflow_events[3] << " | " << sqrt(cutflow_errors[3]) << endl;
+	if( docutflow && TString(selection).Contains("withb") ){
+	  cout<<"withb:          "<< cutflow_events[4] << " | " <<  sqrt(cutflow_errors[4]) << endl;
+	  cout<<"MET>100:        "<< cutflow_events[5] << " | " <<  sqrt(cutflow_errors[5]) << endl;
+	  cout<<"MET>150:        "<< cutflow_events[6] << " | " <<  sqrt(cutflow_errors[6]) << endl;
+	  cout<<"MET>225:        "<< cutflow_events[7] << " | " <<  sqrt(cutflow_errors[7]) << endl;
+	  cout<<"MET>300:        "<< cutflow_events[8] << " | " <<  sqrt(cutflow_errors[8]) << endl;
+	}
+
+	if( docutflow && TString(selection).Contains("bveto") ){
+	  cout<<"bveto:          "<< cutflow_events[4] << " | " <<  sqrt(cutflow_errors[4]) << endl;
+	  cout<<"MET>100:        "<< cutflow_events[5] << " | " <<  sqrt(cutflow_errors[5]) << endl;
+	  cout<<"MET>150:        "<< cutflow_events[6] << " | " <<  sqrt(cutflow_errors[6]) << endl;
+	  cout<<"MET>225:        "<< cutflow_events[7] << " | " <<  sqrt(cutflow_errors[7]) << endl;
+	  cout<<"MET>300:        "<< cutflow_events[8] << " | " <<  sqrt(cutflow_errors[8]) << endl;
+	}
+  }
   
   if( TString(selection).Contains("tail") ){
 
@@ -964,6 +1108,9 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	cout<<endl<<"fraction in tail with no b-tags: "<< endmet_btag_nobreq  /allmet_btag_nobreq    << " | " << unc_endmet_btag_nobreq_binomial   <<endl;	
 	cout<<      "fraction in tail with b-tags   : "<< endmet_btag_hasrealb/allmet_btag_hasrealb  << " | " << unc_endmet_btag_hasrealb_binomial <<endl;
   }
+
+  cout<<"N SF events: "<<nsf_2jets_met_zveto<<endl;
+  cout<<"N OF events: "<<nof_2jets_met_zveto<<endl;
   
   // mettemplates.NormalizeTemplates(mettemplate_hists);
   mettemplates     . correctBinUncertainty( mettemplate_hists,     event_hists.at("h_templ_met"    ) );
@@ -995,7 +1142,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 } // end ScanChain
 
 
-void templateLooper::bookHistos(){
+void templateLooper::bookHistos( string signal_sample = "" ){
 
   // hist naming convention: "h_<leptype>_<object>_<variable>_<selection>"
   vector <string> leptype;
@@ -1063,38 +1210,39 @@ void templateLooper::bookHistos(){
   variable.push_back("mt2b");       variable_bins.push_back(500 );  
   variable.push_back("mt2");        variable_bins.push_back(500 );  
   variable.push_back("mjj");        variable_bins.push_back(400 );  
+  variable.push_back("ptlep1lep2"); variable_bins.push_back(1000);  
 
-  variable.push_back("chpfcands_0013_pt");        variable_bins.push_back(500 );  
-  variable.push_back("chpfcands_1316_pt");        variable_bins.push_back(500 );  
-  variable.push_back("chpfcands_1624_pt");        variable_bins.push_back(500 );  
-  variable.push_back("chpfcands_2430_pt");        variable_bins.push_back(500 );  
-  variable.push_back("chpfcands_30in_pt");        variable_bins.push_back(500 );  
-  variable.push_back("phpfcands_0013_pt");        variable_bins.push_back(500 );  
-  variable.push_back("phpfcands_1316_pt");        variable_bins.push_back(500 );  
-  variable.push_back("phpfcands_1624_pt");        variable_bins.push_back(500 );  
-  variable.push_back("phpfcands_2430_pt");        variable_bins.push_back(500 );  
-  variable.push_back("phpfcands_30in_pt");        variable_bins.push_back(500 );  
-  variable.push_back("nupfcands_0013_pt");        variable_bins.push_back(500 );  
-  variable.push_back("nupfcands_1316_pt");        variable_bins.push_back(500 );  
-  variable.push_back("nupfcands_1624_pt");        variable_bins.push_back(500 );  
-  variable.push_back("nupfcands_2430_pt");        variable_bins.push_back(500 );  
-  variable.push_back("nupfcands_30in_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("chpfcands_0013_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("chpfcands_1316_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("chpfcands_1624_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("chpfcands_2430_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("chpfcands_30in_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("phpfcands_0013_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("phpfcands_1316_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("phpfcands_1624_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("phpfcands_2430_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("phpfcands_30in_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("nupfcands_0013_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("nupfcands_1316_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("nupfcands_1624_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("nupfcands_2430_pt");        variable_bins.push_back(500 );  
+  // variable.push_back("nupfcands_30in_pt");        variable_bins.push_back(500 );  
 
-  variable.push_back("chpfcands_0013_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("chpfcands_1316_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("chpfcands_1624_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("chpfcands_2430_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("chpfcands_30in_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("phpfcands_0013_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("phpfcands_1316_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("phpfcands_1624_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("phpfcands_2430_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("phpfcands_30in_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("nupfcands_0013_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("nupfcands_1316_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("nupfcands_1624_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("nupfcands_2430_sumet");        variable_bins.push_back(2000 );  
-  variable.push_back("nupfcands_30in_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("chpfcands_0013_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("chpfcands_1316_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("chpfcands_1624_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("chpfcands_2430_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("chpfcands_30in_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("phpfcands_0013_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("phpfcands_1316_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("phpfcands_1624_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("phpfcands_2430_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("phpfcands_30in_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("nupfcands_0013_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("nupfcands_1316_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("nupfcands_1624_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("nupfcands_2430_sumet");        variable_bins.push_back(2000 );  
+  // variable.push_back("nupfcands_30in_sumet");        variable_bins.push_back(2000 );  
 
   
   for( unsigned int lepind = 0; lepind < leptype.size(); lepind++ ){
@@ -1205,9 +1353,18 @@ void templateLooper::bookHistos(){
   bookHist("h_ll_event_njtm50_passtrig", "h_ll_event_njtm50_passtrig", 10,0,10);
   bookHist("h_ll_event_metall_passtrig", "h_ll_event_metall_passtrig", 200,0,200);
 
-  h_signalyields_met100to150_ee = new TH2F("h_signalyields_met100to150_ee","h_signalyields_met100to150_ee",(1900-550)/50,575,1925,(1800-50)/50,75,1825);	
-  h_signalyields_met100to150_mm = new TH2F("h_signalyields_met100to150_mm","h_signalyields_met100to150_mm",(1900-550)/50,575,1925,(1800-50)/50,75,1825);	
-  h_signalyields_met100to150_ll = new TH2F("h_signalyields_met100to150_ll","h_signalyields_met100to150_ll",(1900-550)/50,575,1925,(1800-50)/50,75,1825);	
+  if( signal_sample == "t5zz" ){  
+	h_signalyields_met100to150_ee = new TH2F("h_signalyields_met100to150_ee","h_signalyields_met100to150_ee",(1900-550)/50,575,1925,(1800-50)/50,75,1825);	
+	h_signalyields_met100to150_mm = new TH2F("h_signalyields_met100to150_mm","h_signalyields_met100to150_mm",(1900-550)/50,575,1925,(1800-50)/50,75,1825);	
+	h_signalyields_met100to150_ll = new TH2F("h_signalyields_met100to150_ll","h_signalyields_met100to150_ll",(1900-550)/50,575,1925,(1800-50)/50,75,1825);	
+  }
+
+  if( signal_sample == "tchiwz" ){  
+	h_signalyields_met100to150_ee = new TH2F("h_signalyields_met100to150_ee","h_signalyields_met100to150_ee",25,87.5,712.5,31,-5,305);	
+	h_signalyields_met100to150_mm = new TH2F("h_signalyields_met100to150_mm","h_signalyields_met100to150_mm",25,87.5,712.5,31,-5,305);	
+	h_signalyields_met100to150_ll = new TH2F("h_signalyields_met100to150_ll","h_signalyields_met100to150_ll",25,87.5,712.5,31,-5,305);	
+  }
+
   h_signalyields_met100to150_ee->Sumw2();
   h_signalyields_met100to150_mm->Sumw2();
   h_signalyields_met100to150_ll->Sumw2();
