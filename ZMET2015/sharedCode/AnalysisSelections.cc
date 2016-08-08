@@ -300,11 +300,11 @@ bool passSignalRegionSelection( string selection )
 			  zmet.gamma_pt().at(0) < 600 ) return false; // photon + HT > 600
 		}		  
 		if( zmet.evt_type() == 0 ){
-		  if( zmet.lep_pt().at(0) < 50  ) return false; // lep1 > 50 GeV
-		  if( zmet.lep_pt().at(1) < 25  ) return false; // lep1 > 25 GeV
+		  if( zmet.lep_pt().at(0) < 50    ) return false; // lep1 > 50 GeV
+		  if( zmet.lep_pt().at(1) < 25    ) return false; // lep1 > 25 GeV
 		  if( event_ht +
 			  zmet.lep_pt().at(0) +
-			  zmet.lep_pt().at(1) < 600 ) return false; // lep1 + lep2 + HT > 600
+			  zmet.lep_pt().at(1) < 600   ) return false; // lep1 + lep2 + HT > 600
 		}
 	  }
 		  
