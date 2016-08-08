@@ -604,8 +604,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       nlep = 0;
       nElectrons10 = 0;
 	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
-		if( passElectronSelection_ZMET_thirdlepton_v1( iEl, true, true ) ){
-		  nveto_leptons++;
+
+		if( passElectronSelection_ZMET_thirdlepton_v1( iEl, false, false ) ){
+		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
+			nveto_leptons++;
+		  }
 		}
  	  	if( !passElectronSelection_ZMET( iEl ) ) continue;
 		
@@ -661,7 +664,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
-		if( passMuonSelection_ZMET_veto_v2( iMu, true, true ) ){
+		if( passMuonSelection_ZMET_veto_v2( iMu, false, true ) ){
 		  nveto_leptons++;
 		}
  	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
