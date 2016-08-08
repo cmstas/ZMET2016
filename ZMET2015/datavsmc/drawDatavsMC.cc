@@ -29,23 +29,23 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   bool showmoredigits   = true;
 
   bool binningfortables = false;
-  bool correctewk       = true;
-  bool drawassymuncs    = true;
-  bool usetemplates     = true;
-  bool usefsbkg         = true;
-  bool applysysts       = true;
-  bool showunc_main     = true;
-  bool showunc_rati     = true;
-  bool uservariablebins = true;  // use signal region binning for met plots
-  bool combineMCbgs     = true; // 
+  bool correctewk       = false;
+  bool drawassymuncs    = false;
+  bool usetemplates     = false;
+  bool usefsbkg         = false;
+  bool applysysts       = false;
+  bool showunc_main     = false;
+  bool showunc_rati     = false;
+  bool uservariablebins = false;  // use signal region binning for met plots
+  bool combineMCbgs     = false; // 
 
 
   // bool applytrigeffs    = true;
-  bool usemgzjets       = false;  // use madgraph zjets sample
+  bool usemgzjets       = true;  // use madgraph zjets sample
   bool renormalizettbar = false;  // ttbar has too many events
 
   
-  bool normalized       = false;  // normalize backgrounds to data
+  bool normalized       = true;  // normalize backgrounds to data
 
   bool fractionalBG     = false;  // display background numbers as fraction in zjets and fsbkg
   bool useedgepreds   = false; // combine z bgs and fs bgs into 2 categories

@@ -194,27 +194,33 @@ class babyMaker {
   Int_t           nlep;
   Int_t           nveto_leptons;
   std::vector <LorentzVector> lep_p4;
-  std::vector <Float_t> lep_pt         ;   //[nlep]
-  std::vector <Float_t> lep_eta        ;   //[nlep]
-  std::vector <Float_t> lep_phi        ;   //[nlep]
-  std::vector <Float_t> lep_mass       ;   //[nlep]
-  std::vector <Int_t  > lep_charge     ;   //[nlep]
-  std::vector <Int_t  > lep_pdgId      ;   //[nlep]
-  std::vector <Float_t> lep_dxy        ;   //[nlep]
-  std::vector <Float_t> lep_etaSC      ;   //[nlep]
-  std::vector <Float_t> lep_dz         ;   //[nlep]
-  std::vector <Int_t  > lep_tightId    ;   //[nlep]
-  std::vector <Float_t> lep_relIso03   ;   //[nlep]
-  std::vector <Float_t> lep_relIso03MREA   ;   //[nlep]
-  std::vector <Float_t> lep_relIso03MRDB   ;   //[nlep]
-  std::vector <Float_t> lep_relIso03MRNC   ;   //[nlep]
-  std::vector <Float_t> lep_relIso04   ;   //[nlep]
-  std::vector <Int_t  > lep_mcMatchId  ;   //[nlep]
-  std::vector <Int_t  > lep_lostHits   ;   //[nlep]
-  std::vector <Int_t  > lep_convVeto   ;   //[nlep]
-  std::vector <Int_t  > lep_tightCharge;   //[nlep]
-  std::vector <Float_t> lep_MVA        ;   //[nlep]
+  std::vector <Float_t> lep_pt           ;   //[nlep]
+  std::vector <Float_t> lep_eta          ;   //[nlep]
+  std::vector <Float_t> lep_phi          ;   //[nlep]
+  std::vector <Float_t> lep_mass         ;   //[nlep]
+  std::vector <Int_t  > lep_charge       ;   //[nlep]
+  std::vector <Int_t  > lep_pdgId        ;   //[nlep]
+  std::vector <Float_t> lep_dxy          ;   //[nlep]
+  std::vector <Float_t> lep_etaSC        ;   //[nlep]
+  std::vector <Float_t> lep_dz           ;   //[nlep]
+  std::vector <Int_t  > lep_tightId      ;   //[nlep]
+  std::vector <Float_t> lep_relIso03     ;   //[nlep]
+  std::vector <Float_t> lep_relIso03MREA ;   //[nlep]
+  std::vector <Float_t> lep_relIso03MRDB ;   //[nlep]
+  std::vector <Float_t> lep_relIso03MRNC ;   //[nlep]
+  std::vector <Float_t> lep_relIso04     ;   //[nlep]
+  std::vector <Int_t  > lep_mcMatchId    ;   //[nlep]
+  std::vector <Int_t  > lep_lostHits     ;   //[nlep]
+  std::vector <Int_t  > lep_convVeto     ;   //[nlep]
+  std::vector <Int_t  > lep_tightCharge  ;   //[nlep]
+  std::vector <Float_t> lep_MVA          ;   //[nlep]
+  std::vector <Float_t> lep_validfraction;   //[nlep]
+  std::vector <Float_t> lep_pterr        ;   //[nlep]
   
+  Int_t nisoTrack_5gev ;
+  Int_t nisoTrack_10gev;
+  Int_t nisoTrack_lowmt;
+  Int_t nisoTrack_himt ;
 
 //----- PHOTONS
   Int_t           ngamma;
@@ -232,6 +238,9 @@ class babyMaker {
   std::vector <Int_t  >         gamma_idCutBased   ;   //[ngamma]
   std::vector <Int_t  >         gamma_mcMatchId    ;   //[ngamma]
   std::vector <Float_t>         gamma_genIso       ;   //[ngamma]
+  std::vector <Float_t>         gamma_ecpfclusiso  ;   //[ngamma]
+  std::vector <Float_t>         gamma_hcpfclusiso  ;   //[ngamma]
+  std::vector <Float_t>         gamma_hollowtkiso03;   //[ngamma]
 
 //----- GEN PARTICLES
   Int_t           ngenPart;
@@ -396,7 +405,10 @@ class babyMaker {
   Int_t mass_gluino;
   Int_t mass_LSP;
 
-  Float_t isrboost;
+  Float_t isrboost  ;
+  Int_t   isr_njets ;
+  Float_t isr_weight;
+  Float_t isr_unc   ;
   
 };
 
