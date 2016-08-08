@@ -26,20 +26,20 @@ fi
 # ./runTemplateLooper $selection $analysis_version zjetsmlm &
 
 
-# # 2016
-# selection="_inclusive"
+# 2016
+selection="_inclusive"
 # ./runTemplateLooper $selection $analysis_version data &
-# ./runTemplateLooper $selection $analysis_version zjets &
-# ./runTemplateLooper $selection $analysis_version ttbar &
-# ./runTemplateLooper $selection $analysis_version st &
-# ./runTemplateLooper $selection $analysis_version ww &
-# ./runTemplateLooper $selection $analysis_version wz &
-# ./runTemplateLooper $selection $analysis_version zz &
-# ./runTemplateLooper $selection $analysis_version ttv &
-# ./runTemplateLooper $selection $analysis_version vvv &
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# ./runTemplateLooper $selection $analysis_version wz_inc &
-# ./runTemplateLooper $selection $analysis_version zz_inc &
+./runTemplateLooper $selection $analysis_version zjets &
+./runTemplateLooper $selection $analysis_version ttbar &
+./runTemplateLooper $selection $analysis_version st &
+./runTemplateLooper $selection $analysis_version ww &
+./runTemplateLooper $selection $analysis_version wz &
+./runTemplateLooper $selection $analysis_version zz &
+./runTemplateLooper $selection $analysis_version ttv &
+./runTemplateLooper $selection $analysis_version vvv &
+./runTemplateLooper $selection $analysis_version zjetsmlm &
+./runTemplateLooper $selection $analysis_version wz_inc &
+./runTemplateLooper $selection $analysis_version zz_inc &
 
 # selection="_2jets_inclusive"
 # ./runTemplateLooper $selection $analysis_version data &
@@ -126,20 +126,20 @@ fi
 # # ./runTemplateLooper $selection $analysis_version zz_inc &
 # ./runTemplateLooper $selection $analysis_version fullscan 
 
-selection="_SR_ATLAS"
-./runTemplateLooper $selection $analysis_version data &
-# ./runTemplateLooper $selection $analysis_version zjets &
-# ./runTemplateLooper $selection $analysis_version zjetsmlm &
-# ./runTemplateLooper $selection $analysis_version ttbar &
-# ./runTemplateLooper $selection $analysis_version st &
-# ./runTemplateLooper $selection $analysis_version ww &
-# ./runTemplateLooper $selection $analysis_version wz_inc &
-# ./runTemplateLooper $selection $analysis_version zz_inc &
-# ./runTemplateLooper $selection $analysis_version wz &
-# ./runTemplateLooper $selection $analysis_version zz &
-# ./runTemplateLooper $selection $analysis_version ttv &
-# ./runTemplateLooper $selection $analysis_version vvv &
-# ./runTemplateLooper $selection $analysis_version fullscan 
+# selection="_SR_ATLAS"
+# ./runTemplateLooper $selection $analysis_version data &
+# # ./runTemplateLooper $selection $analysis_version zjets &
+# # ./runTemplateLooper $selection $analysis_version zjetsmlm &
+# # ./runTemplateLooper $selection $analysis_version ttbar &
+# # ./runTemplateLooper $selection $analysis_version st &
+# # ./runTemplateLooper $selection $analysis_version ww &
+# # ./runTemplateLooper $selection $analysis_version wz_inc &
+# # ./runTemplateLooper $selection $analysis_version zz_inc &
+# # ./runTemplateLooper $selection $analysis_version wz &
+# # ./runTemplateLooper $selection $analysis_version zz &
+# # ./runTemplateLooper $selection $analysis_version ttv &
+# # ./runTemplateLooper $selection $analysis_version vvv &
+# # ./runTemplateLooper $selection $analysis_version fullscan 
 
 # selection="_SR_EWK"
 # # ./runTemplateLooper $selection $analysis_version data &

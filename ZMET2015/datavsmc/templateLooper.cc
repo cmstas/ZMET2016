@@ -38,8 +38,8 @@ const bool debug = false;
 
 const bool usejson                 = true;
 const bool dovtxreweighting        = true;
-const bool dotemplateprediction    = true;
-const bool correctewkcontamination = true;
+const bool dotemplateprediction    = false;
+const bool correctewkcontamination = false;
 const bool dotemplatepredictionmc = false;
 
 // Used for MC, to calculate nominal values
@@ -48,7 +48,7 @@ const bool do_btagscalefactors  = true;
 const bool do2016METforFS       = true;
 
 // print cutflow values
-bool docutflow = true;
+bool docutflow = false;
 
 // these are for deriving signal systematics
 bool doisrboost   = true;
@@ -114,7 +114,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   else if( TString(sample).Contains("fullscan") ) bookHistos("t5zz");
   else bookHistos("t5zz");
 
-  if(      TString(sample).Contains("tchiwz"  ) ) doisrboost = false;
+  if( !TString(sample).Contains("fullscan" ) ) doisrboost = false;
+  if(  TString(sample).Contains("tchiwz"   ) ) doisrboost = false;
   
   double npass = 0;
 
@@ -500,10 +501,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  if( !(zmet.evt_type() == 0 )                       ) continue; // require opposite sig
 
 	  // scale factors
-	  float lepton_SF = 1.0;
-	  if( !zmet.isData() && do_btagscalefactors && !(TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ) ){
-	  	weight *= zmet.weight_btagsf();		
-	  }
 	  //flat trigger effs
 	  if( !zmet.isData() ){
 		if( zmet.hyp_type() == 0 ) weight *= 0.963;
@@ -515,21 +512,26 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  if( !zmet.isData() && doscalefactors ){
 
 		// btag sf variation
-		if( !zmet.isData() && do_btagscalefactors && (TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ) ){
-		  if(heavy_up){
-			weight *= zmet.weight_btagsf_heavy_UP();		
-			weight *= 1./h_bsfweights_heavy_UP->GetBinContent(h_bsfweights_heavy_UP->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
-
-		  }else if(light_up){
-			weight *= zmet.weight_btagsf_light_UP();		
-			weight *= 1./h_bsfweights_light_UP->GetBinContent(h_bsfweights_light_UP->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
-
-		  }else{
+		float lepton_SF = 1.0;
+		if( !zmet.isData() && do_btagscalefactors ){
+		  if( !(TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ) ){
 			weight *= zmet.weight_btagsf();		
-			weight *= 1./h_bsfweights->GetBinContent(h_bsfweights->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
+		  }else if( TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ){
+			if(heavy_up){
+			  weight *= zmet.weight_btagsf_heavy_UP();		
+			  weight *= 1./h_bsfweights_heavy_UP->GetBinContent(h_bsfweights_heavy_UP->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
+
+			}else if(light_up){
+			  weight *= zmet.weight_btagsf_light_UP();		
+			  weight *= 1./h_bsfweights_light_UP->GetBinContent(h_bsfweights_light_UP->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
+
+			}else{
+			  weight *= zmet.weight_btagsf();		
+			  weight *= 1./h_bsfweights->GetBinContent(h_bsfweights->FindBin( zmet.mass_gluino(), zmet.mass_LSP() ));
+			}
 		  }
 		}
-		
+	  
 		// cout<<"btagsf: "<<zmet.weight_btagsf()<<endl;
 		
 		if( doisrboost ){
