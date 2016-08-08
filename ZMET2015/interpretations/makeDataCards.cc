@@ -27,30 +27,20 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
 
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 
-  TFile * f_eventcounts_bveto_SRA              = TFile::Open("../output/V08-11-00/fullscan_SRA_bveto_hists.root","READ");
-  TFile * f_eventcounts_withb_SRA              = TFile::Open("../output/V08-11-00/fullscan_SRA_withb_hists.root","READ");
   TFile * f_eventcounts_bveto_SRB              = TFile::Open("../output/V08-11-00/fullscan_SRB_bveto_fastsimMET_hists.root","READ");
   TFile * f_eventcounts_withb_SRB              = TFile::Open("../output/V08-11-00/fullscan_SRB_withb_fastsimMET_hists.root","READ");
   TFile * f_eventcounts_bveto_SRB_nofastsimmet = TFile::Open("../output/V08-11-00/fullscan_SRB_bveto_hists.root","READ");
   TFile * f_eventcounts_withb_SRB_nofastsimmet = TFile::Open("../output/V08-11-00/fullscan_SRB_withb_hists.root","READ");
   
-  TH2F * h_eventcounts_bveto_SRA_met100to150 = NULL; TH2F * h_eventcounts_bveto_SRB_met100to150 = NULL; TH2F * h_eventcounts_bveto_SRB_met100to150_nofastsimmet = NULL;
-  TH2F * h_eventcounts_bveto_SRA_met150to225 = NULL; TH2F * h_eventcounts_bveto_SRB_met150to225 = NULL; TH2F * h_eventcounts_bveto_SRB_met150to225_nofastsimmet = NULL;
-  TH2F * h_eventcounts_bveto_SRA_met225to300 = NULL; TH2F * h_eventcounts_bveto_SRB_met225to300 = NULL; TH2F * h_eventcounts_bveto_SRB_met225to300_nofastsimmet = NULL;
-  TH2F * h_eventcounts_bveto_SRA_met300toinf = NULL; TH2F * h_eventcounts_bveto_SRB_met300toinf = NULL; TH2F * h_eventcounts_bveto_SRB_met300toinf_nofastsimmet = NULL;
-  TH2F * h_eventcounts_withb_SRA_met100to150 = NULL; TH2F * h_eventcounts_withb_SRB_met100to150 = NULL; TH2F * h_eventcounts_withb_SRB_met100to150_nofastsimmet = NULL;
-  TH2F * h_eventcounts_withb_SRA_met150to225 = NULL; TH2F * h_eventcounts_withb_SRB_met150to225 = NULL; TH2F * h_eventcounts_withb_SRB_met150to225_nofastsimmet = NULL;
-  TH2F * h_eventcounts_withb_SRA_met225to300 = NULL; TH2F * h_eventcounts_withb_SRB_met225to300 = NULL; TH2F * h_eventcounts_withb_SRB_met225to300_nofastsimmet = NULL;
-  TH2F * h_eventcounts_withb_SRA_met300toinf = NULL; TH2F * h_eventcounts_withb_SRB_met300toinf = NULL; TH2F * h_eventcounts_withb_SRB_met300toinf_nofastsimmet = NULL;
+  TH2F * h_eventcounts_bveto_SRB_met100to150 = NULL; TH2F * h_eventcounts_bveto_SRB_met100to150_nofastsimmet = NULL;
+  TH2F * h_eventcounts_bveto_SRB_met150to225 = NULL; TH2F * h_eventcounts_bveto_SRB_met150to225_nofastsimmet = NULL;
+  TH2F * h_eventcounts_bveto_SRB_met225to300 = NULL; TH2F * h_eventcounts_bveto_SRB_met225to300_nofastsimmet = NULL;
+  TH2F * h_eventcounts_bveto_SRB_met300toinf = NULL; TH2F * h_eventcounts_bveto_SRB_met300toinf_nofastsimmet = NULL;
+  TH2F * h_eventcounts_withb_SRB_met100to150 = NULL; TH2F * h_eventcounts_withb_SRB_met100to150_nofastsimmet = NULL;
+  TH2F * h_eventcounts_withb_SRB_met150to225 = NULL; TH2F * h_eventcounts_withb_SRB_met150to225_nofastsimmet = NULL;
+  TH2F * h_eventcounts_withb_SRB_met225to300 = NULL; TH2F * h_eventcounts_withb_SRB_met225to300_nofastsimmet = NULL;
+  TH2F * h_eventcounts_withb_SRB_met300toinf = NULL; TH2F * h_eventcounts_withb_SRB_met300toinf_nofastsimmet = NULL;
 
-  h_eventcounts_bveto_SRA_met100to150 = (TH2F*)f_eventcounts_bveto_SRA->Get("h_signalyields_met100to150_ll")->Clone("h_eventcounts_bveto_SRA_met100to150");
-  h_eventcounts_bveto_SRA_met150to225 = (TH2F*)f_eventcounts_bveto_SRA->Get("h_signalyields_met150to225_ll")->Clone("h_eventcounts_bveto_SRA_met150to225");
-  h_eventcounts_bveto_SRA_met225to300 = (TH2F*)f_eventcounts_bveto_SRA->Get("h_signalyields_met225to300_ll")->Clone("h_eventcounts_bveto_SRA_met225to300");
-  h_eventcounts_bveto_SRA_met300toinf = (TH2F*)f_eventcounts_bveto_SRA->Get("h_signalyields_met300toinf_ll")->Clone("h_eventcounts_bveto_SRA_met300toinf");
-  h_eventcounts_withb_SRA_met100to150 = (TH2F*)f_eventcounts_withb_SRA->Get("h_signalyields_met100to150_ll")->Clone("h_eventcounts_withb_SRA_met100to150");
-  h_eventcounts_withb_SRA_met150to225 = (TH2F*)f_eventcounts_withb_SRA->Get("h_signalyields_met150to225_ll")->Clone("h_eventcounts_withb_SRA_met150to225");
-  h_eventcounts_withb_SRA_met225to300 = (TH2F*)f_eventcounts_withb_SRA->Get("h_signalyields_met225to300_ll")->Clone("h_eventcounts_withb_SRA_met225to300");
-  h_eventcounts_withb_SRA_met300toinf = (TH2F*)f_eventcounts_withb_SRA->Get("h_signalyields_met300toinf_ll")->Clone("h_eventcounts_withb_SRA_met300toinf");
   h_eventcounts_bveto_SRB_met100to150 = (TH2F*)f_eventcounts_bveto_SRB->Get("h_signalyields_met100to150_ll")->Clone("h_eventcounts_bveto_SRB_met100to150");
   h_eventcounts_bveto_SRB_met150to225 = (TH2F*)f_eventcounts_bveto_SRB->Get("h_signalyields_met150to225_ll")->Clone("h_eventcounts_bveto_SRB_met150to225");
   h_eventcounts_bveto_SRB_met225to300 = (TH2F*)f_eventcounts_bveto_SRB->Get("h_signalyields_met225to300_ll")->Clone("h_eventcounts_bveto_SRB_met225to300");
@@ -69,14 +59,6 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   h_eventcounts_withb_SRB_met225to300_nofastsimmet = (TH2F*)f_eventcounts_withb_SRB_nofastsimmet->Get("h_signalyields_met225to300_ll")->Clone("h_eventcounts_withb_SRB_met225to300_nofastsimmet");
   h_eventcounts_withb_SRB_met300toinf_nofastsimmet = (TH2F*)f_eventcounts_withb_SRB_nofastsimmet->Get("h_signalyields_met300toinf_ll")->Clone("h_eventcounts_withb_SRB_met300toinf_nofastsimmet");
 
-  h_eventcounts_bveto_SRA_met100to150->SetDirectory(rootdir);
-  h_eventcounts_bveto_SRA_met150to225->SetDirectory(rootdir);
-  h_eventcounts_bveto_SRA_met225to300->SetDirectory(rootdir);
-  h_eventcounts_bveto_SRA_met300toinf->SetDirectory(rootdir);
-  h_eventcounts_withb_SRA_met100to150->SetDirectory(rootdir);
-  h_eventcounts_withb_SRA_met150to225->SetDirectory(rootdir);
-  h_eventcounts_withb_SRA_met225to300->SetDirectory(rootdir);
-  h_eventcounts_withb_SRA_met300toinf->SetDirectory(rootdir);
   h_eventcounts_bveto_SRB_met100to150->SetDirectory(rootdir);
   h_eventcounts_bveto_SRB_met150to225->SetDirectory(rootdir);
   h_eventcounts_bveto_SRB_met225to300->SetDirectory(rootdir);
@@ -95,8 +77,6 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   h_eventcounts_withb_SRB_met225to300_nofastsimmet->SetDirectory(rootdir);
   h_eventcounts_withb_SRB_met300toinf_nofastsimmet->SetDirectory(rootdir);
 
-  f_eventcounts_bveto_SRA ->Close();
-  f_eventcounts_withb_SRA ->Close();
   f_eventcounts_bveto_SRB ->Close();
   f_eventcounts_withb_SRB ->Close();
   f_eventcounts_bveto_SRB_nofastsimmet ->Close();
@@ -120,15 +100,6 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   channel.push_back("withb_SRB_met150to225");
   channel.push_back("withb_SRB_met225to300");
   channel.push_back("withb_SRB_met300toinf");
-
-  // channel.push_back("bveto_SRA_met100to150");     
-  // channel.push_back("bveto_SRA_met150to225");  
-  // channel.push_back("bveto_SRA_met225to300");  
-  // channel.push_back("bveto_SRA_met300toinf");  
-  // channel.push_back("withb_SRA_met100to150");
-  // channel.push_back("withb_SRA_met150to225");
-  // channel.push_back("withb_SRA_met225to300");
-  // channel.push_back("withb_SRA_met300toinf");
   
   vector <double> val_data;  
   val_data.push_back(122);  
@@ -139,16 +110,8 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   val_data.push_back( 99);//22
   val_data.push_back( 24);//3
   val_data.push_back(  7);
-  val_data.push_back( 28);  
-  val_data.push_back(  6);  
-  val_data.push_back(  5);  
-  val_data.push_back(  6);  
-  val_data.push_back( 21);
-  val_data.push_back(  6);
-  val_data.push_back(  1);
-  val_data.push_back(  3);
   
-  int signalbin = h_eventcounts_bveto_SRA_met100to150->FindBin(mglu,mlsp);
+  int signalbin = h_eventcounts_bveto_SRB_met100to150->FindBin(mglu,mlsp);
   
   vector <double> val_signal;  
   vector <double> val_signal_nofastsimmet;  
@@ -161,14 +124,6 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   val_signal.push_back(h_eventcounts_withb_SRB_met150to225->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_withb_SRB_met150to225->GetBinError(signalbin)); 
   val_signal.push_back(h_eventcounts_withb_SRB_met225to300->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_withb_SRB_met225to300->GetBinError(signalbin)); 
   val_signal.push_back(h_eventcounts_withb_SRB_met300toinf->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_withb_SRB_met300toinf->GetBinError(signalbin)); 
-  val_signal.push_back(h_eventcounts_bveto_SRA_met100to150->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_bveto_SRA_met100to150->GetBinError(signalbin)); 
-  val_signal.push_back(h_eventcounts_bveto_SRA_met150to225->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_bveto_SRA_met150to225->GetBinError(signalbin)); 
-  val_signal.push_back(h_eventcounts_bveto_SRA_met225to300->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_bveto_SRA_met225to300->GetBinError(signalbin)); 
-  val_signal.push_back(h_eventcounts_bveto_SRA_met300toinf->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_bveto_SRA_met300toinf->GetBinError(signalbin)); 
-  val_signal.push_back(h_eventcounts_withb_SRA_met100to150->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_withb_SRA_met100to150->GetBinError(signalbin)); 
-  val_signal.push_back(h_eventcounts_withb_SRA_met150to225->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_withb_SRA_met150to225->GetBinError(signalbin)); 
-  val_signal.push_back(h_eventcounts_withb_SRA_met225to300->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_withb_SRA_met225to300->GetBinError(signalbin)); 
-  val_signal.push_back(h_eventcounts_withb_SRA_met300toinf->GetBinContent(signalbin)); err_signal.push_back(h_eventcounts_withb_SRA_met300toinf->GetBinError(signalbin)); 
 
   val_signal_nofastsimmet.push_back(h_eventcounts_bveto_SRB_met100to150_nofastsimmet->GetBinContent(signalbin)); 
   val_signal_nofastsimmet.push_back(h_eventcounts_bveto_SRB_met150to225_nofastsimmet->GetBinContent(signalbin)); 
@@ -189,23 +144,7 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   val_zjets.push_back(27.00); err_zjets.push_back( 3.94); err_zjets_closure.push_back(1.20); // withb
   val_zjets.push_back( 4.01); err_zjets.push_back( 1.08); err_zjets_closure.push_back(1.20);
   val_zjets.push_back( 1.18); err_zjets.push_back( 0.62); err_zjets_closure.push_back(1.20);
-  val_zjets.push_back( 0.00); err_zjets.push_back( 0.18); err_zjets_closure.push_back(1.40);
-  // val_zjets.push_back( 9.62); err_zjets.push_back( 0.72); err_zjets_closure.push_back(1.04); // bveto
-  // val_zjets.push_back( 3.21); err_zjets.push_back( 0.52); err_zjets_closure.push_back(1.10);
-  // val_zjets.push_back( 0.32); err_zjets.push_back( 0.12); err_zjets_closure.push_back(1.20);
-  // val_zjets.push_back( 0.14); err_zjets.push_back( 0.08); err_zjets_closure.push_back(1.25);
-  // val_zjets.push_back( 4.90); err_zjets.push_back( 0.66); err_zjets_closure.push_back(1.04); // withb
-  // val_zjets.push_back( 1.51); err_zjets.push_back( 0.29); err_zjets_closure.push_back(1.10);
-  // val_zjets.push_back( 0.43); err_zjets.push_back( 0.15); err_zjets_closure.push_back(1.20);
-  // val_zjets.push_back( 0.29); err_zjets.push_back( 0.12); err_zjets_closure.push_back(1.25);
-  val_zjets.push_back(23.46); err_zjets.push_back( 4.21); err_zjets_closure.push_back(1.04); // bveto
-  val_zjets.push_back( 4.25); err_zjets.push_back( 0.56); err_zjets_closure.push_back(1.05);
-  val_zjets.push_back( 1.38); err_zjets.push_back( 0.28); err_zjets_closure.push_back(1.15);
-  val_zjets.push_back( 0.99); err_zjets.push_back( 0.37); err_zjets_closure.push_back(1.35);
-  val_zjets.push_back( 4.54); err_zjets.push_back( 0.77); err_zjets_closure.push_back(1.05); // withb
-  val_zjets.push_back( 1.35); err_zjets.push_back( 0.32); err_zjets_closure.push_back(1.10);
-  val_zjets.push_back( 0.74); err_zjets.push_back( 0.27); err_zjets_closure.push_back(1.30);
-  val_zjets.push_back( 0.26); err_zjets.push_back( 0.14); err_zjets_closure.push_back(1.40);
+  val_zjets.push_back( 0.01); err_zjets.push_back( 0.18); err_zjets_closure.push_back(1.40);
   
   vector <double> val_fsbkg;  
   vector <double> err_fsbkg;  
@@ -217,15 +156,6 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   val_fsbkg.push_back( 73.6); err_fsbkg.push_back(10.1);
   val_fsbkg.push_back( 21.7); err_fsbkg.push_back( 6.0);
   val_fsbkg.push_back(  6.5); err_fsbkg.push_back( 3.9);
-
-  val_fsbkg.push_back(  3.2); err_fsbkg.push_back( 3.1); 
-  val_fsbkg.push_back(  3.2); err_fsbkg.push_back( 3.1); 
-  val_fsbkg.push_back(  1.1); err_fsbkg.push_back( 2.4); 
-  val_fsbkg.push_back(  0.0); err_fsbkg.push_back( 1.2); 
-  val_fsbkg.push_back(  9.5); err_fsbkg.push_back( 4.3);
-  val_fsbkg.push_back(  4.2); err_fsbkg.push_back( 3.3);
-  val_fsbkg.push_back(  4.2); err_fsbkg.push_back( 3.3);
-  val_fsbkg.push_back(  1.1); err_fsbkg.push_back( 2.4);
 
   double Rsfof = 1.083;
   
@@ -239,17 +169,6 @@ void makeDataCard(  int mglu = 1100, int mlsp = 750 )
   val_mcbkg.push_back( 3.0); err_mcbkg.push_back( 0.30); 
   val_mcbkg.push_back( 1.1); err_mcbkg.push_back( 0.20); 
   val_mcbkg.push_back( 0.6); err_mcbkg.push_back( 0.10); 
-
-  val_mcbkg.push_back( 1.5); err_mcbkg.push_back( 0.75); 
-  val_mcbkg.push_back( 1.2); err_mcbkg.push_back( 0.60); 
-  val_mcbkg.push_back( 0.8); err_mcbkg.push_back( 0.40); 
-  val_mcbkg.push_back( 0.9); err_mcbkg.push_back( 0.45); 
-  val_mcbkg.push_back( 0.9); err_mcbkg.push_back( 0.45); 
-  val_mcbkg.push_back( 0.8); err_mcbkg.push_back( 0.40); 
-  val_mcbkg.push_back( 0.4); err_mcbkg.push_back( 0.20); 
-  val_mcbkg.push_back( 0.2); err_mcbkg.push_back( 0.10); 
-  
-  // for( size_t binind = 0; binind < channel.size(); binind++ ){	
   
   fout <<  Form("imax %d  number of channels", (int)channel.size()) << endl;
   fout <<  "jmax 3  number of backgrounds"                          << endl;

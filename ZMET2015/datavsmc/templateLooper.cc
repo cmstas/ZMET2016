@@ -45,21 +45,21 @@ const bool dotemplatepredictionmc = false;
 // Used for MC, to calculate nominal values
 const bool doscalefactors       = true;
 const bool do_btagscalefactors  = true;
-const bool do2016METforFS       = true;
 
 // print cutflow values
 bool docutflow = false;
 
 // these are for deriving signal systematics
-bool doisrboost   = true;
-bool heavy_up     = false;
-bool light_up     = false;
-bool jes_up       = false;
-bool jes_dn       = false;
-bool dofastsim    = true;
-bool doleptonid   = true;
-bool doleptoniso  = true;
-bool doleptonreco = true;
+bool doisrboost     = true;
+bool heavy_up       = false;
+bool light_up       = false;
+bool jes_up         = false;
+bool jes_dn         = false;
+bool dofastsim      = true;
+bool doleptonid     = true;
+bool doleptoniso    = true;
+bool doleptonreco   = true;
+bool do2016METforFS = false;
 
 float nlosplit = 0.0;
 float nhisplit = 0.0;
@@ -147,14 +147,15 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   // do this once per job
   
   // these are for deriving signal systematics
-  if( TString(selection).Contains("noisr")       ) doisrboost  = false;
-  if( TString(selection).Contains("heavy_UP")    ) heavy_up    = true;
-  if( TString(selection).Contains("light_UP")    ) light_up    = true;
-  if( TString(selection).Contains("jes_up")      ) jes_up      = true;
-  if( TString(selection).Contains("jes_dn")      ) jes_dn      = true;
-  if( TString(selection).Contains("nofastsim")   ) dofastsim   = false;
-  if( TString(selection).Contains("noleptonid")  ) doleptonid  = false;
-  if( TString(selection).Contains("noleptoniso") ) doleptoniso = false;
+  if( TString(selection).Contains("noisr")       ) doisrboost     = false;
+  if( TString(selection).Contains("heavy_UP")    ) heavy_up       = true;
+  if( TString(selection).Contains("light_UP")    ) light_up       = true;
+  if( TString(selection).Contains("jes_up")      ) jes_up         = true;
+  if( TString(selection).Contains("jes_dn")      ) jes_dn         = true;
+  if( TString(selection).Contains("nofastsim")   ) dofastsim      = false;
+  if( TString(selection).Contains("noleptonid")  ) doleptonid     = false;
+  if( TString(selection).Contains("noleptoniso") ) doleptoniso    = false;
+  if( TString(selection).Contains("fastsimMET")  ) do2016METforFS = true;
 
   // which json do you use?
   // const char* json_file = "/home/users/olivito/mt2_74x_dev/MT2Analysis/babymaker/jsons/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 1.3 fb
@@ -475,7 +476,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 	  if( docutflow ){
 		if( TString(currentFile->GetTitle()).Contains("t5zz")   && !(zmet.mass_gluino() == 1450 && zmet.mass_LSP() == 1000) )continue;
-		if( TString(currentFile->GetTitle()).Contains("tchiwz") && !(zmet.mass_gluino() == 300 && zmet.mass_LSP() == 75    ) )continue;
+		if( TString(currentFile->GetTitle()).Contains("tchiwz") && !(zmet.mass_gluino() ==  300 && zmet.mass_LSP() == 75  ) )continue;
 		// cout<<zmet.mass_gluino()<<" | "<<zmet.mass_LSP()<<endl;
 		cutflow_events[0] = zmet.evt_nEvts()*zmet.evt_scale1fb()*12.9;
 		cutflow_errors[0] = sqrt(zmet.evt_nEvts())*zmet.evt_scale1fb()*12.9;
