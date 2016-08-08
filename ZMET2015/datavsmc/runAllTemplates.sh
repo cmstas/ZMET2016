@@ -110,7 +110,7 @@ fi
 # # ./runTemplateLooper $selection $analysis_version vvv &
 # # ./runTemplateLooper $selection $analysis_version wz_inc &
 # # ./runTemplateLooper $selection $analysis_version zz_inc &
-# ./runTemplateLooper $selection $analysis_version fullscan 
+# ./runTemplateLooper $selection $analysis_version fullscan &
 
 # selection="_SRB_withb"
 # # ./runTemplateLooper $selection $analysis_version data &
@@ -124,10 +124,15 @@ fi
 # # ./runTemplateLooper $selection $analysis_version vvv &
 # # ./runTemplateLooper $selection $analysis_version wz_inc &
 # # ./runTemplateLooper $selection $analysis_version zz_inc &
-# ./runTemplateLooper $selection $analysis_version fullscan 
+# ./runTemplateLooper $selection $analysis_version fullscan &
 
-selection="_SR_ATLAS"
-./runTemplateLooper $selection $analysis_version data &
+selection="_SRB_bveto_fastsimMET"
+./runTemplateLooper $selection $analysis_version fullscan &
+selection="_SRB_withb_fastsimMET"
+./runTemplateLooper $selection $analysis_version fullscan &
+
+# selection="_SR_ATLAS"
+# ./runTemplateLooper $selection $analysis_version data &
 # ./runTemplateLooper $selection $analysis_version zjets &
 # ./runTemplateLooper $selection $analysis_version zjetsmlm &
 # ./runTemplateLooper $selection $analysis_version ttbar &
