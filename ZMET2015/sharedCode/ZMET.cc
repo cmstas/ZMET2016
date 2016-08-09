@@ -988,10 +988,10 @@ void ZMET::Init(TTree *tree) {
 		dphi_ll_branch = tree->GetBranch("dphi_ll");
 		if (dphi_ll_branch) {dphi_ll_branch->SetAddress(&dphi_ll_);}
 	}
-	mlbmin_branch = 0;
-	if (tree->GetBranch("mlbmin") != 0) {
-		mlbmin_branch = tree->GetBranch("mlbmin");
-		if (mlbmin_branch) {mlbmin_branch->SetAddress(&mlbmin_);}
+	sum_mlb_branch = 0;
+	if (tree->GetBranch("sum_mlb") != 0) {
+		sum_mlb_branch = tree->GetBranch("sum_mlb");
+		if (sum_mlb_branch) {sum_mlb_branch->SetAddress(&sum_mlb_);}
 	}
 	deta_jj_branch = 0;
 	if (tree->GetBranch("deta_jj") != 0) {
@@ -1358,6 +1358,41 @@ void ZMET::Init(TTree *tree) {
 		isr_unc_branch = tree->GetBranch("isr_unc");
 		if (isr_unc_branch) {isr_unc_branch->SetAddress(&isr_unc_);}
 	}
+	weightsf_lepid_branch = 0;
+	if (tree->GetBranch("weightsf_lepid") != 0) {
+		weightsf_lepid_branch = tree->GetBranch("weightsf_lepid");
+		if (weightsf_lepid_branch) {weightsf_lepid_branch->SetAddress(&weightsf_lepid_);}
+	}
+	weightsf_lepiso_branch = 0;
+	if (tree->GetBranch("weightsf_lepiso") != 0) {
+		weightsf_lepiso_branch = tree->GetBranch("weightsf_lepiso");
+		if (weightsf_lepiso_branch) {weightsf_lepiso_branch->SetAddress(&weightsf_lepiso_);}
+	}
+	weightsf_lepip_branch = 0;
+	if (tree->GetBranch("weightsf_lepip") != 0) {
+		weightsf_lepip_branch = tree->GetBranch("weightsf_lepip");
+		if (weightsf_lepip_branch) {weightsf_lepip_branch->SetAddress(&weightsf_lepip_);}
+	}
+	weightsf_lepreco_branch = 0;
+	if (tree->GetBranch("weightsf_lepreco") != 0) {
+		weightsf_lepreco_branch = tree->GetBranch("weightsf_lepreco");
+		if (weightsf_lepreco_branch) {weightsf_lepreco_branch->SetAddress(&weightsf_lepreco_);}
+	}
+	weightsf_lepid_FS_branch = 0;
+	if (tree->GetBranch("weightsf_lepid_FS") != 0) {
+		weightsf_lepid_FS_branch = tree->GetBranch("weightsf_lepid_FS");
+		if (weightsf_lepid_FS_branch) {weightsf_lepid_FS_branch->SetAddress(&weightsf_lepid_FS_);}
+	}
+	weightsf_lepiso_FS_branch = 0;
+	if (tree->GetBranch("weightsf_lepiso_FS") != 0) {
+		weightsf_lepiso_FS_branch = tree->GetBranch("weightsf_lepiso_FS");
+		if (weightsf_lepiso_FS_branch) {weightsf_lepiso_FS_branch->SetAddress(&weightsf_lepiso_FS_);}
+	}
+	weightsf_lepip_FS_branch = 0;
+	if (tree->GetBranch("weightsf_lepip_FS") != 0) {
+		weightsf_lepip_FS_branch = tree->GetBranch("weightsf_lepip_FS");
+		if (weightsf_lepip_FS_branch) {weightsf_lepip_FS_branch->SetAddress(&weightsf_lepip_FS_);}
+	}
   tree->SetMakeClass(0);
 }
 void ZMET::GetEntry(unsigned int idx) 
@@ -1558,7 +1593,7 @@ void ZMET::GetEntry(unsigned int idx)
 		mbb_bpt_isLoaded = false;
 		dphi_jj_isLoaded = false;
 		dphi_ll_isLoaded = false;
-		mlbmin_isLoaded = false;
+		sum_mlb_isLoaded = false;
 		deta_jj_isLoaded = false;
 		dR_jj_isLoaded = false;
 		dphi_metj1_isLoaded = false;
@@ -1635,6 +1670,13 @@ void ZMET::GetEntry(unsigned int idx)
 		isr_njets_isLoaded = false;
 		isr_weight_isLoaded = false;
 		isr_unc_isLoaded = false;
+		weightsf_lepid_isLoaded = false;
+		weightsf_lepiso_isLoaded = false;
+		weightsf_lepip_isLoaded = false;
+		weightsf_lepreco_isLoaded = false;
+		weightsf_lepid_FS_isLoaded = false;
+		weightsf_lepiso_FS_isLoaded = false;
+		weightsf_lepip_FS_isLoaded = false;
 	}
 
 void ZMET::LoadAllBranches() 
@@ -1834,7 +1876,7 @@ void ZMET::LoadAllBranches()
 	if (mbb_bpt_branch != 0) mbb_bpt();
 	if (dphi_jj_branch != 0) dphi_jj();
 	if (dphi_ll_branch != 0) dphi_ll();
-	if (mlbmin_branch != 0) mlbmin();
+	if (sum_mlb_branch != 0) sum_mlb();
 	if (deta_jj_branch != 0) deta_jj();
 	if (dR_jj_branch != 0) dR_jj();
 	if (dphi_metj1_branch != 0) dphi_metj1();
@@ -1911,6 +1953,13 @@ void ZMET::LoadAllBranches()
 	if (isr_njets_branch != 0) isr_njets();
 	if (isr_weight_branch != 0) isr_weight();
 	if (isr_unc_branch != 0) isr_unc();
+	if (weightsf_lepid_branch != 0) weightsf_lepid();
+	if (weightsf_lepiso_branch != 0) weightsf_lepiso();
+	if (weightsf_lepip_branch != 0) weightsf_lepip();
+	if (weightsf_lepreco_branch != 0) weightsf_lepreco();
+	if (weightsf_lepid_FS_branch != 0) weightsf_lepid_FS();
+	if (weightsf_lepiso_FS_branch != 0) weightsf_lepiso_FS();
+	if (weightsf_lepip_FS_branch != 0) weightsf_lepip_FS();
 }
 
 	const int &ZMET::run()
@@ -4435,18 +4484,18 @@ void ZMET::LoadAllBranches()
 		}
 		return dphi_ll_;
 	}
-	const float &ZMET::mlbmin()
+	const float &ZMET::sum_mlb()
 	{
-		if (not mlbmin_isLoaded) {
-			if (mlbmin_branch != 0) {
-				mlbmin_branch->GetEntry(index);
+		if (not sum_mlb_isLoaded) {
+			if (sum_mlb_branch != 0) {
+				sum_mlb_branch->GetEntry(index);
 			} else { 
-				printf("branch mlbmin_branch does not exist!\n");
+				printf("branch sum_mlb_branch does not exist!\n");
 				exit(1);
 			}
-			mlbmin_isLoaded = true;
+			sum_mlb_isLoaded = true;
 		}
-		return mlbmin_;
+		return sum_mlb_;
 	}
 	const float &ZMET::deta_jj()
 	{
@@ -5436,6 +5485,97 @@ void ZMET::LoadAllBranches()
 		}
 		return isr_unc_;
 	}
+	const vector<float> &ZMET::weightsf_lepid()
+	{
+		if (not weightsf_lepid_isLoaded) {
+			if (weightsf_lepid_branch != 0) {
+				weightsf_lepid_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepid_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepid_isLoaded = true;
+		}
+		return *weightsf_lepid_;
+	}
+	const vector<float> &ZMET::weightsf_lepiso()
+	{
+		if (not weightsf_lepiso_isLoaded) {
+			if (weightsf_lepiso_branch != 0) {
+				weightsf_lepiso_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepiso_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepiso_isLoaded = true;
+		}
+		return *weightsf_lepiso_;
+	}
+	const vector<float> &ZMET::weightsf_lepip()
+	{
+		if (not weightsf_lepip_isLoaded) {
+			if (weightsf_lepip_branch != 0) {
+				weightsf_lepip_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepip_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepip_isLoaded = true;
+		}
+		return *weightsf_lepip_;
+	}
+	const vector<float> &ZMET::weightsf_lepreco()
+	{
+		if (not weightsf_lepreco_isLoaded) {
+			if (weightsf_lepreco_branch != 0) {
+				weightsf_lepreco_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepreco_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepreco_isLoaded = true;
+		}
+		return *weightsf_lepreco_;
+	}
+	const vector<float> &ZMET::weightsf_lepid_FS()
+	{
+		if (not weightsf_lepid_FS_isLoaded) {
+			if (weightsf_lepid_FS_branch != 0) {
+				weightsf_lepid_FS_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepid_FS_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepid_FS_isLoaded = true;
+		}
+		return *weightsf_lepid_FS_;
+	}
+	const vector<float> &ZMET::weightsf_lepiso_FS()
+	{
+		if (not weightsf_lepiso_FS_isLoaded) {
+			if (weightsf_lepiso_FS_branch != 0) {
+				weightsf_lepiso_FS_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepiso_FS_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepiso_FS_isLoaded = true;
+		}
+		return *weightsf_lepiso_FS_;
+	}
+	const vector<float> &ZMET::weightsf_lepip_FS()
+	{
+		if (not weightsf_lepip_FS_isLoaded) {
+			if (weightsf_lepip_FS_branch != 0) {
+				weightsf_lepip_FS_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepip_FS_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepip_FS_isLoaded = true;
+		}
+		return *weightsf_lepip_FS_;
+	}
 
   void ZMET::progress( int nEventsTotal, int nEventsChain ){
     int period = 1000;
@@ -5652,7 +5792,7 @@ namespace ZMet {
 	const float &mbb_bpt() { return zmet.mbb_bpt(); }
 	const float &dphi_jj() { return zmet.dphi_jj(); }
 	const float &dphi_ll() { return zmet.dphi_ll(); }
-	const float &mlbmin() { return zmet.mlbmin(); }
+	const float &sum_mlb() { return zmet.sum_mlb(); }
 	const float &deta_jj() { return zmet.deta_jj(); }
 	const float &dR_jj() { return zmet.dR_jj(); }
 	const float &dphi_metj1() { return zmet.dphi_metj1(); }
@@ -5729,4 +5869,11 @@ namespace ZMet {
 	const int &isr_njets() { return zmet.isr_njets(); }
 	const float &isr_weight() { return zmet.isr_weight(); }
 	const float &isr_unc() { return zmet.isr_unc(); }
+	const vector<float> &weightsf_lepid() { return zmet.weightsf_lepid(); }
+	const vector<float> &weightsf_lepiso() { return zmet.weightsf_lepiso(); }
+	const vector<float> &weightsf_lepip() { return zmet.weightsf_lepip(); }
+	const vector<float> &weightsf_lepreco() { return zmet.weightsf_lepreco(); }
+	const vector<float> &weightsf_lepid_FS() { return zmet.weightsf_lepid_FS(); }
+	const vector<float> &weightsf_lepiso_FS() { return zmet.weightsf_lepiso_FS(); }
+	const vector<float> &weightsf_lepip_FS() { return zmet.weightsf_lepip_FS(); }
 }

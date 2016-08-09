@@ -603,9 +603,9 @@ protected:
 	float	dphi_ll_;
 	TBranch *dphi_ll_branch;
 	bool dphi_ll_isLoaded;
-	float	mlbmin_;
-	TBranch *mlbmin_branch;
-	bool mlbmin_isLoaded;
+	float	sum_mlb_;
+	TBranch *sum_mlb_branch;
+	bool sum_mlb_isLoaded;
 	float	deta_jj_;
 	TBranch *deta_jj_branch;
 	bool deta_jj_isLoaded;
@@ -834,6 +834,27 @@ protected:
 	float	isr_unc_;
 	TBranch *isr_unc_branch;
 	bool isr_unc_isLoaded;
+	vector<float> *weightsf_lepid_;
+	TBranch *weightsf_lepid_branch;
+	bool weightsf_lepid_isLoaded;
+	vector<float> *weightsf_lepiso_;
+	TBranch *weightsf_lepiso_branch;
+	bool weightsf_lepiso_isLoaded;
+	vector<float> *weightsf_lepip_;
+	TBranch *weightsf_lepip_branch;
+	bool weightsf_lepip_isLoaded;
+	vector<float> *weightsf_lepreco_;
+	TBranch *weightsf_lepreco_branch;
+	bool weightsf_lepreco_isLoaded;
+	vector<float> *weightsf_lepid_FS_;
+	TBranch *weightsf_lepid_FS_branch;
+	bool weightsf_lepid_FS_isLoaded;
+	vector<float> *weightsf_lepiso_FS_;
+	TBranch *weightsf_lepiso_FS_branch;
+	bool weightsf_lepiso_FS_isLoaded;
+	vector<float> *weightsf_lepip_FS_;
+	TBranch *weightsf_lepip_FS_branch;
+	bool weightsf_lepip_FS_isLoaded;
 public: 
 void Init(TTree *tree);
 void GetEntry(unsigned int idx); 
@@ -1032,7 +1053,7 @@ void LoadAllBranches();
 	const float &mbb_bpt();
 	const float &dphi_jj();
 	const float &dphi_ll();
-	const float &mlbmin();
+	const float &sum_mlb();
 	const float &deta_jj();
 	const float &dR_jj();
 	const float &dphi_metj1();
@@ -1109,6 +1130,13 @@ void LoadAllBranches();
 	const int &isr_njets();
 	const float &isr_weight();
 	const float &isr_unc();
+	const vector<float> &weightsf_lepid();
+	const vector<float> &weightsf_lepiso();
+	const vector<float> &weightsf_lepip();
+	const vector<float> &weightsf_lepreco();
+	const vector<float> &weightsf_lepid_FS();
+	const vector<float> &weightsf_lepiso_FS();
+	const vector<float> &weightsf_lepip_FS();
 
   static void progress( int nEventsTotal, int nEventsChain );
 };
@@ -1312,7 +1340,7 @@ namespace ZMet {
 	const float &mbb_bpt();
 	const float &dphi_jj();
 	const float &dphi_ll();
-	const float &mlbmin();
+	const float &sum_mlb();
 	const float &deta_jj();
 	const float &dR_jj();
 	const float &dphi_metj1();
@@ -1389,5 +1417,12 @@ namespace ZMet {
 	const int &isr_njets();
 	const float &isr_weight();
 	const float &isr_unc();
+	const vector<float> &weightsf_lepid();
+	const vector<float> &weightsf_lepiso();
+	const vector<float> &weightsf_lepip();
+	const vector<float> &weightsf_lepreco();
+	const vector<float> &weightsf_lepid_FS();
+	const vector<float> &weightsf_lepiso_FS();
+	const vector<float> &weightsf_lepip_FS();
 }
 #endif

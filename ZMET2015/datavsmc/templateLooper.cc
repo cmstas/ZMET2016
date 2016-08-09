@@ -268,7 +268,7 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	h_muoweights_FS_iso->SetDirectory(rootdir);
 	f_sfweights->Close();
 
-	// SFs muons for FS to Fullsim, iso
+	// SFs muons for FS to Fullsim, ip
 	f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_tightIP2D.root","READ");
 	h_muoweights_FS_ip = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights_FS_ip");
 	h_muoweights_FS_ip->SetDirectory(rootdir);

@@ -44,9 +44,24 @@ class babyMaker {
   TFile *BabyFile_;
   TTree *BabyTree_;
 
+  TH2D * h_eleweights     ; // FS to Fullsim
+  TH2D * h_eleweights_id  ;
+  TH2D * h_eleweightsiso  ;
+  TH2D * h_eleweights_reco;
+
+  TH2D * h_muoweights       ; // FS to Fullsim; ID
+  TH2D * h_muoweights_FS_iso; // FS to Fullsim; ISO
+  TH2D * h_muoweights_FS_ip ; // FS to Fullsim; IP
+
+  TH2D * h_muoweights_id;
+  TH2D * h_muoweights_ip;
+  TH2D * h_muoweightsiso;
+  TH1F * h_muoweights_HIP_hist;
+
   float getBtagEffFromFile(float pt, float eta, int mcFlavour, bool isFastsim);
-  float sum_mlb();
-  
+  float get_sum_mlb();
+  void load_leptonSF_files();
+
   // for btag SFs
   BTagCalibration* calib;
   BTagCalibrationReader* reader_heavy;
@@ -319,7 +334,7 @@ class babyMaker {
   Float_t         mbb_csv;
   Float_t         mbb_bpt;
   Float_t         dphi_jj;
-  Float_t         mlbmin;
+  Float_t         sum_mlb;
   Float_t         dphi_ll;
   Float_t         deta_jj;
   Float_t         dR_jj;
@@ -409,6 +424,19 @@ class babyMaker {
   Int_t   isr_njets ;
   Float_t isr_weight;
   Float_t isr_unc   ;
+
+  // all electron weights in lepid; muon weights split in three weights
+  std::vector <Float_t> weightsf_lepid;
+  std::vector <Float_t> weightsf_lepiso;
+  std::vector <Float_t> weightsf_lepip;
+
+  // electron reco efficiency; muon loss due to HIP
+  std::vector <Float_t> weightsf_lepreco;
+
+  // all electron weights in lepid; muon weights split in three weights  
+  std::vector <Float_t> weightsf_lepid_FS;
+  std::vector <Float_t> weightsf_lepiso_FS;
+  std::vector <Float_t> weightsf_lepip_FS;
   
 };
 

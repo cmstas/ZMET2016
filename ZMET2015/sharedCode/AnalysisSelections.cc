@@ -13,7 +13,6 @@
 #include "AnalysisSelections.h"
 #include "histTools.h"
 #include "ZMET.h"
-// #include "SimPa.h"
 
 #include "../../CORE/SimPa.h"
 #include "../../CORE/Tools/MT2/MT2.h"
@@ -30,7 +29,7 @@ bool passBaselineSelections()
 bool passMETFilters()
 {
 
-  if( zmet.isData()                   ){
+  if( zmet.isData() ){
 	if( zmet.mass_gluino() < 0 ){
 	  if (!zmet.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) return false; // MC
 	  if (!zmet.Flag_badChargedCandidateFilter         ()      ) return false; // MC
@@ -39,130 +38,14 @@ bool passMETFilters()
 	  if (!zmet.Flag_goodVertices                      ()      ) return false;
 	  if (!zmet.Flag_eeBadScFilter                     ()      ) return false;
 	  if (!zmet.Flag_globalTightHalo2016               ()      ) return false;
-	  // if (zmet.Flag_EcalDeadCellTriggerPrimitiveFilter() != -999 && !zmet.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) return false; // MC
-	  // if (zmet.Flag_badChargedCandidateFilter         () != -999 && !zmet.Flag_badChargedCandidateFilter         ()      ) return false; // MC
-
-	  if( zmet.isData()                   ){
-		if (zmet.nVert                                   () == 0 ) return false;
-		// if (!zmet.Flag_CSCTightHalo2015Filter            ()      ) return false;
-		if (!zmet.Flag_badMuonFilter                     ()      ) return false; // MC
-
+	  if( zmet.isData() ){
+		if (zmet.nVert                                 () == 0 ) return false;
+		if (!zmet.Flag_badMuonFilter                   ()      ) return false;
 	  }
 	}
 	else{
 	  if( zmet.met_T1CHS_miniAOD_CORE_pt() > 100 && (zmet.met_pt() / zmet.met_calo_pt()) > 5 ) return false;
 	}
-  }
-  
-  return true;
-}
-
-bool isLoosePhoton( int photonIdx )
-{
-  
-  float eta = -999;  
-  try{
-	eta = zmet.gamma_p4().at(photonIdx).eta();
-  }
-  catch( exception &e ){
-	std::cout<<"Error! no photon with photonIdx: "<<photonIdx<<std::endl;
-	return false;
-  }
-
-  float chiso = photonCHIso03EA(photonIdx);
-  float nhiso = photonNHIso03EA(photonIdx);
-  float emiso = photonEMIso03EA(photonIdx);
-
-  float sieie  = zmet.gamma_sigmaIetaIeta().at(photonIdx);
-  float hovere = zmet.gamma_hOverE()       .at(photonIdx);
-  float pt     = zmet.gamma_p4()           .at(photonIdx).pt();
-  
-  if(       abs(eta) < 1.479 ){
-	if( hovere > 0.05                         ) return false;
-	if( sieie  > 0.0102                       ) return false;
-	if( chiso  > 3.32                         ) return false;
-	if( nhiso  > 1.92 + 0.014  * pt + 0.000019 * pow(pt, 2) ) return false;
-	if( emiso  > 0.81 + 0.0053 * pt                         ) return false;
-  }else if( abs(eta) > 1.479 ){
-	if( hovere > 0.05                         ) return false;
-	if( sieie  > 0.0274                       ) return false;
-	if( chiso  > 1.97                         ) return false;
-	if( nhiso  > 11.86 + 0.0139 * pt + 0.000025 * pow(pt, 2) ) return false;
-	if( emiso  >  0.83 + 0.0034 * pt                         ) return false;
-  }
-  
-  return true;
-}
-
-bool isMediumPhoton( int photonIdx )
-{
-  
-  float eta = -999;  
-  try{
-	eta = zmet.gamma_p4().at(photonIdx).eta();
-  }
-  catch( exception &e ){
-	std::cout<<"Error! no photon with photonIdx: "<<photonIdx<<std::endl;
-	return false;
-  }
-
-  float chiso = photonCHIso03EA(photonIdx);
-  float nhiso = photonNHIso03EA(photonIdx);
-  float emiso = photonEMIso03EA(photonIdx);
-
-  float sieie  = zmet.gamma_sigmaIetaIeta().at(photonIdx);
-  float hovere = zmet.gamma_hOverE()       .at(photonIdx);
-  float pt     = zmet.gamma_p4()           .at(photonIdx).pt();
-  
-  if(       abs(eta) < 1.479 ){
-	if( hovere > 0.05                         ) return false;
-	if( sieie  > 0.0102                       ) return false;
-	if( chiso  > 1.37                         ) return false;
-	if( nhiso  > 1.06 + 0.014  * pt + 0.000019 * pow(pt, 2) ) return false;
-	if( emiso  > 0.28 + 0.0053 * pt                         ) return false;
-  }else if( abs(eta) > 1.479 ){
-	if( hovere > 0.05                         ) return false;
-	if( sieie  > 0.0268                       ) return false;
-	if( chiso  > 1.10                         ) return false;
-	if( nhiso  > 2.69 + 0.0139 * pt + 0.000025 * pow(pt, 2) ) return false;
-	if( emiso  > 0.39 + 0.0034 * pt                         ) return false;
-  }
-  
-  return true;
-}
-
-bool isTightPhoton( int photonIdx )
-{
-  
-  float eta = -999;  
-  try{
-	eta = zmet.gamma_p4().at(photonIdx).eta();
-  }
-  catch( exception &e ){
-	std::cout<<"Error! no photon with photonIdx: "<<photonIdx<<std::endl;
-	return false;
-  }
-
-  float chiso = photonCHIso03EA(photonIdx);
-  float nhiso = photonNHIso03EA(photonIdx);
-  float emiso = photonEMIso03EA(photonIdx);
-
-  float sieie  = zmet.gamma_sigmaIetaIeta().at(photonIdx);
-  float hovere = zmet.gamma_hOverE()       .at(photonIdx);
-  float pt     = zmet.gamma_p4()           .at(photonIdx).pt();
-  
-  if(       abs(eta) < 1.479 ){
-	if( hovere > 0.05                         ) return false;
-	if( sieie  > 0.010                        ) return false;
-	if( chiso  > 0.76                         ) return false;
-	if( nhiso  > 0.97 + 0.014  * pt + 0.000019 * pow(pt, 2) ) return false;
-	if( emiso  > 0.08 + 0.0053 * pt                         ) return false;
-  }else if( abs(eta) > 1.479 ){
-	if( hovere > 0.05                         ) return false;
-	if( sieie  > 0.0268                       ) return false;
-	if( chiso  > 0.76                         ) return false;
-	if( nhiso  > 2.09 + 0.0139 * pt + 0.000025 * pow(pt, 2) ) return false;
-	if( emiso  > 0.08 + 0.0034 * pt                         ) return false;
   }
   
   return true;
@@ -187,41 +70,17 @@ bool passSignalRegionSelection( string selection )
   float event_njets = zmet.njets();
 
   if( jes_up ){
-	event_ht    = zmet.ht_up();
-	event_njets = zmet.njets_up();
+	event_ht     = zmet.ht_up();
+	event_njets  = zmet.njets_up();
+	event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
+	event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
 
   }else if( jes_dn ){
-	event_ht    = zmet.ht_dn();
-	event_njets = zmet.njets_dn();
+	event_ht     = zmet.ht_dn();
+	event_njets  = zmet.njets_dn();
+	event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
+	event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
 
-  }
-
-  if( zmet.met_T1CHS_miniAOD_CORE_pt() < 6500 ){
-	if( jes_up ){
-	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
-	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
-
-	}else if( jes_dn ){
-	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
-	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
-
-	}else{
-	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
-	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
-	}
-  }else{
-	if( jes_up ){
-	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_up_pt();
-	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_up_phi();
-
-	}else if( jes_dn ){
-	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_dn_pt();
-	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_dn_phi();
-
-	}else{
-	  event_met_pt = zmet.met_T1CHS_miniAOD_CORE_pt();
-	  event_met_ph = zmet.met_T1CHS_miniAOD_CORE_phi();
-	}
   }
 
   if( TString(selection).Contains("fastsimMET") ){
@@ -252,24 +111,6 @@ bool passSignalRegionSelection( string selection )
   	// cout<<MT2( event_met_pt, event_met_ph, lep1_p4, lep2_p4, 0.0, false )<<endl;
   }
 
-  int jetind_lowdRgamma = -99;
-  float mindR = 5.0;
-  if( zmet.evt_type() == 2 && zmet.jets_p4().size() > 1 ){
-	for( size_t jetind = 0; jetind < zmet.jets_p4().size(); jetind++ ){
-	  if( sqrt(pow(zmet.jets_p4().at(jetind).eta()-zmet.gamma_p4().at(0).eta(), 2) +
-			   pow(acos(cos(zmet.jets_p4().at(jetind).phi()-zmet.gamma_p4().at(0).phi())), 2))  < mindR ){
-		jetind_lowdRgamma = jetind;
-		mindR = sqrt(pow(zmet.jets_p4().at(jetind).eta()-zmet.gamma_p4().at(0).eta(), 2) +
-					 pow(acos(cos(zmet.jets_p4().at(jetind).phi()-zmet.gamma_p4().at(0).phi())), 2));
-	  }
-	  
-	}
-	if( jetind_lowdRgamma < 0 ){
-	  jetind_lowdRgamma = 0;
-	}
-	jetind_lowdRgamma = 0;
-  }  
-  
   try
 	{
 
@@ -323,7 +164,6 @@ bool passSignalRegionSelection( string selection )
 		  !( (
 			  ( zmet.evt_type() == 0 && ( (zmet.nveto_leptons() < 1 && zmet.nlep() == 2 ) && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) > 80         ) ) || // dilep cuts
 			  // ( zmet.evt_type() == 0 && ( zmet.nlep() == 2 && MT2( event_met_pt, event_met_ph, lepsFromDecayedZ.first, lepsFromDecayedZ.second, 0.0, false ) > 80         ) ) || // dilep cuts
-			  // ( zmet.evt_type() == 2 && ( MT2( event_met_pt, event_met_ph, zmet.gamma_p4().at(0), zmet.jets_p4().at(jetind_lowdRgamma), 0.0, false ) > 80 && zmet.njets() > 2) ) ) && // photon+jets cuts
 			  ( zmet.evt_type() == 2 &&
 				( (   abs(zmet.decayedphoton_lep1_p4().eta()) < 2.4 && abs(zmet.decayedphoton_lep2_p4().eta()) < 2.4 ) &&
 				  ( ( abs(zmet.decayedphoton_lep1_p4().eta()) < 1.4 || abs(zmet.decayedphoton_lep1_p4().eta()) > 1.6 ) &&
@@ -589,11 +429,9 @@ int getPrescaleNoBins_nol1ps()
 		 zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 || 
 		 zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 ||
 		 zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
-		 /*		 zmet.HLT_CaloJet500_NoJetID()         > 0 ||*/
 		 zmet.HLT_Photon165_HE10() > 0
 		 ) ) return 0;
-  if(     (/*zmet.HLT_CaloJet500_NoJetID()         > 0 ||*/
-		   zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
+  if(     (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
   		   zmet.HLT_Photon165_HE10() > 0)            &&                               zmet.gamma_pt().at(0) > 180 ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
   else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 &&                               zmet.gamma_pt().at(0) > 135 ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
   else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 105 ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
@@ -604,17 +442,6 @@ int getPrescaleNoBins_nol1ps()
   else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 40 && zmet.gamma_pt().at(0) > 33 ) return 269;
   else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return 1667;
 
-  // if(     (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
-  // 		   zmet.HLT_Photon165_HE10() > 0)             ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
-  // else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0  ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
-  // else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0  ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
-  // else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0  ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
-  // else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 55 ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
-  // if(      zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 55                               ) return zmet.HLT_Photon36_R9Id90_HE10_IsoM();
-  // else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 33 ) return zmet.HLT_Photon30_R9Id90_HE10_IsoM();
-  // if(      zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return zmet.HLT_Photon22_R9Id90_HE10_IsoM();
-
-  // else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ) return 0;
   return -1; // should not get here
 }
 
@@ -708,4 +535,115 @@ float photonEMIso03EA( int photonIdx )
   float ea    = photon_EMEA03(photonIdx);
   float EMIso = std::max(float(0.0), emiso - zmet.rho() * ea);
   return EMIso;
+}
+
+bool isLoosePhoton( int photonIdx )
+{
+  
+  float eta = -999;  
+  try{
+	eta = zmet.gamma_p4().at(photonIdx).eta();
+  }
+  catch( exception &e ){
+	std::cout<<"Error! no photon with photonIdx: "<<photonIdx<<std::endl;
+	return false;
+  }
+
+  float chiso = photonCHIso03EA(photonIdx);
+  float nhiso = photonNHIso03EA(photonIdx);
+  float emiso = photonEMIso03EA(photonIdx);
+
+  float sieie  = zmet.gamma_sigmaIetaIeta().at(photonIdx);
+  float hovere = zmet.gamma_hOverE()       .at(photonIdx);
+  float pt     = zmet.gamma_p4()           .at(photonIdx).pt();
+  
+  if(       abs(eta) < 1.479 ){
+	if( hovere > 0.05                         ) return false;
+	if( sieie  > 0.0102                       ) return false;
+	if( chiso  > 3.32                         ) return false;
+	if( nhiso  > 1.92 + 0.014  * pt + 0.000019 * pow(pt, 2) ) return false;
+	if( emiso  > 0.81 + 0.0053 * pt                         ) return false;
+  }else if( abs(eta) > 1.479 ){
+	if( hovere > 0.05                         ) return false;
+	if( sieie  > 0.0274                       ) return false;
+	if( chiso  > 1.97                         ) return false;
+	if( nhiso  > 11.86 + 0.0139 * pt + 0.000025 * pow(pt, 2) ) return false;
+	if( emiso  >  0.83 + 0.0034 * pt                         ) return false;
+  }
+  
+  return true;
+}
+
+bool isMediumPhoton( int photonIdx )
+{
+  
+  float eta = -999;  
+  try{
+	eta = zmet.gamma_p4().at(photonIdx).eta();
+  }
+  catch( exception &e ){
+	std::cout<<"Error! no photon with photonIdx: "<<photonIdx<<std::endl;
+	return false;
+  }
+
+  float chiso = photonCHIso03EA(photonIdx);
+  float nhiso = photonNHIso03EA(photonIdx);
+  float emiso = photonEMIso03EA(photonIdx);
+
+  float sieie  = zmet.gamma_sigmaIetaIeta().at(photonIdx);
+  float hovere = zmet.gamma_hOverE()       .at(photonIdx);
+  float pt     = zmet.gamma_p4()           .at(photonIdx).pt();
+  
+  if(       abs(eta) < 1.479 ){
+	if( hovere > 0.05                         ) return false;
+	if( sieie  > 0.0102                       ) return false;
+	if( chiso  > 1.37                         ) return false;
+	if( nhiso  > 1.06 + 0.014  * pt + 0.000019 * pow(pt, 2) ) return false;
+	if( emiso  > 0.28 + 0.0053 * pt                         ) return false;
+  }else if( abs(eta) > 1.479 ){
+	if( hovere > 0.05                         ) return false;
+	if( sieie  > 0.0268                       ) return false;
+	if( chiso  > 1.10                         ) return false;
+	if( nhiso  > 2.69 + 0.0139 * pt + 0.000025 * pow(pt, 2) ) return false;
+	if( emiso  > 0.39 + 0.0034 * pt                         ) return false;
+  }
+  
+  return true;
+}
+
+bool isTightPhoton( int photonIdx )
+{
+  
+  float eta = -999;  
+  try{
+	eta = zmet.gamma_p4().at(photonIdx).eta();
+  }
+  catch( exception &e ){
+	std::cout<<"Error! no photon with photonIdx: "<<photonIdx<<std::endl;
+	return false;
+  }
+
+  float chiso = photonCHIso03EA(photonIdx);
+  float nhiso = photonNHIso03EA(photonIdx);
+  float emiso = photonEMIso03EA(photonIdx);
+
+  float sieie  = zmet.gamma_sigmaIetaIeta().at(photonIdx);
+  float hovere = zmet.gamma_hOverE()       .at(photonIdx);
+  float pt     = zmet.gamma_p4()           .at(photonIdx).pt();
+  
+  if(       abs(eta) < 1.479 ){
+	if( hovere > 0.05                         ) return false;
+	if( sieie  > 0.010                        ) return false;
+	if( chiso  > 0.76                         ) return false;
+	if( nhiso  > 0.97 + 0.014  * pt + 0.000019 * pow(pt, 2) ) return false;
+	if( emiso  > 0.08 + 0.0053 * pt                         ) return false;
+  }else if( abs(eta) > 1.479 ){
+	if( hovere > 0.05                         ) return false;
+	if( sieie  > 0.0268                       ) return false;
+	if( chiso  > 0.76                         ) return false;
+	if( nhiso  > 2.09 + 0.0139 * pt + 0.000025 * pow(pt, 2) ) return false;
+	if( emiso  > 0.08 + 0.0034 * pt                         ) return false;
+  }
+  
+  return true;
 }

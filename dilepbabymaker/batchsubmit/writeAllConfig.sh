@@ -10,7 +10,7 @@ make -j8
 cd -
 
 # copy compiled files
-cp -r ../*.so ../pileup_jul21_nominalUpDown.root ../btagsf ../TChiWZ_entries_V08-00-05_FS.root ../xsec_susy_13tev.root ../T5ZZ_entries.root ../jetCorrections ../processBaby ../MVAinput ../../json/*.txt job_input/ 
+cp -r ../*.so ../pileup_jul21_nominalUpDown.root ../btagsf ../leptonSFs ../TChiWZ_entries_V08-00-05_FS.root ../xsec_susy_13tev.root ../T5ZZ_entries.root ../jetCorrections ../processBaby ../MVAinput ../../json/*.txt job_input/ 
 
 source ../../ZMET2015/settings.sh 
 

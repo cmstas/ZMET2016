@@ -90,10 +90,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
   cout<<"Creating MVA input for electrons."<<endl;
   createAndInitMVA("MVAinput", true); // for electrons
-  // createAndInitMVA("MVAinput"); // for electrons
 
   MakeBabyNtuple( Form("%s.root", baby_name.c_str()) );
 
+  load_leptonSF_files();
+	
   // do this once per job
   const char* json_file = "golden_json_200716_12p9fb_snt.txt"; // 6p26 fb
   cout<<"Setting grl: "<<json_file<<endl;
@@ -244,6 +245,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  }
 		
 	  else if( TString(currentFile->GetTitle()).Contains("Run2016") || TString(currentFile->GetTitle()).Contains("CMSSW_8_0_11_V08-00-06") ){
+		// files for 80X Data
 		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV1_DATA_L2Relative_AK4PFchs.txt"  );
@@ -252,8 +254,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
 	  }
 
-	  else if( isSMSScan ){
-		// files for 25ns Data
+	  if( isSMSScan ){
+		// files for 25ns fastsim samples
 		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L2Relative_AK4PFchs.txt"  );
@@ -307,8 +309,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		}
 
 		isrboost = (isrSystem_p4).pt();
-
-		// cout<<"isrboost: "<<isrboost<<endl;
 		
 	  }
 	  else{
@@ -322,9 +322,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  	nTrueInt     = cms3.puInfo_trueNumInteractions().at(0);
 		puWeight     = h_vtxweight->GetBinContent(h_vtxweight->FindBin(nTrueInt));
 	  }
-
-	  
-      rho          = cms3.evt_fixgridfastjet_all_rho(); //this one is used in JECs
+	  rho            = cms3.evt_fixgridfastjet_all_rho(); //this one is used in JECs
 
       if (verbose) cout << "before vertices" << endl;
 
@@ -336,22 +334,18 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
         if(     cms3.vtxs_ndof()     .at(ivtx)       <= 4  ) continue;
         if(fabs(cms3.vtxs_position() .at(ivtx).z())  >  24 ) continue;
         if(     cms3.vtxs_position() .at(ivtx).Rho() >  2  ) continue;
-
-        nVert++;
-  
+        nVert++;  
       }
       
-      met_pt     = cms3.evt_pfmet();
-      met_phi    = cms3.evt_pfmetPhi();
-
+      met_pt       = cms3.evt_pfmet();
+      met_phi      = cms3.evt_pfmetPhi();
       met_calo_pt  = cms3.evt_calomet();
-      met_calo_phi = cms3.evt_calometPhi();
-	  
-	  met_genPt  = cms3.gen_met();
-      met_genPhi = cms3.gen_metPhi();
-      met_rawPt  = cms3.evt_pfmet_raw();
-      met_rawPhi = cms3.evt_pfmetPhi_raw();
-      sumet_raw  = cms3.evt_pfsumet_raw();
+      met_calo_phi = cms3.evt_calometPhi();	  
+	  met_genPt    = cms3.gen_met();
+      met_genPhi   = cms3.gen_metPhi();
+      met_rawPt    = cms3.evt_pfmet_raw();
+      met_rawPhi   = cms3.evt_pfmetPhi_raw();
+      sumet_raw    = cms3.evt_pfsumet_raw();
 
       // MET FILTERS
 	  if( isData ){
@@ -359,12 +353,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		Flag_hcalLaserEventFilter               = cms3.filt_hcalLaser();
 		Flag_trackingFailureFilter              = cms3.filt_trackingFailure();
 		Flag_CSCTightHaloFilter                 = cms3.filt_cscBeamHalo();
-
 		// recommended from twiki
 		Flag_badMuonFilter                      = badMuonFilter();
-
 	  }
 
+	  // in data and MC
 	  if( !isSMSScan ){
 		Flag_HBHENoiseFilter                    = cms3.filt_hbheNoise();
 		Flag_HBHEIsoNoiseFilter                 = cms3.filt_hbheNoiseIso();
@@ -405,10 +398,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		HLT_Mu17_EG12     = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
 		HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
 		HLT_Mu23_EG8      = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  );
-							 
-							 
 
-		
 		// Double electron
 		HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                        ) ||
 								 passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                       ) );
@@ -612,8 +602,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		}
  	  	if( !passElectronSelection_ZMET( iEl ) ) continue;
 		
-		// cout<<<<endl;
-		
         nElectrons10++;
 
 		if( cms3.els_p4().at(iEl).pt() > 10.0 ){
@@ -636,10 +624,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  vec_lep_ptErr        .push_back( -1                              );
 
 		  if (!isData && (cms3.els_mc3dr().at(iEl) < 0.2 && cms3.els_mc3idx().at(iEl) != -9999 && abs(cms3.els_mc3_id().at(iEl)) == 11 )) { // matched to a prunedGenParticle electron?
-			  int momid =  abs(genPart_motherId[cms3.els_mc3idx().at(iEl)]);
-			  vec_lep_mcMatchId.push_back ( momid != 11 ? momid : genPart_grandmaId[cms3.els_mc3idx().at(iEl)]); // if mother is different store mother, otherwise store grandmother
-			}
-			else{ vec_lep_mcMatchId.push_back (0);}
+			int momid =  abs(genPart_motherId[cms3.els_mc3idx().at(iEl)]);
+			vec_lep_mcMatchId.push_back ( momid != 11 ? momid : genPart_grandmaId[cms3.els_mc3idx().at(iEl)]); // if mother is different store mother, otherwise store grandmother
+		  }
+		  else{
+			vec_lep_mcMatchId.push_back (0);
+		  }
 		  
 		  vec_lep_lostHits.push_back ( cms3.els_exp_innerlayers().at(iEl)); //cms2.els_lost_pixelhits().at(iEl);
 		  vec_lep_convVeto.push_back ( !cms3.els_conv_vtx_flag().at(iEl));
@@ -650,11 +640,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		if( cms3.els_p4().at(iEl).pt() > 20.0 ){
 		  p4sLeptonsForJetCleaning.push_back(cms3.els_p4().at(iEl));
-		}
-		
+		}		
       }
-
-	  // if( nlep > 1 ) cout<<"2 electrons pass this event"<<endl<<endl;
 	  
 	  if (verbose) cout << "before muons" << endl;
 
@@ -697,9 +684,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  }
 		  else vec_lep_mcMatchId.push_back (0);
 
-		  vec_lep_lostHits.push_back ( cms3.mus_exp_innerlayers().at(iMu)); // use defaults as if "good electron"
-		  vec_lep_convVeto.push_back ( 1);// use defaults as if "good electron"
-		  vec_lep_tightCharge.push_back ( tightChargeMuon(iMu));
+		  vec_lep_lostHits   .push_back ( cms3.mus_exp_innerlayers().at(iMu)); // use defaults as if "good electron"
+		  vec_lep_convVeto   .push_back ( 1                                 );// use defaults as if "good electron"
+		  vec_lep_tightCharge.push_back ( tightChargeMuon(iMu)              );
 
 		  nlep++;
 
@@ -938,7 +925,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		jet_corrfactor.push_back(corr);
 		jet_corrfactor_up.push_back(1.0 + shift);
 		jet_corrfactor_dn.push_back(1.0 - shift);
-
   
 		if(p4sCorrJets.at(iJet).pt() < 15.0) continue; 
         if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2) continue;
@@ -993,9 +979,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			matched_emf        = ( cms3.pfjets_neutralEmE().at(minIndex) + cms3.pfjets_chargedEmE().at(minIndex) ) / (cms3.pfjets_p4().at(minIndex).energy()*cms3.pfjets_undoJEC().at(minIndex));
 		  }
 		}
-		
- 	  
+		 	  
  		if (verbose) cout << "before checking for photon/electron overlap" << endl;
+
  		//	  elveto
  		for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
  		  if(cms3.els_p4().at(iEl).pt() < 10.0                                              ) continue; // pT > 10 GeV
@@ -1068,7 +1054,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 			// apply new JEC to p4
 			pfjet_p4_cor = pfjet_p4_uncor * corr;
-
 		  }
 		
 		  if(       pfjet_p4_cor.pt()    < 30.0       ) continue; 
@@ -1101,8 +1086,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		isr_weight = get_isrWeight( isr_njets       );
 		isr_unc    = get_isrUnc(    isr_njets       );
 	  }
-
-	  
 
       if (verbose) cout << "before jet/photon overlap" << endl;
 
@@ -1381,11 +1364,59 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
  		  mt2b = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
 		}		
 
-		mlbmin = sum_mlb();
+		sum_mlb = get_sum_mlb();
 		dphi_ll = acos(cos(lep_p4 .at(0).phi() - lep_p4 .at(1).phi()));
 		
 	  }
 
+	  // lepton scale factors go here
+	  if( !isData ){
+
+		for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
+
+		  float min_leppt  = min( 110.0, (double)lep_pt.at(lepind));
+		  float abs_lepeta = abs(lep_eta.at(lepind));
+
+		  if( abs(lep_pdgId.at(lepind)) == 11 ){			
+			weightsf_lepreco .push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lep_eta.at(lepind), 100        )) ); // this is a 1d hist in 2 dimensions for some reason
+			weightsf_lepid   .push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( min_leppt         , abs_lepeta )) );
+			weightsf_lepiso  .push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( min_leppt         , abs_lepeta )) );			
+			weightsf_lepip   .push_back( 1.0 );// ip weight already accounted for in id weight for electrons
+
+			if( isSMSScan ){
+			  weightsf_lepid_FS . push_back( h_eleweights->GetBinContent(h_eleweights->FindBin( min_leppt, abs_lepeta )) );
+
+			}else{
+			  weightsf_lepid_FS . push_back( 1.0 );
+			}
+
+			// ip and iso FS weights already accounted for in id weight for electrons
+			weightsf_lepiso_FS. push_back( 1.0 );
+			weightsf_lepip_FS . push_back( 1.0 );
+			
+		  }
+
+		  if( abs(lep_pdgId.at(lepind)) == 13 ){			
+			weightsf_lepreco .push_back( h_muoweights_HIP_hist->GetBinContent( h_muoweights_HIP_hist->FindBin( lep_eta  . at(lepind) )) );
+			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt, abs_lepeta )) );
+			weightsf_lepiso  .push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt, abs_lepeta )) );			
+			weightsf_lepip   .push_back( h_muoweights_ip      ->GetBinContent( h_muoweights_ip      ->FindBin( min_leppt, abs_lepeta )) );
+
+			if( isSMSScan ){
+			  weightsf_lepid_FS . push_back( h_muoweights       ->GetBinContent( h_muoweights       ->FindBin( min_leppt, abs_lepeta )) );
+			  weightsf_lepiso_FS. push_back( h_muoweights_FS_iso->GetBinContent( h_muoweights_FS_iso->FindBin( min_leppt, abs_lepeta )) );
+			  weightsf_lepip_FS . push_back( h_muoweights_FS_ip ->GetBinContent( h_muoweights_FS_ip ->FindBin( min_leppt, abs_lepeta )) );
+
+			}else{
+			  weightsf_lepid_FS . push_back( 1.0 );
+			  weightsf_lepiso_FS. push_back( 1.0 );
+			  weightsf_lepip_FS . push_back( 1.0 );
+			}
+		  }		 
+		}		
+	  }
+
+	  
 	  if( evt_type == 2 ){
 		mt2 = decayedphoton_mt2;
 	  }
@@ -1808,7 +1839,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("mbb_bpt", &mbb_bpt );
   BabyTree_->Branch("dphi_jj", &dphi_jj );
   BabyTree_->Branch("dphi_ll", &dphi_ll );
-  BabyTree_->Branch("mlbmin" , &mlbmin  );
+  BabyTree_->Branch("sum_mlb" , &sum_mlb);
   BabyTree_->Branch("deta_jj", &deta_jj );
   BabyTree_->Branch("dR_jj"  , &dR_jj   );
 
@@ -1896,6 +1927,14 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("isr_njets"  , &isr_njets  );
   BabyTree_->Branch("isr_weight" , &isr_weight );
   BabyTree_->Branch("isr_unc"    , &isr_unc    );
+
+  BabyTree_->Branch("weightsf_lepid"    , &weightsf_lepid     );
+  BabyTree_->Branch("weightsf_lepiso"   , &weightsf_lepiso    );
+  BabyTree_->Branch("weightsf_lepip"    , &weightsf_lepip     );
+  BabyTree_->Branch("weightsf_lepreco"  , &weightsf_lepreco   );
+  BabyTree_->Branch("weightsf_lepid_FS" , &weightsf_lepid_FS  );
+  BabyTree_->Branch("weightsf_lepiso_FS", &weightsf_lepiso_FS );
+  BabyTree_->Branch("weightsf_lepip_FS" , &weightsf_lepip_FS  );
 
   return;
 }
@@ -2141,7 +2180,7 @@ void babyMaker::InitBabyNtuple () {
   mbb_csv  = -999.0;
   mbb_bpt  = -999.0;
   dphi_jj  = -999.0;
-  mlbmin   = -999.0;
+  sum_mlb  = -999.0;
   dphi_ll  = -999.0;
   deta_jj  = -999.0;
   dR_jj    = -999.0;
@@ -2230,6 +2269,14 @@ void babyMaker::InitBabyNtuple () {
   isr_weight  = -999.9;
   isr_unc     = -999.9;
 
+  weightsf_lepid     . clear();
+  weightsf_lepiso    . clear();
+  weightsf_lepip     . clear();
+  weightsf_lepreco   . clear();
+  weightsf_lepid_FS  . clear();
+  weightsf_lepiso_FS . clear();
+  weightsf_lepip_FS  . clear();
+
   return;
 }
 
@@ -2277,7 +2324,7 @@ float babyMaker::getBtagEffFromFile(float pt, float eta, int mcFlavour, bool isF
 }
 
 // get sum Mlb for NLL
-float babyMaker::sum_mlb()
+float babyMaker::get_sum_mlb()
 {
   float min_mlb_1 = 10000.;
   float min_mlb_2 = 10000.;
@@ -2288,22 +2335,6 @@ float babyMaker::sum_mlb()
   int jet_tempind_1 = -1;
   int jet_tempind_2 = -1;
 
-  // if( evt == 676825669 ){
-
-  // 	cout<<"njets:      "<<njets<<endl;
-  // 	cout<<"nbjets:     "<<nBJetMedium<<endl;
-  // 	cout<<"nbjets_vec: "<<jets_medb_p4.size()<<endl;
-  // 	cout<<"najets:     "<<jets_p4.size()<<endl;
-
-  // 	cout<<"mlb_1: "<<(lep_p4.at(0) + jets_p4.at(0)).M()<<endl;      // store mlb1 temp
-  // 	cout<<"mlb_2: "<<(lep_p4.at(1) + jets_p4.at(1)).M()<<endl;      // store mlb1 temp
-
-  // 	cout<<"mlb_1: "<<(lep_p4.at(1) + jets_p4.at(0)).M()<<endl;      // store mlb1 temp
-  // 	cout<<"mlb_2: "<<(lep_p4.at(0) + jets_p4.at(1)).M()<<endl;      // store mlb1 temp
-
-	
-  // }
-  
   if (jets_medb_p4.size() > 1) {
 
 	// Find lowest Mlb for lep 1
@@ -2429,4 +2460,79 @@ float babyMaker::sum_mlb()
   return min_mlb_1 + min_mlb_2; 
 }
 
+void babyMaker::load_leptonSF_files()
+{
 
+  cout<<"Loading Lepton Scale Factors..."<<endl;
+  TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
+  TFile * f_sfweights = NULL;
+  
+  // electron reconstruction SFs
+  f_sfweights  = TFile::Open("leptonSFs/electrons/egammaEffi.txt_SF2D.root","READ");
+  h_eleweights_reco = (TH2D*) f_sfweights->Get("EGamma_SF2D") -> Clone("h_eleweights_reco");
+  h_eleweights_reco->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // electron ID/Iso SFs for Fullsim to Data
+  f_sfweights  = TFile::Open("leptonSFs/electrons/scaleFactors.root","READ");
+  h_eleweights_id = (TH2D*) f_sfweights->Get("GsfElectronToTightID2D3D") -> Clone("h_eleweights_id");
+  h_eleweightsiso = (TH2D*) f_sfweights->Get("MVAVLooseElectronToMini")  -> Clone("h_eleweightsiso");
+  h_eleweights_id->SetDirectory(rootdir);
+  h_eleweightsiso->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // muon id SF for Fullsim to Data
+  f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root","READ");
+  h_muoweights_id = (TH2D*) f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0") -> Clone("h_muoweights_id");
+  h_muoweights_id	->SetDirectory(rootdir);
+  f_sfweights->Close();
+	
+  // muon iso SF for Fullsim to Data
+  f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_MiniIsoTight_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+  h_muoweightsiso = (TH2D*) f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_Medium2016_pass") -> Clone("h_muoweightsiso");
+  h_muoweightsiso	->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // muon tracking SF due to HIPs for Fullsim to Data
+  f_sfweights  = TFile::Open("leptonSFs/muons/general_tracks_and_early_general_tracks_corr_ratio.root","READ");
+  h_muoweights_HIP_hist = (TH1F*) f_sfweights->Get("mutrksfptg10") -> Clone("h_muoweights_HIP_hist");
+  h_muoweights_HIP_hist -> SetDirectory(rootdir);
+  f_sfweights->Close();
+	
+  // f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+  // h_muoweights_HIP = (TGraphAsymmErrors*) f_sfweights->Get("ratio_eta") -> Clone("h_muoweights_HIP");
+  // // h_muoweights_HIP -> SetDirectory(rootdir);
+  // f_sfweights->Close();
+	
+  // muon ip SF for Fullsim to Data
+  f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+  h_muoweights_ip = (TH2D*) f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_Medium2016_pass") -> Clone("h_muoweights_ip");
+  h_muoweights_ip	->SetDirectory(rootdir);
+  f_sfweights->Close();
+	
+  // SFs electrons for FS to Fullsim
+  f_sfweights  = TFile::Open("leptonSFs/FS/sf_el_tightMVA_tight2DIP_vtxC_hitseq0.root","READ");
+  h_eleweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_eleweights");
+  h_eleweights->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // SFs muons for FS to Fullsim, medium ID
+  f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_medium.root","READ");
+  h_muoweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights");
+  h_muoweights->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // SFs muons for FS to Fullsim, iso
+  f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_mediumID_mini02.root","READ");
+  h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights_FS_iso");
+  h_muoweights_FS_iso->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // SFs muons for FS to Fullsim, ip
+  f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_tightIP2D.root","READ");
+  h_muoweights_FS_ip = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights_FS_ip");
+  h_muoweights_FS_ip->SetDirectory(rootdir);
+  f_sfweights->Close();
+  
+  return;
+}
