@@ -737,7 +737,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       nGammas20 = 0;
 	  for(unsigned int iGamma = 0; iGamma < cms3.photons_p4().size(); iGamma++){
  		if( !passPhotonSelection_ZMET( iGamma ) )continue;
-
+	  
+		
 		float pt  = cms3.photons_p4().at(iGamma).pt();
 		float eta = cms3.photons_p4().at(iGamma).eta();
 		float phi = cms3.photons_p4().at(iGamma).phi();
@@ -765,7 +766,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		int bestMatch = -1;
 		float bestDr = 0.1;
 
-		if( !isData){		  
+		if( !isData ){		  
 		  for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
 			if ( cms3.genps_id()                   .at(iGen)        != 22 ) continue; 
 			if ( cms3.genps_status()               .at(iGen)        != 1  ) continue; 
@@ -794,7 +795,51 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		ngamma++;
       }
 	
-       
+	  if( isData && ngamma > 0 ){
+	    float minDr = 0.2;		
+
+		for( size_t hltind = 0; hltind < cms3.hlt_trigObjs_id().size(); hltind++ ){ // loop over HLTs		  
+		  for( size_t trigind = 0; trigind < cms3.hlt_trigObjs_id().at(hltind).size(); trigind++ ){
+
+			if( cms3.hlt_trigObjs_passLast().at(hltind).at(trigind) ){
+			  float thisDR = ROOT::Math::VectorUtil::DeltaR(cms3.hlt_trigObjs_p4().at(hltind).at(trigind), gamma_p4.at(0));
+
+			  if( HLT_Photon165_HE10             > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_HE10"            ) ) if( thisDR < minDr ) HLT_Photon165_HE10_matchedtophoton             = true;
+			  if( HLT_Photon165_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_R9Id90_HE10_IsoM") ) if( thisDR < minDr ) HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton = true;
+			  if( HLT_Photon120_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon120_R9Id90_HE10_IsoM") ) if( thisDR < minDr ) HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton = true;
+			  if( HLT_Photon90_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon90_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton  = true;
+			  if( HLT_Photon75_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon75_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton  = true;
+			  if( HLT_Photon50_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon50_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton  = true;
+			  if( HLT_Photon36_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon36_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  = true;
+			  if( HLT_Photon30_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon30_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  = true;
+			  if( HLT_Photon22_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon22_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  = true;
+
+			  // dump info for events that don't have a matched photon
+			  // if( (HLT_Photon165_HE10             > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_HE10"            ) ) ||
+			  // 	  (HLT_Photon165_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_R9Id90_HE10_IsoM") ) ||
+			  // 	  (HLT_Photon120_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon120_R9Id90_HE10_IsoM") ) ||
+			  // 	  (HLT_Photon90_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon90_R9Id90_HE10_IsoM" ) ) ||
+			  // 	  (HLT_Photon75_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon75_R9Id90_HE10_IsoM" ) ) ||
+			  // 	  (HLT_Photon50_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon50_R9Id90_HE10_IsoM" ) ) ||
+			  // 	  (HLT_Photon36_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon36_R9Id90_HE10_IsoM" ) ) ||
+			  // 	  (HLT_Photon30_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon30_R9Id90_HE10_IsoM" ) ) ||
+			  // 	  (HLT_Photon22_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon22_R9Id90_HE10_IsoM" ) ) ){
+			  // 	if( thisDR > minDr ){
+			  // 	  cout<<"trig   : "<<cms3.hlt_trigNames().at(hltind)<<endl;
+			  // 	  cout<<"trig pt: "<<cms3.hlt_trigObjs_p4().at(hltind).at(trigind).pt()<<endl;
+			  // 	  cout<<"offl pt: "<<gamma_p4.at(0)                               .pt()<<endl;
+			  // 	  cout<<"trig et: "<<cms3.hlt_trigObjs_p4().at(hltind).at(trigind).eta()<<endl;
+			  // 	  cout<<"offl et: "<<gamma_p4.at(0)                               .eta()<<endl;
+			  // 	  cout<<"trig ph: "<<cms3.hlt_trigObjs_p4().at(hltind).at(trigind).phi()<<endl;
+			  // 	  cout<<"offl ph: "<<gamma_p4.at(0)                               .phi()<<endl;
+			  // 	}
+			  // }
+			  
+			}
+		  }
+		}
+	  }
+	  
 	  // add selections to keep only events with photons and dilepton events
 	  if( !(ngamma > 0 || nlep > 0) ) continue;// fix for not iso study
        
@@ -1711,6 +1756,16 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_CaloJet500_NoJetID" , &HLT_CaloJet500_NoJetID );
   BabyTree_->Branch("HLT_ECALHT800_NoJetID"  , &HLT_ECALHT800_NoJetID  );
 
+  BabyTree_->Branch("HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton"  , &HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  );
+  BabyTree_->Branch("HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton"  , &HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  );
+  BabyTree_->Branch("HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton"  , &HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  );
+  BabyTree_->Branch("HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton"  , &HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton  );
+  BabyTree_->Branch("HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton"  , &HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton  );
+  BabyTree_->Branch("HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton"  , &HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton  );
+  BabyTree_->Branch("HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton" , &HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton );
+  BabyTree_->Branch("HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton" , &HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton );
+  BabyTree_->Branch("HLT_Photon165_HE10_matchedtophoton"             , &HLT_Photon165_HE10_matchedtophoton             );
+
   BabyTree_->Branch("dilmass", &dilmass );
   BabyTree_->Branch("dilpt"  , &dilpt );
   BabyTree_->Branch("dRll"   , &dRll );
@@ -2047,6 +2102,16 @@ void babyMaker::InitBabyNtuple () {
   HLT_CaloJet500_NoJetID = -999;
   HLT_ECALHT800_NoJetID  = -999;
   
+  HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  = 0;
+  HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  = 0;
+  HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  = 0;
+  HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton  = 0;
+  HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton  = 0;
+  HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton  = 0;
+  HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton = 0;
+  HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton = 0;
+  HLT_Photon165_HE10_matchedtophoton             = 0;
+
   dilmass = -999;
   dilpt   = -999;
   dRll    = -999;

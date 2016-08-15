@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # export analysis_version="V00-00-17"
-export analysis_version="V08-11-05_ichep"
+export analysis_version="V08-11-06"
 echo "Analysis version = $analysis_version"
 localdirectory=`pwd`
 

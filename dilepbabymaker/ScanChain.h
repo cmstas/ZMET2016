@@ -204,6 +204,15 @@ class babyMaker {
   Int_t HLT_CaloJet500_NoJetID;
   Int_t HLT_ECALHT800_NoJetID ;
 
+  Bool_t HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton;
+  Bool_t HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton;
+  Bool_t HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton;
+  Bool_t HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton;
+  Bool_t HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton;
+  Bool_t HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton;
+  Bool_t HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton;
+  Bool_t HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton;
+  Bool_t HLT_Photon165_HE10_matchedtophoton;
   
   //----- LEPTONS
   Int_t           nlep;

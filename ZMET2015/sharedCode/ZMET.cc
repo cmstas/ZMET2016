@@ -453,6 +453,51 @@ void ZMET::Init(TTree *tree) {
 		HLT_ECALHT800_NoJetID_branch = tree->GetBranch("HLT_ECALHT800_NoJetID");
 		if (HLT_ECALHT800_NoJetID_branch) {HLT_ECALHT800_NoJetID_branch->SetAddress(&HLT_ECALHT800_NoJetID_);}
 	}
+	HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
+	if (tree->GetBranch("HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
+		HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton");
+		if (HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch) {HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_);}
+	}
+	HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
+	if (tree->GetBranch("HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
+		HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton");
+		if (HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_branch) {HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_);}
+	}
+	HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
+	if (tree->GetBranch("HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
+		HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton");
+		if (HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_branch) {HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_);}
+	}
+	HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
+	if (tree->GetBranch("HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
+		HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton");
+		if (HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch) {HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_);}
+	}
+	HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
+	if (tree->GetBranch("HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
+		HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton");
+		if (HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_branch) {HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_);}
+	}
+	HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
+	if (tree->GetBranch("HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
+		HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton");
+		if (HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch) {HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_);}
+	}
+	HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
+	if (tree->GetBranch("HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
+		HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton");
+		if (HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch) {HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_);}
+	}
+	HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_branch = 0;
+	if (tree->GetBranch("HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton") != 0) {
+		HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_branch = tree->GetBranch("HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton");
+		if (HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_branch) {HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_branch->SetAddress(&HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_);}
+	}
+	HLT_Photon165_HE10_matchedtophoton_branch = 0;
+	if (tree->GetBranch("HLT_Photon165_HE10_matchedtophoton") != 0) {
+		HLT_Photon165_HE10_matchedtophoton_branch = tree->GetBranch("HLT_Photon165_HE10_matchedtophoton");
+		if (HLT_Photon165_HE10_matchedtophoton_branch) {HLT_Photon165_HE10_matchedtophoton_branch->SetAddress(&HLT_Photon165_HE10_matchedtophoton_);}
+	}
 	dilmass_branch = 0;
 	if (tree->GetBranch("dilmass") != 0) {
 		dilmass_branch = tree->GetBranch("dilmass");
@@ -1479,6 +1524,15 @@ void ZMET::GetEntry(unsigned int idx)
 		HLT_Photon165_HE10_isLoaded = false;
 		HLT_CaloJet500_NoJetID_isLoaded = false;
 		HLT_ECALHT800_NoJetID_isLoaded = false;
+		HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
+		HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
+		HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
+		HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
+		HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
+		HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
+		HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
+		HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = false;
+		HLT_Photon165_HE10_matchedtophoton_isLoaded = false;
 		dilmass_isLoaded = false;
 		dilpt_isLoaded = false;
 		dRll_isLoaded = false;
@@ -1762,6 +1816,15 @@ void ZMET::LoadAllBranches()
 	if (HLT_Photon165_HE10_branch != 0) HLT_Photon165_HE10();
 	if (HLT_CaloJet500_NoJetID_branch != 0) HLT_CaloJet500_NoJetID();
 	if (HLT_ECALHT800_NoJetID_branch != 0) HLT_ECALHT800_NoJetID();
+	if (HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton();
+	if (HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton();
+	if (HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton();
+	if (HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton();
+	if (HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton();
+	if (HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton();
+	if (HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton();
+	if (HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton();
+	if (HLT_Photon165_HE10_matchedtophoton_branch != 0) HLT_Photon165_HE10_matchedtophoton();
 	if (dilmass_branch != 0) dilmass();
 	if (dilpt_branch != 0) dilpt();
 	if (dRll_branch != 0) dRll();
@@ -3001,6 +3064,123 @@ void ZMET::LoadAllBranches()
 			HLT_ECALHT800_NoJetID_isLoaded = true;
 		}
 		return HLT_ECALHT800_NoJetID_;
+	}
+	const bool &	ZMET::HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton()
+	{
+		if (not HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
+			if (HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
+				HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+		}
+		return HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton_;
+	}
+	const bool &	ZMET::HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton()
+	{
+		if (not HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
+			if (HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
+				HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+		}
+		return HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton_;
+	}
+	const bool &	ZMET::HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton()
+	{
+		if (not HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
+			if (HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
+				HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+		}
+		return HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton_;
+	}
+	const bool &	ZMET::HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton()
+	{
+		if (not HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
+			if (HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
+				HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+		}
+		return HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton_;
+	}
+	const bool &	ZMET::HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton()
+	{
+		if (not HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
+			if (HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
+				HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+		}
+		return HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton_;
+	}
+	const bool &	ZMET::HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton()
+	{
+		if (not HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
+			if (HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
+				HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+		}
+		return HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton_;
+	}
+	const bool &	ZMET::HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton()
+	{
+		if (not HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
+			if (HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
+				HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+		}
+		return HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton_;
+	}
+	const bool &	ZMET::HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton()
+	{
+		if (not HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_isLoaded) {
+			if (HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_branch != 0) {
+				HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_isLoaded = true;
+		}
+		return HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton_;
+	}
+	const bool &	ZMET::HLT_Photon165_HE10_matchedtophoton()
+	{
+		if (not HLT_Photon165_HE10_matchedtophoton_isLoaded) {
+			if (HLT_Photon165_HE10_matchedtophoton_branch != 0) {
+				HLT_Photon165_HE10_matchedtophoton_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Photon165_HE10_matchedtophoton_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Photon165_HE10_matchedtophoton_isLoaded = true;
+		}
+		return HLT_Photon165_HE10_matchedtophoton_;
 	}
 	const float &ZMET::dilmass()
 	{
@@ -5678,6 +5858,15 @@ namespace ZMet {
 	const int &HLT_Photon165_HE10() { return zmet.HLT_Photon165_HE10(); }
 	const int &HLT_CaloJet500_NoJetID() { return zmet.HLT_CaloJet500_NoJetID(); }
 	const int &HLT_ECALHT800_NoJetID() { return zmet.HLT_ECALHT800_NoJetID(); }
+	const bool &HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton() { return zmet.HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton(); }
+	const bool &HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton() { return zmet.HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton(); }
+	const bool &HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton() { return zmet.HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton(); }
+	const bool &HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton() { return zmet.HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton(); }
+	const bool &HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton() { return zmet.HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton(); }
+	const bool &HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton() { return zmet.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton(); }
+	const bool &HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() { return zmet.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton(); }
+	const bool &HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() { return zmet.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton(); }
+	const bool &HLT_Photon165_HE10_matchedtophoton() { return zmet.HLT_Photon165_HE10_matchedtophoton(); }
 	const float &dilmass() { return zmet.dilmass(); }
 	const float &dilpt() { return zmet.dilpt(); }
 	const float &dRll() { return zmet.dRll(); }
