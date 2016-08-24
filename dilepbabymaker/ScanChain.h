@@ -174,14 +174,16 @@ class babyMaker {
   Int_t HLT_DoubleEl_DZ_2 ; // new
 	  
   // electron-muon
-  Int_t HLT_MuEG      ;
-  Int_t HLT_MuEG_2    ;
-  Int_t HLT_MuEG_noiso;
-  Int_t HLT_Mu8_EG17  ;
-  Int_t HLT_Mu8_EG23  ;
-  Int_t HLT_Mu17_EG12 ;
-  Int_t HLT_Mu23_EG12 ;
-  Int_t HLT_Mu23_EG8  ;
+  Int_t HLT_MuEG        ;
+  Int_t HLT_MuEG_2      ;
+  Int_t HLT_MuEG_noiso  ;
+  Int_t HLT_Mu8_EG17    ;
+  Int_t HLT_Mu17_EG12   ;
+  Int_t HLT_Mu23_EG8    ;
+  Int_t HLT_Mu23_EG12   ;
+  Int_t HLT_Mu23_EG12_DZ;
+  Int_t HLT_Mu8_EG23    ;
+  Int_t HLT_Mu8_EG23_DZ ;
 
   // Double electron
   Int_t HLT_DoubleMu_noiso   ;

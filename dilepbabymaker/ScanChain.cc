@@ -404,6 +404,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
 		HLT_Mu23_EG8      = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  );
 
+		HLT_Mu23_EG12_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" );
+		HLT_Mu8_EG23_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
+		
 		// Double electron
 		HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                        ) ||
 								 passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                       ) );
@@ -1730,15 +1733,16 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_DoubleEl_DZ_2"  , &HLT_DoubleEl_DZ_2  ); // new
 	  
   // electron-muon
-  BabyTree_->Branch("HLT_MuEG"       , &HLT_MuEG       );
-  BabyTree_->Branch("HLT_MuEG_2"     , &HLT_MuEG_2     );
-  BabyTree_->Branch("HLT_MuEG_noiso" , &HLT_MuEG_noiso );
-
-  BabyTree_->Branch("HLT_Mu8_EG17"           , &HLT_Mu8_EG17           );
-  BabyTree_->Branch("HLT_Mu8_EG23"           , &HLT_Mu8_EG23           );
-  BabyTree_->Branch("HLT_Mu17_EG12"          , &HLT_Mu17_EG12          );
-  BabyTree_->Branch("HLT_Mu23_EG12"          , &HLT_Mu23_EG12          );
-  BabyTree_->Branch("HLT_Mu23_EG8"           , &HLT_Mu23_EG8           );
+  BabyTree_->Branch("HLT_MuEG"         , &HLT_MuEG         );
+  BabyTree_->Branch("HLT_MuEG_2"       , &HLT_MuEG_2       );
+  BabyTree_->Branch("HLT_MuEG_noiso"   , &HLT_MuEG_noiso   );
+  BabyTree_->Branch("HLT_Mu8_EG17"     , &HLT_Mu8_EG17     );
+  BabyTree_->Branch("HLT_Mu17_EG12"    , &HLT_Mu17_EG12    );
+  BabyTree_->Branch("HLT_Mu23_EG8"     , &HLT_Mu23_EG8     );
+  BabyTree_->Branch("HLT_Mu23_EG12"    , &HLT_Mu23_EG12    );
+  BabyTree_->Branch("HLT_Mu23_EG12_DZ" , &HLT_Mu23_EG12_DZ );
+  BabyTree_->Branch("HLT_Mu8_EG23"     , &HLT_Mu8_EG23     );
+  BabyTree_->Branch("HLT_Mu8_EG23_DZ"  , &HLT_Mu8_EG23_DZ  );
 
   // Double electron
   BabyTree_->Branch("HLT_DoubleMu_noiso"    , &HLT_DoubleMu_noiso    );
@@ -2076,15 +2080,16 @@ void babyMaker::InitBabyNtuple () {
   HLT_DoubleEl_DZ_2  = -999; // new
 	  
   // electron-muon
-  HLT_MuEG       = -999;
-  HLT_MuEG_2     = -999;
-  HLT_MuEG_noiso = -999;
-
-  HLT_Mu8_EG17           = -999;
-  HLT_Mu8_EG23           = -999;
-  HLT_Mu17_EG12          = -999;
-  HLT_Mu23_EG12          = -999;
-  HLT_Mu23_EG8           = -999;
+  HLT_MuEG         = -999;
+  HLT_MuEG_2       = -999;
+  HLT_MuEG_noiso   = -999;
+  HLT_Mu8_EG17     = -999;
+  HLT_Mu17_EG12    = -999;
+  HLT_Mu23_EG8     = -999;
+  HLT_Mu23_EG12    = -999;
+  HLT_Mu23_EG12_DZ = -999;
+  HLT_Mu8_EG23     = -999;
+  HLT_Mu8_EG23_DZ  = -999;
 
   // Double electron
   HLT_DoubleMu_noiso    = -999;

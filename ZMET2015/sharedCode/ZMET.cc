@@ -353,25 +353,35 @@ void ZMET::Init(TTree *tree) {
 		HLT_Mu8_EG17_branch = tree->GetBranch("HLT_Mu8_EG17");
 		if (HLT_Mu8_EG17_branch) {HLT_Mu8_EG17_branch->SetAddress(&HLT_Mu8_EG17_);}
 	}
-	HLT_Mu8_EG23_branch = 0;
-	if (tree->GetBranch("HLT_Mu8_EG23") != 0) {
-		HLT_Mu8_EG23_branch = tree->GetBranch("HLT_Mu8_EG23");
-		if (HLT_Mu8_EG23_branch) {HLT_Mu8_EG23_branch->SetAddress(&HLT_Mu8_EG23_);}
-	}
 	HLT_Mu17_EG12_branch = 0;
 	if (tree->GetBranch("HLT_Mu17_EG12") != 0) {
 		HLT_Mu17_EG12_branch = tree->GetBranch("HLT_Mu17_EG12");
 		if (HLT_Mu17_EG12_branch) {HLT_Mu17_EG12_branch->SetAddress(&HLT_Mu17_EG12_);}
+	}
+	HLT_Mu23_EG8_branch = 0;
+	if (tree->GetBranch("HLT_Mu23_EG8") != 0) {
+		HLT_Mu23_EG8_branch = tree->GetBranch("HLT_Mu23_EG8");
+		if (HLT_Mu23_EG8_branch) {HLT_Mu23_EG8_branch->SetAddress(&HLT_Mu23_EG8_);}
 	}
 	HLT_Mu23_EG12_branch = 0;
 	if (tree->GetBranch("HLT_Mu23_EG12") != 0) {
 		HLT_Mu23_EG12_branch = tree->GetBranch("HLT_Mu23_EG12");
 		if (HLT_Mu23_EG12_branch) {HLT_Mu23_EG12_branch->SetAddress(&HLT_Mu23_EG12_);}
 	}
-	HLT_Mu23_EG8_branch = 0;
-	if (tree->GetBranch("HLT_Mu23_EG8") != 0) {
-		HLT_Mu23_EG8_branch = tree->GetBranch("HLT_Mu23_EG8");
-		if (HLT_Mu23_EG8_branch) {HLT_Mu23_EG8_branch->SetAddress(&HLT_Mu23_EG8_);}
+	HLT_Mu23_EG12_DZ_branch = 0;
+	if (tree->GetBranch("HLT_Mu23_EG12_DZ") != 0) {
+		HLT_Mu23_EG12_DZ_branch = tree->GetBranch("HLT_Mu23_EG12_DZ");
+		if (HLT_Mu23_EG12_DZ_branch) {HLT_Mu23_EG12_DZ_branch->SetAddress(&HLT_Mu23_EG12_DZ_);}
+	}
+	HLT_Mu8_EG23_branch = 0;
+	if (tree->GetBranch("HLT_Mu8_EG23") != 0) {
+		HLT_Mu8_EG23_branch = tree->GetBranch("HLT_Mu8_EG23");
+		if (HLT_Mu8_EG23_branch) {HLT_Mu8_EG23_branch->SetAddress(&HLT_Mu8_EG23_);}
+	}
+	HLT_Mu8_EG23_DZ_branch = 0;
+	if (tree->GetBranch("HLT_Mu8_EG23_DZ") != 0) {
+		HLT_Mu8_EG23_DZ_branch = tree->GetBranch("HLT_Mu8_EG23_DZ");
+		if (HLT_Mu8_EG23_DZ_branch) {HLT_Mu8_EG23_DZ_branch->SetAddress(&HLT_Mu8_EG23_DZ_);}
 	}
 	HLT_DoubleMu_noiso_branch = 0;
 	if (tree->GetBranch("HLT_DoubleMu_noiso") != 0) {
@@ -1504,10 +1514,12 @@ void ZMET::GetEntry(unsigned int idx)
 		HLT_MuEG_2_isLoaded = false;
 		HLT_MuEG_noiso_isLoaded = false;
 		HLT_Mu8_EG17_isLoaded = false;
-		HLT_Mu8_EG23_isLoaded = false;
 		HLT_Mu17_EG12_isLoaded = false;
-		HLT_Mu23_EG12_isLoaded = false;
 		HLT_Mu23_EG8_isLoaded = false;
+		HLT_Mu23_EG12_isLoaded = false;
+		HLT_Mu23_EG12_DZ_isLoaded = false;
+		HLT_Mu8_EG23_isLoaded = false;
+		HLT_Mu8_EG23_DZ_isLoaded = false;
 		HLT_DoubleMu_noiso_isLoaded = false;
 		HLT_DoubleMu_isLoaded = false;
 		HLT_DoubleMu_tk_isLoaded = false;
@@ -1796,10 +1808,12 @@ void ZMET::LoadAllBranches()
 	if (HLT_MuEG_2_branch != 0) HLT_MuEG_2();
 	if (HLT_MuEG_noiso_branch != 0) HLT_MuEG_noiso();
 	if (HLT_Mu8_EG17_branch != 0) HLT_Mu8_EG17();
-	if (HLT_Mu8_EG23_branch != 0) HLT_Mu8_EG23();
 	if (HLT_Mu17_EG12_branch != 0) HLT_Mu17_EG12();
-	if (HLT_Mu23_EG12_branch != 0) HLT_Mu23_EG12();
 	if (HLT_Mu23_EG8_branch != 0) HLT_Mu23_EG8();
+	if (HLT_Mu23_EG12_branch != 0) HLT_Mu23_EG12();
+	if (HLT_Mu23_EG12_DZ_branch != 0) HLT_Mu23_EG12_DZ();
+	if (HLT_Mu8_EG23_branch != 0) HLT_Mu8_EG23();
+	if (HLT_Mu8_EG23_DZ_branch != 0) HLT_Mu8_EG23_DZ();
 	if (HLT_DoubleMu_noiso_branch != 0) HLT_DoubleMu_noiso();
 	if (HLT_DoubleMu_branch != 0) HLT_DoubleMu();
 	if (HLT_DoubleMu_tk_branch != 0) HLT_DoubleMu_tk();
@@ -2805,19 +2819,6 @@ void ZMET::LoadAllBranches()
 		}
 		return HLT_Mu8_EG17_;
 	}
-	const int &ZMET::HLT_Mu8_EG23()
-	{
-		if (not HLT_Mu8_EG23_isLoaded) {
-			if (HLT_Mu8_EG23_branch != 0) {
-				HLT_Mu8_EG23_branch->GetEntry(index);
-			} else { 
-				printf("branch HLT_Mu8_EG23_branch does not exist!\n");
-				exit(1);
-			}
-			HLT_Mu8_EG23_isLoaded = true;
-		}
-		return HLT_Mu8_EG23_;
-	}
 	const int &ZMET::HLT_Mu17_EG12()
 	{
 		if (not HLT_Mu17_EG12_isLoaded) {
@@ -2830,6 +2831,19 @@ void ZMET::LoadAllBranches()
 			HLT_Mu17_EG12_isLoaded = true;
 		}
 		return HLT_Mu17_EG12_;
+	}
+	const int &ZMET::HLT_Mu23_EG8()
+	{
+		if (not HLT_Mu23_EG8_isLoaded) {
+			if (HLT_Mu23_EG8_branch != 0) {
+				HLT_Mu23_EG8_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Mu23_EG8_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Mu23_EG8_isLoaded = true;
+		}
+		return HLT_Mu23_EG8_;
 	}
 	const int &ZMET::HLT_Mu23_EG12()
 	{
@@ -2844,18 +2858,44 @@ void ZMET::LoadAllBranches()
 		}
 		return HLT_Mu23_EG12_;
 	}
-	const int &ZMET::HLT_Mu23_EG8()
+	const int &ZMET::HLT_Mu23_EG12_DZ()
 	{
-		if (not HLT_Mu23_EG8_isLoaded) {
-			if (HLT_Mu23_EG8_branch != 0) {
-				HLT_Mu23_EG8_branch->GetEntry(index);
+		if (not HLT_Mu23_EG12_DZ_isLoaded) {
+			if (HLT_Mu23_EG12_DZ_branch != 0) {
+				HLT_Mu23_EG12_DZ_branch->GetEntry(index);
 			} else { 
-				printf("branch HLT_Mu23_EG8_branch does not exist!\n");
+				printf("branch HLT_Mu23_EG12_DZ_branch does not exist!\n");
 				exit(1);
 			}
-			HLT_Mu23_EG8_isLoaded = true;
+			HLT_Mu23_EG12_DZ_isLoaded = true;
 		}
-		return HLT_Mu23_EG8_;
+		return HLT_Mu23_EG12_DZ_;
+	}
+	const int &ZMET::HLT_Mu8_EG23()
+	{
+		if (not HLT_Mu8_EG23_isLoaded) {
+			if (HLT_Mu8_EG23_branch != 0) {
+				HLT_Mu8_EG23_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Mu8_EG23_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Mu8_EG23_isLoaded = true;
+		}
+		return HLT_Mu8_EG23_;
+	}
+	const int &ZMET::HLT_Mu8_EG23_DZ()
+	{
+		if (not HLT_Mu8_EG23_DZ_isLoaded) {
+			if (HLT_Mu8_EG23_DZ_branch != 0) {
+				HLT_Mu8_EG23_DZ_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_Mu8_EG23_DZ_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_Mu8_EG23_DZ_isLoaded = true;
+		}
+		return HLT_Mu8_EG23_DZ_;
 	}
 	const int &ZMET::HLT_DoubleMu_noiso()
 	{
@@ -5838,10 +5878,12 @@ namespace ZMet {
 	const int &HLT_MuEG_2() { return zmet.HLT_MuEG_2(); }
 	const int &HLT_MuEG_noiso() { return zmet.HLT_MuEG_noiso(); }
 	const int &HLT_Mu8_EG17() { return zmet.HLT_Mu8_EG17(); }
-	const int &HLT_Mu8_EG23() { return zmet.HLT_Mu8_EG23(); }
 	const int &HLT_Mu17_EG12() { return zmet.HLT_Mu17_EG12(); }
-	const int &HLT_Mu23_EG12() { return zmet.HLT_Mu23_EG12(); }
 	const int &HLT_Mu23_EG8() { return zmet.HLT_Mu23_EG8(); }
+	const int &HLT_Mu23_EG12() { return zmet.HLT_Mu23_EG12(); }
+	const int &HLT_Mu23_EG12_DZ() { return zmet.HLT_Mu23_EG12_DZ(); }
+	const int &HLT_Mu8_EG23() { return zmet.HLT_Mu8_EG23(); }
+	const int &HLT_Mu8_EG23_DZ() { return zmet.HLT_Mu8_EG23_DZ(); }
 	const int &HLT_DoubleMu_noiso() { return zmet.HLT_DoubleMu_noiso(); }
 	const int &HLT_DoubleMu() { return zmet.HLT_DoubleMu(); }
 	const int &HLT_DoubleMu_tk() { return zmet.HLT_DoubleMu_tk(); }

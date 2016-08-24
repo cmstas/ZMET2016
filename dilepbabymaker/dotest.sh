@@ -28,4 +28,6 @@ cp ../json/golden_json_200716_12p9fb_snt.txt .
 
 # ./processBaby test_80_data_ph /hadoop/cms/store/group/snt/run2_data/Run2016C_SinglePhoton_MINIAOD_PromptReco-v2/merged/V08-00-07/merged_ntuple_1.root 
 
-./processBaby test_80_data_relval /hadoop/cms/store/group/snt/run2_25ns/RelValTTbar_13_CMSSW_8_1_0_pre9-PU25ns_81X_mcRun2_asymptotic_v2-v1/V08-01-00/merged_ntuple_1.root 
+# ./processBaby test_80_data_relval /hadoop/cms/store/group/snt/run2_25ns/RelValTTbar_13_CMSSW_8_1_0_pre9-PU25ns_81X_mcRun2_asymptotic_v2-v1/V08-01-00/merged_ntuple_1.root 
+
+./processBaby test_80_data /hadoop/cms/store/group/snt/run2_data/Run2016G_MuonEG_MINIAOD_PromptReco-v1/merged/V08-00-12/merged_ntuple_1.root 
