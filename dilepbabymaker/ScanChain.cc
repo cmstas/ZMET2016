@@ -235,7 +235,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		}		
 	  }
 
-	  else if( TString(currentFile->GetTitle()).Contains("80MiniAODv") ){
+	  else if( TString(currentFile->GetTitle()).Contains("80MiniAODv") || TString(currentFile->GetTitle()).Contains("RelVal") ){
 		// files for 80X MC
 		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L1FastJet_AK4PFchs.txt"   );
@@ -263,6 +263,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_Uncertainty_AK4PFchs.txt" );
 	  }
 
+	  if( jetcorr_filenames_pfL1FastJetL2L3.size() == 0 ){
+		cout<<"Error, sample not found. Check the JECs."<<endl;
+		exit(100);
+	  }
+	  
 	  jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
     }
 

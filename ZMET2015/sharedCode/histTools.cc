@@ -10,6 +10,10 @@
 #include "TLatex.h"
 #include "TMath.h"
 
+#include "histTools.h"
+
+class histmap;
+
 using namespace std;
 
 
@@ -71,7 +75,10 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity )
 
   canvas->cd();
   TLatex *lumitex = NULL;
-  lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
+  if( luminosity > 0.1 ) lumitex = new TLatex(0.66       , 0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
+  else                   lumitex = new TLatex(0.66 + 0.05, 0.955, "(13 TeV)" );    
+
+  // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
   // lumitex = new TLatex(0.66,0.955, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
   // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
   lumitex->SetNDC();    
@@ -104,7 +111,8 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity, float cmsleftmargin, flo
   canvas->cd();
   TLatex *lumitex = NULL;
   // lumitex = new TLatex(lumileftmargin, 0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
-  lumitex = new TLatex(lumileftmargin, 0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
+  if( luminosity > 0.1 ) lumitex = new TLatex(lumileftmargin       , 0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
+  else                   lumitex = new TLatex(lumileftmargin + 0.05, 0.955, "(13 TeV)" );    
   lumitex->SetNDC();    
   lumitex->SetTextSize(0.04);    
   lumitex->SetLineWidth(2);
@@ -112,11 +120,18 @@ void drawCMSLatex( TCanvas * &canvas, float luminosity, float cmsleftmargin, flo
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(cmsleftmargin, 0.95, "CMS Simulation" );    
+  cmstex = new TLatex(0.21,0.90, "CMS" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.04);    
   cmstex->SetLineWidth(2);
-  cmstex->SetTextFont(62);    
+  cmstex->SetTextFont(61);    
+  cmstex->Draw();
+
+  cmstex = new TLatex(0.21,0.87, "Internal: Simulation" );    
+  cmstex->SetNDC();    
+  cmstex->SetTextSize(0.03);    
+  cmstex->SetLineWidth(2);
+  cmstex->SetTextFont(52);    
   cmstex->Draw();
 
   return;
@@ -276,8 +291,89 @@ void renormalizebins( TH1F * &hist )
   return;
 }
 
-// //_______________________________________________________________________________
-// int round_double(double d)
+histmap::histmap(){};
+histmap::~histmap(){};
+
+TH1F * & histmap::gethist( std::string name )
+{
+  return hist_list.at(name);
+}
+
+void histmap::addhisttolist( std::string name, TH1F * hist )
+{
+  hist_list.insert ( pair<std::string,TH1F*>( name, hist ) );		
+  return;
+}
+
+void histmap::normalizebins()
+{
+  for (std::map< std::string, TH1F* >::iterator it=hist_list.begin(); it!=hist_list.end(); ++it){
+    renormalizebins( it->second );
+  }
+  return;
+}
+
+void histmap::updateoverflowbins( float xmax )
+{
+  for (std::map< std::string, TH1F* >::iterator it=hist_list.begin(); it!=hist_list.end(); ++it){
+	updateoverflow( it->second , xmax-1 );
+  }
+  return;
+}
+
+void histmap::scaleall( float scale )
+{
+  for (std::map< std::string, TH1F* >::iterator it=hist_list.begin(); it!=hist_list.end(); ++it){
+	it->second->Scale(scale);
+  }
+  return;
+}
+
+void histmap::rebinall( int rebin )
+{
+  for (std::map< std::string, TH1F* >::iterator it=hist_list.begin(); it!=hist_list.end(); ++it){
+	it->second->Rebin(rebin);
+  }
+  return;
+}
+
+void histmap::scalealltounity()
+{
+  for (std::map< std::string, TH1F* >::iterator it=hist_list.begin(); it!=hist_list.end(); ++it){
+	it->second->Scale(1./it->second->GetSumOfWeights());
+  }
+  return;
+}
+
+void histmap::setlinewidthall( float linewidth )
+{
+  for (std::map< std::string, TH1F* >::iterator it=hist_list.begin(); it!=hist_list.end(); ++it){
+	it->second->SetLineWidth(linewidth);
+  }
+  return;
+}
+
+void histmap::setfillstyleforstack()
+{
+  for (std::map< std::string, TH1F* >::iterator it=hist_list.begin(); it!=hist_list.end(); ++it){
+	it->second->SetFillStyle(1001);
+  }
+  return;
+}
+
+void histmap::setfillcolors()
+{
+}
+
+void histmap::setlinecolors()
+{
+}
+
+  
+  
+// private:
+
+//   std::map<std::string, TH1F*> hist_list
 // {
-//   return floor(d + 0.5);
 // }
+
