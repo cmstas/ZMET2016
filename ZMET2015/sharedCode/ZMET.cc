@@ -658,6 +658,31 @@ void ZMET::Init(TTree *tree) {
 		lep_pterr_branch = tree->GetBranch("lep_pterr");
 		if (lep_pterr_branch) {lep_pterr_branch->SetAddress(&lep_pterr_);}
 	}
+	lep_sta_pterrOpt_branch = 0;
+	if (tree->GetBranch("lep_sta_pterrOpt") != 0) {
+		lep_sta_pterrOpt_branch = tree->GetBranch("lep_sta_pterrOpt");
+		if (lep_sta_pterrOpt_branch) {lep_sta_pterrOpt_branch->SetAddress(&lep_sta_pterrOpt_);}
+	}
+	lep_glb_pterrOpt_branch = 0;
+	if (tree->GetBranch("lep_glb_pterrOpt") != 0) {
+		lep_glb_pterrOpt_branch = tree->GetBranch("lep_glb_pterrOpt");
+		if (lep_glb_pterrOpt_branch) {lep_glb_pterrOpt_branch->SetAddress(&lep_glb_pterrOpt_);}
+	}
+	lep_x2ondof_branch = 0;
+	if (tree->GetBranch("lep_x2ondof") != 0) {
+		lep_x2ondof_branch = tree->GetBranch("lep_x2ondof");
+		if (lep_x2ondof_branch) {lep_x2ondof_branch->SetAddress(&lep_x2ondof_);}
+	}
+	lep_sta_x2ondof_branch = 0;
+	if (tree->GetBranch("lep_sta_x2ondof") != 0) {
+		lep_sta_x2ondof_branch = tree->GetBranch("lep_sta_x2ondof");
+		if (lep_sta_x2ondof_branch) {lep_sta_x2ondof_branch->SetAddress(&lep_sta_x2ondof_);}
+	}
+	lep_glb_x2ondof_branch = 0;
+	if (tree->GetBranch("lep_glb_x2ondof") != 0) {
+		lep_glb_x2ondof_branch = tree->GetBranch("lep_glb_x2ondof");
+		if (lep_glb_x2ondof_branch) {lep_glb_x2ondof_branch->SetAddress(&lep_glb_x2ondof_);}
+	}
 	nisoTrack_5gev_branch = 0;
 	if (tree->GetBranch("nisoTrack_5gev") != 0) {
 		nisoTrack_5gev_branch = tree->GetBranch("nisoTrack_5gev");
@@ -1576,6 +1601,11 @@ void ZMET::GetEntry(unsigned int idx)
 		lep_MVA_isLoaded = false;
 		lep_validfraction_isLoaded = false;
 		lep_pterr_isLoaded = false;
+		lep_sta_pterrOpt_isLoaded = false;
+		lep_glb_pterrOpt_isLoaded = false;
+		lep_x2ondof_isLoaded = false;
+		lep_sta_x2ondof_isLoaded = false;
+		lep_glb_x2ondof_isLoaded = false;
 		nisoTrack_5gev_isLoaded = false;
 		nisoTrack_10gev_isLoaded = false;
 		nisoTrack_lowmt_isLoaded = false;
@@ -1870,6 +1900,11 @@ void ZMET::LoadAllBranches()
 	if (lep_MVA_branch != 0) lep_MVA();
 	if (lep_validfraction_branch != 0) lep_validfraction();
 	if (lep_pterr_branch != 0) lep_pterr();
+	if (lep_sta_pterrOpt_branch != 0) lep_sta_pterrOpt();
+	if (lep_glb_pterrOpt_branch != 0) lep_glb_pterrOpt();
+	if (lep_x2ondof_branch != 0) lep_x2ondof();
+	if (lep_sta_x2ondof_branch != 0) lep_sta_x2ondof();
+	if (lep_glb_x2ondof_branch != 0) lep_glb_x2ondof();
 	if (nisoTrack_5gev_branch != 0) nisoTrack_5gev();
 	if (nisoTrack_10gev_branch != 0) nisoTrack_10gev();
 	if (nisoTrack_lowmt_branch != 0) nisoTrack_lowmt();
@@ -3624,6 +3659,71 @@ void ZMET::LoadAllBranches()
 			lep_pterr_isLoaded = true;
 		}
 		return *lep_pterr_;
+	}
+	const vector<float> &ZMET::lep_sta_pterrOpt()
+	{
+		if (not lep_sta_pterrOpt_isLoaded) {
+			if (lep_sta_pterrOpt_branch != 0) {
+				lep_sta_pterrOpt_branch->GetEntry(index);
+			} else { 
+				printf("branch lep_sta_pterrOpt_branch does not exist!\n");
+				exit(1);
+			}
+			lep_sta_pterrOpt_isLoaded = true;
+		}
+		return *lep_sta_pterrOpt_;
+	}
+	const vector<float> &ZMET::lep_glb_pterrOpt()
+	{
+		if (not lep_glb_pterrOpt_isLoaded) {
+			if (lep_glb_pterrOpt_branch != 0) {
+				lep_glb_pterrOpt_branch->GetEntry(index);
+			} else { 
+				printf("branch lep_glb_pterrOpt_branch does not exist!\n");
+				exit(1);
+			}
+			lep_glb_pterrOpt_isLoaded = true;
+		}
+		return *lep_glb_pterrOpt_;
+	}
+	const vector<float> &ZMET::lep_x2ondof()
+	{
+		if (not lep_x2ondof_isLoaded) {
+			if (lep_x2ondof_branch != 0) {
+				lep_x2ondof_branch->GetEntry(index);
+			} else { 
+				printf("branch lep_x2ondof_branch does not exist!\n");
+				exit(1);
+			}
+			lep_x2ondof_isLoaded = true;
+		}
+		return *lep_x2ondof_;
+	}
+	const vector<float> &ZMET::lep_sta_x2ondof()
+	{
+		if (not lep_sta_x2ondof_isLoaded) {
+			if (lep_sta_x2ondof_branch != 0) {
+				lep_sta_x2ondof_branch->GetEntry(index);
+			} else { 
+				printf("branch lep_sta_x2ondof_branch does not exist!\n");
+				exit(1);
+			}
+			lep_sta_x2ondof_isLoaded = true;
+		}
+		return *lep_sta_x2ondof_;
+	}
+	const vector<float> &ZMET::lep_glb_x2ondof()
+	{
+		if (not lep_glb_x2ondof_isLoaded) {
+			if (lep_glb_x2ondof_branch != 0) {
+				lep_glb_x2ondof_branch->GetEntry(index);
+			} else { 
+				printf("branch lep_glb_x2ondof_branch does not exist!\n");
+				exit(1);
+			}
+			lep_glb_x2ondof_isLoaded = true;
+		}
+		return *lep_glb_x2ondof_;
 	}
 	const int &ZMET::nisoTrack_5gev()
 	{
@@ -5940,6 +6040,11 @@ namespace ZMet {
 	const vector<float> &lep_MVA() { return zmet.lep_MVA(); }
 	const vector<float> &lep_validfraction() { return zmet.lep_validfraction(); }
 	const vector<float> &lep_pterr() { return zmet.lep_pterr(); }
+	const vector<float> &lep_sta_pterrOpt() { return zmet.lep_sta_pterrOpt(); }
+	const vector<float> &lep_glb_pterrOpt() { return zmet.lep_glb_pterrOpt(); }
+	const vector<float> &lep_x2ondof() { return zmet.lep_x2ondof(); }
+	const vector<float> &lep_sta_x2ondof() { return zmet.lep_sta_x2ondof(); }
+	const vector<float> &lep_glb_x2ondof() { return zmet.lep_glb_x2ondof(); }
 	const int &nisoTrack_5gev() { return zmet.nisoTrack_5gev(); }
 	const int &nisoTrack_10gev() { return zmet.nisoTrack_10gev(); }
 	const int &nisoTrack_lowmt() { return zmet.nisoTrack_lowmt(); }

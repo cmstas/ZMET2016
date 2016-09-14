@@ -242,6 +242,13 @@ class babyMaker {
   std::vector <Float_t> lep_MVA          ;   //[nlep]
   std::vector <Float_t> lep_validfraction;   //[nlep]
   std::vector <Float_t> lep_pterr        ;   //[nlep]
+  std::vector <Float_t> lep_sta_pterrOpt ;   //[nlep]
+  std::vector <Float_t> lep_glb_pterrOpt ;   //[nlep]
+  // std::vector <Float_t> lep_bft_pterrOpt ;   //[nlep]
+  std::vector <Float_t> lep_x2ondof      ;   //[nlep]
+  std::vector <Float_t> lep_sta_x2ondof  ;   //[nlep]
+  std::vector <Float_t> lep_glb_x2ondof  ;   //[nlep]
+  // std::vector <Float_t> lep_bft_x2ondof  ;   //[nlep]
   
   Int_t nisoTrack_5gev ;
   Int_t nisoTrack_10gev;

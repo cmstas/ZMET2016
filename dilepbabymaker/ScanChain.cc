@@ -589,7 +589,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       vector<float>vec_lep_etaSC;
       vector<float>vec_lep_validfraction;
       vector<float>vec_lep_ptErr;
-	  
+
+	  vector<float>vec_lep_sta_pterrOpt ;
+	  vector<float>vec_lep_glb_pterrOpt ;
+	  // vector<float>vec_lep_bft_pterrOpt ;
+	  vector<float>vec_lep_x2ondof      ;
+	  vector<float>vec_lep_sta_x2ondof  ;
+	  vector<float>vec_lep_glb_x2ondof  ;
+	  // vector<float>vec_lep_bft_x2ondof  ;
+
 	  vector<LorentzVector> vec_lep_p4s;
 
 	  vector<LorentzVector> p4sLeptonsForJetCleaning;
@@ -629,7 +637,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
 		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
 		  vec_lep_validfraction.push_back( -1                              );
-		  vec_lep_ptErr        .push_back( -1                              );
+		  vec_lep_ptErr        .push_back( cms3.els_ptErr() .at(iEl)       );
+		  vec_lep_sta_pterrOpt .push_back ( -1                             );
+		  vec_lep_glb_pterrOpt .push_back ( -1                             );
+		  // vec_lep_bft_pterrOpt .push_back ( cms3.els_bfit_qoverpError().at(iEl) / cms3.els_bfit_qoverp() .at(iEl) );
+		  vec_lep_x2ondof      .push_back ( cms3.els_chi2()            .at(iEl) / cms3.els_ndof()        .at(iEl) );
+		  vec_lep_sta_x2ondof  .push_back ( -1                             );
+		  vec_lep_glb_x2ondof  .push_back ( -1                             );
+		  // vec_lep_bft_x2ondof  .push_back ( cms3.els_bfit_chi2()       .at(iEl) / cms3.els_bfit_ndof()   .at(iEl) );
 
 		  if (!isData && (cms3.els_mc3dr().at(iEl) < 0.2 && cms3.els_mc3idx().at(iEl) != -9999 && abs(cms3.els_mc3_id().at(iEl)) == 11 )) { // matched to a prunedGenParticle electron?
 			int momid =  abs(genPart_motherId[cms3.els_mc3idx().at(iEl)]);
@@ -686,6 +701,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  vec_lep_validfraction.push_back ( validFraction                   );
 		  vec_lep_ptErr        .push_back ( cms3.mus_ptErr() .at(iMu)       );
 
+		  vec_lep_sta_pterrOpt .push_back ( cms3.mus_sta_qoverpError() .at(iMu) / cms3.mus_sta_qoverp()  .at(iMu) );
+		  vec_lep_glb_pterrOpt .push_back ( cms3.mus_gfit_qoverpError().at(iMu) / cms3.mus_gfit_qoverp() .at(iMu) );
+		  // vec_lep_bft_pterrOpt .push_back ( cms3.mus_bfit_qoverpError().at(iMu) / cms3.mus_bfit_qoverp() .at(iMu) );
+		  vec_lep_x2ondof      .push_back ( cms3.mus_chi2()            .at(iMu) / cms3.mus_ndof()        .at(iMu) );
+		  vec_lep_sta_x2ondof  .push_back ( cms3.mus_sta_chi2()        .at(iMu) / cms3.mus_sta_ndof()    .at(iMu) );
+		  vec_lep_glb_x2ondof  .push_back ( cms3.mus_gfit_chi2()       .at(iMu) / cms3.mus_gfit_ndof()   .at(iMu) );
+		  // vec_lep_bft_x2ondof  .push_back ( cms3.mus_bfit_chi2()       .at(iMu) / cms3.mus_bfit_ndof()   .at(iMu) );
+		  
 		  if (!isData && (cms3.mus_mc3dr().at(iMu) < 0.2 && cms3.mus_mc3idx().at(iMu) != -9999 && abs(cms3.mus_mc3_id().at(iMu)) == 13 )) { // matched to a prunedGenParticle electron?
 			int momid =  abs(genPart_motherId[cms3.mus_mc3idx().at(iMu)]);
 			vec_lep_mcMatchId.push_back ( momid != 13 ? momid : genPart_grandmaId[cms3.mus_mc3idx().at(iMu)]); // if mother is different store mother, otherwise store grandmother
@@ -735,6 +758,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		lep_MVA          .push_back( vec_lep_MVA          .at(it->first));
 		lep_validfraction.push_back( vec_lep_validfraction.at(it->first));
 		lep_pterr        .push_back( vec_lep_ptErr        .at(it->first));
+		lep_sta_pterrOpt .push_back( vec_lep_sta_pterrOpt .at(it->first));
+		lep_glb_pterrOpt .push_back( vec_lep_glb_pterrOpt .at(it->first));
+		// lep_bft_pterrOpt .push_back( vec_lep_bft_pterrOpt .at(it->first));
+		lep_x2ondof      .push_back( vec_lep_x2ondof      .at(it->first));
+		lep_sta_x2ondof  .push_back( vec_lep_sta_x2ondof  .at(it->first));
+		lep_glb_x2ondof  .push_back( vec_lep_glb_x2ondof  .at(it->first));
+		// lep_bft_x2ondof  .push_back( vec_lep_bft_x2ondof  .at(it->first));
+
 		i++;
       }
         
@@ -1806,8 +1837,15 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_convVeto"     , "std::vector< Int_t >"         , &lep_convVeto   );
   BabyTree_->Branch("lep_tightCharge"  , "std::vector< Int_t >"         , &lep_tightCharge);
   BabyTree_->Branch("lep_MVA"          , "std::vector< Float_t >"       , &lep_MVA        );
-  BabyTree_->Branch("lep_validfraction", &lep_validfraction  );
-  BabyTree_->Branch("lep_pterr"        , &lep_pterr          );
+  BabyTree_->Branch("lep_validfraction", &lep_validfraction );
+  BabyTree_->Branch("lep_pterr"        , &lep_pterr         );
+  BabyTree_->Branch("lep_sta_pterrOpt" , &lep_sta_pterrOpt  );
+  BabyTree_->Branch("lep_glb_pterrOpt" , &lep_glb_pterrOpt  );
+  // BabyTree_->Branch("lep_bft_pterrOpt" , &lep_bft_pterrOpt  );
+  BabyTree_->Branch("lep_x2ondof"      , &lep_x2ondof       );
+  BabyTree_->Branch("lep_sta_x2ondof"  , &lep_sta_x2ondof   );
+  BabyTree_->Branch("lep_glb_x2ondof"  , &lep_glb_x2ondof   );
+  // BabyTree_->Branch("lep_bft_x2ondof"  , &lep_bft_x2ondof   );
 
   BabyTree_->Branch("nisoTrack_5gev"  , &nisoTrack_5gev  );
   BabyTree_->Branch("nisoTrack_10gev" , &nisoTrack_10gev );
@@ -2135,29 +2173,36 @@ void babyMaker::InitBabyNtuple () {
   
   nlep = -999;
   nveto_leptons = -999;
-  lep_p4         .clear();   //[nlep]
-  lep_pt         .clear();   //[nlep]
-  lep_eta        .clear();   //[nlep]
-  lep_phi        .clear();   //[nlep]
-  lep_mass       .clear();   //[nlep]
-  lep_charge     .clear();   //[nlep]
-  lep_pdgId      .clear();   //[nlep]
-  lep_dxy        .clear();   //[nlep]
-  lep_etaSC      .clear();   //[nlep]
-  lep_dz         .clear();   //[nlep]
-  lep_tightId    .clear();   //[nlep]
-  lep_relIso03   .clear();   //[nlep]
-  lep_relIso03MREA   .clear();   //[nlep]
-  lep_relIso03MRDB   .clear();   //[nlep]
-  lep_relIso03MRNC   .clear();   //[nlep]
-  lep_relIso04   .clear();   //[nlep]
-  lep_mcMatchId  .clear();   //[nlep]
-  lep_lostHits   .clear();   //[nlep]
-  lep_convVeto   .clear();   //[nlep]
-  lep_tightCharge.clear();   //[nlep]
-  lep_MVA        .clear();   //[nlep]
-  lep_validfraction.clear();   //[nlep]
-  lep_pterr        .clear();   //[nlep]
+  lep_p4            .clear();
+  lep_pt            .clear();
+  lep_eta           .clear();
+  lep_phi           .clear();
+  lep_mass          .clear();
+  lep_charge        .clear();
+  lep_pdgId         .clear();
+  lep_dxy           .clear();
+  lep_etaSC         .clear();
+  lep_dz            .clear();
+  lep_tightId       .clear();
+  lep_relIso03      .clear();
+  lep_relIso03MREA  .clear();
+  lep_relIso03MRDB  .clear();
+  lep_relIso03MRNC  .clear();
+  lep_relIso04      .clear();
+  lep_mcMatchId     .clear();
+  lep_lostHits      .clear();
+  lep_convVeto      .clear();
+  lep_tightCharge   .clear();
+  lep_MVA           .clear();
+  lep_validfraction .clear();
+  lep_pterr         .clear();
+  lep_sta_pterrOpt  .clear();
+  lep_glb_pterrOpt  .clear();
+  // lep_bft_pterrOpt  .clear();
+  lep_x2ondof       .clear();
+  lep_sta_x2ondof   .clear();
+  lep_glb_x2ondof   .clear();
+  // lep_bft_x2ondof   .clear();
 
   
   nisoTrack_5gev  = -1;
