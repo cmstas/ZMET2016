@@ -166,7 +166,8 @@ class babyMaker {
   // for ATLAS cross checks
   Int_t HLT_singleEl;
   Int_t HLT_singleMu;
-					  
+  Int_t HLT_singleMu_noiso;
+  
   // Double electron
   Int_t HLT_DoubleEl_noiso;
   Int_t HLT_DoubleEl      ; // prescaled - turned off
@@ -177,18 +178,25 @@ class babyMaker {
   Int_t HLT_MuEG        ;
   Int_t HLT_MuEG_2      ;
   Int_t HLT_MuEG_noiso  ;
-  Int_t HLT_Mu8_EG17    ;
-  Int_t HLT_Mu17_EG12   ;
-  Int_t HLT_Mu23_EG8    ;
-  Int_t HLT_Mu23_EG12   ;
-  Int_t HLT_Mu23_EG12_DZ;
-  Int_t HLT_Mu8_EG23    ;
-  Int_t HLT_Mu8_EG23_DZ ;
+
+  Int_t HLT_Mu8_EG17      ;
+  Int_t HLT_Mu8_EG23      ;
+  Int_t HLT_Mu8_EG23_DZ   ;
+
+  Int_t HLT_Mu12_EG23_DZ  ;
+
+  Int_t HLT_Mu17_EG12     ;
+
+  Int_t HLT_Mu23_EG8      ;
+  Int_t HLT_Mu23_EG8_DZ   ;
+  Int_t HLT_Mu23_EG12     ;
+  Int_t HLT_Mu23_EG12_DZ  ;
 
   // Double electron
   Int_t HLT_DoubleMu_noiso   ;
   Int_t HLT_DoubleMu         ;
   Int_t HLT_DoubleMu_tk      ;
+  Int_t HLT_DoubleMu_dbltk   ;
   Int_t HLT_DoubleMu_nonDZ   ;
   Int_t HLT_DoubleMu_tk_nonDZ; // new unprescaled : use these
 
@@ -250,10 +258,8 @@ class babyMaker {
   std::vector <Float_t> lep_glb_x2ondof  ;   //[nlep]
   // std::vector <Float_t> lep_bft_x2ondof  ;   //[nlep]
   
-  Int_t nisoTrack_5gev ;
-  Int_t nisoTrack_10gev;
-  Int_t nisoTrack_lowmt;
-  Int_t nisoTrack_himt ;
+  Int_t nisoTrack_5gev;
+  Int_t nisoTrack_mt2 ;
 
 //----- PHOTONS
   Int_t           ngamma;
@@ -343,6 +349,10 @@ class babyMaker {
   Float_t         ht;
   Float_t         ht_up;
   Float_t         ht_dn;
+
+  Float_t         metsig_unofficial;
+  Float_t         metsig_unofficial_dn;
+  Float_t         metsig_unofficial_up;
 
   Float_t         mt2;  // only leptons
   Float_t         mt2j; // all jets

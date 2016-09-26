@@ -8,7 +8,7 @@ if [ ! $didcompile == "0" ]; then
 	exit $didcompile
 fi
 
-cp ../json/golden_json_200716_12p9fb_snt.txt .
+cp ../json/golden_json_260916_26p4fb_snt.txt .
 
 # ./processBaby test_80_data /hadoop/cms/store/group/snt/run2_data/Run2016B_DoubleEG_MINIAOD_PromptReco-v2/merged/V08-00-06/merged_ntuple_32.root
 # # ./processBaby test_80_data_photon /hadoop/cms/store/group/snt/run2_data/Run2016B_SinglePhoton_MINIAOD_PromptReco-v2/merged/V08-00-04/merged_ntuple_200.root

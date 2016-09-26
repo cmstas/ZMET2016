@@ -96,7 +96,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   load_leptonSF_files();
 	
   // do this once per job
-  const char* json_file = "golden_json_200716_12p9fb_snt.txt"; // 6p26 fb
+  const char* json_file = "golden_json_260916_26p4fb_snt.txt"; // 26p4 fb
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
@@ -376,12 +376,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  
       //TRIGGER
 	  if( isData ){ // NO TRIGGERS IN MC FOR 80X
-	  // for ATLAS cross checks
-		HLT_singleEl =  passHLTTriggerPattern("HLT_Ele27_WPTight_Gsf_v"   );
+		// for ATLAS cross checks
+		HLT_singleEl =  (passHLTTriggerPattern("HLT_Ele32_eta2p1_WPTight_Gsf_v" ) ||
+						 passHLTTriggerPattern("HLT_Ele27_WPTight_Gsf_v"        ) );
+
 		HLT_singleMu = (passHLTTriggerPattern("HLT_IsoMu22_v"           ) ||
 						passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
 						passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
 						passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) );
+		HLT_singleMu_noiso = (passHLTTriggerPattern("HLT_Mu50_v"        ) ||
+							  passHLTTriggerPattern("HLT_TkMu50_v"      ) ||
+							  passHLTTriggerPattern("HLT_Mu55_v"        ) );
 
 		// Double electron
 		HLT_DoubleEl_noiso = passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"    );
@@ -400,20 +405,26 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		//separate emu trigs
 		HLT_Mu8_EG17      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  );
 		HLT_Mu8_EG23      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  );
-		HLT_Mu17_EG12     = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
-		HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
-		HLT_Mu23_EG8      = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  );
-
-		HLT_Mu23_EG12_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" );
 		HLT_Mu8_EG23_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
+
+		HLT_Mu12_EG23_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" );
+
+		HLT_Mu17_EG12     = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
+
+		HLT_Mu23_EG8      = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  );
+		HLT_Mu23_EG8_DZ   = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
+		HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
+		HLT_Mu23_EG12_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" );
 		
 		// Double electron
-		HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                        ) ||
-								 passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                       ) );
-		HLT_DoubleMu          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"   );
-		HLT_DoubleMu_tk       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
-		HLT_DoubleMu_nonDZ    =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"      );
-		HLT_DoubleMu_tk_nonDZ =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"    ); // new unprescaled : use these
+		HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                          ) ||
+								 passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                         ) ||
+								 passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                         ) );
+		HLT_DoubleMu          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"     );
+		HLT_DoubleMu_tk       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"   );
+		HLT_DoubleMu_dbltk    =  passHLTTriggerPattern( "HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
+		HLT_DoubleMu_nonDZ    =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"        );
+		HLT_DoubleMu_tk_nonDZ =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"      ); // new unprescaled : use these
 
 		// Single photon
 		HLT_Photon22_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon22_R9Id90_HE10_IsoM_v" );
@@ -1421,15 +1432,21 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
 	  met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
 
+	  metsig_unofficial = met_T1CHS_miniAOD_CORE_pt / sqrt(ht);
+	  
 	  // met with up unc
 	  pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3, jecUnc, 1);
 	  met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
 	  met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
 
+	  metsig_unofficial = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
+
 	  // met with dn unc
 	  pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3, jecUnc, 0);
 	  met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
 	  met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
+
+	  metsig_unofficial = met_T1CHS_miniAOD_CORE_dn_pt / sqrt(ht_dn);
 
 	  // add kinematic variables to do with jets leps and photons here
 	  if( lep_p4.size() > 1 && evt_type != 2 ){
@@ -1556,10 +1573,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  nupfcands_2430_sumet = 0.0;
 	  nupfcands_30in_sumet = 0.0;
 
-	  nisoTrack_5gev  = 0;
-	  nisoTrack_10gev = 0;
-	  nisoTrack_lowmt = 0;
-	  nisoTrack_himt  = 0;
+	  nisoTrack_5gev = 0;
+	  nisoTrack_mt2  = 0;
 
 	  for( size_t pfind = 0; pfind < cms3.pfcands_p4().size(); pfind++ ){
 
@@ -1603,23 +1618,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
         float absiso = TrackIso( pfind, 0.3, 0.0, true, false );
         if(  absiso >= min( 0.2 * cand_pt, 8.0 ) ) continue;
 
+		// nuclear options for photon sample
 		nisoTrack_5gev++;
 
-        float   mt = MT( cand_pt , cms3.pfcands_p4().at(pfind).phi(), met_pt, met_phi );
+		// isotrack a la MT2
         int  pdgId = abs( cms3.pfcands_particleId().at( pfind ) );
 
         if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) && (absiso/cand_pt < 0.2) ){
-		  if( mt < 100. ){ 
-			nisoTrack_lowmt++;
-		  }else{
-			nisoTrack_himt++;
-		  }
+		  nisoTrack_mt2++;
 		}
 
         if( cand_pt > 10. && pdgId == 211 && (absiso/cand_pt < 0.1 ) ){ 
-		  nisoTrack_10gev++;
+		  nisoTrack_mt2++;
 		}
-
+		
 	  }
 	  
 	  chpfcands_0013_pt = chpfcands_0013_p4.pt();
@@ -1754,8 +1766,9 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 		
   //TRIGGER
   // for ATLAS cross checks
-  BabyTree_->Branch("HLT_singleEl"      , &HLT_singleEl );
-  BabyTree_->Branch("HLT_singleMu"      , &HLT_singleMu );
+  BabyTree_->Branch("HLT_singleEl"       , &HLT_singleEl       );
+  BabyTree_->Branch("HLT_singleMu"       , &HLT_singleMu       );
+  BabyTree_->Branch("HLT_singleMu_noiso" , &HLT_singleMu_noiso );
 					  
   // Double electron
   BabyTree_->Branch("HLT_DoubleEl_noiso" , &HLT_DoubleEl_noiso );
@@ -1767,18 +1780,25 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_MuEG"         , &HLT_MuEG         );
   BabyTree_->Branch("HLT_MuEG_2"       , &HLT_MuEG_2       );
   BabyTree_->Branch("HLT_MuEG_noiso"   , &HLT_MuEG_noiso   );
+
   BabyTree_->Branch("HLT_Mu8_EG17"     , &HLT_Mu8_EG17     );
-  BabyTree_->Branch("HLT_Mu17_EG12"    , &HLT_Mu17_EG12    );
-  BabyTree_->Branch("HLT_Mu23_EG8"     , &HLT_Mu23_EG8     );
-  BabyTree_->Branch("HLT_Mu23_EG12"    , &HLT_Mu23_EG12    );
-  BabyTree_->Branch("HLT_Mu23_EG12_DZ" , &HLT_Mu23_EG12_DZ );
   BabyTree_->Branch("HLT_Mu8_EG23"     , &HLT_Mu8_EG23     );
   BabyTree_->Branch("HLT_Mu8_EG23_DZ"  , &HLT_Mu8_EG23_DZ  );
+
+  BabyTree_->Branch("HLT_Mu12_EG23_DZ" , &HLT_Mu12_EG23_DZ );
+
+  BabyTree_->Branch("HLT_Mu17_EG12"    , &HLT_Mu17_EG12    );
+
+  BabyTree_->Branch("HLT_Mu23_EG8"     , &HLT_Mu23_EG8     );
+  BabyTree_->Branch("HLT_Mu23_EG8_DZ"  , &HLT_Mu23_EG8_DZ  );
+  BabyTree_->Branch("HLT_Mu23_EG12"    , &HLT_Mu23_EG12    );
+  BabyTree_->Branch("HLT_Mu23_EG12_DZ" , &HLT_Mu23_EG12_DZ );
 
   // Double electron
   BabyTree_->Branch("HLT_DoubleMu_noiso"    , &HLT_DoubleMu_noiso    );
   BabyTree_->Branch("HLT_DoubleMu"          , &HLT_DoubleMu          );
   BabyTree_->Branch("HLT_DoubleMu_tk"       , &HLT_DoubleMu_tk       );
+  BabyTree_->Branch("HLT_DoubleMu_dbltk"    , &HLT_DoubleMu_dbltk    );
   BabyTree_->Branch("HLT_DoubleMu_nonDZ"    , &HLT_DoubleMu_nonDZ    );
   BabyTree_->Branch("HLT_DoubleMu_tk_nonDZ" , &HLT_DoubleMu_tk_nonDZ ); // new unprescaled : use these
 
@@ -1847,10 +1867,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_glb_x2ondof"  , &lep_glb_x2ondof   );
   // BabyTree_->Branch("lep_bft_x2ondof"  , &lep_bft_x2ondof   );
 
-  BabyTree_->Branch("nisoTrack_5gev"  , &nisoTrack_5gev  );
-  BabyTree_->Branch("nisoTrack_10gev" , &nisoTrack_10gev );
-  BabyTree_->Branch("nisoTrack_lowmt" , &nisoTrack_lowmt );
-  BabyTree_->Branch("nisoTrack_himt"  , &nisoTrack_himt  );
+  BabyTree_->Branch("nisoTrack_5gev" , &nisoTrack_5gev );
+  BabyTree_->Branch("nisoTrack_mt2"  , &nisoTrack_mt2  );
 
   BabyTree_->Branch("ngamma"             , &ngamma        , "ngamma/I" );
   BabyTree_->Branch("gamma_p4"           , &gamma_p4    );
@@ -1931,6 +1949,10 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("ht"    , &ht    );
   BabyTree_->Branch("ht_up" , &ht_up );
   BabyTree_->Branch("ht_dn" , &ht_dn );
+
+  BabyTree_->Branch("metsig_unofficial"    , &metsig_unofficial    );
+  BabyTree_->Branch("metsig_unofficial_up" , &metsig_unofficial_up );
+  BabyTree_->Branch("metsig_unofficial_dn" , &metsig_unofficial_dn );
 
   BabyTree_->Branch("mt2" , &mt2  );
   BabyTree_->Branch("mt2j", &mt2j );
@@ -2108,8 +2130,9 @@ void babyMaker::InitBabyNtuple () {
 
   //TRIGGER
   // for ATLAS cross checks
-  HLT_singleEl = -999;
-  HLT_singleMu = -999;
+  HLT_singleEl       = -999;
+  HLT_singleMu       = -999;
+  HLT_singleMu_noiso = -999;
 					  
   // Double electron
   HLT_DoubleEl_noiso = -999;
@@ -2121,18 +2144,25 @@ void babyMaker::InitBabyNtuple () {
   HLT_MuEG         = -999;
   HLT_MuEG_2       = -999;
   HLT_MuEG_noiso   = -999;
+
   HLT_Mu8_EG17     = -999;
-  HLT_Mu17_EG12    = -999;
-  HLT_Mu23_EG8     = -999;
-  HLT_Mu23_EG12    = -999;
-  HLT_Mu23_EG12_DZ = -999;
   HLT_Mu8_EG23     = -999;
   HLT_Mu8_EG23_DZ  = -999;
+
+  HLT_Mu12_EG23_DZ = -999;
+
+  HLT_Mu17_EG12    = -999;
+
+  HLT_Mu23_EG8     = -999;
+  HLT_Mu23_EG8_DZ  = -999;
+  HLT_Mu23_EG12    = -999;
+  HLT_Mu23_EG12_DZ = -999;
 
   // Double electron
   HLT_DoubleMu_noiso    = -999;
   HLT_DoubleMu          = -999;
   HLT_DoubleMu_tk       = -999;
+  HLT_DoubleMu_dbltk    = -999;
   HLT_DoubleMu_nonDZ    = -999;
   HLT_DoubleMu_tk_nonDZ = -999; // new unprescaled : use these
 
@@ -2205,10 +2235,8 @@ void babyMaker::InitBabyNtuple () {
   // lep_bft_x2ondof   .clear();
 
   
-  nisoTrack_5gev  = -1;
-  nisoTrack_10gev = -1;
-  nisoTrack_lowmt = -1;
-  nisoTrack_himt  = -1;
+  nisoTrack_5gev = -1;
+  nisoTrack_mt2  = -1;
 
   ngamma = -999;
   gamma_p4           .clear();   //[ngamma]
@@ -2291,6 +2319,10 @@ void babyMaker::InitBabyNtuple () {
   ht       = -999.0;
   ht_up    = -999.0;
   ht_dn    = -999.0;
+
+  metsig_unofficial       = -999.0;
+  metsig_unofficial_up    = -999.0;
+  metsig_unofficial_dn    = -999.0;
 
   mt2      = -999.0;
   mt2j     = -999.0;
