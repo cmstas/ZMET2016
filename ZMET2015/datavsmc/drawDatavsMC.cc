@@ -1843,7 +1843,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   // else                                  drawCMSLatex( c1, luminosity*norm_factor );
 
   if( (TString(variable).Contains("mll_")) ||
-	  (!( TString(selection).Contains("SR") || TString(selection).Contains("jets_inclusive" ) ) && luminosity*norm_factor < 12.9) ) drawCMSLatex( c1, 12.9 );
+	  (!( TString(selection).Contains("SR") || TString(selection).Contains("jets_inclusive" ) ) && luminosity*norm_factor < 20.1) ) drawCMSLatex( c1, 20.1 );
   else drawCMSLatex( c1, luminosity*norm_factor );
 
   if( !TString(selection).Contains("signalcontamination") ){

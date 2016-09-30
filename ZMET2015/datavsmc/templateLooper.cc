@@ -36,7 +36,7 @@ using namespace duplicate_removal;
 
 const bool debug = false;
 
-const bool usejson                 = true;
+const bool usejson                 = false;
 const bool dovtxreweighting        = true;
 const bool dotemplateprediction    = false;
 const bool correctewkcontamination = false;
@@ -50,7 +50,7 @@ const bool do_btagscalefactors  = true;
 bool docutflow = false;
 
 // these are for deriving signal systematics
-bool doisrboost     = true;
+bool doisrboost     = false;
 bool heavy_up       = false;
 bool light_up       = false;
 bool jes_up         = false;
@@ -176,9 +176,10 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	// f_vtx = TFile::Open("nvtx_ratio_6p26fb.root","READ");
 	// h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
 
-	f_vtx = TFile::Open("pileup_jul21_nominalUpDown.root","READ");
-	// f_vtx = TFile::Open("puWeights_nTrueInt.root","READ");
-	h_vtxweight = (TH1F*)f_vtx->Get("weightsNominal")->Clone("h_vtxweight");
+	// f_vtx = TFile::Open("pileup_jul21_nominalUpDown.root","READ");
+	f_vtx = TFile::Open("nvtx_ratio_20p1fb.root","READ");
+	// h_vtxweight = (TH1F*)f_vtx->Get("weightsNominal")->Clone("h_vtxweight");
+	h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
 	h_vtxweight->SetDirectory(rootdir);
 	f_vtx->Close();
   }
@@ -446,8 +447,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  
 	  if( !zmet.isData() && dovtxreweighting ){
 	  	// if( !TString(currentFile->GetTitle()).Contains("t5zz") ){
-		  // weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nVert()));		
-		  weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nTrueInt()));		
+		  weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nVert()));		
+		  // weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nTrueInt()));		
 		// }
 	  }
 	  

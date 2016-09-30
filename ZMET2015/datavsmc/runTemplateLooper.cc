@@ -42,9 +42,9 @@ void runTemplateLooper( std::string selection = "", std::string iter = "", std::
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016E_Prompt_em*.root" ));
 	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016E_Prompt_mm*.root" ));
 
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_ee*.root" ));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_em*.root" ));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_mm*.root" ));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016F_Prompt_ee*.root" ));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016F_Prompt_em*.root" ));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016F_Prompt_mm*.root" ));
 	
 	if( TString(selection).Contains("signalcontamination") ){
 	  ch->Add(Form("/nfs-6/userdata/cwelke/ZMETbabies/%s/t5zz_mgl*_mlm.root" , iter.c_str() ));
@@ -162,4 +162,5 @@ int main(int argc, char **argv)
   string sample(argv[3]); 
   
   runTemplateLooper( selection, iter, sample );
-  return 0
+  return 0;
+}

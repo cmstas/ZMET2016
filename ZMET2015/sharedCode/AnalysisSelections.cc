@@ -114,6 +114,54 @@ bool passSignalRegionSelection( string selection )
   try
 	{
 
+	  if( TString(selection).Contains("newSR_A"        ) ){
+		if( !( event_njets == 2 || event_njets == 3 )                                                        )return false; // 2 or 3 jets
+		if( TString(selection).Contains("bveto" ) && event_ht < 500                                          )return false; // HT 500
+	  }
+	  if( TString(selection).Contains("newSR_B"        ) ){
+		if( !( event_njets == 4 || event_njets == 5 )                                                        )return false; // 4 or 5 jets
+		if( TString(selection).Contains("bveto" ) && event_ht < 500                                          )return false; // HT 500
+	  }
+	  if( TString(selection).Contains("newSR_C"        ) && !((event_njets >= 6 ))                           ) return false; // >= 6 jets
+
+	  if( TString(selection).Contains("dphicut1p0"     ) && !(event_njets > 1 && zmet.dphi_metj1() > 1.0)    ) return false; // phi MET jet1 > 1.0
+	  if( TString(selection).Contains("dphicut0p4"     ) && !(event_njets > 1 && zmet.dphi_metj1() > 0.4)    ) return false; // phi MET jet1 > 0.4
+	  if( TString(selection).Contains("dphi2cut0p4"    ) && !(event_njets > 1 && zmet.dphi_metj2() > 0.4)    ) return false; // phi MET jet2 > 0.4
+
+	  if( TString(selection).Contains("3lepveto"       ) && !(zmet.nveto_leptons() < 1 && zmet.nlep() == 2 ) ) return false; // 3rd lep veto
+
+	  if( TString(selection).Contains("baseline2016"   ) ){
+		if( !(event_njets > 1 && zmet.dphi_metj1() > 0.4)    ) return false; // phi MET jet1 > 0.4
+		if( !(event_njets > 1 && zmet.dphi_metj2() > 0.4)    ) return false; // phi MET jet2 > 0.4
+		if( !(zmet.nveto_leptons() < 1 && zmet.nlep() == 2 ) ) return false; // 3rd lep veto
+		if( zmet.evt_type() == 0 ){
+		  if( TString(selection).Contains("bveto") && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) <=  80 ) return false; // mt2 cut on dilep evts
+		  if( TString(selection).Contains("withb") && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) <= 100 ) return false; // mt2 cut on dilep evts
+		}
+		if( zmet.evt_type() == 2 ){
+		  if( !( abs(lep1_p4.eta()) < 2.4 && abs(lep2_p4.eta()) < 2.4 )             ) return false; // decayed leps eta < 2.4
+		  if( !( ( abs(lep1_p4.eta()) < 1.4 || abs(lep1_p4.eta()) > 1.6 ) &&
+				 ( abs(lep2_p4.eta()) < 1.4 || abs(lep2_p4.eta()) > 1.6 ) )         ) return false; // decayed leps veto xition
+		  if( TString(selection).Contains("bveto") && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) <=  80 ) return false; // mt2 cut on dilep evts
+		  if( TString(selection).Contains("withb") && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) <= 100 ) return false; // mt2 cut on dilep evts
+		}
+	  }
+	  
+	  if( TString(selection).Contains("metcut"         ) && !(event_met_pt > 100)                            ) return false; // MET > 100
+	  if( TString(selection).Contains("mt2cut"         ) ){
+		if( zmet.evt_type() == 0 ){
+		  if( TString(selection).Contains("bveto") && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) <=  80 ) return false; // mt2 cut on dilep evts
+		  if( TString(selection).Contains("withb") && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) <= 100 ) return false; // mt2 cut on dilep evts
+		}
+		if( zmet.evt_type() == 2 ){
+		  if( !( abs(lep1_p4.eta()) < 2.4 && abs(lep2_p4.eta()) < 2.4 )             ) return false; // decayed leps eta < 2.4
+		  if( !( ( abs(lep1_p4.eta()) < 1.4 || abs(lep1_p4.eta()) > 1.6 ) &&
+				 ( abs(lep2_p4.eta()) < 1.4 || abs(lep2_p4.eta()) > 1.6 ) )         ) return false; // decayed leps veto xition
+		  if( TString(selection).Contains("bveto") && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) <=  80 ) return false; // mt2 cut on dilep evts
+		  if( TString(selection).Contains("withb") && MT2( event_met_pt, event_met_ph, zmet.lep_p4().at(0), zmet.lep_p4().at(1), 0.0, false ) <= 100 ) return false; // mt2 cut on dilep evts
+		}
+	  }
+	  
 	  if( TString(selection).Contains("loosephoton"    ) && !((zmet.evt_type() == 2 && isLoosePhoton(0))  || zmet.evt_type() != 2) ) return false; //tight photon selection for systematics study
 	  if( TString(selection).Contains("mediumphoton"   ) && !((zmet.evt_type() == 2 && isMediumPhoton(0)) || zmet.evt_type() != 2) ) return false; //tight photon selection for systematics study
 	  if( TString(selection).Contains("tightphoton"    ) && !((zmet.evt_type() == 2 && isTightPhoton(0))  || zmet.evt_type() != 2) ) return false; //tight photon selection for systematics study
