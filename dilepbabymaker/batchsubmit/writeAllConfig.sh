@@ -33,6 +33,21 @@ TAG=${analysis_version}
 ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016D_MuonEG_MINIAOD_PromptReco-v2/merged/V08-00-08/       ${TAG}_data_2016D_Prompt_em_v2
 ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016D_SinglePhoton_MINIAOD_PromptReco-v2/merged/V08-00-08/ ${TAG}_data_2016D_Prompt_ph_v2
 
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016E_DoubleEG_MINIAOD_PromptReco-v2/merged/V08-00-10/     ${TAG}_data_2016E_Prompt_ee_v2
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016E_DoubleMuon_MINIAOD_PromptReco-v2/merged/V08-00-10/   ${TAG}_data_2016E_Prompt_mm_v2
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016E_MuonEG_MINIAOD_PromptReco-v2/merged/V08-00-10/       ${TAG}_data_2016E_Prompt_em_v2
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016E_SinglePhoton_MINIAOD_PromptReco-v2/merged/V08-00-10/ ${TAG}_data_2016E_Prompt_ph_v2
+
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016F_DoubleEG_MINIAOD_PromptReco-v1/merged/V08-00-11/     ${TAG}_data_2016F_Prompt_ee_v1
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016F_DoubleMuon_MINIAOD_PromptReco-v1/merged/V08-00-11/   ${TAG}_data_2016F_Prompt_mm_v1
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016F_MuonEG_MINIAOD_PromptReco-v1/merged/V08-00-11/       ${TAG}_data_2016F_Prompt_em_v1
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016F_SinglePhoton_MINIAOD_PromptReco-v1/merged/V08-00-11/ ${TAG}_data_2016F_Prompt_ph_v1
+
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016G_DoubleEG_MINIAOD_PromptReco-v1/merged/V08-00-12/     ${TAG}_data_2016G_Prompt_ee_v1
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016G_DoubleMuon_MINIAOD_PromptReco-v1/merged/V08-00-12/   ${TAG}_data_2016G_Prompt_mm_v1
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016G_MuonEG_MINIAOD_PromptReco-v1/merged/V08-00-12/       ${TAG}_data_2016G_Prompt_em_v1
+./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016G_SinglePhoton_MINIAOD_PromptReco-v1/merged/V08-00-12/ ${TAG}_data_2016G_Prompt_ph_v1
+
 # 2016 MC
 
 hadoopdirv2="hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2"

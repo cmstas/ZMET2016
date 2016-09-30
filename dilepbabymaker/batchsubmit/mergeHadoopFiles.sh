@@ -30,7 +30,22 @@ fi
 # run data_2016C_Prompt_ee_v2
 # run data_2016C_Prompt_mm_v2
 # run data_2016C_Prompt_em_v2
-# # run data_2016C_Prompt_ph_v2
+# run data_2016C_Prompt_ph_v2
+
+# run data_2016D_Prompt_ee_v2
+# run data_2016D_Prompt_mm_v2
+# run data_2016D_Prompt_em_v2
+# run data_2016D_Prompt_ph_v2
+
+# run data_2016E_Prompt_ee_v2
+# run data_2016E_Prompt_mm_v2
+# run data_2016E_Prompt_em_v2
+# run data_2016E_Prompt_ph_v2
+
+# run data_2016F_Prompt_ee_v1
+# run data_2016F_Prompt_mm_v1
+# run data_2016F_Prompt_em_v1
+# run data_2016F_Prompt_ph_v1
 
 # # 2016 MC
 
@@ -71,35 +86,24 @@ fi
 # run ttw_qq_amcnlo
 
 # # VVV
-# run www_incl_mgmlm
-# run wwz_incl_mgmlm
-# run wzz_incl_mgmlm
-# run zzz_incl_mgmlm
+# run www_incl_amcnlo
+# run wwz_incl_amcnlo
+# run wzz_incl_amcnlo
+# run zzz_incl_amcnlo
 
 # # WJets
 # run wjets_incl_amcnlo
+# run wgjets_incl_mgmlm
 # run wgjets_incl_amcnlo
-# run wjets_ht1200_amcnlo
-# run wjets_ht2500_amcnlo
-# run wjets_ht800_amcnlo
-# run wjets_ht600_amcnlo
-# run wjets_ht400_amcnlo
-# run wjets_ht200_amcnlo
-# run wjets_ht100_amcnlo
+# run wjets_ht1200_mgmlm
+# run wjets_ht2500_mgmlm
+# run wjets_ht800_mgmlm
+# run wjets_ht600_mgmlm
+# run wjets_ht400_mgmlm
+# run wjets_ht200_mgmlm
+# run wjets_ht100_mgmlm
 
-
-# # WJets
-run wjets_incl_amcnlo
-run wjets_ht1200_amcnlo
-run wjets_ht2500_amcnlo
-run wjets_ht800_amcnlo
-run wjets_ht600_amcnlo
-run wjets_ht400_amcnlo
-run wjets_ht200_amcnlo
-run wjets_ht100_amcnlo
-run ttgamma_incl_amcnlo
-
-
+# run ttgamma_incl_amcnlo
 # run znunugamma_ptg130_mgmlm
 # run znunugamma_ptg40_mgmlm
 
@@ -109,7 +113,6 @@ run ttgamma_incl_amcnlo
 # run dy_m50_mgmlm_ht100_ext1
 # run dy_m50_mgmlm_ht200_ext1
 # run dy_m50_mgmlm_ht400_ext1
-# run dy_m50_mgmlm_ht600
 # run dy_m50_mgmlm_ht600_ext1
 
 # # gjets
@@ -120,72 +123,8 @@ run ttgamma_incl_amcnlo
 # run gjetsht600_dr0p4_mgmlm
 # run gjetsht100_mgmlm
 
-# signal
+# # signal
 # run t5zz_80x_v2
 # run tchiwz_80x_v2
 
-# run znunugamma_ptg130_mgmlm
-
-# all the data for the MET study
-# run data_2015C25ns16Dec2015_ee
-# run data_2015D25ns16Dec2015_ee
-# run data_2015C25ns16Dec2015_mm
-# run data_2015D25ns16Dec2015_mm
-# run data_2015C25ns16Dec2015_me
-# run data_2015D25ns16Dec2015_me
-
-# ######################################################################################
-# # all the MC for the MET study
-# # main samples
-# ######################################################################################
-
-# # #####==============================
-# # # DYJetsToLL
-# # #####==============================
-# run DYJetsToLL_M-50_amcNLO_v1
-# run DYJetsToLL_M-10to50_amcNLO_v1
-
-# # #####==============================
-# # # TTbar
-# # #####==============================
-# run ttTo2L2Nu_powheg
-
-# #####==============================
-# # ZZ
-# #####==============================
-# run ZZTo2L2Nu_13TeV_powheg_pythia8
-# run ZZTo2L2Q_13TeV_amcatnloFXFX_madspin_pythia8
-# run ZZTo4L_13TeV_powheg_pythia8
-
-# #####==============================
-# # WZ
-# #####==============================
-# run WZTo3LNu_TuneCUETP8M1_13TeV-powheg-pythia8
-
-# #####==============================
-# # WW
-# #####==============================
-# run WWTo2L2Nu_13TeV-powheg
-
-# #####==============================
-# # Single Top
-# #####==============================
-# run ST_tW_antitop_5f_inclusiveDecays_13TeV
-# run ST_tW_top_5f_inclusiveDecays_13TeV
-
-# #####==============================
-# # TTV
-# #####==============================
-# run TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8
-# run TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8
-# run TTGJets_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8
-# run TTZToQQ_TuneCUETP8M1_13TeV-amcatnlo-pythia8
-# run TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8
-# run ttHJetToNonbb_M125_13TeV
-
-# #####==============================
-# # VVV
-# #####==============================
-# run WWG_TuneCUETP8M1_13TeV-amcatnlo-pythia8
-# run WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8
-# run WZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8
+# above this is done
