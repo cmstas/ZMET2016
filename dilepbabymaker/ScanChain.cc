@@ -1624,11 +1624,21 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		// isotrack a la MT2
         int  pdgId = abs( cms3.pfcands_particleId().at( pfind ) );
 
-        if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) && (absiso/cand_pt < 0.2) ){
-		  nisoTrack_mt2++;
+		bool leptonoverlaps = false;
+		for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
+		  if( sqrt( pow(cms3.pfcands_p4().at(pfind).eta() - lep_p4.at(lepind).eta(), 2) +
+					pow(acos(cos(cms3.pfcands_p4().at(pfind).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.01 ){
+			leptonoverlaps = true;
+		  }
 		}
 
-        if( cand_pt > 10. && pdgId == 211 && (absiso/cand_pt < 0.1 ) ){ 
+		if( leptonoverlaps ) continue;
+		
+		if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) && (absiso/cand_pt < 0.2) ){
+		  nisoTrack_mt2++;
+		}
+		
+		if( cand_pt > 10. && pdgId == 211 && (absiso/cand_pt < 0.1 ) ){ 
 		  nisoTrack_mt2++;
 		}
 		
