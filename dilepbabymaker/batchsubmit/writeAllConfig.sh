@@ -54,8 +54,8 @@ hadoopdirv2="hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2"
 miniaodv2="RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv2"
 
 # DY
-#./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_${miniaodv2}_v0-v1/V08-00-05/ ${TAG}_dy_m1050_amcnlo
-#./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_${miniaodv2}_v0-v1/V08-00-05/ ${TAG}_dy_m50_amcnlo
+./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_${miniaodv2}_v0-v1/V08-00-05/ ${TAG}_dy_m50_amcnlo
+#./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_${miniaodv2}_v0-v1/V08-00-05/ ${TAG}_dy_m1050_amcnlo
 
 # ttbar
 #./writeConfig_80X.sh /${hadoopdirv2}/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v4/V08-00-05/             ${TAG}_ttbar_dilep_mgmlm
