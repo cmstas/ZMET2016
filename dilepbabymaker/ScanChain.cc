@@ -299,7 +299,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       evt_filter   = cms3.evt_filt_eff();
 
 	  if( isSMSScan ){
-      
+
   		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ"))
       {
         mass_chi = cms3.sparm_values().at(0);
@@ -1140,6 +1140,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		bool failbadfastsimjet = false;	  
 		vector <LorentzVector> jets_for_pileup;
+    //get genjets
+    genjets_p4 = cms3.genjets_p4NoMuNoNu();
 		for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
 		  LorentzVector pfjet_p4_cor = cms3.pfjets_p4().at(iJet);
@@ -2082,6 +2084,10 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("weightsf_lepid_FS" , &weightsf_lepid_FS  );
   BabyTree_->Branch("weightsf_lepiso_FS", &weightsf_lepiso_FS );
   BabyTree_->Branch("weightsf_lepip_FS" , &weightsf_lepip_FS  );
+
+  //Gen Jet info
+  BabyTree_->Branch("JEC_corr_jets_p4" , &p4sCorrJets);
+  BabyTree_->Branch("gen_jets_p4" , &genjets_p4);
 
   return;
 }
