@@ -298,8 +298,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       evt_kfactor  = cms3.evt_kfactor();
       evt_filter   = cms3.evt_filt_eff();
 
-    vector < LorentzVector> p4sCorrJets; // store corrected p4 for ALL jets, so indices match CMS3 ntuple
-
 	  if( isSMSScan ){
 
   		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ"))
@@ -986,6 +984,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  
       //JETS
       //correct jets and check baseline selections
+      vector < LorentzVector> p4sCorrJets; // store corrected p4 for ALL jets, so indices match CMS3 ntuple
       vector < double       > jet_corrfactor; // store correction for ALL jets, and indices match CMS3 ntuple
       vector < int          > passJets; //index of jets that pass baseline selections
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
@@ -1028,9 +1027,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  }
 
 		}
-		
+		cout<<__LINE__<<endl;
 		p4sCorrJets.push_back(pfjet_p4_cor);
+    cout<<__LINE__<<endl;
     recojets_p4.push_back(pfjet_p4_cor);
+    cout<<__LINE__<<endl;
+
 
 		jet_corrfactor.push_back(corr);
 		jet_corrfactor_up.push_back(1.0 + shift);
@@ -2089,8 +2091,11 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("weightsf_lepip_FS" , &weightsf_lepip_FS  );
 
   //Gen Jet info
+  cout<<__LINE__<<endl;
   BabyTree_->Branch("recojets_p4" , &recojets_p4);
+  cout<<__LINE__<<endl;
   BabyTree_->Branch("genjets_p4" , &genjets_p4);
+  cout<<__LINE__<<endl;
 
   return;
 }
