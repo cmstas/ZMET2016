@@ -1033,7 +1033,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
     recojets_p4.push_back(pfjet_p4_cor);
     cout<<__LINE__<<endl;
 
-
+    //get genjets
+    for (int i = 0; i< cms3.genjets_p4NoMuNoNu().size(); i++){
+      genjets_p4.push_back(cms3.genjets_p4NoMuNoNu().at(i));
+    }
+    
 		jet_corrfactor.push_back(corr);
 		jet_corrfactor_up.push_back(1.0 + shift);
 		jet_corrfactor_dn.push_back(1.0 - shift);
@@ -1152,8 +1156,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		bool failbadfastsimjet = false;	  
 		vector <LorentzVector> jets_for_pileup;
-    //get genjets
-    genjets_p4 = cms3.genjets_p4NoMuNoNu();
 		for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
 		  LorentzVector pfjet_p4_cor = cms3.pfjets_p4().at(iJet);
