@@ -991,10 +991,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
     
     //get genjets
-   /* for (int i = 0; i< cms3.genjets_p4NoMuNoNu().size(); i++){
+    for (int i = 0; i< cms3.genjets_p4NoMuNoNu().size(); i++){
       cout<<cms3.genjets_p4NoMuNoNu().at(i).pt();
       genjets_p4.push_back(cms3.genjets_p4NoMuNoNu().at(i));
-    }*/
+    }
       
 
     for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
@@ -1037,8 +1037,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		
 		p4sCorrJets.push_back(pfjet_p4_cor);
     
-    recojets_p4.push_back(pfjet_p4_cor);
-    
+    	recojets_p4.push_back(pfjet_p4_cor);
 
 		jet_corrfactor.push_back(corr);
 		jet_corrfactor_up.push_back(1.0 + shift);
@@ -2100,11 +2099,10 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("weightsf_lepip_FS" , &weightsf_lepip_FS  );
 
   //Gen Jet info
-  /*
-  BabyTree_->Branch("recojets_p4" , &recojets_p4);
   
+  BabyTree_->Branch("recojets_p4" , &recojets_p4);
   BabyTree_->Branch("genjets_p4" , &genjets_p4);
-  */
+  
 
   return;
 }
