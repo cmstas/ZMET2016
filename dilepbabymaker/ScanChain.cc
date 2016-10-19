@@ -1030,6 +1030,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		}
 		
 		p4sCorrJets.push_back(pfjet_p4_cor);
+    recojets_p4.push_back(pfjet_p4_cor);
+
 		jet_corrfactor.push_back(corr);
 		jet_corrfactor_up.push_back(1.0 + shift);
 		jet_corrfactor_dn.push_back(1.0 - shift);
@@ -2087,8 +2089,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("weightsf_lepip_FS" , &weightsf_lepip_FS  );
 
   //Gen Jet info
-  BabyTree_->Branch("JEC_corr_jets_p4" , &p4sCorrJets);
-  BabyTree_->Branch("gen_jets_p4" , &genjets_p4);
+  BabyTree_->Branch("recojets_p4" , &recojets_p4);
+  BabyTree_->Branch("genjets_p4" , &genjets_p4);
 
   return;
 }

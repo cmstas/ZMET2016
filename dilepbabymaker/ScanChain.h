@@ -370,7 +370,8 @@ class babyMaker {
   Float_t         dphi_metj1;
   Float_t         dphi_metj2;
 
-  LorentzVector genjets_p4;
+  std::vector<LorentzVector> genjets_p4;
+  std::vector<LorentzVector> recojets_p4;
 
   //----- weights for b-tag SF  
   Float_t         weight_btagsf;
