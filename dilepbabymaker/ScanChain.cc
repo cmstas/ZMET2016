@@ -990,7 +990,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
       vector < double       > jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
 
-      for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
+    //get genjets
+    for (int i = 0; i< cms3.genjets_p4NoMuNoNu().size(); i++){
+      genjets_p4.push_back(cms3.genjets_p4NoMuNoNu().at(i));
+    }
+    cout<<__LINE__<<endl;  
+
+    for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
 		LorentzVector pfjet_p4_cor = cms3.pfjets_p4().at(iJet);
 
@@ -1033,16 +1039,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
     recojets_p4.push_back(pfjet_p4_cor);
     cout<<__LINE__<<endl;
 
-    //get genjets
-    for (int i = 0; i< cms3.genjets_p4NoMuNoNu().size(); i++){
-      genjets_p4.push_back(cms3.genjets_p4NoMuNoNu().at(i));
-    }
-    
 		jet_corrfactor.push_back(corr);
 		jet_corrfactor_up.push_back(1.0 + shift);
 		jet_corrfactor_dn.push_back(1.0 - shift);
-  
-    cout<<__LINE__<<endl;  
 
 		if(p4sCorrJets.at(iJet).pt() < 15.0) continue; 
         if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2) continue;
