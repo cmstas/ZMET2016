@@ -2476,6 +2476,9 @@ void babyMaker::InitBabyNtuple () {
   weightsf_lepiso_FS . clear();
   weightsf_lepip_FS  . clear();
 
+  genjets_p4.clear();
+  recojets_p4.clear();
+
   return;
 }
 
