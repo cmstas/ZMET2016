@@ -156,6 +156,7 @@ int main(int argc, char **argv) {
   else if (infile.Contains("SMS-T1bbbb"))                            sample = Form("T1bbbb_%s",          outfileid.Data());
   else if (infile.Contains("SMS-T5ZZ"))                              sample = Form("t5zz_%s",          outfileid.Data());
   else if (infile.Contains("SMS-TChiWZ"))                            sample = Form("tchiwz_%s",        outfileid.Data());
+  else if (infile.Contains("SMS-TChiZH"))                            sample = Form("tchihz_%s",        outfileid.Data());
   //Data
   // //single mu-had
   // else if (infile.Contains("MuHad_Run2012A-recover-06Aug2012-v1_AOD"))          sample =  Form("MuHad2012A_recover06Aug2012v1V532_%s",     outfileid.Data());

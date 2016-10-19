@@ -100,7 +100,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
-  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
+  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("signal") || TString(baby_name).Contains("tchizh") ) isSMSScan = true;
   
   if (applyBtagSFs) {
 	// setup btag calibration readers
@@ -161,6 +161,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
 
+  //add case for TChiHZ
   TH2F * h_eventcounts  = NULL;
   TFile * f_eventcounts = NULL;
 
@@ -171,6 +172,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	f_susyxsecs = TFile::Open("xsec_susy_13tev.root","READ");
 	if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
 	if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
+  if( TString(baby_name).Contains("tchihz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_higgsino"  )->Clone("h_susyxsecs");
 	h_susyxsecs->SetDirectory(rootdir);
 	f_susyxsecs->Close();
 
@@ -297,24 +299,34 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       evt_filter   = cms3.evt_filt_eff();
 
 	  if( isSMSScan ){
-		mass_gluino = cms3.sparm_values().at(0);
-		mass_LSP    = cms3.sparm_values().at(1);
+      
+  		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ"))
+      {
+        mass_chi = cms3.sparm_values().at(0);
+        evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
+      }
+      else{
+        mass_gluino = cms3.sparm_values().at(0);
+  		  mass_LSP    = cms3.sparm_values().at(1);
+  		  evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
+      }
 
-		evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
-		
-		if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
-		if( TString(currentFile->GetTitle()).Contains("SMS-TChi") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
-		evt_scale1fb = evt_xsec*1000/evt_nEvts;
+  		
+  		if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
+  		if( TString(currentFile->GetTitle()).Contains("SMS-TChiWZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
+      if( TString(currentFile->GetTitle()).Contains("SMS-TChiHZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
 
-		LorentzVector isrSystem_p4;
-		for( size_t genind = 0; genind < cms3.genps_p4().size(); genind++ ){
-		  if( cms3.genps_isLastCopy().at(genind) == 1 && (abs(cms3.genps_id().at(genind)) == 1000024 || abs(cms3.genps_id().at(genind)) == 1000023 || cms3.genps_id().at(genind) == 1000021) ){
-			isrSystem_p4 += cms3.genps_p4().at(genind);
-		  }
-		}
+  		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
-		isrboost = (isrSystem_p4).pt();
-		
+  		LorentzVector isrSystem_p4;
+  		for( size_t genind = 0; genind < cms3.genps_p4().size(); genind++ ){
+  		  if( cms3.genps_isLastCopy().at(genind) == 1 && (abs(cms3.genps_id().at(genind)) == 1000024 || abs(cms3.genps_id().at(genind)) == 1000023 || cms3.genps_id().at(genind) == 1000021) ){
+  			isrSystem_p4 += cms3.genps_p4().at(genind);
+  		  }
+  		}
+
+  		isrboost = (isrSystem_p4).pt();
+  		
 	  }
 	  else{
 		evt_nEvts    = cms3.evt_nEvts();
@@ -2056,6 +2068,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("mass_gluino", &mass_gluino);
   BabyTree_->Branch("mass_LSP"   , &mass_LSP   );
+  BabyTree_->Branch("mass_chi", &mass_chi);
 
   BabyTree_->Branch("isrboost"   , &isrboost   );
   BabyTree_->Branch("isr_njets"  , &isr_njets  );
@@ -2425,6 +2438,7 @@ void babyMaker::InitBabyNtuple () {
 
   mass_gluino = -999;
   mass_LSP    = -999;
+  mass_chi    = -999;
   
   isrboost    = -999;
   isr_njets   = -999;
