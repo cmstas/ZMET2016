@@ -298,6 +298,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       evt_kfactor  = cms3.evt_kfactor();
       evt_filter   = cms3.evt_filt_eff();
 
+    vector < LorentzVector> p4sCorrJets; // store corrected p4 for ALL jets, so indices match CMS3 ntuple
+
 	  if( isSMSScan ){
 
   		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ"))
@@ -984,7 +986,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  
       //JETS
       //correct jets and check baseline selections
-      vector < LorentzVector> p4sCorrJets; // store corrected p4 for ALL jets, so indices match CMS3 ntuple
       vector < double       > jet_corrfactor; // store correction for ALL jets, and indices match CMS3 ntuple
       vector < int          > passJets; //index of jets that pass baseline selections
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
