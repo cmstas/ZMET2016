@@ -990,6 +990,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
       vector < double       > jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
 
+    cout<<__LINE__<<endl;
     //get genjets
     for (int i = 0; i< cms3.genjets_p4NoMuNoNu().size(); i++){
       genjets_p4.push_back(cms3.genjets_p4NoMuNoNu().at(i));
