@@ -993,6 +993,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
     cout<<__LINE__<<endl;
     //get genjets
     for (int i = 0; i< cms3.genjets_p4NoMuNoNu().size(); i++){
+      cout<<cms3.genjets_p4NoMuNoNu().at(i).pt();
       genjets_p4.push_back(cms3.genjets_p4NoMuNoNu().at(i));
     }
     cout<<__LINE__<<endl;  
