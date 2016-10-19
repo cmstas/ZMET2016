@@ -30,7 +30,7 @@ void getTotalEventsSUSY_mt2way()
   // TH2F * h_entries = new TH2F("h_entries","h_entries",(2400-550)/50,575,2425,(2300-50)/50,75,2325);	// binning for T5ZZ
   // TH2F * h_entries = new TH2F("h_entries","h_entries",25,87.5,712.5,31,-5,305);	// binning for TChiWZ
   // TH2F * h_entries = new TH2F("h_entries","h_entries",460,0,2300,460,0,2300); // binning for T5qqqqVV
-  TH1D * h_entries("h_entries", "h_entries", 36, 125, 1025); //binning for TChiHZ  
+  TH1D * h_entries = new TH1D("h_entries", "h_entries", 36, 125, 1025); //binning for TChiHZ  
   // TH2D* h_nsig = new TH2D("h_nsig",";mass1 [GeV];mass2 [GeV]", 65, 387.5, 2012.5, 65, -12.5, 1612.5);
 
   ch->Draw("sparm_values[0]>>h_entries");
