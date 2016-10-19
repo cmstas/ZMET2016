@@ -585,7 +585,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  }
 
 		} // loop over genPart
-		// cout<<__LINE__<<endl;
 	  }
 
       //LEPTONS
@@ -990,13 +989,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
       vector < double       > jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
 
-    cout<<__LINE__<<endl;
+    
     //get genjets
-    for (int i = 0; i< cms3.genjets_p4NoMuNoNu().size(); i++){
+   /* for (int i = 0; i< cms3.genjets_p4NoMuNoNu().size(); i++){
       cout<<cms3.genjets_p4NoMuNoNu().at(i).pt();
       genjets_p4.push_back(cms3.genjets_p4NoMuNoNu().at(i));
-    }
-    cout<<__LINE__<<endl;  
+    }*/
+      
 
     for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
@@ -1035,11 +1034,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  }
 
 		}
-		cout<<__LINE__<<endl;
+		
 		p4sCorrJets.push_back(pfjet_p4_cor);
-    cout<<__LINE__<<endl;
+    
     recojets_p4.push_back(pfjet_p4_cor);
-    cout<<__LINE__<<endl;
+    
 
 		jet_corrfactor.push_back(corr);
 		jet_corrfactor_up.push_back(1.0 + shift);
@@ -1093,7 +1092,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			}
 		  }
       
-      cout<<__LINE__<<endl;
+      
 		  
       if( minIndex > -1 ){
 			matched_neutralemf = ( cms3.pfjets_neutralEmE().at(minIndex)                                         ) / (cms3.pfjets_p4().at(minIndex).energy()*cms3.pfjets_undoJEC().at(minIndex));
@@ -1112,7 +1111,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
  	  }	  
 	  
 
-      cout<<__LINE__<<endl;
+      
       if (verbose) cout << "before jet/lepton overlap" << endl;
 
       //check overlapping with leptons
@@ -1151,7 +1150,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       }
 
 	  if (verbose) cout << "before isr weight loop over jets" << endl;
-    cout<<__LINE__<<endl;
+    
 
     if( !isData ){
 
@@ -1198,7 +1197,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			  }
 			}
 		  }
-		  cout<<__LINE__<<endl;
+		  
 		  if( jetoverlapswithlepton ) continue;
 
 		  jets_for_pileup.push_back(pfjet_p4_cor);
@@ -1210,7 +1209,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		isr_weight = get_isrWeight( isr_njets       );
 		isr_unc    = get_isrUnc(    isr_njets       );
 	  }
-cout<<__LINE__<<endl;
+
       if (verbose) cout << "before jet/photon overlap" << endl;
 
       //check overlapping with photons
@@ -1218,7 +1217,7 @@ cout<<__LINE__<<endl;
       vector<int> removedJetsGamma; //index of jets to be removed because they overlap with a photon
       for(int iGamma = 0; iGamma < ngamma; iGamma++){
 		if (iGamma>0) continue; // Only check leading photon. Let the others be
-cout<<__LINE__<<endl;
+
         float minDR = 0.4;
         int minIndex = -1;
         for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
@@ -1248,7 +1247,7 @@ cout<<__LINE__<<endl;
         }
         removedJetsGamma.push_back(minIndex);
       }
-cout<<__LINE__<<endl;
+
       nBJetTight  = 0;
       nBJetMedium = 0;
       nBJetLoose  = 0;
@@ -1275,7 +1274,7 @@ cout<<__LINE__<<endl;
 	  float btagprob_light_UP = 1.;
 	  float btagprob_light_DN = 1.;
 	  float btagprob_mc = 1.;
-cout<<__LINE__<<endl;	  
+	  
       if (verbose) cout << "before main jet loop" << endl;
       //now fill variables for jets that pass baseline selections and don't overlap with a lepton
       for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){
@@ -1331,7 +1330,7 @@ cout<<__LINE__<<endl;
 
 		  if(current_csv_val >= 0.800) {
 			nBJetMedium++;
-cout<<__LINE__<<endl;
+
 			// for applying btagging SFs
 			if (!isData && applyBtagSFs) {
 			  float eff = getBtagEffFromFile(p4sCorrJets.at(iJet).pt(), p4sCorrJets.at(iJet).eta(), cms3.pfjets_hadronFlavour().at(iJet), isSMSScan);
@@ -1416,7 +1415,7 @@ cout<<__LINE__<<endl;
 		  //require pT > 35 for jet counting
 		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ njets++; }
 		}
-cout<<__LINE__<<endl;
+
 		if( verbose ) cout<<"Before filling jet up branches"<<endl;
 
 		if(     (jet_corrfactor_up.at(iJet))*p4sCorrJets.at(iJet).pt()   > 25.0 &&
@@ -1455,7 +1454,7 @@ cout<<__LINE__<<endl;
 	  pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3, NULL, 0, true);
 	  met_T1CHS_fromCORE_pt  = newMET.first;
 	  met_T1CHS_fromCORE_phi = newMET.second;
-	cout<<__LINE__<<endl;  
+	  
 	  // met with no unc
 	  pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3);
 	  met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
@@ -1489,7 +1488,7 @@ cout<<__LINE__<<endl;
  		if( jets_p4.size() > 1 ){
  		  mt2j = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_p4, 0.0 );
 		}
-cout<<__LINE__<<endl;
+
 		if( jets_medb_p4.size() > 1 ){
  		  mt2b = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
 		}		
@@ -1525,7 +1524,7 @@ cout<<__LINE__<<endl;
 			weightsf_lepip_FS . push_back( 1.0 );
 			
 		  }
-cout<<__LINE__<<endl;
+
 		  if( abs(lep_pdgId.at(lepind)) == 13 ){			
 			weightsf_lepreco .push_back( h_muoweights_HIP_hist->GetBinContent( h_muoweights_HIP_hist->FindBin( lep_eta  . at(lepind) )) );
 			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt, abs_lepeta )) );
@@ -1560,7 +1559,7 @@ cout<<__LINE__<<endl;
 
 		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_phi));
 		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_phi));
-cout<<__LINE__<<endl;
+
 		if( jets_medb_p4.size() > 1 ){
 		  mbb_bpt = (jets_medb_p4.at(0) + jets_medb_p4.at(1)).mass();
 		  mbb_csv = mbb_highest_csv( jets_p4, jets_csv );
@@ -1585,7 +1584,7 @@ cout<<__LINE__<<endl;
 	  LorentzVector nupfcands_1624_p4(0,0,0,0);
 	  LorentzVector nupfcands_2430_p4(0,0,0,0);
 	  LorentzVector nupfcands_30in_p4(0,0,0,0);
-cout<<__LINE__<<endl;
+
 	  chpfcands_0013_sumet = 0.0;
 	  chpfcands_1316_sumet = 0.0;
 	  chpfcands_1624_sumet = 0.0;
@@ -1601,7 +1600,7 @@ cout<<__LINE__<<endl;
 	  nupfcands_1624_sumet = 0.0;
 	  nupfcands_2430_sumet = 0.0;
 	  nupfcands_30in_sumet = 0.0;
-cout<<__LINE__<<endl;
+
 	  nisoTrack_5gev = 0;
 	  nisoTrack_mt2  = 0;
 
@@ -1704,7 +1703,7 @@ cout<<__LINE__<<endl;
 	  nupfcands_1624_phi = nupfcands_1624_p4.phi();
 	  nupfcands_2430_phi = nupfcands_2430_p4.phi();
 	  nupfcands_30in_phi = nupfcands_30in_p4.phi();	  
-cout<<__LINE__<<endl;
+
       FillBabyNtuple();
 
 	}//end loop on events in a file
@@ -2101,11 +2100,11 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("weightsf_lepip_FS" , &weightsf_lepip_FS  );
 
   //Gen Jet info
-  cout<<__LINE__<<endl;
+  /*
   BabyTree_->Branch("recojets_p4" , &recojets_p4);
-  cout<<__LINE__<<endl;
+  
   BabyTree_->Branch("genjets_p4" , &genjets_p4);
-  cout<<__LINE__<<endl;
+  */
 
   return;
 }
