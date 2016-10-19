@@ -1038,6 +1038,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		jet_corrfactor_up.push_back(1.0 + shift);
 		jet_corrfactor_dn.push_back(1.0 - shift);
   
+    cout<<__LINE__<<endl;  
+
 		if(p4sCorrJets.at(iJet).pt() < 15.0) continue; 
         if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2) continue;
 		// note this uses the eta of the jet as stored in CMS3
@@ -1085,8 +1087,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			  minIndex = jetind;
 			}
 		  }
-
-		  if( minIndex > -1 ){
+      
+      cout<<__LINE__<<endl;
+		  
+      if( minIndex > -1 ){
 			matched_neutralemf = ( cms3.pfjets_neutralEmE().at(minIndex)                                         ) / (cms3.pfjets_p4().at(minIndex).energy()*cms3.pfjets_undoJEC().at(minIndex));
 			matched_emf        = ( cms3.pfjets_neutralEmE().at(minIndex) + cms3.pfjets_chargedEmE().at(minIndex) ) / (cms3.pfjets_p4().at(minIndex).energy()*cms3.pfjets_undoJEC().at(minIndex));
 		  }
@@ -1102,6 +1106,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
  		} // end electron loop	  		
  	  }	  
 	  
+
+      cout<<__LINE__<<endl;
       if (verbose) cout << "before jet/lepton overlap" << endl;
 
       //check overlapping with leptons
@@ -1140,8 +1146,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       }
 
 	  if (verbose) cout << "before isr weight loop over jets" << endl;
+    cout<<__LINE__<<endl;
 
-	  if( !isData ){
+    if( !isData ){
 
 		bool failbadfastsimjet = false;	  
 		vector <LorentzVector> jets_for_pileup;
@@ -1188,7 +1195,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			  }
 			}
 		  }
-		  
+		  cout<<__LINE__<<endl;
 		  if( jetoverlapswithlepton ) continue;
 
 		  jets_for_pileup.push_back(pfjet_p4_cor);
@@ -1200,7 +1207,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		isr_weight = get_isrWeight( isr_njets       );
 		isr_unc    = get_isrUnc(    isr_njets       );
 	  }
-
+cout<<__LINE__<<endl;
       if (verbose) cout << "before jet/photon overlap" << endl;
 
       //check overlapping with photons
@@ -1208,7 +1215,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       vector<int> removedJetsGamma; //index of jets to be removed because they overlap with a photon
       for(int iGamma = 0; iGamma < ngamma; iGamma++){
 		if (iGamma>0) continue; // Only check leading photon. Let the others be
-
+cout<<__LINE__<<endl;
         float minDR = 0.4;
         int minIndex = -1;
         for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
@@ -1238,7 +1245,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
         }
         removedJetsGamma.push_back(minIndex);
       }
-
+cout<<__LINE__<<endl;
       nBJetTight  = 0;
       nBJetMedium = 0;
       nBJetLoose  = 0;
@@ -1265,7 +1272,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  float btagprob_light_UP = 1.;
 	  float btagprob_light_DN = 1.;
 	  float btagprob_mc = 1.;
-	  
+cout<<__LINE__<<endl;	  
       if (verbose) cout << "before main jet loop" << endl;
       //now fill variables for jets that pass baseline selections and don't overlap with a lepton
       for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){
@@ -1321,7 +1328,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		  if(current_csv_val >= 0.800) {
 			nBJetMedium++;
-
+cout<<__LINE__<<endl;
 			// for applying btagging SFs
 			if (!isData && applyBtagSFs) {
 			  float eff = getBtagEffFromFile(p4sCorrJets.at(iJet).pt(), p4sCorrJets.at(iJet).eta(), cms3.pfjets_hadronFlavour().at(iJet), isSMSScan);
@@ -1406,7 +1413,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  //require pT > 35 for jet counting
 		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ njets++; }
 		}
-
+cout<<__LINE__<<endl;
 		if( verbose ) cout<<"Before filling jet up branches"<<endl;
 
 		if(     (jet_corrfactor_up.at(iJet))*p4sCorrJets.at(iJet).pt()   > 25.0 &&
@@ -1445,7 +1452,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3, NULL, 0, true);
 	  met_T1CHS_fromCORE_pt  = newMET.first;
 	  met_T1CHS_fromCORE_phi = newMET.second;
-	  
+	cout<<__LINE__<<endl;  
 	  // met with no unc
 	  pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3);
 	  met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
@@ -1479,7 +1486,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
  		if( jets_p4.size() > 1 ){
  		  mt2j = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_p4, 0.0 );
 		}
-
+cout<<__LINE__<<endl;
 		if( jets_medb_p4.size() > 1 ){
  		  mt2b = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
 		}		
@@ -1515,7 +1522,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			weightsf_lepip_FS . push_back( 1.0 );
 			
 		  }
-
+cout<<__LINE__<<endl;
 		  if( abs(lep_pdgId.at(lepind)) == 13 ){			
 			weightsf_lepreco .push_back( h_muoweights_HIP_hist->GetBinContent( h_muoweights_HIP_hist->FindBin( lep_eta  . at(lepind) )) );
 			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt, abs_lepeta )) );
@@ -1550,7 +1557,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_phi));
 		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_phi));
-
+cout<<__LINE__<<endl;
 		if( jets_medb_p4.size() > 1 ){
 		  mbb_bpt = (jets_medb_p4.at(0) + jets_medb_p4.at(1)).mass();
 		  mbb_csv = mbb_highest_csv( jets_p4, jets_csv );
@@ -1575,7 +1582,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  LorentzVector nupfcands_1624_p4(0,0,0,0);
 	  LorentzVector nupfcands_2430_p4(0,0,0,0);
 	  LorentzVector nupfcands_30in_p4(0,0,0,0);
-
+cout<<__LINE__<<endl;
 	  chpfcands_0013_sumet = 0.0;
 	  chpfcands_1316_sumet = 0.0;
 	  chpfcands_1624_sumet = 0.0;
@@ -1591,7 +1598,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  nupfcands_1624_sumet = 0.0;
 	  nupfcands_2430_sumet = 0.0;
 	  nupfcands_30in_sumet = 0.0;
-
+cout<<__LINE__<<endl;
 	  nisoTrack_5gev = 0;
 	  nisoTrack_mt2  = 0;
 
@@ -1694,7 +1701,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  nupfcands_1624_phi = nupfcands_1624_p4.phi();
 	  nupfcands_2430_phi = nupfcands_2430_p4.phi();
 	  nupfcands_30in_phi = nupfcands_30in_p4.phi();	  
-
+cout<<__LINE__<<endl;
       FillBabyNtuple();
 
 	}//end loop on events in a file
