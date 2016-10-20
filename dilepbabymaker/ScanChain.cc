@@ -179,6 +179,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_entries_V08-00-05_FS.root","READ");
 	if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("T5ZZ_entries.root"               ,"READ");
+	if( TString(baby_name).Contains("tchihz"  ) ) f_eventcounts = TFile::Open("TChiHZ_HToBB_ZToLL.root"               ,"READ");
+	
 	if(TString(baby_name).Contains("tchihz")) {
 		h_eventcounts_1d = (TH1D*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
 		h_eventcounts_1d->SetDirectory(rootdir);
@@ -187,6 +189,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		h_eventcounts = (TH2F*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");	
 		h_eventcounts->SetDirectory(rootdir);
 	}
+	
 	f_eventcounts->Close();
   }
   
