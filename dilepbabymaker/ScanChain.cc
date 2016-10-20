@@ -100,7 +100,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
-  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("signal") || TString(baby_name).Contains("tchizh") ) isSMSScan = true;
+  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("signal") || TString(baby_name).Contains("tchihz") ) isSMSScan = true;
   
   if (applyBtagSFs) {
 	// setup btag calibration readers
