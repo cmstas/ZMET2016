@@ -44,7 +44,7 @@ using namespace std;
 using namespace tas;
 
 // turn on to add debugging statements
-const bool verbose = false;
+const bool verbose = true;
 // turn on to apply JEC from text files
 const bool applyJECfromFile = true;
 //turn on to veto transition region for leps and photons
@@ -163,6 +163,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
   //add case for TChiHZ
   TH2F * h_eventcounts  = NULL;
+  TH1D * h_eventcounts_1d  = NULL;
   TFile * f_eventcounts = NULL;
 
   if (isSMSScan) {
@@ -172,14 +173,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	f_susyxsecs = TFile::Open("xsec_susy_13tev.root","READ");
 	if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
 	if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
-  if( TString(baby_name).Contains("tchihz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_higgsino"  )->Clone("h_susyxsecs");
+  	if( TString(baby_name).Contains("tchihz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_higgsino"  )->Clone("h_susyxsecs");
 	h_susyxsecs->SetDirectory(rootdir);
 	f_susyxsecs->Close();
 
 	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_entries_V08-00-05_FS.root","READ");
 	if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("T5ZZ_entries.root"               ,"READ");
-	h_eventcounts = (TH2F*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
-	h_eventcounts->SetDirectory(rootdir);
+	if(TString(baby_name).Contains("tchihz")) {
+		h_eventcounts_1d = (TH1D*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
+		h_eventcounts_1d->SetDirectory(rootdir);
+	}
+	else{
+		h_eventcounts = (TH2F*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");	
+		h_eventcounts->SetDirectory(rootdir);
+	}
 	f_eventcounts->Close();
   }
   
@@ -303,7 +310,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ"))
       {
         mass_chi = cms3.sparm_values().at(0);
-        evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
+        evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
       }
       else{
         mass_gluino = cms3.sparm_values().at(0);
