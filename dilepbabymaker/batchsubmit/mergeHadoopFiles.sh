@@ -10,7 +10,7 @@ source ../../ZMET2015/settings.sh
 TAG=${analysis_version}
 
 HADOOPDIR=/hadoop/cms/store/user/${USER}/uaf8/dilepbabies/
-OUTPUTDIR=/nfs-7/userdata/ZMEToutput/output/ZMETbabies/$TAG/
+OUTPUTDIR=/nfs-7/userdata/ZMEToutput/output/ZMETbabies_JetStudy/$TAG/
 
 if [ ! -d "$OUTPUTDIR" ]; then
 	mkdir -p $OUTPUTDIR
@@ -109,11 +109,11 @@ fi
 
 # # samples for closure
 # run dy_m1050_mgmlm
-# run dy_m50_mgmlm_ext1
-# run dy_m50_mgmlm_ht100_ext1
-# run dy_m50_mgmlm_ht200_ext1
-# run dy_m50_mgmlm_ht400_ext1
-# run dy_m50_mgmlm_ht600_ext1
+ run dy_m50_mgmlm_ext1
+ run dy_m50_mgmlm_ht100_ext1
+ run dy_m50_mgmlm_ht200_ext1
+ run dy_m50_mgmlm_ht400_ext1
+ run dy_m50_mgmlm_ht600_ext1
 
 # # gjets
 # run gjetsht100_dr0p4_mgmlm
