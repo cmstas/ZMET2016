@@ -44,7 +44,7 @@ using namespace std;
 using namespace tas;
 
 // turn on to add debugging statements
-const bool verbose = true;
+const bool verbose = false;
 // turn on to apply JEC from text files
 const bool applyJECfromFile = true;
 //turn on to veto transition region for leps and photons
