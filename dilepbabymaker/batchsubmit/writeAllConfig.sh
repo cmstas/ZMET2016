@@ -120,12 +120,12 @@ miniaodv2="RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv
 
 # samples for closure
 #./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/             ${TAG}_dy_m1050_mgmlm
-./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05             ${TAG}_dy_m50_mgmlm_ext1
-./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05 ${TAG}_dy_m50_mgmlm_ht100_ext1
-./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05 ${TAG}_dy_m50_mgmlm_ht200_ext1
-./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05 ${TAG}_dy_m50_mgmlm_ht400_ext1
-./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-600toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05      ${TAG}_dy_m50_mgmlm_ht600
-./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-600toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05 ${TAG}_dy_m50_mgmlm_ht600_ext1
+#./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05             ${TAG}_dy_m50_mgmlm_ext1
+#./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05 ${TAG}_dy_m50_mgmlm_ht100_ext1
+#./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-200to400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05 ${TAG}_dy_m50_mgmlm_ht200_ext1
+#./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-400to600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05 ${TAG}_dy_m50_mgmlm_ht400_ext1
+#./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-600toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05      ${TAG}_dy_m50_mgmlm_ht600
+#./writeConfig_80X.sh /${hadoopdirv2}/DYJetsToLL_M-50_HT-600toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05 ${TAG}_dy_m50_mgmlm_ht600_ext1
 
 #./writeConfig_80X.sh /${hadoopdirv2}/GJets_DR-0p4_HT-40To100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05  ${TAG}_gjetsht40_dr0p4_mgmlm 
 #./writeConfig_80X.sh /${hadoopdirv2}/GJets_DR-0p4_HT-100To200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05 ${TAG}_gjetsht100_dr0p4_mgmlm
