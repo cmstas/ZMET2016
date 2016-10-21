@@ -38,8 +38,8 @@ cd $OLDDIR
 
 echo
 
-echo "[wrapper] printing env"
-printenv
+#echo "[wrapper] printing env"
+#printenv
 
 #
 # untar input sandbox
