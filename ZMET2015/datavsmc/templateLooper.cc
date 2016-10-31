@@ -37,7 +37,7 @@ using namespace duplicate_removal;
 const bool debug = false;
 
 const bool usejson                 = false;
-const bool dovtxreweighting        = true;
+const bool dovtxreweighting        = false;
 const bool dotemplateprediction    = false;
 const bool correctewkcontamination = false;
 const bool dotemplatepredictionmc = false;
@@ -158,13 +158,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
   if( TString(selection).Contains("fastsimMET")  ) do2016METforFS = true;
 
   // which json do you use?
-  // const char* json_file = "/home/users/olivito/mt2_74x_dev/MT2Analysis/babymaker/jsons/Cert_246908-258750_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 1.3 fb
-  // const char* json_file = "Cert_246908-260627_13TeV_PromptReco_Collisions15_25ns_JSON_snt.txt"; // 2.1 fb
-  // const char* json_file = "../../json/DCSONLY_json_160516_snt.txt"; // 2016 data
-  // const char* json_file = "../../json/Cert_271036-274240_13TeV_PromptReco_Collisions16_JSON_snt.txt"; // 0.8 fb-1 for FSR
-  // const char* json_file = "../../json/golden_json_080716_snt.txt"; // 4.0 fb, for preapproval
-  // const char* json_file = "../../json/golden_json_080716_7p65fb_snt.txt"; // 7.65 fb, for preapproval
-  const char* json_file = "../../json/golden_json_200716_12p9fb_snt.txt"; // 12.9 fb
+  // const char* json_file = "../../json/golden_json_200716_12p9fb_snt.txt"; // 12.9 fb
+  const char* json_file = "../../json/golden_json_260916_26p4fb_snt.txt"; // 26.4 fb
   
   set_goodrun_file(json_file);
 
@@ -177,7 +172,8 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	// h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
 
 	// f_vtx = TFile::Open("pileup_jul21_nominalUpDown.root","READ");
-	f_vtx = TFile::Open("nvtx_ratio_20p1fb.root","READ");
+	// f_vtx = TFile::Open("nvtx_ratio_20p1fb.root","READ");
+	f_vtx = TFile::Open("nvtx_ratio_true_26p4fb.root","READ");
 	// h_vtxweight = (TH1F*)f_vtx->Get("weightsNominal")->Clone("h_vtxweight");
 	h_vtxweight = (TH1F*)f_vtx->Get("h_vtx_ratio")->Clone("h_vtxweight");
 	h_vtxweight->SetDirectory(rootdir);
@@ -440,15 +436,20 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  	if( TString(currentFile->GetTitle()).Contains("t5zz") || TString(currentFile->GetTitle()).Contains("tchiwz") ){
 		  weight *= 12.9;
 		}
-	  	// if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
-		//   weight *= 3.72;
-		// }
-	  }
+	  	if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm_ext1") ){
+		  if( zmet.evt_scale1fb() > 0.13 ) continue;
+		  // weight *= 3.72;
+		  }
+		}
+
+	  if( !zmet.isData() ) fillHist( "event", "nVert_true"  , "passtrig", zmet.nTrueInt() , weight );	  
 	  
 	  if( !zmet.isData() && dovtxreweighting ){
 	  	// if( !TString(currentFile->GetTitle()).Contains("t5zz") ){
-		  weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nVert()));		
-		  // weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nTrueInt()));		
+		// weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nVert()));		
+		// if( h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nTrueInt())) < 10 ){
+		  weight *= h_vtxweight->GetBinContent(h_vtxweight->FindBin(zmet.nTrueInt()));		
+		// }
 		// }
 	  }
 	  
@@ -731,6 +732,11 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 
 	  if( zmet.njets() > 1 && zmet.hyp_type() == 2 ) nem_2jets_mll += weight;	  
 
+	  // if( weight > 10 ){
+	  // cout<<currentFile->GetTitle()<<endl;
+	  // cout<<zmet.run()<<" | "<<zmet.lumi()<<" | "<<zmet.evt()<<" | "<<weight<<endl;
+	  // }
+	  
 	  //-~-~-~-~-~-~-~-~-//
 	  //Fill event  hists//
 	  //-~-~-~-~-~-~-~-~-//	  
@@ -751,8 +757,6 @@ void templateLooper::ScanChain ( TChain * chain , const string iter , const stri
 	  fillHist( "event", "ptlep1lep2"  , "passtrig", zmet.lep_pt().at(0) + zmet.lep_pt().at(1), weight );	  
 	  fillHist( "event", "metphi" , "passtrig", event_met_ph        , weight );	  
 	  fillHist( "event", "metphir", "passtrig", zmet.met_rawPhi()   , weight );	  
-
-	  if( !zmet.isData() ) fillHist( "event", "nVert_true"  , "passtrig", zmet.nTrueInt() , weight );	  
 
 	  if( zmet.njets() > 0 ) fillHist( "event", "ptj1"   , "passtrig", zmet.jets_p4().at(0).pt() , weight );	  
 	  if( zmet.njets() > 1 ) fillHist( "event", "ptj2"   , "passtrig", zmet.jets_p4().at(1).pt() , weight );	  
@@ -1194,7 +1198,7 @@ void templateLooper::bookHistos( string signal_sample = "" ){
   variable.push_back("nVert");         variable_bins.push_back(50 );  
   variable.push_back("mll_fkw");       variable_bins.push_back(400 );  
   
-  variable.push_back("nVert_true");    variable_bins.push_back(50 );  
+  variable.push_back("nVert_true");    variable_bins.push_back(100 );  
 
   variable.push_back("met_CORE");       variable_bins.push_back(500 );  
   variable.push_back("met_COREgt1jet"); variable_bins.push_back(500 );  

@@ -129,6 +129,9 @@ bool passSignalRegionSelection( string selection )
 	  if( TString(selection).Contains("dphi2cut0p4"    ) && !(event_njets > 1 && zmet.dphi_metj2() > 0.4)    ) return false; // phi MET jet2 > 0.4
 
 	  if( TString(selection).Contains("3lepveto"       ) && !(zmet.nveto_leptons() < 1 && zmet.nlep() == 2 ) ) return false; // 3rd lep veto
+	  if( TString(selection).Contains("3lvetotight"    ) && !(zmet.nisoTrack_mt2() < 1 )                     ) return false;
+
+	  if( TString(selection).Contains("mdzwindow" ) && !( zmet.dilmass() > 86   && zmet.dilmass() < 96   ) ) return false; // mZ +- 5 GeV
 
 	  if( TString(selection).Contains("baseline2016"   ) ){
 		if( !(event_njets > 1 && zmet.dphi_metj1() > 0.4)    ) return false; // phi MET jet1 > 0.4

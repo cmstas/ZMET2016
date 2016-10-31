@@ -45,11 +45,11 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   bool renormalizettbar = false;  // ttbar has too many events
 
   
-  bool normalized       = true;  // normalize backgrounds to data
+  bool normalized       = false;  // normalize backgrounds to data
 
   bool fractionalBG     = false;  // display background numbers as fraction in zjets and fsbkg
   bool useedgepreds   = false; // combine z bgs and fs bgs into 2 categories
-  bool isblind        = false;
+  bool isblind        = true;
   bool printyields    = true;
 
   bool useedgeplots   = false; // combine z bgs and fs bgs into 2 categories
@@ -131,6 +131,10 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		if( binind >= h_data->FindBin(100) ) h_data -> SetBinContent( binind, 0 );
 		if( binind >= h_data->FindBin(100) ) h_data -> SetBinError( binind, 0 );
 	  }
+	}
+	for( int binind = 0; binind < h_data -> GetNbinsX()+1; binind++ ){
+	  if( binind >= h_data->FindBin(00) ) h_data -> SetBinContent( binind, 0 );
+	  if( binind >= h_data->FindBin(00) ) h_data -> SetBinError( binind, 0 );
 	}
   }
   
@@ -1647,7 +1651,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 5e4 );  
 	}
 	if( TString(selection).Contains("jets_inclusive") ){
-	  h_data->GetYaxis()->SetRangeUser(2e0, 8e5 );  
+	  h_data->GetYaxis()->SetRangeUser(2e0, 8e6 );  
 	}
   }else{
 	h_data->GetYaxis()->SetRangeUser(2e-1, h_data->GetMaximum() * 10 );
