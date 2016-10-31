@@ -68,7 +68,7 @@ void runPhotonTemplates( std::string selection = "", std::string iter = "", std:
 
   if ( sample == "All_MC" ){
 
-	ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht*.root");
+	ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht*_dr0p05_mgmlm*.root");
 	// ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht40_dr0p4_mgmlm.root");
 	// ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht100_dr0p4_mgmlm.root");
 	// ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/gjetsht200_dr0p4_mgmlm.root");

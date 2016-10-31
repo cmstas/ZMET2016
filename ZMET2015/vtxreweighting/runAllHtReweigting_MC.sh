@@ -1,13 +1,11 @@
 #! /bin/bash
 
-root -b -q "getReweightHTHist_MC.cc+(\"2jets_inclusive\")"
-root -b -q "getReweightHTHist_MC.cc+(\"SR_EWK\")"
-
-root -b -q "getReweightHTHist_MC.cc+(\"SRB_bveto\")"
-root -b -q "getReweightHTHist_MC.cc+(\"SRB_withb\")"
-root -b -q "getReweightHTHist_MC.cc+(\"SRA_bveto\")"
-root -b -q "getReweightHTHist_MC.cc+(\"SRA_withb\")"
-root -b -q "getReweightHTHist_MC.cc+(\"SR_ATLAS\")"
+root -b -q "getReweightHTHist_MC.cc+(\"newSR_A_bveto_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut\")"
+root -b -q "getReweightHTHist_MC.cc+(\"newSR_A_withb_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut\")"
+root -b -q "getReweightHTHist_MC.cc+(\"newSR_B_bveto_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut\")"
+root -b -q "getReweightHTHist_MC.cc+(\"newSR_B_withb_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut\")"
+root -b -q "getReweightHTHist_MC.cc+(\"newSR_C_bveto_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut\")"
+root -b -q "getReweightHTHist_MC.cc+(\"newSR_C_withb_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut\")"
 
 # root -b -q "getReweightHTHist_MC.cc+(\"central_twojets\")"
 # root -b -q "getReweightHTHist_MC.cc+(\"central_withb_twojets\")"

@@ -44,6 +44,33 @@ fi
 # selection="_SR_ATLAS"
 # ./makePhotonTemplates $selection $analysis_version All_MC dohtreweighting &
 
+# selection="_newSR_A_bveto_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+# ./makePhotonTemplates $selection $analysis_version All_MC dontdohtreweighting &
+# selection="_newSR_A_withb_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+# ./makePhotonTemplates $selection $analysis_version All_MC dontdohtreweighting &
+# selection="_newSR_B_bveto_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+# ./makePhotonTemplates $selection $analysis_version All_MC dontdohtreweighting &
+# selection="_newSR_B_withb_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+# ./makePhotonTemplates $selection $analysis_version All_MC dontdohtreweighting &
+# selection="_newSR_C_bveto_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+# ./makePhotonTemplates $selection $analysis_version All_MC dontdohtreweighting &
+# selection="_newSR_C_withb_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+# ./makePhotonTemplates $selection $analysis_version All_MC dontdohtreweighting &
+
+selection="_newSR_A_bveto_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+./makePhotonTemplates $selection $analysis_version All_MC dohtreweighting &
+selection="_newSR_A_withb_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+./makePhotonTemplates $selection $analysis_version All_MC dohtreweighting &
+selection="_newSR_B_bveto_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+./makePhotonTemplates $selection $analysis_version All_MC dohtreweighting &
+selection="_newSR_B_withb_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+./makePhotonTemplates $selection $analysis_version All_MC dohtreweighting &
+selection="_newSR_C_bveto_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+./makePhotonTemplates $selection $analysis_version All_MC dohtreweighting &
+selection="_newSR_C_withb_dphicut0p4_dphi2cut0p4_3lvetotight_mdzwindow_mt2cut"
+./makePhotonTemplates $selection $analysis_version All_MC dohtreweighting &
+
+
 # this is for data
 
 
@@ -207,24 +234,26 @@ fi
 # selection="_SR_ATLAS"
 # ./makePhotonTemplates $selection $analysis_version ttgamma dontdohtreweighting &
 
-selection="_SR_ATLAS"
-./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
-selection="_SRA_bveto"
-./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
-selection="_SRA_withb"
-./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
-selection="_SRB_bveto"
-./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
-selection="_SRB_withb"
-./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
+# selection="_SR_ATLAS"
+# ./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
+# selection="_SRA_bveto"
+# ./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
+# selection="_SRA_withb"
+# ./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
+# selection="_SRB_bveto"
+# ./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
+# selection="_SRB_withb"
+# ./makePhotonTemplates $selection $analysis_version allewk dontdohtreweighting &
 
-selection="_SR_ATLAS"
-./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
-selection="_SRA_bveto"
-./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
-selection="_SRA_withb"
-./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
-selection="_SRB_bveto"
-./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
-selection="_SRB_withb"
-./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
+# selection="_SR_ATLAS"
+# ./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
+# selection="_SRA_bveto"
+# ./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
+# selection="_SRA_withb"
+# ./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
+# selection="_SRB_bveto"
+# ./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
+# selection="_SRB_withb"
+# ./makePhotonTemplates $selection $analysis_version allewk dohtreweighting &
+
+

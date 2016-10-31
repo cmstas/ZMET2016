@@ -29,8 +29,8 @@ void getReweightHTHist_MC( string signalregion )
   // TFile * f_data = TFile::Open(Form("../output/V07-04-13/zjetsmlm_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");
   // TFile * f_phot = TFile::Open(Form("../output/V07-04-13/All_MC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");  
 
-  TFile * f_data = TFile::Open(Form("../output/V08-11-00/zjetsmlm_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");
-  TFile * f_phot = TFile::Open(Form("../output/V08-11-00/All_MC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");  
+  TFile * f_data = TFile::Open(Form("../output/V08-11-10/zjetsmlm_%s_novtxweight_hists.root", signalregion.c_str() )   , "READ");
+  TFile * f_phot = TFile::Open(Form("../output/V08-11-10/All_MC_%s_novtxweight_nohtweight_templates.root", signalregion.c_str() ) , "READ");  
 
   TH1F * h_data = NULL;
   TH1F * h_data_em = NULL;
@@ -168,7 +168,7 @@ void getReweightScheme(vector <double> &binning, string selection )
 {
 
   binning.clear();
-
+  
   if( TString(selection).Contains("SRA") ){
 
 	if( TString(selection).Contains("bveto") ){
@@ -277,6 +277,14 @@ void getReweightScheme(vector <double> &binning, string selection )
 	binning.push_back(180);
 	binning.push_back(200);
 	binning.push_back(300);
+	binning.push_back(3000);
+  }
+
+  
+  if( TString(selection).Contains("newSR") ){
+
+  	binning.clear();
+  	binning.push_back(0);
 	binning.push_back(3000);
   }
 

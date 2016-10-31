@@ -27,43 +27,48 @@ void compareMET( std::string iter = "", std::string region = "", float luminosit
 
   string variabletodraw = "ht";
   // variabletodraw = "njets";
+  variabletodraw = "pt";
   variabletodraw = "met";
   
   std::string filename = Form("../output/%s/%s%s_novtxweight_hists.root", iter.c_str(), sample.c_str(), region.c_str() );
   TFile *infile = new TFile(filename.c_str());
 
   TH1F * h_zll                          = (TH1F*)infile->Get(Form("h_%s_event_met_rawgt1jet_passtrig", dilep.c_str() ))->Clone("h_zll");
-  if( variabletodraw == "ht" ) h_zll    = (TH1F*)infile->Get(Form("h_%s_event_ht_highbin_passtrig"   , dilep.c_str() ))->Clone("h_zll");
+  if( variabletodraw == "ht"    ) h_zll = (TH1F*)infile->Get(Form("h_%s_event_ht_highbin_passtrig"   , dilep.c_str() ))->Clone("h_zll");
   if( variabletodraw == "njets" ) h_zll = (TH1F*)infile->Get(Form("h_%s_event_njets_passtrig"        , dilep.c_str() ))->Clone("h_zll");
+  if( variabletodraw == "pt"    ) h_zll = (TH1F*)infile->Get(Form("h_%s_event_ptdil_passtrig"        , dilep.c_str() ))->Clone("h_zll");
 
-  TFile *infile_ph = new TFile(Form("../output/V08-11-00/All_MC%s_novtxweight_templates.root", region.c_str()));
+  TFile *infile_ph = new TFile(Form("../output/V08-11-10/All_MC%s_novtxweight_templates.root", region.c_str()));
   TH1F * h_pho                          = (TH1F*)infile_ph->Get("h_template_njetsind_0_htind_0_ptind_0")->Clone("h_pho");
-  if( variabletodraw == "ht" ) h_pho    = (TH1F*)infile_ph->Get("h_ph_event_ht_highbin_passtrig"       )->Clone("h_pho");
+  if( variabletodraw == "ht"    ) h_pho = (TH1F*)infile_ph->Get("h_ph_event_ht_highbin_passtrig"       )->Clone("h_pho");
   if( variabletodraw == "njets" ) h_pho = (TH1F*)infile_ph->Get("h_ph_event_njets_passtrig"            )->Clone("h_pho");
+  if( variabletodraw == "pt"    ) h_pho = (TH1F*)infile_ph->Get("h_ph_event_ptg_passtrig"              )->Clone("h_pho");
   
   h_zll->Scale(luminosity);
   h_pho->Scale(luminosity);
   
-  float rescaleEWK_zll = h_zll->Integral(h_zll->FindBin(50),h_zll->FindBin(100));
-  float rescaleEWK_pho = h_pho->Integral(h_zll->FindBin(50),h_zll->FindBin(100));
+  float rescaleEWK_zll = h_zll->Integral(h_zll->FindBin(50),h_zll->FindBin(100)-1);
+  float rescaleEWK_pho = h_pho->Integral(h_zll->FindBin(50),h_zll->FindBin(100)-1);
 
   float rescaleEWK = rescaleEWK_zll/rescaleEWK_pho;
 
-  float xmax = 350;
+  float xmax = 200;
   if( variabletodraw == "ht"    ) xmax = 1500;
+  if( variabletodraw == "pt"    ) xmax = 1000;
   if( variabletodraw == "njets" ) xmax = 20;
   updateoverflow( h_zll , xmax-1 );
   updateoverflow( h_pho , xmax-1 );
   
-  h_pho->Scale(1./h_pho->GetSumOfWeights());
 
   if( region == "_SR_EWK" ){
 	h_pho->Scale(rescaleEWK);
   }else{
-	h_pho->Scale(h_zll->GetSumOfWeights());
+	// h_pho->Scale(1./h_pho->GetSumOfWeights());
+	// h_pho->Scale(h_zll->GetSumOfWeights());
+	h_pho->Scale(rescaleEWK);
   }
   
-  if( variabletodraw == "ht" || variabletodraw == "njets" ) h_pho->Scale(h_zll->GetSumOfWeights()/h_pho->GetSumOfWeights());
+  if( variabletodraw == "ht" || variabletodraw == "pt" || variabletodraw == "njets" ) h_pho->Scale(h_zll->GetSumOfWeights()/h_pho->GetSumOfWeights());
 
   if( scaletotemplates ){
 
@@ -80,16 +85,17 @@ void compareMET( std::string iter = "", std::string region = "", float luminosit
   metcut_row1.push_back(0.0);
   metcut_row1.push_back(50);
   metcut_row1.push_back(100);
-  metcut_row1.push_back(150);
+  // metcut_row1.push_back(150);
   if( region == "_2jets_inclusive" ) metcut_row1.push_back(-1);
   printYieldTable( metcut_row1, h_zll, h_pho );
 
   if( region != "_2jets_inclusive" ){
 	vector <float> metcut_row2;
 	metcut_row2.clear();
+	metcut_row2.push_back(100);
 	metcut_row2.push_back(150);
-	metcut_row2.push_back(225);
-	if( region != "_SR_ATLAS" ) metcut_row2.push_back(300);
+	// metcut_row2.push_back(225);
+	// if( region != "_SR_ATLAS" ) metcut_row2.push_back(300);
 	metcut_row2.push_back(-1);
 	printYieldTable( metcut_row2, h_zll, h_pho );
   }
@@ -119,12 +125,12 @@ void compareMET( std::string iter = "", std::string region = "", float luminosit
   
   xbins[nbinsx-1] = xmax;
   
-  int rebin = 50;
+  int rebin = 25;
   if( variabletodraw == "njets" ) {
 	rebin = 1;
   }
 
-  if( variabletodraw == "ht" || variabletodraw == "njets"/* || variabletodraw == "met"*/ ) {
+  if( variabletodraw == "ht" || variabletodraw == "pt" || variabletodraw == "njets" || variabletodraw == "met" ) {
 	h_zll->Rebin(rebin);
 	h_pho->Rebin(rebin);
   }else{
@@ -161,8 +167,8 @@ void compareMET( std::string iter = "", std::string region = "", float luminosit
   h_zll->GetYaxis()->SetTitleOffset(1.5);
   h_zll->GetYaxis()->SetTitleSize(0.05);
   h_zll->GetYaxis()->SetTitle(Form("Events/%.0f GeV", (float)rebin));
-  if( region == "_SR_EWK" ) h_zll->GetXaxis()->SetRangeUser(50,xmax);
-  if( region != "_SR_EWK" ) h_zll->GetXaxis()->SetRangeUser(0,xmax);
+  h_zll->GetXaxis()->SetRangeUser(0,xmax);
+  if( variabletodraw == "met" ) h_zll->GetXaxis()->SetRangeUser(50,xmax);
   h_zll->GetYaxis()->SetRangeUser(2e-2,h_zll->GetMaximum()*1e2);
   h_zll->SetMarkerStyle(8);
   h_zll->SetMarkerSize(0.75);
@@ -285,12 +291,10 @@ void compareMET( std::string iter = "", std::string region = "", float luminosit
   
   h_rat    ->Draw("e1x0");
   gStyle->SetErrorX(0.5);
-  h_uncband->Draw("samee2");
+  // h_uncband->Draw("samee2");
   
   TLine * xaxis = new TLine(0,1,xmax,1);
-  if( region == "_SR_EWK" ){
-	xaxis = new TLine(50,1,xmax,1);
-  }
+  if( variabletodraw == "met" ) xaxis = new TLine(50,1,xmax,1);
   xaxis->SetLineWidth(2);
   xaxis->Draw("same");  
  
