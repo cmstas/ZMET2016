@@ -178,6 +178,7 @@ class babyMaker {
   Int_t HLT_MuEG        ;
   Int_t HLT_MuEG_2      ;
   Int_t HLT_MuEG_noiso  ;
+  Int_t HLT_MuEG_noiso_2;
 
   Int_t HLT_Mu8_EG17      ;
   Int_t HLT_Mu8_EG23      ;

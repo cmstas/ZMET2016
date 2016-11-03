@@ -440,7 +440,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 							  passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  ) ||
 							  passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  ) );
 		HLT_MuEG_noiso     =  passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"                 );
-
+		HLT_MuEG_noiso_2   =  passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v"                 );
+		
 		//separate emu trigs
 		HLT_Mu8_EG17      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  );
 		HLT_Mu8_EG23      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  );
@@ -1867,6 +1868,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_MuEG"         , &HLT_MuEG         );
   BabyTree_->Branch("HLT_MuEG_2"       , &HLT_MuEG_2       );
   BabyTree_->Branch("HLT_MuEG_noiso"   , &HLT_MuEG_noiso   );
+  BabyTree_->Branch("HLT_MuEG_noiso_2" , &HLT_MuEG_noiso_2 );
 
   BabyTree_->Branch("HLT_Mu8_EG17"     , &HLT_Mu8_EG17     );
   BabyTree_->Branch("HLT_Mu8_EG23"     , &HLT_Mu8_EG23     );
@@ -2231,6 +2233,7 @@ void babyMaker::InitBabyNtuple () {
   HLT_MuEG         = -999;
   HLT_MuEG_2       = -999;
   HLT_MuEG_noiso   = -999;
+  HLT_MuEG_noiso_2 = -999;
 
   HLT_Mu8_EG17     = -999;
   HLT_Mu8_EG23     = -999;
