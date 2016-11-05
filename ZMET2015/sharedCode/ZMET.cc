@@ -353,6 +353,11 @@ void ZMET::Init(TTree *tree) {
 		HLT_MuEG_noiso_branch = tree->GetBranch("HLT_MuEG_noiso");
 		if (HLT_MuEG_noiso_branch) {HLT_MuEG_noiso_branch->SetAddress(&HLT_MuEG_noiso_);}
 	}
+	HLT_MuEG_noiso_2_branch = 0;
+	if (tree->GetBranch("HLT_MuEG_noiso_2") != 0) {
+		HLT_MuEG_noiso_2_branch = tree->GetBranch("HLT_MuEG_noiso_2");
+		if (HLT_MuEG_noiso_2_branch) {HLT_MuEG_noiso_2_branch->SetAddress(&HLT_MuEG_noiso_2_);}
+	}
 	HLT_Mu8_EG17_branch = 0;
 	if (tree->GetBranch("HLT_Mu8_EG17") != 0) {
 		HLT_Mu8_EG17_branch = tree->GetBranch("HLT_Mu8_EG17");
@@ -1564,6 +1569,7 @@ void ZMET::GetEntry(unsigned int idx)
 		HLT_MuEG_isLoaded = false;
 		HLT_MuEG_2_isLoaded = false;
 		HLT_MuEG_noiso_isLoaded = false;
+		HLT_MuEG_noiso_2_isLoaded = false;
 		HLT_Mu8_EG17_isLoaded = false;
 		HLT_Mu8_EG23_isLoaded = false;
 		HLT_Mu8_EG23_DZ_isLoaded = false;
@@ -1868,6 +1874,7 @@ void ZMET::LoadAllBranches()
 	if (HLT_MuEG_branch != 0) HLT_MuEG();
 	if (HLT_MuEG_2_branch != 0) HLT_MuEG_2();
 	if (HLT_MuEG_noiso_branch != 0) HLT_MuEG_noiso();
+	if (HLT_MuEG_noiso_2_branch != 0) HLT_MuEG_noiso_2();
 	if (HLT_Mu8_EG17_branch != 0) HLT_Mu8_EG17();
 	if (HLT_Mu8_EG23_branch != 0) HLT_Mu8_EG23();
 	if (HLT_Mu8_EG23_DZ_branch != 0) HLT_Mu8_EG23_DZ();
@@ -2888,6 +2895,19 @@ void ZMET::LoadAllBranches()
 			HLT_MuEG_noiso_isLoaded = true;
 		}
 		return HLT_MuEG_noiso_;
+	}
+	const int &ZMET::HLT_MuEG_noiso_2()
+	{
+		if (not HLT_MuEG_noiso_2_isLoaded) {
+			if (HLT_MuEG_noiso_2_branch != 0) {
+				HLT_MuEG_noiso_2_branch->GetEntry(index);
+			} else { 
+				printf("branch HLT_MuEG_noiso_2_branch does not exist!\n");
+				exit(1);
+			}
+			HLT_MuEG_noiso_2_isLoaded = true;
+		}
+		return HLT_MuEG_noiso_2_;
 	}
 	const int &ZMET::HLT_Mu8_EG17()
 	{
@@ -6078,6 +6098,7 @@ namespace ZMet {
 	const int &HLT_MuEG() { return zmet.HLT_MuEG(); }
 	const int &HLT_MuEG_2() { return zmet.HLT_MuEG_2(); }
 	const int &HLT_MuEG_noiso() { return zmet.HLT_MuEG_noiso(); }
+	const int &HLT_MuEG_noiso_2() { return zmet.HLT_MuEG_noiso_2(); }
 	const int &HLT_Mu8_EG17() { return zmet.HLT_Mu8_EG17(); }
 	const int &HLT_Mu8_EG23() { return zmet.HLT_Mu8_EG23(); }
 	const int &HLT_Mu8_EG23_DZ() { return zmet.HLT_Mu8_EG23_DZ(); }
