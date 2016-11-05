@@ -49,7 +49,7 @@ void getTotalEventsSUSY_mt2way()
   int bin_width = h_entries->GetBinLowEdge(2) - h_entries->GetBinLowEdge(3); //assumes equal binning
 
   for(int xbinind = 0; xbinind < nbins; xbinind++ ){
-      cout<<"Bin: "<<h_entries->GetBinLowEdge(xbinind)<<" entries: "<<h_entries->GetBinContent(binind)<<endl;
+      cout<<"Bin: "<<h_entries->GetBinLowEdge(xbinind)<<" entries: "<<h_entries->GetBinContent(xbinind)<<endl;
     }
   }
   //2D Histos
