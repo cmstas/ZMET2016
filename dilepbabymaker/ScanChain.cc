@@ -100,7 +100,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
-  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
+  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
   
   if (applyBtagSFs) {
 	// setup btag calibration readers
@@ -162,6 +162,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   TFile * f_susyxsecs = NULL;
 
   TH2F * h_eventcounts  = NULL;
+  TH1D * h_eventcounts_1d  = NULL;
   TFile * f_eventcounts = NULL;
 
   if (isSMSScan) {
@@ -171,12 +172,26 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	f_susyxsecs = TFile::Open("xsec_susy_13tev.root","READ");
 	if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
 	if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
+	if( TString(baby_name).Contains("tchihz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_higgsino"  )->Clone("h_susyxsecs");
 	h_susyxsecs->SetDirectory(rootdir);
 	f_susyxsecs->Close();
 
 	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_entries_V08-00-05_FS.root","READ");
 	if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("T5ZZ_entries.root"               ,"READ");
+	if( TString(baby_name).Contains("tchihz"  ) ) f_eventcounts = TFile::Open("TChiHZ_HToBB_ZToLL.root"               ,"READ");
+
+	if(TString(baby_name).Contains("tchihz")) {
+		h_eventcounts_1d = (TH1D*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
+		h_eventcounts_1d->SetDirectory(rootdir);
+	}
+	else{
+		h_eventcounts = (TH2F*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");	
+		h_eventcounts->SetDirectory(rootdir);
+	}
+
 	h_eventcounts = (TH2F*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
+	
+
 	h_eventcounts->SetDirectory(rootdir);
 	f_eventcounts->Close();
   }
@@ -339,10 +354,19 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		mass_gluino = cms3.sparm_values().at(0);
 		mass_LSP    = cms3.sparm_values().at(1);
 
-		evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
-		
+		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ")){
+			mass_chi = cms3.sparm_values().at(0);
+			evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
+		}
+		else{
+			mass_gluino = cms3.sparm_values().at(0);
+			mass_LSP    = cms3.sparm_values().at(1);
+			evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
+		}
+
 		if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
-		if( TString(currentFile->GetTitle()).Contains("SMS-TChi") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
+		if( TString(currentFile->GetTitle()).Contains("SMS-TChiWZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
+		if( TString(currentFile->GetTitle()).Contains("SMS-TChiHZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
 		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
 		LorentzVector isrSystem_p4;
