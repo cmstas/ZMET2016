@@ -2159,6 +2159,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("mass_gluino", &mass_gluino);
   BabyTree_->Branch("mass_LSP"   , &mass_LSP   );
+  BabyTree_->Branch("mass_chi"   , &mass_chi   );
 
   BabyTree_->Branch("isrboost"   , &isrboost   );
   BabyTree_->Branch("isr_njets"  , &isr_njets  );
@@ -2529,6 +2530,7 @@ void babyMaker::InitBabyNtuple () {
 
   mass_gluino = -999;
   mass_LSP    = -999;
+  mass_chi    = -999;
   
   isrboost    = -999;
   isr_njets   = -999;
