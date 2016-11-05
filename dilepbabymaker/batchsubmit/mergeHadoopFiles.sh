@@ -126,5 +126,6 @@ fi
 # # signal
 # run t5zz_80x_v2
 # run tchiwz_80x_v2
+ run tchihz_80x_v2
 
 # above this is done
