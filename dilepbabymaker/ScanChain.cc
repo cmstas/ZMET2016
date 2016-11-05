@@ -44,7 +44,7 @@ using namespace std;
 using namespace tas;
 
 // turn on to add debugging statements
-const bool verbose = false;
+const bool verbose = true;
 // turn on to apply JEC from text files
 const bool applyJECfromFile = true;
 //turn on to veto transition region for leps and photons
@@ -308,6 +308,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	  }
 
+	  cout<<__LINE__<<endl;
+
 	  if( isSMSScan ){
 		// files for 25ns fastsim samples
 		jetcorr_filenames_pfL1FastJetL2L3.clear();
@@ -324,6 +326,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  
 	  jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
     }
+
+    cout<<__LINE__<<endl;
 
     // Event Loop
     unsigned int nEventsTree = tree->GetEntriesFast();
@@ -347,13 +351,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       evt    = cms3.evt_event();
       isData = cms3.evt_isRealData();
 
+      cout<<__LINE__<<endl;
+
       evt_kfactor  = cms3.evt_kfactor();
       evt_filter   = cms3.evt_filt_eff();
 
 	  if( isSMSScan ){
 		mass_gluino = cms3.sparm_values().at(0);
 		mass_LSP    = cms3.sparm_values().at(1);
-
+		cout<<__LINE__<<endl;
 		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ")){
 			mass_chi = cms3.sparm_values().at(0);
 			evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
@@ -363,7 +369,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			mass_LSP    = cms3.sparm_values().at(1);
 			evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
 		}
-
+		cout<<__LINE__<<endl;
 		if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
 		if( TString(currentFile->GetTitle()).Contains("SMS-TChiWZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
 		if( TString(currentFile->GetTitle()).Contains("SMS-TChiHZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
@@ -414,6 +420,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       met_rawPt    = cms3.evt_pfmet_raw();
       met_rawPhi   = cms3.evt_pfmetPhi_raw();
       sumet_raw    = cms3.evt_pfsumet_raw();
+
+      cout<<__LINE__<<endl;
 
       // MET FILTERS
 	  if( isData ){
@@ -518,6 +526,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  ngenTau        = 0;
       ngenLepFromTau = 0;
       gen_ht         = 0;
+
+      cout<<__LINE__<<endl;
 
 	  if ( cms3.evt_isRealData() && !goodrun(cms3.evt_run(), cms3.evt_lumiBlock()) ) evt_passgoodrunlist = false;
 	  
@@ -742,6 +752,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       }
 	  
 	  if (verbose) cout << "before muons" << endl;
+
+	  cout<<__LINE__<<endl;
 
       //MUONS
       nMuons10 = 0;
