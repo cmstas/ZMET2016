@@ -357,8 +357,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       evt_filter   = cms3.evt_filt_eff();
 
 	  if( isSMSScan ){
-		mass_gluino = cms3.sparm_values().at(0);
-		mass_LSP    = cms3.sparm_values().at(1);
 		cout<<__LINE__<<endl;
 		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ")){
 			mass_chi = cms3.sparm_values().at(0);
