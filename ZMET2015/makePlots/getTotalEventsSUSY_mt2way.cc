@@ -51,7 +51,6 @@ void getTotalEventsSUSY_mt2way()
   for(int xbinind = 0; xbinind < nbins; xbinind++ ){
       cout<<"Bin: "<<h_entries->GetBinLowEdge(xbinind)<<" entries: "<<h_entries->GetBinContent(xbinind)<<endl;
     }
-  }
   //2D Histos
   /*for( int xbinind = 0; xbinind < 460; xbinind++ ){
   	for( int ybinind = 0; ybinind < 460; ybinind++ ){
@@ -69,7 +68,7 @@ void getTotalEventsSUSY_mt2way()
   // cout<<"total entries from root: "<<ch->GetEntries()<<endl;
 
   //TFile * fileout = TFile::Open("T5qqqqVV_entries_V08-00-09_FS.root","RECREATE");
-  TFile * fileout = TFile::Open("TChiHZ_HToBB_ZToLL.root","RECREATE");
+  TFile* fileout = TFile::Open("TChiHZ_HToBB_ZToLL.root","RECREATE");
   fileout->cd();
   h_entries->Write();
   fileout->Close();
