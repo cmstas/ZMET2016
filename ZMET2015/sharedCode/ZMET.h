@@ -201,6 +201,9 @@ protected:
 	int	HLT_MuEG_noiso_;
 	TBranch *HLT_MuEG_noiso_branch;
 	bool HLT_MuEG_noiso_isLoaded;
+	int	HLT_MuEG_noiso_2_;
+	TBranch *HLT_MuEG_noiso_2_branch;
+	bool HLT_MuEG_noiso_2_isLoaded;
 	int	HLT_Mu8_EG17_;
 	TBranch *HLT_Mu8_EG17_branch;
 	bool HLT_Mu8_EG17_isLoaded;
@@ -982,6 +985,7 @@ void LoadAllBranches();
 	const int &HLT_MuEG();
 	const int &HLT_MuEG_2();
 	const int &HLT_MuEG_noiso();
+	const int &HLT_MuEG_noiso_2();
 	const int &HLT_Mu8_EG17();
 	const int &HLT_Mu8_EG23();
 	const int &HLT_Mu8_EG23_DZ();
@@ -1290,6 +1294,7 @@ namespace ZMet {
 	const int &HLT_MuEG();
 	const int &HLT_MuEG_2();
 	const int &HLT_MuEG_noiso();
+	const int &HLT_MuEG_noiso_2();
 	const int &HLT_Mu8_EG17();
 	const int &HLT_Mu8_EG23();
 	const int &HLT_Mu8_EG23_DZ();
