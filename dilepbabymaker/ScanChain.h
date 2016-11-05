@@ -448,6 +448,7 @@ class babyMaker {
   // SUSY variables
   Int_t mass_gluino;
   Int_t mass_LSP;
+  Int_t mass_chi;
 
   Float_t isrboost  ;
   Int_t   isr_njets ;
