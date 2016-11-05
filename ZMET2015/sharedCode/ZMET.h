@@ -888,6 +888,9 @@ protected:
 	int	mass_LSP_;
 	TBranch *mass_LSP_branch;
 	bool mass_LSP_isLoaded;
+	int	mass_chi_;
+	TBranch *mass_chi_branch;
+	bool mass_chi_isLoaded;
 	float	isrboost_;
 	TBranch *isrboost_branch;
 	bool isrboost_isLoaded;
@@ -1214,6 +1217,7 @@ void LoadAllBranches();
 	const int &evt_type();
 	const int &mass_gluino();
 	const int &mass_LSP();
+	const int &mass_chi();
 	const float &isrboost();
 	const int &isr_njets();
 	const float &isr_weight();
@@ -1523,6 +1527,7 @@ namespace ZMet {
 	const int &evt_type();
 	const int &mass_gluino();
 	const int &mass_LSP();
+	const int &mass_chi();
 	const float &isrboost();
 	const int &isr_njets();
 	const float &isr_weight();

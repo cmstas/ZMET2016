@@ -1448,6 +1448,11 @@ void ZMET::Init(TTree *tree) {
 		mass_LSP_branch = tree->GetBranch("mass_LSP");
 		if (mass_LSP_branch) {mass_LSP_branch->SetAddress(&mass_LSP_);}
 	}
+	mass_chi_branch = 0;
+	if (tree->GetBranch("mass_chi") != 0) {
+		mass_chi_branch = tree->GetBranch("mass_chi");
+		if (mass_chi_branch) {mass_chi_branch->SetAddress(&mass_chi_);}
+	}
 	isrboost_branch = 0;
 	if (tree->GetBranch("isrboost") != 0) {
 		isrboost_branch = tree->GetBranch("isrboost");
@@ -1798,6 +1803,7 @@ void ZMET::GetEntry(unsigned int idx)
 		evt_type_isLoaded = false;
 		mass_gluino_isLoaded = false;
 		mass_LSP_isLoaded = false;
+		mass_chi_isLoaded = false;
 		isrboost_isLoaded = false;
 		isr_njets_isLoaded = false;
 		isr_weight_isLoaded = false;
@@ -2103,6 +2109,7 @@ void ZMET::LoadAllBranches()
 	if (evt_type_branch != 0) evt_type();
 	if (mass_gluino_branch != 0) mass_gluino();
 	if (mass_LSP_branch != 0) mass_LSP();
+	if (mass_chi_branch != 0) mass_chi();
 	if (isrboost_branch != 0) isrboost();
 	if (isr_njets_branch != 0) isr_njets();
 	if (isr_weight_branch != 0) isr_weight();
@@ -5873,6 +5880,19 @@ void ZMET::LoadAllBranches()
 		}
 		return mass_LSP_;
 	}
+	const int &ZMET::mass_chi()
+	{
+		if (not mass_chi_isLoaded) {
+			if (mass_chi_branch != 0) {
+				mass_chi_branch->GetEntry(index);
+			} else { 
+				printf("branch mass_chi_branch does not exist!\n");
+				exit(1);
+			}
+			mass_chi_isLoaded = true;
+		}
+		return mass_chi_;
+	}
 	const float &ZMET::isrboost()
 	{
 		if (not isrboost_isLoaded) {
@@ -6327,6 +6347,7 @@ namespace ZMet {
 	const int &evt_type() { return zmet.evt_type(); }
 	const int &mass_gluino() { return zmet.mass_gluino(); }
 	const int &mass_LSP() { return zmet.mass_LSP(); }
+	const int &mass_chi() { return zmet.mass_chi(); }
 	const float &isrboost() { return zmet.isrboost(); }
 	const int &isr_njets() { return zmet.isr_njets(); }
 	const float &isr_weight() { return zmet.isr_weight(); }
