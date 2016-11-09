@@ -4,10 +4,10 @@ This repository is used to produce babies, and analyze babies for the Z+MET anal
 
 source /code/osgcode/cmssoft/cmsset_default.sh  > /dev/null 2>&1  
 export SCRAM_ARCH=slc6_amd64_gcc530  
-cmsrel CMSSW_8_0_11  
-cd CMSSW_8_0_11  
+cmsrel CMSSW_8_0_22  
+cd CMSSW_8_0_22  
 cmsenv  
-ANALYSIS_TAG=V08-07-01  
+ANALYSIS_TAG=V08-22-02  
 git clone git@github.com:cmstas/ZMET2016.git $ANALYSIS_TAG  
 cd $ANALYSIS_TAG  
 git checkout $ANALYSIS_TAG  
