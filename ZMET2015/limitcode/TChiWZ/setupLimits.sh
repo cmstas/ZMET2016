@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Instructions to run limit code taken from:
+# https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
+
 export SCRAM_ARCH=slc6_amd64_gcc481
 cmsrel CMSSW_7_1_5
 if [ ! -e CMSSW_7_1_5 ]; then
