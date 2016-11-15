@@ -6,7 +6,7 @@ cmsrel CMSSW_7_1_5
 cd CMSSW_7_1_5/src/
 cmsenv
 
-git clone git@github.com:your-user-name/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 cd HiggsAnalysis/CombinedLimit
 git remote add upstream  https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git
 git fetch upstream
