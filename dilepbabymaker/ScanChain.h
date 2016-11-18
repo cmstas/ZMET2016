@@ -58,6 +58,8 @@ class babyMaker {
   TH2D * h_muoweightsiso;
   TH1F * h_muoweights_HIP_hist;
 
+  TH1I * h_neventsinfile;
+
   float getBtagEffFromFile(float pt, float eta, int mcFlavour, bool isFastsim);
   float get_sum_mlb();
   void load_leptonSF_files();
@@ -275,6 +277,7 @@ class babyMaker {
   std::vector <Float_t>         gamma_phIso        ;   //[ngamma]
   std::vector <Float_t>         gamma_r9           ;   //[ngamma]
   std::vector <Float_t>         gamma_hOverE       ;   //[ngamma]
+  std::vector <Float_t>         gamma_hOverE_online;   //[ngamma]
   std::vector <Int_t  >         gamma_idCutBased   ;   //[ngamma]
   std::vector <Int_t  >         gamma_mcMatchId    ;   //[ngamma]
   std::vector <Float_t>         gamma_genIso       ;   //[ngamma]
@@ -355,10 +358,12 @@ class babyMaker {
   Float_t         metsig_unofficial_dn;
   Float_t         metsig_unofficial_up;
 
+  Float_t         mt_lep1;  // leading lepton only
   Float_t         mt2;  // only leptons
   Float_t         mt2j; // all jets
   Float_t         mt2b; // b-jets only
 
+  Float_t         mjj_mindphi;
   Float_t         mjj;
   Float_t         mbb_csv;
   Float_t         mbb_bpt;

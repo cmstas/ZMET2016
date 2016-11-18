@@ -150,6 +150,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 
+  h_neventsinfile = new TH1I( "h_neventsinfile", "", 1, 0, 1 );
+  
   //add 2015 data vtx weights for PU
   TH1F * h_vtxweight = NULL;
   TFile * f_vtx = NULL;
@@ -169,16 +171,21 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	cout<<"issmsscan"<<endl;
 	
-	f_susyxsecs = TFile::Open("xsec_susy_13tev.root","READ");
-	if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
-	if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
-	if( TString(baby_name).Contains("tchihz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_higgsino"  )->Clone("h_susyxsecs");
+	if( TString(baby_name).Contains("tchihz") ){
+	  f_susyxsecs = TFile::Open("xsec_higgsino.root","READ");
+	  h_susyxsecs = (TH1F*)f_susyxsecs->Get("xsec_hist"  )->Clone("h_susyxsecs");
+	}else{
+	  f_susyxsecs = TFile::Open("xsec_susy_13tev.root","READ");
+	  if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
+	  if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
+	}
+
 	h_susyxsecs->SetDirectory(rootdir);
 	f_susyxsecs->Close();
 
 	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_entries_V08-00-05_FS.root","READ");
 	if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("T5ZZ_entries.root"               ,"READ");
-	if( TString(baby_name).Contains("tchihz"  ) ) f_eventcounts = TFile::Open("TChiHZ_HToBB_ZToLL.root"               ,"READ");
+	if( TString(baby_name).Contains("tchihz") ) f_eventcounts = TFile::Open("TChiHZ_HToBB_ZToLL.root"         ,"READ");
 
 	if(TString(baby_name).Contains("tchihz")) {
 		h_eventcounts_1d = (TH1D*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
@@ -205,6 +212,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   TObjArray *listOfFiles = chain->GetListOfFiles();
   TIter fileIter(listOfFiles);
   TFile *currentFile = 0;
+
+  h_neventsinfile->SetBinContent(0, nEvents);
+	
   while ( (currentFile = (TFile*)fileIter.Next()) ) {
     cout << "running on file: " << currentFile->GetTitle() << endl;
 
@@ -357,20 +367,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
       evt_filter   = cms3.evt_filt_eff();
 
 	  if( isSMSScan ){
-		//cout<<__LINE__<<endl;
 		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ")){
-			mass_chi = cms3.sparm_values().at(0);
-			evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
+		  mass_chi = cms3.sparm_values().at(0);
+		  evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
 		}
 		else{
-			mass_gluino = cms3.sparm_values().at(0);
-			mass_LSP    = cms3.sparm_values().at(1);
-			evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
+		  mass_gluino = cms3.sparm_values().at(0);
+		  mass_LSP    = cms3.sparm_values().at(1);
+		  evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
 		}
-		//cout<<__LINE__<<endl;
-		if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
+
+		if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ"  ) ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
 		if( TString(currentFile->GetTitle()).Contains("SMS-TChiWZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
 		if( TString(currentFile->GetTitle()).Contains("SMS-TChiHZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
+
 		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
 		LorentzVector isrSystem_p4;
@@ -879,6 +889,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		gamma_phIso        .push_back( cms3.photons_photonIso().at(iGamma)             );
 		gamma_r9           .push_back( cms3.photons_full5x5_r9().at(iGamma)            );
 		gamma_hOverE       .push_back( cms3.photons_full5x5_hOverEtowBC().at(iGamma)   );
+		gamma_hOverE_online.push_back( cms3.photons_full5x5_hOverE().at(iGamma)        );
 		gamma_idCutBased   .push_back( isTightPhoton(iGamma,HAD) ? 1 : 0               ); 		
 		gamma_hollowtkiso03.push_back( cms3.photons_tkIsoHollow03()   .at(iGamma)      );
 		gamma_ecpfclusiso  .push_back( photonEcalpfClusterIso03EA(iGamma)              );
@@ -985,7 +996,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  cout<<"Leptype not ee, mm, or em! Exiting."<<endl;
 		  continue;
 		}
-		
+
 		dilmass = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).mass();
 		dilpt   = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).pt();       
 
@@ -993,7 +1004,19 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		float dEtall =            lep_p4.at(hyp_indices.first).eta() - lep_p4.at(hyp_indices.second).eta();
 		float dPhill = acos( cos( lep_p4.at(hyp_indices.first).phi() - lep_p4.at(hyp_indices.second).phi() ) );
 		dRll = sqrt(pow( dEtall, 2) + pow( dPhill, 2));
+		
+	  }else if( ngamma > 0 ) {// here are the photon only variables
+		evt_type = 2; // photon + jets event
+		
+	  }else if( nlep == 1 ){
+		// note: if you want to look for events with >= 1 lepton, you need to use (evt_type == 0 || evt_type == 1 || evt_type == 3)
+		evt_type = 3;
+		
+	  }else{
+		continue; // leftovers
+	  }
 
+	  if(nlep>1){
 		LorentzVector z_pt(lep_p4.at(hyp_indices.first).X()+lep_p4.at(hyp_indices.second).X(),
 						   lep_p4.at(hyp_indices.first).Y()+lep_p4.at(hyp_indices.second).Y(),
 						   lep_p4.at(hyp_indices.first).Z()+lep_p4.at(hyp_indices.second).Z(),
@@ -1008,18 +1031,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
 						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
 						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
-		
-		decayedphoton_mt2 = 0;
-		if( abs(decayedphoton_lep1_p4.eta()) < 2.4 && abs(decayedphoton_lep2_p4.eta()) < 2.4  ){
-		  if( (abs(decayedphoton_lep1_p4.eta()) < 1.4 || abs(decayedphoton_lep1_p4.eta()) > 1.6) &&
-			  (abs(decayedphoton_lep2_p4.eta()) < 1.4 || abs(decayedphoton_lep2_p4.eta()) > 1.6) ){
-			decayedphoton_mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
-		  }
-		}
-		
-	  }else if( ngamma > 0 ) {// here are the photon only variables
-		evt_type = 2; // photon + jets event
-
+	  }
+	  
+	  else if(ngamma>0){
 		//start from here
 		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = returnDecayProducts( gamma_p4.at(0) );
 		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
@@ -1029,19 +1043,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
 						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
 						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
-		
-		decayedphoton_mt2 = 0;
-		if( abs(decayedphoton_lep1_p4.eta()) < 2.4 && abs(decayedphoton_lep2_p4.eta()) < 2.4  ){
-		  if( (abs(decayedphoton_lep1_p4.eta()) < 1.4 || abs(decayedphoton_lep1_p4.eta()) > 1.6) &&
-			  (abs(decayedphoton_lep2_p4.eta()) < 1.4 || abs(decayedphoton_lep2_p4.eta()) > 1.6) ){
-			decayedphoton_mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
-		  }
-		}
-		
-	  }else{
-		continue; // leftovers
 	  }
-       	  
+	  
 	  if (verbose) cout << "before jets" << endl;
 	  
       //JETS
@@ -1557,7 +1560,18 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
 
 	  metsig_unofficial = met_T1CHS_miniAOD_CORE_dn_pt / sqrt(ht_dn);
+       	  
+	  if( nlep > 0 ) mt_lep1 = MT(lep_pt.at(0), lep_phi.at(0), met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi);
+		
+	  decayedphoton_mt2 = 0;
+	  if( abs(decayedphoton_lep1_p4.eta()) < 2.4 && abs(decayedphoton_lep2_p4.eta()) < 2.4  ){
+		if( (abs(decayedphoton_lep1_p4.eta()) < 1.4 || abs(decayedphoton_lep1_p4.eta()) > 1.6) &&
+			(abs(decayedphoton_lep2_p4.eta()) < 1.4 || abs(decayedphoton_lep2_p4.eta()) > 1.6) ){
+		  decayedphoton_mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
+		}
+	  }
 
+	  
 	  // add kinematic variables to do with jets leps and photons here
 	  if( lep_p4.size() > 1 && evt_type != 2 ){
 		// MT2J( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, VECT_P4_Jets, MASS_INVISIBLE_PARTICLE, MT2_CALCULATION_METHOD )
@@ -1634,6 +1648,22 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  
 	  // add kinematic variables to do with ewk signal regions
 	  if( jets_p4.size() > 1 ){
+
+		if( njets > 1 ){
+		  mjj_mindphi = 0.0;
+		  float dphi_jetjet = 4.0;
+		  for( int jet1ind = 0; jet1ind < njets-1; jet1ind++ ){
+			for( int jet2ind = jet1ind+1; jet2ind < njets; jet2ind++ ){
+			  if( jets_p4.at(jet1ind).pt() < 35 || jets_p4.at(jet2ind).pt() < 35 ) continue;
+			  float dphi_jet1_jet2 = acos(cos(jets_p4.at(jet1ind).phi() - jets_p4.at(jet2ind).phi()));
+			  if( dphi_jet1_jet2 < dphi_jetjet ){
+				dphi_jetjet = dphi_jet1_jet2;
+				mjj_mindphi = (jets_p4.at(jet1ind) + jets_p4.at(jet2ind)).mass();
+			  }
+			}
+		  }
+		}
+	  
 		mjj = (jets_p4.at(0) + jets_p4.at(1)).mass();
 		dphi_jj = acos(cos(jets_p4.at(0).phi() - jets_p4.at(1).phi()));
 		deta_jj = abs(jets_p4.at(0).eta() - jets_p4.at(1).eta());
@@ -1792,8 +1822,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
 	}//end loop on events in a file
   
-    delete tree;
+	delete tree;
     f.Close();
+
   }//end loop on files
   
   cout << "Processed " << nEventsTotal << " events" << endl;
@@ -2007,6 +2038,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("gamma_sigmaIetaIeta", "std::vector <Float_t>" , &gamma_sigmaIetaIeta);
   BabyTree_->Branch("gamma_r9"           , "std::vector <Float_t>" , &gamma_r9           );
   BabyTree_->Branch("gamma_hOverE"       , "std::vector <Float_t>" , &gamma_hOverE       );
+  BabyTree_->Branch("gamma_hOverE_online", "std::vector <Float_t>" , &gamma_hOverE_online);
   BabyTree_->Branch("gamma_idCutBased"   , "std::vector <Int_t  >" , &gamma_idCutBased   );
   BabyTree_->Branch("gamma_ecpfclusiso"  , &gamma_ecpfclusiso      );
   BabyTree_->Branch("gamma_hcpfclusiso"  , &gamma_hcpfclusiso      );
@@ -2077,18 +2109,20 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("metsig_unofficial_up" , &metsig_unofficial_up );
   BabyTree_->Branch("metsig_unofficial_dn" , &metsig_unofficial_dn );
 
-  BabyTree_->Branch("mt2" , &mt2  );
-  BabyTree_->Branch("mt2j", &mt2j );
-  BabyTree_->Branch("mt2b", &mt2b );
+  BabyTree_->Branch("mt_lep1" , &mt_lep1 );
+  BabyTree_->Branch("mt2"     , &mt2     );
+  BabyTree_->Branch("mt2j"    , &mt2j    );
+  BabyTree_->Branch("mt2b"    , &mt2b    );
 
-  BabyTree_->Branch("mjj"    , &mjj     );
-  BabyTree_->Branch("mbb_csv", &mbb_csv );
-  BabyTree_->Branch("mbb_bpt", &mbb_bpt );
-  BabyTree_->Branch("dphi_jj", &dphi_jj );
-  BabyTree_->Branch("dphi_ll", &dphi_ll );
-  BabyTree_->Branch("sum_mlb" , &sum_mlb);
-  BabyTree_->Branch("deta_jj", &deta_jj );
-  BabyTree_->Branch("dR_jj"  , &dR_jj   );
+  BabyTree_->Branch("mjj_mindphi" , &mjj_mindphi );
+  BabyTree_->Branch("mjj"         , &mjj         );
+  BabyTree_->Branch("mbb_csv"     , &mbb_csv     );
+  BabyTree_->Branch("mbb_bpt"     , &mbb_bpt     );
+  BabyTree_->Branch("dphi_jj"     , &dphi_jj     );
+  BabyTree_->Branch("dphi_ll"     , &dphi_ll     );
+  BabyTree_->Branch("sum_mlb"     , &sum_mlb     );
+  BabyTree_->Branch("deta_jj"     , &deta_jj     );
+  BabyTree_->Branch("dR_jj"       , &dR_jj       );
 
   BabyTree_->Branch("dphi_metj1", &dphi_metj1 );
   BabyTree_->Branch("dphi_metj2", &dphi_metj2 );
@@ -2377,6 +2411,7 @@ void babyMaker::InitBabyNtuple () {
   gamma_sigmaIetaIeta.clear();   //[ngamma]
   gamma_r9           .clear();   //[ngamma]
   gamma_hOverE       .clear();   //[ngamma]
+  gamma_hOverE_online.clear();   //[ngamma]
   gamma_idCutBased   .clear();   //[ngamma]
   gamma_ecpfclusiso  .clear();
   gamma_hcpfclusiso  .clear();
@@ -2449,18 +2484,20 @@ void babyMaker::InitBabyNtuple () {
   metsig_unofficial_up    = -999.0;
   metsig_unofficial_dn    = -999.0;
 
+  mt_lep1  = -999.0;
   mt2      = -999.0;
   mt2j     = -999.0;
   mt2b     = -999.0;
 
-  mjj      = -999.0;
-  mbb_csv  = -999.0;
-  mbb_bpt  = -999.0;
-  dphi_jj  = -999.0;
-  sum_mlb  = -999.0;
-  dphi_ll  = -999.0;
-  deta_jj  = -999.0;
-  dR_jj    = -999.0;
+  mjj_mindphi = -999.0;
+  mjj         = -999.0;
+  mbb_csv     = -999.0;
+  mbb_bpt     = -999.0;
+  dphi_jj     = -999.0;
+  sum_mlb     = -999.0;
+  dphi_ll     = -999.0;
+  deta_jj     = -999.0;
+  dR_jj       = -999.0;
   
   dphi_metj1  = -999.0;
   dphi_metj2  = -999.0;
@@ -2566,6 +2603,7 @@ void babyMaker::FillBabyNtuple(){
 void babyMaker::CloseBabyNtuple(){
   BabyFile_->cd();
   BabyTree_->Write();
+  h_neventsinfile->Write();
   BabyFile_->Close();
   return;
 }
