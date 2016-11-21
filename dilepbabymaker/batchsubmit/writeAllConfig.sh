@@ -10,7 +10,7 @@ make -j8
 cd -
 
 # copy compiled files
-cp -r ../*.so ../pileup_jul21_nominalUpDown.root ../xsec_higgsino.root ../btagsf ../leptonSFs ../TChiWZ_entries_V08-00-05_FS.root ../xsec_susy_13tev.root ../T5ZZ_entries.root ../jetCorrections ../processBaby ../MVAinput ../../json/*.txt job_input/ 
+cp -r ../*.so ../pileup_jul21_nominalUpDown.root ../xsec_higgsino.root ../btagsf ../leptonSFs ../TChiWZ_entries_V08-00-05_FS.root ../xsec_susy_13tev.root ../T5ZZ_entries.root ../jetCorrections ../processBaby ../MVAinput ../../json/*.txt ../TChiHZ_HToBB_ZToLL.root job_input/ 
 
 source ../../ZMET2015/settings.sh 
 
@@ -153,31 +153,31 @@ miniaodv2="RunIISpring16MiniAODv2-PUSpring16_80X_mcRun2_asymptotic_2016_miniAODv
 # ./writeConfig_80X.sh /${hadoopdirv2}/GJets_HT-400To600_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/ ${TAG}_gjetsht400_dr0p05_mgmlm
 # ./writeConfig_80X.sh /${hadoopdirv2}/GJets_HT-600ToInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/ ${TAG}_gjetsht600_dr0p05_mgmlm
 
-# QCD
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-20to30_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/      ${TAG}_qcdpt20_emenriched_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-30to50_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/      ${TAG}_qcdpt30_emenriched_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-30to50_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/ ${TAG}_qcdpt30_emenriched_ext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-50to80_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/      ${TAG}_qcdpt50_emenriched_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-80to120_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/     ${TAG}_qcdpt80_emenriched_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-120to170_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/    ${TAG}_qcdpt120_emenriched_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-170to300_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/    ${TAG}_qcdpt170_emenriched_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-300toInf_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/    ${TAG}_qcdpt300_emenriched_nonext
+# # QCD
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-20to30_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/      ${TAG}_qcdpt20_emenriched_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-30to50_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/      ${TAG}_qcdpt30_emenriched_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-30to50_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/ ${TAG}_qcdpt30_emenriched_ext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-50to80_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/      ${TAG}_qcdpt50_emenriched_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-80to120_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/     ${TAG}_qcdpt80_emenriched_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-120to170_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/    ${TAG}_qcdpt120_emenriched_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-170to300_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/    ${TAG}_qcdpt170_emenriched_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_Pt-300toInf_EMEnriched_TuneCUETP8M1_13TeV_pythia8_${miniaodv2}_v0-v1/V08-00-05/    ${TAG}_qcdpt300_emenriched_nonext
 
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/        ${TAG}_qcdht300_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/        ${TAG}_qcdht200_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/   ${TAG}_qcdht200_ext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/        ${TAG}_qcdht300_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/   ${TAG}_qcdht300_ext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/        ${TAG}_qcdht500_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/   ${TAG}_qcdht500_ext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/       ${TAG}_qcdht700_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/  ${TAG}_qcdht700_ext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v2/V08-00-05/      ${TAG}_qcdht1000_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/ ${TAG}_qcdht1000_ext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v3/V08-00-05/      ${TAG}_qcdht1500_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/ ${TAG}_qcdht1500_ext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/       ${TAG}_qcdht2000_nonext
-./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/  ${TAG}_qcdht2000_ext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT100to200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/        ${TAG}_qcdht300_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/        ${TAG}_qcdht200_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT200to300_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/   ${TAG}_qcdht200_ext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/        ${TAG}_qcdht300_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT300to500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/   ${TAG}_qcdht300_ext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/        ${TAG}_qcdht500_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT500to700_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/   ${TAG}_qcdht500_ext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/       ${TAG}_qcdht700_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT700to1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/  ${TAG}_qcdht700_ext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v2/V08-00-05/      ${TAG}_qcdht1000_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT1000to1500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/ ${TAG}_qcdht1000_ext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v3/V08-00-05/      ${TAG}_qcdht1500_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/ ${TAG}_qcdht1500_ext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0-v1/V08-00-05/       ${TAG}_qcdht2000_nonext
+# ./writeConfig_80X.sh /${hadoopdirv2}/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_${miniaodv2}_v0_ext1-v1/V08-00-05/  ${TAG}_qcdht2000_ext
 
 # ######################################################################################
 # # all the MC and DATA for the MET study
@@ -352,4 +352,4 @@ do
     echo "condor_submit ${file}" >> submitAll.sh
 done
 chmod +x submitAll.sh
-echo "[writeAllConfig] wrote submit script submitAll.sh"
+echo "[writeAllConfig] wrote s
