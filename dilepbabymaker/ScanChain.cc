@@ -916,13 +916,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			}
 		  }
 		  if (bestMatch != -1) {
-			// 7 is a special code for photons without a mother. this seems to be due to a miniAOD bug where links are broken.
-			gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : 22); 
-			gamma_genIso.push_back(-1); //cms2.genps_iso().at(bestMatch);
+  			// 7 is a special code for photons without a mother. this seems to be due to a miniAOD bug where links are broken.
+  			gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : 22); 
+  			gamma_genIso.push_back(-1); //cms2.genps_iso().at(bestMatch);
+        gamma_genIsPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(bestMatch));
 		  }
 		  else {
-			gamma_mcMatchId.push_back(0);
-			gamma_genIso.push_back(-1);
+        gamma_mcMatchId.push_back(0);
+        gamma_genIso.push_back(-1);
+        gamma_genIsPromptFinalState.push_back(-1);
 		  }
 		}   
 
@@ -2043,6 +2045,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("gamma_ecpfclusiso"  , &gamma_ecpfclusiso      );
   BabyTree_->Branch("gamma_hcpfclusiso"  , &gamma_hcpfclusiso      );
   BabyTree_->Branch("gamma_hollowtkiso03", &gamma_hollowtkiso03    );
+  BabyTree_->Branch("gamma_genIsPromptFinalState", &gamma_genIsPromptFinalState);
 
   BabyTree_->Branch("ngenPart"         , &ngenPart        , "ngenPart/I" );
   BabyTree_->Branch("genPart_p4"       , &genPart_p4         );
@@ -2416,6 +2419,7 @@ void babyMaker::InitBabyNtuple () {
   gamma_ecpfclusiso  .clear();
   gamma_hcpfclusiso  .clear();
   gamma_hollowtkiso03.clear();
+  gamma_genIsPromptFinalState.clear();
 
   ngenPart = -999;
   ngen_p6s3Part = -999;
