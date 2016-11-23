@@ -905,7 +905,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		  for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
 			if ( cms3.genps_id()                   .at(iGen)        != 22 ) continue; 
 			if ( cms3.genps_status()               .at(iGen)        != 1  ) continue; 
-			if ( fabs(cms3.genps_id_simplemother() .at(iGen))       > 22  ) continue; // pions etc 
+			if ( (fabs(cms3.genps_id_simplemother() .at(iGen))       > 24) && (fabs (cms3.genps_id_simplemother() .at(iGen)) != 2212) ) continue; // pions etc 
 			if ( fabs(eta - cms3.genps_p4()        .at(iGen).eta()) > 0.1 ) continue;
 			if ( 2*cms3.genps_p4()                 .at(iGen).pt()   < pt  ) continue;
 			if ( 0.5*cms3.genps_p4()               .at(iGen).pt()   > pt  ) continue;
