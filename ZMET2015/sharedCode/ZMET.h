@@ -480,6 +480,9 @@ protected:
 	vector<float> *gamma_hollowtkiso03_;
 	TBranch *gamma_hollowtkiso03_branch;
 	bool gamma_hollowtkiso03_isLoaded;
+	vector<int> *gamma_genIsPromptFinalState_;
+	TBranch *gamma_genIsPromptFinalState_branch;
+	bool gamma_genIsPromptFinalState_isLoaded;
 	int	ngenPart_;
 	TBranch *ngenPart_branch;
 	bool ngenPart_isLoaded;
@@ -1090,6 +1093,7 @@ void LoadAllBranches();
 	const vector<float> &gamma_ecpfclusiso();
 	const vector<float> &gamma_hcpfclusiso();
 	const vector<float> &gamma_hollowtkiso03();
+	const vector<int> &gamma_genIsPromptFinalState();
 	const int &ngenPart();
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4();
 	const vector<float> &genPart_pt();
@@ -1403,6 +1407,7 @@ namespace ZMet {
 	const vector<float> &gamma_ecpfclusiso();
 	const vector<float> &gamma_hcpfclusiso();
 	const vector<float> &gamma_hollowtkiso03();
+	const vector<int> &gamma_genIsPromptFinalState();
 	const int &ngenPart();
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4();
 	const vector<float> &genPart_pt();

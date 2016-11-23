@@ -808,6 +808,11 @@ void ZMET::Init(TTree *tree) {
 		gamma_hollowtkiso03_branch = tree->GetBranch("gamma_hollowtkiso03");
 		if (gamma_hollowtkiso03_branch) {gamma_hollowtkiso03_branch->SetAddress(&gamma_hollowtkiso03_);}
 	}
+	gamma_genIsPromptFinalState_branch = 0;
+	if (tree->GetBranch("gamma_genIsPromptFinalState") != 0) {
+		gamma_genIsPromptFinalState_branch = tree->GetBranch("gamma_genIsPromptFinalState");
+		if (gamma_genIsPromptFinalState_branch) {gamma_genIsPromptFinalState_branch->SetAddress(&gamma_genIsPromptFinalState_);}
+	}
 	ngenPart_branch = 0;
 	if (tree->GetBranch("ngenPart") != 0) {
 		ngenPart_branch = tree->GetBranch("ngenPart");
@@ -1682,6 +1687,7 @@ void ZMET::GetEntry(unsigned int idx)
 		gamma_ecpfclusiso_isLoaded = false;
 		gamma_hcpfclusiso_isLoaded = false;
 		gamma_hollowtkiso03_isLoaded = false;
+		gamma_genIsPromptFinalState_isLoaded = false;
 		ngenPart_isLoaded = false;
 		genPart_p4_isLoaded = false;
 		genPart_pt_isLoaded = false;
@@ -1991,6 +1997,7 @@ void ZMET::LoadAllBranches()
 	if (gamma_ecpfclusiso_branch != 0) gamma_ecpfclusiso();
 	if (gamma_hcpfclusiso_branch != 0) gamma_hcpfclusiso();
 	if (gamma_hollowtkiso03_branch != 0) gamma_hollowtkiso03();
+	if (gamma_genIsPromptFinalState_branch != 0) gamma_genIsPromptFinalState();
 	if (ngenPart_branch != 0) ngenPart();
 	if (genPart_p4_branch != 0) genPart_p4();
 	if (genPart_pt_branch != 0) genPart_pt();
@@ -4133,6 +4140,19 @@ void ZMET::LoadAllBranches()
 		}
 		return *gamma_hollowtkiso03_;
 	}
+	const vector<int> &ZMET::gamma_genIsPromptFinalState()
+	{
+		if (not gamma_genIsPromptFinalState_isLoaded) {
+			if (gamma_genIsPromptFinalState_branch != 0) {
+				gamma_genIsPromptFinalState_branch->GetEntry(index);
+			} else { 
+				printf("branch gamma_genIsPromptFinalState_branch does not exist!\n");
+				exit(1);
+			}
+			gamma_genIsPromptFinalState_isLoaded = true;
+		}
+		return *gamma_genIsPromptFinalState_;
+	}
 	const int &ZMET::ngenPart()
 	{
 		if (not ngenPart_isLoaded) {
@@ -6271,6 +6291,7 @@ namespace ZMet {
 	const vector<float> &gamma_ecpfclusiso() { return zmet.gamma_ecpfclusiso(); }
 	const vector<float> &gamma_hcpfclusiso() { return zmet.gamma_hcpfclusiso(); }
 	const vector<float> &gamma_hollowtkiso03() { return zmet.gamma_hollowtkiso03(); }
+	const vector<int> &gamma_genIsPromptFinalState() { return zmet.gamma_genIsPromptFinalState(); }
 	const int &ngenPart() { return zmet.ngenPart(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4() { return zmet.genPart_p4(); }
 	const vector<float> &genPart_pt() { return zmet.genPart_pt(); }
