@@ -89,7 +89,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
   bmark->Start("benchmark");
 
   cout<<"Creating MVA input for electrons."<<endl;
-  createAndInitMVA("MVAinput", true); // for electrons
+  // createAndInitMVA("MVAinput", true); // for electrons
+  createAndInitMVA("../CORE", true, false, 80); // for electrons
 
   MakeBabyNtuple( Form("%s.root", baby_name.c_str()) );
 
@@ -769,7 +770,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
-		if( passMuonSelection_ZMET_veto_v2( iMu, false, true ) ){
+		if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
 		  nveto_leptons++;
 		}
  	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
