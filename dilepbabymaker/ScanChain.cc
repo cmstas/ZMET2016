@@ -90,7 +90,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 
   cout<<"Creating MVA input for electrons."<<endl;
   // createAndInitMVA("MVAinput", true); // for electrons
-  createAndInitMVA("../CORE", true, false, 80); // for electrons
+  createAndInitMVA("MVAinput", true, false, 80); // for electrons
 
   MakeBabyNtuple( Form("%s.root", baby_name.c_str()) );
 
