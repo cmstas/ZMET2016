@@ -477,26 +477,26 @@ int getPrescaleNoBins()
 
 int getPrescaleNoBins_nol1ps()
 {
-  if( !( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ||
-		 zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 ||
-		 zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 ||
-		 zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 ||
-		 zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 || 
-		 zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 || 
-		 zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 ||
-		 zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
-		 zmet.HLT_Photon165_HE10() > 0
-		 ) ) return 0;
+  if( !( (zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton()  ) ||
+         (zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton()  ) ||
+         (zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton()  ) ||
+         (zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && zmet.HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton()  ) ||
+         (zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && zmet.HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton()  ) || 
+         (zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && zmet.HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton()  ) || 
+         (zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && zmet.HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton() ) ||
+         (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 && zmet.HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton() ) ||
+         (zmet.HLT_Photon165_HE10() > 0             && zmet.HLT_Photon165_HE10_matchedtophoton()             )
+         ) ) return 0;
   if(     (zmet.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
-  		   zmet.HLT_Photon165_HE10() > 0)            &&                               zmet.gamma_pt().at(0) > 180 ) return zmet.HLT_Photon165_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 &&                               zmet.gamma_pt().at(0) > 135 ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 105 ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 85  ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
-  else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               zmet.gamma_pt().at(0) > 55  ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
+           zmet.HLT_Photon165_HE10() > 0           ) &&                                  zmet.gamma_pt().at(0) > 180. ) return 1.0;
+  else if( zmet.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && zmet.gamma_pt().at(0) <= 180. && zmet.gamma_pt().at(0) > 135. ) return zmet.HLT_Photon120_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <= 135. && zmet.gamma_pt().at(0) > 105. ) return zmet.HLT_Photon90_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <= 105. && zmet.gamma_pt().at(0) >  85. ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
+  else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  85. && zmet.gamma_pt().at(0) >  55. ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
   // normalized using higher pT trigger
-  else if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 55 && zmet.gamma_pt().at(0) > 40 ) return 134;
-  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 40 && zmet.gamma_pt().at(0) > 33 ) return 269;
-  else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) < 33                               ) return 1667;
+  else if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  55. && zmet.gamma_pt().at(0) >  40. ) return 166;
+  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  40. && zmet.gamma_pt().at(0) >  33. ) return 354;
+  else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  33.                                 ) return 1871;
 
   return -1; // should not get here
 }
