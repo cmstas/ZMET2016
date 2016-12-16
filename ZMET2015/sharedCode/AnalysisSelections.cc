@@ -494,9 +494,9 @@ int getPrescaleNoBins_nol1ps()
   else if( zmet.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <= 105. && zmet.gamma_pt().at(0) >  85. ) return zmet.HLT_Photon75_R9Id90_HE10_IsoM();
   else if( zmet.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  85. && zmet.gamma_pt().at(0) >  55. ) return zmet.HLT_Photon50_R9Id90_HE10_IsoM();
   // normalized using higher pT trigger
-  else if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  55. && zmet.gamma_pt().at(0) >  40. ) return 166;
-  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  40. && zmet.gamma_pt().at(0) >  33. ) return 354;
-  else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  33.                                 ) return 1871;
+  else if( zmet.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  55. && zmet.gamma_pt().at(0) >  40. ) return 168;
+  else if( zmet.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  40. && zmet.gamma_pt().at(0) >  33. ) return 379;
+  else if( zmet.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && zmet.gamma_pt().at(0) <=  33.                                 ) return 1985;
 
   return -1; // should not get here
 }
@@ -509,7 +509,17 @@ bool highHT_zjinc( string samplename )
   return false;
 }
 
-
+bool pass_trig_emulator_cuts()
+{
+	  if( zmet.gamma_r9()            .at(0) < 0.92 ) return false;
+	  if( zmet.gamma_hOverE_online() .at(0) > 0.2  ) return false;
+	  if( zmet.gamma_hollowtkiso03() .at(0) > 5    ) return false;
+	  if( abs(zmet.gamma_eta().at(0)) < 1.4 && zmet.gamma_ecpfclusiso()   .at(0) > 4 + zmet.gamma_pt().at(0) * 0.0053  ) return false;
+	  if( abs(zmet.gamma_eta().at(0)) < 1.4 && zmet.gamma_hcpfclusiso()   .at(0) > 8 + zmet.gamma_pt().at(0) * 0.014   ) return false;
+	  if( abs(zmet.gamma_eta().at(0)) > 1.6 && zmet.gamma_ecpfclusiso()   .at(0) > 4 + zmet.gamma_pt().at(0) * 0.0034  ) return false;
+	  if( abs(zmet.gamma_eta().at(0)) > 1.6 && zmet.gamma_hcpfclusiso()   .at(0) > 8 + zmet.gamma_pt().at(0) * 0.0139  ) return false;
+	  return true;	  
+}
 
 //////////////////////
 // Photon Isolation //

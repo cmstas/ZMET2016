@@ -36,7 +36,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   bool applysysts       = false;
   bool showunc_main     = false;
   bool showunc_rati     = false;
-  bool uservariablebins = false;  // use signal region binning for met plots
+  bool uservariablebins = true;  // use signal region binning for met plots
   bool combineMCbgs     = false; // 
 
 
@@ -114,27 +114,9 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   }
   
   if( isblind ){
-	if( TString(selection).Contains("SR_ATLAS") ){
-	  for( int binind = 0; binind < h_data -> GetNbinsX()+1; binind++ ){
-		if( binind >= h_data->FindBin(225) ) h_data -> SetBinContent( binind, 0 );
-		if( binind >= h_data->FindBin(225) ) h_data -> SetBinError( binind, 0 );
-	  }
-	}
-	else if( TString(selection).Contains("twojets") && !TString(selection).Contains("3jets") ){
-	  for( int binind = 0; binind < h_data -> GetNbinsX()+1; binind++ ){
-		if( binind >= h_data->FindBin(150) ) h_data -> SetBinContent( binind, 0 );
-		if( binind >= h_data->FindBin(150) ) h_data -> SetBinError( binind, 0 );
-	  }
-	}
-	else{	  
-	  for( int binind = 0; binind < h_data -> GetNbinsX()+1; binind++ ){
-		if( binind >= h_data->FindBin(100) ) h_data -> SetBinContent( binind, 0 );
-		if( binind >= h_data->FindBin(100) ) h_data -> SetBinError( binind, 0 );
-	  }
-	}
 	for( int binind = 0; binind < h_data -> GetNbinsX()+1; binind++ ){
-	  if( binind >= h_data->FindBin(00) ) h_data -> SetBinContent( binind, 0 );
-	  if( binind >= h_data->FindBin(00) ) h_data -> SetBinError( binind, 0 );
+	  if( binind >= h_data->FindBin(100) ) h_data -> SetBinContent( binind, 0 );
+	  if( binind >= h_data->FindBin(100) ) h_data -> SetBinError( binind, 0 );
 	}
   }
   
@@ -372,14 +354,11 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		// useedgepreds = false;
 		// combineMCbgs = true;
 		metcut.clear();
-		metcut.push_back(0.0);
-		if( !binningfortables ) metcut.push_back(25);
+		if( !binningfortables ) metcut.push_back(0.0);
 		metcut.push_back(50);
-		if( !binningfortables ) metcut.push_back(75);
 		metcut.push_back(100);
 		metcut.push_back(150);
-		metcut.push_back(225);
-		metcut.push_back(300);
+	  if( !TString(selection).Contains("newSR_C") ) metcut.push_back(250);
 		metcut.push_back(-1);
 
 	  }
@@ -1175,8 +1154,10 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
 		
 	}
 	else{
+	  if( TString(selection).Contains("newSR") ) xmin = 50;
 	  xmax = 350;
-	  rebin = 10;
+	  if( TString(selection).Contains("newSR_C") ) xmax = 250;
+	  rebin = metcut.at(1)-metcut.at(0);
 
 	  if( TString(selection).Contains("SR_ATLAS") ){
 		xmax = 300;
@@ -1328,15 +1309,13 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   if( uservariablebins ) {  
 
 	vector <double> v_bin;
-	v_bin.push_back(0);
-	v_bin.push_back(25);
+	// v_bin.push_back(0);
+	// v_bin.push_back(25);
 	v_bin.push_back(50);
-	v_bin.push_back(75);
+	// v_bin.push_back(75);
 	v_bin.push_back(100);
 	v_bin.push_back(150);
-	v_bin.push_back(225);
-	if( !TString(selection).Contains("SR_ATLAS"             ) )
-	  v_bin.push_back(300);
+	if( !TString(selection).Contains("newSR_C" ) ) v_bin.push_back(250);
 	v_bin.push_back(xmax);
 
 	if( TString(selection).Contains("jets_inclusive"      ) ) {
@@ -1633,7 +1612,7 @@ void drawDatavsMC( std::string iter = "", float luminosity = 1.0, const string s
   
   if( TString(selection).Contains("SR") || TString(selection).Contains("jets_inclusive") ){
 
-	h_data->GetYaxis()->SetRangeUser(2e-1, 2e3 );  
+	h_data->GetYaxis()->SetRangeUser(1.1e-1, 2e3 );  
 	if( TString(selection).Contains("SRB_bveto") ){
 	  h_data->GetYaxis()->SetRangeUser(1.1e-1, 6e4 );  
 	}

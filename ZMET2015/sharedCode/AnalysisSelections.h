@@ -24,6 +24,7 @@ bool passPhotonTrigger165();
 int  getPrescale();
 int getPrescaleNoBins();
 int getPrescaleNoBins_nol1ps();
+bool pass_trig_emulator_cuts();
 bool highHT_zjinc( std::string samplename );
 
 
