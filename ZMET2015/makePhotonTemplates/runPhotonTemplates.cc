@@ -18,9 +18,13 @@ void runPhotonTemplates( std::string selection = "", std::string iter = "", std:
   TChain* ch = new TChain("t");
 
   if ( sample == "data" ){
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/data_2016B_Prompt_ph_v2*.root"));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/data_2016C_Prompt_ph_v2*.root"));
-	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-03/data_2016D_Prompt_ph_v2*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_ph_v*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_ph_v*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016D_23sep2016rereco_ph_v*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016E_23sep2016rereco_ph_v*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016F_23sep2016rereco_ph_v*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016G_23sep2016rereco_ph_v*.root"));
+	ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_ph_v*.root"));
 
 	}
 

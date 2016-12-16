@@ -277,6 +277,20 @@ void updateoverflow( TH1F * &hist, float xmax )
   return;
 }
 
+void updateoverflow( TH1D * &hist, float xmax )
+{
+
+  int overflowbin = hist->FindBin(xmax)-1;
+  for( int bini = overflowbin; bini < hist->GetNbinsX(); bini++ ){
+	hist->SetBinContent( overflowbin, hist->GetBinContent( overflowbin ) + hist->GetBinContent( bini + 1 ) );	
+	hist->SetBinError  ( overflowbin, sqrt( pow(hist->GetBinError  ( overflowbin ), 2 ) + pow( hist->GetBinError( bini + 1 ), 2 ) ) );	
+	hist->SetBinContent( bini + 1, 0 );
+	hist->SetBinError  ( bini + 1, 0 );
+  }
+  
+  return;
+}
+
 
 void renormalizebins( TH1F * &hist )
 {
