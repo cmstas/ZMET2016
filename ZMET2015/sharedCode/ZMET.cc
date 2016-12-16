@@ -303,6 +303,16 @@ void ZMET::Init(TTree *tree) {
 		Flag_badChargedCandidateFilter_branch = tree->GetBranch("Flag_badChargedCandidateFilter");
 		if (Flag_badChargedCandidateFilter_branch) {Flag_badChargedCandidateFilter_branch->SetAddress(&Flag_badChargedCandidateFilter_);}
 	}
+	Flag_badMuonFilterv2_branch = 0;
+	if (tree->GetBranch("Flag_badMuonFilterv2") != 0) {
+		Flag_badMuonFilterv2_branch = tree->GetBranch("Flag_badMuonFilterv2");
+		if (Flag_badMuonFilterv2_branch) {Flag_badMuonFilterv2_branch->SetAddress(&Flag_badMuonFilterv2_);}
+	}
+	Flag_badChargedCandidateFilterv2_branch = 0;
+	if (tree->GetBranch("Flag_badChargedCandidateFilterv2") != 0) {
+		Flag_badChargedCandidateFilterv2_branch = tree->GetBranch("Flag_badChargedCandidateFilterv2");
+		if (Flag_badChargedCandidateFilterv2_branch) {Flag_badChargedCandidateFilterv2_branch->SetAddress(&Flag_badChargedCandidateFilterv2_);}
+	}
 	HLT_singleEl_branch = 0;
 	if (tree->GetBranch("HLT_singleEl") != 0) {
 		HLT_singleEl_branch = tree->GetBranch("HLT_singleEl");
@@ -1584,6 +1594,8 @@ void ZMET::GetEntry(unsigned int idx)
 		Flag_globalTightHalo2016_isLoaded = false;
 		Flag_badMuonFilter_isLoaded = false;
 		Flag_badChargedCandidateFilter_isLoaded = false;
+		Flag_badMuonFilterv2_isLoaded = false;
+		Flag_badChargedCandidateFilterv2_isLoaded = false;
 		HLT_singleEl_isLoaded = false;
 		HLT_singleMu_isLoaded = false;
 		HLT_singleMu_noiso_isLoaded = false;
@@ -1894,6 +1906,8 @@ void ZMET::LoadAllBranches()
 	if (Flag_globalTightHalo2016_branch != 0) Flag_globalTightHalo2016();
 	if (Flag_badMuonFilter_branch != 0) Flag_badMuonFilter();
 	if (Flag_badChargedCandidateFilter_branch != 0) Flag_badChargedCandidateFilter();
+	if (Flag_badMuonFilterv2_branch != 0) Flag_badMuonFilterv2();
+	if (Flag_badChargedCandidateFilterv2_branch != 0) Flag_badChargedCandidateFilterv2();
 	if (HLT_singleEl_branch != 0) HLT_singleEl();
 	if (HLT_singleMu_branch != 0) HLT_singleMu();
 	if (HLT_singleMu_noiso_branch != 0) HLT_singleMu_noiso();
@@ -2800,6 +2814,32 @@ void ZMET::LoadAllBranches()
 			Flag_badChargedCandidateFilter_isLoaded = true;
 		}
 		return Flag_badChargedCandidateFilter_;
+	}
+	const int &ZMET::Flag_badMuonFilterv2()
+	{
+		if (not Flag_badMuonFilterv2_isLoaded) {
+			if (Flag_badMuonFilterv2_branch != 0) {
+				Flag_badMuonFilterv2_branch->GetEntry(index);
+			} else { 
+				printf("branch Flag_badMuonFilterv2_branch does not exist!\n");
+				exit(1);
+			}
+			Flag_badMuonFilterv2_isLoaded = true;
+		}
+		return Flag_badMuonFilterv2_;
+	}
+	const int &ZMET::Flag_badChargedCandidateFilterv2()
+	{
+		if (not Flag_badChargedCandidateFilterv2_isLoaded) {
+			if (Flag_badChargedCandidateFilterv2_branch != 0) {
+				Flag_badChargedCandidateFilterv2_branch->GetEntry(index);
+			} else { 
+				printf("branch Flag_badChargedCandidateFilterv2_branch does not exist!\n");
+				exit(1);
+			}
+			Flag_badChargedCandidateFilterv2_isLoaded = true;
+		}
+		return Flag_badChargedCandidateFilterv2_;
 	}
 	const int &ZMET::HLT_singleEl()
 	{
@@ -6188,6 +6228,8 @@ namespace ZMet {
 	const int &Flag_globalTightHalo2016() { return zmet.Flag_globalTightHalo2016(); }
 	const int &Flag_badMuonFilter() { return zmet.Flag_badMuonFilter(); }
 	const int &Flag_badChargedCandidateFilter() { return zmet.Flag_badChargedCandidateFilter(); }
+	const int &Flag_badMuonFilterv2() { return zmet.Flag_badMuonFilterv2(); }
+	const int &Flag_badChargedCandidateFilterv2() { return zmet.Flag_badChargedCandidateFilterv2(); }
 	const int &HLT_singleEl() { return zmet.HLT_singleEl(); }
 	const int &HLT_singleMu() { return zmet.HLT_singleMu(); }
 	const int &HLT_singleMu_noiso() { return zmet.HLT_singleMu_noiso(); }

@@ -456,6 +456,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		Flag_CSCTightHaloFilter                 = cms3.filt_cscBeamHalo();
 		// recommended from twiki
 		Flag_badMuonFilter                      = badMuonFilter();
+		Flag_badMuonFilterv2                    = badMuonFilterV2();
+
 	  }
 
 	  // in data and MC
@@ -468,6 +470,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
 		Flag_globalTightHalo2016                = cms3.filt_globalTightHalo2016();
 		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
+		Flag_badChargedCandidateFilterv2        = badChargedCandidateFilterV2();
 	  }
 	  
       //TRIGGER
@@ -1934,8 +1937,10 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("Flag_eeBadScFilter"                      , &Flag_eeBadScFilter                      );
   BabyTree_->Branch("Flag_globalTightHalo2016"                , &Flag_globalTightHalo2016                );
 
-  BabyTree_->Branch("Flag_badMuonFilter"                , &Flag_badMuonFilter             );
-  BabyTree_->Branch("Flag_badChargedCandidateFilter"    , &Flag_badChargedCandidateFilter );
+  BabyTree_->Branch("Flag_badMuonFilter"                , &Flag_badMuonFilter               );
+  BabyTree_->Branch("Flag_badChargedCandidateFilter"    , &Flag_badChargedCandidateFilter   );
+  BabyTree_->Branch("Flag_badMuonFilterv2"              , &Flag_badMuonFilterv2             );
+  BabyTree_->Branch("Flag_badChargedCandidateFilterv2"  , &Flag_badChargedCandidateFilterv2 );
 		
   //TRIGGER
   // for ATLAS cross checks

@@ -162,6 +162,8 @@ class babyMaker {
   Int_t Flag_eeBadScFilter                     ;
   Int_t Flag_badChargedCandidateFilter         ;
   Int_t Flag_badMuonFilter                     ;
+  Int_t Flag_badChargedCandidateFilterv2       ;
+  Int_t Flag_badMuonFilterv2                   ;
   Int_t Flag_globalTightHalo2016               ;
 
   //TRIGGER
