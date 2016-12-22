@@ -24,7 +24,7 @@ class BTagCalibrationReader;
 
 class babyMaker {
 
- public:
+public:
 
   babyMaker() {};
   ~babyMaker() {
@@ -39,7 +39,7 @@ class babyMaker {
   void FillBabyNtuple();
   void CloseBabyNtuple();
 
- private:
+private:
 
   TFile *BabyFile_;
   TTree *BabyTree_;
@@ -147,7 +147,7 @@ class babyMaker {
 
   Float_t         sumet_raw;
   
-//----- MET FILTERS
+  //----- MET FILTERS
   Int_t Flag_ecalLaserCorrFilter;
   Int_t Flag_hcalLaserEventFilter;
   Int_t Flag_trackingFailureFilter;
@@ -266,7 +266,7 @@ class babyMaker {
   Int_t nisoTrack_5gev;
   Int_t nisoTrack_mt2 ;
 
-//----- PHOTONS
+  //----- PHOTONS
   Int_t           ngamma;
   std::vector <LorentzVector>   gamma_p4;
   std::vector <Float_t>         gamma_pt           ;           //[ngamma]
@@ -287,8 +287,9 @@ class babyMaker {
   std::vector <Float_t>         gamma_hcpfclusiso  ;           //[ngamma]
   std::vector <Float_t>         gamma_hollowtkiso03;           //[ngamma]
   std::vector <Int_t>           gamma_genIsPromptFinalState;   //[ngamma]
+  std::vector <Float_t>         gamma_drMinParton  ;
 
-//----- GEN PARTICLES
+  //----- GEN PARTICLES
   Int_t           ngenPart;
   Int_t           ngen_p6s3Part;
   std::vector <LorentzVector>   genPart_p4         ;
@@ -303,7 +304,7 @@ class babyMaker {
   std::vector <Int_t  >         genPart_motherId   ;   //[ngenPart]
   std::vector <Int_t  >         genPart_grandmaId  ;   //[ngenPart]
 
-//----- GEN LEPTONS (ELECTRONS/MUONS)
+  //----- GEN LEPTONS (ELECTRONS/MUONS)
   Int_t           ngenLep;
   Int_t           ngen_p6s3Lep;
   std::vector <Float_t>         genLep_pt         ;   //[ngenLep]
@@ -316,7 +317,7 @@ class babyMaker {
   std::vector <Float_t>         genLep_charge     ;   //[ngenLep]
   std::vector <Int_t  >         genLep_sourceId   ;   //[ngenLep]
 
-//----- GEN TAUS
+  //----- GEN TAUS
   Int_t           ngenTau;
   std::vector <Float_t>         genTau_pt      ;   //[ngenTau]
   std::vector <Float_t>         genTau_eta     ;   //[ngenTau]
@@ -327,7 +328,7 @@ class babyMaker {
   std::vector <Float_t>         genTau_charge  ;   //[ngenTau]
   std::vector <Int_t  >         genTau_sourceId;   //[ngenTau]
 
-//----- GEN LEPTONS FROM TAUS
+  //----- GEN LEPTONS FROM TAUS
   Int_t           ngenLepFromTau;
   std::vector <Float_t>         genLepFromTau_pt      ;   //[ngenLepFromTau]
   std::vector <Float_t>         genLepFromTau_eta     ;   //[ngenLepFromTau]
@@ -338,7 +339,7 @@ class babyMaker {
   std::vector <Float_t>         genLepFromTau_charge  ;   //[ngenLepFromTau]
   std::vector <Int_t  >         genLepFromTau_sourceId;   //[ngenLepFromTau]
 
-//----- JETS - pt > 35, eta < 2.4
+  //----- JETS - pt > 35, eta < 2.4
   Int_t           njets;
   Int_t           njets_up;
   Int_t           njets_dn;

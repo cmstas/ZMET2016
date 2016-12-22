@@ -470,7 +470,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
 		Flag_globalTightHalo2016                = cms3.filt_globalTightHalo2016();
 		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
-		Flag_badChargedCandidateFilterv2        = badChargedCandidateFilterV2();
+		if( TString(currentFile->GetTitle()).Contains("V08-00-1") ){ Flag_badChargedCandidateFilterv2        = badChargedCandidateFilterV2();
+		}else{
+		  Flag_badChargedCandidateFilterv2        = -1;
+		}
 	  }
 	  
       //TRIGGER
@@ -921,6 +924,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		// Some work for truth-matching (should be integrated in CMS3 as for the leptons)
 		int bestMatch = -1;
 		float bestDr = 0.1;
+		float bestMatchEta = -999;
+		float bestMatchPhi = -999;
 
 		if( !isData ){		  
 		  for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
@@ -934,18 +939,30 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 			if (thisDR < bestDr) {
 			  bestDr = thisDR;
 			  bestMatch = iGen;
+			  bestMatchEta = cms3.genps_p4().at(iGen).eta();
+              bestMatchPhi = cms3.genps_p4().at(iGen).phi();
 			}
 		  }
 		  if (bestMatch != -1) {
   			// 7 is a special code for photons without a mother. this seems to be due to a miniAOD bug where links are broken.
   			gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : 22); 
   			gamma_genIso.push_back(-1); //cms2.genps_iso().at(bestMatch);
-        gamma_genIsPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(bestMatch));
+			gamma_genIsPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(bestMatch));
+			// Now want to look at DR between photon and parton
+			float minDR = 999.; 
+			for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
+			  if (cms3.genps_status().at(iGen) != 22 && cms3.genps_status().at(iGen) != 23) continue;
+			  if (fabs(cms3.genps_id().at(iGen)) > 21) continue;
+			  float dr = DeltaR( cms3.genps_p4().at(iGen).eta(), bestMatchEta, cms3.genps_p4().at(iGen).phi(), bestMatchPhi);
+			  if (dr < minDR) minDR = dr;
+			}
+			gamma_drMinParton.push_back ( minDR );
 		  }
 		  else {
-        gamma_mcMatchId.push_back(0);
-        gamma_genIso.push_back(-1);
-        gamma_genIsPromptFinalState.push_back(-1);
+			gamma_mcMatchId.push_back(0);
+			gamma_genIso.push_back(-1);
+			gamma_genIsPromptFinalState.push_back(-1);
+			gamma_drMinParton.push_back ( -1 );
 		  }
 		}   
 
@@ -2065,10 +2082,11 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("gamma_hOverE"       , "std::vector <Float_t>" , &gamma_hOverE       );
   BabyTree_->Branch("gamma_hOverE_online", "std::vector <Float_t>" , &gamma_hOverE_online);
   BabyTree_->Branch("gamma_idCutBased"   , "std::vector <Int_t  >" , &gamma_idCutBased   );
-  BabyTree_->Branch("gamma_ecpfclusiso"  , &gamma_ecpfclusiso      );
-  BabyTree_->Branch("gamma_hcpfclusiso"  , &gamma_hcpfclusiso      );
-  BabyTree_->Branch("gamma_hollowtkiso03", &gamma_hollowtkiso03    );
-  BabyTree_->Branch("gamma_genIsPromptFinalState", &gamma_genIsPromptFinalState);
+  BabyTree_->Branch("gamma_ecpfclusiso"                            , &gamma_ecpfclusiso  );
+  BabyTree_->Branch("gamma_hcpfclusiso"                            , &gamma_hcpfclusiso  );
+  BabyTree_->Branch("gamma_hollowtkiso03"                          , &gamma_hollowtkiso03);
+  BabyTree_->Branch("gamma_genIsPromptFinalState"                  , &gamma_genIsPromptFinalState);
+  BabyTree_->Branch("gamma_drMinParton"                            , &gamma_drMinParton);
 
   BabyTree_->Branch("ngenPart"         , &ngenPart        , "ngenPart/I" );
   BabyTree_->Branch("genPart_p4"       , &genPart_p4         );
@@ -2443,6 +2461,7 @@ void babyMaker::InitBabyNtuple () {
   gamma_hcpfclusiso  .clear();
   gamma_hollowtkiso03.clear();
   gamma_genIsPromptFinalState.clear();
+  gamma_drMinParton  .clear();
 
   ngenPart = -999;
   ngen_p6s3Part = -999;
