@@ -789,7 +789,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
-		if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
+		if( passMuonSelection_ZMET_veto_v3( iMu, false, true ) ){
 		  nveto_leptons++;
 		}
  	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
