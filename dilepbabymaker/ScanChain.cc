@@ -792,7 +792,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
-		if( passMuonSelection_ZMET_veto_v3( iMu, false, true ) ){
+		if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
 		  nveto_leptons++;
 		}
  	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
@@ -1599,14 +1599,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
 	  met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
 
-	  metsig_unofficial = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
+	  metsig_unofficial_up = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
 
 	  // met with dn unc
 	  pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3, jecUnc, 0);
 	  met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
 	  met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
 
-	  metsig_unofficial = met_T1CHS_miniAOD_CORE_dn_pt / sqrt(ht_dn);
+	  metsig_unofficial_dn = met_T1CHS_miniAOD_CORE_dn_pt / sqrt(ht_dn);
        	  
 	  if( nlep > 0 ) mt_lep1 = MT(lep_pt.at(0), lep_phi.at(0), met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi);
 		
@@ -1622,13 +1622,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  // add kinematic variables to do with jets leps and photons here
 	  if( lep_p4.size() > 1 && evt_type != 2 ){
 		// MT2J( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, VECT_P4_Jets, MASS_INVISIBLE_PARTICLE, MT2_CALCULATION_METHOD )
-		mt2  = -1.0;
-		mt2j = -1.0;
-		mt2b = -1.0;
+		mt2     = -1.0;
+		mt2_up  = -1.0;
+		mt2_dn  = -1.0;
+		mt2j    = -1.0;
+		mt2b    = -1.0;
 		mt2b_up = -1.0;
 		mt2b_dn = -1.0;
 
-		mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
+		mt2    = MT2( met_T1CHS_miniAOD_CORE_pt   , met_T1CHS_miniAOD_CORE_phi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
+		mt2_up = MT2( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
+		mt2_dn = MT2( met_T1CHS_miniAOD_CORE_dn_pt, met_T1CHS_miniAOD_CORE_dn_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
  	
  		if( jets_p4.size() > 1 ){
  		  mt2j = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_p4, 0.0 );
@@ -1638,10 +1642,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
  		  mt2b = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
 		}		
 		if( jets_medb_up_p4.size() > 1 ){
- 		  mt2b = MT2J( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_up_p4, 0.0 );
+ 		  mt2b_up = MT2J( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_up_p4, 0.0 );
 		}		
 		if( jets_medb_dn_p4.size() > 1 ){
- 		  mt2b = MT2J( met_T1CHS_miniAOD_CORE_dn_pt, met_T1CHS_miniAOD_CORE_dn_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_dn_p4, 0.0 );
+ 		  mt2b_dn = MT2J( met_T1CHS_miniAOD_CORE_dn_pt, met_T1CHS_miniAOD_CORE_dn_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_dn_p4, 0.0 );
 		}		
 
 		sum_mlb = get_sum_mlb();
@@ -2238,22 +2242,28 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("mt_lep1" , &mt_lep1 );
   BabyTree_->Branch("mt2"     , &mt2     );
+  BabyTree_->Branch("mt2_up"  , &mt2_up  );
+  BabyTree_->Branch("mt2_dn"  , &mt2_dn  );
   BabyTree_->Branch("mt2j"    , &mt2j    );
   BabyTree_->Branch("mt2b"    , &mt2b    );
   BabyTree_->Branch("mt2b_up" , &mt2b_up );
   BabyTree_->Branch("mt2b_dn" , &mt2b_dn );
 
-  BabyTree_->Branch("mjj_mindphi" , &mjj_mindphi );
-  BabyTree_->Branch("mjj"         , &mjj         );
-  BabyTree_->Branch("mbb_csv"     , &mbb_csv     );
-  BabyTree_->Branch("mbb_bpt"     , &mbb_bpt     );
-  BabyTree_->Branch("dphi_jj"     , &dphi_jj     );
-  BabyTree_->Branch("dphi_ll"     , &dphi_ll     );
-  BabyTree_->Branch("sum_mlb"     , &sum_mlb     );
-  BabyTree_->Branch("deta_jj"     , &deta_jj     );
-  BabyTree_->Branch("dR_jj"       , &dR_jj       );
-  BabyTree_->Branch("dphi_metj1"  , &dphi_metj1  );
-  BabyTree_->Branch("dphi_metj2"  , &dphi_metj2  );
+  BabyTree_->Branch("mjj_mindphi"   , &mjj_mindphi   );
+  BabyTree_->Branch("mjj"           , &mjj           );
+  BabyTree_->Branch("mbb_csv"       , &mbb_csv       );
+  BabyTree_->Branch("mbb_bpt"       , &mbb_bpt       );
+  BabyTree_->Branch("dphi_jj"       , &dphi_jj       );
+  BabyTree_->Branch("dphi_ll"       , &dphi_ll       );
+  BabyTree_->Branch("sum_mlb"       , &sum_mlb       );
+  BabyTree_->Branch("deta_jj"       , &deta_jj       );
+  BabyTree_->Branch("dR_jj"         , &dR_jj         );
+  BabyTree_->Branch("dphi_metj1"    , &dphi_metj1    );
+  BabyTree_->Branch("dphi_metj2"    , &dphi_metj2    );
+  BabyTree_->Branch("dphi_metj1_up" , &dphi_metj1_up );
+  BabyTree_->Branch("dphi_metj2_up" , &dphi_metj2_up );
+  BabyTree_->Branch("dphi_metj1_dn" , &dphi_metj1_dn );
+  BabyTree_->Branch("dphi_metj2_dn" , &dphi_metj2_dn );
 
   BabyTree_->Branch("mjj_mindphi_up" , &mjj_mindphi_up );
   BabyTree_->Branch("mjj_up"         , &mjj_up         );
@@ -2644,6 +2654,8 @@ void babyMaker::InitBabyNtuple () {
 
   mt_lep1  = -999.0;
   mt2      = -999.0;
+  mt2_up   = -999.0;
+  mt2_dn   = -999.0;
   mt2j     = -999.0;
   mt2b     = -999.0;
   mt2b_up  = -999.0;

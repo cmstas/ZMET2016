@@ -369,6 +369,8 @@ private:
 
   Float_t         mt_lep1;  // leading lepton only
   Float_t         mt2;  // only leptons
+  Float_t         mt2_up;  // only leptons
+  Float_t         mt2_dn;  // only leptons
   Float_t         mt2j; // all jets
   Float_t         mt2b; // b-jets only
   Float_t         mt2b_up; // b-jets only
