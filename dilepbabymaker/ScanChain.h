@@ -341,14 +341,19 @@ private:
 
   //----- JETS - pt > 35, eta < 2.4
   Int_t           njets;
-  Int_t           njets_up;
-  Int_t           njets_dn;
   std::vector <LorentzVector>   jets_p4;
-  std::vector <LorentzVector>   jets_up_p4;
-  std::vector <LorentzVector>   jets_dn_p4;
-
   std::vector <LorentzVector>   jets_medb_p4;
   std::vector <Float_t>         jets_csv;
+
+  Int_t           njets_up;
+  std::vector <LorentzVector>   jets_up_p4;
+  std::vector <LorentzVector>   jets_medb_up_p4;
+  std::vector <Float_t>         jets_up_csv;
+
+  Int_t           njets_dn;
+  std::vector <LorentzVector>   jets_dn_p4;
+  std::vector <LorentzVector>   jets_medb_dn_p4;
+  std::vector <Float_t>         jets_dn_csv;
 
   // MC only
   std::vector <Int_t  >         jets_mcFlavour   ;
@@ -366,6 +371,8 @@ private:
   Float_t         mt2;  // only leptons
   Float_t         mt2j; // all jets
   Float_t         mt2b; // b-jets only
+  Float_t         mt2b_up; // b-jets only
+  Float_t         mt2b_dn; // b-jets only
 
   Float_t         mjj_mindphi;
   Float_t         mjj;
@@ -376,9 +383,32 @@ private:
   Float_t         dphi_ll;
   Float_t         deta_jj;
   Float_t         dR_jj;
-
   Float_t         dphi_metj1;
   Float_t         dphi_metj2;
+
+  Float_t         mjj_mindphi_up;
+  Float_t         mjj_up;
+  Float_t         mbb_csv_up;
+  Float_t         mbb_bpt_up;
+  Float_t         dphi_jj_up;
+  Float_t         sum_mlb_up;
+  Float_t         dphi_ll_up;
+  Float_t         deta_jj_up;
+  Float_t         dR_jj_up;
+  Float_t         dphi_metj1_up;
+  Float_t         dphi_metj2_up;
+
+  Float_t         mjj_mindphi_dn;
+  Float_t         mjj_dn;
+  Float_t         mbb_csv_dn;
+  Float_t         mbb_bpt_dn;
+  Float_t         dphi_jj_dn;
+  Float_t         sum_mlb_dn;
+  Float_t         dphi_ll_dn;
+  Float_t         deta_jj_dn;
+  Float_t         dR_jj_dn;
+  Float_t         dphi_metj1_dn;
+  Float_t         dphi_metj2_dn;
 
   //----- weights for b-tag SF  
   Float_t         weight_btagsf;
