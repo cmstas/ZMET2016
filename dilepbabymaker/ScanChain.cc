@@ -275,67 +275,89 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 		
 	  else if( TString(currentFile->GetTitle()).Contains("Run2016") || TString(currentFile->GetTitle()).Contains("CMSSW_8_0_11_V08-00-06") ){
 
-		jetcorr_filenames_pfL1FastJetL2L3.clear();
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
-		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
+		// 	jetcorr_filenames_pfL1FastJetL2L3.clear();
+		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
+		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt"  );
+		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt"  );
+		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
+		// 	jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
 
-		jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
-		jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
-		jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
-		jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
-		jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
+		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
+		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
+		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt"  );
+		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt"  );
+		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
+		// 	jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
+		// 	jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
 
 		// // This scheme will eventually be used for Moriond. For now just use JECs from ICHEP
-		// if( TString(currentFile->GetTitle()).Contains("Run2016B") ||
-		// 	TString(currentFile->GetTitle()).Contains("Run2016C") ||
-		// 	TString(currentFile->GetTitle()).Contains("Run2016D") ){
-		//   // files for 80X Data
-		//   jetcorr_filenames_pfL1FastJetL2L3.clear();
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8BCD_DATA_L1FastJet_AK4PFchs.txt"   );
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8BCD_DATA_L2Relative_AK4PFchs.txt"  );
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8BCD_DATA_L3Absolute_AK4PFchs.txt"  );
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8BCD_DATA_L2L3Residual_AK4PFchs.txt");
-		//   jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV8BCD_DATA_Uncertainty_AK4PFchs.txt" );
-		// }
+		if( TString(currentFile->GetTitle()).Contains("Run2016B") ||
+			TString(currentFile->GetTitle()).Contains("Run2016C") ||
+			TString(currentFile->GetTitle()).Contains("Run2016D") ){
+		  // files for 80X Data
+		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016BCDV2_DATA_L1FastJet_AK4PFchs.txt"   );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016BCDV2_DATA_L2Relative_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016BCDV2_DATA_L3Absolute_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016BCDV2_DATA_L2L3Residual_AK4PFchs.txt");
+		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_23Sep2016BCDV2_DATA_Uncertainty_AK4PFchs.txt" );
+		}
 
-		// if( TString(currentFile->GetTitle()).Contains("Run2016E") ){
-		//   // files for 80X Data
-		//   jetcorr_filenames_pfL1FastJetL2L3.clear();
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8E_DATA_L1FastJet_AK4PFchs.txt"   );
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8E_DATA_L2Relative_AK4PFchs.txt"  );
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8E_DATA_L3Absolute_AK4PFchs.txt"  );
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8E_DATA_L2L3Residual_AK4PFchs.txt");
-		//   jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV8E_DATA_Uncertainty_AK4PFchs.txt" );
-		// }
+		if( TString(currentFile->GetTitle()).Contains("Run2016E") ||
+			TString(currentFile->GetTitle()).Contains("Run2016F") ){
+		  // files for 80X Data
+		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016EFV2_DATA_L1FastJet_AK4PFchs.txt"   );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016EFV2_DATA_L2Relative_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016EFV2_DATA_L3Absolute_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016EFV2_DATA_L2L3Residual_AK4PFchs.txt");
+		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_23Sep2016EFV2_DATA_Uncertainty_AK4PFchs.txt" );
 
-		// if( TString(currentFile->GetTitle()).Contains("Run2016F") ||
-		// 	TString(currentFile->GetTitle()).Contains("Run2016G") ||
-		// 	TString(currentFile->GetTitle()).Contains("Run2016H") ){
-		//   // files for 80X Data
-		//   jetcorr_filenames_pfL1FastJetL2L3.clear();
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8F_DATA_L1FastJet_AK4PFchs.txt"   );
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8F_DATA_L2Relative_AK4PFchs.txt"  );
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8F_DATA_L3Absolute_AK4PFchs.txt"  );
-		//   jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8F_DATA_L2L3Residual_AK4PFchs.txt");
-		//   jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV8F_DATA_Uncertainty_AK4PFchs.txt" );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L1FastJet_AK4PFchs.txt"   );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L2Relative_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L3Absolute_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L2L3Residual_AK4PFchs.txt");
+		  jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_Uncertainty_AK4PFchs.txt" );
+		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
+		}
 
-		//   jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
-		//   jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8p2_DATA_L1FastJet_AK4PFchs.txt"   );
-		//   jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8p2_DATA_L2Relative_AK4PFchs.txt"  );
-		//   jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8p2_DATA_L3Absolute_AK4PFchs.txt"  );
-		//   jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV8p2_DATA_L2L3Residual_AK4PFchs.txt");
-		//   jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV8p2_DATA_Uncertainty_AK4PFchs.txt" );
-		//   jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
-		// }
-	  
+		if( TString(currentFile->GetTitle()).Contains("Run2016G") ){
+		  // files for 80X Data
+		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L1FastJet_AK4PFchs.txt"   );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L2Relative_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L3Absolute_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L2L3Residual_AK4PFchs.txt");
+		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_Uncertainty_AK4PFchs.txt" );
+
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L1FastJet_AK4PFchs.txt"   );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L2Relative_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L3Absolute_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L2L3Residual_AK4PFchs.txt");
+		  jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_Uncertainty_AK4PFchs.txt" );
+		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
+		}
+
+		if( TString(currentFile->GetTitle()).Contains("Run2016H") ){
+		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L1FastJet_AK4PFchs.txt"   );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L2Relative_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L3Absolute_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L2L3Residual_AK4PFchs.txt");
+		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_Uncertainty_AK4PFchs.txt" );
+
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L1FastJet_AK4PFchs.txt"   );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L2Relative_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L3Absolute_AK4PFchs.txt"  );
+		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L2L3Residual_AK4PFchs.txt");
+		  jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_Uncertainty_AK4PFchs.txt" );
+		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
+		}
+		
 	  }
-
-	  //cout<<__LINE__<<endl;
 
 	  if( isSMSScan ){
 		// files for 25ns fastsim samples
@@ -349,6 +371,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
 	  if( jetcorr_filenames_pfL1FastJetL2L3.size() == 0 ){
 		cout<<"Error, sample not found. Check the JECs."<<endl;
 		exit(100);
+	  }
+
+	  cout<<"JECs used:"<<endl;
+	  for( size_t jecind = 0; jecind < jetcorr_filenames_pfL1FastJetL2L3.size(); jecind++ ){
+		cout<<jetcorr_filenames_pfL1FastJetL2L3.at(jecind)<<endl;
 	  }
 	  
 	  jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
