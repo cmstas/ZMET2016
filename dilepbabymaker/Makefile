@@ -175,6 +175,12 @@ clean:
 		../CORE/Tools/MT2/*.d \
         ../CORE/Tools/MT2/*.so 
 
+localclean:
+	rm -f \
+	LinkDef_out* \
+	*.o \
+	*.so 
+
 # test: 
 # 	@echo $(INCLUDE)
 
