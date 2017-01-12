@@ -32,7 +32,7 @@ public:
     if (BabyTree_) delete BabyTree_;
   };
 
-  void ScanChain(TChain*, std::string = "testSample");
+  void ScanChain(TChain*, std::string = "testSample", int max_events = -1);
 
   void MakeBabyNtuple(const char *);
   void InitBabyNtuple();

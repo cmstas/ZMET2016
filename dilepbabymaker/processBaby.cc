@@ -10,13 +10,17 @@
 int main(int argc, char **argv) {
 
   if (argc < 3) {
-    std::cout << "USAGE: processBaby <tag> <filename>" << std::endl;
+    std::cout << "USAGE: processBaby <tag> <filename> [<max_num_events>]" << std::endl;
     return 1;
   }
 
   TString outfileid(argv[1]); 
   TString infile(argv[2]); 
 
+  int max_events = -1;
+  if (argc >= 4) max_events = atoi(argv[3]);
+  std::cout << "set max number of events to: " << max_events << std::endl;
+  
   std::cout<<"running on file: "<<infile.Data()<<std::endl;
   
   TChain *chain = new TChain("Events");
@@ -208,6 +212,6 @@ int main(int argc, char **argv) {
   //--------------------------------
   
   babyMaker *looper = new babyMaker();
-  looper->ScanChain(chain, sample); 
+  looper->ScanChain(chain, sample, max_events); 
   return 0;
 }

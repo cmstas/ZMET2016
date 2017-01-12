@@ -82,7 +82,7 @@ int returnBrokenTrigger( string trigname )
 
  //--------------------------------------------------------------------
 
-void babyMaker::ScanChain(TChain* chain, std::string baby_name){
+void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
@@ -384,8 +384,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name){
     //cout<<__LINE__<<endl;
 
     // Event Loop
-    unsigned int nEventsTree = tree->GetEntriesFast();
-    for( unsigned int event = 0; event < nEventsTree; ++event) {
+    unsigned int nEventsToLoop = tree->GetEntriesFast();
+    if (max_events > 0) nEventsToLoop = (unsigned int) max_events;
+    for( unsigned int event = 0; event < nEventsToLoop; ++event) {
 	  //for( unsigned int event = 0; event < 100; ++event) {
 
 	  // if( event > 100 ) continue;
