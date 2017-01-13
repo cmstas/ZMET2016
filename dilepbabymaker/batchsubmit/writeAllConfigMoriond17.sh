@@ -18,11 +18,6 @@ source ../../ZMET2015/settings.sh
 TAG=${analysis_version}
 
 # 2016 data
-./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016B_DoubleEG_MINIAOD_PromptReco-v2/merged/V08-00-06/     ${TAG}_data_2016B_Prompt_ee_v2
-./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016B_DoubleMuon_MINIAOD_PromptReco-v2/merged/V08-00-06/   ${TAG}_data_2016B_Prompt_mm_v2
-./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016B_MuonEG_MINIAOD_PromptReco-v2/merged/V08-00-06/       ${TAG}_data_2016B_Prompt_em_v2
-./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016B_SinglePhoton_MINIAOD_PromptReco-v2/merged/V08-00-06/ ${TAG}_data_2016B_Prompt_ph_v2
-./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016B_SingleMuon_MINIAOD_PromptReco-v2/merged/V08-00-06/   ${TAG}_data_2016B_Prompt_sm_v2
 
 # ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016B_DoubleEG_MINIAOD_23Sep2016-v3/merged/V08-00-14/     ${TAG}_data_2016B_23sep2016rereco_ee_v3
 # ./writeConfig_80X.sh /hadoop/cms/store/group/snt/run2_data/Run2016B_DoubleMuon_MINIAOD_23Sep2016-v3/merged/V08-00-14/   ${TAG}_data_2016B_23sep2016rereco_mm_v3
@@ -94,6 +89,9 @@ miniaodv2="RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_Tranche
 # #./writeConfig_80X.sh /${hadoopdirv2}/ST_t-channel_antitop_4f_leptonDecays_13TeV-powheg-pythia8_TuneCUETP8M1_${miniaodv2}-v1/V08-00-16/ ${TAG}_stt_antitop_lepdec_powheg # missing in moriond17
 # ./writeConfig_80X.sh /${hadoopdirv2}/ST_tW_top_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1_${miniaodv2}-v1/V08-00-16/           ${TAG}_sttw_antitop_nofullhaddecay_powheg
 # ./writeConfig_80X.sh /${hadoopdirv2}/ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1_${miniaodv2}-v1/V08-00-16/	      ${TAG}_sttw_top_nofullhaddecay_powheg	  
+# ./writeConfig_80X.sh /${hadoopdirv2}/tZq_ll_4f_13TeV-amcatnlo-pythia8_${miniaodv2}-v1/V08-00-16/	      ${TAG}_tzq_ll_amcnlo
+# # tWZ
+# ./writeConfig_80X.sh /${hadoopdirv2}/ST_tWll_5f_LO_13TeV-MadGraph-pythia8_${miniaodv2}-v1/V08-00-16/	      ${TAG}_sttwll_madgraph
 
 # # VV
 # ./writeConfig_80X.sh /${hadoopdirv2}/WWTo2L2Nu_13TeV-powheg_${miniaodv2}-v1/V08-00-16/                         ${TAG}_ww_2l2nu_powheg
@@ -118,6 +116,8 @@ miniaodv2="RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_Tranche
 # ./writeConfig_80X.sh /${hadoopdirv2}/TTWJetsToLNu_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8_${miniaodv2}_ext2-v1/V08-00-16/ ${TAG}_ttw_ln_amcnlo_ext2
 # ./writeConfig_80X.sh /${hadoopdirv2}/TTWJetsToQQ_TuneCUETP8M1_13TeV-amcatnloFXFX-madspin-pythia8_${miniaodv2}-v1/V08-00-16/  ${TAG}_ttw_qq_amcnlo
 # #./writeConfig_80X.sh /${hadoopdirv2}/TTZToLLNuNu_M-10_TuneCUETP8M1_13TeV-amcatnlo-pythia8_RunIISpring16MiniAODv2-premix_withHLT_80X_mcRun2_asymptotic_v14_ext1-v1/V08-00-12/ ${TAG}_ttz_2l2n_amcnlo_ext # missing in moriond17
+# ./writeConfig_80X.sh /${hadoopdirv2}/ttHTobb_M125_13TeV_powheg_pythia8_${miniaodv2}-v1/V08-00-16/      ${TAG}_tth_bb_powheg
+# ./writeConfig_80X.sh /${hadoopdirv2}/ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_${miniaodv2}-v1/V08-00-16/      ${TAG}_tth_nonbb_powheg
 
 # # VVV
 # ./writeConfig_80X.sh /${hadoopdirv2}/WWW_4F_TuneCUETP8M1_13TeV-amcatnlo-pythia8_${miniaodv2}-v1/V08-00-16/ ${TAG}_www_incl_amcnlo
