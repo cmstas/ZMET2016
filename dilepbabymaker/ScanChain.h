@@ -118,6 +118,8 @@ private:
   Int_t           nBJetMedium_dn;
   Int_t           nBJetLoose_dn;
 
+  Int_t           nJet200MuFrac50DphiMet;
+  
   Int_t           nMuons10;
   Int_t           nElectrons10;
   Int_t           nGammas20;
@@ -344,6 +346,7 @@ private:
   std::vector <LorentzVector>   jets_p4;
   std::vector <LorentzVector>   jets_medb_p4;
   std::vector <Float_t>         jets_csv;
+  std::vector <Float_t>         jets_muf;
 
   Int_t           njets_up;
   std::vector <LorentzVector>   jets_up_p4;

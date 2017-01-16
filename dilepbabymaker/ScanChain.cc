@@ -1410,6 +1410,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       nBJetTight_dn  = 0;
       nBJetMedium_dn = 0;
       nBJetLoose_dn  = 0;
+      nJet200MuFrac50DphiMet  = 0;
 
 	  njets    = 0;
 	  njets_up = 0;
@@ -1457,16 +1458,19 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		if( verbose ) cout<<"Before filling jet branches"<<endl;
 
 		float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
+		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
 		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
  		  if( p4sCorrJets.at(iJet).pt() > 35.0 ) {
 			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
 			jets_csv                                      .push_back(current_csv_val);
+			jets_muf                                      .push_back(current_muf_val);
 		  }
 		  if( current_csv_val >= 0.8484 ){
 			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
 			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
 			  jets_csv                                      .push_back(current_csv_val);
+			  jets_muf                                      .push_back(current_muf_val);
 			}
 			jets_medb_p4  .push_back(p4sCorrJets.at(iJet));
 		  }	   
@@ -1474,6 +1478,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  if( !isData ){
 			jets_mcFlavour   .push_back(cms3.pfjets_partonFlavour().at(iJet));
 		  	jets_mcHadronFlav.push_back(cms3.pfjets_hadronFlavour().at(iJet));
+		  }
+
+		  // ad-hoc filter:
+		  //  check for jets with pt > 200, mufrac > 0.5, dphi(jet,MET) > pi - 0.4
+		  if ( (p4sCorrJets.at(iJet).pt() > 200.0) && (current_muf_val > 0.5) && (DeltaPhi(p4sCorrJets.at(iJet).phi(),met_phi) > TMath::Pi() - 0.4) ) {
+		    ++nJet200MuFrac50DphiMet;
 		  }
 
 		  // require pT > 35 for HT
@@ -2033,6 +2043,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nBJetMedium_dn", &nBJetMedium_dn );
   BabyTree_->Branch("nBJetLoose_dn", &nBJetLoose_dn );
 
+  BabyTree_->Branch("nJet200MuFrac50DphiMet", &nJet200MuFrac50DphiMet );
+  
   BabyTree_->Branch("nMuons10", &nMuons10 );
   BabyTree_->Branch("nElectrons10", &nElectrons10 );
   BabyTree_->Branch("nGammas20", &nGammas20 );
@@ -2257,6 +2269,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("jets_dn_csv"     , &jets_dn_csv     );
 
   BabyTree_->Branch("jets_csv"          , &jets_csv          );
+  BabyTree_->Branch("jets_muf"          , &jets_muf          );
   BabyTree_->Branch("jets_mcFlavour"    , &jets_mcFlavour    );
   BabyTree_->Branch("jets_mcHadronFlav" , &jets_mcHadronFlav );
 
@@ -2440,6 +2453,8 @@ void babyMaker::InitBabyNtuple () {
   nBJetTight_dn = -999;
   nBJetMedium_dn = -999;
   nBJetLoose_dn = -999;
+
+  nJet200MuFrac50DphiMet = -999;
 
   nMuons10 = -999;
   nElectrons10 = -999;
@@ -2669,6 +2684,7 @@ void babyMaker::InitBabyNtuple () {
   jets_csv           .clear();
   jets_up_csv        .clear();
   jets_dn_csv        .clear();
+  jets_muf           .clear();
   jets_mcFlavour     .clear();
   jets_mcHadronFlav  .clear();
 
