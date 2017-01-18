@@ -264,13 +264,22 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		}		
 	  }
 
-	  else if( TString(currentFile->GetTitle()).Contains("80MiniAODv") || TString(currentFile->GetTitle()).Contains("RelVal") || TString(currentFile->GetTitle()).Contains("Summer16") ){
-		// files for 80X MC - using also for Summer16 (Moriond17) production for now
+	  else if( TString(currentFile->GetTitle()).Contains("80MiniAODv") || TString(currentFile->GetTitle()).Contains("RelVal") ){
+		// files for 80X MC, ICHEP production
 		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L1FastJet_AK4PFchs.txt"   );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L2Relative_AK4PFchs.txt"  );
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L3Absolute_AK4PFchs.txt"  );
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_Uncertainty_AK4PFchs.txt" );
+	  }
+		
+	  else if( TString(currentFile->GetTitle()).Contains("Summer16") ){
+		// files for 80X MC, Summer16 (Moriond17) production
+		jetcorr_filenames_pfL1FastJetL2L3.clear();
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_25nsV5_MC_L1FastJet_AK4PFchs.txt"   );
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_25nsV5_MC_L2Relative_AK4PFchs.txt"  );
+		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_25nsV5_MC_L3Absolute_AK4PFchs.txt"  );
+		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Summer16_25nsV5_MC_Uncertainty_AK4PFchs.txt" );
 	  }
 		
 	  else if( TString(currentFile->GetTitle()).Contains("Run2016") || TString(currentFile->GetTitle()).Contains("CMSSW_8_0_11_V08-00-06") ){
