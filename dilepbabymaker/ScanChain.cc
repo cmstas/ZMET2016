@@ -220,6 +220,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     cout << "running on file: " << currentFile->GetTitle() << endl;
 
     // evt_id = sampleID(currentFile->GetTitle());
+    TString currentFileName(currentFile->GetTitle());
 
     // Get File Content
     TFile f( currentFile->GetTitle() );
@@ -232,20 +233,26 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     // retrieve JEC from files, if using
     // ----------------------------------
 
+    // stores current corrections for a given event
+    FactorizedJetCorrector   * jet_corrector_pfL1FastJetL2L3_current = NULL;
+    JetCorrectionUncertainty * jecUnc_current                        = NULL;
+
+    // default corrections     
     std::vector<std::string> jetcorr_filenames_pfL1FastJetL2L3;
     FactorizedJetCorrector   * jet_corrector_pfL1FastJetL2L3 = NULL;
-	JetCorrectionUncertainty * jecUnc                        = NULL;
+    JetCorrectionUncertainty * jecUnc                        = NULL;
 
+    // corrections for later runs in 2016F
     std::vector<std::string> jetcorr_filenames_pfL1FastJetL2L3_postrun278802;
     FactorizedJetCorrector   * jet_corrector_pfL1FastJetL2L3_postrun278802 = NULL;
-	JetCorrectionUncertainty * jecUnc_postrun278802                        = NULL;
+    JetCorrectionUncertainty * jecUnc_postrun278802                        = NULL;
 	
     if (applyJECfromFile) {
       jetcorr_filenames_pfL1FastJetL2L3.clear();
 
 	  //JECs for 76X
-	  if( TString(currentFile->GetTitle()).Contains("16Dec2015") || TString(currentFile->GetTitle()).Contains("76X_mcRun2") ){
-		if( TString(currentFile->GetTitle()).Contains("Run2015C") || TString(currentFile->GetTitle()).Contains("Run2015D") ){
+	  if( currentFileName.Contains("16Dec2015") || currentFileName.Contains("76X_mcRun2") ){
+		if( currentFileName.Contains("Run2015C") || currentFileName.Contains("Run2015D") ){
 		  jetcorr_filenames_pfL1FastJetL2L3.clear();
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt"   );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2Relative_AK4PFchs.txt"  );
@@ -264,7 +271,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		}		
 	  }
 
-	  else if( TString(currentFile->GetTitle()).Contains("80MiniAODv") || TString(currentFile->GetTitle()).Contains("RelVal") ){
+	  else if( currentFileName.Contains("80MiniAODv") || currentFileName.Contains("RelVal") ){
 		// files for 80X MC, ICHEP production
 		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L1FastJet_AK4PFchs.txt"   );
@@ -273,7 +280,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_Uncertainty_AK4PFchs.txt" );
 	  }
 		
-	  else if( TString(currentFile->GetTitle()).Contains("Summer16") ){
+	  else if( currentFileName.Contains("Summer16") ){
 		// files for 80X MC, Summer16 (Moriond17) production
 		jetcorr_filenames_pfL1FastJetL2L3.clear();
 		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_25nsV5_MC_L1FastJet_AK4PFchs.txt"   );
@@ -282,7 +289,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Summer16_25nsV5_MC_Uncertainty_AK4PFchs.txt" );
 	  }
 		
-	  else if( TString(currentFile->GetTitle()).Contains("Run2016") || TString(currentFile->GetTitle()).Contains("CMSSW_8_0_11_V08-00-06") ){
+	  else if( currentFileName.Contains("Run2016") || currentFileName.Contains("CMSSW_8_0_11_V08-00-06") ){
 
 		// 	jetcorr_filenames_pfL1FastJetL2L3.clear();
 		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
@@ -300,9 +307,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		// 	jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
 
 		// // This scheme will eventually be used for Moriond. For now just use JECs from ICHEP
-		if( TString(currentFile->GetTitle()).Contains("Run2016B") ||
-			TString(currentFile->GetTitle()).Contains("Run2016C") ||
-			TString(currentFile->GetTitle()).Contains("Run2016D") ){
+		if( currentFileName.Contains("Run2016B") ||
+			currentFileName.Contains("Run2016C") ||
+			currentFileName.Contains("Run2016D") ){
 		  // files for 80X Data
 		  jetcorr_filenames_pfL1FastJetL2L3.clear();
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016BCDV2_DATA_L1FastJet_AK4PFchs.txt"   );
@@ -312,8 +319,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_23Sep2016BCDV2_DATA_Uncertainty_AK4PFchs.txt" );
 		}
 
-		if( TString(currentFile->GetTitle()).Contains("Run2016E") ||
-			TString(currentFile->GetTitle()).Contains("Run2016F") ){
+		if( currentFileName.Contains("Run2016E") ||
+			currentFileName.Contains("Run2016F") ){
 		  // files for 80X Data
 		  jetcorr_filenames_pfL1FastJetL2L3.clear();
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016EFV2_DATA_L1FastJet_AK4PFchs.txt"   );
@@ -331,7 +338,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
 		}
 
-		if( TString(currentFile->GetTitle()).Contains("Run2016G") ){
+		if( currentFileName.Contains("Run2016G") ){
 		  // files for 80X Data
 		  jetcorr_filenames_pfL1FastJetL2L3.clear();
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016GV2_DATA_L1FastJet_AK4PFchs.txt"   );
@@ -349,7 +356,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
 		}
 
-		if( TString(currentFile->GetTitle()).Contains("Run2016H") ){
+		if( currentFileName.Contains("Run2016H") ){
 		  jetcorr_filenames_pfL1FastJetL2L3.clear();
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L1FastJet_AK4PFchs.txt"   );
 		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_23Sep2016HV2_DATA_L2Relative_AK4PFchs.txt"  );
@@ -415,13 +422,22 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       evt    = cms3.evt_event();
       isData = cms3.evt_isRealData();
 
+      // set jet corrector based on run number for data
+      if (isData && run >= 278802 && run <= 278808) {
+	jet_corrector_pfL1FastJetL2L3_current = jet_corrector_pfL1FastJetL2L3_postrun278802;
+	jecUnc_current = jecUnc_postrun278802;
+      } else {
+	jet_corrector_pfL1FastJetL2L3_current = jet_corrector_pfL1FastJetL2L3;
+	jecUnc_current = jecUnc;
+      }
+
       //cout<<__LINE__<<endl;
 
       evt_kfactor  = cms3.evt_kfactor();
       evt_filter   = cms3.evt_filt_eff();
 
 	  if( isSMSScan ){
-		if (TString(currentFile->GetTitle()).Contains("SMS-TChiHZ")){
+		if (currentFileName.Contains("SMS-TChiHZ")){
 		  mass_chi = cms3.sparm_values().at(0);
 		  evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
 		}
@@ -431,9 +447,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
 		}
 
-		if( TString(currentFile->GetTitle()).Contains("SMS-T5ZZ"  ) ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
-		if( TString(currentFile->GetTitle()).Contains("SMS-TChiWZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
-		if( TString(currentFile->GetTitle()).Contains("SMS-TChiHZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
+		if( currentFileName.Contains("SMS-T5ZZ"  ) ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
+		if( currentFileName.Contains("SMS-TChiWZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
+		if( currentFileName.Contains("SMS-TChiHZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
 
 		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
@@ -507,7 +523,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
 		Flag_globalTightHalo2016                = cms3.filt_globalTightHalo2016();
 		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
-		if( TString(currentFile->GetTitle()).Contains("V08-00-1") ){ Flag_badChargedCandidateFilterv2        = badChargedCandidateFilterV2();
+		if( currentFileName.Contains("V08-00-1") ){ Flag_badChargedCandidateFilterv2        = badChargedCandidateFilterV2();
 		}else{
 		  Flag_badChargedCandidateFilterv2        = -1;
 		}
@@ -861,7 +877,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  // vec_lep_bft_pterrOpt .push_back ( cms3.mus_bfit_qoverpError().at(iMu) / cms3.mus_bfit_qoverp() .at(iMu) );
 		  vec_lep_x2ondof      .push_back ( cms3.mus_chi2()            .at(iMu) / cms3.mus_ndof()        .at(iMu) );
 		  vec_lep_sta_x2ondof  .push_back ( cms3.mus_sta_chi2()        .at(iMu) / cms3.mus_sta_ndof()    .at(iMu) );
-		  if( TString(currentFile->GetTitle()).Contains("V08-00-1") ){ vec_lep_glb_x2ondof  .push_back ( cms3.mus_gfit_chi2()       .at(iMu) / cms3.mus_gfit_ndof()   .at(iMu) );
+		  if( currentFileName.Contains("V08-00-1") ){ vec_lep_glb_x2ondof  .push_back ( cms3.mus_gfit_chi2()       .at(iMu) / cms3.mus_gfit_ndof()   .at(iMu) );
 		  }else{                                                       vec_lep_glb_x2ondof  .push_back ( -1.0                                                                  );}
 		  // vec_lep_bft_x2ondof  .push_back ( cms3.mus_bfit_chi2()       .at(iMu) / cms3.mus_bfit_ndof()   .at(iMu) );
 		  
@@ -1143,47 +1159,25 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 		  vector<float> corr_vals;
 		  
-		  if( cms3.evt_isRealData() && cms3.evt_run() >= 278802 ){
-			// get L1FastL2L3Residual total correction
-			jet_corrector_pfL1FastJetL2L3_postrun278802->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
-			jet_corrector_pfL1FastJetL2L3_postrun278802->setJetA  ( cms3.pfjets_area().at(iJet)       );
-			jet_corrector_pfL1FastJetL2L3_postrun278802->setJetPt ( pfjet_p4_uncor.pt()               );
-			jet_corrector_pfL1FastJetL2L3_postrun278802->setJetEta( pfjet_p4_uncor.eta()              );
-			//get actual corrections
-			corr_vals = jet_corrector_pfL1FastJetL2L3_postrun278802->getSubCorrections();
-			corr      = corr_vals.at(corr_vals.size()-1); // All corrections		  
-			shift = 0.0;
-			if (jecUnc_postrun278802 != 0) {
-			  jecUnc_postrun278802->setJetEta(pfjet_p4_uncor.eta()); 
-			  jecUnc_postrun278802->setJetPt(pfjet_p4_uncor.pt()*corr); 
-			  double unc = jecUnc_postrun278802->getUncertainty(true);
-			  if( cms3.evt_isRealData() && jetcorr_filenames_pfL1FastJetL2L3_postrun278802.size() == 4 ){
-				shift = sqrt(unc*unc + pow((corr_vals.at(corr_vals.size()-1)/corr_vals.at(corr_vals.size()-2)-1.),2));	  
-			  }else{
-				shift = unc;
-			  }
-			}
-
-		  }else{
-			// get L1FastL2L3Residual total correction
-			jet_corrector_pfL1FastJetL2L3->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
-			jet_corrector_pfL1FastJetL2L3->setJetA  ( cms3.pfjets_area().at(iJet)       );
-			jet_corrector_pfL1FastJetL2L3->setJetPt ( pfjet_p4_uncor.pt()               );
-			jet_corrector_pfL1FastJetL2L3->setJetEta( pfjet_p4_uncor.eta()              );
-			//get actual corrections
-			corr_vals = jet_corrector_pfL1FastJetL2L3->getSubCorrections();
-			corr      = corr_vals.at(corr_vals.size()-1); // All corrections
-			shift = 0.0;
-			if (jecUnc != 0) {
-			  jecUnc->setJetEta(pfjet_p4_uncor.eta()); 
-			  jecUnc->setJetPt(pfjet_p4_uncor.pt()*corr); 
-			  double unc = jecUnc->getUncertainty(true);
-			  if( cms3.evt_isRealData() && jetcorr_filenames_pfL1FastJetL2L3.size() == 4 ){
-				shift = sqrt(unc*unc + pow((corr_vals.at(corr_vals.size()-1)/corr_vals.at(corr_vals.size()-2)-1.),2));	  
-			  }else{
-				shift = unc;
-			  }
-			}
+		  // get L1FastL2L3Residual total correction
+		  jet_corrector_pfL1FastJetL2L3_current->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
+		  jet_corrector_pfL1FastJetL2L3_current->setJetA  ( cms3.pfjets_area().at(iJet)       );
+		  jet_corrector_pfL1FastJetL2L3_current->setJetPt ( pfjet_p4_uncor.pt()               );
+		  jet_corrector_pfL1FastJetL2L3_current->setJetEta( pfjet_p4_uncor.eta()              );
+		  //get actual corrections
+		  corr_vals = jet_corrector_pfL1FastJetL2L3_current->getSubCorrections();
+		  corr      = corr_vals.at(corr_vals.size()-1); // All corrections		  
+		  shift = 0.0;
+		  if (jecUnc_current != 0) {
+		    jecUnc_current->setJetEta(pfjet_p4_uncor.eta()); 
+		    jecUnc_current->setJetPt(pfjet_p4_uncor.pt()*corr); 
+		    double unc = jecUnc_current->getUncertainty(true);
+		    // note that this always checks the "default" filename vector size, not the run-dependent for late 2016F
+		    if( cms3.evt_isRealData() && jetcorr_filenames_pfL1FastJetL2L3.size() == 4 ){
+		      shift = sqrt(unc*unc + pow((corr_vals.at(corr_vals.size()-1)/corr_vals.at(corr_vals.size()-2)-1.),2));	  
+		    }else{
+		      shift = unc;
+		    }
 		  }
 
 		  // apply new JEC to p4
@@ -1313,32 +1307,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 		  if (applyJECfromFile) {
 
-			// get uncorrected jet p4 to use as input for corrections
-			LorentzVector pfjet_p4_uncor = cms3.pfjets_p4().at(iJet) * cms3.pfjets_undoJEC().at(iJet);
+		    // get uncorrected jet p4 to use as input for corrections
+		    LorentzVector pfjet_p4_uncor = cms3.pfjets_p4().at(iJet) * cms3.pfjets_undoJEC().at(iJet);
 
-			if( cms3.evt_isRealData() && cms3.evt_run() >= 278802 ){
-			  // get L1FastL2L3Residual total correction
-			  jet_corrector_pfL1FastJetL2L3_postrun278802->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
-			  jet_corrector_pfL1FastJetL2L3_postrun278802->setJetA  ( cms3.pfjets_area().at(iJet)       );
-			  jet_corrector_pfL1FastJetL2L3_postrun278802->setJetPt ( pfjet_p4_uncor.pt()               );
-			  jet_corrector_pfL1FastJetL2L3_postrun278802->setJetEta( pfjet_p4_uncor.eta()              );
-			  //get actual corrections
-			  corr_vals = jet_corrector_pfL1FastJetL2L3_postrun278802->getSubCorrections();
-			  corr      = corr_vals.at(corr_vals.size()-1); // All corrections		  
+		    // get L1FastL2L3Residual total correction
+		    jet_corrector_pfL1FastJetL2L3_current->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
+		    jet_corrector_pfL1FastJetL2L3_current->setJetA  ( cms3.pfjets_area().at(iJet)       );
+		    jet_corrector_pfL1FastJetL2L3_current->setJetPt ( pfjet_p4_uncor.pt()               );
+		    jet_corrector_pfL1FastJetL2L3_current->setJetEta( pfjet_p4_uncor.eta()              );
+		    //get actual corrections
+		    corr_vals = jet_corrector_pfL1FastJetL2L3_current->getSubCorrections();
+		    corr      = corr_vals.at(corr_vals.size()-1); // All corrections		  
 
-		  }else{
-			// get L1FastL2L3Residual total correction
-			jet_corrector_pfL1FastJetL2L3->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
-			jet_corrector_pfL1FastJetL2L3->setJetA  ( cms3.pfjets_area().at(iJet)       );
-			jet_corrector_pfL1FastJetL2L3->setJetPt ( pfjet_p4_uncor.pt()               );
-			jet_corrector_pfL1FastJetL2L3->setJetEta( pfjet_p4_uncor.eta()              );
-			//get actual corrections
-			corr_vals = jet_corrector_pfL1FastJetL2L3->getSubCorrections();
-			corr      = corr_vals.at(corr_vals.size()-1); // All corrections
-		  }
-
-			// apply new JEC to p4
-			pfjet_p4_cor = pfjet_p4_uncor * corr;
+		    // apply new JEC to p4
+		    pfjet_p4_cor = pfjet_p4_uncor * corr;
 		  }
 		
 		  if(       pfjet_p4_cor.pt()    < 30.0       ) continue; 
@@ -1630,26 +1612,26 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  }
 	  
 	  // //recalculate rawMET
-	  pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3, NULL, 0, true);
+	  pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, true);
 	  met_T1CHS_fromCORE_pt  = newMET.first;
 	  met_T1CHS_fromCORE_phi = newMET.second;
 	  
 	  // met with no unc
-	  pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3);
+	  pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current);
 	  met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
 	  met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
 
 	  metsig_unofficial = met_T1CHS_miniAOD_CORE_pt / sqrt(ht);
 	  
 	  // met with up unc
-	  pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3, jecUnc, 1);
+	  pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 1);
 	  met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
 	  met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
 
 	  metsig_unofficial_up = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
 
 	  // met with dn unc
-	  pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3, jecUnc, 0);
+	  pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 0);
 	  met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
 	  met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
 
@@ -1992,6 +1974,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	delete tree;
     f.Close();
 
+    if (applyJECfromFile) {
+      delete jet_corrector_pfL1FastJetL2L3;
+      delete jecUnc;
+      if (jet_corrector_pfL1FastJetL2L3_postrun278802) delete jet_corrector_pfL1FastJetL2L3_postrun278802;
+      if (jecUnc_postrun278802) delete jecUnc_postrun278802;
+    }
+    
   }//end loop on files
   
   cout << "Processed " << nEventsTotal << " events" << endl;
