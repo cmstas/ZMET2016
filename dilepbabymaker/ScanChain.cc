@@ -1864,6 +1864,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 	  nisoTrack_5gev = 0;
 	  nisoTrack_mt2  = 0;
+	  nhighPtPFcands = 0;
 
 	  for( size_t pfind = 0; pfind < cms3.pfcands_p4().size(); pfind++ ){
 
@@ -1896,7 +1897,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ){ phpfcands_30in_p4 -= pfcand_p4; phpfcands_30in_sumet += pfcand_p4.pt(); }
 		}
 
-
+		// save high pt pf cands: all with pt > 300, pf muons with pt > 50
+		if ( (pfcand_p4.pt() > 300.) || (pfcand_p4.pt() > 50. && abs(cms3.pfcands_particleId().at(pfind)) == 13) ) {
+		  ++nhighPtPFcands;
+		  highPtPFcands_p4.push_back(pfcand_p4);
+		  highPtPFcands_dz.push_back(cms3.pfcands_dz().at(pfind));
+		  highPtPFcands_pdgId.push_back(cms3.pfcands_particleId().at(pfind));
+		}
+		
         if(      cms3.pfcands_charge().at(pfind)  == 0  ) continue;
         if( fabs(cms3.pfcands_dz()    .at(pfind)) >  0.1) continue;
         if(      cms3.pfcands_fromPV().at(pfind)  <= 1  ) continue;
@@ -2270,6 +2278,12 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("jets_muf"          , &jets_muf          );
   BabyTree_->Branch("jets_mcFlavour"    , &jets_mcFlavour    );
   BabyTree_->Branch("jets_mcHadronFlav" , &jets_mcHadronFlav );
+
+//----- HIGH PT PF CANDS
+  BabyTree_->Branch("nhighPtPFcands"           , &nhighPtPFcands        );
+  BabyTree_->Branch("highPtPFcands_p4"         , &highPtPFcands_p4      );
+  BabyTree_->Branch("highPtPFcands_dz"         , &highPtPFcands_dz      );
+  BabyTree_->Branch("highPtPFcands_pdgId"      , &highPtPFcands_pdgId   );
 
   BabyTree_->Branch("ht"    , &ht    );
   BabyTree_->Branch("ht_up" , &ht_up );
@@ -2686,6 +2700,12 @@ void babyMaker::InitBabyNtuple () {
   jets_mcFlavour     .clear();
   jets_mcHadronFlav  .clear();
 
+//----- HIGH PT PF CANDS
+  nhighPtPFcands = -999.0;
+  highPtPFcands_p4   .clear();
+  highPtPFcands_dz   .clear();
+  highPtPFcands_pdgId.clear();
+  
   ht       = -999.0;
   ht_up    = -999.0;
   ht_dn    = -999.0;

@@ -362,6 +362,12 @@ private:
   std::vector <Int_t  >         jets_mcFlavour   ;
   std::vector <Int_t  >         jets_mcHadronFlav;
 
+  //----- HIGH PT PF CANDS (pt > 300, or pt > 50 for muons)
+  Int_t           nhighPtPFcands;
+  std::vector <LorentzVector>   highPtPFcands_p4;
+  std::vector <Float_t>         highPtPFcands_dz;
+  std::vector <Int_t>           highPtPFcands_pdgId;
+
   Float_t         ht;
   Float_t         ht_up;
   Float_t         ht_dn;
