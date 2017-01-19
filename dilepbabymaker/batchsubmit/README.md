@@ -41,3 +41,34 @@ When all the jobs have run successfully, you will want to merge the output to ma
 
 When you run this script, run no more than 4 merge jobs at a time. They will run in parallel, so comment out the samples you don't want to run before executing the command. This is really important, if too many jobs are run, you can bring down the disk you are merging to!
 
+##################################################################################
+#                                                                                #
+#   Instructions for running ZMET baby making within the AutoTwopler framework   #
+#                                                                                #
+##################################################################################
+
+1. Need to checkout NtupleTools inside of ZMET2016
+``` bash
+git clone git@github.com:cmstas/NtupleTools.git
+```
+
+2. Run setup script (in NtupleTools/AutoTwopler) - this needs to be done in every session
+``` bash
+. setup.sh
+```
+
+3. Prepare input files for job submission (in ZMET2016/dilepbabymaker/batchsubmit)
+``` bash
+. make_job_inputs.sh
+```
+
+4. Job submission
+
+User interaction primarily happens with zmet.py and ducks.py, both inside of ZMET2016/dilepbabymaker/batchsubmit.
+The file zmet.py should only need to be touched rarely.  It contains dataset --> shortname mapping for samples and default zmet configuration parameters.
+Most interaction is through ducks.py, which is also where parameters from zmet.py can (and should) be overridden, like the ntuple tag.
+
+5. Launching jobs
+``` bash
+python ducks.py
+```
