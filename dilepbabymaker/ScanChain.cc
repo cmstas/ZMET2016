@@ -841,10 +841,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       //MUONS
       nMuons10 = 0;
+      nBadMuons20 = 0;
 	  // RCLSA: this is a TEMPORARY protections for a problem with CMS3 samples
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
+	        if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
 		if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
 		  nveto_leptons++;
 		}
@@ -2052,6 +2054,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nJet200MuFrac50DphiMet", &nJet200MuFrac50DphiMet );
   
   BabyTree_->Branch("nMuons10", &nMuons10 );
+  BabyTree_->Branch("nBadMuons20", &nBadMuons20 );
   BabyTree_->Branch("nElectrons10", &nElectrons10 );
   BabyTree_->Branch("nGammas20", &nGammas20 );
 
@@ -2469,6 +2472,7 @@ void babyMaker::InitBabyNtuple () {
   nJet200MuFrac50DphiMet = -999;
 
   nMuons10 = -999;
+  nBadMuons20 = -999;
   nElectrons10 = -999;
   nGammas20 = -999;
 
