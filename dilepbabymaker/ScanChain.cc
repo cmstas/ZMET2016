@@ -2269,7 +2269,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("njets_up"        , &njets_up        );
   BabyTree_->Branch("jets_up_p4"      , &jets_up_p4      );
   BabyTree_->Branch("jets_medb_up_p4" , &jets_medb_up_p4 );
-  BabyTree_->Branch("jets_csv"          , &jets_csv      );
+  BabyTree_->Branch("jets_csv"        , &jets_csv      );
   BabyTree_->Branch("jets_up_csv"     , &jets_up_csv     );
 
   BabyTree_->Branch("njets_dn"        , &njets_dn        );
@@ -2277,7 +2277,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("jets_medb_dn_p4" , &jets_medb_dn_p4 );
   BabyTree_->Branch("jets_dn_csv"     , &jets_dn_csv     );
 
-  BabyTree_->Branch("jets_csv"          , &jets_csv          );
   BabyTree_->Branch("jets_muf"          , &jets_muf          );
   BabyTree_->Branch("jets_mcFlavour"    , &jets_mcFlavour    );
   BabyTree_->Branch("jets_mcHadronFlav" , &jets_mcHadronFlav );
