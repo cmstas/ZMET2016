@@ -984,7 +984,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 		if( !isData ){		  
 		  for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
-			if ( cms3.genps_id()                   .at(iGen)        != 22 ) continue; 
+		        if ( (cms3.genps_id().at(iGen) != 22) && (abs(cms3.genps_id().at(iGen)) != 11) ) continue; // accept gen photons and electrons
 			if ( cms3.genps_status()               .at(iGen)        != 1  ) continue; 
 			if ( (fabs(cms3.genps_id_simplemother() .at(iGen))       > 24) && (fabs (cms3.genps_id_simplemother() .at(iGen)) != 2212) ) continue; // pions etc 
 			if ( fabs(eta - cms3.genps_p4()        .at(iGen).eta()) > 0.1 ) continue;
@@ -995,12 +995,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 			  bestDr = thisDR;
 			  bestMatch = iGen;
 			  bestMatchEta = cms3.genps_p4().at(iGen).eta();
-              bestMatchPhi = cms3.genps_p4().at(iGen).phi();
+			  bestMatchPhi = cms3.genps_p4().at(iGen).phi();
 			}
 		  }
 		  if (bestMatch != -1) {
   			// 7 is a special code for photons without a mother. this seems to be due to a miniAOD bug where links are broken.
-  			gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : 22); 
+  			gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : cms3.genps_id().at(bestMatch)); 
   			gamma_genIso.push_back(-1); //cms2.genps_iso().at(bestMatch);
 			gamma_genIsPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(bestMatch));
 			// Now want to look at DR between photon and parton
