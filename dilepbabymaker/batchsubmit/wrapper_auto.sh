@@ -94,14 +94,46 @@ echo "[wrapper] running: ./processBaby ${FILEID} ${FILE}"
 echo "[wrapper] output is"
 ls
 
+
+OUTPUT=`ls | grep ${FILEID}`
+echo "[wrapper] OUTPUT = " ${OUTPUT}
+mv ${OUTPUT} output.root
+
+# Rigorous sweeproot which checks ALL branches for ALL events.
+# If GetEntry() returns -1, then there was an I/O problem, so we will delete it
+cat > rigorousSweepRoot.py << EOL
+import ROOT as r
+import os
+
+f1 = r.TFile("output.root")
+t = f1.Get("mt2")
+print "[RSR] ntuple has %i events" % t.GetEntries()
+
+foundBad = False
+for i in range(0,t.GetEntries(),1):
+    if t.GetEntry(i) < 0:
+        foundBad = True
+        print "[RSR] found bad event %i" % i
+        break
+
+if foundBad:
+    print "[RSR] removing output.root because it does not deserve to live"
+    os.system("rm output.root")
+else:
+    print "[RSR] passed the rigorous sweeproot"
+EOL
+
+date +%s
+echo "[wrapper] running rigorousSweepRoot.py"
+python rigorousSweepRoot.py
+date +%s
+
+
 #
 # clean up
 #
 
 echo "[wrapper] copying file"
-OUTPUT=`ls | grep ${FILEID}`
-echo "[wrapper] OUTPUT = " ${OUTPUT}
-mv ${OUTPUT} output.root
 
 # if [ ! -d "${COPYDIR}" ]; then
 #     echo "creating output directory " ${COPYDIR}

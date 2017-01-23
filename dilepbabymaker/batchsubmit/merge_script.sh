@@ -31,6 +31,36 @@ echo "Merging files ${UNMERGED_DIR}/${INPUT_NAMES} into ${OUTPUT_DIR}"
 echo "root -l -n -b -q merge_macro.C+(\"${UNMERGED_DIR}\",\"${INPUT_NAMES}\",\"${OUTFILE}\")"
 root -l -n -b -q "merge_macro.C+(\"${UNMERGED_DIR}\",\"${INPUT_NAMES}\",\"${OUTFILE}\")"
 
+# Rigorous sweeproot which checks ALL branches for ALL events.
+# If GetEntry() returns -1, then there was an I/O problem, so we will delete it
+cat > rigorousSweepRoot.py << EOL
+import ROOT as r
+import os
+
+f1 = r.TFile("${OUTFILE}")
+t = f1.Get("mt2")
+print "[RSR] ntuple has %i events" % t.GetEntries()
+
+foundBad = False
+for i in range(0,t.GetEntries(),1):
+    if t.GetEntry(i) < 0:
+        foundBad = True
+        print "[RSR] found bad event %i" % i
+        break
+
+if foundBad:
+    print "[RSR] removing ${OUTFILE} because it does not deserve to live"
+    os.system("rm ${OUTFILE}")
+else:
+    print "[RSR] passed the rigorous sweeproot"
+EOL
+
+date +%s
+echo "[merge_script] running rigorousSweepRoot.py"
+python rigorousSweepRoot.py
+date +%s
+
+
 ##
 ## copy file to output
 ##
