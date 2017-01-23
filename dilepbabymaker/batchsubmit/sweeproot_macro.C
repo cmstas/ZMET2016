@@ -2,7 +2,7 @@
 #include "TFile.h"
 #include "TTree.h"
 
-int sweeproot_macro(const char *rootFileName, const char *treeName = "t", bool check_every_event = "false"){
+int sweeproot_macro(const char *rootFileName, const char *treeName = "t", bool check_every_event = false){
 
   TFile *rootFile = new TFile(rootFileName, "read");
 
