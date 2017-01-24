@@ -436,6 +436,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       evt_kfactor  = cms3.evt_kfactor();
       evt_filter   = cms3.evt_filt_eff();
 
+      // get CMS3 version number to use later
+      TString cms3_version = cms3.evt_CMS3tag().at(0);
+      // convert last two digits of version number to int
+      int small_cms3_version = TString(cms3_version(cms3_version.Length()-2,cms3_version.Length())).Atoi();
+      bool recent_cms3_version = true;
+      if (cms3_version.Contains("V08-00") && small_cms3_version <= 12) recent_cms3_version = false;
+      
 	  if( isSMSScan ){
 		if (currentFileName.Contains("SMS-TChiHZ")){
 		  mass_chi = cms3.sparm_values().at(0);
@@ -507,10 +514,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		Flag_hcalLaserEventFilter               = cms3.filt_hcalLaser();
 		Flag_trackingFailureFilter              = cms3.filt_trackingFailure();
 		Flag_CSCTightHaloFilter                 = cms3.filt_cscBeamHalo();
-		// recommended from twiki
-		Flag_badMuonFilter                      = badMuonFilter();
-		Flag_badMuonFilterv2                    = badMuonFilterV2();
-
 	  }
 
 	  // in data and MC
@@ -521,11 +524,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
 		Flag_goodVertices                       = cms3.filt_goodVertices();
 		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
-		Flag_globalTightHalo2016                = cms3.filt_globalTightHalo2016();
 		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
-		if( currentFileName.Contains("V08-00-1") ){ Flag_badChargedCandidateFilterv2        = badChargedCandidateFilterV2();
-		}else{
-		  Flag_badChargedCandidateFilterv2        = -1;
+		// inputs for badMuonFilters in latest cms3 tags
+		if (recent_cms3_version) {
+		  Flag_globalTightHalo2016                      = cms3.filt_globalTightHalo2016();
+		  Flag_badMuonFilter                            = badMuonFilter();
+		  Flag_badMuonFilterv2                          = badMuonFilterV2();
+		  Flag_badChargedCandidateFilterv2              = badChargedCandidateFilterV2();          
 		}
 	  }
 	  
@@ -846,7 +851,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
-	        if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
+	        if (recent_cms3_version) {
+	          if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
+	        }
 		if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
 		  nveto_leptons++;
 		}
