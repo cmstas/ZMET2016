@@ -5,7 +5,7 @@ import params as p
 import zmet as zmet
 
 # set tag
-zmet.tag = "test"
+zmet.tag = "V08-22-09"
 
 # make instructions
 instructions = []
@@ -13,16 +13,17 @@ instructions = []
 ##
 ## make instructions by class of sample
 ##
-samples_types = ["backgrounds", "data", "scans"]
+#samples_types = ["backgrounds", "data", "scans"]
+samples_types = ["backgrounds", "data"]
 for stype in samples_types:
     for ds in zmet.d_ds2name[stype].keys():
-        instructions.append({"executable": zmet.executable, "package": zmet.package, "analysis": "ZMET", "dataset": ds, "baby_tag": zmet.tag, "type": "BABY", "extra": ""})
+        instructions.append({"executable": zmet.executable, "package": zmet.package, "analysis": "ZMET", "dataset": ds, "baby_tag": zmet.tag, "type": "BABY", "extra": [-1, "output.root,skim.root"]})
 
 ##
 ## make instructions by sample shortname
 ##
-todo = "wjets_incl wjets_ht100to200 wjets_ht2500toInf ".strip().split()
-instructions = [inst for inst in instructions if zmet.dataset_to_shortname(inst["dataset"]) in todo]
+#todo = "wjets_ht1200_mgmlm_nonext ".strip().split()
+#instructions = [inst for inst in instructions if zmet.dataset_to_shortname(inst["dataset"]) in todo]
 
 #print instructions
 #sys.exit()

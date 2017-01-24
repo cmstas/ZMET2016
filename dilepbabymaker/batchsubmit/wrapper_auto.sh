@@ -130,6 +130,13 @@ date +%s
 
 
 #
+# do skim
+#
+
+echo "[wrapper] doing skim"
+root -b -q skim_macro.C
+
+#
 # clean up
 #
 
