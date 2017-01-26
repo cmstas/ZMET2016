@@ -9,6 +9,7 @@ INDIR=~/analysis/CMSSW_8_0_11/V08-11-00/ZMET2015/interpretations_ewk/datacards/
 MINMASS=100
 
 OUTDIR=limits_$MODEL
+OWD=`pwd`
 
 declare -a cards=(`ls ${INDIR}/datacard*.txt`)
 
@@ -53,8 +54,5 @@ do
 done
 
 root -b -q make_allRValues.C+\(\"$MODEL\",\"list_$MODEL.txt\"\)
+cp r-values_$MODEL.root $OWD
 popd
-
-
-
-
