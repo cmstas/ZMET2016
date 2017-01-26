@@ -49,3 +49,5 @@ cp ../json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt .
 
 ./processBaby test_moriondmc_ttbar_1k /hadoop/cms/store/group/snt/run2_moriond17/TTJets_DiLept_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/V08-00-16/merged_ntuple_1.root 1000
 
+#./processBaby test_moriondmc_sync_ttbar_dilep_nopostproc /nfs-7/userdata/ZMEToutput/output/sync_Jan2017/sync_ttbar_dilep_Summer16_1file_nopostproc.root 
+
