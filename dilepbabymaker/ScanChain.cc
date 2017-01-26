@@ -55,6 +55,8 @@ const bool maxEta24 = true;
 bool isSMSScan = false;
 // always on
 bool applyBtagSFs = true;
+// for testing purposes, running on unmerged files (default false)
+const bool removePostProcVars = false;
 
 //--------------------------------------------------------------------
 
@@ -432,9 +434,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
 
       //cout<<__LINE__<<endl;
-
-      evt_kfactor  = cms3.evt_kfactor();
-      evt_filter   = cms3.evt_filt_eff();
+      if (!removePostProcVars) {
+	evt_kfactor  = cms3.evt_kfactor();
+	evt_filter   = cms3.evt_filt_eff();
+      }
 
       // get CMS3 version number to use later
       TString cms3_version = cms3.evt_CMS3tag().at(0);
@@ -470,7 +473,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		isrboost = (isrSystem_p4).pt();
 		
 	  }
-	  else{
+	  else if (!removePostProcVars) {
 		evt_nEvts    = cms3.evt_nEvts();
 		evt_scale1fb = cms3.evt_scale1fb();
 		evt_xsec     = cms3.evt_xsec_incl();
