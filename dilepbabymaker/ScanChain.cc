@@ -107,7 +107,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   
   if (applyBtagSFs) {
 	// setup btag calibration readers
-	calib           = new BTagCalibration("csvv2", "btagsf/CSVv2_ichep.csv"); // 25s version of SFs
+	calib           = new BTagCalibration("csvv2", "btagsf/CSVv2Moriond17_2017_1_26_BtoH.csv"); // 25s version of SFs
 	reader_heavy    = new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "central"); // central
 	reader_heavy_UP = new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "up"     ); // sys up
 	reader_heavy_DN = new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "down"   ); // sys down
@@ -116,7 +116,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	reader_light_DN = new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "down"   ); // sys down
 
 	// get btag efficiencies
-	TFile * f_btag_eff           = new TFile("btagsf/btageff__ttbar_powheg_pythia8_25ns.root");
+	TFile * f_btag_eff           = new TFile("btagsf/btageff__ttbar_powheg_pythia8_25ns_Moriond17.root");
 	TH2D  * h_btag_eff_b_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_b");
 	TH2D  * h_btag_eff_c_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_c");
 	TH2D  * h_btag_eff_udsg_temp = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_udsg");
@@ -137,7 +137,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  reader_fastsim_DN = new BTagCalibrationReader(calib_fastsim, BTagEntry::OP_MEDIUM, "fastsim", "down"   ); // sys down
 
 	  // get btag efficiencies
-	  TFile * f_btag_eff_fastsim           = new TFile("btagsf/btageff__SMS-T1bbbb-T1qqqq_fastsim.root");
+	  TFile * f_btag_eff_fastsim           = new TFile("btagsf/btageff__SMS-T1bbbb-T1qqqq_25ns_Moriond17.root");
 	  TH2D  * h_btag_eff_b_fastsim_temp    = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_b"  );
 	  TH2D  * h_btag_eff_c_fastsim_temp    = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_c"  );
 	  TH2D  * h_btag_eff_udsg_fastsim_temp = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_udsg");
