@@ -2325,10 +2325,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("dR_jj"         , &dR_jj         );
   BabyTree_->Branch("dphi_metj1"    , &dphi_metj1    );
   BabyTree_->Branch("dphi_metj2"    , &dphi_metj2    );
-  BabyTree_->Branch("dphi_metj1_up" , &dphi_metj1_up );
-  BabyTree_->Branch("dphi_metj2_up" , &dphi_metj2_up );
-  BabyTree_->Branch("dphi_metj1_dn" , &dphi_metj1_dn );
-  BabyTree_->Branch("dphi_metj2_dn" , &dphi_metj2_dn );
 
   BabyTree_->Branch("mjj_mindphi_up" , &mjj_mindphi_up );
   BabyTree_->Branch("mjj_up"         , &mjj_up         );
