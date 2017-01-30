@@ -28,8 +28,9 @@ if [ ! -d ${OUTPUT_DIR} ]; then
 fi
 
 echo "Merging files ${UNMERGED_DIR}/${INPUT_NAMES} into ${OUTPUT_DIR}"
-echo "root -l -n -b -q merge_macro.C+(\"${UNMERGED_DIR}\",\"${INPUT_NAMES}\",\"${OUTFILE}\")"
-root -l -n -b -q "merge_macro.C+(\"${UNMERGED_DIR}\",\"${INPUT_NAMES}\",\"${OUTFILE}\")"
+echo "${INPUT_NAMES}" > list_input.txt
+echo "root -l -n -b -q merge_macro.C+(\"${UNMERGED_DIR}\",\"list_input.txt\",\"${OUTFILE}\")"
+root -l -n -b -q "merge_macro.C+(\"${UNMERGED_DIR}\",\"list_input.txt\",\"${OUTFILE}\")"
 
 # Rigorous sweeproot which checks ALL branches for ALL events.
 # If GetEntry() returns -1, then there was an I/O problem, so we will delete it

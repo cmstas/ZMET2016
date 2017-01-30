@@ -10,16 +10,32 @@
 #include <vector>
 #include <string>
 #include <cstring>
+#include <fstream>
+#include <sstream>
 
-void merge_macro(std::string indir, std::string input_files, std::string outfile) {
+std::vector<std::string> split(const std::string &s, char delim) {
+  std::stringstream ss(s);
+  std::string item;
+  std::vector<std::string> tokens;
+  while (std::getline(ss, item, delim)) {
+    tokens.push_back(item);
+  }
+  return tokens;
+}
 
-  //split input list of files input into a vector of files names
+void merge_macro(std::string indir, std::string list_filename, std::string outfile) {
+
+  // read file with comma-separated list of input file names
+  std::cout << "list of input files:" << std::endl;
+  std::ifstream listfile(list_filename.c_str());
   std::vector<std::string> vfiles;
-  char *saveptr;
-  char *tok = std::strtok((char*)input_files.c_str(), ",");
-  while (tok != NULL) {
-    vfiles.push_back(std::string(tok));
-    tok = std::strtok(NULL,",");
+  std::string input;
+  while (std::getline(listfile, input)) {
+    std::vector<std::string> tokens = split(input,',');
+    for (unsigned int iname = 0; iname < tokens.size(); ++iname) {
+      vfiles.push_back(tokens.at(iname));
+      std::cout << tokens.at(iname) << std::endl;
+    }
   }  
   
   // Print user commands
