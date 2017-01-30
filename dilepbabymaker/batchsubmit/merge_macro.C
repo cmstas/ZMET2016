@@ -66,6 +66,7 @@ void merge_macro(std::string indir, std::string list_filename, std::string outfi
       cout << "Error! " << currentFile->GetTitle() << " is corrupt" << endl;
       return;  
     }
+    file->Close();
   }
   cout << "No corrupt files, all good."  << endl;
 
@@ -74,29 +75,35 @@ void merge_macro(std::string indir, std::string list_filename, std::string outfi
   std::cout << "Total events merged: " << chain->GetEntries() << std::endl;
   
   //Then merge 1D hists
-  std::vector <TH1F*> ourHists; 
+  TFile *file = new TFile(outfile.c_str(), "UPDATE"); 
+  std::vector <TH1D*> ourHists; 
   currentFile = 0;
   fileIter.Reset(); 
   //file loop
   while ( (currentFile = (TFile*)fileIter.Next()) ){
-    TFile *file = TFile::Open(currentFile->GetTitle());
+    TFile *currentfile = TFile::Open(currentFile->GetTitle());
     //Hist loop
-    for (auto&& keyAsObj : *file->GetListOfKeys()){
+    for (auto&& keyAsObj : *currentfile->GetListOfKeys()){
       auto key = (TKey*)keyAsObj;
       if (strncmp(key->GetClassName(), "TH1D", 1000) != 0) continue; 
-      TH1F *hist = (TH1F*)key->ReadObj(); 
+      TH1D *hist = (TH1D*)key->ReadObj(); 
       //OurHist loop
       bool foundIt = false;
       for (unsigned int i = 0; i < ourHists.size(); i++){
         if (strncmp(ourHists[i]->GetTitle(), hist->GetTitle(), 1000) == 0){ ourHists[i]->Add(hist); foundIt = true; }
       }
-      if (!foundIt) ourHists.push_back(hist); 
+      if (!foundIt) {
+	file->cd();
+	TH1D* hist_clone = (TH1D*) hist->Clone(hist->GetName()); 
+	ourHists.push_back(hist_clone);
+      }
     }
+    currentfile->Close();
   }
-  cout << ourHists.size() << endl;
-  cout << ourHists[0]->GetBinContent(0) << endl; 
-  
-  TFile *file = new TFile(outfile.c_str(), "UPDATE"); 
+  cout << "Histograms merged: " <<ourHists.size() << endl;
+  if (ourHists.size()) cout << ourHists[0]->GetBinContent(0) << endl; 
+
+  file->cd();
   for (unsigned int i = 0; i < ourHists.size(); i++) ourHists[i]->Write();  
   delete file; 
 
