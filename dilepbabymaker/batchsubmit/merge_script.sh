@@ -61,11 +61,14 @@ echo "[merge_script] running rigorousSweepRoot.py"
 python rigorousSweepRoot.py
 date +%s
 
+pwd
+echo "[merge_script] output is"
+ls
 
 ##
 ## copy file to output
 ##
-gfal-copy -p -f -t 4200 --verbose file:`pwd`/${OUTFILE} srm://bsrm-3.t2.ucsd.edu:8443/srm/v2/server?SFN=${OUTPUT_DIR}/${OUTFILE}
+gfal-copy -p -f -t 4200 --verbose file://`pwd`/${OUTFILE} srm://bsrm-3.t2.ucsd.edu:8443/srm/v2/server?SFN=${OUTPUT_DIR}/${OUTFILE}
 #cp `pwd`/${OUTFILE} ${OUTPUT_DIR}/${OUTFILE}
 
 echo "[merge_script] cleaning up"
