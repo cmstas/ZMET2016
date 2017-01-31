@@ -3050,28 +3050,28 @@ void babyMaker::load_leptonSF_files()
   TFile * f_sfweights = NULL;
   
   // electron reconstruction SFs
-  f_sfweights  = TFile::Open("leptonSFs/electrons/egammaEffi.txt_SF2D.root","READ");
+  f_sfweights  = TFile::Open("leptonSFs/electrons/moriond17/egammaEffi.txt_EGM2D.root","READ");
   h_eleweights_reco = (TH2D*) f_sfweights->Get("EGamma_SF2D") -> Clone("h_eleweights_reco");
   h_eleweights_reco->SetDirectory(rootdir);
   f_sfweights->Close();
 
   // electron ID/Iso SFs for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/electrons/scaleFactors.root","READ");
-  h_eleweights_id = (TH2D*) f_sfweights->Get("GsfElectronToTightID2D3D") -> Clone("h_eleweights_id");
+  f_sfweights  = TFile::Open("leptonSFs/electrons/moriond17/scaleFactors_el_moriond_2017.root","READ");
+  h_eleweights_id = (TH2D*) f_sfweights->Get("GsfElectronToMVATightTightIP2DSIP3D4") -> Clone("h_eleweights_id");
   h_eleweightsiso = (TH2D*) f_sfweights->Get("MVAVLooseElectronToMini")  -> Clone("h_eleweightsiso");
   h_eleweights_id->SetDirectory(rootdir);
   h_eleweightsiso->SetDirectory(rootdir);
   f_sfweights->Close();
 
   // muon id SF for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root","READ");
-  h_muoweights_id = (TH2D*) f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0") -> Clone("h_muoweights_id");
+  f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root","READ");
+  h_muoweights_id = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_id");
   h_muoweights_id	->SetDirectory(rootdir);
   f_sfweights->Close();
 	
   // muon iso SF for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_MiniIsoTight_DENOM_MediumID_VAR_map_pt_eta.root","READ");
-  h_muoweightsiso = (TH2D*) f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_Medium2016_pass") -> Clone("h_muoweightsiso");
+  f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_MiniIsoTight_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+  h_muoweightsiso = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweightsiso");
   h_muoweightsiso	->SetDirectory(rootdir);
   f_sfweights->Close();
 
@@ -3087,8 +3087,8 @@ void babyMaker::load_leptonSF_files()
   // f_sfweights->Close();
 	
   // muon ip SF for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
-  h_muoweights_ip = (TH2D*) f_sfweights->Get("pt_abseta_PLOT_pair_probeMultiplicity_bin0_&_Medium2016_pass") -> Clone("h_muoweights_ip");
+  f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+  h_muoweights_ip = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_ip");
   h_muoweights_ip	->SetDirectory(rootdir);
   f_sfweights->Close();
 	
