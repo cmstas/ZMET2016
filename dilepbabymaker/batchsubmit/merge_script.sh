@@ -36,10 +36,15 @@ root -l -n -b -q "merge_macro.C+(\"${UNMERGED_DIR}\",\"list_input.txt\",\"${OUTF
 # If GetEntry() returns -1, then there was an I/O problem, so we will delete it
 cat > rigorousSweepRoot.py << EOL
 import ROOT as r
-import os
+import os, sys
 
 f1 = r.TFile("${OUTFILE}")
-t = f1.Get("mt2")
+if f1.IsZombie():
+    print "[RSR] removing zombie ${OUTFILE} because it does not deserve to live"
+    os.system("rm ${OUTFILE}")
+    sys.exit()
+
+t = f1.Get("t")
 print "[RSR] ntuple has %i events" % t.GetEntries()
 
 foundBad = False
