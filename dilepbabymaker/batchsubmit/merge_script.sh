@@ -79,4 +79,4 @@ gfal-copy -p -f -t 4200 --verbose file://`pwd`/${OUTFILE} srm://bsrm-3.t2.ucsd.e
 echo "[merge_script] cleaning up"
 for FILE in `find . -not -name "*stderr" -not -name "*stdout"`; do rm -rf $FILE; done
 echo "[merge_script] cleaned up"
-ls
+ls -l
