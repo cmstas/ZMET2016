@@ -551,7 +551,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 				passHLTTriggerPattern("HLT_Mu55_v"        ) );
 
 	  // Double electron
-	  HLT_DoubleEl_noiso = passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"    );
+	  HLT_DoubleEl_noiso = passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v"    ) ||
+	                       passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"    );
 	  HLT_DoubleEl       = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ); // prescaled - turned off
 	  HLT_DoubleEl_DZ    = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // prescaled
 	  HLT_DoubleEl_DZ_2  = passHLTTriggerPattern( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // new
