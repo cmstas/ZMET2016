@@ -48,6 +48,7 @@ private:
   TH2D * h_eleweights_id  ;
   TH2D * h_eleweightsiso  ;
   TH2D * h_eleweights_reco;
+  TH2D * h_eleweights_conv;
 
   TH2D * h_muoweights       ; // FS to Fullsim; ID
   TH2D * h_muoweights_FS_iso; // FS to Fullsim; ISO
@@ -513,6 +514,9 @@ private:
 
   // electron reco efficiency; muon loss due to HIP
   std::vector <Float_t> weightsf_lepreco;
+
+  // electron conv veto efficiency; not used for muons
+  std::vector <Float_t> weightsf_lepconv;
 
   // all electron weights in lepid; muon weights split in three weights  
   std::vector <Float_t> weightsf_lepid_FS;
