@@ -3059,7 +3059,7 @@ void babyMaker::load_leptonSF_files()
 
   // electron ID/Iso SFs for Fullsim to Data
   f_sfweights  = TFile::Open("leptonSFs/electrons/moriond17/scaleFactors_el_moriond_2017.root","READ");
-  h_eleweights_id = (TH2D*) f_sfweights->Get("GsfElectronToMVATightIDEmuTightIP2DSIP3D4") -> Clone("h_eleweights_id");
+  h_eleweights_id = (TH2D*) f_sfweights->Get("GsfElectronToMVATightTightIP2DSIP3D4") -> Clone("h_eleweights_id");
   h_eleweightsiso = (TH2D*) f_sfweights->Get("MVAVLooseElectronToMini")  -> Clone("h_eleweightsiso");
   h_eleweights_conv = (TH2D*) f_sfweights->Get("MVATightElectronToConvVetoIHit0") -> Clone("h_eleweights_conv");
   h_eleweights_id->SetDirectory(rootdir);
