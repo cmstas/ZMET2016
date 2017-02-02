@@ -2,6 +2,7 @@
 
 eval "$1" # Beautiful trick - http://unix.stackexchange.com/a/185467
 
+echo "hostname:" `hostname`
 echo "Args:"
 echo "UNMERGED_DIR: $UNMERGED_DIR"
 echo "INPUT_NAMES: $INPUT_NAMES"
@@ -38,8 +39,10 @@ cat > rigorousSweepRoot.py << EOL
 import ROOT as r
 import os, sys
 
+print "[RSR] inside rigorousSweepRoot"
+
 f1 = r.TFile("${OUTFILE}")
-if f1.IsZombie():
+if not f1 or not f1.IsOpen() or f1.IsZombie():
     print "[RSR] removing zombie ${OUTFILE} because it does not deserve to live"
     os.system("rm ${OUTFILE}")
     sys.exit()
