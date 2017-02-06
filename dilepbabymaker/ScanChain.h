@@ -286,6 +286,7 @@ private:
   std::vector <Float_t>         gamma_hOverE_online;           //[ngamma]
   std::vector <Int_t  >         gamma_idCutBased   ;           //[ngamma]
   std::vector <Int_t  >         gamma_mcMatchId    ;           //[ngamma]
+  std::vector <Float_t>         gamma_genPt        ;           //[ngamma]
   std::vector <Float_t>         gamma_genIso       ;           //[ngamma]
   std::vector <Float_t>         gamma_ecpfclusiso  ;           //[ngamma]
   std::vector <Float_t>         gamma_hcpfclusiso  ;           //[ngamma]

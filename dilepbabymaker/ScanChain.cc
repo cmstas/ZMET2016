@@ -1009,7 +1009,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  }
 		  if (bestMatch != -1) {
   			// 7 is a special code for photons without a mother. this seems to be due to a miniAOD bug where links are broken.
-  			gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : cms3.genps_id().at(bestMatch)); 
+  			gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : cms3.genps_id().at(bestMatch));
+			gamma_genPt.push_back(cms3.genps_id().at(bestMatch) == 22 ? cms3.genps_p4().at(bestMatch).pt() : -1);
   			gamma_genIso.push_back(-1); //cms2.genps_iso().at(bestMatch);
 			gamma_genIsPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(bestMatch));
 			// Now want to look at DR between photon and parton
@@ -1024,6 +1025,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  }
 		  else {
 			gamma_mcMatchId.push_back(0);
+			gamma_genPt.push_back(-1);
 			gamma_genIso.push_back(-1);
 			gamma_genIsPromptFinalState.push_back(-1);
 			gamma_drMinParton.push_back ( -1 );
@@ -2213,6 +2215,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("gamma_phi"          , "std::vector <Float_t>" , &gamma_phi          );
   BabyTree_->Branch("gamma_mass"         , "std::vector <Float_t>" , &gamma_mass         );
   BabyTree_->Branch("gamma_mcMatchId"    , "std::vector <Int_t  >" , &gamma_mcMatchId    );
+  BabyTree_->Branch("gamma_genPt"        , "std::vector <Float_t>" , &gamma_genPt        );
   BabyTree_->Branch("gamma_genIso"       , "std::vector <Float_t>" , &gamma_genIso       );
   BabyTree_->Branch("gamma_chHadIso"     , "std::vector <Float_t>" , &gamma_chHadIso     );
   BabyTree_->Branch("gamma_neuHadIso"    , "std::vector <Float_t>" , &gamma_neuHadIso    );
@@ -2632,6 +2635,7 @@ void babyMaker::InitBabyNtuple () {
   gamma_phi          .clear();   //[ngamma]
   gamma_mass         .clear();   //[ngamma]
   gamma_mcMatchId    .clear();   //[ngamma]
+  gamma_genPt        .clear();   //[ngamma]
   gamma_genIso       .clear();   //[ngamma]
   gamma_chHadIso     .clear();   //[ngamma]
   gamma_neuHadIso    .clear();   //[ngamma]
