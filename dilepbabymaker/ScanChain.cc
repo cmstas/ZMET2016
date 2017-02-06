@@ -107,7 +107,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   
   if (applyBtagSFs) {
 	// setup btag calibration readers
-	calib           = new BTagCalibration("csvv2", "btagsf/CSVv2Moriond17_2017_1_26_BtoH.csv"); // 25s version of SFs
+	calib           = new BTagCalibration("csvv2", "btagsf/CSVv2_Moriond17_B_H.csv"); // Moriond17 version of SFs
 	reader_heavy    = new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "central"); // central
 	reader_heavy_UP = new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "up"     ); // sys up
 	reader_heavy_DN = new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "down"   ); // sys down
