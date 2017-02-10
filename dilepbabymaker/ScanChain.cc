@@ -1347,15 +1347,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  bool jetoverlapswithlepton = false;
 		  for(unsigned int iLep = 0; iLep < p4sLeptonsForJetCleaning.size(); iLep++){
 
-			float minDR = 0.4;
-			for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
-
-			  float thisDR = DeltaR(pfjet_p4_cor.eta(), p4sLeptonsForJetCleaning.at(iLep).eta(), pfjet_p4_cor.phi(), p4sLeptonsForJetCleaning.at(iLep).phi());
-			  if(thisDR < minDR){
-				minDR = thisDR; 
-				jetoverlapswithlepton = true;
-			  }
-			}
+		    float minDR = 0.4;
+		    float thisDR = DeltaR(pfjet_p4_cor.eta(), p4sLeptonsForJetCleaning.at(iLep).eta(), pfjet_p4_cor.phi(), p4sLeptonsForJetCleaning.at(iLep).phi());
+		    if(thisDR < minDR){
+		      minDR = thisDR; 
+		      jetoverlapswithlepton = true;
+		    }
 		  }
 		  
 		  if( jetoverlapswithlepton ) continue;
