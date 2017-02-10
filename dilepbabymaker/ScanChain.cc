@@ -1155,7 +1155,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector < LorentzVector> p4sCorrJets_up; // store corrected p4 for ALL jets, so indices match CMS3 ntuple
       vector < LorentzVector> p4sCorrJets_dn; // store corrected p4 for ALL jets, so indices match CMS3 ntuple
       vector < double       > jet_corrfactor; // store correction for ALL jets, and indices match CMS3 ntuple
-      vector < int          > passJets; //index of jets that pass baseline selections
+      vector < std::pair<int,float> > passJets; //index of jets that pass baseline selections with their corrected pt
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
       vector < double       > jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
 
@@ -1211,8 +1211,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		//  chance for small discrepancies if JEC changes direction slightly..
         if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan) continue;
 		if( isSMSScan && isBadFastsimJet(iJet) ) continue;
-		passJets.push_back(iJet);
+		passJets.push_back(std::pair<int,float>(iJet, pfjet_p4_cor.pt()));
       }
+
+      // sort passing jets by corrected pt
+      std::sort(passJets.begin(), passJets.end(), sortByValue);
 
 	  if (verbose) cout << "before jet/photon requirements" << endl;
  	  //matched to pfJet with pT > 10 GeV, within cone of dR < 0.3. neutral EM energy fraction > 0.7
@@ -1224,7 +1227,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
  		for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
  	
  		  // int iJet = passJets.at(passIdx);
- 		  int iJet = passJets.at(passIdx);
+ 		  int iJet = passJets.at(passIdx).first;
  
  		  if(p4sCorrJets.at(iJet).pt() < 10.0       ) continue;
  		  if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2 ) continue;
@@ -1280,7 +1283,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         int minIndex = -1;
         for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
 
-          int iJet = passJets.at(passIdx);
+          int iJet = passJets.at(passIdx).first;
 
           if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
 					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
@@ -1379,7 +1382,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         int minIndex = -1;
         for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
 
-          int iJet = passJets.at(passIdx);
+          int iJet = passJets.at(passIdx).first;
 
           if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
 					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
@@ -1437,7 +1440,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //now fill variables for jets that pass baseline selections and don't overlap with a lepton
       for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){
 
-        int iJet = passJets.at(passIdx);
+        int iJet = passJets.at(passIdx).first;
 
         //check against list of jets that overlap with a lepton
         bool isOverlapJet = false;
