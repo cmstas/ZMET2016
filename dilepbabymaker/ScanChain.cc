@@ -103,7 +103,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   cout<<"Setting grl: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
-  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
+  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
   
   if (applyBtagSFs) {
 	// setup btag calibration readers
@@ -174,23 +174,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 	cout<<"issmsscan"<<endl;
 	
-	if( TString(baby_name).Contains("tchihz") ){
-	  f_susyxsecs = TFile::Open("xsec_higgsino.root","READ");
-	  h_susyxsecs = (TH1F*)f_susyxsecs->Get("xsec_hist"  )->Clone("h_susyxsecs");
-	}else{
-	  f_susyxsecs = TFile::Open("xsec_susy_13tev.root","READ");
-	  if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
-	  if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
-	}
+	f_susyxsecs = TFile::Open("xsec_susy_13tev.root","READ");
+	if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
+	else if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
+	else if( TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_higgsino"  )->Clone("h_susyxsecs");
 
 	h_susyxsecs->SetDirectory(rootdir);
 	f_susyxsecs->Close();
 
-	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_entries_V08-00-05_FS.root","READ");
-	if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("T5ZZ_entries.root"               ,"READ");
-	if( TString(baby_name).Contains("tchihz") ) f_eventcounts = TFile::Open("TChiHZ_HToBB_ZToLL.root"         ,"READ");
+	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_ZToLL_entries.root","READ");
+	else if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("T5ZZ_entries.root"               ,"READ");
+	else if( TString(baby_name).Contains("tchihz") ) f_eventcounts = TFile::Open("TChiHZ_HToBB_ZToLL_entries.root" ,"READ");
+	else if( TString(baby_name).Contains("tchizz") ) f_eventcounts = TFile::Open("TChiZZ_ZToLL_entries.root","READ");
 
-	if(TString(baby_name).Contains("tchihz")) {
+	if(TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz")) {
 		h_eventcounts_1d = (TH1D*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
 		h_eventcounts_1d->SetDirectory(rootdir);
 	}
@@ -200,7 +197,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	}
 
 	h_eventcounts = (TH2F*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
-	
 
 	h_eventcounts->SetDirectory(rootdir);
 	f_eventcounts->Close();
@@ -447,7 +443,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       if (cms3_version.Contains("V08-00") && small_cms3_version <= 12) recent_cms3_version = false;
       
 	  if( isSMSScan ){
-		if (currentFileName.Contains("SMS-TChiHZ")){
+		if (currentFileName.Contains("SMS-TChiHZ") || currentFileName.Contains("SMS-TChiZZ")){
 		  mass_chi = cms3.sparm_values().at(0);
 		  evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
 		}
@@ -458,8 +454,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		}
 
 		if( currentFileName.Contains("SMS-T5ZZ"  ) ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
-		if( currentFileName.Contains("SMS-TChiWZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
-		if( currentFileName.Contains("SMS-TChiHZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
+		else if( currentFileName.Contains("SMS-TChiWZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
+		else if( currentFileName.Contains("SMS-TChiHZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
+		else if( currentFileName.Contains("SMS-TChiZZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.19175);// BF for at least 1 Z to two leps
 
 		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
