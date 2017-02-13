@@ -16,7 +16,7 @@ void getTotalEventsSUSY_mt2way()
   // ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-1200To1350_mLSP-100To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-12_FS/merged_ntuple_*.root");
   // ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-1400To1550_mLSP-100To1400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-12_FS/merged_ntuple_*.root");
 
-  ch->Add("/hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2_fastsim/SMS-T5ZZ_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/V08-00-05/merged_ntuple_*.root");
+  ch->Add("/hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2_fastsim/SMS-T5ZZ_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/V08-00-09/merged_ntuple_*.root");
   ch->Add("/hadoop/cms/store/group/snt/run2_moriond17_fastsim/SMS-T5ZZ_mGluino-1850to2100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/V08-00-09/merged_ntuple_*.root");
 
   //  ch->Add("/hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2_fastsim/SMS-TChiWZ_ZToLL_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v2/V08-00-09/merged_ntuple_*.root"); 
