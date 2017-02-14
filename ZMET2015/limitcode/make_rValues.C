@@ -22,9 +22,9 @@ void make_rValues(std::string model, int m1, int m2){
   TFile *f_temp = new TFile(Form("r-values_%s.root", model.c_str()), "NEW");
   if(f_temp){
     // default case: T5ZZ binning
-    int m1_max = 1925;
-    int m1_min = 575;
-    int m2_max = 1925;
+    int m1_max = 2125;
+    int m1_min = 775;
+    int m2_max = 2025;
     int m2_min = 75;
     int m1_div = 50;
     int m2_div = 50;
