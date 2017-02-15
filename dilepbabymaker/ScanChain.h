@@ -11,6 +11,7 @@
 #include "TChain.h"
 #include "TTree.h"
 #include "TH2.h"
+#include "TString.h"
 
 #include "Math/LorentzVector.h"
 #include "Math/GenVector/LorentzVector.h"
@@ -101,6 +102,7 @@ private:
   Float_t         evt_filter;
   Int_t           evt_nEvts;
   Int_t           evt_id;
+  std::vector<TString>   evt_dataset; // needs to be vector<TString> due to root technicality
   Float_t         puWeight;
   Int_t           nVert;
   Int_t           nTrueInt;

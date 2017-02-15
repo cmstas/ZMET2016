@@ -419,6 +419,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       lumi   = cms3.evt_lumiBlock();
       evt    = cms3.evt_event();
       isData = cms3.evt_isRealData();
+      if (cms3.evt_dataset().size() > 0) evt_dataset.push_back(cms3.evt_dataset().at(0));
 
       // set jet corrector based on run number for data
       if (isData && run >= 278802 && run <= 278808) {
@@ -2044,6 +2045,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("evt_kfactor", &evt_kfactor );
   BabyTree_->Branch("evt_filter", &evt_filter );
   BabyTree_->Branch("evt_nEvts", &evt_nEvts );
+  BabyTree_->Branch("evt_dataset", "std::vector <TString>", &evt_dataset);
   BabyTree_->Branch("puWeight", &puWeight );
   BabyTree_->Branch("nVert", &nVert );
   BabyTree_->Branch("nTrueInt", &nTrueInt );
@@ -2464,6 +2466,7 @@ void babyMaker::InitBabyNtuple () {
   evt_filter = -999.0;
   evt_nEvts = 0;
   //evt_id = -1; // don't reset every event
+  evt_dataset.clear();
   puWeight = -999.0;
   nVert = -999;
   nTrueInt = -999;
