@@ -269,6 +269,8 @@ private:
   
   Int_t nisoTrack_5gev;
   Int_t nisoTrack_mt2 ;
+  Int_t nisoTrack_PFLep5_woverlaps ;
+  Int_t nisoTrack_PFHad10_woverlaps ;
 
   //----- PHOTONS
   Int_t           ngamma;

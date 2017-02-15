@@ -1876,6 +1876,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 	  nisoTrack_5gev = 0;
 	  nisoTrack_mt2  = 0;
+	  nisoTrack_PFLep5_woverlaps  = 0;
+	  nisoTrack_PFHad10_woverlaps = 0;
 	  nhighPtPFcands = 0;
 
 	  for( size_t pfind = 0; pfind < cms3.pfcands_p4().size(); pfind++ ){
@@ -1933,8 +1935,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		// isotrack a la MT2
         int  pdgId = abs( cms3.pfcands_particleId().at( pfind ) );
 
+		bool leptonoverlaps = false;
 		if( evt_type != 2 ){
-		  bool leptonoverlaps = false;
 		  for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
 			if( lepind >= 2 ) break;
 			if( sqrt( pow(cms3.pfcands_p4().at(pfind).eta() - lep_p4.at(lepind).eta(), 2) +
@@ -1942,18 +1944,19 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 			  leptonoverlaps = true;
 			}
 		  }
-		  if( leptonoverlaps ) continue;
 		}
 		
 		if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) && (absiso/cand_pt < 0.2) ){
-		  nisoTrack_mt2++;
+		  nisoTrack_PFLep5_woverlaps++;
+		  if( !leptonoverlaps ) nisoTrack_mt2++;
 		}
 		
 		if( cand_pt > 10. && pdgId == 211 && (absiso/cand_pt < 0.1 ) ){ 
-		  nisoTrack_mt2++;
+		  nisoTrack_PFHad10_woverlaps++;
+		  if( !leptonoverlaps ) nisoTrack_mt2++;
 		}
 		
-	  }
+	  } // loop over pfcands
 	  
 	  chpfcands_0013_pt = chpfcands_0013_p4.pt();
 	  chpfcands_1316_pt = chpfcands_1316_p4.pt();
@@ -2204,6 +2207,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("nisoTrack_5gev" , &nisoTrack_5gev );
   BabyTree_->Branch("nisoTrack_mt2"  , &nisoTrack_mt2  );
+  BabyTree_->Branch("nisoTrack_PFLep5_woverlaps"  , &nisoTrack_PFLep5_woverlaps  );
+  BabyTree_->Branch("nisoTrack_PFHad10_woverlaps" , &nisoTrack_PFHad10_woverlaps );
 
   BabyTree_->Branch("ngamma"             , &ngamma        , "ngamma/I" );
   BabyTree_->Branch("gamma_p4"           , &gamma_p4    );
@@ -2624,6 +2629,8 @@ void babyMaker::InitBabyNtuple () {
   
   nisoTrack_5gev = -1;
   nisoTrack_mt2  = -1;
+  nisoTrack_PFLep5_woverlaps  = -1;
+  nisoTrack_PFHad10_woverlaps = -1;
 
   ngamma = -999;
   gamma_p4           .clear();   //[ngamma]
