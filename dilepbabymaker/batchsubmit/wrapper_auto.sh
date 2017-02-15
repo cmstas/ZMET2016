@@ -106,7 +106,7 @@ import ROOT as r
 import os, sys
 
 f1 = r.TFile("output.root")
-if f1.IsZombie():
+if not f1 or not f1.IsOpen() or f1.IsZombie():
     print "[RSR] removing zombie output.root because it does not deserve to live"
     os.system("rm output.root")
     sys.exit()
