@@ -2517,6 +2517,8 @@ void babyMaker::InitBabyNtuple () {
 
   Flag_badMuonFilter              = -999;
   Flag_badChargedCandidateFilter  = -999;
+  Flag_badMuonFilterv2              = -999;
+  Flag_badChargedCandidateFilterv2  = -999;
   Flag_globalTightHalo2016        = -999;
 
   //TRIGGER
