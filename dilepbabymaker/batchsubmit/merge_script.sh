@@ -48,6 +48,11 @@ if not f1 or not f1.IsOpen() or f1.IsZombie():
     sys.exit()
 
 t = f1.Get("t")
+if not t:
+    print "[RSR] removing ${OUTFILE} due to missing tree"
+    os.system("rm ${OUTFILE}")
+    sys.exit()
+
 print "[RSR] ntuple has %i events" % t.GetEntries()
 
 foundBad = False
