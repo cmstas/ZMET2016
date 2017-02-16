@@ -1273,12 +1273,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       if (verbose) cout << "before jet/lepton overlap" << endl;
 
       //check overlapping with leptons
-      //only want to remove the closest jet to a lepton, threshold deltaR < 0.4
+      //remove ALL jets within dR < 0.4 of an analysis lepton with pt > 20
       vector<int> removedJets; //index of jets to be removed because they overlap with a lepton
       for(unsigned int iLep = 0; iLep < p4sLeptonsForJetCleaning.size(); iLep++){
 
-        float minDR = 0.4;
-        int minIndex = -1;
+        const float maxDR = 0.4;
         for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
 
           int iJet = passJets.at(passIdx).first;
@@ -1299,12 +1298,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if(alreadyRemoved) continue;
 
           float thisDR = DeltaR(p4sCorrJets.at(iJet).eta(), p4sLeptonsForJetCleaning.at(iLep).eta(), p4sCorrJets.at(iJet).phi(), p4sLeptonsForJetCleaning.at(iLep).phi());
-          if(thisDR < minDR){
-            minDR = thisDR; 
-            minIndex = iJet;
+          if(thisDR < maxDR){
+	    removedJets.push_back(iJet);
           }
         }
-        removedJets.push_back(minIndex);
       }
 
 	  if (verbose) cout << "before isr weight loop over jets" << endl;
