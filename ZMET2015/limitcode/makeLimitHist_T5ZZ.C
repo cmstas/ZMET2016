@@ -58,7 +58,7 @@ int makeLimitHist_T5ZZ()
 
   TH2F * contourplot = dynamic_cast<TH2F*>(massplane->Clone("contourplot"));
 
-  massplane_xsec->GetXaxis()->SetRangeUser(1025,1725);
+  massplane_xsec->GetXaxis()->SetRangeUser(1025,2125);
   // massplane_xsec->GetYaxis()->SetRangeUser(125,1925);
 
   massplane_xsec->GetXaxis()->SetLabelSize(0.035);
@@ -81,8 +81,7 @@ int makeLimitHist_T5ZZ()
   padt->SetLogz();
 
   //edit here
-  massplane_xsec->GetYaxis()->SetRangeUser(125,1725);
-  massplane_xsec->GetYaxis()->SetRangeUser(125,1925);
+  massplane_xsec->GetYaxis()->SetRangeUser(75,2125);
   massplane_xsec->Draw("colz");
 
   contourplot->SetContour(1, contours);
@@ -315,31 +314,31 @@ int makeLimitHist_T5ZZ()
   // gStyle->SetPaintTextFormat("1.1f");
   // massplane_obs->Draw("sametext");
   
-  TLine * diag_0 = new TLine(1025,1035,1675,1685);
+  TLine * diag_0 = new TLine(1025,1035,2075,2085);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
-  diag_0 = new TLine(1025,1055,1675,1705);
+  diag_0 = new TLine(1025,1055,2075,2105);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
-  diag_0 = new TLine(1025,1075,1675,1725);
+  diag_0 = new TLine(1025,1075,2075,2125);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
-  diag_0 = new TLine(1025,1095,1675,1745);
+  diag_0 = new TLine(1025,1095,2075,2145);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
-  diag_0 = new TLine(1025,1115,1675,1765);
+  diag_0 = new TLine(1025,1115,2075,2165);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
@@ -347,7 +346,7 @@ int makeLimitHist_T5ZZ()
 
   padt->RedrawAxis();
 
-  TBox * box = new TBox(1025,1500,1725,1925);
+  TBox * box = new TBox(1025,1700,2125,2125);
   box->SetFillColor(kWhite);
   box->Draw("same");
 
@@ -362,25 +361,25 @@ int makeLimitHist_T5ZZ()
   l1->AddEntry(massplane_obs , "Observed limit, #pm 1 #sigma_{theory}"            , "l");
   l1->Draw("same");
 
-  TLine * top_margin = new TLine(1025,1925,1725,1925);
+  TLine * top_margin = new TLine(1025,2125,2125,2125);
   top_margin->SetLineWidth(4);
   top_margin->SetLineColor(kBlack);
   top_margin->SetLineStyle(1);
   top_margin->Draw("same");
 
-  TLine * bot_margin = new TLine(1025,1500,1725,1500);
+  TLine * bot_margin = new TLine(1025,1700,2125,1700);
   bot_margin->SetLineWidth(4);
   bot_margin->SetLineColor(kBlack);
   bot_margin->SetLineStyle(1);
   bot_margin->Draw("same");
 
-  TLine * lef_margin = new TLine(1025,1500,1025,1925);
+  TLine * lef_margin = new TLine(1025,1700,1025,2125);
   lef_margin->SetLineWidth(4);
   lef_margin->SetLineColor(kBlack);
   lef_margin->SetLineStyle(1);
   lef_margin->Draw("same");
 
-  TLine * rig_margin = new TLine(1725,1500,1725,1925);
+  TLine * rig_margin = new TLine(2125,1700,2125,2125);
   rig_margin->SetLineWidth(4);
   rig_margin->SetLineColor(kBlack);
   rig_margin->SetLineStyle(1);
@@ -411,7 +410,7 @@ int makeLimitHist_T5ZZ()
 
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.575,0.94, "12.9 fb^{-1} (13 TeV)" );    
+  cmstex = new TLatex(0.575,0.94, "36.8 fb^{-1} (13 TeV)" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.04);    
   cmstex->SetLineWidth(2);
