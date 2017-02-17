@@ -34,9 +34,9 @@ void make_allRValues(std::string model, std::string list_filename){
   TFile *f = new TFile(outfilename, "RECREATE");
   
   // default case: T5ZZ binning
-  double m1_max = 1925;
-  double m1_min = 575;
-  double m2_max = 1925;
+  double m1_max = 2125;
+  double m1_min = 1025;
+  double m2_max = 2125;
   double m2_min = 75;
   int m1_div = 50;
   int m2_div = 50;
@@ -119,6 +119,8 @@ void make_allRValues(std::string model, std::string list_filename){
     double m1 = std::stod(tokens[2]);
     std::vector<std::string> tokens2 = split(tokens[3],'.');
     double m2 = std::stod(tokens2[0]);
+
+    if (m1 < m1_min || m2 < m2_min) continue;
   
     f->cd();
 
