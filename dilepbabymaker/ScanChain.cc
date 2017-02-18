@@ -785,7 +785,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       nElectrons10 = 0;
 	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
 
-		if( passElectronSelection_ZMET_thirdlepton_v1( iEl, false, false ) ){
+		if( passElectronSelection_ZMET_thirdlepton_v2( iEl, false, false ) ){
 		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
 			nveto_leptons++;
 		  }
