@@ -5,8 +5,8 @@
 
 # to be run from a clean environment
 
-source /code/osgcode/cmssoft/cmsset_default.sh  > /dev/null 2>&1
-export SCRAM_ARCH=slc6_amd64_gcc481
+#source /code/osgcode/cmssoft/cmsset_default.sh  > /dev/null 2>&1
+#export SCRAM_ARCH=slc6_amd64_gcc481
 cmsrel CMSSW_7_1_5
 cd CMSSW_7_1_5/src/
 cmsenv

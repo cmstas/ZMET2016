@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# MODEL=T5ZZ
-# INDIR=~/analysis/CMSSW_8_0_11/V08-11-00/ZMET2015/interpretations/datacards/
-# MINMASS=950
+MODEL=T5ZZ
+INDIR=/home/users/bhashemi/Projects/GIT/ZMETBabyLooper2017/SMSScans/DataCards/
+MINMASS=800
 
-MODEL=TChiWZ
-INDIR=~/analysis/CMSSW_8_0_11/V08-11-00/ZMET2015/interpretations_ewk/datacards/
-MINMASS=100
+#MODEL=TChiWZ
+#INDIR=~/analysis/CMSSW_8_0_11/V08-11-00/ZMET2015/interpretations_ewk/datacards/
+#MINMASS=100
 
 OUTDIR=limits_$MODEL
 OWD=`pwd`
 
-declare -a cards=(`ls ${INDIR}/datacard*.txt`)
+declare -a cards=(`ls ${INDIR}/datacard_mG*.txt`)
 
 # #need to combine cards from multiple signal regions if necessary
 # for i in "${cards[@]}"

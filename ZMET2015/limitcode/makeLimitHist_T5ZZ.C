@@ -213,7 +213,7 @@ int makeLimitHist_T5ZZ()
   }
 
   vector<double> vlim(vxsec.size());
-  for(size_t i = 0; i < vxsec.size(); ++i){
+  for(int i = 0; i < vxsec.size(); ++i){
     vlim.at(i) = vxsec.at(i) * vobs.at(i);
     // vlim.at(i) = vxsec.at(i) * vobs.at(i)*(7.65)*(0.19175);
   }
