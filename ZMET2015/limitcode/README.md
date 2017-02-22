@@ -17,7 +17,7 @@ From this directory, with a clean environment:
 ``` bash
 screen
 source /code/osgcode/cmssoft/cmsset_default.sh
-cd CMSSW_7_1_5/src
+cd CMSSW_7_4_7/src
 cmsenv
 cd ../..
 source doLimits.sh

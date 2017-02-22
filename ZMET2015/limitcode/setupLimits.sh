@@ -1,21 +1,20 @@
 #! /bin/bash
 
 # Instructions to run limit code taken from:
-# https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT5_SLC6_release_CMSSW_7_1_X
+# https://twiki.cern.ch/twiki/bin/viewauth/CMS/SWGuideHiggsAnalysisCombinedLimit#ROOT6_SLC6_release_CMSSW_7_4_X
 
 # to be run from a clean environment
 
 #source /code/osgcode/cmssoft/cmsset_default.sh  > /dev/null 2>&1
 #export SCRAM_ARCH=slc6_amd64_gcc481
-cmsrel CMSSW_7_1_5
-cd CMSSW_7_1_5/src/
+cmsrel CMSSW_7_4_7
+cd CMSSW_7_4_7/src 
 cmsenv
 
 git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 cd HiggsAnalysis/CombinedLimit
 git fetch origin
-git checkout v5.0.4
-#git checkout v5.0.1 ## if problems with release above
+git checkout v6.3.1
 scramv1 b clean; scramv1 b -j8
 
 didcompile=$?
