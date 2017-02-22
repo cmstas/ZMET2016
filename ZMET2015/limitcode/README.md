@@ -30,3 +30,11 @@ To plot them in the standard CMS style, use the relevant script from this direct
 ``` bash
 root -b -q makeLimitHist_T5ZZ.C
 ```
+
+## Making covariance matrix
+
+Follow the descriptions on this twiki, in particular for "Control regions NOT included in datacard":
+
+https://twiki.cern.ch/twiki/bin/view/CMS/SimplifiedLikelihood#Producing_covariance_for_recasti
+
+Make sure you have an up-to-date version of the combine tool, as stated there.  We make one covariance matrix for all the strong regions, and one covariance matrix for all of the electroweak regions.
