@@ -94,6 +94,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   // createAndInitMVA("MVAinput", true); // for electrons
   createAndInitMVA("MVAinput", true, false, 80); // for electrons
 
+  // SimPa class for simulating photon decay
+  SimPa simpa;
+
   MakeBabyNtuple( Form("%s.root", baby_name.c_str()) );
 
   load_leptonSF_files();
@@ -420,6 +423,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       evt    = cms3.evt_event();
       isData = cms3.evt_isRealData();
       if (cms3.evt_dataset().size() > 0) evt_dataset.push_back(cms3.evt_dataset().at(0));
+
+      // set random seed on first event of each input file for SimPa
+      if (event == 0) simpa.SetSeed(evt);
 
       // set jet corrector based on run number for data
       if (isData && run >= 278802 && run <= 278808) {
@@ -1080,8 +1086,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  }
 	  
 	  // add selections to keep only events with photons and dilepton events
-	  if( !(ngamma > 0 || nlep > 0) ) continue;// fix for not iso study
-       
+	  if( !(ngamma > 0 || nlep > 0) ) {
+	    simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
+	    continue;// fix for not iso study
+	  }
 		// std::pair <int, int> hyp_indices =  getHypLepIndices( lep_p4, lep_pdgId );
 	  std::pair <int, int> hyp_indices = std::make_pair(0, 1);
 		
@@ -1098,6 +1106,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 				   (abs(lep_pdgId.at(hyp_indices.first)) == 13 && abs(lep_pdgId.at(hyp_indices.second)) == 11) ){ hyp_type = 2;// em event
 		}else {
 		  cout<<"Leptype not ee, mm, or em! Exiting."<<endl;
+		  simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
 		  continue;
 		}
 
@@ -1113,6 +1122,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		evt_type = 2; // photon + jets event
 		
 	  }else{
+	        simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
 		continue; // leftovers
 	  }
 
@@ -1123,7 +1133,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 						   lep_p4.at(hyp_indices.first).E()+lep_p4.at(hyp_indices.second).E());
 
 		//start from here
-		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = returnDecayProducts( z_pt );
+		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( z_pt );
 		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
 		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
 		decayedphoton_bosn_p4 =
@@ -1135,7 +1145,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  
 	  else if(ngamma>0){
 		//start from here
-		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = returnDecayProducts( gamma_p4.at(0) );
+		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( gamma_p4.at(0) );
 		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
 		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
 		decayedphoton_bosn_p4 =
