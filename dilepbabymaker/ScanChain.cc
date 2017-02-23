@@ -1706,6 +1706,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		mt2    = MT2( met_T1CHS_miniAOD_CORE_pt   , met_T1CHS_miniAOD_CORE_phi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
 		mt2_up = MT2( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
 		mt2_dn = MT2( met_T1CHS_miniAOD_CORE_dn_pt, met_T1CHS_miniAOD_CORE_dn_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
+		mt2_genmet = MT2( met_genPt   , met_genPhi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
  	
  		if( jets_p4.size() > 1 ){
  		  mt2j = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_p4, 0.0 );
@@ -1713,6 +1714,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 		if( jets_medb_p4.size() > 1 ){
  		  mt2b = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
+ 		  mt2b_genmet = MT2J( met_genPt, met_genPhi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
 		}		
 		if( jets_medb_up_p4.size() > 1 ){
  		  mt2b_up = MT2J( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_up_p4, 0.0 );
@@ -1805,6 +1807,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_phi));
 		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_phi));
+		dphi_genmetj1 = acos(cos(jets_p4.at(0).phi() - met_genPhi));
+		dphi_genmetj2 = acos(cos(jets_p4.at(1).phi() - met_genPhi));
 
 		if( jets_medb_p4.size() > 1 ){
 		  mbb_bpt = (jets_medb_p4.at(0) + jets_medb_p4.at(1)).mass();
@@ -2379,6 +2383,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("mt2b"    , &mt2b    );
   BabyTree_->Branch("mt2b_up" , &mt2b_up );
   BabyTree_->Branch("mt2b_dn" , &mt2b_dn );
+  BabyTree_->Branch("mt2_genmet"     , &mt2_genmet     );
+  BabyTree_->Branch("mt2b_genmet"    , &mt2b_genmet    );
 
   BabyTree_->Branch("mjj_mindphi"   , &mjj_mindphi   );
   BabyTree_->Branch("mjj"           , &mjj           );
@@ -2391,6 +2397,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("dR_jj"         , &dR_jj         );
   BabyTree_->Branch("dphi_metj1"    , &dphi_metj1    );
   BabyTree_->Branch("dphi_metj2"    , &dphi_metj2    );
+  BabyTree_->Branch("dphi_genmetj1" , &dphi_genmetj1 );
+  BabyTree_->Branch("dphi_genmetj2" , &dphi_genmetj2 );
 
   BabyTree_->Branch("mjj_mindphi_up" , &mjj_mindphi_up );
   BabyTree_->Branch("mjj_up"         , &mjj_up         );
@@ -2805,6 +2813,8 @@ void babyMaker::InitBabyNtuple () {
   mt2b     = -999.0;
   mt2b_up  = -999.0;
   mt2b_dn  = -999.0;
+  mt2_genmet      = -999.0;
+  mt2b_genmet     = -999.0;
 
   mjj_mindphi = -999.0;
   mjj         = -999.0;
@@ -2817,6 +2827,8 @@ void babyMaker::InitBabyNtuple () {
   dR_jj       = -999.0;  
   dphi_metj1  = -999.0;
   dphi_metj2  = -999.0;
+  dphi_genmetj1  = -999.0;
+  dphi_genmetj2  = -999.0;
 
   mjj_mindphi_up = -999.0;
   mjj_up         = -999.0;

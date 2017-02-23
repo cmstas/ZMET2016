@@ -392,6 +392,8 @@ private:
   Float_t         mt2b; // b-jets only
   Float_t         mt2b_up; // b-jets only
   Float_t         mt2b_dn; // b-jets only
+  Float_t         mt2_genmet; // only leptons
+  Float_t         mt2b_genmet; // b-jets only
 
   Float_t         mjj_mindphi;
   Float_t         mjj;
@@ -404,6 +406,8 @@ private:
   Float_t         dR_jj;
   Float_t         dphi_metj1;
   Float_t         dphi_metj2;
+  Float_t         dphi_genmetj1;
+  Float_t         dphi_genmetj2;
 
   Float_t         mjj_mindphi_up;
   Float_t         mjj_up;
