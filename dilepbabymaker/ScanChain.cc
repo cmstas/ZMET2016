@@ -534,6 +534,32 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       met_rawPhi   = cms3.evt_pfmetPhi_raw();
       sumet_raw    = cms3.evt_pfsumet_raw();
 
+      // //recalculate rawMET
+      pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, true);
+      met_T1CHS_fromCORE_pt  = newMET.first;
+      met_T1CHS_fromCORE_phi = newMET.second;
+	  
+      // met with no unc
+      pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current);
+      met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
+      met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
+
+      metsig_unofficial = met_T1CHS_miniAOD_CORE_pt / sqrt(ht);
+	  
+      // met with up unc
+      pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 1);
+      met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
+      met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
+
+      metsig_unofficial_up = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
+
+      // met with dn unc
+      pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 0);
+      met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
+      met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
+
+      metsig_unofficial_dn = met_T1CHS_miniAOD_CORE_dn_pt / sqrt(ht_dn);
+       	  
       //cout<<__LINE__<<endl;
 
       // MET FILTERS
@@ -1517,7 +1543,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 		  // ad-hoc filter:
 		  //  check for jets with pt > 200, mufrac > 0.5, dphi(jet,MET) > pi - 0.4
-		  if ( (p4sCorrJets.at(iJet).pt() > 200.0) && (current_muf_val > 0.5) && (DeltaPhi(p4sCorrJets.at(iJet).phi(),met_phi) > TMath::Pi() - 0.4) ) {
+		  if ( (p4sCorrJets.at(iJet).pt() > 200.0) && (current_muf_val > 0.5) && (DeltaPhi(p4sCorrJets.at(iJet).phi(),met_T1CHS_miniAOD_CORE_phi) > TMath::Pi() - 0.4) ) {
 		    ++nJet200MuFrac50DphiMet;
 		  }
 
@@ -1655,32 +1681,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		weight_btagsf_light_DN = btagprob_light_DN / btagprob_mc;
 	  }
 	  
-	  // //recalculate rawMET
-	  pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, true);
-	  met_T1CHS_fromCORE_pt  = newMET.first;
-	  met_T1CHS_fromCORE_phi = newMET.second;
-	  
-	  // met with no unc
-	  pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current);
-	  met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
-	  met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
-
-	  metsig_unofficial = met_T1CHS_miniAOD_CORE_pt / sqrt(ht);
-	  
-	  // met with up unc
-	  pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 1);
-	  met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
-	  met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
-
-	  metsig_unofficial_up = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
-
-	  // met with dn unc
-	  pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 0);
-	  met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
-	  met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
-
-	  metsig_unofficial_dn = met_T1CHS_miniAOD_CORE_dn_pt / sqrt(ht_dn);
-       	  
 	  if( nlep > 0 ) mt_lep1 = MT(lep_pt.at(0), lep_phi.at(0), met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi);
 		
 	  decayedphoton_mt2 = 0;
