@@ -127,6 +127,7 @@ private:
   Int_t           nBadMuons20;
   Int_t           nElectrons10;
   Int_t           nGammas20;
+  Int_t           nTaus20;
 
   Float_t         gen_ht;
 

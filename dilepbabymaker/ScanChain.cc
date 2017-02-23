@@ -2024,6 +2024,30 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  nupfcands_2430_phi = nupfcands_2430_p4.phi();
 	  nupfcands_30in_phi = nupfcands_30in_p4.phi();	  
 
+      //TAUS
+      // selection here is the multilepton Tight selection, to preserve orthogonality with them
+      // we don't apply their dxy, dz cuts since we don't have the vars.  That makes us looser than them anyway
+      nTaus20 = 0;
+      for(unsigned int iTau = 0; iTau < cms3.taus_pf_p4().size(); iTau++){
+        if(cms3.taus_pf_p4().at(iTau).pt() < 20.0) continue; 
+        if(fabs(cms3.taus_pf_p4().at(iTau).eta()) > 2.3) continue; 
+        if (!cms3.passTauID("byTightIsolationMVArun2v1DBoldDMwLT", iTau)) continue; // HPS, Tight MVA iso
+        if (!cms3.passTauID("againstElectronLooseMVA6", iTau)) continue; // electron removal
+
+	// check for overlap with analysis leptons
+	bool leptonoverlaps = false;
+	for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
+	  if( sqrt( pow(cms3.taus_pf_p4().at(iTau).eta() - lep_p4.at(lepind).eta(), 2) +
+		    pow(acos(cos(cms3.taus_pf_p4().at(iTau).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.4 ){
+	    leptonoverlaps = true;
+	    break;
+	  }
+	}
+	if (leptonoverlaps) continue;
+	
+	nTaus20++;
+      }
+	  
       FillBabyNtuple();
 
 	}//end loop on events in a file
@@ -2105,6 +2129,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nBadMuons20", &nBadMuons20 );
   BabyTree_->Branch("nElectrons10", &nElectrons10 );
   BabyTree_->Branch("nGammas20", &nGammas20 );
+  BabyTree_->Branch("nTaus20", &nTaus20 );
 
   BabyTree_->Branch("met_pt"      , &met_pt       );
   BabyTree_->Branch("met_phi"     , &met_phi      );
@@ -2523,6 +2548,7 @@ void babyMaker::InitBabyNtuple () {
   nBadMuons20 = -999;
   nElectrons10 = -999;
   nGammas20 = -999;
+  nTaus20 = -999;
 
   gen_ht = -999.0;
 
