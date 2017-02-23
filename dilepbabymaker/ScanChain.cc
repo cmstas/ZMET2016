@@ -460,19 +460,40 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
 		}
 
-		if( currentFileName.Contains("SMS-T5ZZ"  ) ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
-		else if( currentFileName.Contains("SMS-TChiWZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
-		else if( currentFileName.Contains("SMS-TChiHZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
-		else if( currentFileName.Contains("SMS-TChiZZ") ) evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.19175);// BF for at least 1 Z to two leps
+		std::vector<int> produced_particles;
+
+		if( currentFileName.Contains("SMS-T5ZZ"  ) ) {
+		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
+		  produced_particles.push_back(1000021); // gluino
+		}
+		else if( currentFileName.Contains("SMS-TChiWZ") ) {
+		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
+		  produced_particles.push_back(1000024); // chargino1
+		  produced_particles.push_back(1000023); // neutralino2
+		}
+		else if( currentFileName.Contains("SMS-TChiHZ") ) {
+		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
+		  produced_particles.push_back(1000023); // neutralino2
+		  produced_particles.push_back(1000025); // neutralino3
+		}		  
+		else if( currentFileName.Contains("SMS-TChiZZ") ) {
+		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.19175);// BF for at least 1 Z to two leps
+		  produced_particles.push_back(1000023); // neutralino2
+		  produced_particles.push_back(1000025); // neutralino3
+		}
 
 		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
 		LorentzVector isrSystem_p4;
 		for( size_t genind = 0; genind < cms3.genps_p4().size(); genind++ ){
-		  if( cms3.genps_isLastCopy().at(genind) == 1 && (abs(cms3.genps_id().at(genind)) == 1000024 || abs(cms3.genps_id().at(genind)) == 1000023 || cms3.genps_id().at(genind) == 1000021) ){
-			isrSystem_p4 += cms3.genps_p4().at(genind);
-		  }
-		}
+		  if( cms3.genps_isLastCopy().at(genind) != 1) continue;
+		  for (unsigned int ipart = 0; ipart < produced_particles.size(); ++ipart) {
+		    if (abs(cms3.genps_id().at(genind)) == produced_particles.at(ipart)) {
+		      isrSystem_p4 += cms3.genps_p4().at(genind);
+		      break;
+		    }
+		  } // loop over produced susy particles 
+		} // loop over cms3 genps
 
 		isrboost = (isrSystem_p4).pt();
 		
@@ -1370,6 +1391,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		isr_njets  = get_nisrMatch( jets_for_pileup );
 		isr_weight = get_isrWeight( isr_njets       );
 		isr_unc    = get_isrUnc(    isr_njets       );
+		if( currentFileName.Contains("SMS-TChi"  ) ) {
+		  isr_weight = get_isrWeight_ewk(isrboost);
+		  isr_unc = -999.;
+		}
+
 	  }
 
       if (verbose) cout << "before jet/photon overlap" << endl;
