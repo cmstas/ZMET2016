@@ -191,9 +191,11 @@ int makeLimitHist_T5ZZ()
 	  int mgluino = binx*50;
 	  int truebin = massplane_xsec->FindBin(binx*50,biny*50);
 	  // massplane_xsec->SetBinContent(truebin, massplane_xsec->GetBinContent(truebin)/(0.19175)*h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mgluino)));
-	  massplane_xsec->SetBinContent(truebin, massplane_xsec->GetBinContent(truebin)*h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mgluino)));
-	  massplane_obs_up->SetBinContent(truebin, massplane_obs->GetBinContent(truebin)*1.15);
-	  massplane_obs_dn->SetBinContent(truebin, massplane_obs->GetBinContent(truebin)*0.85);
+	  double xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mgluino));
+	  double xsec_relerr = h_susyxsecs->GetBinError(h_susyxsecs->FindBin(mgluino))/xsec;
+	  massplane_xsec->SetBinContent(truebin, massplane_xsec->GetBinContent(truebin)*xsec);
+	  massplane_obs_up->SetBinContent(truebin, massplane_obs->GetBinContent(truebin)*(1. + xsec_relerr));
+	  massplane_obs_dn->SetBinContent(truebin, massplane_obs->GetBinContent(truebin)*(1. - xsec_relerr));
 	}
   }
 
