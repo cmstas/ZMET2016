@@ -52,6 +52,8 @@ int makeLimitHist_T5ZZ()
   TH2F * massplane_obs_dn = (TH2F*) f_rvalues->Get("hObs")   -> Clone("massplane_obs_dn");
   TH2F * massplane_exp_up = (TH2F*) f_rvalues->Get("hExp1p") -> Clone("massplane_exp_up");
   TH2F * massplane_exp_dn = (TH2F*) f_rvalues->Get("hExp1m") -> Clone("massplane_exp_dn");
+  TH2F * massplane_exp_up2 = (TH2F*) f_rvalues->Get("hExp2p") -> Clone("massplane_exp_up2");
+  TH2F * massplane_exp_dn2 = (TH2F*) f_rvalues->Get("hExp2m") -> Clone("massplane_exp_dn2");
   // TH2F * massplane_xsec   = new TH2F("massplane_xsec","", 27,25,1375,25,75.0,1325.0);
 
   TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_xsec");
@@ -104,6 +106,17 @@ int makeLimitHist_T5ZZ()
   massplane_exp_dn->SetLineColor(kRed);
   massplane_exp_dn->Smooth();
 
+  massplane_exp_up2->SetContour(1, contours);
+  massplane_exp_up2->SetLineWidth(2);
+  massplane_exp_up2->SetLineStyle(3);
+  massplane_exp_up2->SetLineColor(kRed);
+  massplane_exp_up2->Smooth();
+  massplane_exp_dn2->SetContour(1, contours);
+  massplane_exp_dn2->SetLineWidth(2);
+  massplane_exp_dn2->SetLineStyle(3);
+  massplane_exp_dn2->SetLineColor(kRed);
+  massplane_exp_dn2->Smooth();
+  
   massplane_obs->SetContour(1, contours);
   massplane_obs->SetLineWidth(4);
   massplane_obs->SetLineColor(kBlack);
@@ -309,11 +322,13 @@ int makeLimitHist_T5ZZ()
   // hexp_up->Draw("samecont2");
   contourplot->Draw("samecont3");
   // contourplot->Draw("colz");
-  massplane_obs->Draw("samecont2");
-  massplane_obs_up->Draw("samecont2");
-  massplane_obs_dn->Draw("samecont2");
+  massplane_obs->Draw("samecont3");
+  massplane_obs_up->Draw("samecont3");
+  massplane_obs_dn->Draw("samecont3");
   massplane_exp_up->Draw("samecont3");
   massplane_exp_dn->Draw("samecont3");
+  //massplane_exp_up2->Draw("samecont3");
+  massplane_exp_dn2->Draw("samecont3");
 
   // gStyle->SetPaintTextFormat("1.1f");
   // massplane_obs->Draw("sametext");
