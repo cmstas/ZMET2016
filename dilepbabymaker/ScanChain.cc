@@ -598,6 +598,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  Flag_badMuonFilter                            = badMuonFilter();
 		  Flag_badMuonFilterv2                          = badMuonFilterV2();
 		  Flag_badChargedCandidateFilterv2              = badChargedCandidateFilterV2();          
+		  if (small_cms3_version >= 18) {
+		    Flag_badMuons                               = cms3.filt_badMuons();
+		    Flag_duplicateMuons                         = cms3.filt_duplicateMuons();
+		    Flag_noBadMuons                             = cms3.filt_noBadMuons();
+		  }
 		}
 	  }
 	  
@@ -2181,6 +2186,9 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("Flag_badChargedCandidateFilter"    , &Flag_badChargedCandidateFilter   );
   BabyTree_->Branch("Flag_badMuonFilterv2"              , &Flag_badMuonFilterv2             );
   BabyTree_->Branch("Flag_badChargedCandidateFilterv2"  , &Flag_badChargedCandidateFilterv2 );
+  BabyTree_->Branch("Flag_badMuons"                     , &Flag_badMuons                    ); 
+  BabyTree_->Branch("Flag_duplicateMuons"               , &Flag_duplicateMuons              );   
+  BabyTree_->Branch("Flag_noBadMuons"                   , &Flag_noBadMuons                  );  
 		
   //TRIGGER
   // for ATLAS cross checks
@@ -2611,6 +2619,9 @@ void babyMaker::InitBabyNtuple () {
   Flag_badMuonFilterv2              = -999;
   Flag_badChargedCandidateFilterv2  = -999;
   Flag_globalTightHalo2016        = -999;
+  Flag_badMuons              = -999;
+  Flag_duplicateMuons        = -999;
+  Flag_noBadMuons            = -999;
 
   //TRIGGER
   // for ATLAS cross checks
