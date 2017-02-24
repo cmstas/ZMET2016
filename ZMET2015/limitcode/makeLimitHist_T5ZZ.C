@@ -28,18 +28,22 @@ int makeLimitHist_T5ZZ()
   h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
 
   
-  //"Official" SUSY palette
-  int mypalette[255];
-  int NRGBs = 5;
-  int NCont = 255;
+  // More better palette
+  const Int_t NRGBs = 5;
+  const Int_t NCont = 255;
+  
   double stops[] = {0.00, 0.34, 0.61, 0.84, 1.00};
   double red[]   = {0.50, 0.50, 1.00, 1.00, 1.00};
   double green[] = {0.50, 1.00, 1.00, 0.60, 0.50};
   double blue[]  = {1.00, 1.00, 0.50, 0.40, 0.50};
-  int FI = TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
-  for (int i=0;i<NCont;i++){ mypalette[i] = FI+i;}
-  gStyle->SetPalette(NCont,mypalette);  
+  TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
+  gStyle->SetNumberContours(NCont);
 
+  gStyle->SetOptTitle(0);
+  gStyle->SetOptStat(0); 
+  gStyle->SetPadTickX(1);  // To get tick marks on the opposite side of the frame
+  gStyle->SetPadTickY(1);
+  
   TFile * f_rvalues = TFile::Open("r-values_T5ZZ.root","READ");  
   
   TH2F * massplane        = (TH2F*) f_rvalues->Get("hExp")   -> Clone("massplane");
@@ -432,8 +436,8 @@ int makeLimitHist_T5ZZ()
   cmstexbold->SetTextFont(52);    
   cmstexbold->Draw();
 
-  c_massplane->SaveAs("T5ZZ_Exclusion_13TeV.pdf");
-  // c_massplane->SaveAs("/home/users/cwelke/public_html/T5ZZ_Exclusion_13TeV.pdf");
+  //c_massplane->SaveAs("T5ZZ_Exclusion_13TeV.pdf");
+  c_massplane->SaveAs("/home/users/olivito/public_html/T5ZZ_Exclusion_13TeV_temp.pdf");
 
   return 0;
 }
