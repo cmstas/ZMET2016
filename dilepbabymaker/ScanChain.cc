@@ -3165,8 +3165,8 @@ void babyMaker::load_leptonSF_files()
   f_sfweights->Close();
 
   // muon tracking SF due to HIPs for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/muons/general_tracks_and_early_general_tracks_corr_ratio.root","READ");
-  h_muoweights_HIP_hist = (TH1F*) f_sfweights->Get("mutrksfptg10") -> Clone("h_muoweights_HIP_hist");
+  f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/Tracking_EfficienciesAndSF_BCDEFGH_hists.root","READ");
+  h_muoweights_HIP_hist = (TH1F*) f_sfweights->Get("ratio_eff_eta3_dr030e030_corr") -> Clone("h_muoweights_HIP_hist");
   h_muoweights_HIP_hist -> SetDirectory(rootdir);
   f_sfweights->Close();
 	
