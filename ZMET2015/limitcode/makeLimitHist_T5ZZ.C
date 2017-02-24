@@ -14,12 +14,14 @@
 #include "TBox.h"
 #include "TGraph.h"
 #include "TGraph2D.h"
+#include "tdrstyle_SUSY.C"
 
 using namespace std;
 
 int makeLimitHist_T5ZZ()
 {
 
+  setTDRStyle();           
   
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
@@ -38,11 +40,6 @@ int makeLimitHist_T5ZZ()
   double blue[]  = {1.00, 1.00, 0.50, 0.40, 0.50};
   TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
   gStyle->SetNumberContours(NCont);
-
-  gStyle->SetOptTitle(0);
-  gStyle->SetOptStat(0); 
-  gStyle->SetPadTickX(1);  // To get tick marks on the opposite side of the frame
-  gStyle->SetPadTickY(1);
   
   TFile * f_rvalues = TFile::Open("r-values_T5ZZ.root","READ");  
   
@@ -59,20 +56,24 @@ int makeLimitHist_T5ZZ()
   TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_xsec");
   TH2F * efficiency       = (TH2F*) massplane    -> Clone("efficiency"    );
 
+  TH2F * h_axis = new TH2F("h_axis","",110,1000,2100,210,0,2100);
+
   double contours[1];
   contours[0] = 1.0;
 
   TH2F * contourplot = dynamic_cast<TH2F*>(massplane->Clone("contourplot"));
 
-  massplane_xsec->GetXaxis()->SetRangeUser(1025,2125);
-  // massplane_xsec->GetYaxis()->SetRangeUser(125,1925);
+  h_axis->GetXaxis()->SetRangeUser(1100,2000);
+  h_axis->GetYaxis()->SetRangeUser(100,2100);
 
-  massplane_xsec->GetXaxis()->SetLabelSize(0.035);
-  massplane_xsec->GetYaxis()->SetLabelSize(0.035);
-  massplane_xsec->GetXaxis()->SetTitle("gluino mass [GeV]");
-  massplane_xsec->GetYaxis()->SetTitle("#chi_{1}^{0} mass [GeV]");
+  h_axis->GetXaxis()->SetLabelSize(0.035);
+  h_axis->GetXaxis()->SetNdivisions(508);
+  h_axis->GetYaxis()->SetLabelSize(0.035);
+  h_axis->GetXaxis()->SetTitle("gluino mass [GeV]");
+  h_axis->GetYaxis()->SetTitle("#chi_{1}^{0} mass [GeV]");
+  
   massplane_xsec->GetZaxis()->SetTitle("95% CL upper limit on #sigma [pb]");
-  massplane_xsec->GetZaxis()->SetRangeUser(1e-3,1e0);
+  massplane_xsec->GetZaxis()->SetRangeUser(1e-3,1e-1);
   massplane_xsec->GetZaxis()->SetLabelSize(0.035);
 
   TCanvas *c_massplane = new TCanvas("c_massplane", "", 800, 800);
@@ -87,8 +88,8 @@ int makeLimitHist_T5ZZ()
   padt->SetLogz();
 
   //edit here
-  massplane_xsec->GetYaxis()->SetRangeUser(75,2125);
-  massplane_xsec->Draw("colz");
+  h_axis->Draw("axis");
+  //  massplane_xsec->Draw("colz same");
 
   contourplot->SetContour(1, contours);
   contourplot->SetLineWidth(4);
@@ -205,7 +206,7 @@ int makeLimitHist_T5ZZ()
   file->Write();
   file->Close();
   
-  massplane_xsec->Draw("colz");
+  massplane_xsec->Draw("samecolz");
   // contourplot->Draw("samecont3");
   // // contourplot->Draw("colz");
   // massplane_obs->Draw("samecont2");
@@ -270,7 +271,7 @@ int makeLimitHist_T5ZZ()
   
   TH2D *hlim = glim.GetHistogram();
   hlim->SetTitle(";m_{gluino} [GeV];m_{LSP} [GeV]");
-  hlim->GetZaxis()->SetRangeUser(1e-3,1);
+  hlim->GetZaxis()->SetRangeUser(1e-3,1e-1);
   hlim->GetZaxis()->SetLabelSize(0);
 
   TH2D *hexp = gexp.GetHistogram();
@@ -335,31 +336,31 @@ int makeLimitHist_T5ZZ()
   // gStyle->SetPaintTextFormat("1.1f");
   // massplane_obs->Draw("sametext");
   
-  TLine * diag_0 = new TLine(1025,1035,2075,2085);
+  TLine * diag_0 = new TLine(1100,1110,2000,2010);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
-  diag_0 = new TLine(1025,1055,2075,2105);
+  diag_0 = new TLine(1100,1130,2000,2030);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
-  diag_0 = new TLine(1025,1075,2075,2125);
+  diag_0 = new TLine(1100,1150,2000,2050);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
-  diag_0 = new TLine(1025,1095,2075,2145);
+  diag_0 = new TLine(1100,1170,2000,2070);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
-  diag_0 = new TLine(1025,1115,2075,2165);
+  diag_0 = new TLine(1100,1190,2000,2090);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
@@ -367,7 +368,7 @@ int makeLimitHist_T5ZZ()
 
   padt->RedrawAxis();
 
-  TBox * box = new TBox(1025,1700,2125,2125);
+  TBox * box = new TBox(1100,1650,2000,2100);
   box->SetFillColor(kWhite);
   box->Draw("same");
 
@@ -382,25 +383,25 @@ int makeLimitHist_T5ZZ()
   l1->AddEntry(massplane_obs , "Observed limit, #pm 1 #sigma_{theory}"            , "l");
   l1->Draw("same");
 
-  TLine * top_margin = new TLine(1025,2125,2125,2125);
+  TLine * top_margin = new TLine(1100,2100,2000,2100);
   top_margin->SetLineWidth(4);
   top_margin->SetLineColor(kBlack);
   top_margin->SetLineStyle(1);
   top_margin->Draw("same");
 
-  TLine * bot_margin = new TLine(1025,1700,2125,1700);
+  TLine * bot_margin = new TLine(1100,1650,2000,1650);
   bot_margin->SetLineWidth(4);
   bot_margin->SetLineColor(kBlack);
   bot_margin->SetLineStyle(1);
   bot_margin->Draw("same");
 
-  TLine * lef_margin = new TLine(1025,1700,1025,2125);
+  TLine * lef_margin = new TLine(1100,1650,1100,2100);
   lef_margin->SetLineWidth(4);
   lef_margin->SetLineColor(kBlack);
   lef_margin->SetLineStyle(1);
   lef_margin->Draw("same");
 
-  TLine * rig_margin = new TLine(2125,1700,2125,2125);
+  TLine * rig_margin = new TLine(2000,1650,2000,2100);
   rig_margin->SetLineWidth(4);
   rig_margin->SetLineColor(kBlack);
   rig_margin->SetLineStyle(1);
