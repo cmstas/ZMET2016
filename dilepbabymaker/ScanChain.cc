@@ -528,7 +528,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       met_phi      = cms3.evt_pfmetPhi();
       met_calo_pt  = cms3.evt_calomet();
       met_calo_phi = cms3.evt_calometPhi();	  
-	  met_genPt    = cms3.gen_met();
+      met_miniaod_pt  = cms3.evt_pfmet();
+      met_miniaod_phi = cms3.evt_pfmetPhi();
+      if (isData && small_cms3_version >= 18) {
+	met_muegclean_pt  = cms3.evt_muegclean_pfmet();
+	met_muegclean_phi = cms3.evt_muegclean_pfmetPhi();
+      }
+      met_genPt    = cms3.gen_met();
       met_genPhi   = cms3.gen_metPhi();
       met_rawPt    = cms3.evt_pfmet_raw();
       met_rawPhi   = cms3.evt_pfmetPhi_raw();
@@ -544,20 +550,27 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
       met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
 
-      metsig_unofficial = met_T1CHS_miniAOD_CORE_pt / sqrt(ht);
+      // choose default value of MET to use for analysis, set as met_pt, met_phi
+      if (isData && small_cms3_version >= 18) { // for re-MINIAOD data
+	met_pt = met_muegclean_pt;
+	met_phi = met_muegclean_phi;
+      } else {
+	met_pt = met_T1CHS_miniAOD_CORE_pt;
+	met_phi = met_T1CHS_miniAOD_CORE_phi;
+      }
 	  
       // met with up unc
       pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 1);
       met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
       met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
 
-      metsig_unofficial_up = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
-
       // met with dn unc
       pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 0);
       met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
       met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
 
+      metsig_unofficial = met_pt / sqrt(ht); // == met_T1CHS_miniAOD_CORE_pt in MC, where we do variations
+      metsig_unofficial_up = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
       metsig_unofficial_dn = met_T1CHS_miniAOD_CORE_dn_pt / sqrt(ht_dn);
        	  
       //cout<<__LINE__<<endl;
@@ -1543,7 +1556,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 		  // ad-hoc filter:
 		  //  check for jets with pt > 200, mufrac > 0.5, dphi(jet,MET) > pi - 0.4
-		  if ( (p4sCorrJets.at(iJet).pt() > 200.0) && (current_muf_val > 0.5) && (DeltaPhi(p4sCorrJets.at(iJet).phi(),met_T1CHS_miniAOD_CORE_phi) > TMath::Pi() - 0.4) ) {
+		  if ( (p4sCorrJets.at(iJet).pt() > 200.0) && (current_muf_val > 0.5) && (DeltaPhi(p4sCorrJets.at(iJet).phi(),met_phi) > TMath::Pi() - 0.4) ) {
 		    ++nJet200MuFrac50DphiMet;
 		  }
 
@@ -1681,13 +1694,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		weight_btagsf_light_DN = btagprob_light_DN / btagprob_mc;
 	  }
 	  
-	  if( nlep > 0 ) mt_lep1 = MT(lep_pt.at(0), lep_phi.at(0), met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi);
+	  if( nlep > 0 ) mt_lep1 = MT(lep_pt.at(0), lep_phi.at(0), met_pt, met_phi);
 		
 	  decayedphoton_mt2 = 0;
 	  if( abs(decayedphoton_lep1_p4.eta()) < 2.4 && abs(decayedphoton_lep2_p4.eta()) < 2.4  ){
 		if( (abs(decayedphoton_lep1_p4.eta()) < 1.4 || abs(decayedphoton_lep1_p4.eta()) > 1.6) &&
 			(abs(decayedphoton_lep2_p4.eta()) < 1.4 || abs(decayedphoton_lep2_p4.eta()) > 1.6) ){
-		  decayedphoton_mt2 = MT2( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
+		  decayedphoton_mt2 = MT2( met_pt, met_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
 		}
 	  }
 
@@ -1703,17 +1716,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		mt2b_up = -1.0;
 		mt2b_dn = -1.0;
 
-		mt2    = MT2( met_T1CHS_miniAOD_CORE_pt   , met_T1CHS_miniAOD_CORE_phi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
+		mt2    = MT2( met_pt   , met_phi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
 		mt2_up = MT2( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
 		mt2_dn = MT2( met_T1CHS_miniAOD_CORE_dn_pt, met_T1CHS_miniAOD_CORE_dn_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
 		mt2_genmet = MT2( met_genPt   , met_genPhi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
  	
  		if( jets_p4.size() > 1 ){
- 		  mt2j = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_p4, 0.0 );
+ 		  mt2j = MT2J( met_pt, met_phi, lep_p4.at(0), lep_p4.at(1), jets_p4, 0.0 );
 		}
 
 		if( jets_medb_p4.size() > 1 ){
- 		  mt2b = MT2J( met_T1CHS_miniAOD_CORE_pt, met_T1CHS_miniAOD_CORE_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
+ 		  mt2b = MT2J( met_pt, met_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
  		  mt2b_genmet = MT2J( met_genPt, met_genPhi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
 		}		
 		if( jets_medb_up_p4.size() > 1 ){
@@ -1805,8 +1818,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		deta_jj = abs(jets_p4.at(0).eta() - jets_p4.at(1).eta());
 		dR_jj   = sqrt(pow(deta_jj,2) + pow(dphi_jj,2));
 
-		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_phi));
-		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_phi));
+		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_phi));
+		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_phi));
 		dphi_genmetj1 = acos(cos(jets_p4.at(0).phi() - met_genPhi));
 		dphi_genmetj2 = acos(cos(jets_p4.at(1).phi() - met_genPhi));
 
@@ -2139,6 +2152,10 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("met_phi"     , &met_phi      );
   BabyTree_->Branch("met_calo_pt" , &met_calo_pt  );
   BabyTree_->Branch("met_calo_phi", &met_calo_phi );
+  BabyTree_->Branch("met_miniaod_pt" , &met_miniaod_pt  );
+  BabyTree_->Branch("met_miniaod_phi", &met_miniaod_phi );
+  BabyTree_->Branch("met_muegclean_pt" , &met_muegclean_pt  );
+  BabyTree_->Branch("met_muegclean_phi", &met_muegclean_phi );
   BabyTree_->Branch("met_rawPt"   , &met_rawPt    );
   BabyTree_->Branch("met_rawPhi"  , &met_rawPhi   );
   BabyTree_->Branch("met_genPt"   , &met_genPt    );
@@ -2564,6 +2581,10 @@ void babyMaker::InitBabyNtuple () {
   met_phi      = -999.0;
   met_calo_pt  = -999.0;
   met_calo_phi = -999.0;
+  met_miniaod_pt  = -999.0;
+  met_miniaod_phi = -999.0;
+  met_muegclean_pt  = -999.0;
+  met_muegclean_phi = -999.0;
   met_rawPt    = -999.0;
   met_rawPhi   = -999.0;
   met_genPt    = -999.0;

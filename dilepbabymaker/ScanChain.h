@@ -147,6 +147,10 @@ private:
   Float_t         met_phi;
   Float_t         met_calo_pt;
   Float_t         met_calo_phi;
+  Float_t         met_miniaod_pt;
+  Float_t         met_miniaod_phi;
+  Float_t         met_muegclean_pt;
+  Float_t         met_muegclean_phi;
   Float_t         met_rawPt;
   Float_t         met_rawPhi;
   Float_t         met_genPt;
