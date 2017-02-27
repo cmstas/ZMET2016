@@ -44,7 +44,7 @@ void make_allRValues(std::string model, std::string list_filename){
   if (model.find("TChiWZ") != std::string::npos) {
     m1_max = 712.5;
     m1_min = 87.5;
-    m2_max = 305;
+    m2_max = 505;
     m2_min = -5;
     m1_div = 25;
     m2_div = 10;
