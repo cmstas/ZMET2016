@@ -22,6 +22,7 @@ int makeLimitHist_T5ZZ()
 {
 
   setTDRStyle();           
+  gROOT->ForceStyle();
   
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;

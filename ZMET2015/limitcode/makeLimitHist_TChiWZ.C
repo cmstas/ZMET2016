@@ -21,7 +21,8 @@ using namespace std;
 int makeLimitHist_TChiWZ()
 {
 
-  setTDRStyle();           
+  setTDRStyle();
+  gROOT->ForceStyle();
   
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
@@ -67,13 +68,6 @@ int makeLimitHist_TChiWZ()
   h_axis->GetXaxis()->SetTitle("M_{#tilde{#chi}^{#pm}_{1}/#tilde{#chi}^{0}_{2}} [GeV]");
   h_axis->GetYaxis()->SetTitle("M_{#tilde{#chi}^{0}_{1}} [GeV]");
   
-  // massplane_xsec->GetXaxis()->SetRangeUser(87.5,712.5);
-  // massplane_xsec->GetXaxis()->SetLabelSize(0.035);
-  // massplane_xsec->GetYaxis()->SetLabelSize(0.035);
-  // // massplane_xsec->GetXaxis()->SetTitle("NLSP mass [GeV]");
-  // massplane_xsec->GetXaxis()->SetTitle("M_{#tilde{#chi}^{#pm}_{1}/#tilde{#chi}^{0}_{2}} [GeV]");
-  // massplane_xsec->GetYaxis()->SetTitle("M_{#tilde{#chi}^{0}_{1}} [GeV]");
-  // // massplane_xsec->GetYaxis()->SetTitle("LSP mass [GeV]");
   massplane_xsec->GetZaxis()->SetTitle("95% CL upper limit on #sigma [pb]");
   massplane_xsec->GetZaxis()->SetRangeUser(5e-3,3e2);
   massplane_xsec->GetZaxis()->SetLabelSize(0.035);
@@ -91,11 +85,6 @@ int makeLimitHist_TChiWZ()
 
   //edit here
   h_axis->Draw("axis");
-  //  massplane_xsec->GetXaxis()->SetRangeUser(100,700);
-  // massplane_xsec->GetXaxis()->SetRangeUser(87.5,512.5);
-  //massplane_xsec->GetYaxis()->SetRangeUser(0,400);
-  //massplane_xsec->GetYaxis()->SetRangeUser(10,300);
-  //massplane_xsec->Draw("colz");
   
   // multiply by susy xsec
   for( int biny = 1; biny < 32; biny++ ){
