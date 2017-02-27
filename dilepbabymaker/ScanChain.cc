@@ -1108,6 +1108,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  if( isData && ngamma > 0 ){
 	    float minDr = 0.2;		
 
+	    // old way: loop through all trigger objects
+	    if (small_cms3_version < 18) {
 		for( size_t hltind = 0; hltind < cms3.hlt_trigObjs_id().size(); hltind++ ){ // loop over HLTs		  
 		  for( size_t trigind = 0; trigind < cms3.hlt_trigObjs_id().at(hltind).size(); trigind++ ){
 
@@ -1147,7 +1149,21 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 			  
 			}
 		  }
-		}
+		} // loop over trig objs
+	    } // if old CMS3 version
+
+	    // new way: pre-computed matching in CMS3
+	    else if (small_cms3_version >= 18) {
+	      if( HLT_Photon165_HE10             > 0 && cms3.photons_HLT_Photon165_HE10().at(0) )             HLT_Photon165_HE10_matchedtophoton             = true;
+	      if( HLT_Photon165_R9Id90_HE10_IsoM > 0 && cms3.photons_HLT_Photon165_R9Id90_HE10_IsoM().at(0) ) HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton = true;
+	      if( HLT_Photon120_R9Id90_HE10_IsoM > 0 && cms3.photons_HLT_Photon120_R9Id90_HE10_IsoM().at(0) ) HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton = true;
+	      if( HLT_Photon90_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon90_R9Id90_HE10_IsoM().at(0) )  HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton  = true;
+	      if( HLT_Photon75_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon75_R9Id90_HE10_IsoM().at(0) )  HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton  = true;
+	      if( HLT_Photon50_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon50_R9Id90_HE10_IsoM().at(0) )  HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton  = true;
+	      if( HLT_Photon36_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon36_R9Id90_HE10_IsoM().at(0) )  HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  = true;
+	      if( HLT_Photon30_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon30_R9Id90_HE10_IsoM().at(0) )  HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  = true;
+	      if( HLT_Photon22_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon22_R9Id90_HE10_IsoM().at(0) )  HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  = true;
+	    } // if new CMS3 version
 	  }
 	  
 	  // add selections to keep only events with photons and dilepton events
