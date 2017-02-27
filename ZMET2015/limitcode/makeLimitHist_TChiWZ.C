@@ -14,12 +14,14 @@
 #include "TBox.h"
 #include "TGraph.h"
 #include "TGraph2D.h"
+#include "tdrstyle_SUSY.C"
 
 using namespace std;
 
 int makeLimitHist_TChiWZ()
 {
 
+  setTDRStyle();           
   
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
@@ -28,18 +30,17 @@ int makeLimitHist_TChiWZ()
   h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2")->Clone("h_susyxsecs");
 
   
-  //"Official" SUSY palette
-  int mypalette[255];
-  int NRGBs = 5;
-  int NCont = 255;
+  // More better palette
+  const Int_t NRGBs = 5;
+  const Int_t NCont = 255;
+  
   double stops[] = {0.00, 0.34, 0.61, 0.84, 1.00};
   double red[]   = {0.50, 0.50, 1.00, 1.00, 1.00};
   double green[] = {0.50, 1.00, 1.00, 0.60, 0.50};
   double blue[]  = {1.00, 1.00, 0.50, 0.40, 0.50};
-  int FI = TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
-  for (int i=0;i<NCont;i++){ mypalette[i] = FI+i;}
-  gStyle->SetPalette(NCont,mypalette);  
-
+  TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
+  gStyle->SetNumberContours(NCont);
+  
   TFile * f_rvalues = TFile::Open("r-values_TChiWZ.root","READ");  
   
   TH2F * massplane        = (TH2F*) f_rvalues->Get("hExp")   -> Clone("massplane");
@@ -53,21 +54,28 @@ int makeLimitHist_TChiWZ()
   TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_xsec");
   TH2F * efficiency       = (TH2F*) massplane    -> Clone("efficiency"    );
 
+  TH2F * h_axis = new TH2F("h_axis","",60,100,700,40,0,400);
+  
   double contours[1];
   contours[0] = 1.0;
 
   TH2F * contourplot = dynamic_cast<TH2F*>(massplane->Clone("contourplot"));
 
-  massplane_xsec->GetXaxis()->SetRangeUser(87.5,712.5);
-
-  massplane_xsec->GetXaxis()->SetLabelSize(0.035);
-  massplane_xsec->GetYaxis()->SetLabelSize(0.035);
-  // massplane_xsec->GetXaxis()->SetTitle("NLSP mass [GeV]");
-  massplane_xsec->GetXaxis()->SetTitle("M_{#tilde{#chi}^{#pm}_{1}/#tilde{#chi}^{0}_{2}} [GeV]");
-  massplane_xsec->GetYaxis()->SetTitle("M_{#tilde{#chi}^{0}_{1}} [GeV]");
-  // massplane_xsec->GetYaxis()->SetTitle("LSP mass [GeV]");
+  h_axis->GetXaxis()->SetLabelSize(0.035);
+  h_axis->GetXaxis()->SetNdivisions(508);
+  h_axis->GetYaxis()->SetLabelSize(0.035);
+  h_axis->GetXaxis()->SetTitle("M_{#tilde{#chi}^{#pm}_{1}/#tilde{#chi}^{0}_{2}} [GeV]");
+  h_axis->GetYaxis()->SetTitle("M_{#tilde{#chi}^{0}_{1}} [GeV]");
+  
+  // massplane_xsec->GetXaxis()->SetRangeUser(87.5,712.5);
+  // massplane_xsec->GetXaxis()->SetLabelSize(0.035);
+  // massplane_xsec->GetYaxis()->SetLabelSize(0.035);
+  // // massplane_xsec->GetXaxis()->SetTitle("NLSP mass [GeV]");
+  // massplane_xsec->GetXaxis()->SetTitle("M_{#tilde{#chi}^{#pm}_{1}/#tilde{#chi}^{0}_{2}} [GeV]");
+  // massplane_xsec->GetYaxis()->SetTitle("M_{#tilde{#chi}^{0}_{1}} [GeV]");
+  // // massplane_xsec->GetYaxis()->SetTitle("LSP mass [GeV]");
   massplane_xsec->GetZaxis()->SetTitle("95% CL upper limit on #sigma [pb]");
-  massplane_xsec->GetZaxis()->SetRangeUser(5e-2,3e3);
+  massplane_xsec->GetZaxis()->SetRangeUser(5e-3,3e2);
   massplane_xsec->GetZaxis()->SetLabelSize(0.035);
 
   TCanvas *c_massplane = new TCanvas("c_massplane", "", 800, 800);
@@ -82,11 +90,12 @@ int makeLimitHist_TChiWZ()
   padt->SetLogz();
 
   //edit here
-  massplane_xsec->GetXaxis()->SetRangeUser(112.5,500);
+  h_axis->Draw("axis");
+  //  massplane_xsec->GetXaxis()->SetRangeUser(100,700);
   // massplane_xsec->GetXaxis()->SetRangeUser(87.5,512.5);
-  massplane_xsec->GetYaxis()->SetRangeUser(0,300);
-  massplane_xsec->GetYaxis()->SetRangeUser(10,300);
-  massplane_xsec->Draw("colz");
+  //massplane_xsec->GetYaxis()->SetRangeUser(0,400);
+  //massplane_xsec->GetYaxis()->SetRangeUser(10,300);
+  //massplane_xsec->Draw("colz");
   
   // multiply by susy xsec
   for( int biny = 1; biny < 32; biny++ ){
@@ -179,7 +188,7 @@ int makeLimitHist_TChiWZ()
   massplane_obs_dn->SetLineColor(kBlack);
   massplane_obs_dn->Smooth();
   
-  massplane_xsec->Draw("colz");
+  massplane_xsec->Draw("same colz");
   // contourplot->Draw("samecont3");
   // // contourplot->Draw("colz");
   // massplane_obs->Draw("samecont2");
@@ -299,9 +308,9 @@ int makeLimitHist_TChiWZ()
   // hexp_up->Draw("samecont2");
   contourplot->Draw("samecont3");
   // contourplot->Draw("colz");
-  massplane_obs->Draw("samecont2");
-  massplane_obs_up->Draw("samecont2");
-  massplane_obs_dn->Draw("samecont2");
+  massplane_obs->Draw("samecont3");
+  massplane_obs_up->Draw("samecont3");
+  massplane_obs_dn->Draw("samecont3");
   massplane_exp_up->Draw("samecont3");
   massplane_exp_dn->Draw("samecont3");
 
@@ -319,13 +328,13 @@ int makeLimitHist_TChiWZ()
 	diag_0->Draw("same");
   }
   
-  // TBox * box_corner = new TBox(112.5,230,512.5,305);
+  // TBox * box_corner = new TBox(100,300,700,400);
   // box_corner->SetFillColor(kWhite);
   // box_corner->Draw("same");
 
   padt->RedrawAxis();
 
-  TBox * box = new TBox(112.5,230,512.5,305);
+  TBox * box = new TBox(100,300,700,400);
   box->SetFillColor(kWhite);
   box->Draw("same");
 
@@ -340,25 +349,25 @@ int makeLimitHist_TChiWZ()
   l1->AddEntry(massplane_obs , "Observed limit, #pm 1 #sigma_{theory}"            , "l");
   l1->Draw("same");
 
-  TLine * top_margin = new TLine(112.5,305,512.5,305);
+  TLine * top_margin = new TLine(100,400,700,400);
   top_margin->SetLineWidth(4);
   top_margin->SetLineColor(kBlack);
   top_margin->SetLineStyle(1);
   top_margin->Draw("same");
 
-  TLine * bot_margin = new TLine(112.5,230,512.5,230);
+  TLine * bot_margin = new TLine(100,300,700,300);
   bot_margin->SetLineWidth(4);
   bot_margin->SetLineColor(kBlack);
   bot_margin->SetLineStyle(1);
   bot_margin->Draw("same");
 
-  TLine * lef_margin = new TLine(112.5,230,112.5,305);
+  TLine * lef_margin = new TLine(100,300,100,400);
   lef_margin->SetLineWidth(4);
   lef_margin->SetLineColor(kBlack);
   lef_margin->SetLineStyle(1);
   lef_margin->Draw("same");
 
-  TLine * rig_margin = new TLine(512.5,230,512.5,305);
+  TLine * rig_margin = new TLine(700,300,700,400);
   rig_margin->SetLineWidth(4);
   rig_margin->SetLineColor(kBlack);
   rig_margin->SetLineStyle(1);
@@ -389,7 +398,7 @@ int makeLimitHist_TChiWZ()
 
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.575,0.94, "12.9 fb^{-1} (13 TeV)" );    
+  cmstex = new TLatex(0.575,0.94, "36.8 fb^{-1} (13 TeV)" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.04);    
   cmstex->SetLineWidth(2);
@@ -408,10 +417,11 @@ int makeLimitHist_TChiWZ()
   cmstexbold->SetNDC();    
   cmstexbold->SetTextSize(0.0375);    
   cmstexbold->SetLineWidth(2);
-  cmstexbold->SetTextFont(12);    
+  cmstexbold->SetTextFont(52);    
   cmstexbold->Draw();
 
-  c_massplane->SaveAs("TChiWZ_Exclusion_13TeV.pdf");
+  //c_massplane->SaveAs("TChiWZ_Exclusion_13TeV.pdf");
+  c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV_test.pdf");
   // c_massplane->SaveAs("/home/users/cwelke/public_html/T5ZZ_Exclusion_13TeV.pdf");
 
   return 0;
