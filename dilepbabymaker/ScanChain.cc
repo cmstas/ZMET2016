@@ -3230,25 +3230,25 @@ void babyMaker::load_leptonSF_files()
   f_sfweights->Close();
 	
   // SFs electrons for FS to Fullsim
-  f_sfweights  = TFile::Open("leptonSFs/FS/sf_el_tightMVA_tight2DIP_vtxC_hitseq0.root","READ");
+  f_sfweights  = TFile::Open("leptonSFs/FS/moriond17/sf_el_tightMVA_tight2DIP_vtxC_hitseq0.root","READ");
   h_eleweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_eleweights");
   h_eleweights->SetDirectory(rootdir);
   f_sfweights->Close();
 
   // SFs muons for FS to Fullsim, medium ID
-  f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_medium.root","READ");
+  f_sfweights  = TFile::Open("leptonSFs/FS/moriond17/sf_mu_mediumID.root","READ");
   h_muoweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights");
   h_muoweights->SetDirectory(rootdir);
   f_sfweights->Close();
 
   // SFs muons for FS to Fullsim, iso
-  f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_mediumID_mini02.root","READ");
+  f_sfweights  = TFile::Open("leptonSFs/FS/moriond17/sf_mu_mediumID_mini02.root","READ");
   h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights_FS_iso");
   h_muoweights_FS_iso->SetDirectory(rootdir);
   f_sfweights->Close();
 
   // SFs muons for FS to Fullsim, ip
-  f_sfweights  = TFile::Open("leptonSFs/FS/sf_mu_tightIP2D.root","READ");
+  f_sfweights  = TFile::Open("leptonSFs/FS/moriond17/sf_mu_mediumID_tightIP2D.root","READ");
   h_muoweights_FS_ip = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights_FS_ip");
   h_muoweights_FS_ip->SetDirectory(rootdir);
   f_sfweights->Close();
