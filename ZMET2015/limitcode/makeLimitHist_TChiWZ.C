@@ -108,47 +108,28 @@ int makeLimitHist_TChiWZ()
   file->Close();
   
   // if( biny*10 > 250) continue;
-  for( int binx = 0; binx < 31; binx++ ){
-	for( int biny = 1; biny < 32; biny++ ){
-	  // if( binx*25 < biny*10 && (biny)*10 < 200) continue;
-	  int truebin = massplane_xsec->FindBin(binx*25,biny*10);
-	  int truebinminus1 = massplane_xsec->FindBin(binx*25,(biny-1)*10);
-
-	  // if( biny*10 > 130 ){
-	  // 	contourplot      -> SetBinContent(truebin,100);
-	  // 	massplane_obs    -> SetBinContent(truebin,100);
-	  // 	massplane_obs_up -> SetBinContent(truebin,100);
-	  // 	massplane_obs_dn -> SetBinContent(truebin,100);
-	  // 	massplane_exp_up -> SetBinContent(truebin,100);
-	  // 	massplane_exp_dn -> SetBinContent(truebin,100);
-	  // }
+  // multiply by susy xsec
+  for( int binx = 1; binx <= massplane_xsec->GetNbinsX(); binx++ ){
+  	for( int biny = 1; biny <= massplane_xsec->GetNbinsY(); biny++ ){
+	  int mgluino = massplane_xsec->GetXaxis()->GetBinCenter(binx);
+	  int mlsp = massplane_xsec->GetYaxis()->GetBinCenter(biny);
+	  int truebin = massplane_xsec->GetBin(binx,biny);
+	  int truebinminus1 = massplane_xsec->GetBin(binx,biny-1);
 	  
-	  // if( binx*25 < (biny+1)*10 ) continue;
-	  // if( biny*10 > 250        ) continue;
-	  if( massplane_obs    -> GetBinContent(truebin) <= 0.01 ) massplane_obs    -> SetBinContent(truebin,massplane_obs    -> GetBinContent(truebinminus1));
-	  if( massplane_obs_up -> GetBinContent(truebin) <= 0.01 ) massplane_obs_up -> SetBinContent(truebin,massplane_obs_up -> GetBinContent(truebinminus1));
-	  if( massplane_obs_dn -> GetBinContent(truebin) <= 0.01 ) massplane_obs_dn -> SetBinContent(truebin,massplane_obs_dn -> GetBinContent(truebinminus1));
-	  if( massplane_exp_up -> GetBinContent(truebin) <= 0.01 ) massplane_exp_up -> SetBinContent(truebin,massplane_exp_up -> GetBinContent(truebinminus1));
-	  if( massplane_exp_dn -> GetBinContent(truebin) <= 0.01 ) massplane_exp_dn -> SetBinContent(truebin,massplane_exp_dn -> GetBinContent(truebinminus1));
-	  if( massplane_xsec   -> GetBinContent(truebin) <= 0.01 ) massplane_xsec   -> SetBinContent(truebin,massplane_xsec   -> GetBinContent(truebinminus1));
-	  if( contourplot      -> GetBinContent(truebin) <= 0.01 ) contourplot      -> SetBinContent(truebin,contourplot      -> GetBinContent(truebinminus1));
-
-	  if( massplane_obs    -> GetBinContent(truebin) >=  42 ) massplane_obs    -> SetBinContent(truebin,massplane_obs    -> GetBinContent(truebinminus1));
-	  if( massplane_obs_up -> GetBinContent(truebin) >=  42 ) massplane_obs_up -> SetBinContent(truebin,massplane_obs_up -> GetBinContent(truebinminus1));
-	  if( massplane_obs_dn -> GetBinContent(truebin) >=  42 ) massplane_obs_dn -> SetBinContent(truebin,massplane_obs_dn -> GetBinContent(truebinminus1));
-	  if( massplane_exp_up -> GetBinContent(truebin) >=  42 ) massplane_exp_up -> SetBinContent(truebin,massplane_exp_up -> GetBinContent(truebinminus1));
-	  if( massplane_exp_dn -> GetBinContent(truebin) >=  42 ) massplane_exp_dn -> SetBinContent(truebin,massplane_exp_dn -> GetBinContent(truebinminus1));
-	  if( massplane_xsec   -> GetBinContent(truebin) >=  42 ) massplane_xsec   -> SetBinContent(truebin,massplane_xsec   -> GetBinContent(truebinminus1));
-	  if( contourplot      -> GetBinContent(truebin) >=  42 ) contourplot      -> SetBinContent(truebin,contourplot      -> GetBinContent(truebinminus1));
-
-	  if( binx*25 - biny*10 < 80 ) massplane_obs   -> SetBinContent(truebin,0);
-	  if( binx*25 - biny*10 < 80 ) massplane_xsec  -> SetBinContent(truebin,0);
-
-	  // if( binx*25 > 125 ) contourplot      -> SetBinContent(truebin,0);
-	  // if( binx*25 > 425 ) contourplot      -> SetBinContent(truebin,0);
-
-	}
-  }
+	  // this does two things:
+	  //  - interpolates the missing y-axis points in the bulk of the scan
+	  //  - fills the region above the diagonal with large values so limit contours won't connect to there
+	  if (mgluino - mlsp > 70) {
+	    if( massplane_obs    -> GetBinContent(truebin) <= 0.01 ) massplane_obs    -> SetBinContent(truebin,massplane_obs    -> GetBinContent(truebinminus1));
+	    if( massplane_obs_up -> GetBinContent(truebin) <= 0.01 ) massplane_obs_up -> SetBinContent(truebin,massplane_obs_up -> GetBinContent(truebinminus1));
+	    if( massplane_obs_dn -> GetBinContent(truebin) <= 0.01 ) massplane_obs_dn -> SetBinContent(truebin,massplane_obs_dn -> GetBinContent(truebinminus1));
+	    if( massplane_exp_up -> GetBinContent(truebin) <= 0.01 ) massplane_exp_up -> SetBinContent(truebin,massplane_exp_up -> GetBinContent(truebinminus1));
+	    if( massplane_exp_dn -> GetBinContent(truebin) <= 0.01 ) massplane_exp_dn -> SetBinContent(truebin,massplane_exp_dn -> GetBinContent(truebinminus1));
+	    if( massplane_xsec   -> GetBinContent(truebin) <= 0.01 ) massplane_xsec   -> SetBinContent(truebin,massplane_xsec   -> GetBinContent(truebinminus1));
+	    if( contourplot      -> GetBinContent(truebin) <= 0.01 ) contourplot      -> SetBinContent(truebin,contourplot      -> GetBinContent(truebinminus1));
+	  }
+	} //biny
+  } //binx
 
   contourplot->SetContour(1, contours);
   contourplot->SetLineWidth(4);
@@ -412,6 +393,7 @@ int makeLimitHist_TChiWZ()
 
   //c_massplane->SaveAs("TChiWZ_Exclusion_13TeV.pdf");
   c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV_test.pdf");
+  //c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV_test_nosmoothing.pdf");
   // c_massplane->SaveAs("/home/users/cwelke/public_html/T5ZZ_Exclusion_13TeV.pdf");
 
   return 0;
