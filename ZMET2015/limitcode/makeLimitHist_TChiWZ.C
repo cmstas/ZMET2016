@@ -242,9 +242,8 @@ int makeLimitHist_TChiWZ()
   
   TH2D *hlim = glim.GetHistogram();
   hlim->SetTitle(";m_{gluino} [GeV];m_{LSP} [GeV]");
-  // hlim->GetZaxis()->SetRangeUser(1e-3,1);
   hlim->GetZaxis()->SetLabelSize(0);
-  hlim->GetZaxis()->SetRangeUser(5e-2,3e3);
+  hlim->GetZaxis()->SetRangeUser(5e-3,3e2);
 
   TH2D *hexp = gexp.GetHistogram();
   hexp->SetContour(1, contours);
@@ -296,7 +295,6 @@ int makeLimitHist_TChiWZ()
   // hexp_dn->Draw("samecont2");
   // hexp_up->Draw("samecont2");
   contourplot->Draw("samecont3");
-  // contourplot->Draw("colz");
   massplane_obs->Draw("samecont3");
   massplane_obs_up->Draw("samecont3");
   massplane_obs_dn->Draw("samecont3");
