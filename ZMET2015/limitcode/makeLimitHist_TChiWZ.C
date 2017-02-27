@@ -86,15 +86,18 @@ int makeLimitHist_TChiWZ()
   //edit here
   h_axis->Draw("axis");
   
+
   // multiply by susy xsec
-  for( int biny = 1; biny < 32; biny++ ){
-	for( int binx = 0; binx < 31; binx++ ){
-	  int mgluino = binx*25;
-	  int truebin = massplane_xsec->FindBin(binx*25,biny*10);
+  for( int binx = 1; binx <= massplane_xsec->GetNbinsX(); binx++ ){
+  	for( int biny = 1; biny <= massplane_xsec->GetNbinsY(); biny++ ){
+	  int mgluino = massplane_xsec->GetXaxis()->GetBinCenter(binx);
+	  int truebin = massplane_xsec->GetBin(binx,biny);
 	  // massplane_xsec->SetBinContent(truebin, massplane_xsec->GetBinContent(truebin)/(0.19175)*h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mgluino)));
-	  massplane_xsec  ->SetBinContent(truebin, massplane_xsec-> GetBinContent(truebin)*h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mgluino)));
-	  massplane_obs_up->SetBinContent(truebin, massplane_obs -> GetBinContent(truebin)*1.15);
-	  massplane_obs_dn->SetBinContent(truebin, massplane_obs -> GetBinContent(truebin)*0.85);
+	  double xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mgluino));
+	  double xsec_relerr = h_susyxsecs->GetBinError(h_susyxsecs->FindBin(mgluino))/xsec;
+	  massplane_xsec->SetBinContent(truebin, massplane_xsec->GetBinContent(truebin)*xsec);
+	  massplane_obs_up->SetBinContent(truebin, massplane_obs->GetBinContent(truebin)*(1. + xsec_relerr));
+	  massplane_obs_dn->SetBinContent(truebin, massplane_obs->GetBinContent(truebin)*(1. - xsec_relerr));
 	}
   }
 
