@@ -285,14 +285,14 @@ int makeLimitHist_TChiWZ()
   massplane_exp_up->Draw("samecont3");
   massplane_exp_dn->Draw("samecont3");
 
-  TLine * diag_0 = new TLine(110,150,310,350);
+  TLine * diag_0 = new TLine(100,10,700,610);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
   diag_0->SetLineStyle(1);
   diag_0->Draw("same");
 
   for( int i = 1; i < 20; i++ ){
-	diag_0 = new TLine(110,150+i*5,310,350+i*5);
+	diag_0 = new TLine(100,10+i*5,700,610+i*5);
 	diag_0->SetLineWidth(7);
 	diag_0->SetLineColor(kWhite);
 	diag_0->SetLineStyle(1);
