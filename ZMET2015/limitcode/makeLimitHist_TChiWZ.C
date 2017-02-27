@@ -50,6 +50,8 @@ int makeLimitHist_TChiWZ()
   TH2F * massplane_obs_dn = (TH2F*) f_rvalues->Get("hObs")   -> Clone("massplane_obs_dn");
   TH2F * massplane_exp_up = (TH2F*) f_rvalues->Get("hExp1p") -> Clone("massplane_exp_up");
   TH2F * massplane_exp_dn = (TH2F*) f_rvalues->Get("hExp1m") -> Clone("massplane_exp_dn");
+  TH2F * massplane_exp_up2 = (TH2F*) f_rvalues->Get("hExp2p") -> Clone("massplane_exp_up2");
+  TH2F * massplane_exp_dn2 = (TH2F*) f_rvalues->Get("hExp2m") -> Clone("massplane_exp_dn2");
   // TH2F * massplane_xsec   = new TH2F("massplane_xsec","", 27,25,1375,25,75.0,1325.0);
 
   TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_xsec");
@@ -125,6 +127,8 @@ int makeLimitHist_TChiWZ()
 	    if( massplane_obs_dn -> GetBinContent(truebin) <= 0.01 ) massplane_obs_dn -> SetBinContent(truebin,massplane_obs_dn -> GetBinContent(truebinminus1));
 	    if( massplane_exp_up -> GetBinContent(truebin) <= 0.01 ) massplane_exp_up -> SetBinContent(truebin,massplane_exp_up -> GetBinContent(truebinminus1));
 	    if( massplane_exp_dn -> GetBinContent(truebin) <= 0.01 ) massplane_exp_dn -> SetBinContent(truebin,massplane_exp_dn -> GetBinContent(truebinminus1));
+	    if( massplane_exp_up2 -> GetBinContent(truebin) <= 0.01 ) massplane_exp_up2 -> SetBinContent(truebin,massplane_exp_up2 -> GetBinContent(truebinminus1));
+	    if( massplane_exp_dn2 -> GetBinContent(truebin) <= 0.01 ) massplane_exp_dn2 -> SetBinContent(truebin,massplane_exp_dn2 -> GetBinContent(truebinminus1));
 	    if( massplane_xsec   -> GetBinContent(truebin) <= 0.01 ) massplane_xsec   -> SetBinContent(truebin,massplane_xsec   -> GetBinContent(truebinminus1));
 	    if( contourplot      -> GetBinContent(truebin) <= 0.01 ) contourplot      -> SetBinContent(truebin,contourplot      -> GetBinContent(truebinminus1));
 	  }
@@ -147,6 +151,17 @@ int makeLimitHist_TChiWZ()
   massplane_exp_dn->SetLineColor(kRed);
   massplane_exp_dn->Smooth();
 
+  massplane_exp_up2->SetContour(1, contours);
+  massplane_exp_up2->SetLineWidth(2);
+  massplane_exp_up2->SetLineStyle(3);
+  massplane_exp_up2->SetLineColor(kRed);
+  massplane_exp_up2->Smooth();
+  massplane_exp_dn2->SetContour(1, contours);
+  massplane_exp_dn2->SetLineWidth(2);
+  massplane_exp_dn2->SetLineStyle(3);
+  massplane_exp_dn2->SetLineColor(kRed);
+  massplane_exp_dn2->Smooth();
+  
   massplane_obs->SetContour(1, contours);
   massplane_obs->SetLineWidth(4);
   massplane_obs->SetLineColor(kBlack);
@@ -284,6 +299,8 @@ int makeLimitHist_TChiWZ()
   massplane_obs_dn->Draw("samecont3");
   massplane_exp_up->Draw("samecont3");
   massplane_exp_dn->Draw("samecont3");
+  massplane_exp_up2->Draw("samecont3");
+  massplane_exp_dn2->Draw("samecont3");
 
   TLine * diag_0 = new TLine(100,10,700,610);
   diag_0->SetLineWidth(7);
