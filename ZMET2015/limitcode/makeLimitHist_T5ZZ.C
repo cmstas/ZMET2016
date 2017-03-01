@@ -133,60 +133,6 @@ int makeLimitHist_T5ZZ()
   massplane_obs_dn->SetLineColor(kBlack);
   massplane_obs_dn->Smooth();
 
-  //set diag to 1 for contours
-  for( int binx = 0; binx < contourplot->GetNbinsX()+1; binx++ ){
-	for( int biny = 0; biny < contourplot->GetNbinsY()+1; biny++ ){
-	  // if( binx*50 > 925 ){
-	  // 	int mainbin = contourplot->FindBin(biny*50, binx*50);
-	  // 	if( biny*50 > (binx*50 - 100) ) contourplot     ->SetBinContent(mainbin,1.0);
-	  // 	if( biny*50 > (binx*50 - 100) ) massplane_obs   ->SetBinContent(mainbin,1.0);
-	  // 	if( biny*50 > (binx*50 - 100) ) massplane_obs_up->SetBinContent(mainbin,1.0);
-	  // 	if( biny*50 > (binx*50 - 100) ) massplane_obs_dn->SetBinContent(mainbin,1.0);
-	  // 	if( biny*50 > (binx*50 - 100) ) massplane_exp_up->SetBinContent(mainbin,1.0);
-	  // 	if( biny*50 > (binx*50 - 100) ) massplane_exp_dn->SetBinContent(mainbin,1.0);
-	  // 	if( biny*50 > (binx*50 - 100) ) massplane_xsec  ->SetBinContent(mainbin,0.0);
-	  // }
-
-	  // cout<<biny*50<<" | "<<binx*50+500<<endl;
-	  
-	  // // if( binx*50 > 975 ){
-	  // 	if( (biny*50 - binx*50) > 400 ) contourplot     ->SetBinContent(binx,biny, 100);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs   ->SetBinContent(binx,biny, 100);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs_up->SetBinContent(binx,biny, 100);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs_dn->SetBinContent(binx,biny, 100);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_exp_up->SetBinContent(binx,biny, 100);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_exp_dn->SetBinContent(binx,biny, 100);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_xsec  ->SetBinContent(binx,biny, 0.0);
-	  // // }
-	
-  	  // if( (biny*50 - binx*50) > 400 ) contourplot     ->SetBinContent(binx,biny,0.00);
-  	  // if( (biny*50 - binx*50) > 400 ) massplane_obs   ->SetBinContent(binx,biny,0.00);
-  	  // if( (biny*50 - binx*50) > 400 ) massplane_obs_up->SetBinContent(binx,biny,0.00);
-  	  // if( (biny*50 - binx*50) > 400 ) massplane_obs_dn->SetBinContent(binx,biny,0.00);
-  	  // if( (biny*50 - binx*50) > 400 ) massplane_exp_up->SetBinContent(binx,biny,0.00);
-  	  // if( (biny*50 - binx*50) > 400 ) massplane_exp_dn->SetBinContent(binx,biny,0.00);
-  	  // if( (biny*50 - binx*50) > 400 ) massplane_xsec  ->SetBinContent(binx,biny,0.00);
-
-  	  // if( (biny*50 - binx*50) > 350 ) contourplot     ->SetBinContent(binx,biny,0.99);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_obs   ->SetBinContent(binx,biny,0.99);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_obs_up->SetBinContent(binx,biny,0.99);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_obs_dn->SetBinContent(binx,biny,0.99);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_exp_up->SetBinContent(binx,biny,0.99);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_exp_dn->SetBinContent(binx,biny,0.99);
-  	  // if( (biny*50 - binx*50) > 350 ) massplane_xsec  ->SetBinContent(binx,biny,0.0);
-
-	  // if( binx*50 > 1775 ){
-	  // 	if( (biny*50 - binx*50) > 400 ) contourplot     ->SetBinContent(binx,biny,0.0);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs   ->SetBinContent(binx,biny,0.0);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs_up->SetBinContent(binx,biny,0.0);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_obs_dn->SetBinContent(binx,biny,0.0);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_exp_up->SetBinContent(binx,biny,0.0);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_exp_dn->SetBinContent(binx,biny,0.0);
-	  // 	if( (biny*50 - binx*50) > 400 ) massplane_xsec  ->SetBinContent(binx,biny,0.0);
-	  // }
-	}
-  }
-
   // multiply by susy xsec
   for( int binx = 1; binx <= massplane_xsec->GetNbinsX(); binx++ ){
   	for( int biny = 1; biny <= massplane_xsec->GetNbinsY(); biny++ ){
@@ -207,6 +153,30 @@ int makeLimitHist_T5ZZ()
   file->Write();
   file->Close();
   
+  //set diag to 1 for contours
+  for( int binx = 0; binx < contourplot->GetNbinsX()+1; binx++ ){
+	for( int biny = 0; biny < contourplot->GetNbinsY()+1; biny++ ){
+	  int mgluino = massplane_xsec->GetXaxis()->GetBinCenter(binx);
+	  int mchi = massplane_xsec->GetYaxis()->GetBinCenter(biny);
+	  int truebin = massplane_xsec->GetBin(binx,biny);
+	  int truebinminus1 = massplane_xsec->GetBin(binx,biny-1);
+	  
+	  // hack: this fills a couple bins above the diagonal with large values so limit contours won't run off to high values
+	  if ( mchi > mgluino && mchi < mgluino + 100) {
+	    float penalty_factor = 2.;
+	    massplane_obs    -> SetBinContent(truebin,massplane_obs    -> GetBinContent(truebinminus1)*penalty_factor);
+	    massplane_obs_up -> SetBinContent(truebin,massplane_obs_up -> GetBinContent(truebinminus1)*penalty_factor);
+	    massplane_obs_dn -> SetBinContent(truebin,massplane_obs_dn -> GetBinContent(truebinminus1)*penalty_factor);
+	    massplane_exp_up -> SetBinContent(truebin,massplane_exp_up -> GetBinContent(truebinminus1)*penalty_factor);
+	    massplane_exp_dn -> SetBinContent(truebin,massplane_exp_dn -> GetBinContent(truebinminus1)*penalty_factor);
+	    massplane_exp_up2 -> SetBinContent(truebin,massplane_exp_up2 -> GetBinContent(truebinminus1)*penalty_factor);
+	    massplane_exp_dn2 -> SetBinContent(truebin,massplane_exp_dn2 -> GetBinContent(truebinminus1)*penalty_factor);
+	    massplane_xsec   -> SetBinContent(truebin,massplane_xsec   -> GetBinContent(truebinminus1)*penalty_factor);
+	    contourplot      -> SetBinContent(truebin,contourplot      -> GetBinContent(truebinminus1)*penalty_factor);
+	  }
+	} // biny
+  } // binx
+
   massplane_xsec->Draw("samecolz");
   // contourplot->Draw("samecont3");
   // // contourplot->Draw("colz");
@@ -316,7 +286,8 @@ int makeLimitHist_T5ZZ()
   hexp_dn->SetLineStyle(2);
   hexp_dn->SetLineColor(kRed);
   hexp_dn->Smooth();
-  
+
+  // smoothed version of temperature map
   hlim   ->Draw("samecolz");
   // hobs   ->Draw("samecont3");
   // hobs_dn->Draw("samecont2");
@@ -336,37 +307,22 @@ int makeLimitHist_T5ZZ()
 
   // gStyle->SetPaintTextFormat("1.1f");
   // massplane_obs->Draw("sametext");
+
+  // use white lines to cover up unpleasant artifacts..
+  TLine * diag_0 = new TLine(1100,1100,2000,2000);
+  diag_0->SetLineWidth(7);
+  diag_0->SetLineColor(kWhite);
+  diag_0->SetLineStyle(1);
+  diag_0->Draw("same");
+
+  for( int i = 1; i < 6; i++ ){
+	diag_0 = new TLine(1100,1100+i*20,2000,2000+i*20);
+	diag_0->SetLineWidth(7);
+	diag_0->SetLineColor(kWhite);
+	diag_0->SetLineStyle(1);
+	diag_0->Draw("same");
+  }
   
-  TLine * diag_0 = new TLine(1100,1110,2000,2010);
-  diag_0->SetLineWidth(7);
-  diag_0->SetLineColor(kWhite);
-  diag_0->SetLineStyle(1);
-  diag_0->Draw("same");
-
-  diag_0 = new TLine(1100,1130,2000,2030);
-  diag_0->SetLineWidth(7);
-  diag_0->SetLineColor(kWhite);
-  diag_0->SetLineStyle(1);
-  diag_0->Draw("same");
-
-  diag_0 = new TLine(1100,1150,2000,2050);
-  diag_0->SetLineWidth(7);
-  diag_0->SetLineColor(kWhite);
-  diag_0->SetLineStyle(1);
-  diag_0->Draw("same");
-
-  diag_0 = new TLine(1100,1170,2000,2070);
-  diag_0->SetLineWidth(7);
-  diag_0->SetLineColor(kWhite);
-  diag_0->SetLineStyle(1);
-  diag_0->Draw("same");
-
-  diag_0 = new TLine(1100,1190,2000,2090);
-  diag_0->SetLineWidth(7);
-  diag_0->SetLineColor(kWhite);
-  diag_0->SetLineStyle(1);
-  diag_0->Draw("same");
-
   padt->RedrawAxis();
 
   TBox * box = new TBox(1100,1750,2000,2200);
@@ -456,7 +412,7 @@ int makeLimitHist_T5ZZ()
   cmstexbold->Draw();
 
   //c_massplane->SaveAs("T5ZZ_Exclusion_13TeV.pdf");
-  c_massplane->SaveAs("/home/users/olivito/public_html/T5ZZ_Exclusion_13TeV_fixdiag.pdf");
+  c_massplane->SaveAs("/home/users/olivito/public_html/T5ZZ_Exclusion_13TeV_temp.pdf");
 
   return 0;
 }
