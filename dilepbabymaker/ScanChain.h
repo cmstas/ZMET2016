@@ -213,6 +213,9 @@ private:
 
   // Double electron
   Int_t HLT_DoubleMu_noiso   ;
+  Int_t HLT_DoubleMu_noiso_27_8    ;
+  Int_t HLT_DoubleMu_noiso_30_11   ;
+  Int_t HLT_DoubleMu_noiso_40_11   ;
   Int_t HLT_DoubleMu         ;
   Int_t HLT_DoubleMu_tk      ;
   Int_t HLT_DoubleMu_dbltk   ;

@@ -653,6 +653,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                          ) ||
 				   passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                         ) ||
 				   passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                         ) );
+	  HLT_DoubleMu_noiso_27_8  = passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                         );
+	  HLT_DoubleMu_noiso_30_11 = passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                        );
+	  HLT_DoubleMu_noiso_40_11 = passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                        );
 	  HLT_DoubleMu          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"     );
 	  HLT_DoubleMu_tk       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"   );
 	  HLT_DoubleMu_dbltk    =  passHLTTriggerPattern( "HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
@@ -2239,6 +2242,9 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   // Double electron
   BabyTree_->Branch("HLT_DoubleMu_noiso"    , &HLT_DoubleMu_noiso    );
+  BabyTree_->Branch("HLT_DoubleMu_noiso_27_8"     , &HLT_DoubleMu_noiso_27_8     );
+  BabyTree_->Branch("HLT_DoubleMu_noiso_30_11"    , &HLT_DoubleMu_noiso_30_11    );
+  BabyTree_->Branch("HLT_DoubleMu_noiso_40_11"    , &HLT_DoubleMu_noiso_40_11    );
   BabyTree_->Branch("HLT_DoubleMu"          , &HLT_DoubleMu          );
   BabyTree_->Branch("HLT_DoubleMu_tk"       , &HLT_DoubleMu_tk       );
   BabyTree_->Branch("HLT_DoubleMu_dbltk"    , &HLT_DoubleMu_dbltk    );
@@ -2672,6 +2678,9 @@ void babyMaker::InitBabyNtuple () {
 
   // Double electron
   HLT_DoubleMu_noiso    = -999;
+  HLT_DoubleMu_noiso_27_8     = -999;
+  HLT_DoubleMu_noiso_30_11    = -999;
+  HLT_DoubleMu_noiso_40_11    = -999;
   HLT_DoubleMu          = -999;
   HLT_DoubleMu_tk       = -999;
   HLT_DoubleMu_dbltk    = -999;
