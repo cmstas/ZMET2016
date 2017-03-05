@@ -158,11 +158,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
   h_neventsinfile = new TH1I( "h_neventsinfile", "", 1, 0, 1 );
   
-  //add 2015 data vtx weights for PU
+  //add 2016 data vtx weights for PU, Moriond 2017 version
   TH1F * h_vtxweight = NULL;
   TFile * f_vtx = NULL;
-  f_vtx = TFile::Open("pileup_jul21_nominalUpDown.root","READ");
-  h_vtxweight = (TH1F*)f_vtx->Get("weightsNominal")->Clone("h_vtxweight");
+  f_vtx = TFile::Open("puWeight2016.root","READ");
+  h_vtxweight = (TH1F*)f_vtx->Get("pileupWeight")->Clone("h_vtxweight");
   h_vtxweight->SetDirectory(rootdir);
   f_vtx->Close();
   
