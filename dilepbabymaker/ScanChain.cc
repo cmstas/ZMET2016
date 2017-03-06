@@ -424,22 +424,25 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       isData = cms3.evt_isRealData();
       if (cms3.evt_dataset().size() > 0) evt_dataset.push_back(cms3.evt_dataset().at(0));
 
+      //if ( (!(run==1 && evt==4924476 && lumi==35685)) /*&& (!(run==1 && evt==1535469 && lumi==7737)) && (!(run==1 && evt==1990371 && lumi==10030))*/ ) continue;
+
       // set random seed on first event of each input file for SimPa
       if (event == 0) simpa.SetSeed(evt);
 
       // set jet corrector based on run number for data
       if (isData && run >= 278802 && run <= 278808) {
-	jet_corrector_pfL1FastJetL2L3_current = jet_corrector_pfL1FastJetL2L3_postrun278802;
-	jecUnc_current = jecUnc_postrun278802;
-      } else {
-	jet_corrector_pfL1FastJetL2L3_current = jet_corrector_pfL1FastJetL2L3;
-	jecUnc_current = jecUnc;
+        jet_corrector_pfL1FastJetL2L3_current = jet_corrector_pfL1FastJetL2L3_postrun278802;
+        jecUnc_current = jecUnc_postrun278802;
+      } 
+      else {
+        jet_corrector_pfL1FastJetL2L3_current = jet_corrector_pfL1FastJetL2L3;
+        jecUnc_current = jecUnc;
       }
 
       //cout<<__LINE__<<endl;
       if (!removePostProcVars) {
-	evt_kfactor  = cms3.evt_kfactor();
-	evt_filter   = cms3.evt_filt_eff();
+        evt_kfactor  = cms3.evt_kfactor();
+        evt_filter   = cms3.evt_filt_eff();
       }
 
       // get CMS3 version number to use later
@@ -499,17 +502,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		
 	  }
 	  else if (!removePostProcVars) {
-		evt_nEvts    = cms3.evt_nEvts();
-		evt_scale1fb = cms3.evt_scale1fb();
-		evt_xsec     = cms3.evt_xsec_incl();
+  		evt_nEvts    = cms3.evt_nEvts();
+  		evt_scale1fb = cms3.evt_scale1fb();
+  		evt_xsec     = cms3.evt_xsec_incl();
 	  }
 	  
 	  puWeight     = 1.0;
 	  if( !isData ){
-	  	nTrueInt     = cms3.puInfo_trueNumInteractions().at(0);
-		puWeight     = h_vtxweight->GetBinContent(h_vtxweight->FindBin(nTrueInt));
+	  	nTrueInt = cms3.puInfo_trueNumInteractions().at(0);
+		  puWeight = h_vtxweight->GetBinContent(h_vtxweight->FindBin(nTrueInt));
 	  }
-	  rho            = cms3.evt_fixgridfastjet_all_rho(); //this one is used in JECs
+      rho = cms3.evt_fixgridfastjet_all_rho(); //this one is used in JECs
 
       if (verbose) cout << "before vertices" << endl;
 
@@ -531,8 +534,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       met_miniaod_pt  = cms3.evt_pfmet();
       met_miniaod_phi = cms3.evt_pfmetPhi();
       if (isData && small_cms3_version >= 18) {
-	met_muegclean_pt  = cms3.evt_muegclean_pfmet();
-	met_muegclean_phi = cms3.evt_muegclean_pfmetPhi();
+      	met_muegclean_pt  = cms3.evt_muegclean_pfmet();
+      	met_muegclean_phi = cms3.evt_muegclean_pfmetPhi();
       }
       met_genPt    = cms3.gen_met();
       met_genPhi   = cms3.gen_metPhi();
@@ -551,12 +554,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
 
       // choose default value of MET to use for analysis, set as met_pt, met_phi
-      if (isData && small_cms3_version >= 18) { // for re-MINIAOD data
-	met_pt = met_muegclean_pt;
-	met_phi = met_muegclean_phi;
-      } else {
-	met_pt = met_T1CHS_miniAOD_CORE_pt;
-	met_phi = met_T1CHS_miniAOD_CORE_phi;
+      if (isData && small_cms3_version >= 18) 
+      { // for re-MINIAOD data
+      	met_pt = met_muegclean_pt;
+      	met_phi = met_muegclean_phi;
+      } 
+      else {
+      	met_pt = met_T1CHS_miniAOD_CORE_pt;
+      	met_phi = met_T1CHS_miniAOD_CORE_phi;
       }
 	  
       // met with up unc
@@ -859,130 +864,135 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       nElectrons10 = 0;
 	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
 
-		if( passElectronSelection_ZMET_thirdlepton_v2( iEl, false, false ) ){
-		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
-			nveto_leptons++;
-		  }
-		}
+  		if( passElectronSelection_ZMET_thirdlepton_v2( iEl, false, false ) ){
+  		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
+          nveto_leptons++;
+  		  }
+  		}
  	  	if( !passElectronSelection_ZMET( iEl ) ) continue;
 		
         nElectrons10++;
 
-		if( cms3.els_p4().at(iEl).pt() > 10.0 ){
-		  lep_pt_ordering	   .push_back( std::pair<int, float>(nlep, cms3.els_p4().at(iEl).pt()));
-		  vec_lep_p4s          .push_back( cms3.els_p4().at(iEl)           );
-		  vec_lep_pt           .push_back( cms3.els_p4().at(iEl).pt()      );
-		  vec_lep_eta          .push_back( cms3.els_p4().at(iEl).eta()     ); //save eta, even though we use SCeta for ID
-		  vec_lep_phi          .push_back( cms3.els_p4().at(iEl).phi()     );
-		  vec_lep_mass         .push_back( cms3.els_mass().at(iEl)         );
-		  vec_lep_charge       .push_back( cms3.els_charge().at(iEl)       );
-		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
-		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
-		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
-		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
-		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
-		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl, 1 )   );
-		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
-		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
-		  vec_lep_validfraction.push_back( -1                              );
-		  vec_lep_ptErr        .push_back( cms3.els_ptErr() .at(iEl)       );
-		  vec_lep_sta_pterrOpt .push_back ( -1                             );
-		  vec_lep_glb_pterrOpt .push_back ( -1                             );
-		  // vec_lep_bft_pterrOpt .push_back ( cms3.els_bfit_qoverpError().at(iEl) / cms3.els_bfit_qoverp() .at(iEl) );
-		  vec_lep_x2ondof      .push_back ( cms3.els_chi2()            .at(iEl) / cms3.els_ndof()        .at(iEl) );
-		  vec_lep_sta_x2ondof  .push_back ( -1                             );
-		  vec_lep_glb_x2ondof  .push_back ( -1                             );
-		  // vec_lep_bft_x2ondof  .push_back ( cms3.els_bfit_chi2()       .at(iEl) / cms3.els_bfit_ndof()   .at(iEl) );
+  		if( cms3.els_p4().at(iEl).pt() > 10.0 ){
+  		  lep_pt_ordering	   .push_back( std::pair<int, float>(nlep, cms3.els_p4().at(iEl).pt()));
+  		  vec_lep_p4s          .push_back( cms3.els_p4().at(iEl)           );
+  		  vec_lep_pt           .push_back( cms3.els_p4().at(iEl).pt()      );
+  		  vec_lep_eta          .push_back( cms3.els_p4().at(iEl).eta()     ); //save eta, even though we use SCeta for ID
+  		  vec_lep_phi          .push_back( cms3.els_p4().at(iEl).phi()     );
+  		  vec_lep_mass         .push_back( cms3.els_mass().at(iEl)         );
+  		  vec_lep_charge       .push_back( cms3.els_charge().at(iEl)       );
+  		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
+  		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
+  		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
+  		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
+  		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
+  		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl, 1 )   );
+  		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
+  		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
+  		  vec_lep_validfraction.push_back( -1                              );
+  		  vec_lep_ptErr        .push_back( cms3.els_ptErr() .at(iEl)       );
+  		  vec_lep_sta_pterrOpt .push_back ( -1                             );
+  		  vec_lep_glb_pterrOpt .push_back ( -1                             );
+  		  // vec_lep_bft_pterrOpt .push_back ( cms3.els_bfit_qoverpError().at(iEl) / cms3.els_bfit_qoverp() .at(iEl) );
+  		  vec_lep_x2ondof      .push_back ( cms3.els_chi2()            .at(iEl) / cms3.els_ndof()        .at(iEl) );
+  		  vec_lep_sta_x2ondof  .push_back ( -1                             );
+  		  vec_lep_glb_x2ondof  .push_back ( -1                             );
+  		  // vec_lep_bft_x2ondof  .push_back ( cms3.els_bfit_chi2()       .at(iEl) / cms3.els_bfit_ndof()   .at(iEl) );
 
-		  if (!isData && (cms3.els_mc3dr().at(iEl) < 0.2 && cms3.els_mc3idx().at(iEl) != -9999 && abs(cms3.els_mc3_id().at(iEl)) == 11 )) { // matched to a prunedGenParticle electron?
-			int momid =  abs(genPart_motherId[cms3.els_mc3idx().at(iEl)]);
-			vec_lep_mcMatchId.push_back ( momid != 11 ? momid : genPart_grandmaId[cms3.els_mc3idx().at(iEl)]); // if mother is different store mother, otherwise store grandmother
-		  }
-		  else{
-			vec_lep_mcMatchId.push_back (0);
-		  }
-		  
-		  vec_lep_lostHits.push_back ( cms3.els_exp_innerlayers().at(iEl)); //cms2.els_lost_pixelhits().at(iEl);
-		  vec_lep_convVeto.push_back ( !cms3.els_conv_vtx_flag().at(iEl));
-		  vec_lep_tightCharge.push_back ( tightChargeEle(iEl));
+  		  if (!isData && (cms3.els_mc3dr().at(iEl) < 0.2 && cms3.els_mc3idx().at(iEl) != -9999 && abs(cms3.els_mc3_id().at(iEl)) == 11 )) { // matched to a prunedGenParticle electron?
+          int momid =  abs(genPart_motherId[cms3.els_mc3idx().at(iEl)]);
+          vec_lep_mcMatchId.push_back ( momid != 11 ? momid : genPart_grandmaId[cms3.els_mc3idx().at(iEl)]); // if mother is different store mother, otherwise store grandmother
+  		  }
+  		  else{
+          vec_lep_mcMatchId.push_back (0);
+  		  }
+  		  
+  		  vec_lep_lostHits.push_back ( cms3.els_exp_innerlayers().at(iEl)); //cms2.els_lost_pixelhits().at(iEl);
+  		  vec_lep_convVeto.push_back ( !cms3.els_conv_vtx_flag().at(iEl));
+  		  vec_lep_tightCharge.push_back ( tightChargeEle(iEl));
 
-		  nlep++;
-		}
+  		  nlep++;
+  		}
 
-		if( cms3.els_p4().at(iEl).pt() > 20.0 ){
-		  p4sLeptonsForJetCleaning.push_back(cms3.els_p4().at(iEl));
-		}		
-      }
+  		if( cms3.els_p4().at(iEl).pt() > 20.0 ){
+  		  p4sLeptonsForJetCleaning.push_back(cms3.els_p4().at(iEl));
+  		}		
+    }
 	  
 	  if (verbose) cout << "before muons" << endl;
 
 	  //cout<<__LINE__<<endl;
 
-      //MUONS
-      nMuons10 = 0;
-      nBadMuons20 = 0;
+    //MUONS
+    nMuons10 = 0;
+    nBadMuons20 = 0;
 	  // RCLSA: this is a TEMPORARY protections for a problem with CMS3 samples
 	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
 	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
-	        if (recent_cms3_version) {
-	          if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
-	        }
-		if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
-		  nveto_leptons++;
-		}
- 	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
-		nMuons10++;
-
-		double validFraction = mus_validHits().at(iMu)/(double)(mus_validHits().at(iMu)+mus_lostHits().at(iMu)+mus_exp_innerlayers().at(iMu)+mus_exp_outerlayers().at(iMu));
-		
-		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
- 		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
-		  vec_lep_p4s          .push_back ( cms3.mus_p4()    .at(iMu)       );
-		  vec_lep_pt           .push_back ( cms3.mus_p4()    .at(iMu).pt()  );
-		  vec_lep_eta          .push_back ( cms3.mus_p4()    .at(iMu).eta() );
-		  vec_lep_phi          .push_back ( cms3.mus_p4()    .at(iMu).phi() );
-		  vec_lep_mass         .push_back ( cms3.mus_mass()  .at(iMu)       );
-		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)       );
-		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13) );
-		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
-		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
-		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
-		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
-		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)    );
-		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
-		  vec_lep_MVA          .push_back ( -99                             );
-		  vec_lep_validfraction.push_back ( validFraction                   );
-		  vec_lep_ptErr        .push_back ( cms3.mus_ptErr() .at(iMu)       );
-
-		  vec_lep_sta_pterrOpt .push_back ( cms3.mus_sta_qoverpError() .at(iMu) / cms3.mus_sta_qoverp()  .at(iMu) );
-		  vec_lep_glb_pterrOpt .push_back ( cms3.mus_gfit_qoverpError().at(iMu) / cms3.mus_gfit_qoverp() .at(iMu) );
-		  // vec_lep_bft_pterrOpt .push_back ( cms3.mus_bfit_qoverpError().at(iMu) / cms3.mus_bfit_qoverp() .at(iMu) );
-		  vec_lep_x2ondof      .push_back ( cms3.mus_chi2()            .at(iMu) / cms3.mus_ndof()        .at(iMu) );
-		  vec_lep_sta_x2ondof  .push_back ( cms3.mus_sta_chi2()        .at(iMu) / cms3.mus_sta_ndof()    .at(iMu) );
-		  if( currentFileName.Contains("V08-00-1") ){ vec_lep_glb_x2ondof  .push_back ( cms3.mus_gfit_chi2()       .at(iMu) / cms3.mus_gfit_ndof()   .at(iMu) );
-		  }else{                                                       vec_lep_glb_x2ondof  .push_back ( -1.0                                                                  );}
-		  // vec_lep_bft_x2ondof  .push_back ( cms3.mus_bfit_chi2()       .at(iMu) / cms3.mus_bfit_ndof()   .at(iMu) );
-		  
-		  if (!isData && (cms3.mus_mc3dr().at(iMu) < 0.2 && cms3.mus_mc3idx().at(iMu) != -9999 && abs(cms3.mus_mc3_id().at(iMu)) == 13 )) { // matched to a prunedGenParticle electron?
-			int momid =  abs(genPart_motherId[cms3.mus_mc3idx().at(iMu)]);
-			vec_lep_mcMatchId.push_back ( momid != 13 ? momid : genPart_grandmaId[cms3.mus_mc3idx().at(iMu)]); // if mother is different store mother, otherwise store grandmother
-		  }
-		  else vec_lep_mcMatchId.push_back (0);
-
-		  vec_lep_lostHits   .push_back ( cms3.mus_exp_innerlayers().at(iMu)); // use defaults as if "good electron"
-		  vec_lep_convVeto   .push_back ( 1                                 );// use defaults as if "good electron"
-		  vec_lep_tightCharge.push_back ( tightChargeMuon(iMu)              );
-
-		  nlep++;
-
-		}
-
-		if( cms3.mus_p4().at(iMu).pt() > 20.0 ){
-		  p4sLeptonsForJetCleaning.push_back(cms3.mus_p4().at(iMu));
-		}
-
+      if (recent_cms3_version) {
+        if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
       }
+    	if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
+    	  nveto_leptons++;
+    	}
+ 	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
+		  
+      nMuons10++;
+
+		  double validFraction = mus_validHits().at(iMu)/(double)(mus_validHits().at(iMu)+mus_lostHits().at(iMu)+mus_exp_innerlayers().at(iMu)+mus_exp_outerlayers().at(iMu));
+		
+  		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
+   		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
+  		  vec_lep_p4s          .push_back ( cms3.mus_p4()    .at(iMu)       );
+  		  vec_lep_pt           .push_back ( cms3.mus_p4()    .at(iMu).pt()  );
+  		  vec_lep_eta          .push_back ( cms3.mus_p4()    .at(iMu).eta() );
+  		  vec_lep_phi          .push_back ( cms3.mus_p4()    .at(iMu).phi() );
+  		  vec_lep_mass         .push_back ( cms3.mus_mass()  .at(iMu)       );
+  		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)       );
+  		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13) );
+  		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
+  		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
+  		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
+  		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
+  		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)    );
+  		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
+  		  vec_lep_MVA          .push_back ( -99                             );
+  		  vec_lep_validfraction.push_back ( validFraction                   );
+  		  vec_lep_ptErr        .push_back ( cms3.mus_ptErr() .at(iMu)       );
+
+  		  vec_lep_sta_pterrOpt .push_back ( cms3.mus_sta_qoverpError() .at(iMu) / cms3.mus_sta_qoverp()  .at(iMu) );
+  		  vec_lep_glb_pterrOpt .push_back ( cms3.mus_gfit_qoverpError().at(iMu) / cms3.mus_gfit_qoverp() .at(iMu) );
+  		  // vec_lep_bft_pterrOpt .push_back ( cms3.mus_bfit_qoverpError().at(iMu) / cms3.mus_bfit_qoverp() .at(iMu) );
+  		  vec_lep_x2ondof      .push_back ( cms3.mus_chi2()            .at(iMu) / cms3.mus_ndof()        .at(iMu) );
+  		  vec_lep_sta_x2ondof  .push_back ( cms3.mus_sta_chi2()        .at(iMu) / cms3.mus_sta_ndof()    .at(iMu) );
+  		  if( currentFileName.Contains("V08-00-1") ){ 
+          vec_lep_glb_x2ondof  .push_back ( cms3.mus_gfit_chi2()       .at(iMu) / cms3.mus_gfit_ndof()   .at(iMu) );
+  		  }
+        else{                                                       vec_lep_glb_x2ondof  .push_back ( -1.0                                                                  );}
+  		  // vec_lep_bft_x2ondof  .push_back ( cms3.mus_bfit_chi2()       .at(iMu) / cms3.mus_bfit_ndof()   .at(iMu) );
+  		  
+  		  if (!isData && (cms3.mus_mc3dr().at(iMu) < 0.2 && cms3.mus_mc3idx().at(iMu) != -9999 && abs(cms3.mus_mc3_id().at(iMu)) == 13 )) { // matched to a prunedGenParticle electron?
+          int momid =  abs(genPart_motherId[cms3.mus_mc3idx().at(iMu)]);
+          vec_lep_mcMatchId.push_back ( momid != 13 ? momid : genPart_grandmaId[cms3.mus_mc3idx().at(iMu)]); // if mother is different store mother, otherwise store grandmother
+  		  }
+  		  else {
+          vec_lep_mcMatchId.push_back (0);
+        }
+
+  		  vec_lep_lostHits   .push_back ( cms3.mus_exp_innerlayers().at(iMu)); // use defaults as if "good electron"
+  		  vec_lep_convVeto   .push_back ( 1                                 );// use defaults as if "good electron"
+  		  vec_lep_tightCharge.push_back ( tightChargeMuon(iMu)              );
+
+  		  nlep++;
+
+		  }
+
+  		if( cms3.mus_p4().at(iMu).pt() > 20.0 ){
+  		  p4sLeptonsForJetCleaning.push_back(cms3.mus_p4().at(iMu));
+  		}
+
+    }
 
 	  // veto leptons are looser than analysis leptons
 	  nveto_leptons -= nlep;
@@ -1081,26 +1091,27 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		  }
 		  if (bestMatch != -1) {
   			// 7 is a special code for photons without a mother. this seems to be due to a miniAOD bug where links are broken.
-  			gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : cms3.genps_id().at(bestMatch));
-			gamma_genPt.push_back(cms3.genps_id().at(bestMatch) == 22 ? cms3.genps_p4().at(bestMatch).pt() : -1);
+  		  gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : cms3.genps_id().at(bestMatch));
+        gamma_genPt.push_back(cms3.genps_id().at(bestMatch) == 22 ? cms3.genps_p4().at(bestMatch).pt() : -1);
   			gamma_genIso.push_back(-1); //cms2.genps_iso().at(bestMatch);
-			gamma_genIsPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(bestMatch));
-			// Now want to look at DR between photon and parton
-			float minDR = 999.; 
-			for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
-			  if( cms3.genps_status().at(iGen)   != 22 && cms3.genps_status().at(iGen)   != 23) continue;
-			  if( fabs(cms3.genps_id().at(iGen)) != 21 || fabs(cms3.genps_id().at(iGen)) <= 4 ) continue;
-			  float dr = DeltaR( cms3.genps_p4().at(iGen).eta(), bestMatchEta, cms3.genps_p4().at(iGen).phi(), bestMatchPhi);
-			  if (dr < minDR) minDR = dr;
-			}
-			gamma_drMinParton.push_back ( minDR );
+        gamma_genIsPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(bestMatch));
+        // Now want to look at DR between photon and parton
+  			float minDR = 999.; 
+  			for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
+  			  if( cms3.genps_status().at(iGen)   != 22 && cms3.genps_status().at(iGen)   != 23) continue;
+  			  if( fabs(cms3.genps_id().at(iGen)) != 21 || fabs(cms3.genps_id().at(iGen)) <= 4 ) continue;
+  			  float dr = DeltaR( cms3.genps_p4().at(iGen).eta(), bestMatchEta, cms3.genps_p4().at(iGen).phi(), bestMatchPhi);
+  			  if (dr < minDR) minDR = dr;
+  			}
+  			
+        gamma_drMinParton.push_back ( minDR );
 		  }
 		  else {
-			gamma_mcMatchId.push_back(0);
-			gamma_genPt.push_back(-1);
-			gamma_genIso.push_back(-1);
-			gamma_genIsPromptFinalState.push_back(-1);
-			gamma_drMinParton.push_back ( -1 );
+  			gamma_mcMatchId.push_back(0);
+  			gamma_genPt.push_back(-1);
+  			gamma_genIso.push_back(-1);
+  			gamma_genIsPromptFinalState.push_back(-1);
+  			gamma_drMinParton.push_back ( -1 );
 		  }
 		}   
 
@@ -1172,71 +1183,79 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  // add selections to keep only events with photons and dilepton events
 	  if( !(ngamma > 0 || nlep > 0) ) {
 	    simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
+      //cout<<"DEBUGEVENT: run "<<run<<" lumi "<<lumi<<" evt "<<evt<<" Failed < 0 leptons or less than 0 photons"<<endl;
 	    continue;// fix for not iso study
 	  }
 		// std::pair <int, int> hyp_indices =  getHypLepIndices( lep_p4, lep_pdgId );
 	  std::pair <int, int> hyp_indices = std::make_pair(0, 1);
 		
 	  if (nlep > 1 ) {//require min 2 leps
-		if (lep_charge.at(hyp_indices.first)*lep_charge.at(hyp_indices.second) > 0){
-		  evt_type = 1; // same sign event
-		}else{
-		  evt_type = 0; // oppo sign event 
-		}
+  		if (lep_charge.at(hyp_indices.first)*lep_charge.at(hyp_indices.second) > 0){
+  		  evt_type = 1; // same sign event
+  		}
+      else{
+  		  evt_type = 0; // oppo sign event 
+  		}
 
-		if (        abs(lep_pdgId.at(hyp_indices.first)) == 11 && abs(lep_pdgId.at(hyp_indices.second)) == 11  ){ hyp_type = 0;// ee event												   			   
-		}else if (  abs(lep_pdgId.at(hyp_indices.first)) == 13 && abs(lep_pdgId.at(hyp_indices.second)) == 13  ){ hyp_type = 1;// mm event												   			   
-		}else if ( (abs(lep_pdgId.at(hyp_indices.first)) == 11 && abs(lep_pdgId.at(hyp_indices.second)) == 13) ||
-				   (abs(lep_pdgId.at(hyp_indices.first)) == 13 && abs(lep_pdgId.at(hyp_indices.second)) == 11) ){ hyp_type = 2;// em event
-		}else {
-		  cout<<"Leptype not ee, mm, or em! Exiting."<<endl;
-		  simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
-		  continue;
-		}
+  		if ( abs(lep_pdgId.at(hyp_indices.first)) == 11 && abs(lep_pdgId.at(hyp_indices.second)) == 11 ){ 
+        hyp_type = 0;// ee event												   			   
+  		}
+      else if (  abs(lep_pdgId.at(hyp_indices.first)) == 13 && abs(lep_pdgId.at(hyp_indices.second)) == 13 ){ 
+        hyp_type = 1;// mm event												   			   
+  		}
+      else if ( (abs(lep_pdgId.at(hyp_indices.first)) == 11 && abs(lep_pdgId.at(hyp_indices.second)) == 13) || (abs(lep_pdgId.at(hyp_indices.first)) == 13 && abs(lep_pdgId.at(hyp_indices.second)) == 11) ){ 
+        hyp_type = 2;// em event
+  		}
+      else {
+  		  cout<<"Leptype not ee, mm, or em! Exiting."<<endl;
+  		  simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
+        //cout<<"DEBUGEVENT: run "<<run<<" lumi "<<lumi<<" evt "<<evt<<" Failed More than 1 lepton, but can't be matched to ee, mumu, or emu"<<endl;
+  		  continue;
+  		}
 
-		dilmass = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).mass();
-		dilpt   = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).pt();       
+  		dilmass = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).mass();
+  		dilpt   = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).pt();       
 
-		//Add dRll
-		float dEtall =            lep_p4.at(hyp_indices.first).eta() - lep_p4.at(hyp_indices.second).eta();
-		float dPhill = acos( cos( lep_p4.at(hyp_indices.first).phi() - lep_p4.at(hyp_indices.second).phi() ) );
-		dRll = sqrt(pow( dEtall, 2) + pow( dPhill, 2));
-		
-	  }else if( ngamma > 0 ) {// here are the photon only variables
-		evt_type = 2; // photon + jets event
-		
-	  }else{
-	        simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
-		continue; // leftovers
+  		//Add dRll
+  		float dEtall =            lep_p4.at(hyp_indices.first).eta() - lep_p4.at(hyp_indices.second).eta();
+  		float dPhill = acos( cos( lep_p4.at(hyp_indices.first).phi() - lep_p4.at(hyp_indices.second).phi() ) );
+  		dRll = sqrt(pow( dEtall, 2) + pow( dPhill, 2));
+	  }
+    else if( ngamma > 0 ) {// here are the photon only variables
+      evt_type = 2; // photon + jets event
+	  }
+    else{
+      simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
+      //cout<<"DEBUGEVENT: run "<<run<<" lumi "<<lumi<<" evt "<<evt<<" Failed More than 1 lepton, but can't be matched to ee, mumu, or emu"<<endl;
+      continue; // leftovers
 	  }
 
 	  if(nlep>1){
-		LorentzVector z_pt(lep_p4.at(hyp_indices.first).X()+lep_p4.at(hyp_indices.second).X(),
+		  LorentzVector z_pt(lep_p4.at(hyp_indices.first).X()+lep_p4.at(hyp_indices.second).X(),
 						   lep_p4.at(hyp_indices.first).Y()+lep_p4.at(hyp_indices.second).Y(),
 						   lep_p4.at(hyp_indices.first).Z()+lep_p4.at(hyp_indices.second).Z(),
 						   lep_p4.at(hyp_indices.first).E()+lep_p4.at(hyp_indices.second).E());
 
-		//start from here
-		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( z_pt );
-		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
-		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
-		decayedphoton_bosn_p4 =
-		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
-						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
-						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
-						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
-	  }
-	  
+  		//start from here
+  		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( z_pt );
+  		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
+  		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
+  		decayedphoton_bosn_p4 =
+  		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
+  						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
+  						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
+  						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
+	  }	  
 	  else if(ngamma>0){
-		//start from here
-		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( gamma_p4.at(0) );
-		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
-		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
-		decayedphoton_bosn_p4 =
-		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
-						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
-						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
-						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
+  		//start from here
+  		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( gamma_p4.at(0) );
+  		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
+  		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
+  		decayedphoton_bosn_p4 =
+  		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
+  						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
+  						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
+  						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
 	  }
 	  
 	  if (verbose) cout << "before jets" << endl;
