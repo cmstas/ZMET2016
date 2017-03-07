@@ -2032,7 +2032,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		bool leptonoverlaps = false;
 		if( evt_type != 2 ){
 		  for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
-			if( lepind >= 2 ) break;
+		        //if( lepind >= 2 ) break; // consider all analysis leptons
 			if( sqrt( pow(cms3.pfcands_p4().at(pfind).eta() - lep_p4.at(lepind).eta(), 2) +
 					  pow(acos(cos(cms3.pfcands_p4().at(pfind).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.01 ){
 			  leptonoverlaps = true;
