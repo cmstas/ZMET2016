@@ -251,151 +251,149 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     if (applyJECfromFile) {
       jetcorr_filenames_pfL1FastJetL2L3.clear();
 
-	  //JECs for 76X
-	  if( currentFileName.Contains("16Dec2015") || currentFileName.Contains("76X_mcRun2") ){
-		if( currentFileName.Contains("Run2015C") || currentFileName.Contains("Run2015D") ){
-		  jetcorr_filenames_pfL1FastJetL2L3.clear();
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt"   );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2Relative_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L3Absolute_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2L3Residual_AK4PFchs.txt");
-		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_Uncertainty_AK4PFchs.txt" );
-		}
+  	  //JECs for 76X
+  	  if( currentFileName.Contains("16Dec2015") || currentFileName.Contains("76X_mcRun2") ){
+  		if( currentFileName.Contains("Run2015C") || currentFileName.Contains("Run2015D") ){
+  		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt"   );
+  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2Relative_AK4PFchs.txt"  );
+  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L3Absolute_AK4PFchs.txt"  );
+  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2L3Residual_AK4PFchs.txt");
+  		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_Uncertainty_AK4PFchs.txt" );
+  		}
 
-		else{
-		  // files for 76X MC
-		  jetcorr_filenames_pfL1FastJetL2L3.clear();
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L1FastJet_AK4PFchs.txt"   );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L2Relative_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L3Absolute_AK4PFchs.txt"  );
-		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt" );
-		}		
-	  }
+  		else{
+  		  // files for 76X MC
+  		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L1FastJet_AK4PFchs.txt"   );
+  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L2Relative_AK4PFchs.txt"  );
+  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L3Absolute_AK4PFchs.txt"  );
+  		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt" );
+  		}		
+  	  }
 
-	  else if( currentFileName.Contains("80MiniAODv") || currentFileName.Contains("RelVal") ){
-		// files for 80X MC, ICHEP production
-		jetcorr_filenames_pfL1FastJetL2L3.clear();
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L1FastJet_AK4PFchs.txt"   );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L2Relative_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L3Absolute_AK4PFchs.txt"  );
-		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_Uncertainty_AK4PFchs.txt" );
-	  }
-		
-	  else if( currentFileName.Contains("Summer16") ){
-		// files for 80X MC, Summer16 (Moriond17) production
-		jetcorr_filenames_pfL1FastJetL2L3.clear();
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt"   );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_L2Relative_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_L3Absolute_AK4PFchs.txt"  );
-		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt" );
-	  }
-		
-	  else if( currentFileName.Contains("Run2016") || currentFileName.Contains("CMSSW_8_0_11_V08-00-06") ){
+  	  else if( currentFileName.Contains("80MiniAODv") || currentFileName.Contains("RelVal") ){
+  		  // files for 80X MC, ICHEP production
+    		jetcorr_filenames_pfL1FastJetL2L3.clear();
+    		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L1FastJet_AK4PFchs.txt"   );
+    		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L2Relative_AK4PFchs.txt"  );
+    		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L3Absolute_AK4PFchs.txt"  );
+    		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_Uncertainty_AK4PFchs.txt" );
+  	  }
+  		
+  	  else if( currentFileName.Contains("Summer16") ){
+    		// files for 80X MC, Summer16 (Moriond17) production
+    		jetcorr_filenames_pfL1FastJetL2L3.clear();
+    		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt"   );
+    		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_L2Relative_AK4PFchs.txt"  );
+    		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_L3Absolute_AK4PFchs.txt"  );
+    		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt" );
+  	  }
+  		
+  	  else if( currentFileName.Contains("Run2016") || currentFileName.Contains("CMSSW_8_0_11_V08-00-06") ){
+    		// 	jetcorr_filenames_pfL1FastJetL2L3.clear();
+    		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
+    		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt"  );
+    		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt"  );
+    		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
+    		// 	jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
 
-		// 	jetcorr_filenames_pfL1FastJetL2L3.clear();
-		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
-		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt"  );
-		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt"  );
-		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
-		// 	jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
+    		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
+    		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
+    		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt"  );
+    		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt"  );
+    		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
+    		// 	jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
+    		// 	jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
 
-		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
-		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
-		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt"  );
-		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt"  );
-		// 	jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
-		// 	jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt" );
-		// 	jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
+    		// // This scheme will eventually be used for Moriond. For now just use JECs from ICHEP
+    		if( currentFileName.Contains("Run2016B") ||
+    			currentFileName.Contains("Run2016C") ||
+    			currentFileName.Contains("Run2016D") ){
+    		  // files for 80X Data
+    		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_L1FastJet_AK4PFchs.txt"   );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_L2Relative_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_L3Absolute_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_L2L3Residual_AK4PFchs.txt");
+    		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_Uncertainty_AK4PFchs.txt" );
+    		}
 
-		// // This scheme will eventually be used for Moriond. For now just use JECs from ICHEP
-		if( currentFileName.Contains("Run2016B") ||
-			currentFileName.Contains("Run2016C") ||
-			currentFileName.Contains("Run2016D") ){
-		  // files for 80X Data
-		  jetcorr_filenames_pfL1FastJetL2L3.clear();
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_L1FastJet_AK4PFchs.txt"   );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_L2Relative_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_L3Absolute_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_L2L3Residual_AK4PFchs.txt");
-		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016BCDV3_DATA_Uncertainty_AK4PFchs.txt" );
-		}
+    		if( currentFileName.Contains("Run2016E") ||
+    			currentFileName.Contains("Run2016F") ){
+    		  // files for 80X Data
+    		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_L1FastJet_AK4PFchs.txt"   );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_L2Relative_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_L3Absolute_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_L2L3Residual_AK4PFchs.txt");
+    		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_Uncertainty_AK4PFchs.txt" );
 
-		if( currentFileName.Contains("Run2016E") ||
-			currentFileName.Contains("Run2016F") ){
-		  // files for 80X Data
-		  jetcorr_filenames_pfL1FastJetL2L3.clear();
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_L1FastJet_AK4PFchs.txt"   );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_L2Relative_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_L3Absolute_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_L2L3Residual_AK4PFchs.txt");
-		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016EFV3_DATA_Uncertainty_AK4PFchs.txt" );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L1FastJet_AK4PFchs.txt"   );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2Relative_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L3Absolute_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2L3Residual_AK4PFchs.txt");
+    		  jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_Uncertainty_AK4PFchs.txt" );
+    		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
+    		}
 
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L1FastJet_AK4PFchs.txt"   );
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2Relative_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L3Absolute_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2L3Residual_AK4PFchs.txt");
-		  jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_Uncertainty_AK4PFchs.txt" );
-		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
-		}
+    		if( currentFileName.Contains("Run2016G") ){
+    		  // files for 80X Data
+    		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L1FastJet_AK4PFchs.txt"   );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2Relative_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L3Absolute_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2L3Residual_AK4PFchs.txt");
+    		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_Uncertainty_AK4PFchs.txt" );
 
-		if( currentFileName.Contains("Run2016G") ){
-		  // files for 80X Data
-		  jetcorr_filenames_pfL1FastJetL2L3.clear();
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L1FastJet_AK4PFchs.txt"   );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2Relative_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L3Absolute_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2L3Residual_AK4PFchs.txt");
-		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_Uncertainty_AK4PFchs.txt" );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L1FastJet_AK4PFchs.txt"   );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2Relative_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L3Absolute_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2L3Residual_AK4PFchs.txt");
+    		  jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_Uncertainty_AK4PFchs.txt" );
+    		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
+    		}
 
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L1FastJet_AK4PFchs.txt"   );
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2Relative_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L3Absolute_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_L2L3Residual_AK4PFchs.txt");
-		  jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016GV3_DATA_Uncertainty_AK4PFchs.txt" );
-		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
-		}
+    		if( currentFileName.Contains("Run2016H") ){
+    		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L1FastJet_AK4PFchs.txt"   );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L2Relative_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L3Absolute_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L2L3Residual_AK4PFchs.txt");
+    		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_Uncertainty_AK4PFchs.txt" );
 
-		if( currentFileName.Contains("Run2016H") ){
-		  jetcorr_filenames_pfL1FastJetL2L3.clear();
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L1FastJet_AK4PFchs.txt"   );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L2Relative_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L3Absolute_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L2L3Residual_AK4PFchs.txt");
-		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_Uncertainty_AK4PFchs.txt" );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L1FastJet_AK4PFchs.txt"   );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L2Relative_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L3Absolute_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L2L3Residual_AK4PFchs.txt");
+    		  jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_Uncertainty_AK4PFchs.txt" );
+    		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
+    		}
+  	  }
 
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.clear();
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L1FastJet_AK4PFchs.txt"   );
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L2Relative_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L3Absolute_AK4PFchs.txt"  );
-		  jetcorr_filenames_pfL1FastJetL2L3_postrun278802.push_back  ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_L2L3Residual_AK4PFchs.txt");
-		  jecUnc_postrun278802 = new JetCorrectionUncertainty        ("jetCorrections/source_80X/DATA/Summer16_23Sep2016HV3_DATA_Uncertainty_AK4PFchs.txt" );
-		  jet_corrector_pfL1FastJetL2L3_postrun278802  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3_postrun278802);
-		}
-		
-	  }
+  	  if( isSMSScan ){
+      	// files for 25ns fastsim samples
+      	jetcorr_filenames_pfL1FastJetL2L3.clear();
+      	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L1FastJet_AK4PFchs.txt"   );
+      	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L2Relative_AK4PFchs.txt"  );
+      	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L3Absolute_AK4PFchs.txt"  );
+      	jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_Uncertainty_AK4PFchs.txt" );
+  	  }
 
-	  if( isSMSScan ){
-		// files for 25ns fastsim samples
-		jetcorr_filenames_pfL1FastJetL2L3.clear();
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L1FastJet_AK4PFchs.txt"   );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L2Relative_AK4PFchs.txt"  );
-		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L3Absolute_AK4PFchs.txt"  );
-		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_Uncertainty_AK4PFchs.txt" );
-	  }
+  	  if( jetcorr_filenames_pfL1FastJetL2L3.size() == 0 ){
+    		cout<<"Error, sample not found. Check the JECs."<<endl;
+    		exit(100);
+  	  }
 
-	  if( jetcorr_filenames_pfL1FastJetL2L3.size() == 0 ){
-		cout<<"Error, sample not found. Check the JECs."<<endl;
-		exit(100);
-	  }
-
-	  cout<<"JECs used:"<<endl;
-	  for( size_t jecind = 0; jecind < jetcorr_filenames_pfL1FastJetL2L3.size(); jecind++ ){
-		cout<<jetcorr_filenames_pfL1FastJetL2L3.at(jecind)<<endl;
-	  }
-	  
-	  jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
+  	  cout<<"JECs used:"<<endl;
+  	  for( size_t jecind = 0; jecind < jetcorr_filenames_pfL1FastJetL2L3.size(); jecind++ ){
+  		  cout<<jetcorr_filenames_pfL1FastJetL2L3.at(jecind)<<endl;
+  	  }
+  	  
+  	  jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
     }
 
     //cout<<__LINE__<<endl;
@@ -404,9 +402,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     unsigned int nEventsToLoop = tree->GetEntriesFast();
     if (max_events > 0) nEventsToLoop = (unsigned int) max_events;
     for( unsigned int event = 0; event < nEventsToLoop; ++event) {
-	  //for( unsigned int event = 0; event < 100; ++event) {
-
-	  // if( event > 100 ) continue;
+      //for( unsigned int event = 0; event < 100; ++event) {
+      // if( event > 100 ) continue;
 	  
       // Get Event Content
       tree->LoadTree(event);
@@ -452,66 +449,66 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       bool recent_cms3_version = true;
       if (cms3_version.Contains("V08-00") && small_cms3_version <= 12) recent_cms3_version = false;
       
-	  if( isSMSScan ){
-		if (currentFileName.Contains("SMS-TChiHZ") || currentFileName.Contains("SMS-TChiZZ")){
-		  mass_chi = cms3.sparm_values().at(0);
-		  evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
-		}
-		else{
-		  mass_gluino = cms3.sparm_values().at(0);
-		  mass_LSP    = cms3.sparm_values().at(1);
-		  evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
-		}
+  	  if( isSMSScan ){
+  		if (currentFileName.Contains("SMS-TChiHZ") || currentFileName.Contains("SMS-TChiZZ")){
+  		  mass_chi = cms3.sparm_values().at(0);
+  		  evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
+  		}
+  		else{
+  		  mass_gluino = cms3.sparm_values().at(0);
+  		  mass_LSP    = cms3.sparm_values().at(1);
+  		  evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
+  		}
 
-		std::vector<int> produced_particles;
+  		std::vector<int> produced_particles;
 
-		if( currentFileName.Contains("SMS-T5ZZ"  ) ) {
-		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
-		  produced_particles.push_back(1000021); // gluino
-		}
-		else if( currentFileName.Contains("SMS-TChiWZ") ) {
-		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
-		  produced_particles.push_back(1000024); // chargino1
-		  produced_particles.push_back(1000023); // neutralino2
-		}
-		else if( currentFileName.Contains("SMS-TChiHZ") ) {
-		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
-		  produced_particles.push_back(1000023); // neutralino2
-		  produced_particles.push_back(1000025); // neutralino3
-		}		  
-		else if( currentFileName.Contains("SMS-TChiZZ") ) {
-		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.19175);// BF for at least 1 Z to two leps
-		  produced_particles.push_back(1000023); // neutralino2
-		  produced_particles.push_back(1000025); // neutralino3
-		}
+  		if( currentFileName.Contains("SMS-T5ZZ"  ) ) {
+  		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
+  		  produced_particles.push_back(1000021); // gluino
+  		}
+  		else if( currentFileName.Contains("SMS-TChiWZ") ) {
+  		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
+  		  produced_particles.push_back(1000024); // chargino1
+  		  produced_particles.push_back(1000023); // neutralino2
+  		}
+  		else if( currentFileName.Contains("SMS-TChiHZ") ) {
+  		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
+  		  produced_particles.push_back(1000023); // neutralino2
+  		  produced_particles.push_back(1000025); // neutralino3
+  		}		  
+  		else if( currentFileName.Contains("SMS-TChiZZ") ) {
+  		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.19175);// BF for at least 1 Z to two leps
+  		  produced_particles.push_back(1000023); // neutralino2
+  		  produced_particles.push_back(1000025); // neutralino3
+  		}
 
-		evt_scale1fb = evt_xsec*1000/evt_nEvts;
+  		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
-		LorentzVector isrSystem_p4;
-		for( size_t genind = 0; genind < cms3.genps_p4().size(); genind++ ){
-		  if( cms3.genps_isLastCopy().at(genind) != 1) continue;
-		  for (unsigned int ipart = 0; ipart < produced_particles.size(); ++ipart) {
-		    if (abs(cms3.genps_id().at(genind)) == produced_particles.at(ipart)) {
-		      isrSystem_p4 += cms3.genps_p4().at(genind);
-		      break;
-		    }
-		  } // loop over produced susy particles 
-		} // loop over cms3 genps
+  		LorentzVector isrSystem_p4;
+  		for( size_t genind = 0; genind < cms3.genps_p4().size(); genind++ ){
+  		  if( cms3.genps_isLastCopy().at(genind) != 1) continue;
+  		  for (unsigned int ipart = 0; ipart < produced_particles.size(); ++ipart) {
+  		    if (abs(cms3.genps_id().at(genind)) == produced_particles.at(ipart)) {
+  		      isrSystem_p4 += cms3.genps_p4().at(genind);
+  		      break;
+  		    }
+  		  } // loop over produced susy particles 
+  		} // loop over cms3 genps
 
-		isrboost = (isrSystem_p4).pt();
-		
-	  }
-	  else if (!removePostProcVars) {
-  		evt_nEvts    = cms3.evt_nEvts();
-  		evt_scale1fb = cms3.evt_scale1fb();
-  		evt_xsec     = cms3.evt_xsec_incl();
-	  }
-	  
-	  puWeight     = 1.0;
-	  if( !isData ){
-	  	nTrueInt = cms3.puInfo_trueNumInteractions().at(0);
-		  puWeight = h_vtxweight->GetBinContent(h_vtxweight->FindBin(nTrueInt));
-	  }
+  		isrboost = (isrSystem_p4).pt();
+  		
+  	  }
+  	  else if (!removePostProcVars) {
+    		evt_nEvts    = cms3.evt_nEvts();
+    		evt_scale1fb = cms3.evt_scale1fb();
+    		evt_xsec     = cms3.evt_xsec_incl();
+  	  }
+  	  
+  	  puWeight     = 1.0;
+  	  if( !isData ){
+  	  	nTrueInt = cms3.puInfo_trueNumInteractions().at(0);
+  		  puWeight = h_vtxweight->GetBinContent(h_vtxweight->FindBin(nTrueInt));
+  	  }
       rho = cms3.evt_fixgridfastjet_all_rho(); //this one is used in JECs
 
       if (verbose) cout << "before vertices" << endl;
@@ -547,7 +544,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, true);
       met_T1CHS_fromCORE_pt  = newMET.first;
       met_T1CHS_fromCORE_phi = newMET.second;
-	  
+    
       // met with no unc
       pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current);
       met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
@@ -563,7 +560,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	met_pt = met_T1CHS_miniAOD_CORE_pt;
       	met_phi = met_T1CHS_miniAOD_CORE_phi;
       }
-	  
+    
       // met with up unc
       pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 1);
       met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
@@ -581,246 +578,246 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //cout<<__LINE__<<endl;
 
       // MET FILTERS
-	  if( isData ){
-		Flag_ecalLaserCorrFilter                = cms3.filt_ecalLaser();
-		Flag_hcalLaserEventFilter               = cms3.filt_hcalLaser();
-		Flag_trackingFailureFilter              = cms3.filt_trackingFailure();
-		Flag_CSCTightHaloFilter                 = cms3.filt_cscBeamHalo();
-	  }
+  	  if( isData ){
+  		Flag_ecalLaserCorrFilter                = cms3.filt_ecalLaser();
+  		Flag_hcalLaserEventFilter               = cms3.filt_hcalLaser();
+  		Flag_trackingFailureFilter              = cms3.filt_trackingFailure();
+  		Flag_CSCTightHaloFilter                 = cms3.filt_cscBeamHalo();
+  	  }
 
-	  // in data and MC
-	  if( !isSMSScan ){
-		Flag_HBHENoiseFilter                    = cms3.filt_hbheNoise();
-		Flag_HBHEIsoNoiseFilter                 = cms3.filt_hbheNoiseIso();
-		Flag_CSCTightHalo2015Filter             = cms3.filt_cscBeamHalo2015();
-		Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
-		Flag_goodVertices                       = cms3.filt_goodVertices();
-		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
-		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
-		// inputs for badMuonFilters in latest cms3 tags
-		if (recent_cms3_version) {
-		  Flag_globalTightHalo2016                      = cms3.filt_globalTightHalo2016();
-		  Flag_badMuonFilter                            = badMuonFilter();
-		  Flag_badMuonFilterv2                          = badMuonFilterV2();
-		  Flag_badChargedCandidateFilterv2              = badChargedCandidateFilterV2();          
-		  if (small_cms3_version >= 18) {
-		    Flag_badMuons                               = cms3.filt_badMuons();
-		    Flag_duplicateMuons                         = cms3.filt_duplicateMuons();
-		    Flag_noBadMuons                             = cms3.filt_noBadMuons();
-		  }
-		}
-	  }
-	  
-	  //TRIGGER
-	  // for ATLAS cross checks
-	  HLT_singleEl =  (passHLTTriggerPattern("HLT_Ele32_eta2p1_WPTight_Gsf_v" ) ||
-			   passHLTTriggerPattern("HLT_Ele27_WPTight_Gsf_v"        ) );
+  	  // in data and MC
+  	  if( !isSMSScan ){
+    		Flag_HBHENoiseFilter                    = cms3.filt_hbheNoise();
+    		Flag_HBHEIsoNoiseFilter                 = cms3.filt_hbheNoiseIso();
+    		Flag_CSCTightHalo2015Filter             = cms3.filt_cscBeamHalo2015();
+    		Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
+    		Flag_goodVertices                       = cms3.filt_goodVertices();
+    		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
+    		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
+    		// inputs for badMuonFilters in latest cms3 tags
+    		if (recent_cms3_version) {
+    		  Flag_globalTightHalo2016                      = cms3.filt_globalTightHalo2016();
+    		  Flag_badMuonFilter                            = badMuonFilter();
+    		  Flag_badMuonFilterv2                          = badMuonFilterV2();
+    		  Flag_badChargedCandidateFilterv2              = badChargedCandidateFilterV2();          
+    		  if (small_cms3_version >= 18) {
+    		    Flag_badMuons                               = cms3.filt_badMuons();
+    		    Flag_duplicateMuons                         = cms3.filt_duplicateMuons();
+    		    Flag_noBadMuons                             = cms3.filt_noBadMuons();
+    		  }
+    		}
+  	  }
+  	  
+  	  //TRIGGER
+  	  // for ATLAS cross checks
+  	  HLT_singleEl =  (passHLTTriggerPattern("HLT_Ele32_eta2p1_WPTight_Gsf_v" ) ||
+  			   passHLTTriggerPattern("HLT_Ele27_WPTight_Gsf_v"        ) );
 
-	  HLT_singleMu = (passHLTTriggerPattern("HLT_IsoMu22_v"           ) ||
-			  passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
-			  passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
-			  passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) );
-	  HLT_singleMu_noiso = (passHLTTriggerPattern("HLT_Mu50_v"        ) ||
-				passHLTTriggerPattern("HLT_TkMu50_v"      ) ||
-				passHLTTriggerPattern("HLT_Mu55_v"        ) );
+  	  HLT_singleMu = (passHLTTriggerPattern("HLT_IsoMu22_v"           ) ||
+  			  passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
+  			  passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
+  			  passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) );
+  	  HLT_singleMu_noiso = (passHLTTriggerPattern("HLT_Mu50_v"        ) ||
+  				passHLTTriggerPattern("HLT_TkMu50_v"      ) ||
+  				passHLTTriggerPattern("HLT_Mu55_v"        ) );
 
-	  // Double electron
-	  HLT_DoubleEl_noiso = ( passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v"    ) ||
-	                         passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v" ) );
-	  HLT_DoubleEl       = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ); // prescaled - turned off
-	  HLT_DoubleEl_DZ    = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // prescaled
-	  HLT_DoubleEl_DZ_2  = passHLTTriggerPattern( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // new
-   
-	  // electron-muon
-	  HLT_MuEG           = (passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
-				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  ) );
-	  HLT_MuEG_2         = (passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
-				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  ) ||
-				passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  ) );
-	  HLT_MuEG_noiso     =  passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"                 );
-	  HLT_MuEG_noiso_2   =  passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v"                 );
-		
-	  //separate emu trigs
-	  HLT_Mu8_EG17      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  );
-	  HLT_Mu8_EG23      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  );
-	  HLT_Mu8_EG23_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
+  	  // Double electron
+  	  HLT_DoubleEl_noiso = ( passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v"    ) ||
+  	                         passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v" ) );
+  	  HLT_DoubleEl       = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ); // prescaled - turned off
+  	  HLT_DoubleEl_DZ    = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // prescaled
+  	  HLT_DoubleEl_DZ_2  = passHLTTriggerPattern( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // new
+     
+  	  // electron-muon
+  	  HLT_MuEG           = (passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
+  				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  ) );
+  	  HLT_MuEG_2         = (passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
+  				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  ) ||
+  				passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  ) );
+  	  HLT_MuEG_noiso     =  passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"                 );
+  	  HLT_MuEG_noiso_2   =  passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v"                 );
+  		
+  	  //separate emu trigs
+  	  HLT_Mu8_EG17      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  );
+  	  HLT_Mu8_EG23      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  );
+  	  HLT_Mu8_EG23_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
 
-	  HLT_Mu12_EG23_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" );
+  	  HLT_Mu12_EG23_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" );
 
-	  HLT_Mu17_EG12     = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
+  	  HLT_Mu17_EG12     = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
 
-	  HLT_Mu23_EG8      = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  );
-	  HLT_Mu23_EG8_DZ   = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
-	  HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
-	  HLT_Mu23_EG12_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" );
-		
-	  // Double electron
-	  HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                          ) ||
-				   passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                         ) ||
-				   passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                         ) );
-	  HLT_DoubleMu_noiso_27_8  = passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                         );
-	  HLT_DoubleMu_noiso_30_11 = passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                        );
-	  HLT_DoubleMu_noiso_40_11 = passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                        );
-	  HLT_DoubleMu          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"     );
-	  HLT_DoubleMu_tk       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"   );
-	  HLT_DoubleMu_dbltk    =  passHLTTriggerPattern( "HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
-	  HLT_DoubleMu_nonDZ    =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"        );
-	  HLT_DoubleMu_tk_nonDZ =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"      ); // new unprescaled : use these
+  	  HLT_Mu23_EG8      = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  );
+  	  HLT_Mu23_EG8_DZ   = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
+  	  HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
+  	  HLT_Mu23_EG12_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" );
+  		
+  	  // Double electron
+  	  HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                          ) ||
+  				   passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                         ) ||
+  				   passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                         ) );
+  	  HLT_DoubleMu_noiso_27_8  = passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                         );
+  	  HLT_DoubleMu_noiso_30_11 = passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                        );
+  	  HLT_DoubleMu_noiso_40_11 = passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                        );
+  	  HLT_DoubleMu          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"     );
+  	  HLT_DoubleMu_tk       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"   );
+  	  HLT_DoubleMu_dbltk    =  passHLTTriggerPattern( "HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
+  	  HLT_DoubleMu_nonDZ    =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"        );
+  	  HLT_DoubleMu_tk_nonDZ =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"      ); // new unprescaled : use these
 
-	  // Single photon
-	  HLT_Photon22_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon22_R9Id90_HE10_IsoM_v" );
-	  HLT_Photon30_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon30_R9Id90_HE10_IsoM_v" );
-	  HLT_Photon36_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon36_R9Id90_HE10_IsoM_v" );
-	  HLT_Photon50_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon50_R9Id90_HE10_IsoM_v" );
-	  HLT_Photon75_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon75_R9Id90_HE10_IsoM_v" );
-	  HLT_Photon90_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon90_R9Id90_HE10_IsoM_v" );
-	  HLT_Photon120_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon120_R9Id90_HE10_IsoM_v");
-	  HLT_Photon165_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon165_R9Id90_HE10_IsoM_v");
-	  HLT_Photon165_HE10             = returnBrokenTrigger("HLT_Photon165_HE10_v"            );
+  	  // Single photon
+  	  HLT_Photon22_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon22_R9Id90_HE10_IsoM_v" );
+  	  HLT_Photon30_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon30_R9Id90_HE10_IsoM_v" );
+  	  HLT_Photon36_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon36_R9Id90_HE10_IsoM_v" );
+  	  HLT_Photon50_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon50_R9Id90_HE10_IsoM_v" );
+  	  HLT_Photon75_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon75_R9Id90_HE10_IsoM_v" );
+  	  HLT_Photon90_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon90_R9Id90_HE10_IsoM_v" );
+  	  HLT_Photon120_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon120_R9Id90_HE10_IsoM_v");
+  	  HLT_Photon165_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon165_R9Id90_HE10_IsoM_v");
+  	  HLT_Photon165_HE10             = returnBrokenTrigger("HLT_Photon165_HE10_v"            );
 
-	  // for high pT photon efficiency checks
-	  HLT_CaloJet500_NoJetID = returnBrokenTrigger("HLT_CaloJet500_NoJetID_v" );
-	  HLT_ECALHT800_NoJetID  = returnBrokenTrigger("HLT_ECALHT800_NoJetID_v"  );
+  	  // for high pT photon efficiency checks
+  	  HLT_CaloJet500_NoJetID = returnBrokenTrigger("HLT_CaloJet500_NoJetID_v" );
+  	  HLT_ECALHT800_NoJetID  = returnBrokenTrigger("HLT_ECALHT800_NoJetID_v"  );
 
 
-	  
+  	  
       if (verbose) cout << "before gen particles" << endl;
 
       //GEN PARTICLES
       ngenPart       = 0;
-	  ngen_p6s3Part  = 0;
+  	  ngen_p6s3Part  = 0;
       ngenLep        = 0;
-	  ngen_p6s3Lep   = 0;
-	  ngenTau        = 0;
+  	  ngen_p6s3Lep   = 0;
+  	  ngenTau        = 0;
       ngenLepFromTau = 0;
       gen_ht         = 0;
 
       //cout<<__LINE__<<endl;
 
-	  if ( cms3.evt_isRealData() && !goodrun(cms3.evt_run(), cms3.evt_lumiBlock()) ) evt_passgoodrunlist = false;
-	  
-	  if( !isData ){
-	  
-		for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
-		  genPart_p4            .push_back( cms3.genps_p4()                           .at(iGen));
-		  genPart_pt            .push_back( cms3.genps_p4()                           .at(iGen).pt());
-		  genPart_eta           .push_back( cms3.genps_p4()                           .at(iGen).eta());
-		  genPart_phi           .push_back( cms3.genps_p4()                           .at(iGen).phi());
-		  genPart_mass          .push_back( cms3.genps_mass()                         .at(iGen));
-		  genPart_pdgId         .push_back( cms3.genps_id()                           .at(iGen));
-		  genPart_status        .push_back( cms3.genps_status()                       .at(iGen));
-		  genPart_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
-		  genPart_charge        .push_back( cms3.genps_charge()                       .at(iGen));
-		  genPart_motherId      .push_back( cms3.genps_id_simplemother()              .at(iGen));
-		  genPart_grandmaId     .push_back( cms3.genps_id_simplegrandma()             .at(iGen));
-		  ngenPart++;
-		  if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ngen_p6s3Part++;
-		  //calculate gen_ht for stitching purposes
-		  if((abs(cms3.genps_id().at(iGen)) <  6 || // quarks
-			  abs(cms3.genps_id().at(iGen)) == 21)  // gluons
-			 && (cms3.genps_status().at(iGen) == 22 || // something to do with "status 3"
-				 cms3.genps_status().at(iGen) == 23)){
-			gen_ht += cms3.genps_p4()              .at(iGen).pt();
-		  }
+  	  if ( cms3.evt_isRealData() && !goodrun(cms3.evt_run(), cms3.evt_lumiBlock()) ) evt_passgoodrunlist = false;
+  	  
+  	  if( !isData ){
+  	  
+    		for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
+    		  genPart_p4            .push_back( cms3.genps_p4()                           .at(iGen));
+    		  genPart_pt            .push_back( cms3.genps_p4()                           .at(iGen).pt());
+    		  genPart_eta           .push_back( cms3.genps_p4()                           .at(iGen).eta());
+    		  genPart_phi           .push_back( cms3.genps_p4()                           .at(iGen).phi());
+    		  genPart_mass          .push_back( cms3.genps_mass()                         .at(iGen));
+    		  genPart_pdgId         .push_back( cms3.genps_id()                           .at(iGen));
+    		  genPart_status        .push_back( cms3.genps_status()                       .at(iGen));
+    		  genPart_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
+    		  genPart_charge        .push_back( cms3.genps_charge()                       .at(iGen));
+    		  genPart_motherId      .push_back( cms3.genps_id_simplemother()              .at(iGen));
+    		  genPart_grandmaId     .push_back( cms3.genps_id_simplegrandma()             .at(iGen));
+    		  ngenPart++;
+    		  if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ngen_p6s3Part++;
+    		  //calculate gen_ht for stitching purposes
+    		  if((abs(cms3.genps_id().at(iGen)) <  6 || // quarks
+            abs(cms3.genps_id().at(iGen)) == 21)  // gluons
+    			  && (cms3.genps_status().at(iGen) == 22 || // something to do with "status 3"
+    				cms3.genps_status().at(iGen) == 23)){
+    			  gen_ht += cms3.genps_p4()              .at(iGen).pt();
+    		  }
 
-		  // save lepton info
-		  int pdgId = abs(cms3.genps_id().at(iGen));
-		  if ((pdgId != 11) && (pdgId != 13) && (pdgId != 15)) continue;
+    		  // save lepton info
+    		  int pdgId = abs(cms3.genps_id().at(iGen));
+    		  if ((pdgId != 11) && (pdgId != 13) && (pdgId != 15)) continue;
 
-		  int motherId  = abs(cms3.genps_id_simplemother()  .at(iGen));
-		  int grandmaId = abs(cms3.genps_id_simplegrandma() .at(iGen));
-		  int status    =     cms3.genps_status()           .at(iGen);
+    		  int motherId  = abs(cms3.genps_id_simplemother()  .at(iGen));
+    		  int grandmaId = abs(cms3.genps_id_simplegrandma() .at(iGen));
+    		  int status    =     cms3.genps_status()           .at(iGen);
 
-		  // reject leptons with direct parents of quarks or hadrons. 
-		  //  Allow SUSY parents - not explicitly checking for now though
-		  if (motherId <= 5 || (motherId > 100 && motherId < 1000000)) continue;
+    		  // reject leptons with direct parents of quarks or hadrons. 
+    		  //  Allow SUSY parents - not explicitly checking for now though
+    		  if (motherId <= 5 || (motherId > 100 && motherId < 1000000)) continue;
 
-		  bool goodLep = false;
-		  bool goodTau = false;
-		  bool goodLepFromTau = false;
-		  int sourceId = 0;
+    		  bool goodLep = false;
+    		  bool goodTau = false;
+    		  bool goodLepFromTau = false;
+    		  int sourceId = 0;
 
-		  // electrons, muons: status 1 or 23 and mother W/Z/H or tau from W/Z/H
-		  if ( (pdgId == 11 || pdgId == 13) && (status == 1 || status == 23) ) {
-			// save leptons pre-FSR: prefer status 23 over status 1
-			if (status == 1 && motherId == pdgId && (cms3.genps_status().at(cms3.genps_idx_simplemother().at(iGen)) == 23)) {
-			  // don't save
-			}
-			// leptons from taus
-			else if (motherId == 15 && (grandmaId == 25 || grandmaId == 24 || grandmaId == 23 || grandmaId == 15)) {
-			  goodLepFromTau = true;
-			} 
-			// leptons from W/Z/H
-			else if (motherId == 25 || motherId == 24 || motherId == 23) {
-			  goodLep = true;
-			} 
-		  } // status 1 e or mu
+    		  // electrons, muons: status 1 or 23 and mother W/Z/H or tau from W/Z/H
+    		  if ( (pdgId == 11 || pdgId == 13) && (status == 1 || status == 23) ) {
+    			// save leptons pre-FSR: prefer status 23 over status 1
+    			if (status == 1 && motherId == pdgId && (cms3.genps_status().at(cms3.genps_idx_simplemother().at(iGen)) == 23)) {
+    			  // don't save
+    			}
+    			// leptons from taus
+    			else if (motherId == 15 && (grandmaId == 25 || grandmaId == 24 || grandmaId == 23 || grandmaId == 15)) {
+    			  goodLepFromTau = true;
+    			} 
+    			// leptons from W/Z/H
+    			else if (motherId == 25 || motherId == 24 || motherId == 23) {
+    			  goodLep = true;
+    			} 
+    		  } // status 1 e or mu
 
-		  // taus: status 2 or 23, from W/Z/H
-		  else if (pdgId == 15 && (status == 2 || status == 23)) {
-			// save leptons pre-FSR: prefer status 23 over status 2
-			if (status == 2 && motherId == pdgId && (cms3.genps_status().at(cms3.genps_idx_simplemother().at(iGen)) == 23)) {
-			  // don't save
-			}
-			// leptons from W/Z/H
-			else if (motherId == 25 || motherId == 24 || motherId == 23) {
-			  goodTau = true;
-			} 
-		  } // status 2 tau
+    		  // taus: status 2 or 23, from W/Z/H
+    		  else if (pdgId == 15 && (status == 2 || status == 23)) {
+    			// save leptons pre-FSR: prefer status 23 over status 2
+    			if (status == 2 && motherId == pdgId && (cms3.genps_status().at(cms3.genps_idx_simplemother().at(iGen)) == 23)) {
+    			  // don't save
+    			}
+    			// leptons from W/Z/H
+    			else if (motherId == 25 || motherId == 24 || motherId == 23) {
+    			  goodTau = true;
+    			} 
+    		  } // status 2 tau
 
-		  //broken for some reason :(
-		  // if (goodLep || goodTau || goodLepFromTau) {
-		  //   sourceId = getSourceId(iGen);
-		  // }
+    		  //broken for some reason :(
+    		  // if (goodLep || goodTau || goodLepFromTau) {
+    		  //   sourceId = getSourceId(iGen);
+    		  // }
 
-		  // save gen leptons (e/mu) directly from W/Z/H
-		  if (goodLep) {
-			genLep_pt            .push_back( cms3.genps_p4()     .at(iGen).pt());
-			genLep_eta           .push_back( cms3.genps_p4()     .at(iGen).eta());
-			genLep_phi           .push_back( cms3.genps_p4()     .at(iGen).phi());
-			genLep_mass          .push_back( cms3.genps_mass()   .at(iGen));
-			genLep_pdgId         .push_back( cms3.genps_id()     .at(iGen));
-			genLep_status        .push_back( cms3.genps_status() .at(iGen));
-			genLep_charge        .push_back( cms3.genps_charge() .at(iGen));
-			genLep_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
-			genLep_sourceId      .push_back( sourceId );
-			++ngenLep;
-			if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ++ngen_p6s3Lep;
-		  }
+    		  // save gen leptons (e/mu) directly from W/Z/H
+    		  if (goodLep) {
+    			genLep_pt            .push_back( cms3.genps_p4()     .at(iGen).pt());
+    			genLep_eta           .push_back( cms3.genps_p4()     .at(iGen).eta());
+    			genLep_phi           .push_back( cms3.genps_p4()     .at(iGen).phi());
+    			genLep_mass          .push_back( cms3.genps_mass()   .at(iGen));
+    			genLep_pdgId         .push_back( cms3.genps_id()     .at(iGen));
+    			genLep_status        .push_back( cms3.genps_status() .at(iGen));
+    			genLep_charge        .push_back( cms3.genps_charge() .at(iGen));
+    			genLep_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
+    			genLep_sourceId      .push_back( sourceId );
+    			++ngenLep;
+    			if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ++ngen_p6s3Lep;
+    		  }
 
-		  // save gen taus from W/Z/H
-		  if (goodTau) {
-			genTau_pt      .push_back(cms3.genps_p4()     .at(iGen).pt());
-			genTau_eta     .push_back(cms3.genps_p4()     .at(iGen).eta());
-			genTau_phi     .push_back(cms3.genps_p4()     .at(iGen).phi());
-			genTau_mass    .push_back(cms3.genps_mass()   .at(iGen));
-			genTau_pdgId   .push_back(cms3.genps_id()     .at(iGen));
-			genTau_status  .push_back(cms3.genps_status() .at(iGen));
-			genTau_charge  .push_back(cms3.genps_charge() .at(iGen));
-			genTau_sourceId.push_back(sourceId);
-			++ngenTau;
-		  }
+    		  // save gen taus from W/Z/H
+    		  if (goodTau) {
+    			genTau_pt      .push_back(cms3.genps_p4()     .at(iGen).pt());
+    			genTau_eta     .push_back(cms3.genps_p4()     .at(iGen).eta());
+    			genTau_phi     .push_back(cms3.genps_p4()     .at(iGen).phi());
+    			genTau_mass    .push_back(cms3.genps_mass()   .at(iGen));
+    			genTau_pdgId   .push_back(cms3.genps_id()     .at(iGen));
+    			genTau_status  .push_back(cms3.genps_status() .at(iGen));
+    			genTau_charge  .push_back(cms3.genps_charge() .at(iGen));
+    			genTau_sourceId.push_back(sourceId);
+    			++ngenTau;
+    		  }
 
-		  // save gen e/mu from taus (which are from W/Z/H)
-		  if (goodLepFromTau) {
-			genLepFromTau_pt      .push_back(cms3.genps_p4()     .at(iGen).pt());
-			genLepFromTau_eta     .push_back(cms3.genps_p4()     .at(iGen).eta());
-			genLepFromTau_phi     .push_back(cms3.genps_p4()     .at(iGen).phi());
-			genLepFromTau_mass    .push_back(cms3.genps_mass()   .at(iGen));
-			genLepFromTau_pdgId   .push_back(cms3.genps_id()     .at(iGen));
-			genLepFromTau_status  .push_back(cms3.genps_status() .at(iGen));
-			genLepFromTau_charge  .push_back(cms3.genps_charge() .at(iGen));
-			genLepFromTau_sourceId.push_back(sourceId);
-			++ngenLepFromTau;
-		  }
+    		  // save gen e/mu from taus (which are from W/Z/H)
+    		  if (goodLepFromTau) {
+    			genLepFromTau_pt      .push_back(cms3.genps_p4()     .at(iGen).pt());
+    			genLepFromTau_eta     .push_back(cms3.genps_p4()     .at(iGen).eta());
+    			genLepFromTau_phi     .push_back(cms3.genps_p4()     .at(iGen).phi());
+    			genLepFromTau_mass    .push_back(cms3.genps_mass()   .at(iGen));
+    			genLepFromTau_pdgId   .push_back(cms3.genps_id()     .at(iGen));
+    			genLepFromTau_status  .push_back(cms3.genps_status() .at(iGen));
+    			genLepFromTau_charge  .push_back(cms3.genps_charge() .at(iGen));
+    			genLepFromTau_sourceId.push_back(sourceId);
+    			++ngenLepFromTau;
+    		  }
 
-		} // loop over genPart
-		// //cout<<__LINE__<<endl;
-	  }
+    		} // loop over genPart
+  		  // //cout<<__LINE__<<endl;
+  	  }
 
       //LEPTONS
-	  std::vector<std::pair<int, float> > lep_pt_ordering;
-	  vector<float>vec_lep_pt;
+  	  std::vector<std::pair<int, float> > lep_pt_ordering;
+  	  vector<float>vec_lep_pt;
       vector<float>vec_lep_eta;
       vector<float>vec_lep_phi;
       vector<float>vec_lep_mass;
@@ -843,423 +840,419 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector<float>vec_lep_validfraction;
       vector<float>vec_lep_ptErr;
 
-	  vector<float>vec_lep_sta_pterrOpt ;
-	  vector<float>vec_lep_glb_pterrOpt ;
-	  // vector<float>vec_lep_bft_pterrOpt ;
-	  vector<float>vec_lep_x2ondof      ;
-	  vector<float>vec_lep_sta_x2ondof  ;
-	  vector<float>vec_lep_glb_x2ondof  ;
-	  // vector<float>vec_lep_bft_x2ondof  ;
+  	  vector<float>vec_lep_sta_pterrOpt ;
+  	  vector<float>vec_lep_glb_pterrOpt ;
+  	  // vector<float>vec_lep_bft_pterrOpt ;
+  	  vector<float>vec_lep_x2ondof      ;
+  	  vector<float>vec_lep_sta_x2ondof  ;
+  	  vector<float>vec_lep_glb_x2ondof  ;
+  	  // vector<float>vec_lep_bft_x2ondof  ;
 
-	  vector<LorentzVector> vec_lep_p4s;
+  	  vector<LorentzVector> vec_lep_p4s;
 
-	  vector<LorentzVector> p4sLeptonsForJetCleaning;
+  	  vector<LorentzVector> p4sLeptonsForJetCleaning;
 
-	  nveto_leptons = 0;
-	  
+  	  nveto_leptons = 0;
+  	  
       if (verbose) cout << "before electrons" << endl;
 
       //ELECTRONS
       nlep = 0;
       nElectrons10 = 0;
-	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
+  	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
 
-  		if( passElectronSelection_ZMET_thirdlepton_v2( iEl, false, false ) ){
-  		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
-          nveto_leptons++;
-  		  }
-  		}
- 	  	if( !passElectronSelection_ZMET( iEl ) ) continue;
-		
-        nElectrons10++;
+    		if( passElectronSelection_ZMET_thirdlepton_v2( iEl, false, false ) ){
+    		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
+            nveto_leptons++;
+    		  }
+    		}
+   	  	if( !passElectronSelection_ZMET( iEl ) ) continue;
+  		
+          nElectrons10++;
 
-  		if( cms3.els_p4().at(iEl).pt() > 10.0 ){
-  		  lep_pt_ordering	   .push_back( std::pair<int, float>(nlep, cms3.els_p4().at(iEl).pt()));
-  		  vec_lep_p4s          .push_back( cms3.els_p4().at(iEl)           );
-  		  vec_lep_pt           .push_back( cms3.els_p4().at(iEl).pt()      );
-  		  vec_lep_eta          .push_back( cms3.els_p4().at(iEl).eta()     ); //save eta, even though we use SCeta for ID
-  		  vec_lep_phi          .push_back( cms3.els_p4().at(iEl).phi()     );
-  		  vec_lep_mass         .push_back( cms3.els_mass().at(iEl)         );
-  		  vec_lep_charge       .push_back( cms3.els_charge().at(iEl)       );
-  		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
-  		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
-  		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
-  		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
-  		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
-  		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl, 1 )   );
-  		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
-  		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
-  		  vec_lep_validfraction.push_back( -1                              );
-  		  vec_lep_ptErr        .push_back( cms3.els_ptErr() .at(iEl)       );
-  		  vec_lep_sta_pterrOpt .push_back ( -1                             );
-  		  vec_lep_glb_pterrOpt .push_back ( -1                             );
-  		  // vec_lep_bft_pterrOpt .push_back ( cms3.els_bfit_qoverpError().at(iEl) / cms3.els_bfit_qoverp() .at(iEl) );
-  		  vec_lep_x2ondof      .push_back ( cms3.els_chi2()            .at(iEl) / cms3.els_ndof()        .at(iEl) );
-  		  vec_lep_sta_x2ondof  .push_back ( -1                             );
-  		  vec_lep_glb_x2ondof  .push_back ( -1                             );
-  		  // vec_lep_bft_x2ondof  .push_back ( cms3.els_bfit_chi2()       .at(iEl) / cms3.els_bfit_ndof()   .at(iEl) );
+    		if( cms3.els_p4().at(iEl).pt() > 10.0 ){
+    		  lep_pt_ordering	   .push_back( std::pair<int, float>(nlep, cms3.els_p4().at(iEl).pt()));
+    		  vec_lep_p4s          .push_back( cms3.els_p4().at(iEl)           );
+    		  vec_lep_pt           .push_back( cms3.els_p4().at(iEl).pt()      );
+    		  vec_lep_eta          .push_back( cms3.els_p4().at(iEl).eta()     ); //save eta, even though we use SCeta for ID
+    		  vec_lep_phi          .push_back( cms3.els_p4().at(iEl).phi()     );
+    		  vec_lep_mass         .push_back( cms3.els_mass().at(iEl)         );
+    		  vec_lep_charge       .push_back( cms3.els_charge().at(iEl)       );
+    		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
+    		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
+    		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
+    		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
+    		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
+    		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl, 1 )   );
+    		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
+    		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
+    		  vec_lep_validfraction.push_back( -1                              );
+    		  vec_lep_ptErr        .push_back( cms3.els_ptErr() .at(iEl)       );
+    		  vec_lep_sta_pterrOpt .push_back ( -1                             );
+    		  vec_lep_glb_pterrOpt .push_back ( -1                             );
+    		  // vec_lep_bft_pterrOpt .push_back ( cms3.els_bfit_qoverpError().at(iEl) / cms3.els_bfit_qoverp() .at(iEl) );
+    		  vec_lep_x2ondof      .push_back ( cms3.els_chi2()            .at(iEl) / cms3.els_ndof()        .at(iEl) );
+    		  vec_lep_sta_x2ondof  .push_back ( -1                             );
+    		  vec_lep_glb_x2ondof  .push_back ( -1                             );
+    		  // vec_lep_bft_x2ondof  .push_back ( cms3.els_bfit_chi2()       .at(iEl) / cms3.els_bfit_ndof()   .at(iEl) );
 
-  		  if (!isData && (cms3.els_mc3dr().at(iEl) < 0.2 && cms3.els_mc3idx().at(iEl) != -9999 && abs(cms3.els_mc3_id().at(iEl)) == 11 )) { // matched to a prunedGenParticle electron?
-          int momid =  abs(genPart_motherId[cms3.els_mc3idx().at(iEl)]);
-          vec_lep_mcMatchId.push_back ( momid != 11 ? momid : genPart_grandmaId[cms3.els_mc3idx().at(iEl)]); // if mother is different store mother, otherwise store grandmother
-  		  }
-  		  else{
-          vec_lep_mcMatchId.push_back (0);
-  		  }
-  		  
-  		  vec_lep_lostHits.push_back ( cms3.els_exp_innerlayers().at(iEl)); //cms2.els_lost_pixelhits().at(iEl);
-  		  vec_lep_convVeto.push_back ( !cms3.els_conv_vtx_flag().at(iEl));
-  		  vec_lep_tightCharge.push_back ( tightChargeEle(iEl));
+    		  if (!isData && (cms3.els_mc3dr().at(iEl) < 0.2 && cms3.els_mc3idx().at(iEl) != -9999 && abs(cms3.els_mc3_id().at(iEl)) == 11 )) { // matched to a prunedGenParticle electron?
+            int momid =  abs(genPart_motherId[cms3.els_mc3idx().at(iEl)]);
+            vec_lep_mcMatchId.push_back ( momid != 11 ? momid : genPart_grandmaId[cms3.els_mc3idx().at(iEl)]); // if mother is different store mother, otherwise store grandmother
+    		  }
+    		  else{
+            vec_lep_mcMatchId.push_back (0);
+    		  }
+    		  
+    		  vec_lep_lostHits.push_back ( cms3.els_exp_innerlayers().at(iEl)); //cms2.els_lost_pixelhits().at(iEl);
+    		  vec_lep_convVeto.push_back ( !cms3.els_conv_vtx_flag().at(iEl));
+    		  vec_lep_tightCharge.push_back ( tightChargeEle(iEl));
 
-  		  nlep++;
-  		}
+    		  nlep++;
+    		}
 
-  		if( cms3.els_p4().at(iEl).pt() > 20.0 ){
-  		  p4sLeptonsForJetCleaning.push_back(cms3.els_p4().at(iEl));
-  		}		
-    }
-	  
-	  if (verbose) cout << "before muons" << endl;
-
-	  //cout<<__LINE__<<endl;
-
-    //MUONS
-    nMuons10 = 0;
-    nBadMuons20 = 0;
-	  // RCLSA: this is a TEMPORARY protections for a problem with CMS3 samples
-	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
-      
-	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
-      if (recent_cms3_version) {
-        if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
+    		if( cms3.els_p4().at(iEl).pt() > 20.0 ){
+    		  p4sLeptonsForJetCleaning.push_back(cms3.els_p4().at(iEl));
+    		}		
       }
-    	if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
-    	  nveto_leptons++;
-    	}
- 	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
-		  
-      nMuons10++;
+  	  
+  	  if (verbose) cout << "before muons" << endl;
 
-		  double validFraction = mus_validHits().at(iMu)/(double)(mus_validHits().at(iMu)+mus_lostHits().at(iMu)+mus_exp_innerlayers().at(iMu)+mus_exp_outerlayers().at(iMu));
-		
-  		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
-   		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
-  		  vec_lep_p4s          .push_back ( cms3.mus_p4()    .at(iMu)       );
-  		  vec_lep_pt           .push_back ( cms3.mus_p4()    .at(iMu).pt()  );
-  		  vec_lep_eta          .push_back ( cms3.mus_p4()    .at(iMu).eta() );
-  		  vec_lep_phi          .push_back ( cms3.mus_p4()    .at(iMu).phi() );
-  		  vec_lep_mass         .push_back ( cms3.mus_mass()  .at(iMu)       );
-  		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)       );
-  		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13) );
-  		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
-  		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
-  		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
-  		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
-  		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)    );
-  		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
-  		  vec_lep_MVA          .push_back ( -99                             );
-  		  vec_lep_validfraction.push_back ( validFraction                   );
-  		  vec_lep_ptErr        .push_back ( cms3.mus_ptErr() .at(iMu)       );
+  	  //cout<<__LINE__<<endl;
 
-  		  vec_lep_sta_pterrOpt .push_back ( cms3.mus_sta_qoverpError() .at(iMu) / cms3.mus_sta_qoverp()  .at(iMu) );
-  		  vec_lep_glb_pterrOpt .push_back ( cms3.mus_gfit_qoverpError().at(iMu) / cms3.mus_gfit_qoverp() .at(iMu) );
-  		  // vec_lep_bft_pterrOpt .push_back ( cms3.mus_bfit_qoverpError().at(iMu) / cms3.mus_bfit_qoverp() .at(iMu) );
-  		  vec_lep_x2ondof      .push_back ( cms3.mus_chi2()            .at(iMu) / cms3.mus_ndof()        .at(iMu) );
-  		  vec_lep_sta_x2ondof  .push_back ( cms3.mus_sta_chi2()        .at(iMu) / cms3.mus_sta_ndof()    .at(iMu) );
-  		  if( currentFileName.Contains("V08-00-1") ){ 
-          vec_lep_glb_x2ondof  .push_back ( cms3.mus_gfit_chi2()       .at(iMu) / cms3.mus_gfit_ndof()   .at(iMu) );
-  		  }
-        else{                                                       vec_lep_glb_x2ondof  .push_back ( -1.0                                                                  );}
-  		  // vec_lep_bft_x2ondof  .push_back ( cms3.mus_bfit_chi2()       .at(iMu) / cms3.mus_bfit_ndof()   .at(iMu) );
-  		  
-  		  if (!isData && (cms3.mus_mc3dr().at(iMu) < 0.2 && cms3.mus_mc3idx().at(iMu) != -9999 && abs(cms3.mus_mc3_id().at(iMu)) == 13 )) { // matched to a prunedGenParticle electron?
-          int momid =  abs(genPart_motherId[cms3.mus_mc3idx().at(iMu)]);
-          vec_lep_mcMatchId.push_back ( momid != 13 ? momid : genPart_grandmaId[cms3.mus_mc3idx().at(iMu)]); // if mother is different store mother, otherwise store grandmother
-  		  }
-  		  else {
-          vec_lep_mcMatchId.push_back (0);
+      //MUONS
+      nMuons10 = 0;
+      nBadMuons20 = 0;
+  	  // RCLSA: this is a TEMPORARY protections for a problem with CMS3 samples
+  	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
+        
+  	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
+        if (recent_cms3_version) {
+          if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
         }
+      	if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
+      	  nveto_leptons++;
+      	}
+   	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
+  		  
+        nMuons10++;
 
-  		  vec_lep_lostHits   .push_back ( cms3.mus_exp_innerlayers().at(iMu)); // use defaults as if "good electron"
-  		  vec_lep_convVeto   .push_back ( 1                                 );// use defaults as if "good electron"
-  		  vec_lep_tightCharge.push_back ( tightChargeMuon(iMu)              );
+  		  double validFraction = mus_validHits().at(iMu)/(double)(mus_validHits().at(iMu)+mus_lostHits().at(iMu)+mus_exp_innerlayers().at(iMu)+mus_exp_outerlayers().at(iMu));
+  		
+    		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
+     		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
+    		  vec_lep_p4s          .push_back ( cms3.mus_p4()    .at(iMu)       );
+    		  vec_lep_pt           .push_back ( cms3.mus_p4()    .at(iMu).pt()  );
+    		  vec_lep_eta          .push_back ( cms3.mus_p4()    .at(iMu).eta() );
+    		  vec_lep_phi          .push_back ( cms3.mus_p4()    .at(iMu).phi() );
+    		  vec_lep_mass         .push_back ( cms3.mus_mass()  .at(iMu)       );
+    		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)       );
+    		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13) );
+    		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
+    		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
+    		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
+    		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
+    		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)    );
+    		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
+    		  vec_lep_MVA          .push_back ( -99                             );
+    		  vec_lep_validfraction.push_back ( validFraction                   );
+    		  vec_lep_ptErr        .push_back ( cms3.mus_ptErr() .at(iMu)       );
 
-  		  nlep++;
+    		  vec_lep_sta_pterrOpt .push_back ( cms3.mus_sta_qoverpError() .at(iMu) / cms3.mus_sta_qoverp()  .at(iMu) );
+    		  vec_lep_glb_pterrOpt .push_back ( cms3.mus_gfit_qoverpError().at(iMu) / cms3.mus_gfit_qoverp() .at(iMu) );
+    		  // vec_lep_bft_pterrOpt .push_back ( cms3.mus_bfit_qoverpError().at(iMu) / cms3.mus_bfit_qoverp() .at(iMu) );
+    		  vec_lep_x2ondof      .push_back ( cms3.mus_chi2()            .at(iMu) / cms3.mus_ndof()        .at(iMu) );
+    		  vec_lep_sta_x2ondof  .push_back ( cms3.mus_sta_chi2()        .at(iMu) / cms3.mus_sta_ndof()    .at(iMu) );
+    		  if( currentFileName.Contains("V08-00-1") ){ 
+            vec_lep_glb_x2ondof  .push_back ( cms3.mus_gfit_chi2()       .at(iMu) / cms3.mus_gfit_ndof()   .at(iMu) );
+    		  }
+          else{                                                       vec_lep_glb_x2ondof  .push_back ( -1.0                                                                  );}
+    		  // vec_lep_bft_x2ondof  .push_back ( cms3.mus_bfit_chi2()       .at(iMu) / cms3.mus_bfit_ndof()   .at(iMu) );
+    		  
+    		  if (!isData && (cms3.mus_mc3dr().at(iMu) < 0.2 && cms3.mus_mc3idx().at(iMu) != -9999 && abs(cms3.mus_mc3_id().at(iMu)) == 13 )) { // matched to a prunedGenParticle electron?
+            int momid =  abs(genPart_motherId[cms3.mus_mc3idx().at(iMu)]);
+            vec_lep_mcMatchId.push_back ( momid != 13 ? momid : genPart_grandmaId[cms3.mus_mc3idx().at(iMu)]); // if mother is different store mother, otherwise store grandmother
+    		  }
+    		  else {
+            vec_lep_mcMatchId.push_back (0);
+          }
 
-		  }
+    		  vec_lep_lostHits   .push_back ( cms3.mus_exp_innerlayers().at(iMu)); // use defaults as if "good electron"
+    		  vec_lep_convVeto   .push_back ( 1                                 );// use defaults as if "good electron"
+    		  vec_lep_tightCharge.push_back ( tightChargeMuon(iMu)              );
 
-  		if( cms3.mus_p4().at(iMu).pt() > 20.0 ){
-  		  p4sLeptonsForJetCleaning.push_back(cms3.mus_p4().at(iMu));
-  		}
+    		  nlep++;
 
-    }
+  		  }
 
-	  // veto leptons are looser than analysis leptons
-	  nveto_leptons -= nlep;
-	  
-	  if (verbose) cout<<" before ordering"<<endl;
-	  
+    		if( cms3.mus_p4().at(iMu).pt() > 20.0 ){
+    		  p4sLeptonsForJetCleaning.push_back(cms3.mus_p4().at(iMu));
+    		}
+      }
+
+  	  // veto leptons are looser than analysis leptons
+  	  nveto_leptons -= nlep;
+  	  
+  	  if (verbose) cout<<" before ordering"<<endl;
+  	  
       // Implement pT ordering for leptons (it's irrelevant but easier for us to add than for ETH to remove)
       //now fill arrays from vectors, isotracks with largest pt first
       int i = 0;
       std::sort(lep_pt_ordering.begin(), lep_pt_ordering.end(), sortByValue);
       for(std::vector<std::pair<int, float> >::iterator it = lep_pt_ordering.begin(); it!= lep_pt_ordering.end(); ++it){
-		lep_p4           .push_back( vec_lep_p4s          .at(it->first));
-		lep_pt           .push_back( vec_lep_pt           .at(it->first));
-		lep_eta          .push_back( vec_lep_eta          .at(it->first));
-		lep_phi          .push_back( vec_lep_phi          .at(it->first));
-		lep_mass         .push_back( vec_lep_mass         .at(it->first));
-		lep_charge       .push_back( vec_lep_charge       .at(it->first));
-		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->first));
-		lep_dz           .push_back( vec_lep_dz           .at(it->first));
-		lep_dxy          .push_back( vec_lep_dxy          .at(it->first));
-		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->first));
-		lep_tightId      .push_back( vec_lep_tightId      .at(it->first));
-		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->first));
-		lep_mcMatchId    .push_back( vec_lep_mcMatchId    .at(it->first));
-		lep_lostHits     .push_back( vec_lep_lostHits     .at(it->first));
-		lep_convVeto     .push_back( vec_lep_convVeto     .at(it->first));
-		lep_tightCharge  .push_back( vec_lep_tightCharge  .at(it->first));
-		lep_MVA          .push_back( vec_lep_MVA          .at(it->first));
-		lep_validfraction.push_back( vec_lep_validfraction.at(it->first));
-		lep_pterr        .push_back( vec_lep_ptErr        .at(it->first));
-		lep_sta_pterrOpt .push_back( vec_lep_sta_pterrOpt .at(it->first));
-		lep_glb_pterrOpt .push_back( vec_lep_glb_pterrOpt .at(it->first));
-		// lep_bft_pterrOpt .push_back( vec_lep_bft_pterrOpt .at(it->first));
-		lep_x2ondof      .push_back( vec_lep_x2ondof      .at(it->first));
-		lep_sta_x2ondof  .push_back( vec_lep_sta_x2ondof  .at(it->first));
-		lep_glb_x2ondof  .push_back( vec_lep_glb_x2ondof  .at(it->first));
-		// lep_bft_x2ondof  .push_back( vec_lep_bft_x2ondof  .at(it->first));
+    		lep_p4           .push_back( vec_lep_p4s          .at(it->first));
+    		lep_pt           .push_back( vec_lep_pt           .at(it->first));
+    		lep_eta          .push_back( vec_lep_eta          .at(it->first));
+    		lep_phi          .push_back( vec_lep_phi          .at(it->first));
+    		lep_mass         .push_back( vec_lep_mass         .at(it->first));
+    		lep_charge       .push_back( vec_lep_charge       .at(it->first));
+    		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->first));
+    		lep_dz           .push_back( vec_lep_dz           .at(it->first));
+    		lep_dxy          .push_back( vec_lep_dxy          .at(it->first));
+    		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->first));
+    		lep_tightId      .push_back( vec_lep_tightId      .at(it->first));
+    		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->first));
+    		lep_mcMatchId    .push_back( vec_lep_mcMatchId    .at(it->first));
+    		lep_lostHits     .push_back( vec_lep_lostHits     .at(it->first));
+    		lep_convVeto     .push_back( vec_lep_convVeto     .at(it->first));
+    		lep_tightCharge  .push_back( vec_lep_tightCharge  .at(it->first));
+    		lep_MVA          .push_back( vec_lep_MVA          .at(it->first));
+    		lep_validfraction.push_back( vec_lep_validfraction.at(it->first));
+    		lep_pterr        .push_back( vec_lep_ptErr        .at(it->first));
+    		lep_sta_pterrOpt .push_back( vec_lep_sta_pterrOpt .at(it->first));
+    		lep_glb_pterrOpt .push_back( vec_lep_glb_pterrOpt .at(it->first));
+    		// lep_bft_pterrOpt .push_back( vec_lep_bft_pterrOpt .at(it->first));
+    		lep_x2ondof      .push_back( vec_lep_x2ondof      .at(it->first));
+    		lep_sta_x2ondof  .push_back( vec_lep_sta_x2ondof  .at(it->first));
+    		lep_glb_x2ondof  .push_back( vec_lep_glb_x2ondof  .at(it->first));
+    		// lep_bft_x2ondof  .push_back( vec_lep_bft_x2ondof  .at(it->first));
 
-		i++;
+    		i++;
       }
-        
-	  if (verbose) cout << "before photons" << endl;
+          
+  	  if (verbose) cout << "before photons" << endl;
 
-      //PHOTONS
-      ngamma = 0;
-      nGammas20 = 0;
-	  for(unsigned int iGamma = 0; iGamma < cms3.photons_p4().size(); iGamma++){
- 		if( !passPhotonSelection_ZMET( iGamma ) )continue;
-	  
-		
-		float pt  = cms3.photons_p4().at(iGamma).pt();
-		float eta = cms3.photons_p4().at(iGamma).eta();
-		float phi = cms3.photons_p4().at(iGamma).phi();
+        //PHOTONS
+        ngamma = 0;
+        nGammas20 = 0;
+  	  for(unsigned int iGamma = 0; iGamma < cms3.photons_p4().size(); iGamma++){
+     		if( !passPhotonSelection_ZMET( iGamma ) )continue;
+    	  
+    		
+    		float pt  = cms3.photons_p4().at(iGamma).pt();
+    		float eta = cms3.photons_p4().at(iGamma).eta();
+    		float phi = cms3.photons_p4().at(iGamma).phi();
 
-		gamma_p4           .push_back( cms3.photons_p4().at(iGamma) );
-		gamma_pt           .push_back( pt                           );
-		gamma_eta          .push_back( eta                          );
-		gamma_phi          .push_back( phi                          );
+    		gamma_p4           .push_back( cms3.photons_p4().at(iGamma) );
+    		gamma_pt           .push_back( pt                           );
+    		gamma_eta          .push_back( eta                          );
+    		gamma_phi          .push_back( phi                          );
 
-		gamma_mass         .push_back( cms3.photons_mass().at(iGamma)                  );
-		gamma_sigmaIetaIeta.push_back( cms3.photons_full5x5_sigmaIEtaIEta().at(iGamma) );
-		gamma_chHadIso     .push_back( cms3.photons_chargedHadronIso().at(iGamma)      );
-		gamma_neuHadIso    .push_back( cms3.photons_neutralHadronIso().at(iGamma)      );
-		gamma_phIso        .push_back( cms3.photons_photonIso().at(iGamma)             );
-		gamma_r9           .push_back( cms3.photons_full5x5_r9().at(iGamma)            );
-		gamma_hOverE       .push_back( cms3.photons_full5x5_hOverEtowBC().at(iGamma)   );
-		gamma_hOverE_online.push_back( cms3.photons_full5x5_hOverE().at(iGamma)        );
-		gamma_idCutBased   .push_back( isTightPhoton(iGamma,HAD) ? 1 : 0               ); 		
-		gamma_hollowtkiso03.push_back( cms3.photons_tkIsoHollow03()   .at(iGamma)      );
-		gamma_ecpfclusiso  .push_back( photonEcalpfClusterIso03EA(iGamma)              );
-		gamma_hcpfclusiso  .push_back( photonHcalpfClusterIso03EA(iGamma)              );
+    		gamma_mass         .push_back( cms3.photons_mass().at(iGamma)                  );
+    		gamma_sigmaIetaIeta.push_back( cms3.photons_full5x5_sigmaIEtaIEta().at(iGamma) );
+    		gamma_chHadIso     .push_back( cms3.photons_chargedHadronIso().at(iGamma)      );
+    		gamma_neuHadIso    .push_back( cms3.photons_neutralHadronIso().at(iGamma)      );
+    		gamma_phIso        .push_back( cms3.photons_photonIso().at(iGamma)             );
+    		gamma_r9           .push_back( cms3.photons_full5x5_r9().at(iGamma)            );
+    		gamma_hOverE       .push_back( cms3.photons_full5x5_hOverEtowBC().at(iGamma)   );
+    		gamma_hOverE_online.push_back( cms3.photons_full5x5_hOverE().at(iGamma)        );
+    		gamma_idCutBased   .push_back( isTightPhoton(iGamma,HAD) ? 1 : 0               ); 		
+    		gamma_hollowtkiso03.push_back( cms3.photons_tkIsoHollow03()   .at(iGamma)      );
+    		gamma_ecpfclusiso  .push_back( photonEcalpfClusterIso03EA(iGamma)              );
+    		gamma_hcpfclusiso  .push_back( photonHcalpfClusterIso03EA(iGamma)              );
 
-		if(gamma_pt[ngamma] > 20) nGammas20++;
-	
-		// Some work for truth-matching (should be integrated in CMS3 as for the leptons)
-		int bestMatch = -1;
-		float bestDr = 0.1;
-		float bestMatchEta = -999;
-		float bestMatchPhi = -999;
+    		if(gamma_pt[ngamma] > 20) nGammas20++;
+    	
+    		// Some work for truth-matching (should be integrated in CMS3 as for the leptons)
+    		int bestMatch = -1;
+    		float bestDr = 0.1;
+    		float bestMatchEta = -999;
+    		float bestMatchPhi = -999;
 
-		if( !isData ){		  
-		  for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
-		        if ( (cms3.genps_id().at(iGen) != 22) && (abs(cms3.genps_id().at(iGen)) != 11) ) continue; // accept gen photons and electrons
-			if ( cms3.genps_status()               .at(iGen)        != 1  ) continue; 
-			if ( (fabs(cms3.genps_id_simplemother() .at(iGen))       > 24) && (fabs (cms3.genps_id_simplemother() .at(iGen)) != 2212) ) continue; // pions etc 
-			if ( fabs(eta - cms3.genps_p4()        .at(iGen).eta()) > 0.1 ) continue;
-			if ( 2*cms3.genps_p4()                 .at(iGen).pt()   < pt  ) continue;
-			if ( 0.5*cms3.genps_p4()               .at(iGen).pt()   > pt  ) continue;
-			float thisDR = DeltaR( cms3.genps_p4() .at(iGen).eta(), eta, cms3.genps_p4().at(iGen).phi(), phi);
-			if (thisDR < bestDr) {
-			  bestDr = thisDR;
-			  bestMatch = iGen;
-			  bestMatchEta = cms3.genps_p4().at(iGen).eta();
-			  bestMatchPhi = cms3.genps_p4().at(iGen).phi();
-			}
-		  }
-		  if (bestMatch != -1) {
-  			// 7 is a special code for photons without a mother. this seems to be due to a miniAOD bug where links are broken.
-  		  gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : cms3.genps_id().at(bestMatch));
-        gamma_genPt.push_back(cms3.genps_id().at(bestMatch) == 22 ? cms3.genps_p4().at(bestMatch).pt() : -1);
-  			gamma_genIso.push_back(-1); //cms2.genps_iso().at(bestMatch);
-        gamma_genIsPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(bestMatch));
-        // Now want to look at DR between photon and parton
-  			float minDR = 999.; 
-  			for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
-  			  if( cms3.genps_status().at(iGen)   != 22 && cms3.genps_status().at(iGen)   != 23) continue;
-  			  if( fabs(cms3.genps_id().at(iGen)) != 21 || fabs(cms3.genps_id().at(iGen)) <= 4 ) continue;
-  			  float dr = DeltaR( cms3.genps_p4().at(iGen).eta(), bestMatchEta, cms3.genps_p4().at(iGen).phi(), bestMatchPhi);
-  			  if (dr < minDR) minDR = dr;
-  			}
-  			
-        gamma_drMinParton.push_back ( minDR );
-		  }
-		  else {
-  			gamma_mcMatchId.push_back(0);
-  			gamma_genPt.push_back(-1);
-  			gamma_genIso.push_back(-1);
-  			gamma_genIsPromptFinalState.push_back(-1);
-  			gamma_drMinParton.push_back ( -1 );
-		  }
-		}   
-
-
-		ngamma++;
+    		if( !isData ){		  
+    		  for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
+    		    if ( (cms3.genps_id().at(iGen) != 22) && (abs(cms3.genps_id().at(iGen)) != 11) ) continue; // accept gen photons and electrons
+      			if ( cms3.genps_status()               .at(iGen)        != 1  ) continue; 
+      			if ( (fabs(cms3.genps_id_simplemother() .at(iGen))       > 24) && (fabs (cms3.genps_id_simplemother() .at(iGen)) != 2212) ) continue; // pions etc 
+      			if ( fabs(eta - cms3.genps_p4()        .at(iGen).eta()) > 0.1 ) continue;
+      			if ( 2*cms3.genps_p4()                 .at(iGen).pt()   < pt  ) continue;
+      			if ( 0.5*cms3.genps_p4()               .at(iGen).pt()   > pt  ) continue;
+      			float thisDR = DeltaR( cms3.genps_p4() .at(iGen).eta(), eta, cms3.genps_p4().at(iGen).phi(), phi);
+            if (thisDR < bestDr) {
+      			  bestDr = thisDR;
+      			  bestMatch = iGen;
+      			  bestMatchEta = cms3.genps_p4().at(iGen).eta();
+      			  bestMatchPhi = cms3.genps_p4().at(iGen).phi();
+      			}
+    		  }
+    		  if (bestMatch != -1) {
+      			// 7 is a special code for photons without a mother. this seems to be due to a miniAOD bug where links are broken.
+      		  gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : cms3.genps_id().at(bestMatch));
+            gamma_genPt.push_back(cms3.genps_id().at(bestMatch) == 22 ? cms3.genps_p4().at(bestMatch).pt() : -1);
+      			gamma_genIso.push_back(-1); //cms2.genps_iso().at(bestMatch);
+            gamma_genIsPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(bestMatch));
+            // Now want to look at DR between photon and parton
+      			float minDR = 999.; 
+      			for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
+      			  if( cms3.genps_status().at(iGen)   != 22 && cms3.genps_status().at(iGen)   != 23) continue;
+      			  if( fabs(cms3.genps_id().at(iGen)) != 21 || fabs(cms3.genps_id().at(iGen)) <= 4 ) continue;
+      			  float dr = DeltaR( cms3.genps_p4().at(iGen).eta(), bestMatchEta, cms3.genps_p4().at(iGen).phi(), bestMatchPhi);
+      			  if (dr < minDR) minDR = dr;
+      			}
+      			
+            gamma_drMinParton.push_back ( minDR );
+    		  }
+    		  else {
+      			gamma_mcMatchId.push_back(0);
+      			gamma_genPt.push_back(-1);
+      			gamma_genIso.push_back(-1);
+      			gamma_genIsPromptFinalState.push_back(-1);
+      			gamma_drMinParton.push_back ( -1 );
+    		  }
+    		}   
+    		ngamma++;
       }
-	
-	  if( isData && ngamma > 0 ){
-	    float minDr = 0.2;		
+  	
+  	  if( isData && ngamma > 0 ){
+  	    float minDr = 0.2;		
 
-	    // old way: loop through all trigger objects
-	    if (small_cms3_version < 18) {
-		for( size_t hltind = 0; hltind < cms3.hlt_trigObjs_id().size(); hltind++ ){ // loop over HLTs		  
-		  for( size_t trigind = 0; trigind < cms3.hlt_trigObjs_id().at(hltind).size(); trigind++ ){
+  	    // old way: loop through all trigger objects
+        if (small_cms3_version < 18) {
+      		for( size_t hltind = 0; hltind < cms3.hlt_trigObjs_id().size(); hltind++ ){ // loop over HLTs		  
+      		  for( size_t trigind = 0; trigind < cms3.hlt_trigObjs_id().at(hltind).size(); trigind++ ){
+              if( cms3.hlt_trigObjs_passLast().at(hltind).at(trigind) ){
+        			  float thisDR = ROOT::Math::VectorUtil::DeltaR(cms3.hlt_trigObjs_p4().at(hltind).at(trigind), gamma_p4.at(0));
 
-			if( cms3.hlt_trigObjs_passLast().at(hltind).at(trigind) ){
-			  float thisDR = ROOT::Math::VectorUtil::DeltaR(cms3.hlt_trigObjs_p4().at(hltind).at(trigind), gamma_p4.at(0));
+        			  if( HLT_Photon165_HE10             > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_HE10"            ) ) if( thisDR < minDr ) HLT_Photon165_HE10_matchedtophoton             = true;
+        			  if( HLT_Photon165_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_R9Id90_HE10_IsoM") ) if( thisDR < minDr ) HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton = true;
+        			  if( HLT_Photon120_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon120_R9Id90_HE10_IsoM") ) if( thisDR < minDr ) HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton = true;
+        			  if( HLT_Photon90_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon90_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton  = true;
+        			  if( HLT_Photon75_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon75_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton  = true;
+        			  if( HLT_Photon50_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon50_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton  = true;
+        			  if( HLT_Photon36_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon36_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  = true;
+        			  if( HLT_Photon30_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon30_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  = true;
+        			  if( HLT_Photon22_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon22_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  = true;
 
-			  if( HLT_Photon165_HE10             > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_HE10"            ) ) if( thisDR < minDr ) HLT_Photon165_HE10_matchedtophoton             = true;
-			  if( HLT_Photon165_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_R9Id90_HE10_IsoM") ) if( thisDR < minDr ) HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton = true;
-			  if( HLT_Photon120_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon120_R9Id90_HE10_IsoM") ) if( thisDR < minDr ) HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton = true;
-			  if( HLT_Photon90_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon90_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton  = true;
-			  if( HLT_Photon75_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon75_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton  = true;
-			  if( HLT_Photon50_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon50_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton  = true;
-			  if( HLT_Photon36_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon36_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  = true;
-			  if( HLT_Photon30_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon30_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  = true;
-			  if( HLT_Photon22_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon22_R9Id90_HE10_IsoM" ) ) if( thisDR < minDr ) HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  = true;
+        			  // dump info for events that don't have a matched photon
+        			  // if( (HLT_Photon165_HE10             > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_HE10"            ) ) ||
+        			  // 	  (HLT_Photon165_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_R9Id90_HE10_IsoM") ) ||
+        			  // 	  (HLT_Photon120_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon120_R9Id90_HE10_IsoM") ) ||
+        			  // 	  (HLT_Photon90_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon90_R9Id90_HE10_IsoM" ) ) ||
+        			  // 	  (HLT_Photon75_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon75_R9Id90_HE10_IsoM" ) ) ||
+        			  // 	  (HLT_Photon50_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon50_R9Id90_HE10_IsoM" ) ) ||
+        			  // 	  (HLT_Photon36_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon36_R9Id90_HE10_IsoM" ) ) ||
+        			  // 	  (HLT_Photon30_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon30_R9Id90_HE10_IsoM" ) ) ||
+        			  // 	  (HLT_Photon22_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon22_R9Id90_HE10_IsoM" ) ) ){
+        			  // 	if( thisDR > minDr ){
+        			  // 	  cout<<"trig   : "<<cms3.hlt_trigNames().at(hltind)<<endl;
+        			  // 	  cout<<"trig pt: "<<cms3.hlt_trigObjs_p4().at(hltind).at(trigind).pt()<<endl;
+        			  // 	  cout<<"offl pt: "<<gamma_p4.at(0)                               .pt()<<endl;
+        			  // 	  cout<<"trig et: "<<cms3.hlt_trigObjs_p4().at(hltind).at(trigind).eta()<<endl;
+        			  // 	  cout<<"offl et: "<<gamma_p4.at(0)                               .eta()<<endl;
+        			  // 	  cout<<"trig ph: "<<cms3.hlt_trigObjs_p4().at(hltind).at(trigind).phi()<<endl;
+        			  // 	  cout<<"offl ph: "<<gamma_p4.at(0)                               .phi()<<endl;
+        			  // 	}
+        			  // }
+        			  
+              }
+        		}
+        	} // loop over trig objs
+        } // if old CMS3 version
 
-			  // dump info for events that don't have a matched photon
-			  // if( (HLT_Photon165_HE10             > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_HE10"            ) ) ||
-			  // 	  (HLT_Photon165_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon165_R9Id90_HE10_IsoM") ) ||
-			  // 	  (HLT_Photon120_R9Id90_HE10_IsoM > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon120_R9Id90_HE10_IsoM") ) ||
-			  // 	  (HLT_Photon90_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon90_R9Id90_HE10_IsoM" ) ) ||
-			  // 	  (HLT_Photon75_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon75_R9Id90_HE10_IsoM" ) ) ||
-			  // 	  (HLT_Photon50_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon50_R9Id90_HE10_IsoM" ) ) ||
-			  // 	  (HLT_Photon36_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon36_R9Id90_HE10_IsoM" ) ) ||
-			  // 	  (HLT_Photon30_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon30_R9Id90_HE10_IsoM" ) ) ||
-			  // 	  (HLT_Photon22_R9Id90_HE10_IsoM  > 0 && TString(cms3.hlt_trigNames().at(hltind)).Contains("HLT_Photon22_R9Id90_HE10_IsoM" ) ) ){
-			  // 	if( thisDR > minDr ){
-			  // 	  cout<<"trig   : "<<cms3.hlt_trigNames().at(hltind)<<endl;
-			  // 	  cout<<"trig pt: "<<cms3.hlt_trigObjs_p4().at(hltind).at(trigind).pt()<<endl;
-			  // 	  cout<<"offl pt: "<<gamma_p4.at(0)                               .pt()<<endl;
-			  // 	  cout<<"trig et: "<<cms3.hlt_trigObjs_p4().at(hltind).at(trigind).eta()<<endl;
-			  // 	  cout<<"offl et: "<<gamma_p4.at(0)                               .eta()<<endl;
-			  // 	  cout<<"trig ph: "<<cms3.hlt_trigObjs_p4().at(hltind).at(trigind).phi()<<endl;
-			  // 	  cout<<"offl ph: "<<gamma_p4.at(0)                               .phi()<<endl;
-			  // 	}
-			  // }
-			  
-			}
-		  }
-		} // loop over trig objs
-	    } // if old CMS3 version
+  	    // new way: pre-computed matching in CMS3
+  	    else if (small_cms3_version >= 18) {
+  	      if( HLT_Photon165_HE10             > 0 && cms3.photons_HLT_Photon165_HE10().at(0) )             HLT_Photon165_HE10_matchedtophoton             = true;
+  	      if( HLT_Photon165_R9Id90_HE10_IsoM > 0 && cms3.photons_HLT_Photon165_R9Id90_HE10_IsoM().at(0) ) HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton = true;
+  	      if( HLT_Photon120_R9Id90_HE10_IsoM > 0 && cms3.photons_HLT_Photon120_R9Id90_HE10_IsoM().at(0) ) HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton = true;
+  	      if( HLT_Photon90_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon90_R9Id90_HE10_IsoM().at(0) )  HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton  = true;
+  	      if( HLT_Photon75_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon75_R9Id90_HE10_IsoM().at(0) )  HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton  = true;
+  	      if( HLT_Photon50_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon50_R9Id90_HE10_IsoM().at(0) )  HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton  = true;
+  	      if( HLT_Photon36_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon36_R9Id90_HE10_IsoM().at(0) )  HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  = true;
+  	      if( HLT_Photon30_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon30_R9Id90_HE10_IsoM().at(0) )  HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  = true;
+  	      if( HLT_Photon22_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon22_R9Id90_HE10_IsoM().at(0) )  HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  = true;
+  	    } // if new CMS3 version
+  	  }
+  	  
+  	  // add selections to keep only events with photons and dilepton events
+  	  if( !(ngamma > 0 || nlep > 0) ) {
+  	    simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
+        //cout<<"DEBUGEVENT: run "<<run<<" lumi "<<lumi<<" evt "<<evt<<" Failed < 0 leptons or less than 0 photons"<<endl;
+  	    continue;// fix for not iso study
+  	  }
+  		// std::pair <int, int> hyp_indices =  getHypLepIndices( lep_p4, lep_pdgId );
+  	  std::pair <int, int> hyp_indices = std::make_pair(0, 1);
+  		
+  	  if (nlep > 1 ) {//require min 2 leps
+    		if (lep_charge.at(hyp_indices.first)*lep_charge.at(hyp_indices.second) > 0){
+    		  evt_type = 1; // same sign event
+    		}
+        else{
+    		  evt_type = 0; // oppo sign event 
+    		}
 
-	    // new way: pre-computed matching in CMS3
-	    else if (small_cms3_version >= 18) {
-	      if( HLT_Photon165_HE10             > 0 && cms3.photons_HLT_Photon165_HE10().at(0) )             HLT_Photon165_HE10_matchedtophoton             = true;
-	      if( HLT_Photon165_R9Id90_HE10_IsoM > 0 && cms3.photons_HLT_Photon165_R9Id90_HE10_IsoM().at(0) ) HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton = true;
-	      if( HLT_Photon120_R9Id90_HE10_IsoM > 0 && cms3.photons_HLT_Photon120_R9Id90_HE10_IsoM().at(0) ) HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton = true;
-	      if( HLT_Photon90_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon90_R9Id90_HE10_IsoM().at(0) )  HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton  = true;
-	      if( HLT_Photon75_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon75_R9Id90_HE10_IsoM().at(0) )  HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton  = true;
-	      if( HLT_Photon50_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon50_R9Id90_HE10_IsoM().at(0) )  HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton  = true;
-	      if( HLT_Photon36_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon36_R9Id90_HE10_IsoM().at(0) )  HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  = true;
-	      if( HLT_Photon30_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon30_R9Id90_HE10_IsoM().at(0) )  HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  = true;
-	      if( HLT_Photon22_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon22_R9Id90_HE10_IsoM().at(0) )  HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  = true;
-	    } // if new CMS3 version
-	  }
-	  
-	  // add selections to keep only events with photons and dilepton events
-	  if( !(ngamma > 0 || nlep > 0) ) {
-	    simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
-      //cout<<"DEBUGEVENT: run "<<run<<" lumi "<<lumi<<" evt "<<evt<<" Failed < 0 leptons or less than 0 photons"<<endl;
-	    continue;// fix for not iso study
-	  }
-		// std::pair <int, int> hyp_indices =  getHypLepIndices( lep_p4, lep_pdgId );
-	  std::pair <int, int> hyp_indices = std::make_pair(0, 1);
-		
-	  if (nlep > 1 ) {//require min 2 leps
-  		if (lep_charge.at(hyp_indices.first)*lep_charge.at(hyp_indices.second) > 0){
-  		  evt_type = 1; // same sign event
-  		}
+    		if ( abs(lep_pdgId.at(hyp_indices.first)) == 11 && abs(lep_pdgId.at(hyp_indices.second)) == 11 ){ 
+          hyp_type = 0;// ee event												   			   
+    		}
+        else if (  abs(lep_pdgId.at(hyp_indices.first)) == 13 && abs(lep_pdgId.at(hyp_indices.second)) == 13 ){ 
+          hyp_type = 1;// mm event												   			   
+    		}
+        else if ( (abs(lep_pdgId.at(hyp_indices.first)) == 11 && abs(lep_pdgId.at(hyp_indices.second)) == 13) || (abs(lep_pdgId.at(hyp_indices.first)) == 13 && abs(lep_pdgId.at(hyp_indices.second)) == 11) ){ 
+          hyp_type = 2;// em event
+    		}
+        else {
+    		  //cout<<"Leptype not ee, mm, or em! Exiting."<<endl;
+    		  simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
+          //cout<<"DEBUGEVENT: run "<<run<<" lumi "<<lumi<<" evt "<<evt<<" Failed More than 1 lepton, but can't be matched to ee, mumu, or emu"<<endl;
+    		  continue;
+    		}
+
+    		dilmass = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).mass();
+    		dilpt   = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).pt();       
+
+    		//Add dRll
+    		float dEtall =            lep_p4.at(hyp_indices.first).eta() - lep_p4.at(hyp_indices.second).eta();
+    		float dPhill = acos( cos( lep_p4.at(hyp_indices.first).phi() - lep_p4.at(hyp_indices.second).phi() ) );
+    		dRll = sqrt(pow( dEtall, 2) + pow( dPhill, 2));
+  	  }
+      else if( ngamma > 0 ) {// here are the photon only variables
+        evt_type = 2; // photon + jets event
+  	  }
       else{
-  		  evt_type = 0; // oppo sign event 
-  		}
-
-  		if ( abs(lep_pdgId.at(hyp_indices.first)) == 11 && abs(lep_pdgId.at(hyp_indices.second)) == 11 ){ 
-        hyp_type = 0;// ee event												   			   
-  		}
-      else if (  abs(lep_pdgId.at(hyp_indices.first)) == 13 && abs(lep_pdgId.at(hyp_indices.second)) == 13 ){ 
-        hyp_type = 1;// mm event												   			   
-  		}
-      else if ( (abs(lep_pdgId.at(hyp_indices.first)) == 11 && abs(lep_pdgId.at(hyp_indices.second)) == 13) || (abs(lep_pdgId.at(hyp_indices.first)) == 13 && abs(lep_pdgId.at(hyp_indices.second)) == 11) ){ 
-        hyp_type = 2;// em event
-  		}
-      else {
-  		  cout<<"Leptype not ee, mm, or em! Exiting."<<endl;
-  		  simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
+        simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
         //cout<<"DEBUGEVENT: run "<<run<<" lumi "<<lumi<<" evt "<<evt<<" Failed More than 1 lepton, but can't be matched to ee, mumu, or emu"<<endl;
-  		  continue;
-  		}
+        continue; // leftovers
+  	  }
 
-  		dilmass = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).mass();
-  		dilpt   = (lep_p4.at(hyp_indices.first)+lep_p4.at(hyp_indices.second)).pt();       
+  	  if(nlep>1){
+  		  LorentzVector z_pt(lep_p4.at(hyp_indices.first).X()+lep_p4.at(hyp_indices.second).X(),
+  						   lep_p4.at(hyp_indices.first).Y()+lep_p4.at(hyp_indices.second).Y(),
+  						   lep_p4.at(hyp_indices.first).Z()+lep_p4.at(hyp_indices.second).Z(),
+  						   lep_p4.at(hyp_indices.first).E()+lep_p4.at(hyp_indices.second).E());
 
-  		//Add dRll
-  		float dEtall =            lep_p4.at(hyp_indices.first).eta() - lep_p4.at(hyp_indices.second).eta();
-  		float dPhill = acos( cos( lep_p4.at(hyp_indices.first).phi() - lep_p4.at(hyp_indices.second).phi() ) );
-  		dRll = sqrt(pow( dEtall, 2) + pow( dPhill, 2));
-	  }
-    else if( ngamma > 0 ) {// here are the photon only variables
-      evt_type = 2; // photon + jets event
-	  }
-    else{
-      simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
-      //cout<<"DEBUGEVENT: run "<<run<<" lumi "<<lumi<<" evt "<<evt<<" Failed More than 1 lepton, but can't be matched to ee, mumu, or emu"<<endl;
-      continue; // leftovers
-	  }
-
-	  if(nlep>1){
-		  LorentzVector z_pt(lep_p4.at(hyp_indices.first).X()+lep_p4.at(hyp_indices.second).X(),
-						   lep_p4.at(hyp_indices.first).Y()+lep_p4.at(hyp_indices.second).Y(),
-						   lep_p4.at(hyp_indices.first).Z()+lep_p4.at(hyp_indices.second).Z(),
-						   lep_p4.at(hyp_indices.first).E()+lep_p4.at(hyp_indices.second).E());
-
-  		//start from here
-  		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( z_pt );
-  		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
-  		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
-  		decayedphoton_bosn_p4 =
-  		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
-  						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
-  						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
-  						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
-	  }	  
-	  else if(ngamma>0){
-  		//start from here
-  		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( gamma_p4.at(0) );
-  		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
-  		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
-  		decayedphoton_bosn_p4 =
-  		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
-  						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
-  						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
-  						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
-	  }
-	  
-	  if (verbose) cout << "before jets" << endl;
-	  
+    		//start from here
+    		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( z_pt );
+    		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
+    		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
+    		decayedphoton_bosn_p4 =
+    		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
+    						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
+    						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
+    						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
+  	  }	  
+  	  else if(ngamma>0){
+    		//start from here
+    		std::pair<LorentzVector, LorentzVector> lepsFromDecayedGamma = simpa.returnDecayProducts( gamma_p4.at(0) );
+    		decayedphoton_lep1_p4 = lepsFromDecayedGamma.first;
+    		decayedphoton_lep2_p4 = lepsFromDecayedGamma.second;
+    		decayedphoton_bosn_p4 =
+    		  LorentzVector(decayedphoton_lep1_p4.X()+decayedphoton_lep2_p4.X(),
+    						decayedphoton_lep1_p4.Y()+decayedphoton_lep2_p4.Y(),
+    						decayedphoton_lep1_p4.Z()+decayedphoton_lep2_p4.Z(),
+    						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
+  	  }
+  	  
+  	  if (verbose) cout << "before jets" << endl;
+  	  
       //JETS
       //correct jets and check baseline selections
       vector < LorentzVector> p4sCorrJets; // store corrected p4 for ALL jets, so indices match CMS3 ntuple
@@ -1272,117 +1265,116 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
-		LorentzVector pfjet_p4_cor = cms3.pfjets_p4().at(iJet);
+    		LorentzVector pfjet_p4_cor = cms3.pfjets_p4().at(iJet);
 
-		double corr = 1.0;
-		double shift = 0.0;
-		if (applyJECfromFile) {
+    		double corr = 1.0;
+    		double shift = 0.0;
+    		if (applyJECfromFile) {
 
-		  // get uncorrected jet p4 to use as input for corrections
-		  LorentzVector pfjet_p4_uncor = cms3.pfjets_p4().at(iJet) * cms3.pfjets_undoJEC().at(iJet);
+    		  // get uncorrected jet p4 to use as input for corrections
+    		  LorentzVector pfjet_p4_uncor = cms3.pfjets_p4().at(iJet) * cms3.pfjets_undoJEC().at(iJet);
 
-		  vector<float> corr_vals;
-		  
-		  // get L1FastL2L3Residual total correction
-		  jet_corrector_pfL1FastJetL2L3_current->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
-		  jet_corrector_pfL1FastJetL2L3_current->setJetA  ( cms3.pfjets_area().at(iJet)       );
-		  jet_corrector_pfL1FastJetL2L3_current->setJetPt ( pfjet_p4_uncor.pt()               );
-		  jet_corrector_pfL1FastJetL2L3_current->setJetEta( pfjet_p4_uncor.eta()              );
-		  //get actual corrections
-		  corr_vals = jet_corrector_pfL1FastJetL2L3_current->getSubCorrections();
-		  corr      = corr_vals.at(corr_vals.size()-1); // All corrections		  
-		  shift = 0.0;
-		  if (jecUnc_current != 0) {
-		    jecUnc_current->setJetEta(pfjet_p4_uncor.eta()); 
-		    jecUnc_current->setJetPt(pfjet_p4_uncor.pt()*corr); 
-		    double unc = jecUnc_current->getUncertainty(true);
-		    // note that this always checks the "default" filename vector size, not the run-dependent for late 2016F
-		    if( cms3.evt_isRealData() && jetcorr_filenames_pfL1FastJetL2L3.size() == 4 ){
-		      shift = sqrt(unc*unc + pow((corr_vals.at(corr_vals.size()-1)/corr_vals.at(corr_vals.size()-2)-1.),2));	  
-		    }else{
-		      shift = unc;
-		    }
-		  }
+    		  vector<float> corr_vals;
+    		  
+    		  // get L1FastL2L3Residual total correction
+    		  jet_corrector_pfL1FastJetL2L3_current->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
+    		  jet_corrector_pfL1FastJetL2L3_current->setJetA  ( cms3.pfjets_area().at(iJet)       );
+    		  jet_corrector_pfL1FastJetL2L3_current->setJetPt ( pfjet_p4_uncor.pt()               );
+    		  jet_corrector_pfL1FastJetL2L3_current->setJetEta( pfjet_p4_uncor.eta()              );
+    		  //get actual corrections
+    		  corr_vals = jet_corrector_pfL1FastJetL2L3_current->getSubCorrections();
+    		  corr      = corr_vals.at(corr_vals.size()-1); // All corrections		  
+    		  shift = 0.0;
+    		  if (jecUnc_current != 0) {
+    		    jecUnc_current->setJetEta(pfjet_p4_uncor.eta()); 
+    		    jecUnc_current->setJetPt(pfjet_p4_uncor.pt()*corr); 
+    		    double unc = jecUnc_current->getUncertainty(true);
+    		    // note that this always checks the "default" filename vector size, not the run-dependent for late 2016F
+    		    if( cms3.evt_isRealData() && jetcorr_filenames_pfL1FastJetL2L3.size() == 4 ){
+    		      shift = sqrt(unc*unc + pow((corr_vals.at(corr_vals.size()-1)/corr_vals.at(corr_vals.size()-2)-1.),2));	  
+    		    }else{
+    		      shift = unc;
+    		    }
+    		  }
 
-		  // apply new JEC to p4
-		  pfjet_p4_cor = pfjet_p4_uncor * corr;
-
-		}
-		
-		p4sCorrJets.push_back(pfjet_p4_cor);
-		p4sCorrJets_up.push_back(pfjet_p4_cor*(1.0 + shift));
-		p4sCorrJets_dn.push_back(pfjet_p4_cor*(1.0 - shift));
-		jet_corrfactor.push_back(corr);
-		jet_corrfactor_up.push_back(1.0 + shift);
-		jet_corrfactor_dn.push_back(1.0 - shift);
-  
-		if(p4sCorrJets.at(iJet).pt() < 15.0) continue; 
+    		  // apply new JEC to p4
+    		  pfjet_p4_cor = pfjet_p4_uncor * corr;
+    		}
+    		
+    		p4sCorrJets.push_back(pfjet_p4_cor);
+    		p4sCorrJets_up.push_back(pfjet_p4_cor*(1.0 + shift));
+    		p4sCorrJets_dn.push_back(pfjet_p4_cor*(1.0 - shift));
+    		jet_corrfactor.push_back(corr);
+    		jet_corrfactor_up.push_back(1.0 + shift);
+    		jet_corrfactor_dn.push_back(1.0 - shift);
+    
+  		  if(p4sCorrJets.at(iJet).pt() < 15.0) continue; 
         if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2) continue;
-		// note this uses the eta of the jet as stored in CMS3
-		//  chance for small discrepancies if JEC changes direction slightly..
+  		  // note this uses the eta of the jet as stored in CMS3
+  		  //  chance for small discrepancies if JEC changes direction slightly..
         if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan) continue;
-		if( isSMSScan && isBadFastsimJet(iJet) ) continue;
-		passJets.push_back(std::pair<int,float>(iJet, pfjet_p4_cor.pt()));
+  		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
+  		  passJets.push_back(std::pair<int,float>(iJet, pfjet_p4_cor.pt()));
       }
 
       // sort passing jets by corrected pt
       std::sort(passJets.begin(), passJets.end(), sortByValue);
 
-	  if (verbose) cout << "before jet/photon requirements" << endl;
- 	  //matched to pfJet with pT > 10 GeV, within cone of dR < 0.3. neutral EM energy fraction > 0.7
- 	  for(int iGamma = 0; iGamma < ngamma; iGamma++){
- 		if (iGamma>0) continue; // Only care about leading photon.
- 
- 		float minDR = 0.4;
- 		int minIndex = -1;
- 		for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
- 	
- 		  // int iJet = passJets.at(passIdx);
- 		  int iJet = passJets.at(passIdx).first;
- 
- 		  if(p4sCorrJets.at(iJet).pt() < 10.0       ) continue;
- 		  if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2 ) continue;
- 
- 		  // float thisDR = DeltaR(p4sCorrJets.at(iJet).eta(), gamma_eta[iGamma], p4sCorrJets.at(iJet).phi(), gamma_phi[iGamma]);
- 		  // float thisDR = DeltaR(pfjets_p4().at(iJet).eta(), gamma_eta[iGamma], pfjets_p4().at(iJet).phi(), gamma_phi[iGamma]);
- 		  float thisDR = ROOT::Math::VectorUtil::DeltaR(p4sCorrJets.at(iJet), gamma_p4[iGamma]);
- 		  if(thisDR < minDR){
- 			minDR = thisDR; 
- 			minIndex = iJet;
- 		  }
- 		} // end jet loop
+  	  if (verbose) cout << "before jet/photon requirements" << endl;
+   	  //matched to pfJet with pT > 10 GeV, within cone of dR < 0.3. neutral EM energy fraction > 0.7
+   	  for(int iGamma = 0; iGamma < ngamma; iGamma++){
+     		if (iGamma>0) continue; // Only care about leading photon.
+     
+     		float minDR = 0.4;
+     		int minIndex = -1;
+     		for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
+     	
+     		  // int iJet = passJets.at(passIdx);
+     		  int iJet = passJets.at(passIdx).first;
+     
+     		  if(p4sCorrJets.at(iJet).pt() < 10.0       ) continue;
+     		  if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2 ) continue;
+     
+     		  // float thisDR = DeltaR(p4sCorrJets.at(iJet).eta(), gamma_eta[iGamma], p4sCorrJets.at(iJet).phi(), gamma_phi[iGamma]);
+     		  // float thisDR = DeltaR(pfjets_p4().at(iJet).eta(), gamma_eta[iGamma], pfjets_p4().at(iJet).phi(), gamma_phi[iGamma]);
+     		  float thisDR = ROOT::Math::VectorUtil::DeltaR(p4sCorrJets.at(iJet), gamma_p4[iGamma]);
+     		  if(thisDR < minDR){
+     			minDR = thisDR; 
+     			minIndex = iJet;
+     		  }
+     		} // end jet loop
 
-		// get emf of jet closest to photon
- 		if( minIndex > -1 ){
- 		  matched_neutralemf = ( cms3.pfjets_neutralEmE().at(minIndex)                                         ) / (p4sCorrJets.at(minIndex).energy()/jet_corrfactor.at(minIndex));
- 		  matched_emf        = ( cms3.pfjets_neutralEmE().at(minIndex) + cms3.pfjets_chargedEmE().at(minIndex) ) / (p4sCorrJets.at(minIndex).energy()/jet_corrfactor.at(minIndex));
- 		}else{
+    		// get emf of jet closest to photon
+     		if( minIndex > -1 ){
+     		  matched_neutralemf = ( cms3.pfjets_neutralEmE().at(minIndex)                                         ) / (p4sCorrJets.at(minIndex).energy()/jet_corrfactor.at(minIndex));
+     		  matched_emf        = ( cms3.pfjets_neutralEmE().at(minIndex) + cms3.pfjets_chargedEmE().at(minIndex) ) / (p4sCorrJets.at(minIndex).energy()/jet_corrfactor.at(minIndex));
+     		}
+        else{
 
-		  for(unsigned int jetind = 0; jetind < cms3.pfjets_p4().size(); jetind++){ //loop through jets that passed baseline selections
+    		  for(unsigned int jetind = 0; jetind < cms3.pfjets_p4().size(); jetind++){ //loop through jets that passed baseline selections
+      			float thisDR = ROOT::Math::VectorUtil::DeltaR(cms3.pfjets_p4().at(jetind), gamma_p4[iGamma]);
+      			if(thisDR < minDR){
+      			  minDR = thisDR; 
+      			  minIndex = jetind;
+      			}
+    		  }
 
-			float thisDR = ROOT::Math::VectorUtil::DeltaR(cms3.pfjets_p4().at(jetind), gamma_p4[iGamma]);
-			if(thisDR < minDR){
-			  minDR = thisDR; 
-			  minIndex = jetind;
-			}
-		  }
+    		  if( minIndex > -1 ){
+      			matched_neutralemf = ( cms3.pfjets_neutralEmE().at(minIndex)                                         ) / (cms3.pfjets_p4().at(minIndex).energy()*cms3.pfjets_undoJEC().at(minIndex));
+      			matched_emf        = ( cms3.pfjets_neutralEmE().at(minIndex) + cms3.pfjets_chargedEmE().at(minIndex) ) / (cms3.pfjets_p4().at(minIndex).energy()*cms3.pfjets_undoJEC().at(minIndex));
+    		  }
+    		}
+    		 	  
+     		if (verbose) cout << "before checking for photon/electron overlap" << endl;
 
-		  if( minIndex > -1 ){
-			matched_neutralemf = ( cms3.pfjets_neutralEmE().at(minIndex)                                         ) / (cms3.pfjets_p4().at(minIndex).energy()*cms3.pfjets_undoJEC().at(minIndex));
-			matched_emf        = ( cms3.pfjets_neutralEmE().at(minIndex) + cms3.pfjets_chargedEmE().at(minIndex) ) / (cms3.pfjets_p4().at(minIndex).energy()*cms3.pfjets_undoJEC().at(minIndex));
-		  }
-		}
-		 	  
- 		if (verbose) cout << "before checking for photon/electron overlap" << endl;
-
- 		//	  elveto
- 		for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
- 		  if(cms3.els_p4().at(iEl).pt() < 10.0                                              ) continue; // pT > 10 GeV
- 		  if( ROOT::Math::VectorUtil::DeltaR(cms3.els_p4().at(iEl), gamma_p4[iGamma]) > 0.2 ) continue; // dr < 0.2
- 		  elveto = true;
- 		} // end electron loop	  		
- 	  }	  
-	  
+     		//	  elveto
+     		for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
+     		  if(cms3.els_p4().at(iEl).pt() < 10.0                                              ) continue; // pT > 10 GeV
+     		  if( ROOT::Math::VectorUtil::DeltaR(cms3.els_p4().at(iEl), gamma_p4[iGamma]) > 0.2 ) continue; // dr < 0.2
+     		  elveto = true;
+     		} // end electron loop	  		
+   	  }	  
+  	  
       if (verbose) cout << "before jet/lepton overlap" << endl;
 
       //check overlapping with leptons
@@ -1395,11 +1387,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
           int iJet = passJets.at(passIdx).first;
 
-          if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
-					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
+          if( !(p4sCorrJets.at(iJet).pt()    > 35.0 || 
+            (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
-		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
+          if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 
           bool alreadyRemoved = false;
           for(unsigned int j=0; j<removedJets.size(); j++){
@@ -1412,73 +1404,72 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
           float thisDR = DeltaR(p4sCorrJets.at(iJet).eta(), p4sLeptonsForJetCleaning.at(iLep).eta(), p4sCorrJets.at(iJet).phi(), p4sLeptonsForJetCleaning.at(iLep).phi());
           if(thisDR < maxDR){
-	    removedJets.push_back(iJet);
+            removedJets.push_back(iJet);
           }
         }
       }
 
-	  if (verbose) cout << "before isr weight loop over jets" << endl;
+  	  if (verbose) cout << "before isr weight loop over jets" << endl;
 
-	  if( !isData ){
+  	  if( !isData ){
 
-		bool failbadfastsimjet = false;	  
-		vector <LorentzVector> jets_for_pileup;
-		for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
+    		bool failbadfastsimjet = false;	  
+    		vector <LorentzVector> jets_for_pileup;
+    		for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
-		  LorentzVector pfjet_p4_cor = cms3.pfjets_p4().at(iJet);
-		  vector<float> corr_vals;
-		  double corr = 1.0;
+    		  LorentzVector pfjet_p4_cor = cms3.pfjets_p4().at(iJet);
+    		  vector<float> corr_vals;
+    		  double corr = 1.0;
 
-		  if (applyJECfromFile) {
+    		  if (applyJECfromFile) {
 
-		    // get uncorrected jet p4 to use as input for corrections
-		    LorentzVector pfjet_p4_uncor = cms3.pfjets_p4().at(iJet) * cms3.pfjets_undoJEC().at(iJet);
+    		    // get uncorrected jet p4 to use as input for corrections
+    		    LorentzVector pfjet_p4_uncor = cms3.pfjets_p4().at(iJet) * cms3.pfjets_undoJEC().at(iJet);
 
-		    // get L1FastL2L3Residual total correction
-		    jet_corrector_pfL1FastJetL2L3_current->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
-		    jet_corrector_pfL1FastJetL2L3_current->setJetA  ( cms3.pfjets_area().at(iJet)       );
-		    jet_corrector_pfL1FastJetL2L3_current->setJetPt ( pfjet_p4_uncor.pt()               );
-		    jet_corrector_pfL1FastJetL2L3_current->setJetEta( pfjet_p4_uncor.eta()              );
-		    //get actual corrections
-		    corr_vals = jet_corrector_pfL1FastJetL2L3_current->getSubCorrections();
-		    corr      = corr_vals.at(corr_vals.size()-1); // All corrections		  
+    		    // get L1FastL2L3Residual total correction
+    		    jet_corrector_pfL1FastJetL2L3_current->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
+    		    jet_corrector_pfL1FastJetL2L3_current->setJetA  ( cms3.pfjets_area().at(iJet)       );
+    		    jet_corrector_pfL1FastJetL2L3_current->setJetPt ( pfjet_p4_uncor.pt()               );
+    		    jet_corrector_pfL1FastJetL2L3_current->setJetEta( pfjet_p4_uncor.eta()              );
+    		    //get actual corrections
+    		    corr_vals = jet_corrector_pfL1FastJetL2L3_current->getSubCorrections();
+    		    corr      = corr_vals.at(corr_vals.size()-1); // All corrections		  
 
-		    // apply new JEC to p4
-		    pfjet_p4_cor = pfjet_p4_uncor * corr;
-		  }
-		
-		  if(       pfjet_p4_cor.pt()    < 30.0       ) continue; 
-		  if( fabs( pfjet_p4_cor.eta() ) > 2.4        ) continue;
-		  if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan ) continue;
-		  if( isSMSScan && isBadFastsimJet(iJet)      ) failbadfastsimjet = true;
+    		    // apply new JEC to p4
+    		    pfjet_p4_cor = pfjet_p4_uncor * corr;
+    		  }
+    		
+    		  if(       pfjet_p4_cor.pt()    < 30.0       ) continue; 
+    		  if( fabs( pfjet_p4_cor.eta() ) > 2.4        ) continue;
+    		  if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan ) continue;
+    		  if( isSMSScan && isBadFastsimJet(iJet)      ) failbadfastsimjet = true;
 
-		  bool jetoverlapswithlepton = false;
-		  for(unsigned int iLep = 0; iLep < p4sLeptonsForJetCleaning.size(); iLep++){
+    		  bool jetoverlapswithlepton = false;
+    		  for(unsigned int iLep = 0; iLep < p4sLeptonsForJetCleaning.size(); iLep++){
 
-		    float minDR = 0.4;
-		    float thisDR = DeltaR(pfjet_p4_cor.eta(), p4sLeptonsForJetCleaning.at(iLep).eta(), pfjet_p4_cor.phi(), p4sLeptonsForJetCleaning.at(iLep).phi());
-		    if(thisDR < minDR){
-		      minDR = thisDR; 
-		      jetoverlapswithlepton = true;
-		    }
-		  }
-		  
-		  if( jetoverlapswithlepton ) continue;
+    		    float minDR = 0.4;
+    		    float thisDR = DeltaR(pfjet_p4_cor.eta(), p4sLeptonsForJetCleaning.at(iLep).eta(), pfjet_p4_cor.phi(), p4sLeptonsForJetCleaning.at(iLep).phi());
+    		    if(thisDR < minDR){
+    		      minDR = thisDR; 
+    		      jetoverlapswithlepton = true;
+    		    }
+    		  }
+    		  
+    		  if( jetoverlapswithlepton ) continue;
 
-		  jets_for_pileup.push_back(pfjet_p4_cor);
-		}
+    		  jets_for_pileup.push_back(pfjet_p4_cor);
+        }
 
-		if( failbadfastsimjet ) continue; // throw away event if fails bad fastsim jet
+    		if( failbadfastsimjet ) continue; // throw away event if fails bad fastsim jet
 
-		isr_njets  = get_nisrMatch( jets_for_pileup );
-		isr_weight = get_isrWeight( isr_njets       );
-		isr_unc    = get_isrUnc(    isr_njets       );
-		if( currentFileName.Contains("SMS-TChi"  ) ) {
-		  isr_weight = get_isrWeight_ewk(isrboost);
-		  isr_unc = -999.;
-		}
-
-	  }
+    		isr_njets  = get_nisrMatch( jets_for_pileup );
+    		isr_weight = get_isrWeight( isr_njets       );
+    		isr_unc    = get_isrUnc(    isr_njets       );
+    		if( currentFileName.Contains("SMS-TChi"  ) ) {
+    		  isr_weight = get_isrWeight_ewk(isrboost);
+    		  isr_unc = -999.;
+    		}
+  	  }
 
       if (verbose) cout << "before jet/photon overlap" << endl;
 
@@ -1486,8 +1477,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //only want to remove the closest jet to a photon, threshold deltaR < 0.4
       vector<int> removedJetsGamma; //index of jets to be removed because they overlap with a photon
       for(int iGamma = 0; iGamma < ngamma; iGamma++){
-		if (iGamma>0) continue; // Only check leading photon. Let the others be
-
+    	  if (iGamma>0) continue; // Only check leading photon. Let the others be
         float minDR = 0.4;
         int minIndex = -1;
         for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
@@ -1495,11 +1485,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           int iJet = passJets.at(passIdx).first;
 
           if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
-					 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
+  				 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
-		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
-		
+  	      if( isSMSScan && isBadFastsimJet(iJet) ) continue;
+  	
           bool alreadyRemoved = false;
           for(unsigned int j=0; j<removedJetsGamma.size(); j++){
             if(iJet == removedJetsGamma.at(j)){
@@ -1529,23 +1519,23 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       nBJetLoose_dn  = 0;
       nJet200MuFrac50DphiMet  = 0;
 
-	  njets    = 0;
-	  njets_up = 0;
-	  njets_dn = 0;
-	  ht    = 0;
-	  ht_up = 0;
-	  ht_dn = 0;
+  	  njets    = 0;
+  	  njets_up = 0;
+  	  njets_dn = 0;
+  	  ht    = 0;
+  	  ht_up = 0;
+  	  ht_dn = 0;
 
       // for applying btagging SFs, using Method 1a from the twiki below:
       //   https://twiki.cern.ch/twiki/bin/viewauth/CMS/BTagSFMethods#1a_Event_reweighting_using_scale
       //   https://twiki.cern.ch/twiki/pub/CMS/BTagSFMethods/Method1aExampleCode_CSVM.cc.txt
       float btagprob_data = 1.;
-	  float btagprob_heavy_UP = 1.;
-	  float btagprob_heavy_DN = 1.;
-	  float btagprob_light_UP = 1.;
-	  float btagprob_light_DN = 1.;
-	  float btagprob_mc = 1.;
-	  
+  	  float btagprob_heavy_UP = 1.;
+  	  float btagprob_heavy_DN = 1.;
+  	  float btagprob_light_UP = 1.;
+  	  float btagprob_light_DN = 1.;
+  	  float btagprob_mc = 1.;
+  	  
       if (verbose) cout << "before main jet loop" << endl;
       //now fill variables for jets that pass baseline selections and don't overlap with a lepton
       for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){
@@ -1572,517 +1562,522 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         }
         if(evt_type == 2 && isOverlapJetGamma) continue;
 
-		if( verbose ) cout<<"Before filling jet branches"<<endl;
+    		if( verbose ) cout<<"Before filling jet branches"<<endl;
 
-		float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
-		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
+    		float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
+    		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
-		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
- 		  if( p4sCorrJets.at(iJet).pt() > 35.0 ) {
-			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
-			jets_csv                                      .push_back(current_csv_val);
-			jets_muf                                      .push_back(current_muf_val);
-		  }
-		  if( current_csv_val >= 0.8484 ){
-			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
-			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
-			  jets_csv                                      .push_back(current_csv_val);
-			  jets_muf                                      .push_back(current_muf_val);
-			}
-			jets_medb_p4  .push_back(p4sCorrJets.at(iJet));
-		  }	   
+    		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
+     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ) {
+      			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
+      			jets_csv                                      .push_back(current_csv_val);
+      			jets_muf                                      .push_back(current_muf_val);
+    		  }
+    		  if( current_csv_val >= 0.8484 ){
+      			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
+      			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
+      			  jets_csv                                      .push_back(current_csv_val);
+      			  jets_muf                                      .push_back(current_muf_val);
+      			}
+      			jets_medb_p4  .push_back(p4sCorrJets.at(iJet));
+    		  }	   
 
-		  if( !isData ){
-			jets_mcFlavour   .push_back(cms3.pfjets_partonFlavour().at(iJet));
-		  	jets_mcHadronFlav.push_back(cms3.pfjets_hadronFlavour().at(iJet));
-		  }
+    		  if( !isData ){
+            jets_mcFlavour   .push_back(cms3.pfjets_partonFlavour().at(iJet));
+    		  	jets_mcHadronFlav.push_back(cms3.pfjets_hadronFlavour().at(iJet));
+    		  }
 
-		  // ad-hoc filter:
-		  //  check for jets with pt > 200, mufrac > 0.5, dphi(jet,MET) > pi - 0.4
-		  if ( (p4sCorrJets.at(iJet).pt() > 200.0) && (current_muf_val > 0.5) && (DeltaPhi(p4sCorrJets.at(iJet).phi(),met_phi) > TMath::Pi() - 0.4) ) {
-		    ++nJet200MuFrac50DphiMet;
-		  }
+    		  // ad-hoc filter:
+    		  //  check for jets with pt > 200, mufrac > 0.5, dphi(jet,MET) > pi - 0.4
+    		  if ( (p4sCorrJets.at(iJet).pt() > 200.0) && (current_muf_val > 0.5) && (DeltaPhi(p4sCorrJets.at(iJet).phi(),met_phi) > TMath::Pi() - 0.4) ) {
+    		    ++nJet200MuFrac50DphiMet;
+    		  }
 
-		  // require pT > 35 for HT
-		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); }
-		
-		  if(current_csv_val >= 0.9535) { nBJetTight++; }
+    		  // require pT > 35 for HT
+    		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); }
+    		
+    		  if(current_csv_val >= 0.9535) { nBJetTight++; }
 
-		  if(current_csv_val >= 0.8484) {
-			nBJetMedium++;
+    		  if(current_csv_val >= 0.8484) {
+      			nBJetMedium++;
 
-			// for applying btagging SFs
-			if (!isData && applyBtagSFs) {
-			  float eff = getBtagEffFromFile(p4sCorrJets.at(iJet).pt(), p4sCorrJets.at(iJet).eta(), cms3.pfjets_hadronFlavour().at(iJet), isSMSScan);
-			  BTagEntry::JetFlavor flavor = BTagEntry::FLAV_UDSG;
-			  if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 5) flavor = BTagEntry::FLAV_B;
-			  else if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 4) flavor = BTagEntry::FLAV_C;
-			  float pt_cutoff = std::max(30.,std::min(669.,double(p4sCorrJets.at(iJet).pt())));
-			  float eta_cutoff = std::min(2.39,fabs(double(p4sCorrJets.at(iJet).eta())));
-			  float weight_cent(1.), weight_UP(1.), weight_DN(1.);
-			  if (flavor == BTagEntry::FLAV_UDSG) {
-				weight_cent = reader_light->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_UP = reader_light_UP->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_DN = reader_light_DN->eval(flavor, eta_cutoff, pt_cutoff);
-			  } else {
-				weight_cent = reader_heavy->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_UP = reader_heavy_UP->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_DN = reader_heavy_DN->eval(flavor, eta_cutoff, pt_cutoff);
-			  }
-			  // extra SF for fastsim
-			  if (isSMSScan) {
-				weight_cent *= reader_fastsim->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_UP *= reader_fastsim_UP->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_DN *= reader_fastsim_DN->eval(flavor, eta_cutoff, pt_cutoff);
-			  }
-			  btagprob_data *= weight_cent * eff;
-			  btagprob_mc *= eff;
-			  if (flavor == BTagEntry::FLAV_UDSG) {
-				btagprob_light_UP *= weight_UP * eff;
-				btagprob_light_DN *= weight_DN * eff;
-				btagprob_heavy_UP *= weight_cent * eff;
-				btagprob_heavy_DN *= weight_cent * eff;
-			  } else {
-				btagprob_light_UP *= weight_cent * eff;
-				btagprob_light_DN *= weight_cent * eff;
-				btagprob_heavy_UP *= weight_UP * eff;
-				btagprob_heavy_DN *= weight_DN * eff;
-			  }
-			}
-		  }else{ // fail btag
-			
-			if (!isData && applyBtagSFs) { // fail med btag -- needed for SF event weights
-			  float eff = getBtagEffFromFile(p4sCorrJets.at(iJet).pt(), p4sCorrJets.at(iJet).eta(), cms3.pfjets_hadronFlavour().at(iJet), isSMSScan);
-			  BTagEntry::JetFlavor flavor = BTagEntry::FLAV_UDSG;
-			  if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 5) flavor = BTagEntry::FLAV_B;
-			  else if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 4) flavor = BTagEntry::FLAV_C;
-			  float pt_cutoff = std::max(30.,std::min(669.,double(p4sCorrJets.at(iJet).pt())));
-			  float eta_cutoff = std::min(2.39,fabs(double(p4sCorrJets.at(iJet).eta())));
-			  float weight_cent(1.), weight_UP(1.), weight_DN(1.);
-			  if (flavor == BTagEntry::FLAV_UDSG) {
-				weight_cent = reader_light->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_UP = reader_light_UP->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_DN = reader_light_DN->eval(flavor, eta_cutoff, pt_cutoff);
-			  } else {
-				weight_cent = reader_heavy->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_UP = reader_heavy_UP->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_DN = reader_heavy_DN->eval(flavor, eta_cutoff, pt_cutoff);
-			  }
-			  // extra SF for fastsim
-			  if (isSMSScan) {
-				weight_cent *= reader_fastsim->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_UP *= reader_fastsim_UP->eval(flavor, eta_cutoff, pt_cutoff);
-				weight_DN *= reader_fastsim_DN->eval(flavor, eta_cutoff, pt_cutoff);
-			  }
+      			// for applying btagging SFs
+      			if (!isData && applyBtagSFs) {
+      			  float eff = getBtagEffFromFile(p4sCorrJets.at(iJet).pt(), p4sCorrJets.at(iJet).eta(), cms3.pfjets_hadronFlavour().at(iJet), isSMSScan);
+      			  BTagEntry::JetFlavor flavor = BTagEntry::FLAV_UDSG;
+      			  if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 5) flavor = BTagEntry::FLAV_B;
+      			  else if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 4) flavor = BTagEntry::FLAV_C;
+      			  float pt_cutoff = std::max(30.,std::min(669.,double(p4sCorrJets.at(iJet).pt())));
+      			  float eta_cutoff = std::min(2.39,fabs(double(p4sCorrJets.at(iJet).eta())));
+      			  float weight_cent(1.), weight_UP(1.), weight_DN(1.);
+      			  if (flavor == BTagEntry::FLAV_UDSG) {
+      				weight_cent = reader_light->eval(flavor, eta_cutoff, pt_cutoff);
+      				weight_UP = reader_light_UP->eval(flavor, eta_cutoff, pt_cutoff);
+      				weight_DN = reader_light_DN->eval(flavor, eta_cutoff, pt_cutoff);
+      			  } else {
+      				weight_cent = reader_heavy->eval(flavor, eta_cutoff, pt_cutoff);
+      				weight_UP = reader_heavy_UP->eval(flavor, eta_cutoff, pt_cutoff);
+      				weight_DN = reader_heavy_DN->eval(flavor, eta_cutoff, pt_cutoff);
+      			  }
+      			  // extra SF for fastsim
+      			  if (isSMSScan) {
+      				weight_cent *= reader_fastsim->eval(flavor, eta_cutoff, pt_cutoff);
+      				weight_UP *= reader_fastsim_UP->eval(flavor, eta_cutoff, pt_cutoff);
+      				weight_DN *= reader_fastsim_DN->eval(flavor, eta_cutoff, pt_cutoff);
+      			  }
+      			  btagprob_data *= weight_cent * eff;
+      			  btagprob_mc *= eff;
+      			  if (flavor == BTagEntry::FLAV_UDSG) {
+      				btagprob_light_UP *= weight_UP * eff;
+      				btagprob_light_DN *= weight_DN * eff;
+      				btagprob_heavy_UP *= weight_cent * eff;
+      				btagprob_heavy_DN *= weight_cent * eff;
+      			  } else {
+      				btagprob_light_UP *= weight_cent * eff;
+      				btagprob_light_DN *= weight_cent * eff;
+      				btagprob_heavy_UP *= weight_UP * eff;
+      				btagprob_heavy_DN *= weight_DN * eff;
+      			  }
+      			}
+    		  }
+          else{ // fail btag
+      			if (!isData && applyBtagSFs) { // fail med btag -- needed for SF event weights
+      			  float eff = getBtagEffFromFile(p4sCorrJets.at(iJet).pt(), p4sCorrJets.at(iJet).eta(), cms3.pfjets_hadronFlavour().at(iJet), isSMSScan);
+      			  BTagEntry::JetFlavor flavor = BTagEntry::FLAV_UDSG;
+      			  
+              if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 5) flavor = BTagEntry::FLAV_B;
+      			  else if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 4) flavor = BTagEntry::FLAV_C;
+      			  
+              float pt_cutoff = std::max(30.,std::min(669.,double(p4sCorrJets.at(iJet).pt())));
+      			  float eta_cutoff = std::min(2.39,fabs(double(p4sCorrJets.at(iJet).eta())));
+      			  float weight_cent(1.), weight_UP(1.), weight_DN(1.);
+      			  if (flavor == BTagEntry::FLAV_UDSG) {
+        				weight_cent = reader_light->eval(flavor, eta_cutoff, pt_cutoff);
+        				weight_UP = reader_light_UP->eval(flavor, eta_cutoff, pt_cutoff);
+        				weight_DN = reader_light_DN->eval(flavor, eta_cutoff, pt_cutoff);
+      			  } 
+              else {
+        				weight_cent = reader_heavy->eval(flavor, eta_cutoff, pt_cutoff);
+        				weight_UP = reader_heavy_UP->eval(flavor, eta_cutoff, pt_cutoff);
+        				weight_DN = reader_heavy_DN->eval(flavor, eta_cutoff, pt_cutoff);
+      			  }
+      			  // extra SF for fastsim
+      			  if (isSMSScan) {
+        				weight_cent *= reader_fastsim->eval(flavor, eta_cutoff, pt_cutoff);
+        				weight_UP *= reader_fastsim_UP->eval(flavor, eta_cutoff, pt_cutoff);
+        				weight_DN *= reader_fastsim_DN->eval(flavor, eta_cutoff, pt_cutoff);
+      			  }
               btagprob_data *= (1. - weight_cent * eff);
               btagprob_mc *= (1. - eff);
-			  if (flavor == BTagEntry::FLAV_UDSG) {
-				btagprob_light_UP *= (1. - weight_UP * eff);
-				btagprob_light_DN *= (1. - weight_DN * eff);
-				btagprob_heavy_UP *= (1. - weight_cent * eff);
-				btagprob_heavy_DN *= (1. - weight_cent * eff);
-              } else {
-				btagprob_light_UP *= (1. - weight_cent * eff);
-				btagprob_light_DN *= (1. - weight_cent * eff);
-				btagprob_heavy_UP *= (1. - weight_UP * eff);
-				btagprob_heavy_DN *= (1. - weight_DN * eff);
+      			  
+              if (flavor == BTagEntry::FLAV_UDSG) {
+        				btagprob_light_UP *= (1. - weight_UP * eff);
+        				btagprob_light_DN *= (1. - weight_DN * eff);
+        				btagprob_heavy_UP *= (1. - weight_cent * eff);
+        				btagprob_heavy_DN *= (1. - weight_cent * eff);
+              } 
+              else {
+        				btagprob_light_UP *= (1. - weight_cent * eff);
+        				btagprob_light_DN *= (1. - weight_cent * eff);
+        				btagprob_heavy_UP *= (1. - weight_UP * eff);
+        				btagprob_heavy_DN *= (1. - weight_DN * eff);
               }
-			}
-		  }
-		
-		  if(current_csv_val >= 0.5426) { nBJetLoose++; }
+      			}
+    		  }
+    		
+    		  if(current_csv_val >= 0.5426) { nBJetLoose++; }
 
-		  //require pT > 35 for jet counting
-		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ njets++; }
-		}
+    		  //require pT > 35 for jet counting
+    		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ njets++; }
+    		}
 
-		if( verbose ) cout<<"Before filling jet up branches"<<endl;
-		
-		if(     (   p4sCorrJets_up.at(iJet).pt()   > 25.0 ) &&
-				abs(p4sCorrJets_up.at(iJet).eta()) < 2.4 ){
-		  jets_up_p4    .push_back(p4sCorrJets_up.at(iJet));									
-		  jets_up_csv   .push_back(current_csv_val);									
-		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ){ ht_up+=p4sCorrJets_up.at(iJet).pt(); }
-		  if(current_csv_val >= 0.9535) { nBJetTight_up++; }
-		  if(current_csv_val >= 0.8484) {
-			nBJetMedium_up++;
-			jets_medb_up_p4.push_back(p4sCorrJets_up.at(iJet));
-		  }
-		  if(current_csv_val >= 0.5426) { nBJetLoose_up++; }
-		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ){ njets_up++; }
-		}
+    		if( verbose ) cout<<"Before filling jet up branches"<<endl;
+    		
+    		if( (p4sCorrJets_up.at(iJet).pt()   > 25.0 ) && 
+          abs(p4sCorrJets_up.at(iJet).eta()) < 2.4 ){
+    		  
+          jets_up_p4    .push_back(p4sCorrJets_up.at(iJet));									
+    		  jets_up_csv   .push_back(current_csv_val);									
+    		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ) { ht_up+=p4sCorrJets_up.at(iJet).pt(); }
+    		  if(current_csv_val >= 0.9535) { nBJetTight_up++; }
+    		  if(current_csv_val >= 0.8484) {
+      			nBJetMedium_up++;
+      			jets_medb_up_p4.push_back(p4sCorrJets_up.at(iJet));
+    		  }
+    		  if(current_csv_val >= 0.5426) { nBJetLoose_up++; }
+    		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ){ njets_up++; }
+    		}
 
-		if( verbose ) cout<<"Before filling jet dn branches"<<endl;
+    		if( verbose ) cout<<"Before filling jet dn branches"<<endl;
 
-	    if(     (   p4sCorrJets_dn.at(iJet).pt()   > 25.0 ) &&
-					  abs(p4sCorrJets_dn.at(iJet).eta()) < 2.4 ){
-		  jets_dn_p4    .push_back(p4sCorrJets_dn.at(iJet));									
-		  jets_dn_csv   .push_back(current_csv_val);									
-		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ ht_dn+=p4sCorrJets_dn.at(iJet).pt(); }
-		  if(current_csv_val >= 0.9535) { nBJetTight_dn++; }
-		  if(current_csv_val >= 0.8484) {
-			nBJetMedium_dn++;
-			jets_medb_dn_p4.push_back(p4sCorrJets_dn.at(iJet));
-		  }
-		  if(current_csv_val >= 0.5426) { nBJetLoose_dn++; }
-		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ njets_dn++; }
-		}
+    	    if(     (   p4sCorrJets_dn.at(iJet).pt()   > 25.0 ) &&
+    					  abs(p4sCorrJets_dn.at(iJet).eta()) < 2.4 ){
+      		  jets_dn_p4    .push_back(p4sCorrJets_dn.at(iJet));									
+      		  jets_dn_csv   .push_back(current_csv_val);									
+      		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ ht_dn+=p4sCorrJets_dn.at(iJet).pt(); }
+      		  if(current_csv_val >= 0.9535) { nBJetTight_dn++; }
+      		  if(current_csv_val >= 0.8484) {
+        			nBJetMedium_dn++;
+        			jets_medb_dn_p4.push_back(p4sCorrJets_dn.at(iJet));
+      		  }
+      		  if(current_csv_val >= 0.5426) { nBJetLoose_dn++; }
+      		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ njets_dn++; }
+    		  }
       }
-	  
-	  if (!isData) {
+  	  
+  	  if (!isData) {
         weight_btagsf          = btagprob_data     / btagprob_mc;
-		weight_btagsf_heavy_UP = btagprob_heavy_UP / btagprob_mc;
-		weight_btagsf_heavy_DN = btagprob_heavy_DN / btagprob_mc;
-		weight_btagsf_light_UP = btagprob_light_UP / btagprob_mc;
-		weight_btagsf_light_DN = btagprob_light_DN / btagprob_mc;
-	  }
-	  
-	  if( nlep > 0 ) mt_lep1 = MT(lep_pt.at(0), lep_phi.at(0), met_pt, met_phi);
-		
-	  decayedphoton_mt2 = 0;
-	  if( abs(decayedphoton_lep1_p4.eta()) < 2.4 && abs(decayedphoton_lep2_p4.eta()) < 2.4  ){
-		if( (abs(decayedphoton_lep1_p4.eta()) < 1.4 || abs(decayedphoton_lep1_p4.eta()) > 1.6) &&
-			(abs(decayedphoton_lep2_p4.eta()) < 1.4 || abs(decayedphoton_lep2_p4.eta()) > 1.6) ){
-		  decayedphoton_mt2 = MT2( met_pt, met_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
-		}
-	  }
+    		weight_btagsf_heavy_UP = btagprob_heavy_UP / btagprob_mc;
+    		weight_btagsf_heavy_DN = btagprob_heavy_DN / btagprob_mc;
+    		weight_btagsf_light_UP = btagprob_light_UP / btagprob_mc;
+    		weight_btagsf_light_DN = btagprob_light_DN / btagprob_mc;
+  	  }
+  	  
+  	  if( nlep > 0 ) mt_lep1 = MT(lep_pt.at(0), lep_phi.at(0), met_pt, met_phi);
+  		
+  	  decayedphoton_mt2 = 0;
+  	  if( abs(decayedphoton_lep1_p4.eta()) < 2.4 && abs(decayedphoton_lep2_p4.eta()) < 2.4  ){
+    		if( (abs(decayedphoton_lep1_p4.eta()) < 1.4 || abs(decayedphoton_lep1_p4.eta()) > 1.6) &&
+    			(abs(decayedphoton_lep2_p4.eta()) < 1.4 || abs(decayedphoton_lep2_p4.eta()) > 1.6) ){
+    		    decayedphoton_mt2 = MT2( met_pt, met_phi, decayedphoton_lep1_p4, decayedphoton_lep2_p4, 0.0 );
+    		}
+  	  }
 
-	  
-	  // add kinematic variables to do with jets leps and photons here
-	  if( lep_p4.size() > 1 && evt_type != 2 ){
-		// MT2J( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, VECT_P4_Jets, MASS_INVISIBLE_PARTICLE, MT2_CALCULATION_METHOD )
-		mt2     = -1.0;
-		mt2_up  = -1.0;
-		mt2_dn  = -1.0;
-		mt2j    = -1.0;
-		mt2b    = -1.0;
-		mt2b_up = -1.0;
-		mt2b_dn = -1.0;
+  	  
+  	  // add kinematic variables to do with jets leps and photons here
+  	  if( lep_p4.size() > 1 && evt_type != 2 ){
+    		// MT2J( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, VECT_P4_Jets, MASS_INVISIBLE_PARTICLE, MT2_CALCULATION_METHOD )
+    		mt2     = -1.0;
+    		mt2_up  = -1.0;
+    		mt2_dn  = -1.0;
+    		mt2j    = -1.0;
+    		mt2b    = -1.0;
+    		mt2b_up = -1.0;
+    		mt2b_dn = -1.0;
 
-		mt2    = MT2( met_pt   , met_phi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
-		mt2_up = MT2( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
-		mt2_dn = MT2( met_T1CHS_miniAOD_CORE_dn_pt, met_T1CHS_miniAOD_CORE_dn_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
-		mt2_genmet = MT2( met_genPt   , met_genPhi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
- 	
- 		if( jets_p4.size() > 1 ){
- 		  mt2j = MT2J( met_pt, met_phi, lep_p4.at(0), lep_p4.at(1), jets_p4, 0.0 );
-		}
+    		mt2    = MT2( met_pt   , met_phi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
+    		mt2_up = MT2( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
+    		mt2_dn = MT2( met_T1CHS_miniAOD_CORE_dn_pt, met_T1CHS_miniAOD_CORE_dn_phi, lep_p4.at(0), lep_p4.at(1), 0.0 );
+    		mt2_genmet = MT2( met_genPt   , met_genPhi   , lep_p4.at(0), lep_p4.at(1), 0.0 );
+     	
+     		if( jets_p4.size() > 1 ){
+     		  mt2j = MT2J( met_pt, met_phi, lep_p4.at(0), lep_p4.at(1), jets_p4, 0.0 );
+    		}
 
-		if( jets_medb_p4.size() > 1 ){
- 		  mt2b = MT2J( met_pt, met_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
- 		  mt2b_genmet = MT2J( met_genPt, met_genPhi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
-		}		
-		if( jets_medb_up_p4.size() > 1 ){
- 		  mt2b_up = MT2J( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_up_p4, 0.0 );
-		}		
-		if( jets_medb_dn_p4.size() > 1 ){
- 		  mt2b_dn = MT2J( met_T1CHS_miniAOD_CORE_dn_pt, met_T1CHS_miniAOD_CORE_dn_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_dn_p4, 0.0 );
-		}		
+    		if( jets_medb_p4.size() > 1 ){
+     		  mt2b = MT2J( met_pt, met_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
+     		  mt2b_genmet = MT2J( met_genPt, met_genPhi, lep_p4.at(0), lep_p4.at(1), jets_medb_p4, 0.0 );
+    		}		
+    		if( jets_medb_up_p4.size() > 1 ){
+     		  mt2b_up = MT2J( met_T1CHS_miniAOD_CORE_up_pt, met_T1CHS_miniAOD_CORE_up_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_up_p4, 0.0 );
+    		}		
+    		if( jets_medb_dn_p4.size() > 1 ){
+     		  mt2b_dn = MT2J( met_T1CHS_miniAOD_CORE_dn_pt, met_T1CHS_miniAOD_CORE_dn_phi, lep_p4.at(0), lep_p4.at(1), jets_medb_dn_p4, 0.0 );
+    		}		
 
-		sum_mlb = get_sum_mlb();
-		dphi_ll = acos(cos(lep_p4 .at(0).phi() - lep_p4 .at(1).phi()));
-		
-	  }
+    		sum_mlb = get_sum_mlb();
+    		dphi_ll = acos(cos(lep_p4 .at(0).phi() - lep_p4 .at(1).phi()));
+  	  }
 
-	  // lepton scale factors go here
-	  if( !isData ){
+      //=================================
+      // LEPTON SCALE FACTORS
+      //=================================
+  	  if( !isData ){
+    		for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
+    		  float min_leppt  = min( 110.0, (double)lep_pt.at(lepind));
+    		  float abs_lepeta = abs(lep_eta.at(lepind));
 
-		for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
+    		  if( abs(lep_pdgId.at(lepind)) == 11 ){			
+      			weightsf_lepreco .push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lep_eta.at(lepind), 100        )) ); // this is a 1d hist in 2 dimensions for some reason
+      			weightsf_lepid   .push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( min_leppt         , abs_lepeta )) );
+      			weightsf_lepiso  .push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( min_leppt         , abs_lepeta )) );
+      			weightsf_lepip   .push_back( 1.0 );// ip weight already accounted for in id weight for electrons
+      			weightsf_lepconv .push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( min_leppt         , abs_lepeta )) );
 
-		  float min_leppt  = min( 110.0, (double)lep_pt.at(lepind));
-		  float abs_lepeta = abs(lep_eta.at(lepind));
+      			if( isSMSScan ){
+      			  weightsf_lepid_FS . push_back( h_eleweights->GetBinContent(h_eleweights->FindBin( min_leppt, abs_lepeta )) );
+      			}
+            else{
+      			  weightsf_lepid_FS . push_back( 1.0 );
+      			}
 
-		  if( abs(lep_pdgId.at(lepind)) == 11 ){			
-			weightsf_lepreco .push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lep_eta.at(lepind), 100        )) ); // this is a 1d hist in 2 dimensions for some reason
-			weightsf_lepid   .push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( min_leppt         , abs_lepeta )) );
-			weightsf_lepiso  .push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( min_leppt         , abs_lepeta )) );
-			weightsf_lepip   .push_back( 1.0 );// ip weight already accounted for in id weight for electrons
-			weightsf_lepconv .push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( min_leppt         , abs_lepeta )) );
+      			// ip and iso FS weights already accounted for in id weight for electrons
+      			weightsf_lepiso_FS. push_back( 1.0 );
+      			weightsf_lepip_FS . push_back( 1.0 );  			
+    		  }
 
-			if( isSMSScan ){
-			  weightsf_lepid_FS . push_back( h_eleweights->GetBinContent(h_eleweights->FindBin( min_leppt, abs_lepeta )) );
+    		  if( abs(lep_pdgId.at(lepind)) == 13 ){			
+      			weightsf_lepreco .push_back( h_muoweights_HIP_hist->GetBinContent( h_muoweights_HIP_hist->FindBin( lep_eta  . at(lepind) )) );
+      			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt, abs_lepeta )) );
+      			weightsf_lepiso  .push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt, abs_lepeta )) );			
+      			weightsf_lepip   .push_back( h_muoweights_ip      ->GetBinContent( h_muoweights_ip      ->FindBin( min_leppt, abs_lepeta )) );
+      			weightsf_lepconv .push_back( 1.0 );// not used for muons
 
-			}else{
-			  weightsf_lepid_FS . push_back( 1.0 );
-			}
+      			if( isSMSScan ){
+      			  weightsf_lepid_FS . push_back( h_muoweights       ->GetBinContent( h_muoweights       ->FindBin( min_leppt, abs_lepeta )) );
+      			  weightsf_lepiso_FS. push_back( h_muoweights_FS_iso->GetBinContent( h_muoweights_FS_iso->FindBin( min_leppt, abs_lepeta )) );
+      			  weightsf_lepip_FS . push_back( h_muoweights_FS_ip ->GetBinContent( h_muoweights_FS_ip ->FindBin( min_leppt, abs_lepeta )) );
 
-			// ip and iso FS weights already accounted for in id weight for electrons
-			weightsf_lepiso_FS. push_back( 1.0 );
-			weightsf_lepip_FS . push_back( 1.0 );
-			
-		  }
+      			}
+            else{
+      			  weightsf_lepid_FS . push_back( 1.0 );
+      			  weightsf_lepiso_FS. push_back( 1.0 );
+      			  weightsf_lepip_FS . push_back( 1.0 );
+      			}
+    		  }		 
+    		}		
+  	  }
 
-		  if( abs(lep_pdgId.at(lepind)) == 13 ){			
-			weightsf_lepreco .push_back( h_muoweights_HIP_hist->GetBinContent( h_muoweights_HIP_hist->FindBin( lep_eta  . at(lepind) )) );
-			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt, abs_lepeta )) );
-			weightsf_lepiso  .push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt, abs_lepeta )) );			
-			weightsf_lepip   .push_back( h_muoweights_ip      ->GetBinContent( h_muoweights_ip      ->FindBin( min_leppt, abs_lepeta )) );
-			weightsf_lepconv .push_back( 1.0 );// not used for muons
+  	  if( evt_type == 2 ){
+  		  mt2 = decayedphoton_mt2;
+  	  }
 
-			if( isSMSScan ){
-			  weightsf_lepid_FS . push_back( h_muoweights       ->GetBinContent( h_muoweights       ->FindBin( min_leppt, abs_lepeta )) );
-			  weightsf_lepiso_FS. push_back( h_muoweights_FS_iso->GetBinContent( h_muoweights_FS_iso->FindBin( min_leppt, abs_lepeta )) );
-			  weightsf_lepip_FS . push_back( h_muoweights_FS_ip ->GetBinContent( h_muoweights_FS_ip ->FindBin( min_leppt, abs_lepeta )) );
+  	  // add kinematic variables to do with ewk signal regions
+  	  if( jets_p4.size() > 1 ){
 
-			}else{
-			  weightsf_lepid_FS . push_back( 1.0 );
-			  weightsf_lepiso_FS. push_back( 1.0 );
-			  weightsf_lepip_FS . push_back( 1.0 );
-			}
-		  }		 
-		}		
-	  }
+    		if( njets > 1 ){
+    		  mjj_mindphi = 0.0;
+    		  float dphi_jetjet = 4.0;
+    		  for( int jet1ind = 0; jet1ind < njets-1; jet1ind++ ){
+      			for( int jet2ind = jet1ind+1; jet2ind < njets; jet2ind++ ){
+      			  if( jets_p4.at(jet1ind).pt() < 35 || jets_p4.at(jet2ind).pt() < 35 ) continue;
+      			  float dphi_jet1_jet2 = acos(cos(jets_p4.at(jet1ind).phi() - jets_p4.at(jet2ind).phi()));
+      			  if( dphi_jet1_jet2 < dphi_jetjet ){
+        				dphi_jetjet = dphi_jet1_jet2;
+        				mjj_mindphi = (jets_p4.at(jet1ind) + jets_p4.at(jet2ind)).mass();
+      			  }
+      			}
+    		  }
+    		}
+    	  
+    		mjj = (jets_p4.at(0) + jets_p4.at(1)).mass();
+    		dphi_jj = acos(cos(jets_p4.at(0).phi() - jets_p4.at(1).phi()));
+    		deta_jj = abs(jets_p4.at(0).eta() - jets_p4.at(1).eta());
+    		dR_jj   = sqrt(pow(deta_jj,2) + pow(dphi_jj,2));
 
-	  
-	  if( evt_type == 2 ){
-		mt2 = decayedphoton_mt2;
-	  }
+    		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_phi));
+    		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_phi));
+    		dphi_genmetj1 = acos(cos(jets_p4.at(0).phi() - met_genPhi));
+    		dphi_genmetj2 = acos(cos(jets_p4.at(1).phi() - met_genPhi));
 
-	  // add kinematic variables to do with ewk signal regions
-	  if( jets_p4.size() > 1 ){
+    		if( jets_medb_p4.size() > 1 ){
+    		  mbb_bpt = (jets_medb_p4.at(0) + jets_medb_p4.at(1)).mass();
+    		  mbb_csv = mbb_highest_csv( jets_p4, jets_csv );
+    		}	  
+  	  }
+  	  
+  	  if( jets_up_p4.size() > 1 ){
+    		if( njets_up > 1 ){
+    		  mjj_mindphi_up = 0.0;
+    		  float dphi_jetjet = 4.0;
+    		  for( int jet1ind = 0; jet1ind < njets_up-1; jet1ind++ ){
+      			for( int jet2ind = jet1ind+1; jet2ind < njets_up; jet2ind++ ){
+      			  if( jets_up_p4.at(jet1ind).pt() < 35 || jets_up_p4.at(jet2ind).pt() < 35 ) continue;
+      			  float dphi_jet1_jet2 = acos(cos(jets_up_p4.at(jet1ind).phi() - jets_up_p4.at(jet2ind).phi()));
+      			  if( dphi_jet1_jet2 < dphi_jetjet ){
+        				dphi_jetjet = dphi_jet1_jet2;
+        				mjj_mindphi_up = (jets_up_p4.at(jet1ind) + jets_up_p4.at(jet2ind)).mass();
+      			  }
+      			}
+    		  }
+    		}
+    	  
+    		mjj_up = (jets_up_p4.at(0) + jets_up_p4.at(1)).mass();
+    		dphi_jj_up = acos(cos(jets_up_p4.at(0).phi() - jets_up_p4.at(1).phi()));
+    		deta_jj_up = abs(jets_up_p4.at(0).eta() - jets_up_p4.at(1).eta());
+    		dR_jj_up   = sqrt(pow(deta_jj_up,2) + pow(dphi_jj_up,2));
 
-		if( njets > 1 ){
-		  mjj_mindphi = 0.0;
-		  float dphi_jetjet = 4.0;
-		  for( int jet1ind = 0; jet1ind < njets-1; jet1ind++ ){
-			for( int jet2ind = jet1ind+1; jet2ind < njets; jet2ind++ ){
-			  if( jets_p4.at(jet1ind).pt() < 35 || jets_p4.at(jet2ind).pt() < 35 ) continue;
-			  float dphi_jet1_jet2 = acos(cos(jets_p4.at(jet1ind).phi() - jets_p4.at(jet2ind).phi()));
-			  if( dphi_jet1_jet2 < dphi_jetjet ){
-				dphi_jetjet = dphi_jet1_jet2;
-				mjj_mindphi = (jets_p4.at(jet1ind) + jets_p4.at(jet2ind)).mass();
-			  }
-			}
-		  }
-		}
-	  
-		mjj = (jets_p4.at(0) + jets_p4.at(1)).mass();
-		dphi_jj = acos(cos(jets_p4.at(0).phi() - jets_p4.at(1).phi()));
-		deta_jj = abs(jets_p4.at(0).eta() - jets_p4.at(1).eta());
-		dR_jj   = sqrt(pow(deta_jj,2) + pow(dphi_jj,2));
+    		dphi_metj1_up = acos(cos(jets_up_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_up_phi));
+    		dphi_metj2_up = acos(cos(jets_up_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_up_phi));
 
-		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_phi));
-		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_phi));
-		dphi_genmetj1 = acos(cos(jets_p4.at(0).phi() - met_genPhi));
-		dphi_genmetj2 = acos(cos(jets_p4.at(1).phi() - met_genPhi));
+    		if( jets_medb_up_p4.size() > 1 ){
+    		  mbb_bpt_up = (jets_medb_up_p4.at(0) + jets_medb_up_p4.at(1)).mass();	
+    		  mbb_csv_up = mbb_highest_csv( jets_up_p4, jets_up_csv );	
+    		}	  
+  	  }
 
-		if( jets_medb_p4.size() > 1 ){
-		  mbb_bpt = (jets_medb_p4.at(0) + jets_medb_p4.at(1)).mass();
-		  mbb_csv = mbb_highest_csv( jets_p4, jets_csv );
-		}	  
-	  }
-	  
-	  if( jets_up_p4.size() > 1 ){
+  	  if( jets_dn_p4.size() > 1 ){
 
-		if( njets_up > 1 ){
-		  mjj_mindphi_up = 0.0;
-		  float dphi_jetjet = 4.0;
-		  for( int jet1ind = 0; jet1ind < njets_up-1; jet1ind++ ){
-			for( int jet2ind = jet1ind+1; jet2ind < njets_up; jet2ind++ ){
-			  if( jets_up_p4.at(jet1ind).pt() < 35 || jets_up_p4.at(jet2ind).pt() < 35 ) continue;
-			  float dphi_jet1_jet2 = acos(cos(jets_up_p4.at(jet1ind).phi() - jets_up_p4.at(jet2ind).phi()));
-			  if( dphi_jet1_jet2 < dphi_jetjet ){
-				dphi_jetjet = dphi_jet1_jet2;
-				mjj_mindphi_up = (jets_up_p4.at(jet1ind) + jets_up_p4.at(jet2ind)).mass();
-			  }
-			}
-		  }
-		}
-	  
-		mjj_up = (jets_up_p4.at(0) + jets_up_p4.at(1)).mass();
-		dphi_jj_up = acos(cos(jets_up_p4.at(0).phi() - jets_up_p4.at(1).phi()));
-		deta_jj_up = abs(jets_up_p4.at(0).eta() - jets_up_p4.at(1).eta());
-		dR_jj_up   = sqrt(pow(deta_jj_up,2) + pow(dphi_jj_up,2));
+    		if( njets_dn > 1 ){
+    		  mjj_mindphi_dn = 0.0;
+    		  float dphi_jetjet = 4.0;
+    		  for( int jet1ind = 0; jet1ind < njets_dn-1; jet1ind++ ){
+      			for( int jet2ind = jet1ind+1; jet2ind < njets_dn; jet2ind++ ){
+      			  if( jets_dn_p4.at(jet1ind).pt() < 35 || jets_dn_p4.at(jet2ind).pt() < 35 ) continue;
+      			  float dphi_jet1_jet2 = acos(cos(jets_dn_p4.at(jet1ind).phi() - jets_dn_p4.at(jet2ind).phi()));
+      			  if( dphi_jet1_jet2 < dphi_jetjet ){
+        				dphi_jetjet = dphi_jet1_jet2;
+        				mjj_mindphi_dn = (jets_dn_p4.at(jet1ind) + jets_dn_p4.at(jet2ind)).mass();
+      			  }
+      			}
+    		  }
+    		}
+    	  
+    		mjj_dn = (jets_dn_p4.at(0) + jets_dn_p4.at(1)).mass();
+    		dphi_jj_dn = acos(cos(jets_dn_p4.at(0).phi() - jets_dn_p4.at(1).phi()));
+    		deta_jj_dn = abs(jets_dn_p4.at(0).eta() - jets_dn_p4.at(1).eta());
+    		dR_jj_dn   = sqrt(pow(deta_jj_dn,2) + pow(dphi_jj_dn,2));
 
-		dphi_metj1_up = acos(cos(jets_up_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_up_phi));
-		dphi_metj2_up = acos(cos(jets_up_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_up_phi));
+    		dphi_metj1_dn = acos(cos(jets_dn_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
+    		dphi_metj2_dn = acos(cos(jets_dn_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
 
-		if( jets_medb_up_p4.size() > 1 ){
-		  mbb_bpt_up = (jets_medb_up_p4.at(0) + jets_medb_up_p4.at(1)).mass();	
-		  mbb_csv_up = mbb_highest_csv( jets_up_p4, jets_up_csv );	
-		}	  
-	  }
+    		if( jets_medb_dn_p4.size() > 1 ){
+    		  mbb_bpt_dn = (jets_medb_dn_p4.at(0) + jets_medb_dn_p4.at(1)).mass();
+    		  mbb_csv_dn = mbb_highest_csv( jets_dn_p4, jets_dn_csv );
+    		}	  
+  	  }
+  		
+  	  if( verbose ) cout<<" Before loop over pfcands " <<endl;
+  	  	  
+  	  LorentzVector chpfcands_0013_p4(0,0,0,0);
+  	  LorentzVector chpfcands_1316_p4(0,0,0,0);
+  	  LorentzVector chpfcands_1624_p4(0,0,0,0);
+  	  LorentzVector chpfcands_2430_p4(0,0,0,0);
+  	  LorentzVector chpfcands_30in_p4(0,0,0,0);
+  	  LorentzVector phpfcands_0013_p4(0,0,0,0);
+  	  LorentzVector phpfcands_1316_p4(0,0,0,0);
+  	  LorentzVector phpfcands_1624_p4(0,0,0,0);
+  	  LorentzVector phpfcands_2430_p4(0,0,0,0);
+  	  LorentzVector phpfcands_30in_p4(0,0,0,0);
+  	  LorentzVector nupfcands_0013_p4(0,0,0,0);
+  	  LorentzVector nupfcands_1316_p4(0,0,0,0);
+  	  LorentzVector nupfcands_1624_p4(0,0,0,0);
+  	  LorentzVector nupfcands_2430_p4(0,0,0,0);
+  	  LorentzVector nupfcands_30in_p4(0,0,0,0);
 
-	  if( jets_dn_p4.size() > 1 ){
+  	  chpfcands_0013_sumet = 0.0;
+  	  chpfcands_1316_sumet = 0.0;
+  	  chpfcands_1624_sumet = 0.0;
+  	  chpfcands_2430_sumet = 0.0;
+  	  chpfcands_30in_sumet = 0.0;
+  	  phpfcands_0013_sumet = 0.0;
+  	  phpfcands_1316_sumet = 0.0;
+  	  phpfcands_1624_sumet = 0.0;
+  	  phpfcands_2430_sumet = 0.0;
+  	  phpfcands_30in_sumet = 0.0;
+  	  nupfcands_0013_sumet = 0.0;
+  	  nupfcands_1316_sumet = 0.0;
+  	  nupfcands_1624_sumet = 0.0;
+  	  nupfcands_2430_sumet = 0.0;
+  	  nupfcands_30in_sumet = 0.0;
 
-		if( njets_dn > 1 ){
-		  mjj_mindphi_dn = 0.0;
-		  float dphi_jetjet = 4.0;
-		  for( int jet1ind = 0; jet1ind < njets_dn-1; jet1ind++ ){
-			for( int jet2ind = jet1ind+1; jet2ind < njets_dn; jet2ind++ ){
-			  if( jets_dn_p4.at(jet1ind).pt() < 35 || jets_dn_p4.at(jet2ind).pt() < 35 ) continue;
-			  float dphi_jet1_jet2 = acos(cos(jets_dn_p4.at(jet1ind).phi() - jets_dn_p4.at(jet2ind).phi()));
-			  if( dphi_jet1_jet2 < dphi_jetjet ){
-				dphi_jetjet = dphi_jet1_jet2;
-				mjj_mindphi_dn = (jets_dn_p4.at(jet1ind) + jets_dn_p4.at(jet2ind)).mass();
-			  }
-			}
-		  }
-		}
-	  
-		mjj_dn = (jets_dn_p4.at(0) + jets_dn_p4.at(1)).mass();
-		dphi_jj_dn = acos(cos(jets_dn_p4.at(0).phi() - jets_dn_p4.at(1).phi()));
-		deta_jj_dn = abs(jets_dn_p4.at(0).eta() - jets_dn_p4.at(1).eta());
-		dR_jj_dn   = sqrt(pow(deta_jj_dn,2) + pow(dphi_jj_dn,2));
+  	  nisoTrack_5gev = 0;
+  	  nisoTrack_mt2  = 0;
+  	  nisoTrack_PFLep5_woverlaps  = 0;
+  	  nisoTrack_PFHad10_woverlaps = 0;
+  	  nhighPtPFcands = 0;
 
-		dphi_metj1_dn = acos(cos(jets_dn_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
-		dphi_metj2_dn = acos(cos(jets_dn_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
+      //------------------------------------
+      // Compute Kinematic Vars For PFCands
+      //------------------------------------
+  	  for( size_t pfind = 0; pfind < cms3.pfcands_p4().size(); pfind++ ){
 
-		if( jets_medb_dn_p4.size() > 1 ){
-		  mbb_bpt_dn = (jets_medb_dn_p4.at(0) + jets_medb_dn_p4.at(1)).mass();
-		  mbb_csv_dn = mbb_highest_csv( jets_dn_p4, jets_dn_csv );
-		}	  
-	  }
-		
-	  if( verbose ) cout<<" Before loop over pfcands " <<endl;
-	  	  
-	  LorentzVector chpfcands_0013_p4(0,0,0,0);
-	  LorentzVector chpfcands_1316_p4(0,0,0,0);
-	  LorentzVector chpfcands_1624_p4(0,0,0,0);
-	  LorentzVector chpfcands_2430_p4(0,0,0,0);
-	  LorentzVector chpfcands_30in_p4(0,0,0,0);
-	  LorentzVector phpfcands_0013_p4(0,0,0,0);
-	  LorentzVector phpfcands_1316_p4(0,0,0,0);
-	  LorentzVector phpfcands_1624_p4(0,0,0,0);
-	  LorentzVector phpfcands_2430_p4(0,0,0,0);
-	  LorentzVector phpfcands_30in_p4(0,0,0,0);
-	  LorentzVector nupfcands_0013_p4(0,0,0,0);
-	  LorentzVector nupfcands_1316_p4(0,0,0,0);
-	  LorentzVector nupfcands_1624_p4(0,0,0,0);
-	  LorentzVector nupfcands_2430_p4(0,0,0,0);
-	  LorentzVector nupfcands_30in_p4(0,0,0,0);
+    		LorentzVector pfcand_p4 = cms3.pfcands_p4().at(pfind);
+    		
+    		if( abs(cms3.pfcands_charge().at(pfind)) > 0 ){ // charged cands
+    		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ chpfcands_0013_p4 -= pfcand_p4; chpfcands_0013_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ chpfcands_1316_p4 -= pfcand_p4; chpfcands_1316_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ chpfcands_1624_p4 -= pfcand_p4; chpfcands_1624_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ chpfcands_2430_p4 -= pfcand_p4; chpfcands_2430_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 3.0                               ){ chpfcands_30in_p4 -= pfcand_p4; chpfcands_30in_sumet += pfcand_p4.pt(); }
+    		}
 
-	  chpfcands_0013_sumet = 0.0;
-	  chpfcands_1316_sumet = 0.0;
-	  chpfcands_1624_sumet = 0.0;
-	  chpfcands_2430_sumet = 0.0;
-	  chpfcands_30in_sumet = 0.0;
-	  phpfcands_0013_sumet = 0.0;
-	  phpfcands_1316_sumet = 0.0;
-	  phpfcands_1624_sumet = 0.0;
-	  phpfcands_2430_sumet = 0.0;
-	  phpfcands_30in_sumet = 0.0;
-	  nupfcands_0013_sumet = 0.0;
-	  nupfcands_1316_sumet = 0.0;
-	  nupfcands_1624_sumet = 0.0;
-	  nupfcands_2430_sumet = 0.0;
-	  nupfcands_30in_sumet = 0.0;
+    		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) == 22 ){ // photon cands
+    		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ phpfcands_0013_p4 -= pfcand_p4;  phpfcands_0013_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ phpfcands_1316_p4 -= pfcand_p4;  phpfcands_1316_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ phpfcands_1624_p4 -= pfcand_p4;  phpfcands_1624_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ phpfcands_2430_p4 -= pfcand_p4;  phpfcands_2430_sumet += pfcand_p4.pt(); }
+    		}
 
-	  nisoTrack_5gev = 0;
-	  nisoTrack_mt2  = 0;
-	  nisoTrack_PFLep5_woverlaps  = 0;
-	  nisoTrack_PFHad10_woverlaps = 0;
-	  nhighPtPFcands = 0;
+    		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) != 22 ){ // neutral had cands
+    		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ nupfcands_0013_p4 -= pfcand_p4; nupfcands_0013_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ nupfcands_1316_p4 -= pfcand_p4; nupfcands_1316_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ nupfcands_1624_p4 -= pfcand_p4; nupfcands_1624_sumet += pfcand_p4.pt(); }
+    		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ nupfcands_2430_p4 -= pfcand_p4; nupfcands_2430_sumet += pfcand_p4.pt(); }
+    		}
 
-	  for( size_t pfind = 0; pfind < cms3.pfcands_p4().size(); pfind++ ){
+    		if( abs(pfcand_p4.eta()) > 3.0 && abs(cms3.pfcands_charge().at(pfind)) == 0 ){ // HF cands have different particle ID
+    		  if( abs(cms3.pfcands_particleId().at(pfind)) == 1 ){ nupfcands_30in_p4 -= pfcand_p4; nupfcands_30in_sumet += pfcand_p4.pt(); }
+    		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ){ phpfcands_30in_p4 -= pfcand_p4; phpfcands_30in_sumet += pfcand_p4.pt(); }
+    		}
 
-		LorentzVector pfcand_p4 = cms3.pfcands_p4().at(pfind);
-		
-		if( abs(cms3.pfcands_charge().at(pfind)) > 0 ){ // charged cands
-		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ chpfcands_0013_p4 -= pfcand_p4; chpfcands_0013_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ chpfcands_1316_p4 -= pfcand_p4; chpfcands_1316_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ chpfcands_1624_p4 -= pfcand_p4; chpfcands_1624_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ chpfcands_2430_p4 -= pfcand_p4; chpfcands_2430_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 3.0                               ){ chpfcands_30in_p4 -= pfcand_p4; chpfcands_30in_sumet += pfcand_p4.pt(); }
-		}
-
-		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) == 22 ){ // photon cands
-		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ phpfcands_0013_p4 -= pfcand_p4;  phpfcands_0013_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ phpfcands_1316_p4 -= pfcand_p4;  phpfcands_1316_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ phpfcands_1624_p4 -= pfcand_p4;  phpfcands_1624_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ phpfcands_2430_p4 -= pfcand_p4;  phpfcands_2430_sumet += pfcand_p4.pt(); }
-		}
-
-		if( abs(cms3.pfcands_charge().at(pfind)) == 0 && abs(cms3.pfcands_particleId().at(pfind)) != 22 ){ // neutral had cands
-		  if(                               abs(pfcand_p4.eta()) < 1.3 ){ nupfcands_0013_p4 -= pfcand_p4; nupfcands_0013_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 1.3 && abs(pfcand_p4.eta()) < 1.6 ){ nupfcands_1316_p4 -= pfcand_p4; nupfcands_1316_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 1.6 && abs(pfcand_p4.eta()) < 2.4 ){ nupfcands_1624_p4 -= pfcand_p4; nupfcands_1624_sumet += pfcand_p4.pt(); }
-		  if( abs(pfcand_p4.eta()) > 2.4 && abs(pfcand_p4.eta()) < 3.0 ){ nupfcands_2430_p4 -= pfcand_p4; nupfcands_2430_sumet += pfcand_p4.pt(); }
-		}
-
-		if( abs(pfcand_p4.eta()) > 3.0 && abs(cms3.pfcands_charge().at(pfind)) == 0 ){ // HF cands have different particle ID
-		  if( abs(cms3.pfcands_particleId().at(pfind)) == 1 ){ nupfcands_30in_p4 -= pfcand_p4; nupfcands_30in_sumet += pfcand_p4.pt(); }
-		  if( abs(cms3.pfcands_particleId().at(pfind)) == 2 ){ phpfcands_30in_p4 -= pfcand_p4; phpfcands_30in_sumet += pfcand_p4.pt(); }
-		}
-
-		// save high pt pf cands: all with pt > 300, pf muons with pt > 50
-		if ( (pfcand_p4.pt() > 300.) || (pfcand_p4.pt() > 50. && abs(cms3.pfcands_particleId().at(pfind)) == 13) ) {
-		  ++nhighPtPFcands;
-		  highPtPFcands_p4.push_back(pfcand_p4);
-		  highPtPFcands_dz.push_back(cms3.pfcands_dz().at(pfind));
-		  highPtPFcands_pdgId.push_back(cms3.pfcands_particleId().at(pfind));
-		}
-		
+    		// save high pt pf cands: all with pt > 300, pf muons with pt > 50
+    		if ( (pfcand_p4.pt() > 300.) || (pfcand_p4.pt() > 50. && abs(cms3.pfcands_particleId().at(pfind)) == 13) ) {
+    		  ++nhighPtPFcands;
+    		  highPtPFcands_p4.push_back(pfcand_p4);
+    		  highPtPFcands_dz.push_back(cms3.pfcands_dz().at(pfind));
+    		  highPtPFcands_pdgId.push_back(cms3.pfcands_particleId().at(pfind));
+    		}
+    		
         if(      cms3.pfcands_charge().at(pfind)  == 0  ) continue;
         if( fabs(cms3.pfcands_dz()    .at(pfind)) >  0.1) continue;
         if(      cms3.pfcands_fromPV().at(pfind)  <= 1  ) continue;
- 
+
         float cand_pt = cms3.pfcands_p4().at(pfind).pt();
         if(cand_pt < 5) continue;
 
         float absiso = TrackIso( pfind, 0.3, 0.0, true, false );
         if(  absiso >= min( 0.2 * cand_pt, 8.0 ) ) continue;
 
-		// nuclear options for photon sample
-		nisoTrack_5gev++;
+    		// nuclear options for photon sample
+    		nisoTrack_5gev++;
 
-		// isotrack a la MT2
+    		// isotrack a la MT2
         int  pdgId = abs( cms3.pfcands_particleId().at( pfind ) );
 
-		bool leptonoverlaps = false;
-		if( evt_type != 2 ){
-		  for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
-		        //if( lepind >= 2 ) break; // consider all analysis leptons
-			if( sqrt( pow(cms3.pfcands_p4().at(pfind).eta() - lep_p4.at(lepind).eta(), 2) +
-					  pow(acos(cos(cms3.pfcands_p4().at(pfind).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.01 ){
-			  leptonoverlaps = true;
-			}
-		  }
-		}
-		
-		if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) && (absiso/cand_pt < 0.2) ){
-		  nisoTrack_PFLep5_woverlaps++;
-		  if( !leptonoverlaps ) nisoTrack_mt2++;
-		}
-		
-		if( cand_pt > 10. && pdgId == 211 && (absiso/cand_pt < 0.1 ) ){ 
-		  nisoTrack_PFHad10_woverlaps++;
-		  if( !leptonoverlaps ) nisoTrack_mt2++;
-		}
-		
-	  } // loop over pfcands
-	  
-	  chpfcands_0013_pt = chpfcands_0013_p4.pt();
-	  chpfcands_1316_pt = chpfcands_1316_p4.pt();
-	  chpfcands_1624_pt = chpfcands_1624_p4.pt();
-	  chpfcands_2430_pt = chpfcands_2430_p4.pt();
-	  chpfcands_30in_pt = chpfcands_30in_p4.pt();
-	  phpfcands_0013_pt = phpfcands_0013_p4.pt();
-	  phpfcands_1316_pt = phpfcands_1316_p4.pt();
-	  phpfcands_1624_pt = phpfcands_1624_p4.pt();
-	  phpfcands_2430_pt = phpfcands_2430_p4.pt();
-	  phpfcands_30in_pt = phpfcands_30in_p4.pt();
-	  nupfcands_0013_pt = nupfcands_0013_p4.pt();
-	  nupfcands_1316_pt = nupfcands_1316_p4.pt();
-	  nupfcands_1624_pt = nupfcands_1624_p4.pt();
-	  nupfcands_2430_pt = nupfcands_2430_p4.pt();
-	  nupfcands_30in_pt = nupfcands_30in_p4.pt();
+    		bool leptonoverlaps = false;
+    		if( evt_type != 2 ){
+    		  for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
+    		    //if( lepind >= 2 ) break; // consider all analysis leptons
+      			if( sqrt( pow(cms3.pfcands_p4().at(pfind).eta() - lep_p4.at(lepind).eta(), 2) +
+      					  pow(acos(cos(cms3.pfcands_p4().at(pfind).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.01 ){
+      			  leptonoverlaps = true;
+      			}
+    		  }
+    		}
+    		
+    		if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) && (absiso/cand_pt < 0.2) ){
+    		  nisoTrack_PFLep5_woverlaps++;
+    		  if( !leptonoverlaps ) nisoTrack_mt2++;
+    		}
+    		
+    		if( cand_pt > 10. && pdgId == 211 && (absiso/cand_pt < 0.1 ) ){ 
+    		  nisoTrack_PFHad10_woverlaps++;
+    		  if( !leptonoverlaps ) nisoTrack_mt2++;
+    		}
+  	  } // loop over pfcands
+  	  
+  	  chpfcands_0013_pt = chpfcands_0013_p4.pt();
+  	  chpfcands_1316_pt = chpfcands_1316_p4.pt();
+  	  chpfcands_1624_pt = chpfcands_1624_p4.pt();
+  	  chpfcands_2430_pt = chpfcands_2430_p4.pt();
+  	  chpfcands_30in_pt = chpfcands_30in_p4.pt();
+  	  phpfcands_0013_pt = phpfcands_0013_p4.pt();
+  	  phpfcands_1316_pt = phpfcands_1316_p4.pt();
+  	  phpfcands_1624_pt = phpfcands_1624_p4.pt();
+  	  phpfcands_2430_pt = phpfcands_2430_p4.pt();
+  	  phpfcands_30in_pt = phpfcands_30in_p4.pt();
+  	  nupfcands_0013_pt = nupfcands_0013_p4.pt();
+  	  nupfcands_1316_pt = nupfcands_1316_p4.pt();
+  	  nupfcands_1624_pt = nupfcands_1624_p4.pt();
+  	  nupfcands_2430_pt = nupfcands_2430_p4.pt();
+  	  nupfcands_30in_pt = nupfcands_30in_p4.pt();
 
-	  chpfcands_0013_phi = chpfcands_0013_p4.phi();
-	  chpfcands_1316_phi = chpfcands_1316_p4.phi();
-	  chpfcands_1624_phi = chpfcands_1624_p4.phi();
-	  chpfcands_2430_phi = chpfcands_2430_p4.phi();
-	  chpfcands_30in_phi = chpfcands_30in_p4.phi();
-	  phpfcands_0013_phi = phpfcands_0013_p4.phi();
-	  phpfcands_1316_phi = phpfcands_1316_p4.phi();
-	  phpfcands_1624_phi = phpfcands_1624_p4.phi();
-	  phpfcands_2430_phi = phpfcands_2430_p4.phi();
-	  phpfcands_30in_phi = phpfcands_30in_p4.phi();
-	  nupfcands_0013_phi = nupfcands_0013_p4.phi();
-	  nupfcands_1316_phi = nupfcands_1316_p4.phi();
-	  nupfcands_1624_phi = nupfcands_1624_p4.phi();
-	  nupfcands_2430_phi = nupfcands_2430_p4.phi();
-	  nupfcands_30in_phi = nupfcands_30in_p4.phi();	  
+  	  chpfcands_0013_phi = chpfcands_0013_p4.phi();
+  	  chpfcands_1316_phi = chpfcands_1316_p4.phi();
+  	  chpfcands_1624_phi = chpfcands_1624_p4.phi();
+  	  chpfcands_2430_phi = chpfcands_2430_p4.phi();
+  	  chpfcands_30in_phi = chpfcands_30in_p4.phi();
+  	  phpfcands_0013_phi = phpfcands_0013_p4.phi();
+  	  phpfcands_1316_phi = phpfcands_1316_p4.phi();
+  	  phpfcands_1624_phi = phpfcands_1624_p4.phi();
+  	  phpfcands_2430_phi = phpfcands_2430_p4.phi();
+  	  phpfcands_30in_phi = phpfcands_30in_p4.phi();
+  	  nupfcands_0013_phi = nupfcands_0013_p4.phi();
+  	  nupfcands_1316_phi = nupfcands_1316_p4.phi();
+  	  nupfcands_1624_phi = nupfcands_1624_p4.phi();
+  	  nupfcands_2430_phi = nupfcands_2430_p4.phi();
+  	  nupfcands_30in_phi = nupfcands_30in_p4.phi();	  
 
       //TAUS
       // selection here is the multilepton Tight selection, to preserve orthogonality with them
@@ -2094,25 +2089,24 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if (!cms3.passTauID("byTightIsolationMVArun2v1DBoldDMwLT", iTau)) continue; // HPS, Tight MVA iso
         if (!cms3.passTauID("againstElectronLooseMVA6", iTau)) continue; // electron removal
 
-	// check for overlap with analysis leptons
-	bool leptonoverlaps = false;
-	for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
-	  if( sqrt( pow(cms3.taus_pf_p4().at(iTau).eta() - lep_p4.at(lepind).eta(), 2) +
-		    pow(acos(cos(cms3.taus_pf_p4().at(iTau).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.4 ){
-	    leptonoverlaps = true;
-	    break;
-	  }
-	}
-	if (leptonoverlaps) continue;
-	
-	nTaus20++;
-      }
-	  
-      FillBabyNtuple();
+        // check for overlap with analysis leptons
+        bool leptonoverlaps = false;
+        for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
+          if( sqrt( pow(cms3.taus_pf_p4().at(iTau).eta() - lep_p4.at(lepind).eta(), 2) +
+        	  pow(acos(cos(cms3.taus_pf_p4().at(iTau).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.4 ){
+            leptonoverlaps = true;
+            break;
+          }
+        }
+        if (leptonoverlaps) continue;
 
-	}//end loop on events in a file
+        nTaus20++;
+      }
+  	  
+      FillBabyNtuple();
+	  }//end loop on events in a file
   
-	delete tree;
+    delete tree;
     f.Close();
 
     if (applyJECfromFile) {
@@ -2120,8 +2114,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       delete jecUnc;
       if (jet_corrector_pfL1FastJetL2L3_postrun278802) delete jet_corrector_pfL1FastJetL2L3_postrun278802;
       if (jecUnc_postrun278802) delete jecUnc_postrun278802;
-    }
-    
+    }  
   }//end loop on files
   
   cout << "Processed " << nEventsTotal << " events" << endl;
