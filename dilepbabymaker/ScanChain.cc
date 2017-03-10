@@ -253,25 +253,23 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
   	  //JECs for 76X
   	  if( currentFileName.Contains("16Dec2015") || currentFileName.Contains("76X_mcRun2") ){
-  		if( currentFileName.Contains("Run2015C") || currentFileName.Contains("Run2015D") ){
-  		  jetcorr_filenames_pfL1FastJetL2L3.clear();
-  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt"   );
-  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2Relative_AK4PFchs.txt"  );
-  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L3Absolute_AK4PFchs.txt"  );
-  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2L3Residual_AK4PFchs.txt");
-  		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_Uncertainty_AK4PFchs.txt" );
-  		}
-
-  		else{
-  		  // files for 76X MC
-  		  jetcorr_filenames_pfL1FastJetL2L3.clear();
-  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L1FastJet_AK4PFchs.txt"   );
-  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L2Relative_AK4PFchs.txt"  );
-  		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L3Absolute_AK4PFchs.txt"  );
-  		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt" );
-  		}		
+    		if( currentFileName.Contains("Run2015C") || currentFileName.Contains("Run2015D") ){
+    		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L1FastJet_AK4PFchs.txt"   );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2Relative_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L3Absolute_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_L2L3Residual_AK4PFchs.txt");
+    		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_76X/DATA/Fall15_25nsV2_DATA_Uncertainty_AK4PFchs.txt" );
+    		}
+    		else{
+    		  // files for 76X MC
+    		  jetcorr_filenames_pfL1FastJetL2L3.clear();
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L1FastJet_AK4PFchs.txt"   );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L2Relative_AK4PFchs.txt"  );
+    		  jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_L3Absolute_AK4PFchs.txt"  );
+    		  jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_76X/MC/Fall15_25nsV2_MC_Uncertainty_AK4PFchs.txt" );
+    		}		
   	  }
-
   	  else if( currentFileName.Contains("80MiniAODv") || currentFileName.Contains("RelVal") ){
   		  // files for 80X MC, ICHEP production
     		jetcorr_filenames_pfL1FastJetL2L3.clear();
@@ -279,8 +277,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L2Relative_AK4PFchs.txt"  );
     		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L3Absolute_AK4PFchs.txt"  );
     		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_Uncertainty_AK4PFchs.txt" );
-  	  }
-  		
+  	  } 		
   	  else if( currentFileName.Contains("Summer16") ){
     		// files for 80X MC, Summer16 (Moriond17) production
     		jetcorr_filenames_pfL1FastJetL2L3.clear();
@@ -289,7 +286,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_L3Absolute_AK4PFchs.txt"  );
     		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_Uncertainty_AK4PFchs.txt" );
   	  }
-  		
   	  else if( currentFileName.Contains("Run2016") || currentFileName.Contains("CMSSW_8_0_11_V08-00-06") ){
     		// 	jetcorr_filenames_pfL1FastJetL2L3.clear();
     		// 	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/DATA/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt"   );
@@ -401,6 +397,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     // Event Loop
     unsigned int nEventsToLoop = tree->GetEntriesFast();
     if (max_events > 0) nEventsToLoop = (unsigned int) max_events;
+    
+    //===============================
+    // LOOP OVER EVENTS IN FILE
+    //===============================
     for( unsigned int event = 0; event < nEventsToLoop; ++event) {
       //for( unsigned int event = 0; event < 100; ++event) {
       // if( event > 100 ) continue;
