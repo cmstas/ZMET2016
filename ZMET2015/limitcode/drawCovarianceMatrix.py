@@ -1,19 +1,36 @@
 import ROOT
+from array import array
 
 ROOT.gROOT.SetBatch(True)
 ROOT.gStyle.SetOptStat(0)
 
-#regions = 'strong'
-regions = 'ewk'
+regions = 'strong'
+#regions = 'ewk'
+
+NRGBs = 5
+NCont = 255
+stops = [0.00, 0.34, 0.61, 0.84, 1.00]
+red   = [0.50, 0.50, 1.00, 1.00, 1.00]
+green = [0.50, 1.00, 1.00, 0.60, 0.50]
+blue  = [1.00, 1.00, 0.50, 0.40, 0.50]
+s = array('d', stops)
+r = array('d', red)
+g = array('d', green)
+b = array('d', blue)
+FI = ROOT.TColor.CreateGradientColorTable(NRGBs, s, r, g, b, NCont)
+mypalette = []
+for i in xrange(NCont): mypalette.append(FI+i)
+myp = array('i', mypalette)
+ROOT.gStyle.SetPalette(NCont,myp)
 
 f=ROOT.TFile.Open("mlfit_"+regions+".root")
-covarMatrix = f.Get("shapes_prefit/overall_total_covar").Clone("covarMatrix")
+covarMatrix = f.Get("shapes_prefit/overall_total_covar").Clone("covarMatrix_"+regions)
 covarMatrix.SetTitle("Full covariance matrix")
 covarMatrix.GetXaxis().SetTitle("")
 covarMatrix.GetYaxis().SetTitle("")
 covarMatrix.GetZaxis().SetTitle("Covariance (#sigma_{xy})")
 
-corrMatrix = covarMatrix.Clone("corrMatrix")
+corrMatrix = covarMatrix.Clone("corrMatrix_"+regions)
 corrMatrix.SetTitle("Full correlation matrix")
 corrMatrix.GetXaxis().SetTitle("")
 corrMatrix.GetYaxis().SetTitle("")
@@ -89,6 +106,7 @@ for x in range(1, covarMatrix.GetXaxis().GetNbins()+1):
         if (bin_value < 0. and bin_value > -0.1): bin_value = 0.01
         corrMatrix.SetBinContent(x,y, (bin_value)/((ROOT.TMath.Sqrt(covarMatrix.GetBinContent(x,x)))*(ROOT.TMath.Sqrt(covarMatrix.GetBinContent(y,y)))))
 
+ROOT.gStyle.SetPaintTextFormat("4.2f")        
 canvas=ROOT.TCanvas("canvas", "", 900, 900)
 canvas.cd()
 
@@ -103,6 +121,7 @@ ROOT.gPad.Update()
 palette = corrMatrix.FindObject("palette");
 palette.SetX2NDC(0.925);
 
+corrMatrix.Draw("text same")
 
 label_top = ROOT.TPaveText(0.8,0.91,0.9,0.94, "brNDC");
 label_top.SetBorderSize(0);
@@ -128,6 +147,7 @@ ROOT.gPad.RedrawAxis()
 canvas.SaveAs("~/public_html/fullCorrelationMatrix_"+regions+"_Moriond2017.pdf")
 
 
+ROOT.gStyle.SetPaintTextFormat("4.1f")        
 canvasCovar=ROOT.TCanvas("canvasCovar", "", 900, 900)
 canvasCovar.cd()
 ROOT.gPad.SetLogz()
@@ -142,6 +162,8 @@ covarMatrix.Draw("colz")
 ROOT.gPad.Update()
 paletteCov = covarMatrix.FindObject("palette");
 paletteCov.SetX2NDC(0.925);
+
+covarMatrix.Draw("text same")
 
 label_top.Draw("same")
 label_cms.Draw("same")
