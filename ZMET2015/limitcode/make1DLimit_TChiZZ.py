@@ -1,7 +1,8 @@
 import ROOT, array
-import sys, glob
+import sys, glob, math
 ROOT.gROOT.SetBatch(True)
 lumi = 35.9
+#lumi = 72
 
 fxsec = None
 hxsec = None
@@ -28,12 +29,15 @@ def main():
     dir="./"+version+"/"
 #    chargino_masses =[100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750] 
 #    chargino_masses =[100,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700] 
+#    chargino_masses =[100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950] 
     chargino_masses =[125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950] 
     f_xsecgraph = ROOT.TFile.Open("../../dilepbabymaker/xsec_susy_13tev_graphs.root")
     g_xsec_c1n2 = f_xsecgraph.Get("g_xsec_higgsino")
 
     obs=[]
     exp=[]
+    exp2x=[]
+    exp3x=[]
     m2s=[]
     m1s=[]
     p1s=[]
@@ -41,18 +45,35 @@ def main():
     x0e=[]
     sigmas = []
     
-    for chargino in chargino_masses:
+    h_obs = ROOT.TH1F("hObs","",37, 87.5, 1012.5)
+    h_obs.GetXaxis().SetTitle("m_{#tilde{#chi}^{0}_{1}} [GeV]")
+    h_obs.GetYaxis().SetTitle("#sigma limit at 95% CL [pb]")
+    h_exp = h_obs.Clone("hExp")
+    h_exp1m = h_obs.Clone("hExp1m")
+    h_exp2m = h_obs.Clone("hExp2m")
+    h_exp1p = h_obs.Clone("hExp1p")
+    h_exp2p = h_obs.Clone("hExp2p")
+    
+    for i,chargino in enumerate(chargino_masses):
         fn = dir+'limit_TChiZZ_'+str(chargino)+'.root'
         limitsdic = get1Dlimit(fn)
         xsec = get1Dxsec(chargino)
         obs.append(limitsdic['obs']*xsec)
         exp.append(limitsdic['exp']*xsec)
+        exp2x.append(limitsdic['exp']*xsec/math.sqrt(2))
+        exp3x.append(limitsdic['exp']*xsec/math.sqrt(3))
         m2s.append(limitsdic['m2s']*xsec)
         m1s.append(limitsdic['m1s']*xsec)
         p1s.append(limitsdic['p1s']*xsec)
         p2s.append(limitsdic['p2s']*xsec)
         x0e.append(0.)
         sigmas.append(xsec) 
+        h_obs.SetBinContent(i+1,obs[i])
+        h_exp.SetBinContent(i+1,exp[i])
+        h_exp1m.SetBinContent(i+1,m1s[i])
+        h_exp1p.SetBinContent(i+1,p1s[i])
+        h_exp2m.SetBinContent(i+1,m2s[i])
+        h_exp2p.SetBinContent(i+1,p2s[i])
     #TGraphAsymmErrors needs the delta
     for i in range(0,len(exp)):
         m2s[i]=exp[i]-m2s[i]
@@ -110,6 +131,18 @@ def main():
     gexp.SetLineWidth(3)
     gexp.SetLineColor(ROOT.kBlack)
     gexp.Draw("L")
+    
+    # gexp2x = ROOT.TGraph(len(chargino_masses), array.array('d', chargino_masses), array.array('d', exp2x))
+    # gexp2x.SetLineStyle(7)
+    # gexp2x.SetLineWidth(3)
+    # gexp2x.SetLineColor(ROOT.kRed)
+    # gexp2x.Draw("L")
+    
+    # gexp3x = ROOT.TGraph(len(chargino_masses), array.array('d', chargino_masses), array.array('d', exp3x))
+    # gexp3x.SetLineStyle(7)
+    # gexp3x.SetLineWidth(3)
+    # gexp3x.SetLineColor(ROOT.kOrange+2)
+    # gexp3x.Draw("L")
     
     gsigmas = ROOT.TGraph(len(chargino_masses), array.array('d', chargino_masses), array.array('d', sigmas))
     gsigmas.SetLineStyle(7)
@@ -175,7 +208,11 @@ def main():
     l1.SetShadowColor(ROOT.kWhite)
     l1.SetFillColor(ROOT.kWhite)
 #    l1.SetHeader("#sigma exclusion limit, M_{#tilde{#chi}^{0}_{1}} = 1 GeV")
-    l1.AddEntry(gobs , "Observed", "lp")
+    # l1.AddEntry(gobs , "Observed 2016", "lp")
+    # l1.AddEntry(gexp , "Expected 2016", "l")
+    # l1.AddEntry(gexp2x , "Expected 2x lumi", "l")
+    # l1.AddEntry(gexp3x , "Expected 3x lumi", "l")
+    l1.AddEntry(gobs , "Observed", "l")
     l1.AddEntry(gexp , "Expected", "l")
     l1.AddEntry(gr_s1b , "Expected #pm 1 #sigma", "f")
     l1.AddEntry(gr_s2b , "Expected #pm 2 #sigma", "f")
@@ -212,7 +249,30 @@ def main():
     #masstex.SetLineWidth(2)
     #masstex.SetTextFont(42)
     #masstex.Draw()
-    c1.SaveAs("~/public_html/TChiZZ_Moriond2017_test_%s_%s.pdf" % (str(lumi).replace(".","p"),version))
+    c1.SaveAs("~/public_html/TChiZZ_Exclusion_13TeV.pdf")
+
+    ### store histogram versions of limits
+    f_out = ROOT.TFile("limits_TChiZZ.root","RECREATE")
+    f_out.cd()
+    #h_obs.Write()
+    #h_exp.Write()
+    #h_exp1m.Write()
+    #h_exp1p.Write()
+    #h_exp2m.Write()
+    #h_exp2p.Write()
+    g_xsec_c1n2.Write()
+
+    # graphs - need to set titles first
+    gexp.SetName("gExp")
+    gexp.Write()
+    gobs.SetName("gObs")
+    gobs.Write()
+    gr_s1b.SetName("gExp1pm")
+    gr_s1b.Write()
+    gr_s2b.SetName("gExp2pm")
+    gr_s2b.Write()
+    
+    f_out.Close()
 
 
 #####################################################################################################
