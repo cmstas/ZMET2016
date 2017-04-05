@@ -18,6 +18,52 @@
 
 using namespace std;
 
+int GetNumBins(const vector<double> &pts, double width){
+  double pmin = *min_element(pts.cbegin(), pts.cend());
+  double pmax = *max_element(pts.cbegin(), pts.cend());
+  return max(1, min(500, static_cast<int>(ceil((pmax-pmin)/width))));
+}
+
+// code from Manuel Franco Sevilla to extract graphs from TH2 histograms
+// https://github.com/CMS-SUS-XPAG/PlotsSMS/blob/0314f060280997093d827841b787c396dd64e27c/src/utilities.cpp#L24-L59
+TGraph* getGraph(TH2* hobs, bool useLongest) {
+  //hobs->Smooth();
+  TGraph* graph = NULL;
+  vector<double> vx, vy, vz;
+  for(int binx=1; binx<=hobs->GetNbinsX(); ++binx){
+    double x = hobs->GetXaxis()->GetBinCenter(binx);
+    for(int biny=1; biny<=hobs->GetNbinsY(); ++biny){
+      double y = hobs->GetYaxis()->GetBinCenter(biny);
+      double z = hobs->GetBinContent(hobs->GetBin(binx,biny));
+      vx.push_back(x);
+      vy.push_back(y);
+      vz.push_back(z);
+    }
+  }
+    
+  TGraph2D gsmooth("gsmooth", "", vx.size(), &vx.at(0), &vy.at(0), &vz.at(0));
+  gsmooth.SetNpx(GetNumBins(vx, 1));
+  gsmooth.SetNpy(GetNumBins(vy, 1));
+  gsmooth.GetHistogram();
+  TList *list = gsmooth.GetContourList(1.);
+  TIter liter(list);
+  // want longest contour in some cases and shortest in others.. have to set manually for each case when calling this function
+  int max_points = 0;
+  if (!useLongest) max_points = 991;
+  for(int i = 0; i < list->GetSize(); ++i){
+    TGraph *g = static_cast<TGraph*>(list->At(i));
+    if(g == nullptr) continue;
+    int n_points = g->GetN();
+    //    cout<<"Contour with "<<n_points<<" points "<<endl;
+    if((useLongest && n_points > max_points) || (!useLongest && n_points < max_points)){
+      graph = g;
+      max_points = n_points;
+    }
+  }
+
+  return static_cast<TGraph*>(graph);
+}
+
 int makeLimitHist_TChiWZ()
 {
 
@@ -41,10 +87,11 @@ int makeLimitHist_TChiWZ()
   double blue[]  = {1.00, 1.00, 0.50, 0.40, 0.50};
   TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
   gStyle->SetNumberContours(NCont);
+
+  TString version = "limits_TChiWZ_100317";
+  TFile * f_rvalues = TFile::Open(Form("%s/r-values_TChiWZ.root",version.Data()),"READ");  
   
-  TFile * f_rvalues = TFile::Open("r-values_TChiWZ.root","READ");  
-  
-  TH2F * massplane        = (TH2F*) f_rvalues->Get("hExp")   -> Clone("massplane");
+  TH2F * massplane        = (TH2F*) f_rvalues->Get("hExp")   -> Clone("massplane_exp");
   TH2F * massplane_obs    = (TH2F*) f_rvalues->Get("hObs")   -> Clone("massplane_obs");
   TH2F * massplane_obs_up = (TH2F*) f_rvalues->Get("hObs")   -> Clone("massplane_obs_up");
   TH2F * massplane_obs_dn = (TH2F*) f_rvalues->Get("hObs")   -> Clone("massplane_obs_dn");
@@ -54,7 +101,7 @@ int makeLimitHist_TChiWZ()
   TH2F * massplane_exp_dn2 = (TH2F*) f_rvalues->Get("hExp2m") -> Clone("massplane_exp_dn2");
   // TH2F * massplane_xsec   = new TH2F("massplane_xsec","", 27,25,1375,25,75.0,1325.0);
 
-  TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_xsec");
+  TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_obs_xsec");
   TH2F * efficiency       = (TH2F*) massplane    -> Clone("efficiency"    );
 
   TH2F * h_axis = new TH2F("h_axis","",60,100,700,40,0,400);
@@ -67,8 +114,8 @@ int makeLimitHist_TChiWZ()
   h_axis->GetXaxis()->SetLabelSize(0.035);
   h_axis->GetXaxis()->SetNdivisions(508);
   h_axis->GetYaxis()->SetLabelSize(0.035);
-  h_axis->GetXaxis()->SetTitle("M_{#tilde{#chi}^{#pm}_{1}/#tilde{#chi}^{0}_{2}} [GeV]");
-  h_axis->GetYaxis()->SetTitle("M_{#tilde{#chi}^{0}_{1}} [GeV]");
+  h_axis->GetXaxis()->SetTitle("m_{#tilde{#chi}^{#pm}_{1}} = m_{#tilde{#chi}^{0}_{2}} [GeV]");
+  h_axis->GetYaxis()->SetTitle("m_{#tilde{#chi}^{0}_{1}} [GeV]");
   
   massplane_xsec->GetZaxis()->SetTitle("95% CL upper limit on #sigma [pb]");
   massplane_xsec->GetZaxis()->SetRangeUser(5e-3,3e2);
@@ -87,7 +134,19 @@ int makeLimitHist_TChiWZ()
 
   //edit here
   h_axis->Draw("axis");
-  
+
+  // // scale for lumi
+  // const float lumiscaling = 3.;
+  // massplane        ->Scale(1./sqrt(lumiscaling));
+  // massplane_obs    ->Scale(1./sqrt(lumiscaling));
+  // massplane_obs_up ->Scale(1./sqrt(lumiscaling));
+  // massplane_obs_dn ->Scale(1./sqrt(lumiscaling));
+  // massplane_exp_up ->Scale(1./sqrt(lumiscaling));
+  // massplane_exp_dn ->Scale(1./sqrt(lumiscaling));
+  // massplane_exp_up2->Scale(1./sqrt(lumiscaling));
+  // massplane_exp_dn2->Scale(1./sqrt(lumiscaling));
+  // massplane_xsec   ->Scale(1./sqrt(lumiscaling));
+  // contourplot       ->Scale(1/sqrt(lumiscaling));  
 
   // multiply by susy xsec
   for( int binx = 1; binx <= massplane_xsec->GetNbinsX(); binx++ ){
@@ -103,12 +162,6 @@ int makeLimitHist_TChiWZ()
 	}
   }
 
-  TFile * file = new TFile("CLS_CSUL.root","RECREATE");
-  file->cd();
-  massplane_xsec->Write();
-  file->Write();
-  file->Close();
-  
   // if( biny*10 > 250) continue;
   // multiply by susy xsec
   for( int binx = 1; binx <= massplane_xsec->GetNbinsX(); binx++ ){
@@ -177,15 +230,12 @@ int makeLimitHist_TChiWZ()
   massplane_obs_dn->Smooth();
   
   massplane_xsec->Draw("same colz");
-  // contourplot->Draw("samecont3");
-  // // contourplot->Draw("colz");
-  // massplane_obs->Draw("samecont2");
-  // massplane_obs_up->Draw("samecont2");
-  // massplane_obs_dn->Draw("samecont2");
-  // massplane_exp_up->Draw("samecont3");
-  // massplane_exp_dn->Draw("samecont3");
 
-//binning needs to correspond to actual binning of TH2F with limits
+
+  // -----------------------------------------------------------
+  // for drawing smoothed "rainbow carpet" observed xsec limits
+  
+  //binning needs to correspond to actual binning of TH2F with limits
   vector<double> vmx, vmy, vxsec, vobs, vobsup, vobsdown, vexp, vup, vdown;  
   for( int binx = 3; binx < 29; binx++ ){
   	for( int biny = -1; biny < 31; biny++ ){
@@ -209,12 +259,6 @@ int makeLimitHist_TChiWZ()
   }
   
   TGraph2D glim(    "glim"     , "Cross-Section Limit"     , vlim    .size(), &vmx.at(0), &vmy.at(0), &vlim    .at(0));
-  TGraph2D gobs(    "gobs"     , "Observed Limit"          , vobs    .size(), &vmx.at(0), &vmy.at(0), &vobs    .at(0));
-  TGraph2D gobsup(  "gobsup"   , "Observed +1#sigma Limit" , vobsup  .size(), &vmx.at(0), &vmy.at(0), &vobsup  .at(0));
-  TGraph2D gobsdown("gobsdown" , "Observed -1#sigma Limit" , vobsdown.size(), &vmx.at(0), &vmy.at(0), &vobsdown.at(0));
-  TGraph2D gexp(    "gexp"     , "Expected Limit"          , vexp    .size(), &vmx.at(0), &vmy.at(0), &vexp    .at(0));
-  TGraph2D gup(     "gup"      , "Expected +1#sigma Limit" , vup     .size(), &vmx.at(0), &vmy.at(0), &vup     .at(0));
-  TGraph2D gdown(   "gdown"    , "Expected -1#sigma Limit" , vdown   .size(), &vmx.at(0), &vmy.at(0), &vdown   .at(0));
   TGraph dots(vmx.size(), &vmx.at(0), &vmy.at(0));
 
   double xmin = *min_element(vmx.cbegin(), vmx.cend());
@@ -226,73 +270,30 @@ int makeLimitHist_TChiWZ()
   int nybins = max(1, min(500, static_cast<int>(ceil((ymax-ymin)/bin_size))));
   glim.SetNpx(nxbins);
   glim.SetNpy(nybins);
-  gexp.SetNpx(nxbins);
-  gexp.SetNpy(nybins);
-  gobs.SetNpx(nxbins);
-  gobs.SetNpy(nybins);
-  gobsdown.SetNpx(nxbins);
-  gobsdown.SetNpy(nybins);
-  gobsup.SetNpx(nxbins);
-  gobsup.SetNpy(nybins);
-  gup.SetNpx(nxbins);
-  gup.SetNpy(nybins);
-  gdown.SetNpx(nxbins);
-  gdown.SetNpy(nybins);
-  
+
   TH2D *hlim = glim.GetHistogram();
+  hlim->SetName("hObsXsec");
   hlim->SetTitle(";m_{gluino} [GeV];m_{LSP} [GeV]");
   hlim->GetZaxis()->SetLabelSize(0);
   hlim->GetZaxis()->SetRangeUser(5e-3,3e2);
+  // manually fix below zero and above diagonal
+  for (int binx=1; binx <= hlim->GetNbinsX(); ++binx) {
+    for (int biny=1; biny <= hlim->GetNbinsY(); ++biny) {
+      int truebin = hlim->GetBin(binx,biny);
+      float mgluino = hlim->GetXaxis()->GetBinCenter(binx);
+      float mlsp = hlim->GetYaxis()->GetBinCenter(biny);
+      if (mlsp < 0.) hlim->SetBinContent(truebin,0.);
+      else if (mgluino - mlsp < 90.) hlim->SetBinContent(truebin,0.);
+    }
+  }
 
-  TH2D *hexp = gexp.GetHistogram();
-  hexp->SetContour(1, contours);
-  hexp->SetLineWidth(4);
-  hexp->SetLineStyle(2);
-  hexp->SetLineColor(kRed);
-  hexp->Smooth();
-
-  TH2D *hobs = gobs.GetHistogram();
-  hobs->SetContour(1, contours);
-  hobs->SetLineWidth(4);
-  hobs->SetLineStyle(1);
-  hobs->SetLineColor(kBlack);
-  hobs->Smooth();
-
-  TH2D *hobs_up = gobsup.GetHistogram();
-  hobs_up->SetContour(1, contours);
-  hobs_up->SetLineWidth(2);
-  hobs_up->SetLineStyle(1);
-  hobs_up->SetLineColor(kBlack);
-  hobs_up->Smooth();
-
-  TH2D *hobs_dn = gobsdown.GetHistogram();
-  hobs_dn->SetContour(1, contours);
-  hobs_dn->SetLineWidth(2);
-  hobs_dn->SetLineStyle(1);
-  hobs_dn->SetLineColor(kBlack);
-  hobs_dn->Smooth();
-
-  TH2D *hexp_up = gup.GetHistogram();
-  hexp_up->SetContour(1, contours);
-  hexp_up->SetLineWidth(2);
-  hexp_up->SetLineStyle(2);
-  hexp_up->SetLineColor(kRed);
-  hexp_up->Smooth();
-
-  TH2D *hexp_dn = gdown.GetHistogram();
-  hexp_dn->SetContour(1, contours);
-  hexp_dn->SetLineWidth(2);
-  hexp_dn->SetLineStyle(2);
-  hexp_dn->SetLineColor(kRed);
-  hexp_dn->Smooth();
+  // end rainbow carpet code
+  // -----------------------------------------------------------
   
-  hlim   ->Draw("samecolz");
-  // hobs   ->Draw("samecont3");
-  // hobs_dn->Draw("samecont2");
-  // hobs_up->Draw("samecont2");
-  // hexp   ->Draw("samecont3");
-  // hexp_dn->Draw("samecont2");
-  // hexp_up->Draw("samecont2");
+  // draw smoothed rainbow carpet
+  hlim->Draw("samecolz");
+
+  // contours: drawing these from histograms
   contourplot->Draw("samecont3");
   massplane_obs->Draw("samecont3");
   massplane_obs_up->Draw("samecont3");
@@ -302,6 +303,37 @@ int makeLimitHist_TChiWZ()
   massplane_exp_up2->Draw("samecont3");
   massplane_exp_dn2->Draw("samecont3");
 
+  // extract contours as graphs and save to file for aux material
+  TFile* fg = new TFile("limits_TChiWZ.root","RECREATE");
+  fg->cd();
+  TGraph* g_exp = getGraph(contourplot,0);
+  g_exp->SetName("gExp");
+  g_exp->Write();
+  TGraph* g_obs = getGraph(massplane_obs,1);
+  g_obs->SetName("gObs");
+  g_obs->Write();
+  TGraph* g_obs_up = getGraph(massplane_obs_up,1);
+  g_obs_up->SetName("gObsUp");
+  g_obs_up->Write();
+  TGraph* g_obs_dn = getGraph(massplane_obs_dn,1);
+  g_obs_dn->SetName("gObsDn");
+  g_obs_dn->Write();
+  TGraph* g_exp_up = getGraph(massplane_exp_up,0);
+  g_exp_up->SetName("gExpUp");
+  g_exp_up->Write();
+  TGraph* g_exp_dn = getGraph(massplane_exp_dn,0);
+  g_exp_dn->SetName("gExpDn");
+  g_exp_dn->Write();
+  TGraph* g_exp_up2 = getGraph(massplane_exp_up2,0);
+  g_exp_up2->SetName("gExpUp2");
+  g_exp_up2->Write();
+  TGraph* g_exp_dn2 = getGraph(massplane_exp_dn2,1);
+  g_exp_dn2->SetName("gExpDn2");
+  g_exp_dn2->Write();
+  hlim->Write();
+  fg->Close();
+  delete fg;
+  
   TLine * diag_0 = new TLine(100,10,700,610);
   diag_0->SetLineWidth(7);
   diag_0->SetLineColor(kWhite);
@@ -332,7 +364,7 @@ int makeLimitHist_TChiWZ()
   l1->SetTextSize(0.038);
   l1->SetShadowColor(kWhite);    
   l1->SetFillColor(kWhite);    
-  l1->AddEntry(contourplot , "Expected limit, #pm 1 #sigma_{exp.}"            , "l");
+  l1->AddEntry(contourplot , "Expected limit, #pm 1,2 #sigma_{exp.}"            , "l");
   // l1->AddEntry(massplane_obs , "Observed limit"            , "l");
   l1->AddEntry(massplane_obs , "Observed limit, #pm 1 #sigma_{theory}"            , "l");
   l1->Draw("same");
@@ -369,7 +401,7 @@ int makeLimitHist_TChiWZ()
   // diag->Draw("same");
 
   TLatex *prctex = NULL;
-  prctex = new TLatex(0.215,0.88, "pp #rightarrow #tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{2}; #tilde{#chi}^{0}_{2}#rightarrow Z + #chi_{1}^{0}, #tilde{#chi}^{#pm}_{1}#rightarrow W^{#pm} + #chi_{1}^{0}" );    
+  prctex = new TLatex(0.215,0.88, "pp #rightarrow #tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{2}; #tilde{#chi}^{0}_{2}#rightarrow Z + #tilde{#chi}_{1}^{0}, #tilde{#chi}^{#pm}_{1}#rightarrow W^{#pm} + #tilde{#chi}_{1}^{0}" );    
   prctex->SetNDC();    
   prctex->SetTextSize(0.032);    
   prctex->SetLineWidth(2);
@@ -386,7 +418,7 @@ int makeLimitHist_TChiWZ()
 
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.575,0.94, "36.8 fb^{-1} (13 TeV)" );    
+  cmstex = new TLatex(0.575,0.94, "35.9 fb^{-1} (13 TeV)" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.04);    
   cmstex->SetLineWidth(2);
@@ -409,9 +441,8 @@ int makeLimitHist_TChiWZ()
   cmstexbold->Draw();
 
   //c_massplane->SaveAs("TChiWZ_Exclusion_13TeV.pdf");
-  c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV_test.pdf");
-  //c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV_test_nosmoothing.pdf");
-  // c_massplane->SaveAs("/home/users/cwelke/public_html/T5ZZ_Exclusion_13TeV.pdf");
+  c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV.pdf");
+  //c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV_x3lumi.pdf");
 
   return 0;
 }
