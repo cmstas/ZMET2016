@@ -450,53 +450,52 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       if (cms3_version.Contains("V08-00") && small_cms3_version <= 12) recent_cms3_version = false;
       
   	  if( isSMSScan ){
-  		if (currentFileName.Contains("SMS-TChiHZ") || currentFileName.Contains("SMS-TChiZZ")){
-  		  mass_chi = cms3.sparm_values().at(0);
-  		  evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
-  		}
-  		else{
-  		  mass_gluino = cms3.sparm_values().at(0);
-  		  mass_LSP    = cms3.sparm_values().at(1);
-  		  evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
-  		}
+    		if (currentFileName.Contains("SMS-TChiHZ") || currentFileName.Contains("SMS-TChiZZ")){
+    		  mass_chi = cms3.sparm_values().at(0);
+    		  evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
+    		}
+    		else{
+    		  mass_gluino = cms3.sparm_values().at(0);
+    		  mass_LSP    = cms3.sparm_values().at(1);
+    		  evt_nEvts    = h_eventcounts->GetBinContent(h_eventcounts->FindBin(mass_gluino,mass_LSP));
+    		}
 
-  		std::vector<int> produced_particles;
+    		std::vector<int> produced_particles;
 
-  		if( currentFileName.Contains("SMS-T5ZZ"  ) ) {
-  		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
-  		  produced_particles.push_back(1000021); // gluino
-  		}
-  		else if( currentFileName.Contains("SMS-TChiWZ") ) {
-  		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
-  		  produced_particles.push_back(1000024); // chargino1
-  		  produced_particles.push_back(1000023); // neutralino2
-  		}
-  		else if( currentFileName.Contains("SMS-TChiHZ") ) {
-  		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
-  		  produced_particles.push_back(1000023); // neutralino2
-  		  produced_particles.push_back(1000025); // neutralino3
-  		}		  
-  		else if( currentFileName.Contains("SMS-TChiZZ") ) {
-  		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.19175);// BF for at least 1 Z to two leps
-  		  produced_particles.push_back(1000023); // neutralino2
-  		  produced_particles.push_back(1000025); // neutralino3
-  		}
+    		if( currentFileName.Contains("SMS-T5ZZ"  ) ) {
+    		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.19175);// BF for at least 1 Z to two leps
+    		  produced_particles.push_back(1000021); // gluino
+    		}
+    		else if( currentFileName.Contains("SMS-TChiWZ") ) {
+    		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_gluino))*(0.100974);// BF for Z to two leps
+    		  produced_particles.push_back(1000024); // chargino1
+    		  produced_particles.push_back(1000023); // neutralino2
+    		}
+    		else if( currentFileName.Contains("SMS-TChiHZ") ) {
+    		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.100974*0.5824);// BF for Z to two leps * BF for Higgs to bb.
+    		  produced_particles.push_back(1000023); // neutralino2
+    		  produced_particles.push_back(1000025); // neutralino3
+    		}		  
+    		else if( currentFileName.Contains("SMS-TChiZZ") ) {
+    		  evt_xsec = h_susyxsecs->GetBinContent(h_susyxsecs->FindBin(mass_chi))*(0.19175);// BF for at least 1 Z to two leps
+    		  produced_particles.push_back(1000023); // neutralino2
+    		  produced_particles.push_back(1000025); // neutralino3
+    		}
 
-  		evt_scale1fb = evt_xsec*1000/evt_nEvts;
+    		evt_scale1fb = evt_xsec*1000/evt_nEvts;
 
-  		LorentzVector isrSystem_p4;
-  		for( size_t genind = 0; genind < cms3.genps_p4().size(); genind++ ){
-  		  if( cms3.genps_isLastCopy().at(genind) != 1) continue;
-  		  for (unsigned int ipart = 0; ipart < produced_particles.size(); ++ipart) {
-  		    if (abs(cms3.genps_id().at(genind)) == produced_particles.at(ipart)) {
-  		      isrSystem_p4 += cms3.genps_p4().at(genind);
-  		      break;
-  		    }
-  		  } // loop over produced susy particles 
-  		} // loop over cms3 genps
+    		LorentzVector isrSystem_p4;
+    		for( size_t genind = 0; genind < cms3.genps_p4().size(); genind++ ){
+    		  if( cms3.genps_isLastCopy().at(genind) != 1) continue;
+    		  for (unsigned int ipart = 0; ipart < produced_particles.size(); ++ipart) {
+    		    if (abs(cms3.genps_id().at(genind)) == produced_particles.at(ipart)) {
+    		      isrSystem_p4 += cms3.genps_p4().at(genind);
+    		      break;
+    		    }
+    		  } // loop over produced susy particles 
+    		} // loop over cms3 genps
 
-  		isrboost = (isrSystem_p4).pt();
-  		
+    		isrboost = (isrSystem_p4).pt();
   	  }
   	  else if (!removePostProcVars) {
     		evt_nEvts    = cms3.evt_nEvts();
@@ -593,11 +592,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
     		Flag_goodVertices                       = cms3.filt_goodVertices();
     		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
-    		Flag_badChargedCandidateFilter          = badChargedCandidateFilter();
+    		Flag_badChargedCandidateFilter          = false; //badChargedCandidateFilter();
     		// inputs for badMuonFilters in latest cms3 tags
     		if (recent_cms3_version) {
     		  Flag_globalTightHalo2016                      = cms3.filt_globalTightHalo2016();
-    		  Flag_badMuonFilter                            = badMuonFilter();
+    		  Flag_badMuonFilter                            = false; //badMuonFilter();
     		  Flag_badMuonFilterv2                          = badMuonFilterV2();
     		  Flag_badChargedCandidateFilterv2              = badChargedCandidateFilterV2();          
     		  if (small_cms3_version >= 18) {
@@ -703,7 +702,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  genPart_pt            .push_back( cms3.genps_p4()                           .at(iGen).pt());
     		  genPart_eta           .push_back( cms3.genps_p4()                           .at(iGen).eta());
     		  genPart_phi           .push_back( cms3.genps_p4()                           .at(iGen).phi());
-    		  genPart_mass          .push_back( cms3.genps_mass()                         .at(iGen));
+    		  //genPart_mass          .push_back( cms3.genps_mass()                         .at(iGen));
+          genPart_mass          .push_back( cms3.genps_p4()                           .at(iGen).M());
     		  genPart_pdgId         .push_back( cms3.genps_id()                           .at(iGen));
     		  genPart_status        .push_back( cms3.genps_status()                       .at(iGen));
     		  genPart_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
@@ -775,7 +775,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			genLep_pt            .push_back( cms3.genps_p4()     .at(iGen).pt());
     			genLep_eta           .push_back( cms3.genps_p4()     .at(iGen).eta());
     			genLep_phi           .push_back( cms3.genps_p4()     .at(iGen).phi());
-    			genLep_mass          .push_back( cms3.genps_mass()   .at(iGen));
+    			//genLep_mass          .push_back( cms3.genps_mass()   .at(iGen));
+          genLep_mass          .push_back( cms3.genps_p4()     .at(iGen).M());
     			genLep_pdgId         .push_back( cms3.genps_id()     .at(iGen));
     			genLep_status        .push_back( cms3.genps_status() .at(iGen));
     			genLep_charge        .push_back( cms3.genps_charge() .at(iGen));
@@ -790,7 +791,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			genTau_pt      .push_back(cms3.genps_p4()     .at(iGen).pt());
     			genTau_eta     .push_back(cms3.genps_p4()     .at(iGen).eta());
     			genTau_phi     .push_back(cms3.genps_p4()     .at(iGen).phi());
-    			genTau_mass    .push_back(cms3.genps_mass()   .at(iGen));
+    			//genTau_mass    .push_back(cms3.genps_mass()   .at(iGen));
+          genTau_mass    .push_back(cms3.genps_p4()     .at(iGen).M());
     			genTau_pdgId   .push_back(cms3.genps_id()     .at(iGen));
     			genTau_status  .push_back(cms3.genps_status() .at(iGen));
     			genTau_charge  .push_back(cms3.genps_charge() .at(iGen));
@@ -803,7 +805,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			genLepFromTau_pt      .push_back(cms3.genps_p4()     .at(iGen).pt());
     			genLepFromTau_eta     .push_back(cms3.genps_p4()     .at(iGen).eta());
     			genLepFromTau_phi     .push_back(cms3.genps_p4()     .at(iGen).phi());
-    			genLepFromTau_mass    .push_back(cms3.genps_mass()   .at(iGen));
+    			//genLepFromTau_mass    .push_back(cms3.genps_mass()   .at(iGen));
+          genLepFromTau_mass    .push_back(cms3.genps_p4()     .at(iGen).M());
     			genLepFromTau_pdgId   .push_back(cms3.genps_id()     .at(iGen));
     			genLepFromTau_status  .push_back(cms3.genps_status() .at(iGen));
     			genLepFromTau_charge  .push_back(cms3.genps_charge() .at(iGen));
@@ -842,7 +845,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
   	  vector<float>vec_lep_sta_pterrOpt ;
   	  vector<float>vec_lep_glb_pterrOpt ;
-  	  // vector<float>vec_lep_bft_pterrOpt ;
+  	  vector<float>vec_lep_bft_pterrOpt ;
   	  vector<float>vec_lep_x2ondof      ;
   	  vector<float>vec_lep_sta_x2ondof  ;
   	  vector<float>vec_lep_glb_x2ondof  ;
@@ -866,9 +869,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             nveto_leptons++;
     		  }
     		}
-   	  	if( !passElectronSelection_ZMET( iEl ) ) continue;
+   	  	
+        if( !passElectronSelection_ZMET( iEl ) ) continue;
   		
-          nElectrons10++;
+        nElectrons10++;
 
     		if( cms3.els_p4().at(iEl).pt() > 10.0 ){
     		  lep_pt_ordering	   .push_back( std::pair<int, float>(nlep, cms3.els_p4().at(iEl).pt()));
@@ -876,7 +880,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_pt           .push_back( cms3.els_p4().at(iEl).pt()      );
     		  vec_lep_eta          .push_back( cms3.els_p4().at(iEl).eta()     ); //save eta, even though we use SCeta for ID
     		  vec_lep_phi          .push_back( cms3.els_p4().at(iEl).phi()     );
-    		  vec_lep_mass         .push_back( cms3.els_mass().at(iEl)         );
+    		  //vec_lep_mass         .push_back( cms3.els_mass().at(iEl)         );
+          vec_lep_mass         .push_back( cms3.els_p4().at(iEl).M()       );
     		  vec_lep_charge       .push_back( cms3.els_charge().at(iEl)       );
     		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
     		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
@@ -945,7 +950,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_pt           .push_back ( cms3.mus_p4()    .at(iMu).pt()  );
     		  vec_lep_eta          .push_back ( cms3.mus_p4()    .at(iMu).eta() );
     		  vec_lep_phi          .push_back ( cms3.mus_p4()    .at(iMu).phi() );
-    		  vec_lep_mass         .push_back ( cms3.mus_mass()  .at(iMu)       );
+    		  //vec_lep_mass         .push_back ( cms3.mus_mass()  .at(iMu)       );
+          vec_lep_mass         .push_back ( cms3.mus_p4()    .at(iMu).M()   );
     		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)       );
     		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13) );
     		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
@@ -958,16 +964,22 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_validfraction.push_back ( validFraction                   );
     		  vec_lep_ptErr        .push_back ( cms3.mus_ptErr() .at(iMu)       );
 
-    		  vec_lep_sta_pterrOpt .push_back ( cms3.mus_sta_qoverpError() .at(iMu) / cms3.mus_sta_qoverp()  .at(iMu) );
-    		  vec_lep_glb_pterrOpt .push_back ( cms3.mus_gfit_qoverpError().at(iMu) / cms3.mus_gfit_qoverp() .at(iMu) );
-    		  // vec_lep_bft_pterrOpt .push_back ( cms3.mus_bfit_qoverpError().at(iMu) / cms3.mus_bfit_qoverp() .at(iMu) );
-    		  vec_lep_x2ondof      .push_back ( cms3.mus_chi2()            .at(iMu) / cms3.mus_ndof()        .at(iMu) );
-    		  vec_lep_sta_x2ondof  .push_back ( cms3.mus_sta_chi2()        .at(iMu) / cms3.mus_sta_ndof()    .at(iMu) );
-    		  if( currentFileName.Contains("V08-00-1") ){ 
-            vec_lep_glb_x2ondof  .push_back ( cms3.mus_gfit_chi2()       .at(iMu) / cms3.mus_gfit_ndof()   .at(iMu) );
-    		  }
-          else{                                                       vec_lep_glb_x2ondof  .push_back ( -1.0                                                                  );}
-    		  // vec_lep_bft_x2ondof  .push_back ( cms3.mus_bfit_chi2()       .at(iMu) / cms3.mus_bfit_ndof()   .at(iMu) );
+    		  //vec_lep_sta_pterrOpt .push_back ( /*cms3.mus_sta_qoverpError() .at(iMu) / */ cms3.mus_sta_qoverp()  .at(iMu) );
+    		  //vec_lep_glb_pterrOpt .push_back ( /*cms3.mus_gfit_qoverpError().at(iMu) / */ cms3.mus_gfit_qoverp() .at(iMu) );
+    		  //vec_lep_bft_pterrOpt .push_back ( /*cms3.mus_bfit_qoverpError().at(iMu) / */ cms3.mus_bfit_qoverp() .at(iMu) );
+    		  //vec_lep_x2ondof      .push_back ( /*cms3.mus_chi2()            .at(iMu) / */ cms3.mus_ndof()        .at(iMu) );
+    		  //vec_lep_sta_x2ondof  .push_back ( /*cms3.mus_sta_chi2()        .at(iMu) / */cms3.mus_sta_ndof()    .at(iMu) );
+
+          vec_lep_sta_pterrOpt .push_back ( -1 );
+          vec_lep_glb_pterrOpt .push_back ( -1 );
+          vec_lep_bft_pterrOpt .push_back ( -1 ); 
+          vec_lep_x2ondof      .push_back ( -1 );
+          vec_lep_sta_x2ondof  .push_back ( -1 );
+    		 
+          if( currentFileName.Contains("V08-00-1") ){ vec_lep_glb_x2ondof.push_back( cms3.mus_gfit_chi2().at(iMu) / cms3.mus_gfit_ndof().at(iMu) ); }
+          else{ vec_lep_glb_x2ondof .push_back ( -1.0 ); }
+    		 
+          // vec_lep_bft_x2ondof  .push_back ( cms3.mus_bfit_chi2()       .at(iMu) / cms3.mus_bfit_ndof()   .at(iMu) );
     		  
     		  if (!isData && (cms3.mus_mc3dr().at(iMu) < 0.2 && cms3.mus_mc3idx().at(iMu) != -9999 && abs(cms3.mus_mc3_id().at(iMu)) == 13 )) { // matched to a prunedGenParticle electron?
             int momid =  abs(genPart_motherId[cms3.mus_mc3idx().at(iMu)]);
@@ -1048,18 +1060,27 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		gamma_eta          .push_back( eta                          );
     		gamma_phi          .push_back( phi                          );
 
-    		gamma_mass         .push_back( cms3.photons_mass().at(iGamma)                  );
+    		//gamma_mass         .push_back( cms3.photons_mass().at(iGamma)                  );
+        gamma_mass         .push_back( cms3.photons_p4().at(iGamma).M()                );
     		gamma_sigmaIetaIeta.push_back( cms3.photons_full5x5_sigmaIEtaIEta().at(iGamma) );
-    		gamma_chHadIso     .push_back( cms3.photons_chargedHadronIso().at(iGamma)      );
-    		gamma_neuHadIso    .push_back( cms3.photons_neutralHadronIso().at(iGamma)      );
-    		gamma_phIso        .push_back( cms3.photons_photonIso().at(iGamma)             );
+    		//gamma_chHadIso     .push_back( cms3.photons_chargedHadronIso().at(iGamma)      );
+        gamma_chHadIso     .push_back( -1 );
+    		//gamma_neuHadIso    .push_back( cms3.photons_neutralHadronIso().at(iGamma)      );
+        gamma_neuHadIso    .push_back( -1 );
+    		//gamma_phIso        .push_back( cms3.photons_photonIso().at(iGamma)             );
+        gamma_phIso        .push_back( -1 );
     		gamma_r9           .push_back( cms3.photons_full5x5_r9().at(iGamma)            );
     		gamma_hOverE       .push_back( cms3.photons_full5x5_hOverEtowBC().at(iGamma)   );
     		gamma_hOverE_online.push_back( cms3.photons_full5x5_hOverE().at(iGamma)        );
     		gamma_idCutBased   .push_back( isTightPhoton(iGamma,HAD) ? 1 : 0               ); 		
-    		gamma_hollowtkiso03.push_back( cms3.photons_tkIsoHollow03()   .at(iGamma)      );
+    		
+        //These will need to be added back into CMS4, so they are turned on here, this will crash with current version of CMS4.
+        gamma_hollowtkiso03.push_back( cms3.photons_tkIsoHollow03()   .at(iGamma)      );
+        //gamma_hollowtkiso03.push_back( -1 );
     		gamma_ecpfclusiso  .push_back( photonEcalpfClusterIso03EA(iGamma)              );
+        //gamma_ecpfclusiso  .push_back( -1 );
     		gamma_hcpfclusiso  .push_back( photonHcalpfClusterIso03EA(iGamma)              );
+        //gamma_hcpfclusiso  .push_back( -1     );
 
     		if(gamma_pt[ngamma] > 20) nGammas20++;
     	

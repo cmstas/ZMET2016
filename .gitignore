@@ -7,6 +7,7 @@
 *.cxx
 CORE
 Software
+NtupleTools
 Tools
 ZMET2015/output
 ZMET2015/vtxreweighting/ht_ratio_data_novtx*.root
@@ -23,6 +24,11 @@ dilepbabymaker/golden*
 # Added by Bobak, untracked as of intial pull
 dilepbabymaker/batchsubmit/job_input/
 dilepbabymaker/processBaby
+
+#script to sync without git
+sync
+#plots from CMS4 study
+plots_baby/
 
 #Exceptions for the files in job_input
 !dilepbabymaker/batchsubmit/job_input/.keepme
