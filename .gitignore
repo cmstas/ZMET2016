@@ -5,6 +5,7 @@
 *.so
 *.pcm
 *.cxx
+CMSSW_*
 CORE
 Software
 NtupleTools
