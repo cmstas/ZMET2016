@@ -58,6 +58,18 @@ bool applyBtagSFs = true;
 // for testing purposes, running on unmerged files (default false)
 const bool removePostProcVars = false;
 
+const double JET_PT_MIN = 20;
+const double JET_ETA_MAX = 5;
+
+const double BJET_PT_MIN = 20;
+const double BJET_ETA_MAX = 2.4;
+
+const double BJET_CSV_TIGHT = 0.9535;
+const double BJET_CSV_MED = 0.8484;
+const double BJET_CSV_LOOSE = 0.5426;
+
+
+
 //--------------------------------------------------------------------
 
 // This is meant to be passed as the third argument, the predicate, of the standard library sort algorithm
@@ -1379,7 +1391,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       //check overlapping with leptons
       //remove ALL jets within dR < 0.4 of an analysis lepton with pt > 20
-      vector<int> removedJets; //index of jets to be removed because they overlap with a lepton
+      /*vector<int> removedJets; //index of jets to be removed because they overlap with a lepton
       for(unsigned int iLep = 0; iLep < p4sLeptonsForJetCleaning.size(); iLep++){
 
         const float maxDR = 0.4;
@@ -1387,9 +1399,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
           int iJet = passJets.at(passIdx).first;
 
-          if( !(p4sCorrJets.at(iJet).pt()    > 35.0 || 
-            (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
-          if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
+          if( !(p4sCorrJets.at(iJet).pt()    > JET_PT_MIN || 
+            (p4sCorrJets.at(iJet).pt()    > BJET_PT_MIN && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= BJET_CSV_MED))) continue;
+          if( fabs(p4sCorrJets.at(iJet).eta() ) > JET_ETA_MAX  ) continue;
           if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
           if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 
@@ -1407,7 +1419,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             removedJets.push_back(iJet);
           }
         }
-      }
+      }*/
 
   	  if (verbose) cout << "before isr weight loop over jets" << endl;
 
@@ -1439,9 +1451,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		    pfjet_p4_cor = pfjet_p4_uncor * corr;
     		  }
     		
-    		  if(       pfjet_p4_cor.pt()    < 30.0       ) continue; 
-    		  if( fabs( pfjet_p4_cor.eta() ) > 2.4        ) continue;
-    		  if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan ) continue;
+    		  if(       pfjet_p4_cor.pt()    < JET_PT_MIN       ) continue; 
+    		  if( fabs( pfjet_p4_cor.eta() ) > JET_ETA_MAX              ) continue;
+    		  if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan  ) continue;
     		  if( isSMSScan && isBadFastsimJet(iJet)      ) failbadfastsimjet = true;
 
     		  bool jetoverlapswithlepton = false;
@@ -1484,9 +1496,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
           int iJet = passJets.at(passIdx).first;
 
-          if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
-  				 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
-          if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
+          if(      !(p4sCorrJets.at(iJet).pt()    > JET_PT_MIN ||
+  				 (p4sCorrJets.at(iJet).pt()    > BJET_PT_MIN && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= BJET_CSV_MED))) continue;
+          if( fabs(p4sCorrJets.at(iJet).eta() ) > JET_ETA_MAX  ) continue;
           if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
   	      if( isSMSScan && isBadFastsimJet(iJet) ) continue;
   	
@@ -1567,14 +1579,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
     		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
-    		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
-     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ) {
+    		if( p4sCorrJets.at(iJet).pt() > BJET_PT_MIN && abs(p4sCorrJets.at(iJet).eta()) < JET_ETA_MAX ){
+     		  if( p4sCorrJets.at(iJet).pt() > JET_PT_MIN ) {
       			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
       			jets_csv                                      .push_back(current_csv_val);
       			jets_muf                                      .push_back(current_muf_val);
     		  }
-    		  if( current_csv_val >= 0.8484 ){
-      			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
+    		  if( current_csv_val >= BJET_CSV_MED && abs(p4sCorrJets.at(iJet).eta()) < BJET_ETA_MAX ){
+      			if( p4sCorrJets.at(iJet).pt() <= JET_PT_MIN ) {
       			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
       			  jets_csv                                      .push_back(current_csv_val);
       			  jets_muf                                      .push_back(current_muf_val);
@@ -1593,12 +1605,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		    ++nJet200MuFrac50DphiMet;
     		  }
 
-    		  // require pT > 35 for HT
-    		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); }
+    		  // require pT > JET_PT_MIN for HT
+    		  if( p4sCorrJets.at(iJet).pt() > JET_PT_MIN ){ ht+=p4sCorrJets.at(iJet).pt(); }
     		
-    		  if(current_csv_val >= 0.9535) { nBJetTight++; }
+    		  if(current_csv_val >= BJET_CSV_TIGHT) { nBJetTight++; }
 
-    		  if(current_csv_val >= 0.8484) {
+    		  if(current_csv_val >= BJET_CSV_MED) {
       			nBJetMedium++;
 
       			// for applying btagging SFs
@@ -1685,44 +1697,44 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			}
     		  }
     		
-    		  if(current_csv_val >= 0.5426) { nBJetLoose++; }
+    		  if(current_csv_val >= BJET_CSV_LOOSE) { nBJetLoose++; }
 
-    		  //require pT > 35 for jet counting
-    		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ njets++; }
+    		  //require pT > JET_PT_MIN for jet counting
+    		  if( p4sCorrJets.at(iJet).pt() > JET_PT_MIN ){ njets++; }
     		}
 
     		if( verbose ) cout<<"Before filling jet up branches"<<endl;
     		
-    		if( (p4sCorrJets_up.at(iJet).pt()   > 25.0 ) && 
-          abs(p4sCorrJets_up.at(iJet).eta()) < 2.4 ){
-    		  
-          jets_up_p4    .push_back(p4sCorrJets_up.at(iJet));									
-    		  jets_up_csv   .push_back(current_csv_val);									
-    		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ) { ht_up+=p4sCorrJets_up.at(iJet).pt(); }
-    		  if(current_csv_val >= 0.9535) { nBJetTight_up++; }
-    		  if(current_csv_val >= 0.8484) {
+    		if( (p4sCorrJets_up.at(iJet).pt() > BJET_PT_MIN ) && abs(p4sCorrJets_up.at(iJet).eta()) < JET_ETA_MAX ){
+          if( p4sCorrJets_up.at(iJet).pt() > JET_PT_MIN ){ 
+            njets_up++;
+            jets_up_p4    .push_back(p4sCorrJets_up.at(iJet));
+    		    jets_up_csv   .push_back(current_csv_val);
+          }
+          if( p4sCorrJets_up.at(iJet).pt() > BJET_PT_MIN && abs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX ) { ht_up+=p4sCorrJets_up.at(iJet).pt(); }
+    		  if(current_csv_val >= BJET_CSV_TIGHT && abs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX) { nBJetTight_up++; }
+    		  if(current_csv_val >= BJET_CSV_MED && abs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX) {
       			nBJetMedium_up++;
       			jets_medb_up_p4.push_back(p4sCorrJets_up.at(iJet));
     		  }
-    		  if(current_csv_val >= 0.5426) { nBJetLoose_up++; }
-    		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ){ njets_up++; }
+    		  if(current_csv_val >= BJET_CSV_LOOSE && abs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX) { nBJetLoose_up++; }
     		}
 
     		if( verbose ) cout<<"Before filling jet dn branches"<<endl;
-
-    	    if(     (   p4sCorrJets_dn.at(iJet).pt()   > 25.0 ) &&
-    					  abs(p4sCorrJets_dn.at(iJet).eta()) < 2.4 ){
-      		  jets_dn_p4    .push_back(p4sCorrJets_dn.at(iJet));									
-      		  jets_dn_csv   .push_back(current_csv_val);									
-      		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ ht_dn+=p4sCorrJets_dn.at(iJet).pt(); }
-      		  if(current_csv_val >= 0.9535) { nBJetTight_dn++; }
-      		  if(current_csv_val >= 0.8484) {
-        			nBJetMedium_dn++;
-        			jets_medb_dn_p4.push_back(p4sCorrJets_dn.at(iJet));
-      		  }
-      		  if(current_csv_val >= 0.5426) { nBJetLoose_dn++; }
-      		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ njets_dn++; }
-    		  }
+        if( (p4sCorrJets_dn.at(iJet).pt() > BJET_PT_MIN ) && abs(p4sCorrJets_dn.at(iJet).eta()) < JET_ETA_MAX ){
+          if( p4sCorrJets_dn.at(iJet).pt() > JET_PT_MIN ){ 
+            njets_dn++;
+            jets_dn_p4    .push_back(p4sCorrJets_dn.at(iJet));
+            jets_dn_csv   .push_back(current_csv_val);
+          }
+          if( p4sCorrJets_dn.at(iJet).pt() > BJET_PT_MIN && abs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX ) { ht_dn+=p4sCorrJets_dn.at(iJet).pt(); }
+          if(current_csv_val >= BJET_CSV_TIGHT && abs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX) { nBJetTight_dn++; }
+          if(current_csv_val >= BJET_CSV_MED && abs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX) {
+            nBJetMedium_dn++;
+            jets_medb_dn_p4.push_back(p4sCorrJets_dn.at(iJet));
+          }
+          if(current_csv_val >= BJET_CSV_LOOSE && abs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX) { nBJetLoose_dn++; }
+        }
       }
   	  
   	  if (!isData) {
@@ -1840,7 +1852,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  float dphi_jetjet = 4.0;
     		  for( int jet1ind = 0; jet1ind < njets-1; jet1ind++ ){
       			for( int jet2ind = jet1ind+1; jet2ind < njets; jet2ind++ ){
-      			  if( jets_p4.at(jet1ind).pt() < 35 || jets_p4.at(jet2ind).pt() < 35 ) continue;
+      			  if( jets_p4.at(jet1ind).pt() < JET_PT_MIN || jets_p4.at(jet2ind).pt() < JET_PT_MIN ) continue;
       			  float dphi_jet1_jet2 = acos(cos(jets_p4.at(jet1ind).phi() - jets_p4.at(jet2ind).phi()));
       			  if( dphi_jet1_jet2 < dphi_jetjet ){
         				dphi_jetjet = dphi_jet1_jet2;
@@ -1872,7 +1884,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  float dphi_jetjet = 4.0;
     		  for( int jet1ind = 0; jet1ind < njets_up-1; jet1ind++ ){
       			for( int jet2ind = jet1ind+1; jet2ind < njets_up; jet2ind++ ){
-      			  if( jets_up_p4.at(jet1ind).pt() < 35 || jets_up_p4.at(jet2ind).pt() < 35 ) continue;
+      			  if( jets_up_p4.at(jet1ind).pt() < JET_PT_MIN || jets_up_p4.at(jet2ind).pt() < JET_PT_MIN ) continue;
       			  float dphi_jet1_jet2 = acos(cos(jets_up_p4.at(jet1ind).phi() - jets_up_p4.at(jet2ind).phi()));
       			  if( dphi_jet1_jet2 < dphi_jetjet ){
         				dphi_jetjet = dphi_jet1_jet2;
@@ -1903,7 +1915,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  float dphi_jetjet = 4.0;
     		  for( int jet1ind = 0; jet1ind < njets_dn-1; jet1ind++ ){
       			for( int jet2ind = jet1ind+1; jet2ind < njets_dn; jet2ind++ ){
-      			  if( jets_dn_p4.at(jet1ind).pt() < 35 || jets_dn_p4.at(jet2ind).pt() < 35 ) continue;
+      			  if( jets_dn_p4.at(jet1ind).pt() < JET_PT_MIN || jets_dn_p4.at(jet2ind).pt() < JET_PT_MIN ) continue;
       			  float dphi_jet1_jet2 = acos(cos(jets_dn_p4.at(jet1ind).phi() - jets_dn_p4.at(jet2ind).phi()));
       			  if( dphi_jet1_jet2 < dphi_jetjet ){
         				dphi_jetjet = dphi_jet1_jet2;
@@ -2400,7 +2412,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("genLepFromTau_charge"  , "std::vector <Float_t>" , &genLepFromTau_charge  );
   BabyTree_->Branch("genLepFromTau_sourceId", "std::vector <Int_t  >" , &genLepFromTau_sourceId);
 
-//----- JETS - pt > 35, eta < 2.4
+//----- JETS - pt > JET_PT_MIN, eta < 2.4
   BabyTree_->Branch("njets"           , &njets        );
   BabyTree_->Branch("jets_p4"         , &jets_p4      );
   BabyTree_->Branch("jets_medb_p4"    , &jets_medb_p4 );
@@ -2842,7 +2854,7 @@ void babyMaker::InitBabyNtuple () {
   genLepFromTau_charge  .clear();   //[ngenLepFromTau]
   genLepFromTau_sourceId.clear();   //[ngenLepFromTau]
   
-//----- JETS - pt > 35, eta < 2.4
+//----- JETS - pt > JET_PT_MIN, eta < 2.4
   njets    = -999.0;
   njets_up = -999.0;
   njets_dn = -999.0;
@@ -3126,7 +3138,7 @@ float babyMaker::get_sum_mlb()
 
 	  // Find lowest Mlb for lep 2
 	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
-		if( jets_csv.at(jetind) > 0.8484 ) continue; // don't double count b-jets
+		if( jets_csv.at(jetind) > BJET_CSV_MED ) continue; // don't double count b-jets
 		mlb_temp_2 = (lep_p4.at(1) + jets_p4.at(jetind)).M();
 		if(mlb_temp_2 < min_mlb_2){
 		  min_mlb_2 = mlb_temp_2;
@@ -3136,7 +3148,7 @@ float babyMaker::get_sum_mlb()
 
 	  // Find lowest Mlb for lep 1
 	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
-		if( jets_csv.at(jetind) > 0.8484 ) continue; // don't double count b-jets
+		if( jets_csv.at(jetind) > BJET_CSV_MED ) continue; // don't double count b-jets
 		mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();
 		if(mlb_temp_1 < min_mlb_1){
 		  min_mlb_1 = mlb_temp_1;
