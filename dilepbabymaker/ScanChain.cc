@@ -17,6 +17,7 @@
 #include "../CORE/CMS3.h"
 #include "../CORE/Base.h"
 #include "../CORE/OSSelections.h"
+#include "../CORE/SSSelections.h"
 #include "../CORE/ElectronSelections.h"
 #include "../CORE/IsolationTools.h"
 #include "../CORE/JetSelections.h"
@@ -873,12 +874,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       nElectrons10 = 0;
   	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
 
-    		if( passElectronSelection_ZMET_thirdlepton_v2( iEl, false, false ) ){
+    		if( isGoodVetoElectron( iEl ) ){
     		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
             nveto_leptons++;
     		  }
     		}
-   	  	if( !passElectronSelection_ZMET( iEl ) ) continue;
+   	  	if( !isGoodElectron( iEl ) ) continue;
   		
           nElectrons10++;
 
@@ -942,10 +943,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if (recent_cms3_version) {
           if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
         }
-      	if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
+      	if( isGoodVetoMuon( iMu ) ){
       	  nveto_leptons++;
       	}
-   	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
+   	  	if( !isGoodMuon( iMu ) ) continue;
   		  
         nMuons10++;
 
@@ -1555,14 +1556,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         int iJet = passJets.at(passIdx).first;
 
         //check against list of jets that overlap with a lepton
-        bool isOverlapJet = false;
+        /*bool isOverlapJet = false;
         for(unsigned int j=0; j<removedJets.size(); j++){
           if(iJet == removedJets.at(j)){
             isOverlapJet = true;
             break;
           }
         }
-        if(isOverlapJet) continue;
+        if(isOverlapJet) continue;*/
 
         //check against list of jets that overlap with a photon for photon+jets events
         bool isOverlapJetGamma = false;

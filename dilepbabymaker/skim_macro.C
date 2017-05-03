@@ -17,7 +17,8 @@ void skim_macro(string inpath = "./", string outpath = "./", string intag = "out
   // NOTE: string below doesn't work correctly, implicitly requires all events to have 2 leptons
   //  const char* sel = "((njets >= 2 || njets_up >= 2 || njets_dn >= 2) || (evt_type == 2 && nlep > 0 && abs(lep_pdgId[0]) == 13) || (nlep > 2 && lep_pt[0] > 25 && lep_pt[1] > 20)) ";
   
-  const char* sel = "((njets >= 2 || njets_up >= 2 || njets_dn >= 2) || (evt_type == 2 && nlep > 0) || (nlep > 2)) ";
+  //const char* sel = "((njets >= 2 || njets_up >= 2 || njets_dn >= 2) || (evt_type == 2 && nlep > 0) || (nlep > 2)) ";
+  const char* sel = "((evt_type == 1 && nlep == 2) || (nlep > 2)) ";
 
   //cout << "Skimming with selection : "<<sel<<endl;
 
