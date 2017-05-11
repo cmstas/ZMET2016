@@ -837,6 +837,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector<float>vec_lep_charge;
       vector<int>  vec_lep_pdgId;
       vector<float>vec_lep_dxy;
+      vector<float>vec_lep_ip3d;
+      vector<float>vec_lep_ip3derr;
       vector<float>vec_lep_dz;
       vector<int>  vec_lep_tightId;
       vector<float>vec_lep_relIso03;
@@ -893,6 +895,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_charge       .push_back( cms3.els_charge().at(iEl)       );
     		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
     		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
+          vec_lep_ip3d         .push_back( cms3.els_ip3d().at(iEl)         );
+          vec_lep_ip3derr      .push_back( cms3.els_ip3derr().at(iEl)      );
     		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
     		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
     		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
@@ -954,22 +958,24 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   		
     		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
      		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
-    		  vec_lep_p4s          .push_back ( cms3.mus_p4()    .at(iMu)       );
-    		  vec_lep_pt           .push_back ( cms3.mus_p4()    .at(iMu).pt()  );
-    		  vec_lep_eta          .push_back ( cms3.mus_p4()    .at(iMu).eta() );
-    		  vec_lep_phi          .push_back ( cms3.mus_p4()    .at(iMu).phi() );
-    		  vec_lep_mass         .push_back ( cms3.mus_mass()  .at(iMu)       );
-    		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)       );
-    		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13) );
-    		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
-    		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
-    		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
-    		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
-    		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)    );
-    		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
-    		  vec_lep_MVA          .push_back ( -99                             );
-    		  vec_lep_validfraction.push_back ( validFraction                   );
-    		  vec_lep_ptErr        .push_back ( cms3.mus_ptErr() .at(iMu)       );
+    		  vec_lep_p4s          .push_back ( cms3.mus_p4()     .at(iMu)       );
+    		  vec_lep_pt           .push_back ( cms3.mus_p4()     .at(iMu).pt()  );
+    		  vec_lep_eta          .push_back ( cms3.mus_p4()     .at(iMu).eta() );
+    		  vec_lep_phi          .push_back ( cms3.mus_p4()     .at(iMu).phi() );
+    		  vec_lep_mass         .push_back ( cms3.mus_mass()   .at(iMu)       );
+    		  vec_lep_charge       .push_back ( cms3.mus_charge() .at(iMu)       );
+    		  vec_lep_pdgId        .push_back ( cms3.mus_charge() .at(iMu)*(-13) );
+    		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV()  .at(iMu)       );
+          vec_lep_ip3d         .push_back ( cms3.mus_ip3d()   .at(iMu)       );
+          vec_lep_ip3derr      .push_back ( cms3.mus_ip3derr().at(iMu)       );
+    		  vec_lep_dz           .push_back ( cms3.mus_dzPV()   .at(iMu)       );
+    		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)              );
+    		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)              );
+    		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)     );
+    		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()      );
+    		  vec_lep_MVA          .push_back ( -99                              );
+    		  vec_lep_validfraction.push_back ( validFraction                    );
+    		  vec_lep_ptErr        .push_back ( cms3.mus_ptErr() .at(iMu)        );
 
     		  vec_lep_sta_pterrOpt .push_back ( cms3.mus_sta_qoverpError() .at(iMu) / cms3.mus_sta_qoverp()  .at(iMu) );
     		  vec_lep_glb_pterrOpt .push_back ( cms3.mus_gfit_qoverpError().at(iMu) / cms3.mus_gfit_qoverp() .at(iMu) );
@@ -1022,6 +1028,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->first));
     		lep_dz           .push_back( vec_lep_dz           .at(it->first));
     		lep_dxy          .push_back( vec_lep_dxy          .at(it->first));
+        lep_ip3d         .push_back( vec_lep_ip3d         .at(it->first));
+        lep_ip3derr      .push_back( vec_lep_ip3derr      .at(it->first));
     		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->first));
     		lep_tightId      .push_back( vec_lep_tightId      .at(it->first));
     		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->first));
@@ -1392,7 +1400,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       //check overlapping with leptons
       //remove ALL jets within dR < 0.4 of an analysis lepton with pt > 20
-      /*vector<int> removedJets; //index of jets to be removed because they overlap with a lepton
+      vector<int> removedJets; //index of jets to be removed because they overlap with a lepton
       for(unsigned int iLep = 0; iLep < p4sLeptonsForJetCleaning.size(); iLep++){
 
         const float maxDR = 0.4;
@@ -1420,7 +1428,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             removedJets.push_back(iJet);
           }
         }
-      }*/
+      }
 
   	  if (verbose) cout << "before isr weight loop over jets" << endl;
 
@@ -1556,14 +1564,18 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         int iJet = passJets.at(passIdx).first;
 
         //check against list of jets that overlap with a lepton
-        /*bool isOverlapJet = false;
+        bool isOverlapJet = false;
         for(unsigned int j=0; j<removedJets.size(); j++){
           if(iJet == removedJets.at(j)){
             isOverlapJet = true;
             break;
           }
         }
-        if(isOverlapJet) continue;*/
+        if(isOverlapJet){ 
+          removed_jets_p4.push_back(p4sCorrJets.at(iJet);
+          removed_jets_csv.push_back(current_csv_val);
+          continue;
+        }
 
         //check against list of jets that overlap with a photon for photon+jets events
         bool isOverlapJetGamma = false;
@@ -1573,7 +1585,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             break;
           }
         }
-        if(evt_type == 2 && isOverlapJetGamma) continue;
+        if(evt_type == 2 && isOverlapJetGamma) {
+          removed_jets_p4.push_back(p4sCorrJets.at(iJet);
+          removed_jets_csv.push_back(current_csv_val);
+          continue;
+        }
 
     		if( verbose ) cout<<"Before filling jet branches"<<endl;
 
@@ -2318,6 +2334,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_charge"       , "std::vector< Int_t >"         , &lep_charge     );
   BabyTree_->Branch("lep_pdgId"        , "std::vector< Int_t >"         , &lep_pdgId      );
   BabyTree_->Branch("lep_dxy"          , "std::vector< Float_t >"       , &lep_dxy        );
+  BabyTree_->Branch("lep_ip3d"         , "std::vector< Float_t >"       , &lep_ip3d       );
+  BabyTree_->Branch("lep_ip3derr"      , "std::vector< Float_t >"       , &lep_ip3derr    );
   BabyTree_->Branch("lep_etaSC"        , "std::vector< Float_t >"       , &lep_etaSC      );
   BabyTree_->Branch("lep_dz"           , "std::vector< Float_t >"       , &lep_dz         );
   BabyTree_->Branch("lep_tightId"      , "std::vector< Int_t >"         , &lep_tightId    );
@@ -2414,14 +2432,16 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("genLepFromTau_sourceId", "std::vector <Int_t  >" , &genLepFromTau_sourceId);
 
 //----- JETS - pt > JET_PT_MIN, eta < 2.4
-  BabyTree_->Branch("njets"           , &njets        );
-  BabyTree_->Branch("jets_p4"         , &jets_p4      );
-  BabyTree_->Branch("jets_medb_p4"    , &jets_medb_p4 );
+  BabyTree_->Branch("njets"           , &njets             );
+  BabyTree_->Branch("jets_p4"         , &jets_p4           );
+  BabyTree_->Branch("removed_jets_p4" , &removed_jets_p4   );
+  BabyTree_->Branch("removed_jets_csv", &removed_jets_csv  );
+  BabyTree_->Branch("jets_medb_p4"    , &jets_medb_p4      );
 
   BabyTree_->Branch("njets_up"        , &njets_up        );
   BabyTree_->Branch("jets_up_p4"      , &jets_up_p4      );
   BabyTree_->Branch("jets_medb_up_p4" , &jets_medb_up_p4 );
-  BabyTree_->Branch("jets_csv"        , &jets_csv      );
+  BabyTree_->Branch("jets_csv"        , &jets_csv        );
   BabyTree_->Branch("jets_up_csv"     , &jets_up_csv     );
 
   BabyTree_->Branch("njets_dn"        , &njets_dn        );
@@ -2757,6 +2777,8 @@ void babyMaker::InitBabyNtuple () {
   lep_charge        .clear();
   lep_pdgId         .clear();
   lep_dxy           .clear();
+  lep_ip3d          .clear();
+  lep_ip3derr       .clear();
   lep_etaSC         .clear();
   lep_dz            .clear();
   lep_tightId       .clear();
@@ -2872,6 +2894,9 @@ void babyMaker::InitBabyNtuple () {
   jets_muf           .clear();
   jets_mcFlavour     .clear();
   jets_mcHadronFlav  .clear();
+
+  removed_jets_p4    .clear();
+  removed_jets_csv   .clear();
 
 //----- HIGH PT PF CANDS
   nhighPtPFcands = -999.0;

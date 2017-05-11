@@ -257,6 +257,8 @@ private:
   std::vector <Int_t  > lep_charge       ;   //[nlep]
   std::vector <Int_t  > lep_pdgId        ;   //[nlep]
   std::vector <Float_t> lep_dxy          ;   //[nlep]
+  std::vector <Float_t> lep_ip3d         ;   //[nlep]
+  std::vector <Float_t> lep_ip3derr      ;   //[nlep]
   std::vector <Float_t> lep_etaSC        ;   //[nlep]
   std::vector <Float_t> lep_dz           ;   //[nlep]
   std::vector <Int_t  > lep_tightId      ;   //[nlep]
@@ -362,8 +364,10 @@ private:
   //----- JETS - pt > 35, eta < 2.4
   Int_t           njets;
   std::vector <LorentzVector>   jets_p4;
+  std::vector <LorentzVector>   removed_jets_p4;
   std::vector <LorentzVector>   jets_medb_p4;
   std::vector <Float_t>         jets_csv;
+  std::vector <Float_t>         removed_jets_csv;
   std::vector <Float_t>         jets_muf;
 
   Int_t           njets_up;
