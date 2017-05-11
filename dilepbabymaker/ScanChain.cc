@@ -1563,6 +1563,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
         int iJet = passJets.at(passIdx).first;
 
+        float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
+        float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
+
         //check against list of jets that overlap with a lepton
         bool isOverlapJet = false;
         for(unsigned int j=0; j<removedJets.size(); j++){
@@ -1572,7 +1575,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           }
         }
         if(isOverlapJet){ 
-          removed_jets_p4.push_back(p4sCorrJets.at(iJet);
+          removed_jets_p4.push_back(p4sCorrJets.at(iJet));
           removed_jets_csv.push_back(current_csv_val);
           continue;
         }
@@ -1586,15 +1589,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           }
         }
         if(evt_type == 2 && isOverlapJetGamma) {
-          removed_jets_p4.push_back(p4sCorrJets.at(iJet);
+          removed_jets_p4.push_back(p4sCorrJets.at(iJet));
           removed_jets_csv.push_back(current_csv_val);
           continue;
         }
 
     		if( verbose ) cout<<"Before filling jet branches"<<endl;
-
-    		float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
-    		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
     		if( p4sCorrJets.at(iJet).pt() > BJET_PT_MIN && abs(p4sCorrJets.at(iJet).eta()) < JET_ETA_MAX ){
      		  if( p4sCorrJets.at(iJet).pt() > JET_PT_MIN ) {
