@@ -695,7 +695,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
   	  
       if (verbose) cout << "before gen particles" << endl;
-
+      
+      //cout<<__LINE__<<endl;
+      
       //GEN PARTICLES
       ngenPart       = 0;
   	  ngen_p6s3Part  = 0;
@@ -709,22 +711,40 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
   	  if ( cms3.evt_isRealData() && !goodrun(cms3.evt_run(), cms3.evt_lumiBlock()) ) evt_passgoodrunlist = false;
   	  
+      //cout<<__LINE__<<endl;
+
   	  if( !isData ){
-  	  
-    		for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
-    		  genPart_p4            .push_back( cms3.genps_p4()                           .at(iGen));
-    		  genPart_pt            .push_back( cms3.genps_p4()                           .at(iGen).pt());
-    		  genPart_eta           .push_back( cms3.genps_p4()                           .at(iGen).eta());
-    		  genPart_phi           .push_back( cms3.genps_p4()                           .at(iGen).phi());
-    		  genPart_mass          .push_back( cms3.genps_mass()                         .at(iGen));
-    		  genPart_pdgId         .push_back( cms3.genps_id()                           .at(iGen));
-    		  genPart_status        .push_back( cms3.genps_status()                       .at(iGen));
-    		  genPart_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
-    		  genPart_charge        .push_back( cms3.genps_charge()                       .at(iGen));
-    		  genPart_motherId      .push_back( cms3.genps_id_simplemother()              .at(iGen));
-    		  genPart_grandmaId     .push_back( cms3.genps_id_simplegrandma()             .at(iGen));
-    		  ngenPart++;
-    		  if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ngen_p6s3Part++;
+        //cout<<__LINE__<<endl;
+    		
+        for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
+    		  //cout<<__LINE__<<endl;
+          genPart_p4            .push_back( cms3.genps_p4()                           .at(iGen));
+    		  //cout<<__LINE__<<endl;
+          genPart_pt            .push_back( cms3.genps_p4()                           .at(iGen).pt());
+    		  //cout<<__LINE__<<endl;
+          genPart_eta           .push_back( cms3.genps_p4()                           .at(iGen).eta());
+    		  //cout<<__LINE__<<endl;
+          genPart_phi           .push_back( cms3.genps_p4()                           .at(iGen).phi());
+    		  //cout<<__LINE__<<endl;
+          genPart_mass          .push_back( cms3.genps_mass()                         .at(iGen));
+    		  //cout<<__LINE__<<endl;
+          genPart_pdgId         .push_back( cms3.genps_id()                           .at(iGen));
+    		  //cout<<__LINE__<<endl;
+          genPart_status        .push_back( cms3.genps_status()                       .at(iGen));
+    		  //cout<<__LINE__<<endl;
+          genPart_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
+    		  //cout<<__LINE__<<endl;
+          genPart_charge        .push_back( cms3.genps_charge()                       .at(iGen));
+    		  //cout<<__LINE__<<endl;
+          genPart_motherId      .push_back( cms3.genps_id_simplemother()              .at(iGen));
+    		  //cout<<__LINE__<<endl;
+          genPart_grandmaId     .push_back( cms3.genps_id_simplegrandma()             .at(iGen));
+    		  //cout<<__LINE__<<endl;
+          ngenPart++;
+          
+          //cout<<__LINE__<<endl;
+    		  
+          if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ngen_p6s3Part++;
     		  //calculate gen_ht for stitching purposes
     		  if((abs(cms3.genps_id().at(iGen)) <  6 || // quarks
             abs(cms3.genps_id().at(iGen)) == 21)  // gluons
@@ -732,8 +752,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     				cms3.genps_status().at(iGen) == 23)){
     			  gen_ht += cms3.genps_p4()              .at(iGen).pt();
     		  }
-
-    		  // save lepton info
+          
+          //cout<<__LINE__<<endl;
+    		  
+          // save lepton info
     		  int pdgId = abs(cms3.genps_id().at(iGen));
     		  if ((pdgId != 11) && (pdgId != 13) && (pdgId != 15)) continue;
 
@@ -749,8 +771,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  bool goodTau = false;
     		  bool goodLepFromTau = false;
     		  int sourceId = 0;
-
-    		  // electrons, muons: status 1 or 23 and mother W/Z/H or tau from W/Z/H
+          
+          //cout<<__LINE__<<endl;
+    		  
+          // electrons, muons: status 1 or 23 and mother W/Z/H or tau from W/Z/H
     		  if ( (pdgId == 11 || pdgId == 13) && (status == 1 || status == 23) ) {
     			// save leptons pre-FSR: prefer status 23 over status 1
     			if (status == 1 && motherId == pdgId && (cms3.genps_status().at(cms3.genps_idx_simplemother().at(iGen)) == 23)) {
@@ -777,8 +801,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			  goodTau = true;
     			} 
     		  } // status 2 tau
-
-    		  //broken for some reason :(
+          
+          //cout<<__LINE__<<endl;
+    		  
+          //broken for some reason :(
     		  // if (goodLep || goodTau || goodLepFromTau) {
     		  //   sourceId = getSourceId(iGen);
     		  // }
@@ -797,8 +823,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			++ngenLep;
     			if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ++ngen_p6s3Lep;
     		  }
-
-    		  // save gen taus from W/Z/H
+          
+          //cout<<__LINE__<<endl;
+    		  
+          // save gen taus from W/Z/H
     		  if (goodTau) {
     			genTau_pt      .push_back(cms3.genps_p4()     .at(iGen).pt());
     			genTau_eta     .push_back(cms3.genps_p4()     .at(iGen).eta());
@@ -810,6 +838,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			genTau_sourceId.push_back(sourceId);
     			++ngenTau;
     		  }
+          
+          //cout<<__LINE__<<endl;
 
     		  // save gen e/mu from taus (which are from W/Z/H)
     		  if (goodLepFromTau) {
@@ -825,9 +855,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  }
 
     		} // loop over genPart
-  		  // //cout<<__LINE__<<endl;
+  		  //cout<<__LINE__<<endl;
   	  }
-
+      //cout<<__LINE__<<endl;
       //LEPTONS
   	  std::vector<std::pair<int, float> > lep_pt_ordering;
   	  vector<float>vec_lep_pt;
@@ -855,6 +885,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector<float>vec_lep_validfraction;
       vector<float>vec_lep_ptErr;
 
+      //cout<<__LINE__<<endl;
+
   	  vector<float>vec_lep_sta_pterrOpt ;
   	  vector<float>vec_lep_glb_pterrOpt ;
   	  // vector<float>vec_lep_bft_pterrOpt ;
@@ -863,12 +895,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  vector<float>vec_lep_glb_x2ondof  ;
   	  // vector<float>vec_lep_bft_x2ondof  ;
 
+      //cout<<__LINE__<<endl;
+
   	  vector<LorentzVector> vec_lep_p4s;
 
   	  vector<LorentzVector> p4sLeptonsForJetCleaning;
 
   	  nveto_leptons = 0;
-  	  
+  	  //cout<<__LINE__<<endl;
       if (verbose) cout << "before electrons" << endl;
 
       //ELECTRONS
@@ -942,8 +976,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       nBadMuons20 = 0;
   	  // RCLSA: this is a TEMPORARY protections for a problem with CMS3 samples
   	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
-        
-  	  for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
+      
+      //cout<<__LINE__<<endl;  
+  	  
+      for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++){
         if (recent_cms3_version) {
           if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
         }
@@ -952,10 +988,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	}
    	  	if( !isGoodMuon( iMu ) ) continue;
   		  
+        //cout<<__LINE__<<endl;
+        
         nMuons10++;
 
   		  double validFraction = mus_validHits().at(iMu)/(double)(mus_validHits().at(iMu)+mus_lostHits().at(iMu)+mus_exp_innerlayers().at(iMu)+mus_exp_outerlayers().at(iMu));
-  		
+  		  
+        //cout<<__LINE__<<endl;  
+        
     		if( cms3.mus_p4().at(iMu).pt() > 10.0 ){
      		  lep_pt_ordering	   .push_back ( std::pair<int, float>(nlep, cms3.mus_p4().at(iMu).pt()));
     		  vec_lep_p4s          .push_back ( cms3.mus_p4()     .at(iMu)       );
@@ -977,6 +1017,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_validfraction.push_back ( validFraction                    );
     		  vec_lep_ptErr        .push_back ( cms3.mus_ptErr() .at(iMu)        );
 
+          //cout<<__LINE__<<endl;  
+          
     		  vec_lep_sta_pterrOpt .push_back ( cms3.mus_sta_qoverpError() .at(iMu) / cms3.mus_sta_qoverp()  .at(iMu) );
     		  vec_lep_glb_pterrOpt .push_back ( cms3.mus_gfit_qoverpError().at(iMu) / cms3.mus_gfit_qoverp() .at(iMu) );
     		  // vec_lep_bft_pterrOpt .push_back ( cms3.mus_bfit_qoverpError().at(iMu) / cms3.mus_bfit_qoverp() .at(iMu) );
@@ -1012,6 +1054,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  // veto leptons are looser than analysis leptons
   	  nveto_leptons -= nlep;
   	  
+      //cout<<__LINE__<<endl;  
+      
   	  if (verbose) cout<<" before ordering"<<endl;
   	  
       // Implement pT ordering for leptons (it's irrelevant but easier for us to add than for ETH to remove)
@@ -1050,7 +1094,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		i++;
       }
-          
+         
+      //cout<<__LINE__<<endl;  
+       
   	  if (verbose) cout << "before photons" << endl;
 
         //PHOTONS
@@ -1084,6 +1130,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		if(gamma_pt[ngamma] > 20) nGammas20++;
     	
+        //cout<<__LINE__<<endl;  
+      
     		// Some work for truth-matching (should be integrated in CMS3 as for the leptons)
     		int bestMatch = -1;
     		float bestDr = 0.1;
@@ -1106,6 +1154,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			  bestMatchPhi = cms3.genps_p4().at(iGen).phi();
       			}
     		  }
+
+          //cout<<__LINE__<<endl;  
+      
     		  if (bestMatch != -1) {
       			// 7 is a special code for photons without a mother. this seems to be due to a miniAOD bug where links are broken.
       		  gamma_mcMatchId.push_back(cms3.genps_id_simplemother().at(bestMatch) == 0 ? 7 : cms3.genps_id().at(bestMatch));
@@ -1134,6 +1185,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		ngamma++;
       }
   	
+      //cout<<__LINE__<<endl;  
+      
   	  if( isData && ngamma > 0 ){
   	    float minDr = 0.2;		
 
@@ -1194,6 +1247,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	    } // if new CMS3 version
   	  }
   	  
+      //cout<<__LINE__<<endl;  
+      
   	  // add selections to keep only events with photons and dilepton events
   	  if( !(ngamma > 0 || nlep > 0) ) {
   	    simpa.GenerateRandoms(); // supposed to make sure we generate the same amount of random numbers whether we pass or fail each event..
@@ -1244,6 +1299,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         continue; // leftovers
   	  }
 
+      //cout<<__LINE__<<endl;  
+      
   	  if(nlep>1){
   		  LorentzVector z_pt(lep_p4.at(hyp_indices.first).X()+lep_p4.at(hyp_indices.second).X(),
   						   lep_p4.at(hyp_indices.first).Y()+lep_p4.at(hyp_indices.second).Y(),
@@ -1272,6 +1329,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     						decayedphoton_lep1_p4.E()+decayedphoton_lep2_p4.E());
   	  }
   	  
+      //cout<<__LINE__<<endl;  
+      
   	  if (verbose) cout << "before jets" << endl;
   	  
       //JETS
@@ -1589,7 +1648,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           }
         }
         if(evt_type == 2 && isOverlapJetGamma) {
-          removed_jets_p4.push_back(p4sCorrJets.at(iJet));
+          removed_jets_p4.push_back(p4sCorrJets.at(iJet)) ;
           removed_jets_csv.push_back(current_csv_val);
           continue;
         }

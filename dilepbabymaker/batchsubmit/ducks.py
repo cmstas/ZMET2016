@@ -54,3 +54,5 @@ run.main(instructions=instructions, params=p)
 # p.dashboard_name = "AutoTwopler_test"
 # p.merge_babies_on_condor = True
 # run.main(instructions=instructions, params=p, do_one_iteration=True)
+
+os.system("rsync -avz /hadoop/cms/store/user/bhashemi/AutoTwopler_babies/merged/ZMET/%s/ /nfs-7/userdata/bhashemi/WWW_babies/%s" % (zmet.tag, zmet.tag) ) #Should remake the tarball and ensure running ducks always takes the newest code.
