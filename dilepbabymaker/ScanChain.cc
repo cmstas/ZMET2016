@@ -630,6 +630,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   			  passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
   			  passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
   			  passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) );
+
   	  HLT_singleMu_noiso = (passHLTTriggerPattern("HLT_Mu50_v"        ) ||
   				passHLTTriggerPattern("HLT_TkMu50_v"      ) ||
   				passHLTTriggerPattern("HLT_Mu55_v"        ) );
@@ -637,17 +638,30 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  // Double electron
   	  HLT_DoubleEl_noiso = ( passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v"    ) ||
   	                         passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v" ) );
-  	  HLT_DoubleEl       = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ); // prescaled - turned off
+  	  HLT_DoubleEl       = ( passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ) ||
+                                   passHLTTriggerPattern( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");) // prescaled - turned off
   	  HLT_DoubleEl_DZ    = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // prescaled
   	  HLT_DoubleEl_DZ_2  = passHLTTriggerPattern( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // new
      
   	  // electron-muon
-  	  HLT_MuEG           = (passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
-  				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  ) );
+  	  HLT_MuEG           = (passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )    ||
+  				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  )    ||
+  				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  )    ||
+  				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v_DZ_v"  ) ||
+                                passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" )    ||
+                                passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  )  ||
+                                passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" )||
+                                passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v"  )||
+                                 passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" ));
+
+
+  	  HLT_MuEG_noiso     = (passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"                 ) ||
+                                passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v"                 ));
+
   	  HLT_MuEG_2         = (passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
   				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  ) ||
   				passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  ) );
-  	  HLT_MuEG_noiso     =  passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"                 );
+
   	  HLT_MuEG_noiso_2   =  passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v"                 );
   		
   	  //separate emu trigs
@@ -664,14 +678,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
   	  HLT_Mu23_EG12_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" );
   		
-  	  // Double electron
+  	  // Double muon
   	  HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                          ) ||
   				   passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                         ) ||
   				   passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                         ) );
+
+  	  HLT_DoubleMu          =  (passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"     )||
+                                        passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"   )||
+                                        passHLTTriggerPattern( "HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" )||
+  					passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"        )||
+              				passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"      ) );
+
   	  HLT_DoubleMu_noiso_27_8  = passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                         );
   	  HLT_DoubleMu_noiso_30_11 = passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                        );
   	  HLT_DoubleMu_noiso_40_11 = passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                        );
-  	  HLT_DoubleMu          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"     );
   	  HLT_DoubleMu_tk       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"   );
   	  HLT_DoubleMu_dbltk    =  passHLTTriggerPattern( "HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
   	  HLT_DoubleMu_nonDZ    =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"        );
