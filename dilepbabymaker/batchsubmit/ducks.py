@@ -1,4 +1,4 @@
-import sys
+import sys, os
 sys.path.insert(0,"/home/users/bhashemi/Projects/GIT/ZMET2016/NtupleTools/AutoTwopler")
 import run
 import params as p
