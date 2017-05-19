@@ -107,7 +107,6 @@ private:
   Int_t           nVert;
   Int_t           nTrueInt;
   Float_t         rho;
-  Float_t         rho25;
 
   Int_t           nBJetTight;
   Int_t           nBJetMedium;
@@ -131,10 +130,12 @@ private:
 
   Float_t         gen_ht;
 
-  Int_t           hyp_type; // 0 = ee; 1 = mm; 2 = em; 2 = me
-  Int_t           evt_type; // 0 = OS; 1 = SS; 2 = photon+jets
+  Int_t           hyp_type; // 0 = ee; 1 = mm; 2 = em; 2 = me (for 2l), [following always contains the c.c.] 3 = e+e+e+, 4 = e+e-m+, 5 = e+e+m+, 6 = e+e+m-, 7 = e+m+m-, 8 = e+m+m+, 9 = e+m-m-, 10=m+m+m+, 11=m+m+m-
+  Int_t           evt_type; // 0 = OS; 1 = SS (for 2l), 2 = 3l-noZ, 4 = 3l-Z
   Float_t         dilmass;
   Float_t         dilpt;
+  Float_t         trilmass;
+  Float_t         trilpt;
   Float_t         dRll;
 
   Float_t         matched_neutralemf; // neutral em fraction for jet closest to photon within dR = .1
@@ -222,30 +223,6 @@ private:
   Int_t HLT_DoubleMu_nonDZ   ;
   Int_t HLT_DoubleMu_tk_nonDZ; // new unprescaled : use these
 
-  // Single photon
-  Int_t HLT_Photon22_R9Id90_HE10_IsoM ;
-  Int_t HLT_Photon30_R9Id90_HE10_IsoM ;
-  Int_t HLT_Photon36_R9Id90_HE10_IsoM ;
-  Int_t HLT_Photon50_R9Id90_HE10_IsoM ;
-  Int_t HLT_Photon75_R9Id90_HE10_IsoM ;
-  Int_t HLT_Photon90_R9Id90_HE10_IsoM ;
-  Int_t HLT_Photon120_R9Id90_HE10_IsoM;
-  Int_t HLT_Photon165_R9Id90_HE10_IsoM;
-  Int_t HLT_Photon165_HE10            ;
-
-  Int_t HLT_CaloJet500_NoJetID;
-  Int_t HLT_ECALHT800_NoJetID ;
-
-  Bool_t HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton;
-  Bool_t HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton;
-  Bool_t HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton;
-  Bool_t HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton;
-  Bool_t HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton;
-  Bool_t HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton;
-  Bool_t HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton;
-  Bool_t HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton;
-  Bool_t HLT_Photon165_HE10_matchedtophoton;
-  
   //----- LEPTONS
   Int_t           nlep;
   Int_t           nveto_leptons;
@@ -255,22 +232,37 @@ private:
   std::vector <Float_t> lep_phi          ;   //[nlep]
   std::vector <Float_t> lep_mass         ;   //[nlep]
   std::vector <Int_t  > lep_charge       ;   //[nlep]
+  std::vector <Int_t  > lep_tightcharge  ;   //[nlep]
+  std::vector <Int_t  > lep_threecharge  ;   //[nlep]
   std::vector <Int_t  > lep_pdgId        ;   //[nlep]
   std::vector <Float_t> lep_dxy          ;   //[nlep]
+  std::vector <Float_t> lep_dxyerr       ;   //[nlep]
   std::vector <Float_t> lep_ip3d         ;   //[nlep]
   std::vector <Float_t> lep_ip3derr      ;   //[nlep]
   std::vector <Float_t> lep_etaSC        ;   //[nlep]
   std::vector <Float_t> lep_dz           ;   //[nlep]
+  std::vector <Float_t> lep_dzerr        ;   //[nlep]
   std::vector <Int_t  > lep_tightId      ;   //[nlep]
-  std::vector <Float_t> lep_relIso03     ;   //[nlep]
-  std::vector <Float_t> lep_relIso03MREA ;   //[nlep]
-  std::vector <Float_t> lep_relIso03MRDB ;   //[nlep]
-  std::vector <Float_t> lep_relIso03MRNC ;   //[nlep]
+  std::vector <Int_t  > lep_mediumId     ;   //[nlep]
+  std::vector <Int_t  > lep_looseId      ;   //[nlep]
+  std::vector <Int_t  > lep_vetoId       ;   //[nlep]
+  std::vector <Float_t> lep_relIso03     ;   //[nlep]//getabsiso from simple multiplication
+  std::vector <Float_t> lep_relIso03EA   ;   //[nlep]
+  std::vector <Float_t> lep_relIso03DB   ;   //[nlep]
   std::vector <Float_t> lep_relIso04     ;   //[nlep]
+  std::vector <Float_t> lep_relIso04EA   ;   //[nlep]
+  std::vector <Float_t> lep_relIso04DB   ;   //[nlep]
+  std::vector <Float_t> lep_ptrel        ;   //[nlep]
+  std::vector <Float_t> lep_ptratio      ;   //[nlep]
+  std::vector <Int_t> lep_isfromW ;   //[nlep]
+  std::vector <Int_t> lep_isfromH ;   //[nlep]
+  std::vector <Int_t> lep_isfromZ ;   //[nlep]
+  std::vector <Int_t> lep_isfromB ;   //[nlep]
+  std::vector <Int_t> lep_isfromC ;   //[nlep]
+  std::vector <Int_t> lep_isfromL ;   //[nlep]
   std::vector <Int_t  > lep_mcMatchId    ;   //[nlep]
   std::vector <Int_t  > lep_lostHits     ;   //[nlep]
   std::vector <Int_t  > lep_convVeto     ;   //[nlep]
-  std::vector <Int_t  > lep_tightCharge  ;   //[nlep]
   std::vector <Float_t> lep_MVA          ;   //[nlep]
   std::vector <Float_t> lep_validfraction;   //[nlep]
   std::vector <Float_t> lep_pterr        ;   //[nlep]
@@ -281,7 +273,17 @@ private:
   std::vector <Float_t> lep_sta_x2ondof  ;   //[nlep]
   std::vector <Float_t> lep_glb_x2ondof  ;   //[nlep]
   // std::vector <Float_t> lep_bft_x2ondof  ;   //[nlep]
-  
+
+  Int_t nisoTracks;
+  std::vector <LorentzVector> isotr_p4     ;   //[nisotrack]
+  std::vector <Float_t> isotr_relIso03     ;   //[nisotrack]//getabsiso from simple multiplication
+  std::vector <Float_t> isotr_relIso04     ;   //[nisotrack]
+  std::vector <Float_t> isotr_ptrel        ;   //[nisotrack]
+  std::vector <Float_t> isotr_ptratio      ;   //[nisotrack]
+  std::vector <Int_t  > isotr_pdgId        ;   //[nisotrack]
+  std::vector <Float_t> isotr_dz           ;   //[nisotrack]
+  std::vector <Int_t>   isotr_charge       ;   //[nisotrack]
+
   Int_t nisoTrack_5gev;
   Int_t nisoTrack_mt2 ;
   Int_t nisoTrack_PFLep5_woverlaps ;
@@ -290,28 +292,16 @@ private:
   //----- PHOTONS
   Int_t           ngamma;
   std::vector <LorentzVector>   gamma_p4;
-  std::vector <Float_t>         gamma_pt           ;           //[ngamma]
-  std::vector <Float_t>         gamma_eta          ;           //[ngamma]
-  std::vector <Float_t>         gamma_phi          ;           //[ngamma]
-  std::vector <Float_t>         gamma_mass         ;           //[ngamma]
-  std::vector <Float_t>         gamma_sigmaIetaIeta;           //[ngamma]
   std::vector <Float_t>         gamma_chHadIso     ;           //[ngamma]
   std::vector <Float_t>         gamma_neuHadIso    ;           //[ngamma]
   std::vector <Float_t>         gamma_phIso        ;           //[ngamma]
-  std::vector <Float_t>         gamma_r9           ;           //[ngamma]
-  std::vector <Float_t>         gamma_hOverE       ;           //[ngamma]
-  std::vector <Float_t>         gamma_hOverE_online;           //[ngamma]
   std::vector <Int_t  >         gamma_idCutBased   ;           //[ngamma]
   std::vector <Int_t  >         gamma_mcMatchId    ;           //[ngamma]
   std::vector <Float_t>         gamma_genPt        ;           //[ngamma]
   std::vector <Float_t>         gamma_genIso       ;           //[ngamma]
-  std::vector <Float_t>         gamma_ecpfclusiso  ;           //[ngamma]
-  std::vector <Float_t>         gamma_hcpfclusiso  ;           //[ngamma]
-  std::vector <Float_t>         gamma_hollowtkiso03;           //[ngamma]
-  std::vector <Int_t>           gamma_genIsPromptFinalState;   //[ngamma]
   std::vector <Float_t>         gamma_drMinParton  ;
 
-  //----- GEN PARTICLES
+  //----- GEN PARTICLES - limit this to quarks,leptons,bosons
   Int_t           ngenPart;
   Int_t           ngen_p6s3Part;
   std::vector <LorentzVector>   genPart_p4         ;
@@ -326,40 +316,6 @@ private:
   std::vector <Int_t  >         genPart_motherId   ;   //[ngenPart]
   std::vector <Int_t  >         genPart_grandmaId  ;   //[ngenPart]
 
-  //----- GEN LEPTONS (ELECTRONS/MUONS)
-  Int_t           ngenLep;
-  Int_t           ngen_p6s3Lep;
-  std::vector <Float_t>         genLep_pt         ;   //[ngenLep]
-  std::vector <Float_t>         genLep_eta        ;   //[ngenLep]
-  std::vector <Float_t>         genLep_phi        ;   //[ngenLep]
-  std::vector <Float_t>         genLep_mass       ;   //[ngenLep]
-  std::vector <Int_t  >         genLep_pdgId      ;   //[ngenLep]
-  std::vector <Int_t  >         genLep_status     ;   //[ngenLep]
-  std::vector <Bool_t >         genLep_isp6status3;   //[ngenLep]
-  std::vector <Float_t>         genLep_charge     ;   //[ngenLep]
-  std::vector <Int_t  >         genLep_sourceId   ;   //[ngenLep]
-
-  //----- GEN TAUS
-  Int_t           ngenTau;
-  std::vector <Float_t>         genTau_pt      ;   //[ngenTau]
-  std::vector <Float_t>         genTau_eta     ;   //[ngenTau]
-  std::vector <Float_t>         genTau_phi     ;   //[ngenTau]
-  std::vector <Float_t>         genTau_mass    ;   //[ngenTau]
-  std::vector <Int_t  >         genTau_pdgId   ;   //[ngenTau]
-  std::vector <Int_t  >         genTau_status  ;   //[ngenTau]
-  std::vector <Float_t>         genTau_charge  ;   //[ngenTau]
-  std::vector <Int_t  >         genTau_sourceId;   //[ngenTau]
-
-  //----- GEN LEPTONS FROM TAUS
-  Int_t           ngenLepFromTau;
-  std::vector <Float_t>         genLepFromTau_pt      ;   //[ngenLepFromTau]
-  std::vector <Float_t>         genLepFromTau_eta     ;   //[ngenLepFromTau]
-  std::vector <Float_t>         genLepFromTau_phi     ;   //[ngenLepFromTau]
-  std::vector <Float_t>         genLepFromTau_mass    ;   //[ngenLepFromTau]
-  std::vector <Int_t  >         genLepFromTau_pdgId   ;   //[ngenLepFromTau]
-  std::vector <Int_t  >         genLepFromTau_status  ;   //[ngenLepFromTau]
-  std::vector <Float_t>         genLepFromTau_charge  ;   //[ngenLepFromTau]
-  std::vector <Int_t  >         genLepFromTau_sourceId;   //[ngenLepFromTau]
 
   //----- JETS - pt > 35, eta < 2.4
   Int_t           njets;
@@ -367,85 +323,38 @@ private:
   std::vector <LorentzVector>   removed_jets_p4;
   std::vector <LorentzVector>   jets_medb_p4;
   std::vector <Float_t>         jets_csv;
+  std::vector <Float_t>         jets_deepB;
+  std::vector <Float_t>         jets_deepC;
   std::vector <Float_t>         removed_jets_csv;
+  std::vector <Float_t>         removed_jets_deepB;
+  std::vector <Float_t>         removed_jets_deepC;
   std::vector <Float_t>         jets_muf;
 
   Int_t           njets_up;
   std::vector <LorentzVector>   jets_up_p4;
   std::vector <LorentzVector>   jets_medb_up_p4;
   std::vector <Float_t>         jets_up_csv;
+  std::vector <Float_t>         jets_up_deepB;
+  std::vector <Float_t>         jets_up_deepC;
 
   Int_t           njets_dn;
   std::vector <LorentzVector>   jets_dn_p4;
   std::vector <LorentzVector>   jets_medb_dn_p4;
   std::vector <Float_t>         jets_dn_csv;
+  std::vector <Float_t>         jets_dn_deepB;
+  std::vector <Float_t>         jets_dn_deepC;
 
   // MC only
   std::vector <Int_t  >         jets_mcFlavour   ;
   std::vector <Int_t  >         jets_mcHadronFlav;
 
-  //----- HIGH PT PF CANDS (pt > 300, or pt > 50 for muons)
-  Int_t           nhighPtPFcands;
-  std::vector <LorentzVector>   highPtPFcands_p4;
-  std::vector <Float_t>         highPtPFcands_dz;
-  std::vector <Int_t>           highPtPFcands_pdgId;
-
   Float_t         ht;
   Float_t         ht_up;
   Float_t         ht_dn;
 
-  Float_t         metsig_unofficial;
-  Float_t         metsig_unofficial_dn;
-  Float_t         metsig_unofficial_up;
-
   Float_t         mt_lep1;  // leading lepton only
-  Float_t         mt2;  // only leptons
-  Float_t         mt2_up;  // only leptons
-  Float_t         mt2_dn;  // only leptons
-  Float_t         mt2j; // all jets
-  Float_t         mt2b; // b-jets only
-  Float_t         mt2b_up; // b-jets only
-  Float_t         mt2b_dn; // b-jets only
-  Float_t         mt2_genmet; // only leptons
-  Float_t         mt2b_genmet; // b-jets only
-
-  Float_t         mjj_mindphi;
-  Float_t         mjj;
-  Float_t         mbb_csv;
-  Float_t         mbb_bpt;
-  Float_t         dphi_jj;
-  Float_t         sum_mlb;
-  Float_t         dphi_ll;
-  Float_t         deta_jj;
-  Float_t         dR_jj;
-  Float_t         dphi_metj1;
-  Float_t         dphi_metj2;
-  Float_t         dphi_genmetj1;
-  Float_t         dphi_genmetj2;
-
-  Float_t         mjj_mindphi_up;
-  Float_t         mjj_up;
-  Float_t         mbb_csv_up;
-  Float_t         mbb_bpt_up;
-  Float_t         dphi_jj_up;
-  Float_t         sum_mlb_up;
-  Float_t         dphi_ll_up;
-  Float_t         deta_jj_up;
-  Float_t         dR_jj_up;
-  Float_t         dphi_metj1_up;
-  Float_t         dphi_metj2_up;
-
-  Float_t         mjj_mindphi_dn;
-  Float_t         mjj_dn;
-  Float_t         mbb_csv_dn;
-  Float_t         mbb_bpt_dn;
-  Float_t         dphi_jj_dn;
-  Float_t         sum_mlb_dn;
-  Float_t         dphi_ll_dn;
-  Float_t         deta_jj_dn;
-  Float_t         dR_jj_dn;
-  Float_t         dphi_metj1_dn;
-  Float_t         dphi_metj2_dn;
+  Float_t         mt_min;  // all medium leptons only
+  Float_t         mt_max;  // all medium leptons only
 
   //----- weights for b-tag SF  
   Float_t         weight_btagsf;
@@ -454,56 +363,6 @@ private:
   Float_t         weight_btagsf_heavy_DN;
   Float_t         weight_btagsf_light_DN;
   
-  //----- pfMETs
-  Float_t chpfcands_0013_pt;
-  Float_t chpfcands_1316_pt;
-  Float_t chpfcands_1624_pt;
-  Float_t chpfcands_2430_pt;
-  Float_t chpfcands_30in_pt;
-  Float_t phpfcands_0013_pt;
-  Float_t phpfcands_1316_pt;
-  Float_t phpfcands_1624_pt;
-  Float_t phpfcands_2430_pt;
-  Float_t phpfcands_30in_pt;
-  Float_t nupfcands_0013_pt;
-  Float_t nupfcands_1316_pt;
-  Float_t nupfcands_1624_pt;
-  Float_t nupfcands_2430_pt;
-  Float_t nupfcands_30in_pt;
-
-  Float_t chpfcands_0013_phi;
-  Float_t chpfcands_1316_phi;
-  Float_t chpfcands_1624_phi;
-  Float_t chpfcands_2430_phi;
-  Float_t chpfcands_30in_phi;
-  Float_t phpfcands_0013_phi;
-  Float_t phpfcands_1316_phi;
-  Float_t phpfcands_1624_phi;
-  Float_t phpfcands_2430_phi;
-  Float_t phpfcands_30in_phi;
-  Float_t nupfcands_0013_phi;
-  Float_t nupfcands_1316_phi;
-  Float_t nupfcands_1624_phi;
-  Float_t nupfcands_2430_phi;
-  Float_t nupfcands_30in_phi;
-
-  //----- pfsumETs
-  Float_t chpfcands_0013_sumet;
-  Float_t chpfcands_1316_sumet;
-  Float_t chpfcands_1624_sumet;
-  Float_t chpfcands_2430_sumet;
-  Float_t chpfcands_30in_sumet;
-  Float_t phpfcands_0013_sumet;
-  Float_t phpfcands_1316_sumet;
-  Float_t phpfcands_1624_sumet;
-  Float_t phpfcands_2430_sumet;
-  Float_t phpfcands_30in_sumet;
-  Float_t nupfcands_0013_sumet;
-  Float_t nupfcands_1316_sumet;
-  Float_t nupfcands_1624_sumet;
-  Float_t nupfcands_2430_sumet;
-  Float_t nupfcands_30in_sumet;
-
   Float_t met_T1CHS_pt;
   Float_t met_T1CHS_phi;
   Float_t met_T1CHS_fromCORE_pt;
@@ -514,17 +373,6 @@ private:
   Float_t met_T1CHS_miniAOD_CORE_up_phi;
   Float_t met_T1CHS_miniAOD_CORE_dn_pt;
   Float_t met_T1CHS_miniAOD_CORE_dn_phi;
-
-  //----- decayed photon variables
-  LorentzVector decayedphoton_lep1_p4;
-  LorentzVector decayedphoton_lep2_p4;
-  LorentzVector decayedphoton_bosn_p4;
-  Float_t       decayedphoton_mt2;
-  
-  // SUSY variables
-  Int_t mass_gluino;
-  Int_t mass_LSP;
-  Int_t mass_chi;
 
   Float_t isrboost  ;
   Int_t   isr_njets ;
