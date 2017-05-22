@@ -17,7 +17,8 @@
 #include "../CORE/CMS3.h"
 #include "../CORE/Base.h"
 #include "../CORE/OSSelections.h"
-#include "../CORE/SSSelections.h"
+//#include "../CORE/SSSelections.h"
+#include "../CORE/VVVSelections.h"
 #include "../CORE/ElectronSelections.h"
 #include "../CORE/IsolationTools.h"
 #include "../CORE/JetSelections.h"
@@ -291,7 +292,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_L3Absolute_AK4PFchs.txt"  );
     		jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/MC/Spring16_25nsV1_MC_Uncertainty_AK4PFchs.txt" );
   	  } 		
-  	  else if( currentFileName.Contains("Summer16") ){
+  	  else if( currentFileName.Contains("Summer16") || currentFileName.Contains("TEST") ){
     		// files for 80X MC, Summer16 (Moriond17) production
     		jetcorr_filenames_pfL1FastJetL2L3.clear();
     		jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/MC/Summer16_23Sep2016V3_MC_L1FastJet_AK4PFchs.txt"   );
@@ -885,17 +886,31 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector<float>vec_lep_phi;
       vector<float>vec_lep_mass;
       vector<float>vec_lep_charge;
+      
+      //for WWW
+      vector< bool >   vec_lep_3ch_agree;
+      vector< int >    vec_lep_isFromW;
+      vector< double > vec_lep_ptRatio;
+      vector< double > vec_lep_ptRel;
+      vector< double > vec_lep_relIso03;
+      vector< double > vec_lep_relIso03DB;
+      vector< double > vec_lep_relIso03EA;
+      vector< double > vec_lep_relIso03EAv2;
+      vector< double > vec_lep_relIso04DB;
+      vector< double > vec_lep_relIso04EA;
+      vector< double > vec_lep_relIso04EAv2;
+      vector< double > vec_lep_miniRelIsoCMS3_EA;
+      vector< double > vec_lep_miniRelIsoCMS3_EAv2;
+      vector< double > vec_lep_miniRelIsoCMS3_DB;
+
+
       vector<int>  vec_lep_pdgId;
       vector<float>vec_lep_dxy;
       vector<float>vec_lep_ip3d;
       vector<float>vec_lep_ip3derr;
       vector<float>vec_lep_dz;
       vector<int>  vec_lep_tightId;
-      vector<float>vec_lep_relIso03;
-      vector<float>vec_lep_relIso03MREA;
-      vector<float>vec_lep_relIso03MRDB;
-      vector<float>vec_lep_relIso03MRNC;
-      vector<float>vec_lep_relIso04;
+
       vector<int>  vec_lep_mcMatchId;
       vector<int>  vec_lep_lostHits;
       vector<int>  vec_lep_convVeto;
@@ -930,12 +945,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       nElectrons10 = 0;
   	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
 
-    		if( isGoodVetoElectron( iEl ) ){
+    		/*if( isGoodVetoElectron( iEl ) ){
     		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
             nveto_leptons++;
     		  }
-    		}
-   	  	if( !isGoodElectron( iEl ) ) continue;
+    		}*/
+   	  	if( !passElectronSelection_VVV( iEl ) ) continue;
   		
           nElectrons10++;
 
@@ -947,14 +962,31 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_phi          .push_back( cms3.els_p4().at(iEl).phi()     );
     		  vec_lep_mass         .push_back( cms3.els_mass().at(iEl)         );
     		  vec_lep_charge       .push_back( cms3.els_charge().at(iEl)       );
+          
+          //WWW Selection Vars
+          vec_lep_3ch_agree            .push_back( threeChargeAgree(iEl) );
+          vec_lep_isFromW              .push_back( isFromW(/* pdgid= */11, iEl) );          
+          const LorentzVector& temp_jet_p4 = closestJet(cms3.els_p4().at(iEl), 0.4, 3.0, /*whichCorr = */2);
+          float closeJetPt            = temp_jet_p4.pt();
+          vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.els_p4().at(iEl).pt()/closeJetPt : 1.));
+          vec_lep_ptRel                .push_back(ptRel(cms3.els_p4().at(iEl), temp_jet_p4, true));
+          vec_lep_relIso03             .push_back(eleRelIso03_noCorr(iEl));
+          vec_lep_relIso03DB           .push_back(eleRelIso03DB(iEl));
+          vec_lep_relIso03EA           .push_back(eleRelIso03EA(iEl, /*eaversion=*/1));
+          vec_lep_relIso03EAv2         .push_back(eleRelIso03EA(iEl, /*eaversion=*/2));
+          vec_lep_relIso04DB           .push_back(elRelIsoCustomCone(iEl, 0.4, false, 0.0, /*useDBCorr=*/true));
+          vec_lep_relIso04EA           .push_back(elRelIsoCustomCone(iEl, 0.4, false, 0.0, /*useDBCorr=*/false, /*useEACorr=*/true, /*mindr=*/-1, /*eaversion=*/1));
+          vec_lep_relIso04EAv2         .push_back(elRelIsoCustomCone(iEl, 0.4, false, 0.0, /*useDBCorr=*/false, /*useEACorr=*/true, /*mindr=*/-1, /*eaversion=*/2));
+          vec_lep_miniRelIsoCMS3_EA    .push_back(elMiniRelIsoCMS3_EA(iEl, /*eaversion=*/1));
+          vec_lep_miniRelIsoCMS3_EAv2  .push_back(elMiniRelIsoCMS3_EA(iEl, /*eaversion=*/2));
+          vec_lep_miniRelIsoCMS3_DB    .push_back(elMiniRelIsoCMS3_DB(iEl));
+
     		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
     		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
           vec_lep_ip3d         .push_back( cms3.els_ip3d().at(iEl)         );
           vec_lep_ip3derr      .push_back( cms3.els_ip3derr().at(iEl)      );
     		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
     		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
-    		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
-    		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl, 1 )   );
     		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
     		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
     		  vec_lep_validfraction.push_back( -1                              );
@@ -1003,10 +1035,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if (recent_cms3_version) {
           if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
         }
-      	if( isGoodVetoMuon( iMu ) ){
+      	/*if( isGoodVetoMuon( iMu ) ){
       	  nveto_leptons++;
-      	}
-   	  	if( !isGoodMuon( iMu ) ) continue;
+      	}*/
+   	  	if( !passMuonSelection_VVV( iMu ) ) continue;
   		  
         //cout<<__LINE__<<endl;
         
@@ -1024,14 +1056,31 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_phi          .push_back ( cms3.mus_p4()     .at(iMu).phi() );
     		  vec_lep_mass         .push_back ( cms3.mus_mass()   .at(iMu)       );
     		  vec_lep_charge       .push_back ( cms3.mus_charge() .at(iMu)       );
+          
+          //WWW Selection Vars
+          vec_lep_3ch_agree            .push_back( true );
+          vec_lep_isFromW              .push_back( isFromW(/* pdgid= */13, iMu) );
+          const LorentzVector& temp_jet_p4 = closestJet(cms3.mus_p4().at(iMu), 0.4, 3.0, /*whichCorr = */2);
+          float closeJetPt            = temp_jet_p4.pt();
+          vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.mus_p4().at(iMu).pt()/closeJetPt : 1.));
+          vec_lep_ptRel                .push_back(ptRel(cms3.mus_p4().at(iMu), temp_jet_p4, true));
+          vec_lep_relIso03             .push_back(muRelIso03_noCorr(iMu));
+          vec_lep_relIso03DB           .push_back(muRelIso03DB(iMu));
+          vec_lep_relIso03EA           .push_back(muRelIso03EA(iMu,/*eaversion=*/1));
+          vec_lep_relIso03EAv2         .push_back(muRelIso03EA(iMu,/*eaversion=*/2));
+          vec_lep_relIso04DB           .push_back(muRelIso04DB(iMu));
+          vec_lep_relIso04EA           .push_back(muRelIsoCustomCone(iMu, 0.4, /*useVetoCones=*/false, 0.5, false, true, -1, 1));
+          vec_lep_relIso04EAv2         .push_back(muRelIsoCustomCone(iMu, 0.4, /*useVetoCones=*/false, 0.5, false, true, -1, 2));
+          vec_lep_miniRelIsoCMS3_EA    .push_back(muMiniRelIsoCMS3_EA(iMu, /*eaversion=*/1));
+          vec_lep_miniRelIsoCMS3_EAv2  .push_back(muMiniRelIsoCMS3_EA(iMu, /*eaversion=*/2));
+          vec_lep_miniRelIsoCMS3_DB    .push_back(muMiniRelIsoCMS3_DB(iMu));
+
     		  vec_lep_pdgId        .push_back ( cms3.mus_charge() .at(iMu)*(-13) );
     		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV()  .at(iMu)       );
           vec_lep_ip3d         .push_back ( cms3.mus_ip3d()   .at(iMu)       );
           vec_lep_ip3derr      .push_back ( cms3.mus_ip3derr().at(iMu)       );
     		  vec_lep_dz           .push_back ( cms3.mus_dzPV()   .at(iMu)       );
     		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)              );
-    		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)              );
-    		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)     );
     		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()      );
     		  vec_lep_MVA          .push_back ( -99                              );
     		  vec_lep_validfraction.push_back ( validFraction                    );
@@ -1083,34 +1132,50 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       int i = 0;
       std::sort(lep_pt_ordering.begin(), lep_pt_ordering.end(), sortByValue);
       for(std::vector<std::pair<int, float> >::iterator it = lep_pt_ordering.begin(); it!= lep_pt_ordering.end(); ++it){
-    		lep_p4           .push_back( vec_lep_p4s          .at(it->first));
-    		lep_pt           .push_back( vec_lep_pt           .at(it->first));
-    		lep_eta          .push_back( vec_lep_eta          .at(it->first));
-    		lep_phi          .push_back( vec_lep_phi          .at(it->first));
-    		lep_mass         .push_back( vec_lep_mass         .at(it->first));
-    		lep_charge       .push_back( vec_lep_charge       .at(it->first));
-    		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->first));
-    		lep_dz           .push_back( vec_lep_dz           .at(it->first));
-    		lep_dxy          .push_back( vec_lep_dxy          .at(it->first));
-        lep_ip3d         .push_back( vec_lep_ip3d         .at(it->first));
-        lep_ip3derr      .push_back( vec_lep_ip3derr      .at(it->first));
-    		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->first));
-    		lep_tightId      .push_back( vec_lep_tightId      .at(it->first));
-    		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->first));
-    		lep_mcMatchId    .push_back( vec_lep_mcMatchId    .at(it->first));
-    		lep_lostHits     .push_back( vec_lep_lostHits     .at(it->first));
-    		lep_convVeto     .push_back( vec_lep_convVeto     .at(it->first));
-    		lep_tightCharge  .push_back( vec_lep_tightCharge  .at(it->first));
-    		lep_MVA          .push_back( vec_lep_MVA          .at(it->first));
-    		lep_validfraction.push_back( vec_lep_validfraction.at(it->first));
-    		lep_pterr        .push_back( vec_lep_ptErr        .at(it->first));
-    		lep_sta_pterrOpt .push_back( vec_lep_sta_pterrOpt .at(it->first));
-    		lep_glb_pterrOpt .push_back( vec_lep_glb_pterrOpt .at(it->first));
-    		// lep_bft_pterrOpt .push_back( vec_lep_bft_pterrOpt .at(it->first));
-    		lep_x2ondof      .push_back( vec_lep_x2ondof      .at(it->first));
-    		lep_sta_x2ondof  .push_back( vec_lep_sta_x2ondof  .at(it->first));
-    		lep_glb_x2ondof  .push_back( vec_lep_glb_x2ondof  .at(it->first));
-    		// lep_bft_x2ondof  .push_back( vec_lep_bft_x2ondof  .at(it->first));
+    		lep_p4                  .push_back( vec_lep_p4s                 .at(it->first));
+    		lep_pt                  .push_back( vec_lep_pt                  .at(it->first));
+    		lep_eta                 .push_back( vec_lep_eta                 .at(it->first));
+    		lep_phi                 .push_back( vec_lep_phi                 .at(it->first));
+    		lep_mass                .push_back( vec_lep_mass                .at(it->first));
+    		lep_charge              .push_back( vec_lep_charge              .at(it->first));
+    		lep_pdgId               .push_back( vec_lep_pdgId               .at(it->first));
+    		lep_dz                  .push_back( vec_lep_dz                  .at(it->first));
+    		lep_dxy                 .push_back( vec_lep_dxy                 .at(it->first));
+        lep_ip3d                .push_back( vec_lep_ip3d                .at(it->first));
+        lep_ip3derr             .push_back( vec_lep_ip3derr             .at(it->first));
+    		lep_etaSC               .push_back( vec_lep_etaSC               .at(it->first));
+    		lep_tightId             .push_back( vec_lep_tightId             .at(it->first));
+    		
+        // WWW Selection Vars
+        lep_3ch_agree           .push_back( vec_lep_3ch_agree           .at(it->first));
+        lep_isFromW             .push_back( vec_lep_isFromW             .at(it->first));
+        lep_ptRatio             .push_back( vec_lep_ptRatio             .at(it->first));
+        lep_ptRel               .push_back( vec_lep_ptRel               .at(it->first));
+        lep_relIso03            .push_back( vec_lep_relIso03            .at(it->first));
+        lep_relIso03DB          .push_back( vec_lep_relIso03DB          .at(it->first));
+        lep_relIso03EA          .push_back( vec_lep_relIso03EA          .at(it->first));
+        lep_relIso03EAv2        .push_back( vec_lep_relIso03EAv2        .at(it->first));
+        lep_relIso04DB          .push_back( vec_lep_relIso04DB          .at(it->first));
+        lep_relIso04EA          .push_back( vec_lep_relIso04EA          .at(it->first));
+        lep_relIso04EAv2        .push_back( vec_lep_relIso04EAv2        .at(it->first));
+        lep_miniRelIsoCMS3_EA   .push_back( vec_lep_miniRelIsoCMS3_EA   .at(it->first));
+        lep_miniRelIsoCMS3_EAv2 .push_back( vec_lep_miniRelIsoCMS3_EAv2 .at(it->first));
+        lep_miniRelIsoCMS3_DB   .push_back( vec_lep_miniRelIsoCMS3_DB   .at(it->first));
+
+    		lep_mcMatchId           .push_back( vec_lep_mcMatchId           .at(it->first));
+    		lep_lostHits            .push_back( vec_lep_lostHits            .at(it->first));
+    		lep_convVeto            .push_back( vec_lep_convVeto            .at(it->first));
+    		lep_tightCharge         .push_back( vec_lep_tightCharge         .at(it->first));
+    		lep_MVA                 .push_back( vec_lep_MVA                 .at(it->first));
+    		lep_validfraction       .push_back( vec_lep_validfraction       .at(it->first));
+    		lep_pterr               .push_back( vec_lep_ptErr               .at(it->first));
+    		lep_sta_pterrOpt        .push_back( vec_lep_sta_pterrOpt        .at(it->first));
+    		lep_glb_pterrOpt        .push_back( vec_lep_glb_pterrOpt        .at(it->first));
+    		// lep_bft_pterrOpt     .push_back( vec_lep_bft_pterrOpt        .at(it->first));
+    		lep_x2ondof             .push_back( vec_lep_x2ondof             .at(it->first));
+    		lep_sta_x2ondof         .push_back( vec_lep_sta_x2ondof         .at(it->first));
+    		lep_glb_x2ondof         .push_back( vec_lep_glb_x2ondof         .at(it->first));
+    		// lep_bft_x2ondof      .push_back( vec_lep_bft_x2ondof         .at(it->first));
 
     		i++;
       }
@@ -2411,6 +2476,23 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_phi"          , "std::vector< Float_t >"       , &lep_phi        );
   BabyTree_->Branch("lep_mass"         , "std::vector< Float_t >"       , &lep_mass       );
   BabyTree_->Branch("lep_charge"       , "std::vector< Int_t >"         , &lep_charge     );
+  
+  //New vars for testing WWW
+  BabyTree_->Branch("lep_3ch_agree"            , "std::vector< Bool_t  > " , &lep_3ch_agree             );
+  BabyTree_->Branch("lep_isFromW"              , "std::vector< Int_t   > " , &lep_isFromW               );
+  BabyTree_->Branch("lep_ptRatio"              , "std::vector< Double_t >" , &lep_ptRatio               );
+  BabyTree_->Branch("lep_ptRel"                , "std::vector< Double_t >" , &lep_ptRel                 );
+  BabyTree_->Branch("lep_relIso03"             , "std::vector< Double_t >" , &lep_relIso03              );
+  BabyTree_->Branch("lep_relIso03DB"           , "std::vector< Double_t >" , &lep_relIso03DB            );
+  BabyTree_->Branch("lep_relIso03EA"           , "std::vector< Double_t >" , &lep_relIso03EA            );
+  BabyTree_->Branch("lep_relIso03EAv2"         , "std::vector< Double_t >" , &lep_relIso03EAv2          );
+  BabyTree_->Branch("lep_relIso04DB"           , "std::vector< Double_t >" , &lep_relIso04DB            );
+  BabyTree_->Branch("lep_relIso04EA"           , "std::vector< Double_t >" , &lep_relIso04EA            );
+  BabyTree_->Branch("lep_relIso04EAv2"         , "std::vector< Double_t >" , &lep_relIso04EAv2          );
+  BabyTree_->Branch("lep_miniRelIsoCMS3_EA"    , "std::vector< Double_t >" , &lep_miniRelIsoCMS3_EA     );
+  BabyTree_->Branch("lep_miniRelIsoCMS3_EAv2"  , "std::vector< Double_t >" , &lep_miniRelIsoCMS3_EAv2   );
+  BabyTree_->Branch("lep_miniRelIsoCMS3_DB"    , "std::vector< Double_t >" , &lep_miniRelIsoCMS3_DB     );
+
   BabyTree_->Branch("lep_pdgId"        , "std::vector< Int_t >"         , &lep_pdgId      );
   BabyTree_->Branch("lep_dxy"          , "std::vector< Float_t >"       , &lep_dxy        );
   BabyTree_->Branch("lep_ip3d"         , "std::vector< Float_t >"       , &lep_ip3d       );
@@ -2418,11 +2500,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_etaSC"        , "std::vector< Float_t >"       , &lep_etaSC      );
   BabyTree_->Branch("lep_dz"           , "std::vector< Float_t >"       , &lep_dz         );
   BabyTree_->Branch("lep_tightId"      , "std::vector< Int_t >"         , &lep_tightId    );
-  BabyTree_->Branch("lep_relIso03"     , "std::vector< Float_t >"       , &lep_relIso03   );
-  BabyTree_->Branch("lep_relIso03MREA" , "std::vector< Float_t >"       , &lep_relIso03MREA   );
-  BabyTree_->Branch("lep_relIso03MRDB" , "std::vector< Float_t >"       , &lep_relIso03MRDB   );
-  BabyTree_->Branch("lep_relIso03MRNC" , "std::vector< Float_t >"       , &lep_relIso03MRNC   );
-  BabyTree_->Branch("lep_relIso04"     , "std::vector< Float_t >"       , &lep_relIso04   );
   BabyTree_->Branch("lep_mcMatchId"    , "std::vector< Int_t >"         , &lep_mcMatchId  );
   BabyTree_->Branch("lep_lostHits"     , "std::vector< Int_t >"         , &lep_lostHits   );
   BabyTree_->Branch("lep_convVeto"     , "std::vector< Int_t >"         , &lep_convVeto   );
@@ -2854,6 +2931,23 @@ void babyMaker::InitBabyNtuple () {
   lep_phi           .clear();
   lep_mass          .clear();
   lep_charge        .clear();
+
+  lep_3ch_agree           .clear();
+  lep_isFromW             .clear();
+  lep_ptRatio             .clear();
+  lep_ptRel               .clear();
+  lep_relIso03            .clear();
+  lep_relIso03DB          .clear();
+  lep_relIso03EA          .clear();
+  lep_relIso03EAv2        .clear();
+  lep_relIso04DB          .clear();
+  lep_relIso04EA          .clear();
+  lep_relIso04EAv2        .clear();
+  lep_miniRelIsoCMS3_EA   .clear();
+  lep_miniRelIsoCMS3_EAv2 .clear();
+  lep_miniRelIsoCMS3_DB   .clear();
+
+
   lep_pdgId         .clear();
   lep_dxy           .clear();
   lep_ip3d          .clear();
@@ -2861,11 +2955,6 @@ void babyMaker::InitBabyNtuple () {
   lep_etaSC         .clear();
   lep_dz            .clear();
   lep_tightId       .clear();
-  lep_relIso03      .clear();
-  lep_relIso03MREA  .clear();
-  lep_relIso03MRDB  .clear();
-  lep_relIso03MRNC  .clear();
-  lep_relIso04      .clear();
   lep_mcMatchId     .clear();
   lep_lostHits      .clear();
   lep_convVeto      .clear();

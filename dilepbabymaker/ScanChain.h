@@ -255,6 +255,22 @@ private:
   std::vector <Float_t> lep_phi          ;   //[nlep]
   std::vector <Float_t> lep_mass         ;   //[nlep]
   std::vector <Int_t  > lep_charge       ;   //[nlep]
+  
+  std::vector <Bool_t >  lep_3ch_agree             ;
+  std::vector <Int_t  >  lep_isFromW               ;
+  std::vector <Double_t> lep_ptRatio               ;
+  std::vector <Double_t> lep_ptRel                 ;
+  std::vector <Double_t> lep_relIso03              ;
+  std::vector <Double_t> lep_relIso03DB            ;
+  std::vector <Double_t> lep_relIso03EA            ;
+  std::vector <Double_t> lep_relIso03EAv2          ;
+  std::vector <Double_t> lep_relIso04DB            ;
+  std::vector <Double_t> lep_relIso04EA            ;
+  std::vector <Double_t> lep_relIso04EAv2          ; 
+  std::vector <Double_t> lep_miniRelIsoCMS3_EA     ;
+  std::vector <Double_t> lep_miniRelIsoCMS3_EAv2   ;
+  std::vector <Double_t> lep_miniRelIsoCMS3_DB     ;
+  
   std::vector <Int_t  > lep_pdgId        ;   //[nlep]
   std::vector <Float_t> lep_dxy          ;   //[nlep]
   std::vector <Float_t> lep_ip3d         ;   //[nlep]
@@ -262,11 +278,6 @@ private:
   std::vector <Float_t> lep_etaSC        ;   //[nlep]
   std::vector <Float_t> lep_dz           ;   //[nlep]
   std::vector <Int_t  > lep_tightId      ;   //[nlep]
-  std::vector <Float_t> lep_relIso03     ;   //[nlep]
-  std::vector <Float_t> lep_relIso03MREA ;   //[nlep]
-  std::vector <Float_t> lep_relIso03MRDB ;   //[nlep]
-  std::vector <Float_t> lep_relIso03MRNC ;   //[nlep]
-  std::vector <Float_t> lep_relIso04     ;   //[nlep]
   std::vector <Int_t  > lep_mcMatchId    ;   //[nlep]
   std::vector <Int_t  > lep_lostHits     ;   //[nlep]
   std::vector <Int_t  > lep_convVeto     ;   //[nlep]

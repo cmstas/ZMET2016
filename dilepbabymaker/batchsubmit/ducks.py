@@ -5,7 +5,7 @@ import params as p
 import zmet as zmet
 
 # set tag
-zmet.tag = "WWW_v0.1.3"
+zmet.tag = "WWW_v0.1.4"
 
 # make instructions
 instructions = []
