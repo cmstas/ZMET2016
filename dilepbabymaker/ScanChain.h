@@ -249,6 +249,15 @@ private:
   //----- LEPTONS
   Int_t           nlep;
   Int_t           nveto_leptons;
+  Int_t           nVetoEl_relIso03EAless01;
+  Int_t           nVetoEl_relIso03EAless02;
+  Int_t           nVetoEl_relIso03EAless03;
+  Int_t           nVetoEl_relIso03EAless04;
+  Int_t           nVetoMu_relIso03EAless01;
+  Int_t           nVetoMu_relIso03EAless02;
+  Int_t           nVetoMu_relIso03EAless03;
+  Int_t           nVetoMu_relIso03EAless04;
+  
   std::vector <LorentzVector> lep_p4;
   std::vector <Float_t> lep_pt           ;   //[nlep]
   std::vector <Float_t> lep_eta          ;   //[nlep]
@@ -258,6 +267,11 @@ private:
   
   std::vector <Bool_t >  lep_3ch_agree             ;
   std::vector <Int_t  >  lep_isFromW               ;
+  std::vector <Int_t  >  lep_isFromZ               ;
+  std::vector <Int_t  >  lep_isFromB               ;
+  std::vector <Int_t  >  lep_isFromC               ;
+  std::vector <Int_t  >  lep_isFromL               ;
+  std::vector <Int_t  >  lep_isFromLF              ;
   std::vector <Double_t> lep_ptRatio               ;
   std::vector <Double_t> lep_ptRel                 ;
   std::vector <Double_t> lep_relIso03              ;

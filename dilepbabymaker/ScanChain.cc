@@ -180,6 +180,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   h_vtxweight->SetDirectory(rootdir);
   f_vtx->Close();
   
+  //cout<<__LINE__<<endl;
+
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
 
@@ -218,6 +220,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	h_eventcounts->SetDirectory(rootdir);
 	f_eventcounts->Close();
   }
+  //cout<<__LINE__<<endl;
   
   // File Loop
   int nDuplicates = 0;
@@ -890,6 +893,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //for WWW
       vector< bool >   vec_lep_3ch_agree;
       vector< int >    vec_lep_isFromW;
+      vector< int >    vec_lep_isFromZ;
+      vector< int >    vec_lep_isFromB;
+      vector< int >    vec_lep_isFromC;
+      vector< int >    vec_lep_isFromL;
+      vector< int >    vec_lep_isFromLF;
       vector< double > vec_lep_ptRatio;
       vector< double > vec_lep_ptRel;
       vector< double > vec_lep_relIso03;
@@ -943,14 +951,40 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //ELECTRONS
       nlep = 0;
       nElectrons10 = 0;
-  	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
+      nVetoEl_relIso03EAless01 = 0;
+      nVetoEl_relIso03EAless02 = 0;
+      nVetoEl_relIso03EAless03 = 0;
+      nVetoEl_relIso03EAless04 = 0;
 
-    		/*if( isGoodVetoElectron( iEl ) ){
-    		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
-            nveto_leptons++;
-    		  }
-    		}*/
-   	  	if( !passElectronSelection_VVV( iEl ) ) continue;
+  	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
+   	  	//cout<<"checking electrons"<<endl;
+        if( !passElectronSelection_VVV( iEl ) ) {
+          /*cout<<"Electron did not pass analysis selection, checking veto selection"<<endl;
+          cout<<"etaSC: "<<fabs(els_etaSC().at(iEl))<<" ";
+          cout<<"conv_vtx: "<<els_conv_vtx_flag().at(iEl)<<" ";
+          cout<<"exp_inlayers: "<<els_exp_innerlayers().at(iEl)<<" ";
+          cout<<"dxy: "<<fabs(els_dxyPV().at(iEl))<<" ";
+          cout<<"TSnoIso: "<<isTriggerSafenoIso_v1(iEl)<<" ";
+          cout<<"dz: "<<fabs(els_dzPV().at(iEl))<<" ";
+          cout<<"sip: "<<fabs(els_ip3d().at(iEl))/els_ip3derr().at(iEl)<<" ";
+          cout<<"MVA: "<<getMVAoutput(iEl)<<endl;*/
+          if( passElectronVetoSelection_VVV( iEl ) ){ //from SSSelections.h (strictly looser than our analysis selection)
+            //cout<<"Electron passed veto selection, eta is "<< cms3.els_p4().at(iEl).eta() <<endl;
+            if( abs(cms3.els_p4().at(iEl).eta()) <= 2.4 ){
+              //cout<<"Electron eta <= 2.4, adding to veto leptons selection, relIsoValue is "<<eleRelIso03EA(iEl, /*eaversion=*/1)<<endl;
+              nveto_leptons++;
+              if (eleRelIso03EA(iEl, /*eaversion=*/1) > 0.40) nVetoEl_relIso03EAless04++;
+              else if (eleRelIso03EA(iEl, /*eaversion=*/1) > 0.30) nVetoEl_relIso03EAless03++;
+              else if (eleRelIso03EA(iEl, /*eaversion=*/1) > 0.20) nVetoEl_relIso03EAless02++;
+              else if (eleRelIso03EA(iEl, /*eaversion=*/1) > 0.10) nVetoEl_relIso03EAless01++;
+              nVetoEl_relIso03EAless03 += nVetoEl_relIso03EAless04;
+              nVetoEl_relIso03EAless02 += nVetoEl_relIso03EAless03;
+              nVetoEl_relIso03EAless01 += nVetoEl_relIso03EAless02;
+            }
+            //cout<<"num veto els: 01=="<<nVetoEl_relIso03EAless01<<" 02=="<< nVetoEl_relIso03EAless02<<" 03=="<< nVetoEl_relIso03EAless03<<" 04=="<< nVetoEl_relIso03EAless04<<endl;
+          }
+          continue;
+        }
   		
           nElectrons10++;
 
@@ -965,7 +999,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           
           //WWW Selection Vars
           vec_lep_3ch_agree            .push_back( threeChargeAgree(iEl) );
-          vec_lep_isFromW              .push_back( isFromW(/* pdgid= */11, iEl) );          
+          vec_lep_isFromW              .push_back( isFromW(/* pdgid= */11, iEl)  );
+          vec_lep_isFromZ              .push_back( isFromZ(/* pdgid= */11, iEl)  );
+          vec_lep_isFromB              .push_back( isFromB(/* pdgid= */11, iEl)  );
+          vec_lep_isFromC              .push_back( isFromC(/* pdgid= */11, iEl)  );
+          vec_lep_isFromL              .push_back( isFromLight(/* pdgid= */11, iEl)  );
+          vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */11, iEl) );
           const LorentzVector& temp_jet_p4 = closestJet(cms3.els_p4().at(iEl), 0.4, 3.0, /*whichCorr = */2);
           float closeJetPt            = temp_jet_p4.pt();
           vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.els_p4().at(iEl).pt()/closeJetPt : 1.));
@@ -1026,6 +1065,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //MUONS
       nMuons10 = 0;
       nBadMuons20 = 0;
+      nVetoMu_relIso03EAless01 = 0;
+      nVetoMu_relIso03EAless02 = 0;
+      nVetoMu_relIso03EAless03 = 0;
+      nVetoMu_relIso03EAless04 = 0;
   	  // RCLSA: this is a TEMPORARY protections for a problem with CMS3 samples
   	  if (cms3.mus_p4().size() != cms3.mus_dzPV().size()) continue;
       
@@ -1035,10 +1078,33 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if (recent_cms3_version) {
           if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
         }
-      	/*if( isGoodVetoMuon( iMu ) ){
-      	  nveto_leptons++;
-      	}*/
-   	  	if( !passMuonSelection_VVV( iMu ) ) continue;
+   	  	if( !passMuonSelection_VVV( iMu ) ){
+          /*cout<<"Muon did not pass analysis selection, checking veto selection"<<endl;
+          cout<<"dxy: "<<fabs(mus_dxyPV().at(iMu))<<" ";
+          cout<<"dz: "<<fabs(mus_dzPV().at(iMu))<<" ";
+          cout<<"sip: "<<fabs(mus_ip3d().at(iMu))/mus_ip3derr().at(iMu)<<" ";
+          cout<<"ptSig: "<<(mus_ptErr().at(iMu)/mus_trk_p4().at(iMu).pt())<<" ";
+          cout<<"Med ID: "<<isMediumMuonPOG(iMu)<<" ";
+          cout<<"Eta: "<<abs(cms3.mus_p4().at(iMu).eta())<<" ";
+          cout<<"Loose ID: "<<isLooseMuonPOG(iMu)<<endl;*/
+
+          if( passMuonVetoSelection_VVV( iMu ) ){ //from SSSelections.h (strictly looser than our analysis selection)
+            //cout<<"Muon passed veto selection, eta is "<< cms3.mus_p4().at(iMu).eta() <<endl;
+            if( abs(cms3.mus_p4().at(iMu).eta()) <= 2.4 ){
+              //cout<<"Muon eta <= 2.4, adding to veto leptons selection, relIsoValue is "<<muRelIso03EA(iMu, /*eaversion=*/1)<<endl;
+              nveto_leptons++;
+              if (muRelIso03EA(iMu, /*eaversion=*/1) > 0.40) nVetoMu_relIso03EAless04++;
+              else if (muRelIso03EA(iMu, /*eaversion=*/1) > 0.30) nVetoMu_relIso03EAless03++;
+              else if (muRelIso03EA(iMu, /*eaversion=*/1) > 0.20) nVetoMu_relIso03EAless02++;
+              else if (muRelIso03EA(iMu, /*eaversion=*/1) > 0.10) nVetoMu_relIso03EAless01++;
+              nVetoMu_relIso03EAless03 += nVetoMu_relIso03EAless04;
+              nVetoMu_relIso03EAless02 += nVetoMu_relIso03EAless03;
+              nVetoMu_relIso03EAless01 += nVetoMu_relIso03EAless02;
+              //cout<<"num veto muons: 01=="<<nVetoMu_relIso03EAless01<<" 02=="<< nVetoMu_relIso03EAless02<<" 03=="<< nVetoMu_relIso03EAless03<<" 04=="<< nVetoMu_relIso03EAless04<<endl;
+              }
+            }
+            continue;
+        } 
   		  
         //cout<<__LINE__<<endl;
         
@@ -1059,7 +1125,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           
           //WWW Selection Vars
           vec_lep_3ch_agree            .push_back( true );
-          vec_lep_isFromW              .push_back( isFromW(/* pdgid= */13, iMu) );
+          vec_lep_isFromW              .push_back( isFromW(/* pdgid= */13, iMu)  );
+          vec_lep_isFromZ              .push_back( isFromZ(/* pdgid= */13, iMu)  );
+          vec_lep_isFromB              .push_back( isFromB(/* pdgid= */13, iMu)  );
+          vec_lep_isFromC              .push_back( isFromC(/* pdgid= */13, iMu)  );
+          vec_lep_isFromL              .push_back( isFromLight(/* pdgid= */13, iMu)  );
+          vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */13, iMu) );
           const LorentzVector& temp_jet_p4 = closestJet(cms3.mus_p4().at(iMu), 0.4, 3.0, /*whichCorr = */2);
           float closeJetPt            = temp_jet_p4.pt();
           vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.mus_p4().at(iMu).pt()/closeJetPt : 1.));
@@ -1119,9 +1190,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  p4sLeptonsForJetCleaning.push_back(cms3.mus_p4().at(iMu));
     		}
       }
-
-  	  // veto leptons are looser than analysis leptons
-  	  nveto_leptons -= nlep;
   	  
       //cout<<__LINE__<<endl;  
       
@@ -1148,7 +1216,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		
         // WWW Selection Vars
         lep_3ch_agree           .push_back( vec_lep_3ch_agree           .at(it->first));
-        lep_isFromW             .push_back( vec_lep_isFromW             .at(it->first));
+        lep_isFromW             .push_back( vec_lep_isFromW         .at(it->first));
+        lep_isFromZ             .push_back( vec_lep_isFromZ         .at(it->first));
+        lep_isFromB             .push_back( vec_lep_isFromB         .at(it->first));
+        lep_isFromC             .push_back( vec_lep_isFromC         .at(it->first));
+        lep_isFromL             .push_back( vec_lep_isFromL         .at(it->first));
+        lep_isFromLF            .push_back( vec_lep_isFromLF        .at(it->first));
         lep_ptRatio             .push_back( vec_lep_ptRatio             .at(it->first));
         lep_ptRel               .push_back( vec_lep_ptRel               .at(it->first));
         lep_relIso03            .push_back( vec_lep_relIso03            .at(it->first));
@@ -2470,6 +2543,17 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("nlep"             , &nlep, "nlep/I" );
   BabyTree_->Branch("nveto_leptons"    , &nveto_leptons );
+
+  BabyTree_->Branch("nVetoEl_relIso03EAless01" , &nVetoEl_relIso03EAless01 );
+  BabyTree_->Branch("nVetoEl_relIso03EAless02" , &nVetoEl_relIso03EAless02 );
+  BabyTree_->Branch("nVetoEl_relIso03EAless03" , &nVetoEl_relIso03EAless03 );
+  BabyTree_->Branch("nVetoEl_relIso03EAless04" , &nVetoEl_relIso03EAless04 );
+  BabyTree_->Branch("nVetoMu_relIso03EAless01" , &nVetoMu_relIso03EAless01 );
+  BabyTree_->Branch("nVetoMu_relIso03EAless02" , &nVetoMu_relIso03EAless02 );
+  BabyTree_->Branch("nVetoMu_relIso03EAless03" , &nVetoMu_relIso03EAless03 );
+  BabyTree_->Branch("nVetoMu_relIso03EAless04" , &nVetoMu_relIso03EAless04 );
+
+  
   BabyTree_->Branch("lep_p4"           , &lep_p4         );
   BabyTree_->Branch("lep_pt"           , "std::vector< Float_t >"       , &lep_pt         );
   BabyTree_->Branch("lep_eta"          , "std::vector< Float_t >"       , &lep_eta        );
@@ -2480,6 +2564,11 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   //New vars for testing WWW
   BabyTree_->Branch("lep_3ch_agree"            , "std::vector< Bool_t  > " , &lep_3ch_agree             );
   BabyTree_->Branch("lep_isFromW"              , "std::vector< Int_t   > " , &lep_isFromW               );
+  BabyTree_->Branch("lep_isFromZ"              , "std::vector< Int_t   > " , &lep_isFromZ               );
+  BabyTree_->Branch("lep_isFromB"              , "std::vector< Int_t   > " , &lep_isFromB               );
+  BabyTree_->Branch("lep_isFromC"              , "std::vector< Int_t   > " , &lep_isFromC               );
+  BabyTree_->Branch("lep_isFromL"              , "std::vector< Int_t   > " , &lep_isFromL               );
+  BabyTree_->Branch("lep_isFromLF"             , "std::vector< Int_t   > " , &lep_isFromLF              );
   BabyTree_->Branch("lep_ptRatio"              , "std::vector< Double_t >" , &lep_ptRatio               );
   BabyTree_->Branch("lep_ptRel"                , "std::vector< Double_t >" , &lep_ptRel                 );
   BabyTree_->Branch("lep_relIso03"             , "std::vector< Double_t >" , &lep_relIso03              );
@@ -2925,6 +3014,16 @@ void babyMaker::InitBabyNtuple () {
   
   nlep = -999;
   nveto_leptons = -999;
+
+  nVetoEl_relIso03EAless01 = -999;
+  nVetoEl_relIso03EAless02 = -999;
+  nVetoEl_relIso03EAless03 = -999;
+  nVetoEl_relIso03EAless04 = -999;
+  nVetoMu_relIso03EAless01 = -999;
+  nVetoMu_relIso03EAless02 = -999;
+  nVetoMu_relIso03EAless03 = -999;
+  nVetoMu_relIso03EAless04 = -999;
+
   lep_p4            .clear();
   lep_pt            .clear();
   lep_eta           .clear();
@@ -2934,6 +3033,11 @@ void babyMaker::InitBabyNtuple () {
 
   lep_3ch_agree           .clear();
   lep_isFromW             .clear();
+  lep_isFromZ             .clear();
+  lep_isFromB             .clear();
+  lep_isFromC             .clear();
+  lep_isFromL             .clear();
+  lep_isFromLF            .clear();
   lep_ptRatio             .clear();
   lep_ptRel               .clear();
   lep_relIso03            .clear();
