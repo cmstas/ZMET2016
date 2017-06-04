@@ -438,6 +438,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       isData = cms3.evt_isRealData();
       if (cms3.evt_dataset().size() > 0) evt_dataset.push_back(cms3.evt_dataset().at(0));
 
+      //cout<<__LINE__<<endl;
+
       //if ( (!(run==1 && evt==4924476 && lumi==35685)) /*&& (!(run==1 && evt==1535469 && lumi==7737)) && (!(run==1 && evt==1990371 && lumi==10030))*/ ) continue;
 
       // set random seed on first event of each input file for SimPa
@@ -466,6 +468,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       bool recent_cms3_version = true;
       if (cms3_version.Contains("V08-00") && small_cms3_version <= 12) recent_cms3_version = false;
       
+      //cout<<__LINE__<<endl;
+
   	  if( isSMSScan ){
   		if (currentFileName.Contains("SMS-TChiHZ") || currentFileName.Contains("SMS-TChiZZ")){
   		  mass_chi = cms3.sparm_values().at(0);
@@ -529,6 +533,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       rho = cms3.evt_fixgridfastjet_all_rho(); //this one is used in JECs
 
       if (verbose) cout << "before vertices" << endl;
+
+      //cout<<__LINE__<<endl;
 
       //VERTICES
       nVert = 0;
@@ -601,6 +607,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   		Flag_trackingFailureFilter              = cms3.filt_trackingFailure();
   		Flag_CSCTightHaloFilter                 = cms3.filt_cscBeamHalo();
   	  }
+
+      //cout<<__LINE__<<endl;
 
   	  // in data and MC
   	  if( !isSMSScan ){
@@ -892,12 +900,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       
       //for WWW
       vector< bool >   vec_lep_3ch_agree;
-      vector< int >    vec_lep_isFromW;
-      vector< int >    vec_lep_isFromZ;
-      vector< int >    vec_lep_isFromB;
-      vector< int >    vec_lep_isFromC;
-      vector< int >    vec_lep_isFromL;
-      vector< int >    vec_lep_isFromLF;
+      vector< bool >    vec_lep_isFromW;
+      vector< bool >    vec_lep_isFromZ;
+      vector< bool >    vec_lep_isFromB;
+      vector< bool >    vec_lep_isFromC;
+      vector< bool >    vec_lep_isFromL;
+      vector< bool >    vec_lep_isFromLF;
       vector< double > vec_lep_ptRatio;
       vector< double > vec_lep_ptRel;
       vector< double > vec_lep_relIso03;
@@ -913,11 +921,23 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 
       vector<int>  vec_lep_pdgId;
+      vector<int>  vec_lep_mc_Id;
       vector<float>vec_lep_dxy;
       vector<float>vec_lep_ip3d;
       vector<float>vec_lep_ip3derr;
       vector<float>vec_lep_dz;
       vector<int>  vec_lep_tightId;
+
+      vector< bool >   vec_lep_pass_VVV_cutbased_veto;
+      vector< bool >   vec_lep_pass_VVV_cutbased_veto_noiso;
+      vector< bool >   vec_lep_pass_VVV_cutbased_veto_noiso_noip;
+      vector< bool >   vec_lep_pass_VVV_cutbased_fo;
+      vector< bool >   vec_lep_pass_VVV_cutbased_fo_noiso;
+      vector< bool >   vec_lep_pass_VVV_cutbased_tight_noiso;
+      vector< bool >   vec_lep_pass_VVV_cutbased_tight;
+      vector< bool >   vec_lep_pass_VVV_MVAbased_tight_noiso;
+      vector< bool >   vec_lep_pass_VVV_MVAbased_tight;
+      vector< bool >   vec_lep_pass_VVV_baseline;
 
       vector<int>  vec_lep_mcMatchId;
       vector<int>  vec_lep_lostHits;
@@ -950,6 +970,18 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       //ELECTRONS
       nlep = 0;
+
+      nlep_VVV_cutbased_veto            = 0;
+      nlep_VVV_cutbased_veto_noiso      = 0;
+      nlep_VVV_cutbased_veto_noiso_noip = 0;
+      nlep_VVV_cutbased_fo              = 0;
+      nlep_VVV_cutbased_fo_noiso        = 0;
+      nlep_VVV_cutbased_tight_noiso     = 0;
+      nlep_VVV_cutbased_tight           = 0;
+      nlep_VVV_MVAbased_tight_noiso     = 0;
+      nlep_VVV_MVAbased_tight           = 0;
+      nlep_VVV_baseline                 = 0;
+      
       nElectrons10 = 0;
       nVetoEl_relIso03EAless01 = 0;
       nVetoEl_relIso03EAless02 = 0;
@@ -958,7 +990,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
   	  for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++){
    	  	//cout<<"checking electrons"<<endl;
-        if( !passElectronSelection_VVV( iEl ) ) {
+        if( !(passElectronSelection_VVV( iEl, VVV_cutbased_veto_noiso_noip ) || passElectronSelection_VVV( iEl, VVV_MVAbased_tight_noiso )) ) {
           /*cout<<"Electron did not pass analysis selection, checking veto selection"<<endl;
           cout<<"etaSC: "<<fabs(els_etaSC().at(iEl))<<" ";
           cout<<"conv_vtx: "<<els_conv_vtx_flag().at(iEl)<<" ";
@@ -968,7 +1000,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           cout<<"dz: "<<fabs(els_dzPV().at(iEl))<<" ";
           cout<<"sip: "<<fabs(els_ip3d().at(iEl))/els_ip3derr().at(iEl)<<" ";
           cout<<"MVA: "<<getMVAoutput(iEl)<<endl;*/
-          if( passElectronVetoSelection_VVV( iEl ) ){ //from SSSelections.h (strictly looser than our analysis selection)
+          if( passElectronSelection_VVV( iEl, VVV_cutbased_veto_noiso ) ){ 
             //cout<<"Electron passed veto selection, eta is "<< cms3.els_p4().at(iEl).eta() <<endl;
             if( abs(cms3.els_p4().at(iEl).eta()) <= 2.4 ){
               //cout<<"Electron eta <= 2.4, adding to veto leptons selection, relIsoValue is "<<eleRelIso03EA(iEl, /*eaversion=*/1)<<endl;
@@ -1020,7 +1052,30 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           vec_lep_miniRelIsoCMS3_EAv2  .push_back(elMiniRelIsoCMS3_EA(iEl, /*eaversion=*/2));
           vec_lep_miniRelIsoCMS3_DB    .push_back(elMiniRelIsoCMS3_DB(iEl));
 
+          vec_lep_pass_VVV_cutbased_veto            .push_back( passElectronSelection_VVV( iEl, VVV_cutbased_veto             ) );
+          vec_lep_pass_VVV_cutbased_veto_noiso      .push_back( passElectronSelection_VVV( iEl, VVV_cutbased_veto_noiso       ) );
+          vec_lep_pass_VVV_cutbased_veto_noiso_noip .push_back( passElectronSelection_VVV( iEl, VVV_cutbased_veto_noiso_noip  ) );
+          vec_lep_pass_VVV_cutbased_fo              .push_back( passElectronSelection_VVV( iEl, VVV_cutbased_fo               ) );
+          vec_lep_pass_VVV_cutbased_fo_noiso        .push_back( passElectronSelection_VVV( iEl, VVV_cutbased_fo_noiso         ) );
+          vec_lep_pass_VVV_cutbased_tight_noiso     .push_back( passElectronSelection_VVV( iEl, VVV_cutbased_tight_noiso      ) );
+          vec_lep_pass_VVV_cutbased_tight           .push_back( passElectronSelection_VVV( iEl, VVV_cutbased_tight            ) );
+          vec_lep_pass_VVV_MVAbased_tight_noiso     .push_back( passElectronSelection_VVV( iEl, VVV_MVAbased_tight_noiso      ) );
+          vec_lep_pass_VVV_MVAbased_tight           .push_back( passElectronSelection_VVV( iEl, VVV_MVAbased_tight            ) );
+          vec_lep_pass_VVV_baseline                 .push_back( passElectronSelection_VVV( iEl, VVV_baseline                  ) );
+
+          if ( vec_lep_pass_VVV_cutbased_veto.back()            ) nlep_VVV_cutbased_veto++;
+          if ( vec_lep_pass_VVV_cutbased_veto_noiso.back()      ) nlep_VVV_cutbased_veto_noiso++;
+          if ( vec_lep_pass_VVV_cutbased_veto_noiso_noip.back() ) nlep_VVV_cutbased_veto_noiso_noip++;
+          if ( vec_lep_pass_VVV_cutbased_fo.back()              ) nlep_VVV_cutbased_fo++;
+          if ( vec_lep_pass_VVV_cutbased_fo_noiso.back()        ) nlep_VVV_cutbased_fo_noiso++;
+          if ( vec_lep_pass_VVV_cutbased_tight_noiso.back()     ) nlep_VVV_cutbased_tight_noiso++;
+          if ( vec_lep_pass_VVV_cutbased_tight.back()           ) nlep_VVV_cutbased_tight++;
+          if ( vec_lep_pass_VVV_MVAbased_tight_noiso.back()     ) nlep_VVV_MVAbased_tight_noiso++;
+          if ( vec_lep_pass_VVV_MVAbased_tight.back()           ) nlep_VVV_MVAbased_tight++;
+          if ( vec_lep_pass_VVV_baseline.back()                 ) nlep_VVV_baseline++;
+
     		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
+          vec_lep_mc_Id        .push_back( cms3.els_mc_id().at(iEl)        );
     		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
           vec_lep_ip3d         .push_back( cms3.els_ip3d().at(iEl)         );
           vec_lep_ip3derr      .push_back( cms3.els_ip3derr().at(iEl)      );
@@ -1078,7 +1133,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if (recent_cms3_version) {
           if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
         }
-   	  	if( !passMuonSelection_VVV( iMu ) ){
+   	  	if( !passMuonSelection_VVV( iMu, VVV_cutbased_veto_noiso_noip ) ){
           /*cout<<"Muon did not pass analysis selection, checking veto selection"<<endl;
           cout<<"dxy: "<<fabs(mus_dxyPV().at(iMu))<<" ";
           cout<<"dz: "<<fabs(mus_dzPV().at(iMu))<<" ";
@@ -1088,7 +1143,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           cout<<"Eta: "<<abs(cms3.mus_p4().at(iMu).eta())<<" ";
           cout<<"Loose ID: "<<isLooseMuonPOG(iMu)<<endl;*/
 
-          if( passMuonVetoSelection_VVV( iMu ) ){ //from SSSelections.h (strictly looser than our analysis selection)
+          if( passMuonSelection_VVV( iMu, VVV_cutbased_veto_noiso ) ){ //from SSSelections.h (strictly looser than our analysis selection)
             //cout<<"Muon passed veto selection, eta is "<< cms3.mus_p4().at(iMu).eta() <<endl;
             if( abs(cms3.mus_p4().at(iMu).eta()) <= 2.4 ){
               //cout<<"Muon eta <= 2.4, adding to veto leptons selection, relIsoValue is "<<muRelIso03EA(iMu, /*eaversion=*/1)<<endl;
@@ -1146,7 +1201,30 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           vec_lep_miniRelIsoCMS3_EAv2  .push_back(muMiniRelIsoCMS3_EA(iMu, /*eaversion=*/2));
           vec_lep_miniRelIsoCMS3_DB    .push_back(muMiniRelIsoCMS3_DB(iMu));
 
-    		  vec_lep_pdgId        .push_back ( cms3.mus_charge() .at(iMu)*(-13) );
+          vec_lep_pass_VVV_cutbased_veto            .push_back( passMuonSelection_VVV( iMu, VVV_cutbased_veto              ) );
+          vec_lep_pass_VVV_cutbased_veto_noiso      .push_back( passMuonSelection_VVV( iMu, VVV_cutbased_veto_noiso        ) );
+          vec_lep_pass_VVV_cutbased_veto_noiso_noip .push_back( passMuonSelection_VVV( iMu, VVV_cutbased_veto_noiso_noip   ) );
+          vec_lep_pass_VVV_cutbased_fo              .push_back( passMuonSelection_VVV( iMu, VVV_cutbased_fo                ) );
+          vec_lep_pass_VVV_cutbased_fo_noiso        .push_back( passMuonSelection_VVV( iMu, VVV_cutbased_fo_noiso          ) );
+          vec_lep_pass_VVV_cutbased_tight_noiso     .push_back( passMuonSelection_VVV( iMu, VVV_cutbased_tight_noiso       ) );
+          vec_lep_pass_VVV_cutbased_tight           .push_back( passMuonSelection_VVV( iMu, VVV_cutbased_tight             ) );
+          vec_lep_pass_VVV_MVAbased_tight_noiso     .push_back( passMuonSelection_VVV( iMu, VVV_cutbased_tight_noiso       ) ); //MVA for Muons doesn't exist, so use cutbased tight
+          vec_lep_pass_VVV_MVAbased_tight           .push_back( passMuonSelection_VVV( iMu, VVV_cutbased_tight             ) ); //MVA for Muons doesn't exist, so use cutbased tight
+          vec_lep_pass_VVV_baseline                 .push_back( passMuonSelection_VVV( iMu, VVV_baseline                   ) );
+          
+          if (vec_lep_pass_VVV_cutbased_veto.back()            ) nlep_VVV_cutbased_veto++;
+          if (vec_lep_pass_VVV_cutbased_veto_noiso.back()      ) nlep_VVV_cutbased_veto_noiso++;
+          if (vec_lep_pass_VVV_cutbased_veto_noiso_noip.back() ) nlep_VVV_cutbased_veto_noiso_noip++;
+          if (vec_lep_pass_VVV_cutbased_fo.back()              ) nlep_VVV_cutbased_fo++;
+          if (vec_lep_pass_VVV_cutbased_fo_noiso.back()        ) nlep_VVV_cutbased_fo_noiso++;
+          if (vec_lep_pass_VVV_cutbased_tight_noiso.back()     ) nlep_VVV_cutbased_tight_noiso++;
+          if (vec_lep_pass_VVV_cutbased_tight.back()           ) nlep_VVV_cutbased_tight++;
+          if (vec_lep_pass_VVV_MVAbased_tight_noiso.back()     ) nlep_VVV_MVAbased_tight_noiso++;
+          if (vec_lep_pass_VVV_MVAbased_tight.back()           ) nlep_VVV_MVAbased_tight++;
+          if (vec_lep_pass_VVV_baseline.back()                 ) nlep_VVV_baseline++;
+
+          vec_lep_pdgId        .push_back ( cms3.mus_charge() .at(iMu)*(-13) );
+          vec_lep_mc_Id        .push_back ( cms3.mus_mc_id() .at(iMu)          );
     		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV()  .at(iMu)       );
           vec_lep_ip3d         .push_back ( cms3.mus_ip3d()   .at(iMu)       );
           vec_lep_ip3derr      .push_back ( cms3.mus_ip3derr().at(iMu)       );
@@ -1207,6 +1285,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		lep_mass                .push_back( vec_lep_mass                .at(it->first));
     		lep_charge              .push_back( vec_lep_charge              .at(it->first));
     		lep_pdgId               .push_back( vec_lep_pdgId               .at(it->first));
+        lep_mc_Id               .push_back( vec_lep_mc_Id               .at(it->first));
     		lep_dz                  .push_back( vec_lep_dz                  .at(it->first));
     		lep_dxy                 .push_back( vec_lep_dxy                 .at(it->first));
         lep_ip3d                .push_back( vec_lep_ip3d                .at(it->first));
@@ -1235,6 +1314,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         lep_miniRelIsoCMS3_EAv2 .push_back( vec_lep_miniRelIsoCMS3_EAv2 .at(it->first));
         lep_miniRelIsoCMS3_DB   .push_back( vec_lep_miniRelIsoCMS3_DB   .at(it->first));
 
+        lep_pass_VVV_cutbased_veto             .push_back( vec_lep_pass_VVV_cutbased_veto              .at(it->first));
+        lep_pass_VVV_cutbased_veto_noiso       .push_back( vec_lep_pass_VVV_cutbased_veto_noiso        .at(it->first));
+        lep_pass_VVV_cutbased_veto_noiso_noip  .push_back( vec_lep_pass_VVV_cutbased_veto_noiso_noip   .at(it->first));
+        lep_pass_VVV_cutbased_fo               .push_back( vec_lep_pass_VVV_cutbased_fo                .at(it->first));
+        lep_pass_VVV_cutbased_fo_noiso         .push_back( vec_lep_pass_VVV_cutbased_fo_noiso          .at(it->first));
+        lep_pass_VVV_cutbased_tight_noiso      .push_back( vec_lep_pass_VVV_cutbased_tight_noiso       .at(it->first));
+        lep_pass_VVV_cutbased_tight            .push_back( vec_lep_pass_VVV_cutbased_tight             .at(it->first));
+        lep_pass_VVV_MVAbased_tight_noiso      .push_back( vec_lep_pass_VVV_MVAbased_tight_noiso       .at(it->first));
+        lep_pass_VVV_MVAbased_tight            .push_back( vec_lep_pass_VVV_MVAbased_tight             .at(it->first));
+        lep_pass_VVV_baseline                  .push_back( vec_lep_pass_VVV_baseline                   .at(it->first));
+
     		lep_mcMatchId           .push_back( vec_lep_mcMatchId           .at(it->first));
     		lep_lostHits            .push_back( vec_lep_lostHits            .at(it->first));
     		lep_convVeto            .push_back( vec_lep_convVeto            .at(it->first));
@@ -1252,6 +1342,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		i++;
       }
+
          
       //cout<<__LINE__<<endl;  
        
@@ -1546,7 +1637,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		jet_corrfactor_up.push_back(1.0 + shift);
     		jet_corrfactor_dn.push_back(1.0 - shift);
     
-  		  if(p4sCorrJets.at(iJet).pt() < 15.0) continue; 
+  		  //if((p4sCorrJets.at(iJet).pt() < JET_PT_MIN) && (p4sCorrJets.at(iJet).pt() < BJET_PT_MIN)) continue; 
+        //if( (fabs(p4sCorrJets.at(iJet).eta()) > JET_ETA_MAX) && ((fabs(p4sCorrJets.at(iJet).eta()) > BJET_ETA_MAX)) )continue;
+        if(p4sCorrJets.at(iJet).pt() < 15 ) continue; 
         if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2) continue;
   		  // note this uses the eta of the jet as stored in CMS3
   		  //  chance for small discrepancies if JEC changes direction slightly..
@@ -1813,12 +1906,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		if( verbose ) cout<<"Before filling jet branches"<<endl;
 
+        //Btag Pt always lower than regular jet Pt, but we want to fill the jet collection with all jets and btagged jets. 
+        //So first fill jets with anything that is within jet and bjet pt acceptence, eta acceptance always larger for jets than bjets
     		if( p4sCorrJets.at(iJet).pt() > BJET_PT_MIN && abs(p4sCorrJets.at(iJet).eta()) < JET_ETA_MAX ){
      		  if( p4sCorrJets.at(iJet).pt() > JET_PT_MIN ) {
       			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
       			jets_csv                                      .push_back(current_csv_val);
       			jets_muf                                      .push_back(current_muf_val);
     		  }
+          //Then we check whether the jet is within the bjet eta acceptence and has 
     		  if( current_csv_val >= BJET_CSV_MED && abs(p4sCorrJets.at(iJet).eta()) < BJET_ETA_MAX ){
       			if( p4sCorrJets.at(iJet).pt() <= JET_PT_MIN ) {
       			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
@@ -1842,9 +1938,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  // require pT > JET_PT_MIN for HT
     		  if( p4sCorrJets.at(iJet).pt() > JET_PT_MIN ){ ht+=p4sCorrJets.at(iJet).pt(); }
     		
-    		  if(current_csv_val >= BJET_CSV_TIGHT) { nBJetTight++; }
+    		  if( (current_csv_val >= BJET_CSV_TIGHT) && (fabs(p4sCorrJets.at(iJet).eta()) < BJET_ETA_MAX) && (p4sCorrJets.at(iJet).pt() > BJET_PT_MIN) ){ nBJetTight++; }
 
-    		  if(current_csv_val >= BJET_CSV_MED) {
+    		  if(current_csv_val >= BJET_CSV_MED && (fabs(p4sCorrJets.at(iJet).eta()) < BJET_ETA_MAX) && (p4sCorrJets.at(iJet).pt() > BJET_PT_MIN)) {
       			nBJetMedium++;
 
       			// for applying btagging SFs
@@ -1931,7 +2027,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			}
     		  }
     		
-    		  if(current_csv_val >= BJET_CSV_LOOSE) { nBJetLoose++; }
+    		  if(current_csv_val >= BJET_CSV_LOOSE && (fabs(p4sCorrJets.at(iJet).eta()) < BJET_ETA_MAX) && (p4sCorrJets.at(iJet).pt() > BJET_PT_MIN)) { nBJetLoose++; }
 
     		  //require pT > JET_PT_MIN for jet counting
     		  if( p4sCorrJets.at(iJet).pt() > JET_PT_MIN ){ njets++; }
@@ -1945,29 +2041,29 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jets_up_p4    .push_back(p4sCorrJets_up.at(iJet));
     		    jets_up_csv   .push_back(current_csv_val);
           }
-          if( p4sCorrJets_up.at(iJet).pt() > BJET_PT_MIN && abs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX ) { ht_up+=p4sCorrJets_up.at(iJet).pt(); }
-    		  if(current_csv_val >= BJET_CSV_TIGHT && abs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX) { nBJetTight_up++; }
-    		  if(current_csv_val >= BJET_CSV_MED && abs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX) {
+          if( p4sCorrJets_up.at(iJet).pt() > BJET_PT_MIN && fabs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX ) { ht_up+=p4sCorrJets_up.at(iJet).pt(); }
+    		  if(current_csv_val >= BJET_CSV_TIGHT && fabs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX) { nBJetTight_up++; }
+    		  if(current_csv_val >= BJET_CSV_MED && fabs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX) {
       			nBJetMedium_up++;
       			jets_medb_up_p4.push_back(p4sCorrJets_up.at(iJet));
     		  }
-    		  if(current_csv_val >= BJET_CSV_LOOSE && abs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX) { nBJetLoose_up++; }
+    		  if(current_csv_val >= BJET_CSV_LOOSE && fabs(p4sCorrJets_up.at(iJet).eta()) < BJET_ETA_MAX) { nBJetLoose_up++; }
     		}
 
     		if( verbose ) cout<<"Before filling jet dn branches"<<endl;
-        if( (p4sCorrJets_dn.at(iJet).pt() > BJET_PT_MIN ) && abs(p4sCorrJets_dn.at(iJet).eta()) < JET_ETA_MAX ){
+        if( (p4sCorrJets_dn.at(iJet).pt() > BJET_PT_MIN ) && fabs(p4sCorrJets_dn.at(iJet).eta()) < JET_ETA_MAX ){
           if( p4sCorrJets_dn.at(iJet).pt() > JET_PT_MIN ){ 
             njets_dn++;
             jets_dn_p4    .push_back(p4sCorrJets_dn.at(iJet));
             jets_dn_csv   .push_back(current_csv_val);
           }
-          if( p4sCorrJets_dn.at(iJet).pt() > BJET_PT_MIN && abs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX ) { ht_dn+=p4sCorrJets_dn.at(iJet).pt(); }
-          if(current_csv_val >= BJET_CSV_TIGHT && abs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX) { nBJetTight_dn++; }
-          if(current_csv_val >= BJET_CSV_MED && abs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX) {
+          if( p4sCorrJets_dn.at(iJet).pt() > BJET_PT_MIN && fabs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX ) { ht_dn+=p4sCorrJets_dn.at(iJet).pt(); }
+          if(current_csv_val >= BJET_CSV_TIGHT && fabs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX) { nBJetTight_dn++; }
+          if(current_csv_val >= BJET_CSV_MED && fabs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX) {
             nBJetMedium_dn++;
             jets_medb_dn_p4.push_back(p4sCorrJets_dn.at(iJet));
           }
-          if(current_csv_val >= BJET_CSV_LOOSE && abs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX) { nBJetLoose_dn++; }
+          if(current_csv_val >= BJET_CSV_LOOSE && fabs(p4sCorrJets_dn.at(iJet).eta()) < BJET_ETA_MAX) { nBJetLoose_dn++; }
         }
       }
   	  
@@ -2209,6 +2305,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
   	  nisoTrack_5gev = 0;
   	  nisoTrack_mt2  = 0;
+      nisoTrack_stop = 0;
   	  nisoTrack_PFLep5_woverlaps  = 0;
   	  nisoTrack_PFHad10_woverlaps = 0;
   	  nhighPtPFcands = 0;
@@ -2262,35 +2359,66 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         float cand_pt = cms3.pfcands_p4().at(pfind).pt();
         if(cand_pt < 5) continue;
 
-        float absiso = TrackIso( pfind, 0.3, 0.0, true, false );
-        if(  absiso >= min( 0.2 * cand_pt, 8.0 ) ) continue;
-
-    		// nuclear options for photon sample
-    		nisoTrack_5gev++;
-
-    		// isotrack a la MT2
+        // isotrack a la MT2
         int  pdgId = abs( cms3.pfcands_particleId().at( pfind ) );
 
-    		bool leptonoverlaps = false;
-    		if( evt_type != 2 ){
-    		  for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
-    		    //if( lepind >= 2 ) break; // consider all analysis leptons
-      			if( sqrt( pow(cms3.pfcands_p4().at(pfind).eta() - lep_p4.at(lepind).eta(), 2) +
-      					  pow(acos(cos(cms3.pfcands_p4().at(pfind).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.01 ){
-      			  leptonoverlaps = true;
-      			}
-    		  }
-    		}
-    		
-    		if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) && (absiso/cand_pt < 0.2) ){
-    		  nisoTrack_PFLep5_woverlaps++;
-    		  if( !leptonoverlaps ) nisoTrack_mt2++;
-    		}
-    		
-    		if( cand_pt > 10. && pdgId == 211 && (absiso/cand_pt < 0.1 ) ){ 
-    		  nisoTrack_PFHad10_woverlaps++;
-    		  if( !leptonoverlaps ) nisoTrack_mt2++;
-    		}
+        bool leptonoverlaps = false;
+        if( evt_type != 2 ){
+          for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
+            //if( lepind >= 2 ) break; // consider all analysis leptons
+            if( sqrt( pow(cms3.pfcands_p4().at(pfind).eta() - lep_p4.at(lepind).eta(), 2) +
+                  pow(acos(cos(cms3.pfcands_p4().at(pfind).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.01 ){
+              leptonoverlaps = true;
+            }
+          }
+        }
+
+        float absiso03 = TrackIso( pfind, 0.3, 0.0, true, false );
+        if(  absiso03 < min( 0.2 * cand_pt, 8.0 ) ){
+
+      		// nuclear options for photon sample
+      		nisoTrack_5gev++;
+      		
+      		if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) ){
+            if (absiso03/cand_pt < 0.2) {
+      		    nisoTrack_PFLep5_woverlaps++;
+      		    if( !leptonoverlaps ) nisoTrack_mt2++;
+            }
+      		}
+      		
+      		if( cand_pt > 10. && pdgId == 211 ){ 
+      		  if (absiso03/cand_pt < 0.1 ){
+              nisoTrack_PFHad10_woverlaps++;
+      		    if( !leptonoverlaps ) nisoTrack_mt2++;
+            }
+      		}
+        }
+
+        //IsoTrack Stop
+        float absisoDZ = TrackIso( pfind, 0.3, 0.1);
+        if( (pdgId == 11 || pdgId == 13) ){
+          if (cand_pt < 5.) continue;
+          else{
+            if (absisoDZ/cand_pt < 0.2){
+              if( !leptonoverlaps ) nisoTrack_stop++;
+            }
+          }
+        }
+        else if ( pdgId == 211 ) {
+          if (cand_pt < 10.) continue;
+          else if (cand_pt <= 60.){
+            if (absisoDZ/cand_pt < 0.1){
+              if( !leptonoverlaps ) nisoTrack_stop++;
+            }
+          }
+          else{ //pt > 60
+            if (absisoDZ < 6.0){
+              if( !leptonoverlaps ) nisoTrack_stop++;
+            }
+          }
+        }
+
+
   	  } // loop over pfcands
   	  
   	  chpfcands_0013_pt = chpfcands_0013_p4.pt();
@@ -2563,12 +2691,12 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   
   //New vars for testing WWW
   BabyTree_->Branch("lep_3ch_agree"            , "std::vector< Bool_t  > " , &lep_3ch_agree             );
-  BabyTree_->Branch("lep_isFromW"              , "std::vector< Int_t   > " , &lep_isFromW               );
-  BabyTree_->Branch("lep_isFromZ"              , "std::vector< Int_t   > " , &lep_isFromZ               );
-  BabyTree_->Branch("lep_isFromB"              , "std::vector< Int_t   > " , &lep_isFromB               );
-  BabyTree_->Branch("lep_isFromC"              , "std::vector< Int_t   > " , &lep_isFromC               );
-  BabyTree_->Branch("lep_isFromL"              , "std::vector< Int_t   > " , &lep_isFromL               );
-  BabyTree_->Branch("lep_isFromLF"             , "std::vector< Int_t   > " , &lep_isFromLF              );
+  BabyTree_->Branch("lep_isFromW"              , "std::vector< Bool_t   > " , &lep_isFromW               );
+  BabyTree_->Branch("lep_isFromZ"              , "std::vector< Bool_t   > " , &lep_isFromZ               );
+  BabyTree_->Branch("lep_isFromB"              , "std::vector< Bool_t   > " , &lep_isFromB               );
+  BabyTree_->Branch("lep_isFromC"              , "std::vector< Bool_t   > " , &lep_isFromC               );
+  BabyTree_->Branch("lep_isFromL"              , "std::vector< Bool_t   > " , &lep_isFromL               );
+  BabyTree_->Branch("lep_isFromLF"             , "std::vector< Bool_t   > " , &lep_isFromLF              );
   BabyTree_->Branch("lep_ptRatio"              , "std::vector< Double_t >" , &lep_ptRatio               );
   BabyTree_->Branch("lep_ptRel"                , "std::vector< Double_t >" , &lep_ptRel                 );
   BabyTree_->Branch("lep_relIso03"             , "std::vector< Double_t >" , &lep_relIso03              );
@@ -2582,7 +2710,30 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_miniRelIsoCMS3_EAv2"  , "std::vector< Double_t >" , &lep_miniRelIsoCMS3_EAv2   );
   BabyTree_->Branch("lep_miniRelIsoCMS3_DB"    , "std::vector< Double_t >" , &lep_miniRelIsoCMS3_DB     );
 
+  BabyTree_->Branch("lep_pass_VVV_cutbased_veto"              , "std::vector< Bool_t  > " , &lep_pass_VVV_cutbased_veto             );
+  BabyTree_->Branch("lep_pass_VVV_cutbased_veto_noiso"        , "std::vector< Bool_t  > " , &lep_pass_VVV_cutbased_veto_noiso       );
+  BabyTree_->Branch("lep_pass_VVV_cutbased_veto_noiso_noip"   , "std::vector< Bool_t  > " , &lep_pass_VVV_cutbased_veto_noiso_noip  );
+  BabyTree_->Branch("lep_pass_VVV_cutbased_fo"                , "std::vector< Bool_t  > " , &lep_pass_VVV_cutbased_fo               );
+  BabyTree_->Branch("lep_pass_VVV_cutbased_fo_noiso"          , "std::vector< Bool_t  > " , &lep_pass_VVV_cutbased_fo_noiso         );
+  BabyTree_->Branch("lep_pass_VVV_cutbased_tight_noiso"       , "std::vector< Bool_t  > " , &lep_pass_VVV_cutbased_tight_noiso      );
+  BabyTree_->Branch("lep_pass_VVV_cutbased_tight"             , "std::vector< Bool_t  > " , &lep_pass_VVV_cutbased_tight            );
+  BabyTree_->Branch("lep_pass_VVV_MVAbased_tight_noiso"       , "std::vector< Bool_t  > " , &lep_pass_VVV_MVAbased_tight_noiso      );
+  BabyTree_->Branch("lep_pass_VVV_MVAbased_tight"             , "std::vector< Bool_t  > " , &lep_pass_VVV_MVAbased_tight            );
+  BabyTree_->Branch("lep_pass_VVV_baseline"                   , "std::vector< Bool_t  > " , &lep_pass_VVV_baseline                  );
+
+  BabyTree_->Branch("nlep_VVV_cutbased_veto"             , &nlep_VVV_cutbased_veto             , "nlep_VVV_cutbased_veto/I" );
+  BabyTree_->Branch("nlep_VVV_cutbased_veto_noiso"       , &nlep_VVV_cutbased_veto_noiso       , "nlep_VVV_cutbased_veto_noiso/I" );
+  BabyTree_->Branch("nlep_VVV_cutbased_veto_noiso_noip"  , &nlep_VVV_cutbased_veto_noiso_noip  , "nlep_VVV_cutbased_veto_noiso_noip/I" );
+  BabyTree_->Branch("nlep_VVV_cutbased_fo"               , &nlep_VVV_cutbased_fo               , "nlep_VVV_cutbased_fo/I" );
+  BabyTree_->Branch("nlep_VVV_cutbased_fo_noiso"         , &nlep_VVV_cutbased_fo_noiso         , "nlep_VVV_cutbased_fo_noiso/I" );
+  BabyTree_->Branch("nlep_VVV_cutbased_tight_noiso"      , &nlep_VVV_cutbased_tight_noiso      , "nlep_VVV_cutbased_tight_noiso/I" );
+  BabyTree_->Branch("nlep_VVV_cutbased_tight"            , &nlep_VVV_cutbased_tight            , "nlep_VVV_cutbased_tight/I" );
+  BabyTree_->Branch("nlep_VVV_MVAbased_tight_noiso"      , &nlep_VVV_MVAbased_tight_noiso      , "nlep_VVV_MVAbased_tight_noiso/I" );
+  BabyTree_->Branch("nlep_VVV_MVAbased_tight"            , &nlep_VVV_MVAbased_tight            , "nlep_VVV_MVAbased_tight/I" );
+  BabyTree_->Branch("nlep_VVV_baseline"                  , &nlep_VVV_baseline                  , "nlep_VVV_baseline/I" );
+
   BabyTree_->Branch("lep_pdgId"        , "std::vector< Int_t >"         , &lep_pdgId      );
+  BabyTree_->Branch("lep_mc_Id"        , "std::vector< Int_t >"         , &lep_mc_Id      );
   BabyTree_->Branch("lep_dxy"          , "std::vector< Float_t >"       , &lep_dxy        );
   BabyTree_->Branch("lep_ip3d"         , "std::vector< Float_t >"       , &lep_ip3d       );
   BabyTree_->Branch("lep_ip3derr"      , "std::vector< Float_t >"       , &lep_ip3derr    );
@@ -2606,6 +2757,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("nisoTrack_5gev" , &nisoTrack_5gev );
   BabyTree_->Branch("nisoTrack_mt2"  , &nisoTrack_mt2  );
+  BabyTree_->Branch("nisoTrack_stop"  , &nisoTrack_stop  );
   BabyTree_->Branch("nisoTrack_PFLep5_woverlaps"  , &nisoTrack_PFLep5_woverlaps  );
   BabyTree_->Branch("nisoTrack_PFHad10_woverlaps" , &nisoTrack_PFHad10_woverlaps );
 
@@ -3051,8 +3203,31 @@ void babyMaker::InitBabyNtuple () {
   lep_miniRelIsoCMS3_EAv2 .clear();
   lep_miniRelIsoCMS3_DB   .clear();
 
+  lep_pass_VVV_cutbased_veto             .clear();
+  lep_pass_VVV_cutbased_veto_noiso       .clear();
+  lep_pass_VVV_cutbased_veto_noiso_noip  .clear();
+  lep_pass_VVV_cutbased_fo               .clear();
+  lep_pass_VVV_cutbased_fo_noiso         .clear();
+  lep_pass_VVV_cutbased_tight_noiso      .clear();
+  lep_pass_VVV_cutbased_tight            .clear();
+  lep_pass_VVV_MVAbased_tight_noiso      .clear();
+  lep_pass_VVV_MVAbased_tight            .clear();
+  lep_pass_VVV_baseline                  .clear();
+
+  nlep_VVV_cutbased_veto             = -999;
+  nlep_VVV_cutbased_veto_noiso       = -999;
+  nlep_VVV_cutbased_veto_noiso_noip  = -999;
+  nlep_VVV_cutbased_fo               = -999;
+  nlep_VVV_cutbased_fo_noiso         = -999;
+  nlep_VVV_cutbased_tight_noiso      = -999;
+  nlep_VVV_cutbased_tight            = -999;
+  nlep_VVV_MVAbased_tight_noiso      = -999;
+  nlep_VVV_MVAbased_tight            = -999;
+  nlep_VVV_baseline                  = -999;
+
 
   lep_pdgId         .clear();
+  lep_mc_Id         .clear();
   lep_dxy           .clear();
   lep_ip3d          .clear();
   lep_ip3derr       .clear();
@@ -3077,6 +3252,7 @@ void babyMaker::InitBabyNtuple () {
   
   nisoTrack_5gev = -1;
   nisoTrack_mt2  = -1;
+  nisoTrack_stop = -1;
   nisoTrack_PFLep5_woverlaps  = -1;
   nisoTrack_PFHad10_woverlaps = -1;
 

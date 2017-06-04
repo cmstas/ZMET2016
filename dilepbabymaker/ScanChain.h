@@ -266,12 +266,12 @@ private:
   std::vector <Int_t  > lep_charge       ;   //[nlep]
   
   std::vector <Bool_t >  lep_3ch_agree             ;
-  std::vector <Int_t  >  lep_isFromW               ;
-  std::vector <Int_t  >  lep_isFromZ               ;
-  std::vector <Int_t  >  lep_isFromB               ;
-  std::vector <Int_t  >  lep_isFromC               ;
-  std::vector <Int_t  >  lep_isFromL               ;
-  std::vector <Int_t  >  lep_isFromLF              ;
+  std::vector <Bool_t  > lep_isFromW               ;
+  std::vector <Bool_t  > lep_isFromZ               ;
+  std::vector <Bool_t  > lep_isFromB               ;
+  std::vector <Bool_t  > lep_isFromC               ;
+  std::vector <Bool_t  > lep_isFromL               ;
+  std::vector <Bool_t  > lep_isFromLF              ;
   std::vector <Double_t> lep_ptRatio               ;
   std::vector <Double_t> lep_ptRel                 ;
   std::vector <Double_t> lep_relIso03              ;
@@ -285,7 +285,32 @@ private:
   std::vector <Double_t> lep_miniRelIsoCMS3_EAv2   ;
   std::vector <Double_t> lep_miniRelIsoCMS3_DB     ;
   
+  //Lepton IDs:
+  std::vector <Bool_t >  lep_pass_VVV_cutbased_veto             ;
+  std::vector <Bool_t >  lep_pass_VVV_cutbased_veto_noiso       ;
+  std::vector <Bool_t >  lep_pass_VVV_cutbased_veto_noiso_noip  ;
+  std::vector <Bool_t >  lep_pass_VVV_cutbased_fo               ;
+  std::vector <Bool_t >  lep_pass_VVV_cutbased_fo_noiso         ;
+  std::vector <Bool_t >  lep_pass_VVV_cutbased_tight_noiso      ;
+  std::vector <Bool_t >  lep_pass_VVV_cutbased_tight            ;
+  std::vector <Bool_t >  lep_pass_VVV_MVAbased_tight_noiso      ;
+  std::vector <Bool_t >  lep_pass_VVV_MVAbased_tight            ;
+  std::vector <Bool_t >  lep_pass_VVV_baseline                  ;
+
+  //Lepton ID Counters:
+  Int_t  nlep_VVV_cutbased_veto                  ;
+  Int_t  nlep_VVV_cutbased_veto_noiso            ;
+  Int_t  nlep_VVV_cutbased_veto_noiso_noip       ;
+  Int_t  nlep_VVV_cutbased_fo                    ;
+  Int_t  nlep_VVV_cutbased_fo_noiso              ;
+  Int_t  nlep_VVV_cutbased_tight_noiso           ;
+  Int_t  nlep_VVV_cutbased_tight                 ;
+  Int_t  nlep_VVV_MVAbased_tight_noiso           ;
+  Int_t  nlep_VVV_MVAbased_tight                 ;
+  Int_t  nlep_VVV_baseline                       ;
+
   std::vector <Int_t  > lep_pdgId        ;   //[nlep]
+  std::vector <Int_t  > lep_mc_Id        ;
   std::vector <Float_t> lep_dxy          ;   //[nlep]
   std::vector <Float_t> lep_ip3d         ;   //[nlep]
   std::vector <Float_t> lep_ip3derr      ;   //[nlep]
@@ -308,6 +333,7 @@ private:
   // std::vector <Float_t> lep_bft_x2ondof  ;   //[nlep]
   
   Int_t nisoTrack_5gev;
+  Int_t nisoTrack_stop;
   Int_t nisoTrack_mt2 ;
   Int_t nisoTrack_PFLep5_woverlaps ;
   Int_t nisoTrack_PFHad10_woverlaps ;
