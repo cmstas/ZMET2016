@@ -128,7 +128,7 @@ d_ds2name = {
 #        "/QCD_HT1500to2000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM" : "qcdht1500_ext1", 
 #        "/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM"       : "qcdht2000_nonext", 
 #        "/QCD_HT2000toInf_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext1-v1/MINIAODSIM"  : "qcdht2000_ext1",
-    }
+ },
     "data": {
         "/SingleMuon/Run2016B-03Feb2017_ver2-v2/MINIAOD"      : "data_Run2016B_03feb2017rereco_sm_v2",
         "/SinglePhoton/Run2016B-03Feb2017_ver2-v2/MINIAOD"    : "data_Run2016B_03feb2017rereco_ph_v2",
@@ -176,7 +176,7 @@ d_ds2name = {
         "/DoubleMuon/Run2016H-03Feb2017_ver3-v1/MINIAOD"     : "data_Run2016H_03feb2017rereco_mm_v3",
         "/MuonEG/Run2016H-03Feb2017_ver2-v1/MINIAOD"         : "data_Run2016H_03feb2017rereco_em_v2",
         "/MuonEG/Run2016H-03Feb2017_ver3-v1/MINIAOD"         : "data_Run2016H_03feb2017rereco_em_v3",
-#    },
+    }
 #    "scans": {
 #        "/SMS-T5ZZ_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM"                    : "t5zz_orig_80x_v2",
 #        "/SMS-T5ZZ_mGluino-1850to2100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM" : "t5zz_mg1850_80x_v2",
