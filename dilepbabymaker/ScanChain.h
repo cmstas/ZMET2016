@@ -286,7 +286,10 @@ private:
   std::vector <Double_t> lep_miniRelIsoCMS3_EAv2   ;
   std::vector <Double_t> lep_miniRelIsoCMS3_DB     ;
   std::vector <LorentzVector> lep_closest_jet_p4   ;
-  
+  std::vector <Int_t>    lep_motherIdSS            ;
+  std::vector <Int_t>    lep_genPart_index         ;
+
+
   //Lepton IDs:
   std::vector <Bool_t >  lep_pass_VVV_cutbased_veto             ;
   std::vector <Bool_t >  lep_pass_VVV_cutbased_veto_noiso       ;

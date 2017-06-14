@@ -910,6 +910,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector< double > vec_lep_ptRatio;
       vector< double > vec_lep_coneCorrPt;
       vector< double > vec_lep_ptRel;
+      vector< double > vec_lep_motherIdSS;
+      vector< double > vec_lep_genPart_index;
       vector< double > vec_lep_relIso03;
       vector< double > vec_lep_relIso03DB;
       vector< double > vec_lep_relIso03EA;
@@ -1045,6 +1047,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.els_p4().at(iEl).pt()/closeJetPt : 1.));
           vec_lep_coneCorrPt           .push_back(coneCorrPt(/* pdgid= */ 11, iEl));
           vec_lep_ptRel                .push_back(ptRel(cms3.els_p4().at(iEl), temp_jet_p4, true));
+          pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(11, iEl));
+          vec_lep_motherIdSS           .push_back(motherId_genIdx.first);
+          vec_lep_genPart_index        .push_back(motherId_genIdx.second);
           vec_lep_relIso03             .push_back(eleRelIso03_noCorr(iEl));
           vec_lep_relIso03DB           .push_back(eleRelIso03DB(iEl));
           vec_lep_relIso03EA           .push_back(eleRelIso03EA(iEl, /*eaversion=*/1));
@@ -1196,6 +1201,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.mus_p4().at(iMu).pt()/closeJetPt : 1.));
           vec_lep_coneCorrPt           .push_back(coneCorrPt(/* pdgid= */ 13, iMu));
           vec_lep_ptRel                .push_back(ptRel(cms3.mus_p4().at(iMu), temp_jet_p4, true));
+          pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(13, iMu));
+          vec_lep_motherIdSS           .push_back(motherId_genIdx.first);
+          vec_lep_genPart_index        .push_back(motherId_genIdx.second);
           vec_lep_relIso03             .push_back(muRelIso03_noCorr(iMu));
           vec_lep_relIso03DB           .push_back(muRelIso03DB(iMu));
           vec_lep_relIso03EA           .push_back(muRelIso03EA(iMu,/*eaversion=*/1));
@@ -1309,6 +1317,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         lep_isFromL             .push_back( vec_lep_isFromL         .at(it->first));
         lep_isFromLF            .push_back( vec_lep_isFromLF        .at(it->first));
         lep_ptRatio             .push_back( vec_lep_ptRatio             .at(it->first));
+        lep_motherIdSS          .push_back( vec_lep_motherIdSS          .at(it->first));
+        lep_genPart_index       .push_back( vec_lep_genPart_index       .at(it->first));
         lep_coneCorrPt          .push_back( vec_lep_coneCorrPt          .at(it->first));
         lep_ptRel               .push_back( vec_lep_ptRel               .at(it->first));
         lep_relIso03            .push_back( vec_lep_relIso03            .at(it->first));
@@ -2772,6 +2782,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_isFromLF"             , "std::vector< Bool_t   > " , &lep_isFromLF              );
   BabyTree_->Branch("lep_closest_jet_p4"       , &lep_closest_jet_p4 );
   BabyTree_->Branch("lep_ptRatio"              , "std::vector< Double_t >" , &lep_ptRatio               );
+  BabyTree_->Branch("lep_motherIdSS"           , "std::vector< Int_t    >" , &lep_motherIdSS            );
+  BabyTree_->Branch("lep_genPart_index"        , "std::vector< Int_t    >" , &lep_genPart_index         );
   BabyTree_->Branch("lep_coneCorrPt"           , "std::vector< Double_t >" , &lep_coneCorrPt            );
   BabyTree_->Branch("lep_ptRel"                , "std::vector< Double_t >" , &lep_ptRel                 );
   BabyTree_->Branch("lep_relIso03"             , "std::vector< Double_t >" , &lep_relIso03              );
