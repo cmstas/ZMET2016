@@ -17,7 +17,7 @@
 #include "../CORE/CMS3.h"
 #include "../CORE/Base.h"
 #include "../CORE/OSSelections.h"
-//#include "../CORE/SSSelections.h"
+#include "../CORE/SSSelections.h"
 #include "../CORE/VVVSelections.h"
 #include "../CORE/ElectronSelections.h"
 #include "../CORE/IsolationTools.h"
@@ -906,7 +906,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector< bool >    vec_lep_isFromC;
       vector< bool >    vec_lep_isFromL;
       vector< bool >    vec_lep_isFromLF;
+      vector< LorentzVector > vec_lep_closest_jet_p4;
       vector< double > vec_lep_ptRatio;
+      vector< double > vec_lep_coneCorrPt;
       vector< double > vec_lep_ptRel;
       vector< double > vec_lep_relIso03;
       vector< double > vec_lep_relIso03DB;
@@ -1039,7 +1041,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */11, iEl) );
           const LorentzVector& temp_jet_p4 = closestJet(cms3.els_p4().at(iEl), 0.4, 3.0, /*whichCorr = */2);
           float closeJetPt            = temp_jet_p4.pt();
+          vec_lep_closest_jet_p4       .push_back(temp_jet_p4);
           vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.els_p4().at(iEl).pt()/closeJetPt : 1.));
+          vec_lep_coneCorrPt           .push_back(coneCorrPt(/* pdgid= */ 11, iEl));
           vec_lep_ptRel                .push_back(ptRel(cms3.els_p4().at(iEl), temp_jet_p4, true));
           vec_lep_relIso03             .push_back(eleRelIso03_noCorr(iEl));
           vec_lep_relIso03DB           .push_back(eleRelIso03DB(iEl));
@@ -1188,7 +1192,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */13, iMu) );
           const LorentzVector& temp_jet_p4 = closestJet(cms3.mus_p4().at(iMu), 0.4, 3.0, /*whichCorr = */2);
           float closeJetPt            = temp_jet_p4.pt();
+          vec_lep_closest_jet_p4       .push_back(temp_jet_p4);
           vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.mus_p4().at(iMu).pt()/closeJetPt : 1.));
+          vec_lep_coneCorrPt           .push_back(coneCorrPt(/* pdgid= */ 13, iMu));
           vec_lep_ptRel                .push_back(ptRel(cms3.mus_p4().at(iMu), temp_jet_p4, true));
           vec_lep_relIso03             .push_back(muRelIso03_noCorr(iMu));
           vec_lep_relIso03DB           .push_back(muRelIso03DB(iMu));
@@ -1292,6 +1298,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         lep_ip3derr             .push_back( vec_lep_ip3derr             .at(it->first));
     		lep_etaSC               .push_back( vec_lep_etaSC               .at(it->first));
     		lep_tightId             .push_back( vec_lep_tightId             .at(it->first));
+        lep_closest_jet_p4      .push_back( vec_lep_closest_jet_p4      .at(it->first));
     		
         // WWW Selection Vars
         lep_3ch_agree           .push_back( vec_lep_3ch_agree           .at(it->first));
@@ -1302,6 +1309,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         lep_isFromL             .push_back( vec_lep_isFromL         .at(it->first));
         lep_isFromLF            .push_back( vec_lep_isFromLF        .at(it->first));
         lep_ptRatio             .push_back( vec_lep_ptRatio             .at(it->first));
+        lep_coneCorrPt          .push_back( vec_lep_coneCorrPt          .at(it->first));
         lep_ptRel               .push_back( vec_lep_ptRel               .at(it->first));
         lep_relIso03            .push_back( vec_lep_relIso03            .at(it->first));
         lep_relIso03DB          .push_back( vec_lep_relIso03DB          .at(it->first));
@@ -2310,6 +2318,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  nisoTrack_PFHad10_woverlaps = 0;
   	  nhighPtPFcands = 0;
 
+      nisoTrack_mt2_cleaned_VVV_cutbased_veto              = 0;
+      nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso        = 0;
+      nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso_noip   = 0;
+      nisoTrack_mt2_cleaned_VVV_cutbased_fo                = 0;
+      nisoTrack_mt2_cleaned_VVV_cutbased_fo_noiso          = 0;
+      nisoTrack_mt2_cleaned_VVV_cutbased_tight_noiso       = 0;
+      nisoTrack_mt2_cleaned_VVV_cutbased_tight             = 0;
+      nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso       = 0;
+      nisoTrack_mt2_cleaned_VVV_MVAbased_tight             = 0;
+      nisoTrack_mt2_cleaned_VVV_baseline                   = 0;
+
       //------------------------------------
       // Compute Kinematic Vars For PFCands
       //------------------------------------
@@ -2363,26 +2382,66 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         int  pdgId = abs( cms3.pfcands_particleId().at( pfind ) );
 
         bool leptonoverlaps = false;
+
+        bool leptonoverlaps_VVV_cutbased_veto = false;
+        bool leptonoverlaps_VVV_cutbased_veto_noiso = false;
+        bool leptonoverlaps_VVV_cutbased_veto_noiso_noip = false;
+        bool leptonoverlaps_VVV_cutbased_fo = false;
+        bool leptonoverlaps_VVV_cutbased_fo_noiso = false;
+        bool leptonoverlaps_VVV_cutbased_tight_noiso = false;
+        bool leptonoverlaps_VVV_cutbased_tight = false;
+        bool leptonoverlaps_VVV_MVAbased_tight_noiso = false;
+        bool leptonoverlaps_VVV_MVAbased_tight = false;
+        bool leptonoverlaps_VVV_baseline = false;
+
+
         if( evt_type != 2 ){
           for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
             //if( lepind >= 2 ) break; // consider all analysis leptons
             if( sqrt( pow(cms3.pfcands_p4().at(pfind).eta() - lep_p4.at(lepind).eta(), 2) +
                   pow(acos(cos(cms3.pfcands_p4().at(pfind).phi() - lep_p4.at(lepind).phi())), 2) ) < 0.01 ){
               leptonoverlaps = true;
+              if (lep_pass_VVV_cutbased_veto.at(lepind))            leptonoverlaps_VVV_cutbased_veto = true;
+              if (lep_pass_VVV_cutbased_veto_noiso.at(lepind))      leptonoverlaps_VVV_cutbased_veto_noiso = true;
+              if (lep_pass_VVV_cutbased_veto_noiso_noip.at(lepind)) leptonoverlaps_VVV_cutbased_veto_noiso_noip = true;
+              if (lep_pass_VVV_cutbased_fo.at(lepind))              leptonoverlaps_VVV_cutbased_fo = true;
+              if (lep_pass_VVV_cutbased_fo_noiso.at(lepind))        leptonoverlaps_VVV_cutbased_fo_noiso = true;
+              if (lep_pass_VVV_cutbased_tight_noiso.at(lepind))     leptonoverlaps_VVV_cutbased_tight_noiso = true;
+              if (lep_pass_VVV_cutbased_tight.at(lepind))           leptonoverlaps_VVV_cutbased_tight = true;
+              if (lep_pass_VVV_MVAbased_tight_noiso.at(lepind))     leptonoverlaps_VVV_MVAbased_tight_noiso = true;
+              if (lep_pass_VVV_MVAbased_tight.at(lepind))           leptonoverlaps_VVV_MVAbased_tight = true;
+              if (lep_pass_VVV_baseline.at(lepind))                 leptonoverlaps_VVV_baseline = true;
+
+              //cout<<"Found match for track, lepton passed -- lep_pass_VVV_cutbased_veto: "<<lep_pass_VVV_cutbased_veto.at(lepind)<<" lep_pass_VVV_cutbased_fo: "<<lep_pass_VVV_cutbased_fo.at(lepind)<<" lep_pass_VVV_MVAbased_tight_noiso: "<<lep_pass_VVV_MVAbased_tight_noiso.at(lepind)<<endl;
             }
           }
         }
 
+        //cout<<"PROIR: nisoTrack_mt2_cleaned_VVV_cutbased_veto: "<<nisoTrack_mt2_cleaned_VVV_cutbased_veto<<" nisoTrack_mt2_cleaned_VVV_cutbased_fo: "<< nisoTrack_mt2_cleaned_VVV_cutbased_fo<<" nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso: "<<nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso<<endl;
+        
         float absiso03 = TrackIso( pfind, 0.3, 0.0, true, false );
         if(  absiso03 < min( 0.2 * cand_pt, 8.0 ) ){
 
-      		// nuclear options for photon sample
-      		nisoTrack_5gev++;
+          //cout<<"Iso is good"<<endl;
+          // nuclear options for photon sample
+          nisoTrack_5gev++;
+
       		
       		if( (cand_pt > 5.) && (pdgId == 11 || pdgId == 13) ){
             if (absiso03/cand_pt < 0.2) {
       		    nisoTrack_PFLep5_woverlaps++;
       		    if( !leptonoverlaps ) nisoTrack_mt2++;
+
+              if( !leptonoverlaps_VVV_cutbased_veto )               nisoTrack_mt2_cleaned_VVV_cutbased_veto++;
+              if( !leptonoverlaps_VVV_cutbased_veto_noiso )         nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso++;
+              if( !leptonoverlaps_VVV_cutbased_veto_noiso_noip )    nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso_noip++;
+              if( !leptonoverlaps_VVV_cutbased_fo )                 nisoTrack_mt2_cleaned_VVV_cutbased_fo++;
+              if( !leptonoverlaps_VVV_cutbased_fo_noiso )           nisoTrack_mt2_cleaned_VVV_cutbased_fo_noiso++;
+              if( !leptonoverlaps_VVV_cutbased_tight_noiso )        nisoTrack_mt2_cleaned_VVV_cutbased_tight_noiso++;
+              if( !leptonoverlaps_VVV_cutbased_tight )              nisoTrack_mt2_cleaned_VVV_cutbased_tight++;
+              if( !leptonoverlaps_VVV_MVAbased_tight_noiso )        nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso++;
+              if( !leptonoverlaps_VVV_MVAbased_tight )              nisoTrack_mt2_cleaned_VVV_MVAbased_tight++;
+              if( !leptonoverlaps_VVV_baseline )                    nisoTrack_mt2_cleaned_VVV_baseline++;
             }
       		}
       		
@@ -2390,9 +2449,23 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       		  if (absiso03/cand_pt < 0.1 ){
               nisoTrack_PFHad10_woverlaps++;
       		    if( !leptonoverlaps ) nisoTrack_mt2++;
+
+              if( !leptonoverlaps_VVV_cutbased_veto )               nisoTrack_mt2_cleaned_VVV_cutbased_veto++;
+              if( !leptonoverlaps_VVV_cutbased_veto_noiso )         nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso++;
+              if( !leptonoverlaps_VVV_cutbased_veto_noiso_noip )    nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso_noip++;
+              if( !leptonoverlaps_VVV_cutbased_fo )                 nisoTrack_mt2_cleaned_VVV_cutbased_fo++;
+              if( !leptonoverlaps_VVV_cutbased_fo_noiso )           nisoTrack_mt2_cleaned_VVV_cutbased_fo_noiso++;
+              if( !leptonoverlaps_VVV_cutbased_tight_noiso )        nisoTrack_mt2_cleaned_VVV_cutbased_tight_noiso++;
+              if( !leptonoverlaps_VVV_cutbased_tight )              nisoTrack_mt2_cleaned_VVV_cutbased_tight++;
+              if( !leptonoverlaps_VVV_MVAbased_tight_noiso )        nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso++;
+              if( !leptonoverlaps_VVV_MVAbased_tight )              nisoTrack_mt2_cleaned_VVV_MVAbased_tight++;
+              if( !leptonoverlaps_VVV_baseline )                    nisoTrack_mt2_cleaned_VVV_baseline++;
             }
       		}
         }
+
+        //cout<<"AFTER: nisoTrack_mt2_cleaned_VVV_cutbased_veto: "<<nisoTrack_mt2_cleaned_VVV_cutbased_veto<<" nisoTrack_mt2_cleaned_VVV_cutbased_fo: "<< nisoTrack_mt2_cleaned_VVV_cutbased_fo<<" nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso: "<<nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso<<endl;
+
 
         //IsoTrack Stop
         float absisoDZ = TrackIso( pfind, 0.3, 0.1);
@@ -2697,7 +2770,9 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_isFromC"              , "std::vector< Bool_t   > " , &lep_isFromC               );
   BabyTree_->Branch("lep_isFromL"              , "std::vector< Bool_t   > " , &lep_isFromL               );
   BabyTree_->Branch("lep_isFromLF"             , "std::vector< Bool_t   > " , &lep_isFromLF              );
+  BabyTree_->Branch("lep_closest_jet_p4"       , &lep_closest_jet_p4 );
   BabyTree_->Branch("lep_ptRatio"              , "std::vector< Double_t >" , &lep_ptRatio               );
+  BabyTree_->Branch("lep_coneCorrPt"           , "std::vector< Double_t >" , &lep_coneCorrPt            );
   BabyTree_->Branch("lep_ptRel"                , "std::vector< Double_t >" , &lep_ptRel                 );
   BabyTree_->Branch("lep_relIso03"             , "std::vector< Double_t >" , &lep_relIso03              );
   BabyTree_->Branch("lep_relIso03DB"           , "std::vector< Double_t >" , &lep_relIso03DB            );
@@ -2757,6 +2832,18 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("nisoTrack_5gev" , &nisoTrack_5gev );
   BabyTree_->Branch("nisoTrack_mt2"  , &nisoTrack_mt2  );
+
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_cutbased_veto"  ,             &nisoTrack_mt2_cleaned_VVV_cutbased_veto             );
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso"  ,       &nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso       );
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso_noip"  ,  &nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso_noip  );
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_cutbased_fo"  ,               &nisoTrack_mt2_cleaned_VVV_cutbased_fo               );
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_cutbased_fo_noiso"  ,         &nisoTrack_mt2_cleaned_VVV_cutbased_fo_noiso         );
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_cutbased_tight_noiso"  ,      &nisoTrack_mt2_cleaned_VVV_cutbased_tight_noiso      );
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_cutbased_tight"  ,            &nisoTrack_mt2_cleaned_VVV_cutbased_tight            );
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso"  ,      &nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso      );
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_MVAbased_tight"  ,            &nisoTrack_mt2_cleaned_VVV_MVAbased_tight            );
+  BabyTree_->Branch("nisoTrack_mt2_cleaned_VVV_baseline"  ,                  &nisoTrack_mt2_cleaned_VVV_baseline                  );
+
   BabyTree_->Branch("nisoTrack_stop"  , &nisoTrack_stop  );
   BabyTree_->Branch("nisoTrack_PFLep5_woverlaps"  , &nisoTrack_PFLep5_woverlaps  );
   BabyTree_->Branch("nisoTrack_PFHad10_woverlaps" , &nisoTrack_PFHad10_woverlaps );
@@ -3191,6 +3278,7 @@ void babyMaker::InitBabyNtuple () {
   lep_isFromL             .clear();
   lep_isFromLF            .clear();
   lep_ptRatio             .clear();
+  lep_coneCorrPt          .clear();
   lep_ptRel               .clear();
   lep_relIso03            .clear();
   lep_relIso03DB          .clear();
@@ -3252,6 +3340,18 @@ void babyMaker::InitBabyNtuple () {
   
   nisoTrack_5gev = -1;
   nisoTrack_mt2  = -1;
+
+  nisoTrack_mt2_cleaned_VVV_cutbased_veto            = -1;      
+  nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso      = -1;            
+  nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso_noip = -1;                 
+  nisoTrack_mt2_cleaned_VVV_cutbased_fo              = -1;    
+  nisoTrack_mt2_cleaned_VVV_cutbased_fo_noiso        = -1;          
+  nisoTrack_mt2_cleaned_VVV_cutbased_tight_noiso     = -1;             
+  nisoTrack_mt2_cleaned_VVV_cutbased_tight           = -1;       
+  nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso     = -1;             
+  nisoTrack_mt2_cleaned_VVV_MVAbased_tight           = -1;       
+  nisoTrack_mt2_cleaned_VVV_baseline                 = -1; 
+
   nisoTrack_stop = -1;
   nisoTrack_PFLep5_woverlaps  = -1;
   nisoTrack_PFHad10_woverlaps = -1;

@@ -272,6 +272,7 @@ private:
   std::vector <Bool_t  > lep_isFromC               ;
   std::vector <Bool_t  > lep_isFromL               ;
   std::vector <Bool_t  > lep_isFromLF              ;
+  std::vector <Double_t> lep_coneCorrPt            ;
   std::vector <Double_t> lep_ptRatio               ;
   std::vector <Double_t> lep_ptRel                 ;
   std::vector <Double_t> lep_relIso03              ;
@@ -284,6 +285,7 @@ private:
   std::vector <Double_t> lep_miniRelIsoCMS3_EA     ;
   std::vector <Double_t> lep_miniRelIsoCMS3_EAv2   ;
   std::vector <Double_t> lep_miniRelIsoCMS3_DB     ;
+  std::vector <LorentzVector> lep_closest_jet_p4   ;
   
   //Lepton IDs:
   std::vector <Bool_t >  lep_pass_VVV_cutbased_veto             ;
@@ -335,6 +337,18 @@ private:
   Int_t nisoTrack_5gev;
   Int_t nisoTrack_stop;
   Int_t nisoTrack_mt2 ;
+  
+  Int_t nisoTrack_mt2_cleaned_VVV_cutbased_veto            ;     
+  Int_t nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso      ;           
+  Int_t nisoTrack_mt2_cleaned_VVV_cutbased_veto_noiso_noip ;                
+  Int_t nisoTrack_mt2_cleaned_VVV_cutbased_fo              ;   
+  Int_t nisoTrack_mt2_cleaned_VVV_cutbased_fo_noiso        ;         
+  Int_t nisoTrack_mt2_cleaned_VVV_cutbased_tight_noiso     ;            
+  Int_t nisoTrack_mt2_cleaned_VVV_cutbased_tight           ;      
+  Int_t nisoTrack_mt2_cleaned_VVV_MVAbased_tight_noiso     ;            
+  Int_t nisoTrack_mt2_cleaned_VVV_MVAbased_tight           ;      
+  Int_t nisoTrack_mt2_cleaned_VVV_baseline                 ;
+
   Int_t nisoTrack_PFLep5_woverlaps ;
   Int_t nisoTrack_PFHad10_woverlaps ;
 
