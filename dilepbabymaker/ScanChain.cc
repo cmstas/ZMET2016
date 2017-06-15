@@ -3290,6 +3290,9 @@ void babyMaker::InitBabyNtuple () {
   lep_isFromL             .clear();
   lep_isFromLF            .clear();
   lep_ptRatio             .clear();
+  lep_motherIdSS          .clear();
+  lep_genPart_index       .clear();
+  lep_closest_jet_p4      .clear();
   lep_coneCorrPt          .clear();
   lep_ptRel               .clear();
   lep_relIso03            .clear();
