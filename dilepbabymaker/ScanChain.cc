@@ -1035,21 +1035,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           
           //WWW Selection Vars
           vec_lep_3ch_agree            .push_back( threeChargeAgree(iEl) );
-          vec_lep_isFromW              .push_back( isFromW(/* pdgid= */11, iEl)  );
-          vec_lep_isFromZ              .push_back( isFromZ(/* pdgid= */11, iEl)  );
-          vec_lep_isFromB              .push_back( isFromB(/* pdgid= */11, iEl)  );
-          vec_lep_isFromC              .push_back( isFromC(/* pdgid= */11, iEl)  );
-          vec_lep_isFromL              .push_back( isFromLight(/* pdgid= */11, iEl)  );
-          vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */11, iEl) );
           const LorentzVector& temp_jet_p4 = closestJet(cms3.els_p4().at(iEl), 0.4, 3.0, /*whichCorr = */2);
           float closeJetPt            = temp_jet_p4.pt();
           vec_lep_closest_jet_p4       .push_back(temp_jet_p4);
           vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.els_p4().at(iEl).pt()/closeJetPt : 1.));
           vec_lep_coneCorrPt           .push_back(coneCorrPt(/* pdgid= */ 11, iEl));
           vec_lep_ptRel                .push_back(ptRel(cms3.els_p4().at(iEl), temp_jet_p4, true));
-          pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(11, iEl));
-          vec_lep_motherIdSS           .push_back(motherId_genIdx.first);
-          vec_lep_genPart_index        .push_back(motherId_genIdx.second);
           vec_lep_relIso03             .push_back(eleRelIso03_noCorr(iEl));
           vec_lep_relIso03DB           .push_back(eleRelIso03DB(iEl));
           vec_lep_relIso03EA           .push_back(eleRelIso03EA(iEl, /*eaversion=*/1));
@@ -1083,8 +1074,31 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if ( vec_lep_pass_VVV_MVAbased_tight.back()           ) nlep_VVV_MVAbased_tight++;
           if ( vec_lep_pass_VVV_baseline.back()                 ) nlep_VVV_baseline++;
 
+          if (!isData){
+            vec_lep_isFromW              .push_back( isFromW(/* pdgid= */11, iEl)  );
+            vec_lep_isFromZ              .push_back( isFromZ(/* pdgid= */11, iEl)  );
+            vec_lep_isFromB              .push_back( isFromB(/* pdgid= */11, iEl)  );
+            vec_lep_isFromC              .push_back( isFromC(/* pdgid= */11, iEl)  );
+            vec_lep_isFromL              .push_back( isFromLight(/* pdgid= */11, iEl)  );
+            vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */11, iEl) );
+            pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(11, iEl));
+            vec_lep_motherIdSS           .push_back(motherId_genIdx.first);
+            vec_lep_genPart_index        .push_back(motherId_genIdx.second);
+            vec_lep_mc_Id                .push_back( cms3.els_mc_id().at(iEl)        );
+          }
+          else{
+            vec_lep_isFromW              .push_back( -1 );
+            vec_lep_isFromZ              .push_back( -1 );
+            vec_lep_isFromB              .push_back( -1 );
+            vec_lep_isFromC              .push_back( -1 );
+            vec_lep_isFromL              .push_back( -1 );
+            vec_lep_isFromLF             .push_back( -1 );
+            vec_lep_motherIdSS           .push_back( -1 );
+            vec_lep_genPart_index        .push_back( -1 );
+            vec_lep_mc_Id                .push_back( -1 );
+          }
+
     		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
-          vec_lep_mc_Id        .push_back( cms3.els_mc_id().at(iEl)        );
     		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
           vec_lep_ip3d         .push_back( cms3.els_ip3d().at(iEl)         );
           vec_lep_ip3derr      .push_back( cms3.els_ip3derr().at(iEl)      );
@@ -1189,21 +1203,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           
           //WWW Selection Vars
           vec_lep_3ch_agree            .push_back( true );
-          vec_lep_isFromW              .push_back( isFromW(/* pdgid= */13, iMu)  );
-          vec_lep_isFromZ              .push_back( isFromZ(/* pdgid= */13, iMu)  );
-          vec_lep_isFromB              .push_back( isFromB(/* pdgid= */13, iMu)  );
-          vec_lep_isFromC              .push_back( isFromC(/* pdgid= */13, iMu)  );
-          vec_lep_isFromL              .push_back( isFromLight(/* pdgid= */13, iMu)  );
-          vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */13, iMu) );
           const LorentzVector& temp_jet_p4 = closestJet(cms3.mus_p4().at(iMu), 0.4, 3.0, /*whichCorr = */2);
           float closeJetPt            = temp_jet_p4.pt();
           vec_lep_closest_jet_p4       .push_back(temp_jet_p4);
           vec_lep_ptRatio              .push_back((closeJetPt>0. ? cms3.mus_p4().at(iMu).pt()/closeJetPt : 1.));
           vec_lep_coneCorrPt           .push_back(coneCorrPt(/* pdgid= */ 13, iMu));
           vec_lep_ptRel                .push_back(ptRel(cms3.mus_p4().at(iMu), temp_jet_p4, true));
-          pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(13, iMu));
-          vec_lep_motherIdSS           .push_back(motherId_genIdx.first);
-          vec_lep_genPart_index        .push_back(motherId_genIdx.second);
           vec_lep_relIso03             .push_back(muRelIso03_noCorr(iMu));
           vec_lep_relIso03DB           .push_back(muRelIso03DB(iMu));
           vec_lep_relIso03EA           .push_back(muRelIso03EA(iMu,/*eaversion=*/1));
@@ -1237,8 +1242,33 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if (vec_lep_pass_VVV_MVAbased_tight.back()           ) nlep_VVV_MVAbased_tight++;
           if (vec_lep_pass_VVV_baseline.back()                 ) nlep_VVV_baseline++;
 
+          if (!isData){
+            vec_lep_isFromW              .push_back( isFromW(/* pdgid= */13, iMu)  );
+            vec_lep_isFromZ              .push_back( isFromZ(/* pdgid= */13, iMu)  );
+            vec_lep_isFromB              .push_back( isFromB(/* pdgid= */13, iMu)  );
+            vec_lep_isFromC              .push_back( isFromC(/* pdgid= */13, iMu)  );
+            vec_lep_isFromL              .push_back( isFromLight(/* pdgid= */13, iMu)  );
+            vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */13, iMu) );
+
+            pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(13, iMu));
+            vec_lep_motherIdSS           .push_back(motherId_genIdx.first);
+            vec_lep_genPart_index        .push_back(motherId_genIdx.second);
+            vec_lep_mc_Id                .push_back ( cms3.mus_mc_id() .at(iMu)          );
+
+          }
+          else{
+            vec_lep_isFromW              .push_back( -1 );
+            vec_lep_isFromZ              .push_back( -1 );
+            vec_lep_isFromB              .push_back( -1 );
+            vec_lep_isFromC              .push_back( -1 );
+            vec_lep_isFromL              .push_back( -1 );
+            vec_lep_isFromLF             .push_back( -1 );
+            vec_lep_motherIdSS           .push_back( -1 );
+            vec_lep_genPart_index        .push_back( -1 );
+            vec_lep_mc_Id                .push_back( -1 );  
+          }
+
           vec_lep_pdgId        .push_back ( cms3.mus_charge() .at(iMu)*(-13) );
-          vec_lep_mc_Id        .push_back ( cms3.mus_mc_id() .at(iMu)          );
     		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV()  .at(iMu)       );
           vec_lep_ip3d         .push_back ( cms3.mus_ip3d()   .at(iMu)       );
           vec_lep_ip3derr      .push_back ( cms3.mus_ip3derr().at(iMu)       );

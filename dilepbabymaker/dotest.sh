@@ -81,6 +81,11 @@ dotest_babyPath=/hadoop/cms/store/group/snt/run2_moriond17/TEST-www_www-Private8
 
 ./processBaby $dotest_babyID $dotest_babyPath $dotest_nEvts
 
+dotest_babyID=test_data
+dotest_babyPath=/hadoop/cms/store/group/snt/run2_data/Run2016D_SingleMuon_MINIAOD_03Feb2017-v1/merged/V08-00-18/merged_ntuple_331.root
+
+./processBaby $dotest_babyID $dotest_babyPath $dotest_nEvts
+
 #======================================
 # Tests Skimmer
 #======================================

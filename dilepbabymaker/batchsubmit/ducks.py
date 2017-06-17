@@ -5,7 +5,7 @@ import params as p
 import zmet as zmet
 
 # set tag
-zmet.tag = "WWW_v0.1.9"
+zmet.tag = "WWW_v0.1.10"
 
 # make instructions
 instructions = []
@@ -14,7 +14,8 @@ instructions = []
 ## make instructions by class of sample
 ##
 #samples_types = ["backgrounds", "data", "scans"]
-samples_types = ["backgrounds", "data"]
+#samples_types = ["backgrounds", "data"]
+samples_types = ["data"]
 for stype in samples_types:
     for ds in zmet.d_ds2name[stype].keys():
         instructions.append({"executable": zmet.executable, "package": zmet.package, "analysis": "ZMET", "dataset": ds, "baby_tag": zmet.tag, "type": "BABY", "extra": [-1, "output.root,skim.root"]})
