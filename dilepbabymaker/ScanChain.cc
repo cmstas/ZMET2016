@@ -910,8 +910,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector< double > vec_lep_ptRatio;
       vector< double > vec_lep_coneCorrPt;
       vector< double > vec_lep_ptRel;
-      vector< double > vec_lep_motherIdSS;
-      vector< double > vec_lep_genPart_index;
+      vector< int    > vec_lep_motherIdSS;
+      vector< int    > vec_lep_genPart_index;
       vector< double > vec_lep_relIso03;
       vector< double > vec_lep_relIso03DB;
       vector< double > vec_lep_relIso03EA;
