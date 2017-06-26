@@ -176,6 +176,29 @@ d_ds2name = {
         "/DoubleMuon/Run2016H-03Feb2017_ver3-v1/MINIAOD"     : "data_Run2016H_03feb2017rereco_mm_v3",
         "/MuonEG/Run2016H-03Feb2017_ver2-v1/MINIAOD"         : "data_Run2016H_03feb2017rereco_em_v2",
         "/MuonEG/Run2016H-03Feb2017_ver3-v1/MINIAOD"         : "data_Run2016H_03feb2017rereco_em_v3",
+
+        #=============
+        # 2017
+        #=============
+        #------
+        # 2017A
+        "/DoubleEG/Run2017A-PromptReco-v3/MINIAOD"           : "data_run2017A_PromptReco_ee_v3",
+        "/DoubleEG/Run2017A-PromptReco-v2/MINIAOD"           : "data_run2017A_PromptReco_ee_v2",
+        "/DoubleEG/Run2017A-PromptReco-v3/MINIAOD"           : "data_run2017A_PromptReco_ee_v3",
+        "/DoubleMuon/Run2017A-PromptReco-v1/MINIAOD"         : "data_run2017A_PromptReco_mm_v1",
+        "/DoubleMuon/Run2017A-PromptReco-v2/MINIAOD"         : "data_run2017A_PromptReco_mm_v2",
+        "/DoubleMuon/Run2017A-PromptReco-v3/MINIAOD"         : "data_run2017A_PromptReco_mm_v3",
+        "/MuonEG/Run2017A-PromptReco-v1/MINIAOD"             : "data_run2017A_PromptReco_em_v1",
+        "/MuonEG/Run2017A-PromptReco-v2/MINIAOD"             : "data_run2017A_PromptReco_em_v2",
+        "/MuonEG/Run2017A-PromptReco-v3/MINIAOD"             : "data_run2017A_PromptReco_em_v3",
+        #"/SingleElectron/Run2017A-PromptReco-v2/MINIAOD"     : "data_run2017A_PromptReco_ee_v2",
+        #"/SingleElectron/Run2017A-PromptReco-v3/MINIAOD"     : "data_run2017A_PromptReco_se_v3",
+        #"/SingleMuon/Run2017A-PromptReco-v2/MINIAOD"         : "data_run2017A_PromptReco_sm_v2",
+        #"/SingleMuon/Run2017A-PromptReco-v3/MINIAOD"         : "data_run2017A_PromptReco_sm_v3",
+        "/SinglePhoton/Run2017A-PromptReco-v1/MINIAOD"       : "data_run2017A_PromptReco_ph_v1",
+        "/SinglePhoton/Run2017A-PromptReco-v2/MINIAOD"       : "data_run2017A_PromptReco_ph_v2",
+        "/SinglePhoton/Run2017A-PromptReco-v3/MINIAOD"       : "data_run2017A_PromptReco_ph_v3",
+
     }
 #    "scans": {
 #        "/SMS-T5ZZ_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/MINIAODSIM"                    : "t5zz_orig_80x_v2",
