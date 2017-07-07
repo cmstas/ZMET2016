@@ -585,12 +585,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
     
       // met with up unc
-      pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 1);
+      pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 1);
       met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
       met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
 
       // met with dn unc
-      pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 0);
+      pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 0);
       met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
       met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
 
@@ -1081,7 +1081,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             vec_lep_isFromC              .push_back( isFromC(/* pdgid= */11, iEl)  );
             vec_lep_isFromL              .push_back( isFromLight(/* pdgid= */11, iEl)  );
             vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */11, iEl) );
-            pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(11, iEl));
+            pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(cms3.els_charge().at(iEl)*(-11), iEl));//don't forget the sign
             vec_lep_motherIdSS           .push_back(motherId_genIdx.first);
             vec_lep_genPart_index        .push_back(motherId_genIdx.second);
             vec_lep_mc_Id                .push_back( cms3.els_mc_id().at(iEl)        );
@@ -1250,7 +1250,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             vec_lep_isFromL              .push_back( isFromLight(/* pdgid= */13, iMu)  );
             vec_lep_isFromLF             .push_back( isFromLightFake(/* pdgid= */13, iMu) );
 
-            pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(13, iMu));
+            pair<int, int> motherId_genIdx = lepMotherID_v2(Lep(cms3.mus_charge().at(iMu)*(-13), iMu));//don't forget the sign
             vec_lep_motherIdSS           .push_back(motherId_genIdx.first);
             vec_lep_genPart_index        .push_back(motherId_genIdx.second);
             vec_lep_mc_Id                .push_back ( cms3.mus_mc_id() .at(iMu)          );
