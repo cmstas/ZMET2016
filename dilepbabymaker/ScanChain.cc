@@ -185,7 +185,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	h_susyxsecs->SetDirectory(rootdir);
 	f_susyxsecs->Close();
 
-	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_ZToLL_entries.root","READ");
+	if( TString(baby_name).Contains("tchiwz_Constantin") ) f_eventcounts = TFile::Open("TChiWZ_ConstaninEXT_ZToLL_entries.root","READ");
+  else if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_ZToLL_entries.root","READ");
 	else if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("T5ZZ_entries.root"               ,"READ");
 	else if( TString(baby_name).Contains("tchihz") ) f_eventcounts = TFile::Open("TChiHZ_HToBB_ZToLL_entries.root" ,"READ");
 	else if( TString(baby_name).Contains("tchizz") ) f_eventcounts = TFile::Open("TChiZZ_ZToLL_entries.root","READ");
