@@ -11,23 +11,26 @@ void getTotalEventsSUSY_mt2way()
 
   TChain * ch = new TChain("Events");
 
-  // ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-600To700_mLSP-100To500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-11_FS/merged*.root");
-  // ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-1000To1250_mLSP-100To1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-12_FS/merged_ntuple_*.root");
-  // ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-1200To1350_mLSP-100To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-12_FS/merged_ntuple_*.root");
-  // ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-1400To1550_mLSP-100To1400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-12_FS/merged_ntuple_*.root");
+  //ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-1400To1550_mLSP-100To1400_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-12_FS/merged_ntuple_*.root");
+  //ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-600To700_mLSP-100To500_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-11_FS/merged*.root");
+  //ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-1000To1250_mLSP-100To1000_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-12_FS/merged_ntuple_*.root");
+  //ch->Add("/hadoop/cms/store/group/snt/run2_25ns/SMS-T5ZZ_mGluino-1200To1350_mLSP-100To1200_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring15FSPremix-MCRUN2_74_V9-v2/V07-04-12_FS/merged_ntuple_*.root");
 
   //ch->Add("/hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2_fastsim/SMS-T5ZZ_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/V08-00-09/merged_ntuple_*.root");
   //ch->Add("/hadoop/cms/store/group/snt/run2_moriond17_fastsim/SMS-T5ZZ_mGluino-1850to2100_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/V08-00-09/merged_ntuple_*.root");
 
-  //  ch->Add("/hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2_fastsim/SMS-TChiWZ_ZToLL_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v2/V08-00-09/merged_ntuple_*.root"); 
+  //ch->Add("/hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2_fastsim/SMS-TChiWZ_ZToLL_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v2/V08-00-09/merged_ntuple_*.root"); 
 
-  // ch->Add("/hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2_fastsim/SMS-T5qqqqVV_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/V08-00-09/merged_ntuple_*.root"); 
+  //ch->Add("/hadoop/cms/store/group/snt/run2_25ns_80MiniAODv2_fastsim/SMS-T5qqqqVV_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v1/V08-00-09/merged_ntuple_*.root"); 
 
-  // //2016 ZH
+  //2016 ZH
   //ch->Add("/hadoop/cms/store/group/snt/run2_moriond17_fastsim/SMS-TChiHZ_HToBB_ZToLL_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v3/V08-00-09_filt/merged_ntuple_*.root");
 
-  // //2016 ZZ
-  ch->Add("/hadoop/cms/store/group/snt/run2_moriond17_fastsim/SMS-TChiZZ_ZToLL_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v2/V08-00-09_filt/merged_ntuple_*.root");
+  //2016 ZZ
+  //ch->Add("/hadoop/cms/store/group/snt/run2_moriond17_fastsim/SMS-TChiZZ_ZToLL_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISpring16MiniAODv2-PUSpring16Fast_80X_mcRun2_asymptotic_2016_miniAODv2_v0-v2/V08-00-09_filt/merged_ntuple_*.root");
+
+  // WZ Extension from Constantin for 2017 EWK combination paper
+  ch->Add("/hadoop/cms/store/group/snt/run2_moriond17_fastsim/SMS-TChiWZ_ZToLL_mZMin-0p1_mLSP300to350_TuneCUETP8M1_13TeV-madgraphMLM-pythia8_RunIISummer16MiniAODv2-PUSummer16Fast_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/V08-00-16/merged_ntuple_*.root");
 
 
   cout<<"Creating hist"<<endl;
@@ -37,16 +40,17 @@ void getTotalEventsSUSY_mt2way()
   //=================
   //TH2F * h_entries = new TH2F("h_entries","h_entries",27,775,2125,39,75,2025);	// binning for T5ZZ
   //TH2F * h_entries = new TH2F("h_entries","h_entries",25,87.5,712.5,31,-5,305);	// binning for TChiWZ
-  // TH2F * h_entries = new TH2F("h_entries","h_entries",460,0,2300,460,0,2300); // binning for T5qqqqVV
-  // TH2D* h_nsig = new TH2D("h_nsig",";mass1 [GeV];mass2 [GeV]", 65, 387.5, 2012.5, 65, -12.5, 1612.5);
-  //ch->Draw("sparm_values[1]:sparm_values[0]>>h_entries");
+  //TH2F * h_entries = new TH2F("h_entries","h_entries",460,0,2300,460,0,2300); // binning for T5qqqqVV
+  //TH2D * h_nsig = new TH2D("h_nsig",";mass1 [GeV];mass2 [GeV]", 65, 387.5, 2012.5, 65, -12.5, 1612.5);
+  TH2D * h_entries = new TH2D("h_entries","h_entries", 25, 300, 352, 17, 300, 725,); //TChiWZ Constantin Extension
+  ch->Draw("sparm_values[1]:sparm_values[0]>>h_entries");
   
   //=================
   // 1 Sparm Param
   //=================
-  TH1D * h_entries = new TH1D("h_entries", "h_entries", 37, 87.5, 1012.5); //binning for TChiZZ  
+  //TH1D * h_entries = new TH1D("h_entries", "h_entries", 37, 87.5, 1012.5); //binning for TChiZZ  
   //TH1D * h_entries = new TH1D("h_entries", "h_entries", 36, 112.5, 1012.5); //binning for TChiHZ  
-  ch->Draw("sparm_values[0]>>h_entries");
+  //ch->Draw("sparm_values[0]>>h_entries");
 
 
   // int totalentries = 0;
@@ -55,7 +59,8 @@ void getTotalEventsSUSY_mt2way()
 
   // for(int xbinind = 1; xbinind <= nbins; xbinind++ ){
   //     cout<<"Bin: "<<h_entries->GetBinLowEdge(xbinind)<<" entries: "<<h_entries->GetBinContent(xbinind)<<endl;
-  //   }
+  //   }*/
+
   //2D Histos
   /*for( int xbinind = 0; xbinind < 460; xbinind++ ){
   	for( int ybinind = 0; ybinind < 460; ybinind++ ){
@@ -74,9 +79,10 @@ void getTotalEventsSUSY_mt2way()
 
   //TFile* fileout = TFile::Open("T5ZZ_entries.root","RECREATE");
   //TFile* fileout = TFile::Open("TChiWZ_ZToLL_entries.root","RECREATE");
+  TFile* fileout = TFile::Open("TChiWZ_ConstaninEXT_ZToLL_entries.root","RECREATE");
   //TFile * fileout = TFile::Open("T5qqqqVV_entries_V08-00-09_FS.root","RECREATE");
   //TFile* fileout = TFile::Open("TChiHZ_HToBB_ZToLL_entries.root","RECREATE");
-    TFile* fileout = TFile::Open("TChiZZ_ZToLL_entries.root","RECREATE");
+  //TFile* fileout = TFile::Open("TChiZZ_ZToLL_entries.root","RECREATE");
   fileout->cd();
   h_entries->Write();
   fileout->Close();
