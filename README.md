@@ -1,4 +1,4 @@
-Currently the master branch is meant to work with CMSSW 80X. Git branches exist to run over ntuples made with older versions of CMSSW.  
+==CMS4 Branch==
 
 This repository is used to produce babies, and analyze babies for the Z+MET analysis. Follow these steps to check out and compile the baby maker:
 
