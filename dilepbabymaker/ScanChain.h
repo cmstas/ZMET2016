@@ -245,6 +245,20 @@ private:
   Bool_t HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton;
   Bool_t HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton;
   Bool_t HLT_Photon165_HE10_matchedtophoton;
+
+  //New 2017 Triggers:
+  Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8            ;
+  Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ                  ;
+  Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL                     ;
+  Int_t HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ            ;
+  Int_t HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL               ;
+  Int_t HLT_DoubleEle33_CaloIdL_MW                           ;
+  Int_t HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ   ;
+  Int_t HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ   ;
+  Int_t HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ    ;
+  Int_t HLT_IsoMu27                                          ;
+  Int_t HLT_Mu50                                             ;
+  Int_t HLT_Photon200                                        ;
   
   //----- LEPTONS
   Int_t           nlep;

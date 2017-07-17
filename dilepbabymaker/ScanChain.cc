@@ -46,7 +46,7 @@ using namespace tas;
 // turn on to add debugging statements
 const bool verbose = false;
 // turn on to apply JEC from text files
-const bool applyJECfromFile = true;
+const bool applyJECfromFile = false;
 //turn on to veto transition region for leps and photons
 const bool vetoXitionRegion = false;
 //turn on to veto eta > 2.4 for leps and photons
@@ -247,7 +247,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     std::vector<std::string> jetcorr_filenames_pfL1FastJetL2L3_postrun278802;
     FactorizedJetCorrector   * jet_corrector_pfL1FastJetL2L3_postrun278802 = NULL;
     JetCorrectionUncertainty * jecUnc_postrun278802                        = NULL;
-	
+	 
+    //No Jecs for 2017 yet
+    if( currentFileName.Contains("Run2017") ){
+      applyJECfromFile = false;
+    }
+
     if (applyJECfromFile) {
       jetcorr_filenames_pfL1FastJetL2L3.clear();
 
@@ -539,41 +544,55 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       met_rawPhi   = cms3.evt_pfmetPhi_raw();
       sumet_raw    = cms3.evt_pfsumet_raw();
 
-      // //recalculate rawMET
-      pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, true);
-      met_T1CHS_fromCORE_pt  = newMET.first;
-      met_T1CHS_fromCORE_phi = newMET.second;
-    
-      // met with no unc
-      pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current);
-      met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
-      met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
+      if (applyJECfromFile){
+        // //recalculate rawMET
+        pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, true);
+        met_T1CHS_fromCORE_pt  = newMET.first;
+        met_T1CHS_fromCORE_phi = newMET.second;
+      
+        // met with no unc
+        pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current);
+        met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
+        met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
 
-      // choose default value of MET to use for analysis, set as met_pt, met_phi
-      if (isData && small_cms3_version >= 18) 
-      { // for re-MINIAOD data
-      	met_pt = met_muegclean_pt;
-      	met_phi = met_muegclean_phi;
-      } 
-      else {
-      	met_pt = met_T1CHS_miniAOD_CORE_pt;
-      	met_phi = met_T1CHS_miniAOD_CORE_phi;
+        // choose default value of MET to use for analysis, set as met_pt, met_phi
+        if (isData && small_cms3_version >= 18) 
+        { // for re-MINIAOD data
+        	met_pt = met_muegclean_pt;
+        	met_phi = met_muegclean_phi;
+        } 
+        else {
+        	met_pt = met_T1CHS_miniAOD_CORE_pt;
+        	met_phi = met_T1CHS_miniAOD_CORE_phi;
+        }
+      
+        // met with up unc
+        pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 1);
+        met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
+        met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
+
+        // met with dn unc
+        pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 0);
+        met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
+        met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
+
+        metsig_unofficial = met_pt / sqrt(ht); // == met_T1CHS_miniAOD_CORE_pt in MC, where we do variations
+        metsig_unofficial_up = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
+        metsig_unofficial_dn = met_T1CHS_miniAOD_CORE_dn_pt / sqrt(ht_dn);
       }
-    
-      // met with up unc
-      pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 1);
-      met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
-      met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
-
-      // met with dn unc
-      pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc, 0);
-      met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
-      met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
-
-      metsig_unofficial = met_pt / sqrt(ht); // == met_T1CHS_miniAOD_CORE_pt in MC, where we do variations
-      metsig_unofficial_up = met_T1CHS_miniAOD_CORE_up_pt / sqrt(ht_up);
-      metsig_unofficial_dn = met_T1CHS_miniAOD_CORE_dn_pt / sqrt(ht_dn);
-       	  
+      else{
+        met_T1CHS_fromCORE_pt  = -9999;
+        met_T1CHS_fromCORE_phi = -9999;
+        met_T1CHS_miniAOD_CORE_pt  = -9999;
+        met_T1CHS_miniAOD_CORE_phi = -9999;
+        met_T1CHS_miniAOD_CORE_up_pt  = -9999;
+        met_T1CHS_miniAOD_CORE_up_phi = -9999;
+        met_T1CHS_miniAOD_CORE_dn_pt  = -9999;
+        met_T1CHS_miniAOD_CORE_dn_phi = -9999;
+        metsig_unofficial = met_pt / sqrt(ht); // == met_T1CHS_miniAOD_CORE_pt in MC, where we do variations
+        metsig_unofficial_up = -9999;
+        metsig_unofficial_dn = -9999;
+      }
       //cout<<__LINE__<<endl;
 
       // MET FILTERS
@@ -607,63 +626,67 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		}
   	  }
   	  
-  	  //TRIGGER
-  	  // for ATLAS cross checks
+  	  //=============================
+      // 2016 Triggers
+      //=============================
+  	  
+      //ATLAS cross checks:
   	  HLT_singleEl =  (passHLTTriggerPattern("HLT_Ele32_eta2p1_WPTight_Gsf_v" ) ||
-  			   passHLTTriggerPattern("HLT_Ele27_WPTight_Gsf_v"        ) );
+  			               passHLTTriggerPattern("HLT_Ele27_WPTight_Gsf_v"        ) );
 
   	  HLT_singleMu = (passHLTTriggerPattern("HLT_IsoMu22_v"           ) ||
-  			  passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
-  			  passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
-  			  passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) );
-  	  HLT_singleMu_noiso = (passHLTTriggerPattern("HLT_Mu50_v"        ) ||
-  				passHLTTriggerPattern("HLT_TkMu50_v"      ) ||
-  				passHLTTriggerPattern("HLT_Mu55_v"        ) );
+  			              passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
+  			              passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
+  			              passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) );
+  	  
+      HLT_singleMu_noiso = (passHLTTriggerPattern("HLT_Mu50_v"        ) ||
+  				                  passHLTTriggerPattern("HLT_TkMu50_v"      ) ||
+  				                  passHLTTriggerPattern("HLT_Mu55_v"        ) );
 
-  	  // Double electron
+  	  //Double Electron: 
   	  HLT_DoubleEl_noiso = ( passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v"    ) ||
   	                         passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v" ) );
-  	  HLT_DoubleEl       = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ); // prescaled - turned off
-  	  HLT_DoubleEl_DZ    = passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // prescaled
-  	  HLT_DoubleEl_DZ_2  = passHLTTriggerPattern( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // new
+  	  HLT_DoubleEl       =   passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ); // prescaled - turned off
+  	  HLT_DoubleEl_DZ    =   passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // prescaled
+  	  HLT_DoubleEl_DZ_2  =   passHLTTriggerPattern( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // new
      
-  	  // electron-muon
+  	  //EMu:
   	  HLT_MuEG           = (passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
-  				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  ) );
+  				                  passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  ) );
+
   	  HLT_MuEG_2         = (passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
-  				passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  ) ||
-  				passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  ) );
+  				                  passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  ) ||
+  				                  passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  ) );
+
   	  HLT_MuEG_noiso     =  passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"                 );
   	  HLT_MuEG_noiso_2   =  passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v"                 );
   		
-  	  //separate emu trigs
+      //more emu, broken into single triggers
   	  HLT_Mu8_EG17      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  );
   	  HLT_Mu8_EG23      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  );
   	  HLT_Mu8_EG23_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
-
   	  HLT_Mu12_EG23_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" );
-
   	  HLT_Mu17_EG12     = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
-
   	  HLT_Mu23_EG8      = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  );
   	  HLT_Mu23_EG8_DZ   = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
   	  HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
   	  HLT_Mu23_EG12_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" );
   		
-  	  // Double electron
-  	  HLT_DoubleMu_noiso    = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                          ) ||
-  				   passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                         ) ||
-  				   passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                         ) );
-  	  HLT_DoubleMu_noiso_27_8  = passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                         );
-  	  HLT_DoubleMu_noiso_30_11 = passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                        );
-  	  HLT_DoubleMu_noiso_40_11 = passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                        );
-  	  HLT_DoubleMu          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"     );
-  	  HLT_DoubleMu_tk       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"   );
-  	  HLT_DoubleMu_dbltk    =  passHLTTriggerPattern( "HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
-  	  HLT_DoubleMu_nonDZ    =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"        );
-  	  HLT_DoubleMu_tk_nonDZ =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"      ); // new unprescaled : use these
+  	  //Double Muon:
+  	  HLT_DoubleMu_noiso       = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                          ) ||
+  				                        passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                         ) ||
+  				                        passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                         ) );
 
-  	  // Single photon
+  	  HLT_DoubleMu_noiso_27_8  =  passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                         );
+  	  HLT_DoubleMu_noiso_30_11 =  passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                        );
+  	  HLT_DoubleMu_noiso_40_11 =  passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                        );
+  	  HLT_DoubleMu             =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"     );
+  	  HLT_DoubleMu_tk          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"   );
+  	  HLT_DoubleMu_dbltk       =  passHLTTriggerPattern( "HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
+  	  HLT_DoubleMu_nonDZ       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"        );
+  	  HLT_DoubleMu_tk_nonDZ    =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"      ); // new unprescaled : use these
+
+  	  //Photon:
   	  HLT_Photon22_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon22_R9Id90_HE10_IsoM_v" );
   	  HLT_Photon30_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon30_R9Id90_HE10_IsoM_v" );
   	  HLT_Photon36_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon36_R9Id90_HE10_IsoM_v" );
@@ -677,6 +700,38 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  // for high pT photon efficiency checks
   	  HLT_CaloJet500_NoJetID = returnBrokenTrigger("HLT_CaloJet500_NoJetID_v" );
   	  HLT_ECALHT800_NoJetID  = returnBrokenTrigger("HLT_ECALHT800_NoJetID_v"  );
+
+      //=============================
+      // 2017 Triggers
+      //=============================
+      
+      //Double Muon:
+      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8  = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v");
+      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ        = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"      );
+      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL           = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"         );
+
+      //Double Electron:
+      HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
+      HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL     = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v"   );
+      HLT_DoubleEle33_CaloIdL_MW                 = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_MW_v"               );
+
+      //EMu:
+      HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
+      HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
+      HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" );
+
+      //Single Muon:
+      HLT_IsoMu27 = passHLTTriggerPattern("HLT_IsoMu27_v");
+      HLT_Mu50    = passHLTTriggerPattern("HLT_Mu50_v"   );
+
+      //Photon:
+      //HLT_Photon50_R9Id90_HE10_IsoM_v   -----
+      //HLT_Photon75_R9Id90_HE10_IsoM_v     |
+      //HLT_Photon90_R9Id90_HE10_IsoM_v     |   Defined Above
+      //HLT_Photon120_R9Id90_HE10_IsoM_v    |
+      //HLT_Photon165_R9Id90_HE10_IsoM_v  -----
+      HLT_Photon200 = returnBrokenTrigger("HLT_Photon200_v"            );
+
 
 
   	  
@@ -1138,7 +1193,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	    float minDr = 0.2;		
 
   	    // old way: loop through all trigger objects
-        if (small_cms3_version < 18) {
+        /*if (small_cms3_version < 18) {
       		for( size_t hltind = 0; hltind < cms3.hlt_trigObjs_id().size(); hltind++ ){ // loop over HLTs		  
       		  for( size_t trigind = 0; trigind < cms3.hlt_trigObjs_id().at(hltind).size(); trigind++ ){
               if( cms3.hlt_trigObjs_passLast().at(hltind).at(trigind) ){
@@ -1178,10 +1233,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
               }
         		}
         	} // loop over trig objs
-        } // if old CMS3 version
+        } // if old CMS3 version*/
 
   	    // new way: pre-computed matching in CMS3
-  	    else if (small_cms3_version >= 18) {
+  	    /*else if (small_cms3_version >= 18) {
   	      if( HLT_Photon165_HE10             > 0 && cms3.photons_HLT_Photon165_HE10().at(0) )             HLT_Photon165_HE10_matchedtophoton             = true;
   	      if( HLT_Photon165_R9Id90_HE10_IsoM > 0 && cms3.photons_HLT_Photon165_R9Id90_HE10_IsoM().at(0) ) HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton = true;
   	      if( HLT_Photon120_R9Id90_HE10_IsoM > 0 && cms3.photons_HLT_Photon120_R9Id90_HE10_IsoM().at(0) ) HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton = true;
@@ -1191,7 +1246,16 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	      if( HLT_Photon36_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon36_R9Id90_HE10_IsoM().at(0) )  HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  = true;
   	      if( HLT_Photon30_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon30_R9Id90_HE10_IsoM().at(0) )  HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  = true;
   	      if( HLT_Photon22_R9Id90_HE10_IsoM  > 0 && cms3.photons_HLT_Photon22_R9Id90_HE10_IsoM().at(0) )  HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  = true;
-  	    } // if new CMS3 version
+  	    } // if new CMS3 version */
+        HLT_Photon165_HE10_matchedtophoton             = false;
+        HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton = false;
+        HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton = false;
+        HLT_Photon90_R9Id90_HE10_IsoM_matchedtophoton  = false;
+        HLT_Photon75_R9Id90_HE10_IsoM_matchedtophoton  = false;
+        HLT_Photon50_R9Id90_HE10_IsoM_matchedtophoton  = false;
+        HLT_Photon36_R9Id90_HE10_IsoM_matchedtophoton  = false;
+        HLT_Photon30_R9Id90_HE10_IsoM_matchedtophoton  = false;
+        HLT_Photon22_R9Id90_HE10_IsoM_matchedtophoton  = false;
   	  }
   	  
   	  // add selections to keep only events with photons and dilepton events
@@ -2307,6 +2371,21 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton" , &HLT_Photon120_R9Id90_HE10_IsoM_matchedtophoton );
   BabyTree_->Branch("HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton" , &HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton );
   BabyTree_->Branch("HLT_Photon165_HE10_matchedtophoton"             , &HLT_Photon165_HE10_matchedtophoton             );
+
+  //2017 Trigger Selections
+  BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8"            , &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8          );
+  BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"                  , &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ                );
+  BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL"                     , &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL                   );
+  BabyTree_->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ"            , &HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ          );
+  BabyTree_->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL"               , &HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL             );
+  BabyTree_->Branch("HLT_DoubleEle33_CaloIdL_MW"                           , &HLT_DoubleEle33_CaloIdL_MW                         );
+  BabyTree_->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"   , &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ );
+  BabyTree_->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ"   , &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ );
+  BabyTree_->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"    , &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ  );
+  BabyTree_->Branch("HLT_IsoMu27"                                          , &HLT_IsoMu27                                        );
+  BabyTree_->Branch("HLT_Mu50"                                             , &HLT_Mu50                                           );
+  BabyTree_->Branch("HLT_Photon200"                                        , &HLT_Photon200                                      );
+
 
   BabyTree_->Branch("dilmass", &dilmass );
   BabyTree_->Branch("dilpt"  , &dilpt );
