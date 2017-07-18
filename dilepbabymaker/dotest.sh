@@ -55,4 +55,6 @@ cp ../json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt .
 
 ./processBaby test_CMS4_2017Data /hadoop/cms/store/user/namin/ProjectMetis/SingleMuon_Run2017A-PromptReco-v2_MINIAOD_CMS4_V00-00-03/merged_ntuple_1.root 10000
 
+./processBaby test_CMS4_2016Data_DoubleEG_RunG_feb03_1 /hadoop/cms/store/group/snt/run2_data/Run2016G_DoubleEG_MINIAOD_03Feb2017-v1/merged/V08-00-18/merged_ntuple_1.root
+
 #./processBaby test_CMS4_old TTJets_80MiniAODv_cms4_old.root
