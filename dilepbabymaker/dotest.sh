@@ -51,8 +51,8 @@ cp ../json/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt .
 
 #./processBaby test_moriondmc_sync_ttbar_dilep_nopostproc /nfs-7/userdata/ZMEToutput/output/sync_Jan2017/sync_ttbar_dilep_Summer16_1file_nopostproc.root 
 
-./processBaby test_CMS4_new TTJets_80MiniAODv_cms4_new.root
+#./processBaby test_CMS4_new TTJets_80MiniAODv_cms4_new.root
 
-./processBaby test_CMS4_2017Data /hadoop/cms/store/user/namin/ProjectMetis/SingleMuon_Run2017A-PromptReco-v2_MINIAOD_CMS4_V00-00-03/merged_ntuple_1.root
+./processBaby test_CMS4_2017Data /hadoop/cms/store/user/namin/ProjectMetis/SingleMuon_Run2017A-PromptReco-v2_MINIAOD_CMS4_V00-00-03/merged_ntuple_1.root 10000
 
 #./processBaby test_CMS4_old TTJets_80MiniAODv_cms4_old.root
