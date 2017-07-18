@@ -46,7 +46,7 @@ using namespace tas;
 // turn on to add debugging statements
 const bool verbose = false;
 // turn on to apply JEC from text files
-const bool applyJECfromFile = false;
+bool applyJECfromFile = false;
 //turn on to veto transition region for leps and photons
 const bool vetoXitionRegion = false;
 //turn on to veto eta > 2.4 for leps and photons
