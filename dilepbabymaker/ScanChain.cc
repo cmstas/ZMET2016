@@ -56,7 +56,7 @@ bool isSMSScan = false;
 // always on
 bool applyBtagSFs = true;
 // for testing purposes, running on unmerged files (default false)
-const bool removePostProcVars = false;
+const bool removePostProcVars = true;
 
 //--------------------------------------------------------------------
 
