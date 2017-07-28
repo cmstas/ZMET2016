@@ -22,6 +22,12 @@ mypalette = []
 for i in xrange(NCont): mypalette.append(FI+i)
 myp = array('i', mypalette)
 ROOT.gStyle.SetPalette(NCont,myp)
+ROOT.gStyle.SetPadRightMargin(0.18)
+ROOT.gStyle.SetPadLeftMargin(0.16)
+ROOT.gStyle.SetPadBottomMargin(0.16)
+ROOT.gStyle.SetPadTopMargin(0.08)
+ROOT.gStyle.SetMarkerSize(1.2)
+ROOT.gROOT.ForceStyle()
 
 f=ROOT.TFile.Open("mlfit_"+regions+".root")
 covarMatrix = f.Get("shapes_prefit/overall_total_covar").Clone("covarMatrix_"+regions)
@@ -29,12 +35,14 @@ covarMatrix.SetTitle("Full covariance matrix")
 covarMatrix.GetXaxis().SetTitle("")
 covarMatrix.GetYaxis().SetTitle("")
 covarMatrix.GetZaxis().SetTitle("Covariance (#sigma_{xy})")
+covarMatrix.GetZaxis().SetTitleSize(0.06)
 
 corrMatrix = covarMatrix.Clone("corrMatrix_"+regions)
 corrMatrix.SetTitle("Full correlation matrix")
 corrMatrix.GetXaxis().SetTitle("")
 corrMatrix.GetYaxis().SetTitle("")
 corrMatrix.GetZaxis().SetTitle("Correlation (#rho_{xy})")
+corrMatrix.GetZaxis().SetTitleSize(0.06)
 
 firstBin=0
 for x in range(1, covarMatrix.GetXaxis().GetNbins()+1):
@@ -83,16 +91,16 @@ for x in range(1, covarMatrix.GetXaxis().GetNbins()+1):
 
     elif regions == 'ewk':
         if "TChiWZ_" in corrMatrix.GetXaxis().GetBinLabel(x) and firstBin==0:
-            corrMatrix.GetXaxis().SetBinLabel(x, "Ewk WZ/ZZ")
-            corrMatrix.GetYaxis().SetBinLabel(x, "Ewk WZ/ZZ")
-            covarMatrix.GetXaxis().SetBinLabel(x, "Ewk WZ/ZZ")
-            covarMatrix.GetYaxis().SetBinLabel(x, "Ewk WZ/ZZ")
+            corrMatrix.GetXaxis().SetBinLabel(x, "EW VZ")
+            corrMatrix.GetYaxis().SetBinLabel(x, "EW VZ")
+            covarMatrix.GetXaxis().SetBinLabel(x, "EW VZ")
+            covarMatrix.GetYaxis().SetBinLabel(x, "EW VZ")
             firstBin=1
         elif "TChiHZ_" in corrMatrix.GetXaxis().GetBinLabel(x) and firstBin==1:
-            corrMatrix.GetXaxis().SetBinLabel(x, "Ewk HZ")
-            corrMatrix.GetYaxis().SetBinLabel(x, "Ewk HZ")
-            covarMatrix.GetXaxis().SetBinLabel(x, "Ewk HZ")
-            covarMatrix.GetYaxis().SetBinLabel(x, "Ewk HZ")
+            corrMatrix.GetXaxis().SetBinLabel(x, "EW HZ")
+            corrMatrix.GetYaxis().SetBinLabel(x, "EW HZ")
+            covarMatrix.GetXaxis().SetBinLabel(x, "EW HZ")
+            covarMatrix.GetYaxis().SetBinLabel(x, "EW HZ")
             firstBin=2
         else:
             corrMatrix.GetXaxis().SetBinLabel(x, "")
@@ -104,16 +112,20 @@ for x in range(1, covarMatrix.GetXaxis().GetNbins()+1):
         # force slightly negative bins to be positive for display purposes..
         bin_value = covarMatrix.GetBinContent(x,y)
         if (bin_value < 0. and bin_value > -0.1): bin_value = 0.01
+        # set values to 0 for elements below the diagonal (x > y)
+        if x > y:
+            bin_value = 0
+        covarMatrix.SetBinContent(x,y,bin_value)
         corrMatrix.SetBinContent(x,y, (bin_value)/((ROOT.TMath.Sqrt(covarMatrix.GetBinContent(x,x)))*(ROOT.TMath.Sqrt(covarMatrix.GetBinContent(y,y)))))
 
 ROOT.gStyle.SetPaintTextFormat("4.2f")        
-canvas=ROOT.TCanvas("canvas", "", 900, 900)
+canvas=ROOT.TCanvas("canvas", "", 1000, 800)
 canvas.cd()
 
 corrMatrix.SetTitle("")
-#corrMatrix.GetXaxis().SetLabelSize(0.02)
-corrMatrix.GetYaxis().SetLabelSize(0.02)
-corrMatrix.GetZaxis().SetLabelSize(0.02)
+corrMatrix.GetXaxis().SetLabelSize(0.05)
+corrMatrix.GetYaxis().SetLabelSize(0.05)
+corrMatrix.GetZaxis().SetLabelSize(0.04)
 corrMatrix.GetZaxis().SetRangeUser(0,1)
 corrMatrix.Draw("colz")
 
@@ -123,39 +135,41 @@ palette.SetX2NDC(0.925);
 
 corrMatrix.Draw("text same")
 
-label_top = ROOT.TPaveText(0.8,0.91,0.9,0.94, "brNDC");
+label_top = ROOT.TPaveText(0.7,0.94,0.82,0.94, "brNDC");
 label_top.SetBorderSize(0);
 label_top.SetFillColor(0);
-label_top.SetTextSize(0.038);
+label_top.SetTextSize(0.04);
 label_top.SetTextAlign(31); # align right
-label_top.SetTextFont(62);
+label_top.SetTextFont(42);
 label_top.AddText("35.9 fb^{-1} (13 TeV)");
 
-label_cms = ROOT.TPaveText(0.1,0.91,0.4,0.94, "brNDC");
+label_cms = ROOT.TPaveText(0.16,0.94,0.4,0.94, "brNDC");
 label_cms.SetBorderSize(0);
 label_cms.SetFillColor(0);
-label_cms.SetTextSize(0.038);
+label_cms.SetTextSize(0.05);
 label_cms.SetTextAlign(11); # align right
 label_cms.SetTextFont(62);
-label_cms.AddText("CMS Preliminary");
+label_cms.AddText("CMS");
+#label_cms.AddText("CMS Preliminary");
 
 label_top.Draw("same")
 label_cms.Draw("same")
 
 ROOT.gPad.RedrawAxis()
+ROOT.gPad.Update()
 
 canvas.SaveAs("~/public_html/fullCorrelationMatrix_"+regions+"_Moriond2017.pdf")
 
 
 ROOT.gStyle.SetPaintTextFormat("4.1f")        
-canvasCovar=ROOT.TCanvas("canvasCovar", "", 900, 900)
+canvasCovar=ROOT.TCanvas("canvasCovar", "", 1000, 800)
 canvasCovar.cd()
 ROOT.gPad.SetLogz()
 
 covarMatrix.SetTitle("")
-#covarMatrix.GetXaxis().SetLabelSize(0.02)
-covarMatrix.GetYaxis().SetLabelSize(0.02)
-covarMatrix.GetZaxis().SetLabelSize(0.02)
+covarMatrix.GetXaxis().SetLabelSize(0.05)
+covarMatrix.GetYaxis().SetLabelSize(0.05)
+covarMatrix.GetZaxis().SetLabelSize(0.04)
 covarMatrix.GetZaxis().SetRangeUser(5e-3,6e1)
 covarMatrix.Draw("colz")
 
@@ -169,6 +183,7 @@ label_top.Draw("same")
 label_cms.Draw("same")
 
 ROOT.gPad.RedrawAxis()
+ROOT.gPad.Update()
 
 canvasCovar.SaveAs("~/public_html/fullCovarianceMatrix_"+regions+"_Moriond2017.pdf")
 

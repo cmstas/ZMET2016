@@ -14,7 +14,7 @@
 #include "TBox.h"
 #include "TGraph.h"
 #include "TGraph2D.h"
-#include "tdrstyle_SUSY.C"
+//#include "tdrstyle_SUSY.C"
 
 using namespace std;
 
@@ -130,13 +130,14 @@ int makeLimitHist_T5ZZ()
   massplane_xsec->GetZaxis()->SetTitle("95% CL upper limit on #sigma [pb]");
   massplane_xsec->GetZaxis()->SetRangeUser(1e-3,1e-1);
   massplane_xsec->GetZaxis()->SetLabelSize(0.035);
+  massplane_xsec->GetZaxis()->SetTitleOffset(1.05);
 
   TCanvas *c_massplane = new TCanvas("c_massplane", "", 800, 800);
   c_massplane->cd();
   TPad *padt = new TPad("p_tex", "p_tex", 0.0, 0.0, 1.0, 1.0);
   padt->SetTopMargin(0.08);
   padt->SetBottomMargin(0.16);
-  padt->SetRightMargin(0.17);
+  padt->SetRightMargin(0.18);
   padt->SetLeftMargin(0.18);
   padt->Draw();
   padt->cd();
@@ -369,9 +370,9 @@ int makeLimitHist_T5ZZ()
   l1->SetTextSize(0.038);
   l1->SetShadowColor(kWhite);    
   l1->SetFillColor(kWhite);    
-  l1->AddEntry(contourplot , "Expected limit, #pm 1,2 #sigma_{exp.}"            , "l");
+  l1->AddEntry(contourplot , "Expected limit, #pm 1,2 s.d._{exp.}"            , "l");
   // l1->AddEntry(massplane_obs , "Observed limit"            , "l");
-  l1->AddEntry(massplane_obs , "Observed limit, #pm 1 #sigma_{theory}"            , "l");
+  l1->AddEntry(massplane_obs , "Observed limit, #pm 1 s.d._{theory}"            , "l");
   l1->Draw("same");
 
   TLine * top_margin = new TLine(1100,2200,2000,2200);
@@ -399,7 +400,7 @@ int makeLimitHist_T5ZZ()
   rig_margin->Draw("same");
 
   TLatex *prctex = NULL;
-  prctex = new TLatex(0.215,0.88, "pp #rightarrow #tilde{g} #tilde{g}, #tilde{g}#rightarrow 2j + #tilde{#chi}_{1}^{0}, #tilde{#chi}_{1}^{0} #rightarrow Z#tilde{G}; m_{#tilde{G}} = 1 GeV" );    
+  prctex = new TLatex(0.215,0.88, "pp #rightarrow #tilde{g}#tilde{g}, #tilde{g}#rightarrow 2j+#tilde{#chi}_{1}^{0}, #tilde{#chi}_{1}^{0} #rightarrow Z#tilde{G}; m_{#tilde{G}} = 1 GeV" );    
   prctex->SetNDC();    
   prctex->SetTextSize(0.032);    
   prctex->SetLineWidth(2);
@@ -407,7 +408,7 @@ int makeLimitHist_T5ZZ()
   prctex->Draw();
 
   TLatex *clstex = NULL;
-  clstex = new TLatex(0.215,0.84, "NLO + NLL exclusion" );    
+  clstex = new TLatex(0.215,0.84, "NLO+NLL exclusion" );    
   clstex->SetNDC();    
   clstex->SetTextSize(0.032);    
   clstex->SetLineWidth(2);
@@ -431,15 +432,15 @@ int makeLimitHist_T5ZZ()
   cmstexbold->SetTextFont(62);    
   cmstexbold->Draw();
 
-  cmstexbold = new TLatex(0.29,0.94, "Preliminary" );    
-  cmstexbold->SetNDC();    
-  cmstexbold->SetTextSize(0.0375);    
-  cmstexbold->SetLineWidth(2);
-  cmstexbold->SetTextFont(52);    
-  cmstexbold->Draw();
+  // cmstexbold = new TLatex(0.29,0.94, "Preliminary" );    
+  // cmstexbold->SetNDC();    
+  // cmstexbold->SetTextSize(0.0375);    
+  // cmstexbold->SetLineWidth(2);
+  // cmstexbold->SetTextFont(52);    
+  // cmstexbold->Draw();
 
   //c_massplane->SaveAs("T5ZZ_Exclusion_13TeV.pdf");
-  c_massplane->SaveAs("/home/users/olivito/public_html/T5ZZ_Exclusion_13TeV.pdf");
+  c_massplane->SaveAs("/home/users/olivito/public_html/T5ZZ_Exclusion_13TeV_paper.pdf");
   //c_massplane->SaveAs("/home/users/olivito/public_html/T5ZZ_Exclusion_13TeV_x3lumi.pdf");
 
   return 0;

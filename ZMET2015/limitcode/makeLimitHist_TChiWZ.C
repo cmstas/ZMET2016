@@ -14,7 +14,7 @@
 #include "TBox.h"
 #include "TGraph.h"
 #include "TGraph2D.h"
-#include "tdrstyle_SUSY.C"
+//#include "tdrstyle_SUSY.C"
 
 using namespace std;
 
@@ -120,13 +120,14 @@ int makeLimitHist_TChiWZ()
   massplane_xsec->GetZaxis()->SetTitle("95% CL upper limit on #sigma [pb]");
   massplane_xsec->GetZaxis()->SetRangeUser(5e-3,3e2);
   massplane_xsec->GetZaxis()->SetLabelSize(0.035);
+  massplane_xsec->GetZaxis()->SetTitleOffset(1.05);
 
   TCanvas *c_massplane = new TCanvas("c_massplane", "", 800, 800);
   c_massplane->cd();
   TPad *padt = new TPad("p_tex", "p_tex", 0.0, 0.0, 1.0, 1.0);
   padt->SetTopMargin(0.08);
   padt->SetBottomMargin(0.16);
-  padt->SetRightMargin(0.17);
+  padt->SetRightMargin(0.18);
   padt->SetLeftMargin(0.18);
   padt->Draw();
   padt->cd();
@@ -273,7 +274,8 @@ int makeLimitHist_TChiWZ()
 
   TH2D *hlim = glim.GetHistogram();
   hlim->SetName("hObsXsec");
-  hlim->SetTitle(";m_{gluino} [GeV];m_{LSP} [GeV]");
+  hlim->GetXaxis()->SetTitle("m_{#tilde{#chi}^{#pm}_{1}} = m_{#tilde{#chi}^{0}_{2}} [GeV]");
+  hlim->GetYaxis()->SetTitle("m_{#tilde{#chi}^{0}_{1}} [GeV]");
   hlim->GetZaxis()->SetLabelSize(0);
   hlim->GetZaxis()->SetRangeUser(5e-3,3e2);
   // manually fix below zero and above diagonal
@@ -364,9 +366,9 @@ int makeLimitHist_TChiWZ()
   l1->SetTextSize(0.038);
   l1->SetShadowColor(kWhite);    
   l1->SetFillColor(kWhite);    
-  l1->AddEntry(contourplot , "Expected limit, #pm 1,2 #sigma_{exp.}"            , "l");
+  l1->AddEntry(contourplot , "Expected limit, #pm 1,2 s.d._{exp.}"            , "l");
   // l1->AddEntry(massplane_obs , "Observed limit"            , "l");
-  l1->AddEntry(massplane_obs , "Observed limit, #pm 1 #sigma_{theory}"            , "l");
+  l1->AddEntry(massplane_obs , "Observed limit, #pm 1 s.d._{theory}"            , "l");
   l1->Draw("same");
 
   TLine * top_margin = new TLine(100,400,700,400);
@@ -401,7 +403,7 @@ int makeLimitHist_TChiWZ()
   // diag->Draw("same");
 
   TLatex *prctex = NULL;
-  prctex = new TLatex(0.215,0.88, "pp #rightarrow #tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{2}; #tilde{#chi}^{0}_{2}#rightarrow Z + #tilde{#chi}_{1}^{0}, #tilde{#chi}^{#pm}_{1}#rightarrow W^{#pm} + #tilde{#chi}_{1}^{0}" );    
+  prctex = new TLatex(0.215,0.88, "pp #rightarrow #tilde{#chi}^{#pm}_{1} #tilde{#chi}^{0}_{2}; #tilde{#chi}^{0}_{2}#rightarrow Z#tilde{#chi}_{1}^{0}, #tilde{#chi}^{#pm}_{1}#rightarrow W^{#pm}#tilde{#chi}_{1}^{0}" );    
   prctex->SetNDC();    
   prctex->SetTextSize(0.032);    
   prctex->SetLineWidth(2);
@@ -409,7 +411,7 @@ int makeLimitHist_TChiWZ()
   prctex->Draw();
 
   TLatex *clstex = NULL;
-  clstex = new TLatex(0.215,0.83, "NLO + NLL exclusion" );    
+  clstex = new TLatex(0.215,0.83, "NLO+NLL exclusion" );    
   clstex->SetNDC();    
   clstex->SetTextSize(0.032);    
   clstex->SetLineWidth(2);
@@ -433,15 +435,15 @@ int makeLimitHist_TChiWZ()
   cmstexbold->SetTextFont(62);    
   cmstexbold->Draw();
 
-  cmstexbold = new TLatex(0.29,0.94, "Preliminary" );    
-  cmstexbold->SetNDC();    
-  cmstexbold->SetTextSize(0.0375);    
-  cmstexbold->SetLineWidth(2);
-  cmstexbold->SetTextFont(52);    
-  cmstexbold->Draw();
+  // cmstexbold = new TLatex(0.29,0.94, "Preliminary" );    
+  // cmstexbold->SetNDC();    
+  // cmstexbold->SetTextSize(0.0375);    
+  // cmstexbold->SetLineWidth(2);
+  // cmstexbold->SetTextFont(52);    
+  // cmstexbold->Draw();
 
   //c_massplane->SaveAs("TChiWZ_Exclusion_13TeV.pdf");
-  c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV.pdf");
+  c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV_paper.pdf");
   //c_massplane->SaveAs("/home/users/olivito/public_html/TChiWZ_Exclusion_13TeV_x3lumi.pdf");
 
   return 0;
