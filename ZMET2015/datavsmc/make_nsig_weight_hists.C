@@ -11,8 +11,10 @@ void make_nsig_weight_hists(TString dir, TString sample) {
   TChain* t = new TChain("t");
   if( sample == "t5zz" ){
 	t->Add(Form("%s/t5zz*.root",dir.Data()));
+  }else if( sample == "tchiwz_ext" ){
+  t->Add(Form("%s/tchiwz_constantin_ext*.root",dir.Data()));
   }else if( sample == "tchiwz" ){
-	t->Add(Form("%s/tchiwz*.root",dir.Data()));
+	t->Add(Form("%s/tchiwz_80x_v2*.root",dir.Data()));
   }else if( sample == "tchihz" ){
 	t->Add(Form("%s/tchihz*.root",dir.Data()));
   }else if( sample == "tchizz" ){
@@ -64,6 +66,8 @@ void make_nsig_weight_hists(TString dir, TString sample) {
   TH2D* h_nsig;
   if( sample == "t5zz" ){
     h_nsig = new TH2D("h_nsig",";mass1 [GeV];mass2 [GeV]",27,775,2125,39,75,2025);
+  }else if( sample == "tchiwz_ext" ){
+    h_nsig = new TH2D("h_nsig",";mass1 [GeV];mass2 [GeV]",17,300,725,25,300,352);
   }else if( sample == "tchiwz" ){
     h_nsig = new TH2D("h_nsig",";mass1 [GeV];mass2 [GeV]",25,87.5,712.5,31,-5,305);
   }else if( sample == "tchihz" ){
