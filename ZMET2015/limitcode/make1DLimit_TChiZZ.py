@@ -35,7 +35,6 @@ def main():
     chargino_masses =[125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950] 
     f_xsecgraph = ROOT.TFile.Open("../../dilepbabymaker/xsec_susy_13tev_graphs.root")
     g_xsec_c1n2 = f_xsecgraph.Get("g_xsec_higgsino")
-    g_xsec_c1n2_scen2 = f_xsecgraph.Get("g_xsec_higgsino_scen2")
 
     obs=[]
     exp=[]
@@ -154,8 +153,6 @@ def main():
 #    gsigmas.Draw("L")
     g_xsec_c1n2.SetFillColor(ROOT.kRed)
     g_xsec_c1n2.Draw("3 same")
-    g_xsec_c1n2_scen2.SetFillColor(ROOT.kBlue)
-    g_xsec_c1n2_scen2.Draw("3 same")
     gobs = ROOT.TGraph(len(chargino_masses), array.array('d', chargino_masses), array.array('d', obs))
     gobs.SetMarkerStyle(ROOT.kFullCircle)
     gobs.SetMarkerSize(1.5)
@@ -206,7 +203,7 @@ def main():
     # cmstexprel.SetTextFont(52)
     # cmstexprel.Draw()
     
-    l1 = ROOT.TLegend(0.3, 0.47, 0.75, 0.71)
+    l1 = ROOT.TLegend(0.45, 0.47, 0.9, 0.71)
     l1.SetTextFont(42)
     l1.SetTextSize(0.036)
     l1.SetLineColor(ROOT.kWhite)
@@ -221,8 +218,7 @@ def main():
     l1.AddEntry(gexp , "Expected", "l")
     l1.AddEntry(gr_s1b , "Expected #pm 1 s.d.", "f")
     l1.AddEntry(gr_s2b , "Expected #pm 2 s.d.", "f")
-    l1.AddEntry(g_xsec_c1n2 , "Theoretical #sigma_{NLO+NLL} (scenario 1)","f")
-    l1.AddEntry(g_xsec_c1n2_scen2 , "Theoretical #sigma_{NLO} (scenario 2)","f")
+    l1.AddEntry(g_xsec_c1n2 , "Theoretical #sigma_{NLO+NLL}","f")
     l1.Draw()
     '''
     LExp1 = ROOT.TGraphAsymmErrors(2)
@@ -255,10 +251,10 @@ def main():
     #masstex.SetLineWidth(2)
     #masstex.SetTextFont(42)
     #masstex.Draw()
-    c1.SaveAs("~/public_html/TChiZZ_Exclusion_2xsec_13TeV.pdf")
+    c1.SaveAs("~/public_html/TChiZZ_Exclusion_13TeV.pdf")
 
     ### store histogram versions of limits
-    f_out = ROOT.TFile("limits_TChiZZ_2xsec.root","RECREATE")
+    f_out = ROOT.TFile("limits_TChiZZ.root","RECREATE")
     f_out.cd()
     #h_obs.Write()
     #h_exp.Write()
@@ -266,8 +262,7 @@ def main():
     #h_exp1p.Write()
     #h_exp2m.Write()
     #h_exp2p.Write()
-    g_xsec_c1n2.Write("g_xsec_higgsino_scenario1")
-    g_xsec_c1n2_scen2.Write("g_xsec_higgsino_scenario2")
+    g_xsec_c1n2.Write("g_xsec_higgsino")
 
     # graphs - need to set titles first
     gexp.SetName("gExp")
