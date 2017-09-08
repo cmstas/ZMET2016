@@ -4,8 +4,9 @@
 # args
 #
 
-FILEID=${OUTPUT_NAMES}
 FILE=${FILENAME}
+FILE_LOCAL=${FILE##*/}
+FILEID=${FILE_LOCAL%.*}
 COPYDIR=${OUTPUT_NAMES}
 
 echo "[wrapper] FILEID    = " ${FILEID}
@@ -15,7 +16,7 @@ echo "[wrapper] COPYDIR   = " ${COPYDIR}
 #
 # set up environment
 #
-CMSSW_VERSION=CMSSW_8_0_5
+CMSSW_VERSION=CMSSW_9_2_8
 
 ###version using cvmfs install of CMSSW
 echo "[wrapper] setting env"
