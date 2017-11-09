@@ -219,6 +219,20 @@ d_ds2name = {
         "/SingleMuon/Run2017D-PromptReco-v1/MINIAOD"         : "data_run2017D_PromptReco_sm_v1",
         "/SinglePhoton/Run2017D-PromptReco-v1/MINIAOD"       : "data_run2017D_PromptReco_ph_v1",
 
+        "/DoubleEG/Run2017E-PromptReco-v1/MINIAOD"           : "data_run2017E_PromptReco_ee_v1",
+        "/DoubleMuon/Run2017E-PromptReco-v1/MINIAOD"         : "data_run2017E_PromptReco_mm_v1",
+        "/MuonEG/Run2017E-PromptReco-v1/MINIAOD"             : "data_run2017E_PromptReco_em_v1",
+        #"/SingleElectron/Run2017E-PromptReco-v1/MINIAOD"     : "data_run2017E_PromptReco_se_v1",
+        "/SingleMuon/Run2017E-PromptReco-v1/MINIAOD"         : "data_run2017E_PromptReco_sm_v1",
+        "/SinglePhoton/Run2017E-PromptReco-v1/MINIAOD"       : "data_run2017E_PromptReco_ph_v1",
+
+        "/DoubleEG/Run2017F-PromptReco-v1/MINIAOD"           : "data_run2017F_PromptReco_ee_v1",
+        "/DoubleMuon/Run2017F-PromptReco-v1/MINIAOD"         : "data_run2017F_PromptReco_mm_v1",
+        "/MuonEG/Run2017F-PromptReco-v1/MINIAOD"             : "data_run2017F_PromptReco_em_v1",
+        #"/SingleElectron/Run2017F-PromptReco-v1/MINIAOD"     : "data_run2017F_PromptReco_se_v1",
+        "/SingleMuon/Run2017F-PromptReco-v1/MINIAOD"         : "data_run2017F_PromptReco_sm_v1",
+        "/SinglePhoton/Run2017F-PromptReco-v1/MINIAOD"       : "data_run2017F_PromptReco_ph_v1",
+
 
     },
     "scans": {
