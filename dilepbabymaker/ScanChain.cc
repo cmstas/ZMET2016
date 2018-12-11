@@ -112,9 +112,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	// setup btag calibration readers
 	calib           = new BTagCalibration("csvv2", "btagsf/CSVv2_Moriond17_B_H.csv"); // Moriond17 version of SFs
 	reader_heavy    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); // central
-	//reader_heavy_DN = new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "comb", "down"   ); // sys down
 	reader_light    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); // central
-	//reader_light_UP = new BTagCalibrationReader(calib, BTagEntry::OP_MEDIUM, "incl", "up"     ); // sys up
 
 	// get btag efficiencies
 	TFile * f_btag_eff           = new TFile("btagsf/btageff__ttbar_powheg_pythia8_25ns_Moriond17.root");
@@ -134,8 +132,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  // setup btag calibration readers
 	  calib_fastsim     = new BTagCalibration("CSV", "btagsf/fastsim_csvv2_ttbar_26_1_2017.csv"); // Moriond 17 25ns fastsim version of SFs
 	  reader_fastsim    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"}); // central
-	  //reader_fastsim_UP = new BTagCalibrationReader(calib_fastsim, BTagEntry::OP_MEDIUM, "fastsim", "up"     ); // sys up
-	  //reader_fastsim_DN = new BTagCalibrationReader(calib_fastsim, BTagEntry::OP_MEDIUM, "fastsim", "down"   ); // sys down
 
 	  // get btag efficiencies
 	  TFile * f_btag_eff_fastsim           = new TFile("btagsf/btageff__SMS-T1bbbb-T1qqqq_25ns_Moriond17.root");
@@ -544,7 +540,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       if (applyJECfromFile){
         // //recalculate rawMET
-        pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, true);
+        pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, false);
         met_T1CHS_fromCORE_pt  = newMET.first;
         met_T1CHS_fromCORE_phi = newMET.second;
       
