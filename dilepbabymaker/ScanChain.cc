@@ -918,8 +918,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             nveto_leptons++;
     		  }
     		}
-   	  	
-        if( !passElectronSelection_ZMET( iEl ) ) continue;
+   	    int year = 2017;//HARDCODE - CHANGE LATER!	
+        if( !passElectronSelection_ZMET( iEl, year ) ) continue;
   		
         nElectrons10++;
 
@@ -987,7 +987,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
       	  nveto_leptons++;
       	}
-   	  	if( !passMuonSelection_ZMET( iMu ) ) continue;
+        int year = 2017; //HARDCODE - CHANGE LATER!!
+   	  	if( !passMuonSelection_ZMET( iMu,year ) ) continue;
   		  
         nMuons10++;
 
