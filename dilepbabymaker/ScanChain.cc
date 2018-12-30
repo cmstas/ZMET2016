@@ -92,7 +92,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
   cout<<"Creating MVA input for electrons."<<endl;
   // createAndInitMVA("MVAinput", true); // for electrons
-  createAndInitMVA("MVAinput", true, false, 80); // for electrons
+  createAndInitMVA("MVAinput", true, true, 80); // for electrons
 
   // SimPa class for simulating photon decay
   SimPa simpa;
