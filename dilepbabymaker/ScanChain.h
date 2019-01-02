@@ -274,6 +274,7 @@ private:
   std::vector <Float_t> lep_etaSC        ;   //[nlep]
   std::vector <Float_t> lep_dz           ;   //[nlep]
   std::vector <Int_t  > lep_tightId      ;   //[nlep]
+  std::vector <Float_t> lep_relIsoUncorr ;
   std::vector <Float_t> lep_relIso03     ;   //[nlep]
   std::vector <Float_t> lep_relIso03MREA ;   //[nlep]
   std::vector <Float_t> lep_relIso03MRDB ;   //[nlep]

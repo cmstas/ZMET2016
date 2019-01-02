@@ -878,6 +878,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector<float>vec_lep_dxy;
       vector<float>vec_lep_dz;
       vector<int>  vec_lep_tightId;
+      vector<float> vec_lep_relIsoUncorr;
       vector<float>vec_lep_relIso03;
       vector<float>vec_lep_relIso03MREA;
       vector<float>vec_lep_relIso03MRDB;
@@ -936,6 +937,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
     		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
     		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
+              vec_lep_relIsoUncorr .push_back((cms3.els_miniIso_nh().at(iEl) + cms3.els_miniIso_em().at(iEl))/(cms3.els_p4().at(iEl).pt()));
     		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
     		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl, 1 )   );
     		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
@@ -987,6 +989,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
       	  nveto_leptons++;
       	}
+        gconf.year = 2017;
         int year = 2017; //HARDCODE - CHANGE LATER!!
    	  	if( !passMuonSelection_ZMET( iMu,year ) ) continue;
   		  
@@ -1007,6 +1010,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
     		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
     		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
+              vec_lep_relIsoUncorr .push_back((cms3.mus_miniIso_nh().at(iMu) + cms3.mus_miniIso_em().at(iMu))/(cms3.mus_p4().at(iMu).pt()));
     		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
     		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)    );
     		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
@@ -1073,6 +1077,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		lep_dxy          .push_back( vec_lep_dxy          .at(it->first));
     		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->first));
     		lep_tightId      .push_back( vec_lep_tightId      .at(it->first));
+            lep_relIsoUncorr .push_back(vec_lep_relIsoUncorr  .at(it->first));
     		lep_relIso03MREA .push_back( vec_lep_relIso03MREA .at(it->first));
     		lep_mcMatchId    .push_back( vec_lep_mcMatchId    .at(it->first));
     		lep_lostHits     .push_back( vec_lep_lostHits     .at(it->first));
@@ -2421,6 +2426,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_etaSC"        , "std::vector< Float_t >"       , &lep_etaSC      );
   BabyTree_->Branch("lep_dz"           , "std::vector< Float_t >"       , &lep_dz         );
   BabyTree_->Branch("lep_tightId"      , "std::vector< Int_t >"         , &lep_tightId    );
+  BabyTree->Branch("lep_relIsoUncorr", "std::vector<Float_t>"           ,&lep_relIsoUncorr);
   BabyTree_->Branch("lep_relIso03"     , "std::vector< Float_t >"       , &lep_relIso03   );
   BabyTree_->Branch("lep_relIso03MREA" , "std::vector< Float_t >"       , &lep_relIso03MREA   );
   BabyTree_->Branch("lep_relIso03MRDB" , "std::vector< Float_t >"       , &lep_relIso03MRDB   );
@@ -2860,6 +2866,7 @@ void babyMaker::InitBabyNtuple () {
   lep_etaSC         .clear();
   lep_dz            .clear();
   lep_tightId       .clear();
+  lep_relIsoUncorr  .clear();
   lep_relIso03      .clear();
   lep_relIso03MREA  .clear();
   lep_relIso03MRDB  .clear();
