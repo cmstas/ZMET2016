@@ -1012,7 +1012,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
               vec_lep_relIsoUncorr .push_back((cms3.mus_miniIso_nh().at(iMu) + cms3.mus_miniIso_em().at(iMu))/(cms3.mus_p4().at(iMu).pt()));
     		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
-    		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 1)    );
+    		  vec_lep_relIso03MREA .push_back ( muMiniRelIsoCMS3_EA( iMu, 4)    ); //HARDCODE!
     		  vec_lep_etaSC        .push_back ( cms3.mus_p4().at(iMu).eta()     );
     		  vec_lep_MVA          .push_back ( -99                             );
     		  vec_lep_validfraction.push_back ( validFraction                   );
