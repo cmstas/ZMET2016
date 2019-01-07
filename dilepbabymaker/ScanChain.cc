@@ -920,7 +920,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  }
     		}
    	    int year = 2017;//HARDCODE - CHANGE LATER!	
-        if( !passElectronSelection_ZMET( iEl, year ) ) continue;
+        if( !passElectronSelection_ZMET( iEl) ) continue;
   		
         nElectrons10++;
 
@@ -991,7 +991,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	}
         gconf.year = 2017;
         int year = 2017; //HARDCODE - CHANGE LATER!!
-   	  	if( !passMuonSelection_ZMET( iMu,year ) ) continue;
+   	  	if( !passMuonSelection_ZMET( iMu) ) continue;
   		  
         nMuons10++;
 
