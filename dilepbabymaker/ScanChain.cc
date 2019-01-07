@@ -920,7 +920,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  }
     		}
    	    int year = 2017;//HARDCODE - CHANGE LATER!	
-        if( !passElectronSelection_ZMET( iEl, year ) ) continue;
+        if( !passElectronSelection_ZMET( iEl) ) continue;
   		
         nElectrons10++;
 
@@ -941,7 +941,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
     		  vec_lep_relIso03MREA .push_back( elMiniRelIsoCMS3_EA( iEl, 4 )   );
     		  vec_lep_etaSC        .push_back( els_etaSC().at(iEl)             );
-    		  vec_lep_MVA          .push_back( getMVAoutput(iEl)               );
+    		  vec_lep_MVA          .push_back( getMVAoutput(iEl,true)          );
     		  vec_lep_validfraction.push_back( -1                              );
     		  vec_lep_ptErr        .push_back( cms3.els_ptErr() .at(iEl)       );
     		  vec_lep_sta_pterrOpt .push_back ( -1                             );
@@ -991,7 +991,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	}
         gconf.year = 2017;
         int year = 2017; //HARDCODE - CHANGE LATER!!
-   	  	if( !passMuonSelection_ZMET( iMu,year ) ) continue;
+   	  	if( !passMuonSelection_ZMET( iMu) ) continue;
   		  
         nMuons10++;
 
