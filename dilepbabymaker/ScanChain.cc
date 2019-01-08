@@ -919,7 +919,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             nveto_leptons++;
     		  }
     		}
-   	    int year = 2017;//HARDCODE - CHANGE LATER!	
+        gconf.year = 2017;
         if( !passElectronSelection_ZMET( iEl) ) continue;
   		
         nElectrons10++;
@@ -989,8 +989,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	if( passMuonSelection_ZMET_veto_v1( iMu, false, true ) ){
       	  nveto_leptons++;
       	}
-        gconf.year = 2017;
-        int year = 2017; //HARDCODE - CHANGE LATER!!
    	  	if( !passMuonSelection_ZMET( iMu) ) continue;
   		  
         nMuons10++;
@@ -2426,7 +2424,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_etaSC"        , "std::vector< Float_t >"       , &lep_etaSC      );
   BabyTree_->Branch("lep_dz"           , "std::vector< Float_t >"       , &lep_dz         );
   BabyTree_->Branch("lep_tightId"      , "std::vector< Int_t >"         , &lep_tightId    );
-  BabyTree->Branch("lep_relIsoUncorr", "std::vector<Float_t>"           ,&lep_relIsoUncorr);
+  BabyTree_->Branch("lep_relIsoUncorr", "std::vector<Float_t>"           ,&lep_relIsoUncorr);
   BabyTree_->Branch("lep_relIso03"     , "std::vector< Float_t >"       , &lep_relIso03   );
   BabyTree_->Branch("lep_relIso03MREA" , "std::vector< Float_t >"       , &lep_relIso03MREA   );
   BabyTree_->Branch("lep_relIso03MRDB" , "std::vector< Float_t >"       , &lep_relIso03MRDB   );
