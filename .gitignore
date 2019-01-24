@@ -36,3 +36,5 @@ plots_baby/
 !dilepbabymaker/batchsubmit/job_input/libMiniFWLite.so
 !dilepbabymaker/batchsubmit/job_input/processBaby.C
 
+#Other exceptions
+*.tar.gz
