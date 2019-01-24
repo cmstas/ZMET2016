@@ -54,7 +54,7 @@ const bool maxEta24 = true;
 // is set during runtime
 bool isSMSScan = false;
 // always on
-bool applyBtagSFs = true;
+bool applyBtagSFs = false;
 // for testing purposes, running on unmerged files (default false)
 const bool removePostProcVars = true;
 
@@ -377,6 +377,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L3Absolute_AK4PFchs.txt"  );
       	jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_Uncertainty_AK4PFchs.txt" );
   	  }
+      //HARDCODE STUFF FOR SYNCHRONIZATION
+      jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK4PFchs.txt");
+      jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK4PFchs.txt");
+      jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK4PFchs.txt");
 
   	  if( jetcorr_filenames_pfL1FastJetL2L3.size() == 0 ){
     		cout<<"Error, sample not found. Check the JECs."<<endl;
@@ -1380,8 +1384,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		    }
     		  }
 
+              
     		  // apply new JEC to p4
     		  pfjet_p4_cor = pfjet_p4_uncor * corr;
+
     		}
     		
     		p4sCorrJets.push_back(pfjet_p4_cor);
@@ -1395,9 +1401,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2) continue;
   		  // note this uses the eta of the jet as stored in CMS3
   		  //  chance for small discrepancies if JEC changes direction slightly..
-        if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan) continue;
+        //if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan) continue;
+        if(!isTightPFJet_2017_v1(iJet) && !isSMSScan) continue;
   		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
   		  passJets.push_back(std::pair<int,float>(iJet, pfjet_p4_cor.pt()));
+
       }
 
       // sort passing jets by corrected pt
@@ -1456,7 +1464,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
      		  if( ROOT::Math::VectorUtil::DeltaR(cms3.els_p4().at(iEl), gamma_p4[iGamma]) > 0.2 ) continue; // dr < 0.2
      		  elveto = true;
      		} // end electron loop	  		
-   	  }	  
+   	  }
+      
   	  
       if (verbose) cout << "before jet/lepton overlap" << endl;
 
@@ -1470,10 +1479,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
           int iJet = passJets.at(passIdx).first;
 
-          if( !(p4sCorrJets.at(iJet).pt()    > 35.0 || 
+          if( !(p4sCorrJets.at(iJet).pt()    >=35.0 || 
             (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
-          if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
+          /*if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) 
+          {
+              continue;
+          }*/
           if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 
           bool alreadyRemoved = false;
@@ -1491,6 +1503,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           }
         }
       }
+
 
   	  if (verbose) cout << "before isr weight loop over jets" << endl;
 
@@ -1520,11 +1533,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		    // apply new JEC to p4
     		    pfjet_p4_cor = pfjet_p4_uncor * corr;
+
     		  }
     		
     		  if(       pfjet_p4_cor.pt()    < 30.0       ) continue; 
     		  if( fabs( pfjet_p4_cor.eta() ) > 2.4        ) continue;
-    		  if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan ) continue;
+    		  /*if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan ) 
+              {
+                  continue;
+              } */  
     		  if( isSMSScan && isBadFastsimJet(iJet)      ) failbadfastsimjet = true;
 
     		  bool jetoverlapswithlepton = false;
@@ -1539,6 +1556,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  }
     		  
     		  if( jetoverlapswithlepton ) continue;
+
 
     		  jets_for_pileup.push_back(pfjet_p4_cor);
         }
@@ -1570,7 +1588,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
   				 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
-          if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
+          //if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
   	      if( isSMSScan && isBadFastsimJet(iJet) ) continue;
   	
           bool alreadyRemoved = false;
