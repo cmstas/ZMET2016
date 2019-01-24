@@ -15,7 +15,8 @@ int main(int argc, char **argv) {
   }
 
   TString outfileid(argv[1]); 
-  TString infile(argv[2]); 
+  TString infile(argv[2]);
+  fstream outputName("outputName.txt",ios::out);
 
   int max_events = -1;
   if (argc >= 4) max_events = atoi(argv[3]);
@@ -206,6 +207,7 @@ int main(int argc, char **argv) {
   else sample = Form("unknown_%s", outfileid.Data());
 
   std::cout<<"sample is "<<sample<<std::endl;
+  outputName<<sample<<std::endl;
   std::cout<<"outfileid "<<outfileid.Data()<<std::endl;
 
   //--------------------------------
