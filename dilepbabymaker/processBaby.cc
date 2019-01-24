@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
 
   TString outfileid(argv[1]); 
   TString infile(argv[2]);
-  std::fstream outputName("outputName.txt",ios::out);
+  std::fstream outputName("outputName.txt",std::ios::out);
 
   int max_events = -1;
   if (argc >= 4) max_events = atoi(argv[3]);
