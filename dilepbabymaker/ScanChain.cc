@@ -110,9 +110,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   
   if (applyBtagSFs) {
 	// setup btag calibration readers
-	calib           = new BTagCalibration("csvv2", "btagsf/CSVv2_Moriond17_B_H.csv"); // Moriond17 version of SFs
-	reader_heavy    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); // central
-	reader_light    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); // central
+	calib           = new BTagCalibration("deepcsv", "btagsf/DeepCSV_94XSF_V3_B_F.csv"); // DeepCSV
+	reader_heavy    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); 
+	reader_light    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); 
 
 	// get btag efficiencies
 	TFile * f_btag_eff           = new TFile("btagsf/btageff__ttbar_powheg_pythia8_25ns_Moriond17.root");
@@ -1665,7 +1665,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		if( verbose ) cout<<"Before filling jet branches"<<endl;
 
-    		float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
+    		//float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
+            float current_csv_val = max(getbtagvalue("pfDeepCSVJetTags:probb"iJet),getbtagvalue("pfDeepCSVJetTags:probbb",iJet));
     		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
     		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
@@ -1674,7 +1675,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			jets_csv                                      .push_back(current_csv_val);
       			jets_muf                                      .push_back(current_muf_val);
     		  }
-    		  if( current_csv_val >= 0.8484 ){
+    		  if( current_csv_val >= 0.4941 ){
       			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
       			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
       			  jets_csv                                      .push_back(current_csv_val);
@@ -1697,9 +1698,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  // require pT > 35 for HT
     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); }
     		
-    		  if(current_csv_val >= 0.9535) { nBJetTight++; }
+    		  if(current_csv_val >= 0.8001) { nBJetTight++; }
 
-    		  if(current_csv_val >= 0.8484) {
+    		  if(current_csv_val >= 0.4941) {
       			nBJetMedium++;
 
       			// for applying btagging SFs
@@ -1804,14 +1805,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			}
     		  }
     		
-    		  if(current_csv_val >= 0.5426) { nBJetLoose++; }
+    		  if(current_csv_val >= 0.1522) { nBJetLoose++; }
 
     		  //require pT > 35 for jet counting
     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ njets++; }
     		}
 
     		if( verbose ) cout<<"Before filling jet up branches"<<endl;
-    		
+//NOT UPDATED!!	
     		if( (p4sCorrJets_up.at(iJet).pt()   > 25.0 ) && 
           abs(p4sCorrJets_up.at(iJet).eta()) < 2.4 ){
     		  
@@ -1826,7 +1827,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  if(current_csv_val >= 0.5426) { nBJetLoose_up++; }
     		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ){ njets_up++; }
     		}
-
+//NOT UPDATED!!
     		if( verbose ) cout<<"Before filling jet dn branches"<<endl;
 
     	    if(     (   p4sCorrJets_dn.at(iJet).pt()   > 25.0 ) &&
