@@ -1666,7 +1666,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		if( verbose ) cout<<"Before filling jet branches"<<endl;
 
     		//float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
-            float current_csv_val = max(getbtagvalue("pfDeepCSVJetTags:probb",iJet),getbtagvalue("pfDeepCSVJetTags:probbb",iJet));
+            float current_csv_val = getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet);
     		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
     		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
