@@ -557,6 +557,12 @@ private:
   std::vector <Float_t> weightsf_lepid_FS;
   std::vector <Float_t> weightsf_lepiso_FS;
   std::vector <Float_t> weightsf_lepip_FS;
+
+  //isotrack variables
+  std::vector<LorentzVector> vec_isotrack_p4;
+  std::vector<float> vec_isotrack_absiso;
+  std::vector<int> vec_isotrack_pdgid;
+  std::vector<size_t> vec_isotrack_index; 
   
 };
 

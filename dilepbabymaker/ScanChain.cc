@@ -55,6 +55,8 @@ const bool maxEta24 = true;
 bool isSMSScan = false;
 // always on
 bool applyBtagSFs = false;
+//isotrackcollection
+bool useIsotrackCollectionForVeto = true;
 // for testing purposes, running on unmerged files (default false)
 const bool removePostProcVars = true;
 
@@ -89,6 +91,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
+
+  fstream isoTrackElsOverlap("isotrack_els_overlap.txt",ios::out);
+  fstream isoTrackMusOverlap("isotrack_mus_overlap.txt",ios::out);
 
   cout<<"Creating MVA input for electrons."<<endl;
   // createAndInitMVA("MVAinput", true); // for electrons
@@ -405,8 +410,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     // LOOP OVER EVENTS IN FILE
     //===============================
     for( unsigned int event = 0; event < nEventsToLoop; ++event) {
-      //for( unsigned int event = 0; event < 100; ++event) {
-      // if( event > 100 ) continue;
 	  
       // Get Event Content
       tree->LoadTree(event);
@@ -538,18 +541,18 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
       met_genPt    = cms3.gen_met();
       met_genPhi   = cms3.gen_metPhi();
-      met_rawPt    = cms3.evt_pfmet_raw();
-      met_rawPhi   = cms3.evt_pfmetPhi_raw();
+      met_rawPt    = cms3.evt_old_pfmet_raw();
+      met_rawPhi   = cms3.evt_old_pfmetPhi_raw();
       sumet_raw    = cms3.evt_pfsumet_raw();
 
       if (applyJECfromFile){
         // //recalculate rawMET
-        pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, false);
+        pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, false,0);
         met_T1CHS_fromCORE_pt  = newMET.first;
         met_T1CHS_fromCORE_phi = newMET.second;
       
         // met with no unc
-        pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current);
+        pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current,NULL,0,false,2);
         met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
         met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
 
@@ -1482,10 +1485,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if( !(p4sCorrJets.at(iJet).pt()    >=35.0 || 
             (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
-          /*if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) 
+          if( gconf.year == 2016 && !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) 
           {
               continue;
-          }*/
+          }
           if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 
           bool alreadyRemoved = false;
@@ -1538,10 +1541,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		
     		  if(       pfjet_p4_cor.pt()    < 30.0       ) continue; 
     		  if( fabs( pfjet_p4_cor.eta() ) > 2.4        ) continue;
-    		  /*if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan ) 
+    		  if(gconf.year == 2016 && !isLoosePFJet_Summer16_v1(iJet) && !isSMSScan ) 
               {
                   continue;
-              } */  
+              }   
     		  if( isSMSScan && isBadFastsimJet(iJet)      ) failbadfastsimjet = true;
 
     		  bool jetoverlapswithlepton = false;
@@ -1588,7 +1591,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
   				 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
-          //if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
+          if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
   	      if( isSMSScan && isBadFastsimJet(iJet) ) continue;
   	
           bool alreadyRemoved = false;
@@ -1669,7 +1672,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             float current_csv_val = getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet);
     		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
-    		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
+    		if( p4sCorrJets.at(iJet).pt() > 35.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
      		  if( p4sCorrJets.at(iJet).pt() > 35.0 ) {
       			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
       			jets_csv                                      .push_back(current_csv_val);
@@ -2087,9 +2090,103 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  nisoTrack_PFHad10_woverlaps = 0;
   	  nhighPtPFcands = 0;
 
+
       //------------------------------------
       // Compute Kinematic Vars For PFCands
+      //
       //------------------------------------
+
+      if(useIsotrackCollectionForVeto)
+      {
+        for(size_t iit = 0; iit < cms3.isotracks_p4().size();iit++)
+        {
+            if(!cms3.isotracks_isPFCand().at(iit)) continue;
+            if(cms3.isotracks_charge().at(iit) == 0) continue;
+            if(fabs(cms3.isotracks_dz().at(iit)) > 0.1) continue;
+            if(fabs(cms3.isotracks_dxy().at(iit)) > 0.2) continue;
+            if(cms3.isotracks_fromPV().at(iit) < 1) continue;
+            
+            float absiso = cms3.isotracks_pfIso_ch().at(iit);
+            int pdgId = abs(cms3.isotracks_particleId().at(iit));
+            LorentzVector isotrack_p4 = cms3.isotracks_p4().at(iit);
+
+            //add lepton overlap stuff right here and replace variables!
+            bool overlapFlag = false;
+            LorentzVector overlapLepp4;
+            if(pdgId == 11)
+            {
+                //verification step
+                float lowestDR = 0.1;
+                int specialiEl = -1;
+                for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
+                {
+                    if(DeltaR(isotrack_p4.eta(),cms3.els_p4().at(iEl).eta(),isotrack_p4.phi(),cms3.els_p4().at(iEl).phi()) < lowestDR and cms3.els_charge().at(iEl) == cms3.isotracks_charge().at(iit))
+                    {
+                        specialiEl = iEl;
+                        lowestDR = DeltaR(isotrack_p4.eta(),cms3.els_p4().at(iEl).eta(),isotrack_p4.phi(),cms3.els_p4().at(iEl).phi()); 
+                    }
+                }
+                    if(specialiEl >= 0)
+                    {
+                        overlapFlag = true;    
+                        absiso = els_pfChargedHadronIso().at(specialiEl); 
+                        overlapLepp4 = cms3.els_p4().at(specialiEl);
+                        isoTrackElsOverlap<<cms3.els_p4().at(specialiEl).pt()<<" "<<isotrack_p4.pt()<<" "<<cms3.isotracks_nearestPF_pt().at(iit)<<" "<<lowestDR<< endl;
+
+                    }
+            }
+            else if(pdgId == 13)
+            {
+                float lowestDR = 0.1;
+                int specialiMu = -1;
+                for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
+                {
+                    if(DeltaR(isotrack_p4.eta(),cms3.mus_p4().at(iMu).eta(),isotrack_p4.phi(),cms3.mus_p4().at(iMu).phi()) < lowestDR and cms3.mus_charge().at(iMu) == cms3.isotracks_charge().at(iit))
+                    {
+                        specialiMu = iMu;
+                        lowestDR = DeltaR(isotrack_p4.eta(),cms3.mus_p4().at(iMu).eta(),isotrack_p4.phi(),cms3.mus_p4().at(iMu).phi());
+                    }
+                }
+                    if(specialiMu >= 0)
+                    {
+                        overlapFlag = true;
+                        absiso =  mus_isoR03_pf_ChargedHadronPt().at(specialiMu);
+                        overlapLepp4 = cms3.mus_p4().at(specialiMu);
+                        isoTrackMusOverlap<<cms3.mus_p4().at(specialiMu).pt()<<" "<<isotrack_p4.pt()<<" "<<" "<<cms3.isotracks_nearestPF_pt().at(iit)<< " "<<lowestDR<<" "<<cms3.isotracks_nearestPF_DR().at(iit)<<endl;
+
+                    }
+            }
+
+
+            LorentzVector cand_p4 = overlapFlag ? overlapLepp4 : cms3.isotracks_p4().at(iit);
+            float cand_pt = cand_p4.pt();
+            float cand_eta = cand_p4.eta();
+            if(cand_pt < 5 or cand_eta > 2.4) continue;
+            if(absiso >= min(0.2*cand_pt,5.0)) continue;
+
+
+            nisoTrack_5gev++;
+
+            if(pdgId == 11 || pdgId == 13)
+            {
+                nisoTrack_PFLep5_woverlaps++;
+            }
+
+            if(cand_pt > 10 && pdgId == 211)
+            {
+                nisoTrack_PFHad10_woverlaps++;
+            }
+
+            //Fill isotrack branches
+            vec_isotrack_p4.push_back(cand_p4);
+            vec_isotrack_absiso.push_back(absiso);
+            vec_isotrack_pdgid.push_back(pdgId);
+            vec_isotrack_index.push_back(iit);
+
+        } //loop over isotracks
+      }
+      else
+      {
   	  for( size_t pfind = 0; pfind < cms3.pfcands_p4().size(); pfind++ ){
 
     		LorentzVector pfcand_p4 = cms3.pfcands_p4().at(pfind);
@@ -2131,7 +2228,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		
         if(      cms3.pfcands_charge().at(pfind)  == 0  ) continue;
         if( fabs(cms3.pfcands_dz()    .at(pfind)) >  0.1) continue;
-        if(      cms3.pfcands_fromPV().at(pfind)  <= 1  ) continue;
+        if(      cms3.pfcands_fromPV().at(pfind)  < 1  ) continue;
 
         float cand_pt = cms3.pfcands_p4().at(pfind).pt();
         if(cand_pt < 5) continue;
@@ -2166,6 +2263,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  if( !leptonoverlaps ) nisoTrack_mt2++;
     		}
   	  } // loop over pfcands
+    }
   	  
   	  chpfcands_0013_pt = chpfcands_0013_p4.pt();
   	  chpfcands_1316_pt = chpfcands_1316_p4.pt();
@@ -2468,6 +2566,11 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nisoTrack_mt2"  , &nisoTrack_mt2  );
   BabyTree_->Branch("nisoTrack_PFLep5_woverlaps"  , &nisoTrack_PFLep5_woverlaps  );
   BabyTree_->Branch("nisoTrack_PFHad10_woverlaps" , &nisoTrack_PFHad10_woverlaps );
+
+  BabyTree_->Branch("isotrack_p4",&vec_isotrack_p4);
+  BabyTree_->Branch("isotrack_absiso",&vec_isotrack_absiso);
+  BabyTree_->Branch("isotrack_pdgId",&vec_isotrack_pdgid);
+  BabyTree_->Branch("isotrack_index",&vec_isotrack_index);
 
   BabyTree_->Branch("ngamma"             , &ngamma        , "ngamma/I" );
   BabyTree_->Branch("gamma_p4"           , &gamma_p4    );
@@ -3150,6 +3253,11 @@ void babyMaker::InitBabyNtuple () {
   weightsf_lepid_FS  . clear();
   weightsf_lepiso_FS . clear();
   weightsf_lepip_FS  . clear();
+
+  vec_isotrack_p4.clear();
+  vec_isotrack_absiso.clear();
+  vec_isotrack_pdgid.clear();
+  vec_isotrack_index.clear();
 
   return;
 }

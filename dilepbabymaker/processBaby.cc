@@ -4,7 +4,7 @@
 #include "TString.h"
 
 #include "ScanChain.h"
-
+#include "../CORE/Config.h"
 #include <iostream>
 #include <fstream>
 
@@ -214,7 +214,8 @@ int main(int argc, char **argv) {
   //--------------------------------
   // run
   //--------------------------------
-  
+   //hardocde year
+   gconf.year = 2017;
   babyMaker *looper = new babyMaker();
   looper->ScanChain(chain, sample, max_events); 
   return 0;
