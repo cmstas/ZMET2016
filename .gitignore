@@ -21,6 +21,9 @@ dilepbabymaker/batchsubmit/job_logs
 dilepbabymaker/batchsubmit/configs*
 dilepbabymaker/*.root
 dilepbabymaker/golden*
+dilepbabymaker/batchsubmit/package.tar.gz
+
+dilepbabymaker/outputName.txt
 
 # Added by Bobak, untracked as of intial pull
 dilepbabymaker/batchsubmit/job_input/
