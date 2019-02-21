@@ -34,6 +34,7 @@ public:
   };
 
   void ScanChain(TChain*, std::string = "testSample", int max_events = -1);
+  bool isSignalLepton(float pt);
 
   void MakeBabyNtuple(const char *);
   void InitBabyNtuple();
@@ -299,6 +300,8 @@ private:
   Int_t nisoTrack_mt2 ;
   Int_t nisoTrack_PFLep5_woverlaps ;
   Int_t nisoTrack_PFHad10_woverlaps ;
+  Int_t nisoTrack_PFEle5_woverlaps;
+  Int_t nisoTrack_PFMu5_woverlaps;
 
   //----- PHOTONS
   Int_t           ngamma;

@@ -84,7 +84,71 @@ int returnBrokenTrigger( string trigname )
   return false;
 }
 
- //--------------------------------------------------------------------
+
+bool ElectronOverlapWithPFCandidate(unsigned int iEl,bool pf_electrons_only = true)
+{
+    LorentzVector elp4 = cms3.els_p4().at(iEl);
+    int count = 0;
+    for(unsigned int iPf = 0; iPf < cms3.pfcands_p4().size(); iPf++)
+    {
+        if(pf_electrons_only && abs(cms3.pfcands_particleId().at(iPf)) != 11) continue;
+
+        LorentzVector candidatep4 = cms3.pfcands_p4().at(iPf);
+        if(DeltaR(elp4,candidatep4) > 0.1) continue;
+        if(abs(candidatep4.pt() - elp4.pt())/elp4.pt() > 0.05) continue;
+
+        count++;
+    }
+
+    return (count > 0 ? true : false);
+}
+
+bool MuonOverlapWithPFCandidate(unsigned int iMu,bool pf_muons_only = true)
+{
+    LorentzVector mup4 = cms3.mus_p4().at(iMu);
+    int count = 0;
+    for(unsigned int iPf = 0; iPf < cms3.pfcands_p4().size();iPf++)
+    {
+        if(pf_muons_only && abs(cms3.pfcands_particleId().at(iPf)) != 13) continue;
+        LorentzVector candidatep4 = cms3.pfcands_p4().at(iPf);
+        if(DeltaR(mup4,candidatep4) > 0.1) continue;
+        if(abs(candidatep4.pt() - mup4.pt())/mup4.pt() > 0.05) continue;
+        count ++;
+    }
+    
+    return (count > 0 ? true : false);
+}
+
+bool babyMaker::isSignalLepton(float candidate_lep_pt)
+{
+    for(auto it:lep_pt)
+    {
+        if(abs(candidate_lep_pt - it)/it < 1e-4) //very strong criterion
+            return true;
+    }
+    return false;
+}
+
+bool isoPFOverlap(size_t iit)
+{
+    LorentzVector isotrack_p4 = cms3.isotracks_p4().at(iit);
+
+    for(unsigned int iPf = 0; iPf < cms3.pfcands_p4().size();iPf++)
+    {
+        if(!(abs(cms3.pfcands_particleId().at(iPf)) == 11 || abs(cms3.pfcands_particleId().at(iPf)) == 13)) continue;
+
+        LorentzVector candidatep4 = cms3.pfcands_p4().at(iPf);
+        if(DeltaR(isotrack_p4,candidatep4) > 0.1) continue;
+        //if(abs(candidatep4.pt() - isotrack_p4.pt())/isotrack_p4.pt() > 0.05) continue;
+
+        return true;
+
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------
 
 void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
@@ -2087,8 +2151,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  nisoTrack_5gev = 0;
   	  nisoTrack_mt2  = 0;
   	  nisoTrack_PFLep5_woverlaps  = 0;
+      nisoTrack_PFEle5_woverlaps = 0;
+      nisoTrack_PFMu5_woverlaps = 0;
   	  nisoTrack_PFHad10_woverlaps = 0;
   	  nhighPtPFcands = 0;
+
+      std::vector<unsigned int> muonOverlapRemoved;
+      std::vector<unsigned int> electronOverlapRemoved;
 
 
       //------------------------------------
@@ -2098,6 +2167,55 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       if(useIsotrackCollectionForVeto)
       {
+          
+          for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
+          {
+              if(fabs(cms3.els_dzPV().at(iEl)) > 0.1) continue;
+              if(fabs(cms3.els_dxyPV().at(iEl)) > 0.2) continue;
+              if(cms3.els_p4().at(iEl).pt() < 5.0) continue;
+              if(fabs(cms3.els_p4().at(iEl).eta()) > 2.4) continue;
+              if(cms3.els_pfChargedHadronIso().at(iEl) >= min(0.2*els_p4().at(iEl).pt(),5.0)) continue;
+
+              //Match pfcands and slimmedElectrons here
+              if(!ElectronOverlapWithPFCandidate(iEl,true)) continue;
+
+
+              vec_isotrack_p4.push_back(cms3.els_p4().at(iEl));
+              vec_isotrack_pdgid.push_back(11);
+              vec_isotrack_absiso.push_back(cms3.els_pfChargedHadronIso().at(iEl));
+              vec_isotrack_index.push_back(-1);
+              nisoTrack_PFLep5_woverlaps++;
+              nisoTrack_PFEle5_woverlaps++;
+              nisoTrack_5gev++;
+          }
+
+
+
+        for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
+        {
+            if(!isLooseMuonPOG(iMu)) continue;
+            if(fabs(cms3.mus_dzPV().at(iMu)) > 0.1) continue;
+            if(fabs(cms3.mus_dxyPV().at(iMu)) > 0.2) continue;
+            if(cms3.mus_p4().at(iMu).pt() < 5.0) continue;
+            if(fabs(cms3.mus_p4().at(iMu).eta()) > 2.4) continue;
+            if(cms3.mus_isoR03_pf_ChargedHadronPt().at(iMu) >= min(0.2*mus_p4().at(iMu).pt(),5.0)) continue;
+
+//            if(!MuonOverlapWithPFCandidate(iMu,true)) continue;
+
+            vec_isotrack_p4.push_back(cms3.mus_p4().at(iMu));
+            vec_isotrack_pdgid.push_back(13);
+            vec_isotrack_absiso.push_back(cms3.mus_isoR03_pf_ChargedHadronPt().at(iMu));
+            vec_isotrack_index.push_back(-1);
+            nisoTrack_PFLep5_woverlaps++;
+            nisoTrack_PFMu5_woverlaps++;
+            nisoTrack_5gev++;
+
+        }
+
+          
+          
+        //Loop over isotracks and don't add electrons and muons
+
         for(size_t iit = 0; iit < cms3.isotracks_p4().size();iit++)
         {
             if(!cms3.isotracks_isPFCand().at(iit)) continue;
@@ -2108,82 +2226,139 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             
             float absiso = cms3.isotracks_pfIso_ch().at(iit);
             int pdgId = abs(cms3.isotracks_particleId().at(iit));
-            LorentzVector isotrack_p4 = cms3.isotracks_p4().at(iit);
+            if(pdgId == 11 || pdgId == 13) continue; //Leptons already done
 
             //add lepton overlap stuff right here and replace variables!
             bool overlapFlag = false;
-            LorentzVector overlapLepp4;
-            if(pdgId == 11)
-            {
-                //verification step
-                float lowestDR = 0.1;
-                int specialiEl = -1;
-                for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
-                {
-                    if(DeltaR(isotrack_p4.eta(),cms3.els_p4().at(iEl).eta(),isotrack_p4.phi(),cms3.els_p4().at(iEl).phi()) < lowestDR and cms3.els_charge().at(iEl) == cms3.isotracks_charge().at(iit))
-                    {
-                        specialiEl = iEl;
-                        lowestDR = DeltaR(isotrack_p4.eta(),cms3.els_p4().at(iEl).eta(),isotrack_p4.phi(),cms3.els_p4().at(iEl).phi()); 
-                    }
-                }
-                    if(specialiEl >= 0)
-                    {
-                        overlapFlag = true;    
-                        absiso = els_pfChargedHadronIso().at(specialiEl); 
-                        overlapLepp4 = cms3.els_p4().at(specialiEl);
-                        isoTrackElsOverlap<<cms3.els_p4().at(specialiEl).pt()<<" "<<isotrack_p4.pt()<<" "<<cms3.isotracks_nearestPF_pt().at(iit)<<" "<<lowestDR<< endl;
 
-                    }
-            }
-            else if(pdgId == 13)
+            float lowestDR = 0.2;
+            LorentzVector isotrack_p4 = cms3.isotracks_p4().at(iit);
+            /*for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
             {
-                float lowestDR = 0.1;
-                int specialiMu = -1;
-                for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
+                if(DeltaR(isotrack_p4,cms3.els_p4().at(iEl)) < lowestDR)
                 {
-                    if(DeltaR(isotrack_p4.eta(),cms3.mus_p4().at(iMu).eta(),isotrack_p4.phi(),cms3.mus_p4().at(iMu).phi()) < lowestDR and cms3.mus_charge().at(iMu) == cms3.isotracks_charge().at(iit))
-                    {
-                        specialiMu = iMu;
-                        lowestDR = DeltaR(isotrack_p4.eta(),cms3.mus_p4().at(iMu).eta(),isotrack_p4.phi(),cms3.mus_p4().at(iMu).phi());
-                    }
-                }
-                    if(specialiMu >= 0)
-                    {
+                    if(ElectronOverlapWithPFCandidate(iEl,false))
                         overlapFlag = true;
-                        absiso =  mus_isoR03_pf_ChargedHadronPt().at(specialiMu);
-                        overlapLepp4 = cms3.mus_p4().at(specialiMu);
-                        isoTrackMusOverlap<<cms3.mus_p4().at(specialiMu).pt()<<" "<<isotrack_p4.pt()<<" "<<" "<<cms3.isotracks_nearestPF_pt().at(iit)<< " "<<lowestDR<<" "<<cms3.isotracks_nearestPF_DR().at(iit)<<endl;
+                    //else
+                        //pdgId = 11;
+                    if(cms3.evt_event() == 65627341)
+                        cout<<isotrack_p4.pt()<<" overlaps with electron of pt "<<cms3.els_p4().at(iEl).pt()<<endl;
+                    break;
+                } 
+            }*/
+            
+            for(unsigned int iOverlap = 0; iOverlap < vec_isotrack_p4.size();iOverlap++)
+            {
+                if(vec_isotrack_pdgid.at(iOverlap) != 11 && vec_isotrack_pdgid.at(iOverlap) != 13) continue;
+                if(DeltaR(vec_isotrack_p4.at(iOverlap),isotrack_p4) < lowestDR)
+                    overlapFlag = true;
+            }
+            
+            //Also loop over the two signal leptons, if they're not PF leptons
+            /*for(auto it:lep_p4)
+            {
+                if(DeltaR(isotrack_p4,it) < lowestDR)
+                    overlapFlag = true;
+            }*/
 
-                    }
+            if(overlapFlag) continue;
+
+           /* for(int ilep = 0; ilep < lep_p4.size();ilep++)
+            {
+                if(DeltaR(isotrack_p4,lep_p4.at(ilep)) < lowestDR)
+                {
+                    pdgId = abs(lep_pdgId.at(ilep));
+                    if(pdgId == 11)
+                        nisoTrack_PFEle5_woverlaps++;
+                    else if(pdgId == 13)
+                        nisoTrack_PFMu5_woverlaps++;
+                   vec_isotrack_p4.push_back(lep_p4.at(ilep));
+                   vec_isotrack_pdgid.push_back(pdgId);
+                   vec_isotrack_index.push_back(iit);
+                   vec_isotrack_absiso.push_back(-1);
+                   nisoTrack_PFLep5_woverlaps++;
+                   nisoTrack_5gev++;
+                }
+            }*/
+
+
+           /* for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
+            {
+                if(DeltaR(isotrack_p4,cms3.mus_p4().at(iMu)) < lowestDR)
+                {
+                    if(MuonOverlapWithPFCandidate(iMu,false))
+                        overlapFlag = true;
+                    //pdgId = 13;
+                    if(cms3.evt_event() == 65627341)
+                        cout<<isotrack_p4.pt()<<" overlaps with muon of pt "<<cms3.mus_p4().at(iMu).pt()<<endl;
+                    break;
+                }
             }
 
+            if(overlapFlag) continue;*/
 
-            LorentzVector cand_p4 = overlapFlag ? overlapLepp4 : cms3.isotracks_p4().at(iit);
-            float cand_pt = cand_p4.pt();
-            float cand_eta = cand_p4.eta();
-            if(cand_pt < 5 or cand_eta > 2.4) continue;
+            float cand_pt = isotrack_p4.pt();
+            float cand_eta = isotrack_p4.eta();
+            if(cand_pt < 5 or fabs(cand_eta) > 2.4) continue;
             if(absiso >= min(0.2*cand_pt,5.0)) continue;
-
+            
 
             nisoTrack_5gev++;
-
-            if(pdgId == 11 || pdgId == 13)
-            {
-                nisoTrack_PFLep5_woverlaps++;
-            }
 
             if(cand_pt > 10 && pdgId == 211)
             {
                 nisoTrack_PFHad10_woverlaps++;
+                
+
+                //Fill isotrack branches
+                vec_isotrack_p4.push_back(isotrack_p4);
+                vec_isotrack_absiso.push_back(absiso);
+                vec_isotrack_pdgid.push_back(pdgId);
+                vec_isotrack_index.push_back(iit);
+
+
+
             }
-
-            //Fill isotrack branches
-            vec_isotrack_p4.push_back(cand_p4);
-            vec_isotrack_absiso.push_back(absiso);
-            vec_isotrack_pdgid.push_back(pdgId);
-            vec_isotrack_index.push_back(iit);
-
         } //loop over isotracks
+
+        //Loop over leptons that don't have an isotrack in our collection
+        //but nanoAOD considers them as an isotrack
+       /* 
+        for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
+        {
+          
+            if(fabs(cms3.els_dzPV().at(iEl)) > 0.1) continue;
+            if(fabs(cms3.els_dxyPV().at(iEl)) > 0.2) continue;
+            if(cms3.els_p4().at(iEl).pt() < 5.0) continue;
+            if(cms3.els_pfChargedHadronIso().at(iEl) >= min(0.2*els_p4().at(iEl).pt(),5.0)) continue;
+            if(std::search(electronOverlapRemoved.begin(),electronOverlapRemoved.end(),iEl)!= electronOverlapRemoved.end()) continue;
+
+            nisoTrack_PFLep5_woverlaps++;
+            vec_isotrack_p4.push_back(cms3.els_p4().at(iEl));
+            vec_isotrack_absiso.push_back(cms3.els_pfChargedHadronIso().at(iEl));
+            vec_isotrack_index.push_back(-1);
+            nisoTrack_PFLep5_woverlaps++;
+            nisoTrack_5gev++;
+  
+        }
+
+        for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
+        {
+            if(!isLooseMuonPOG(iMu)) continue;
+            if(fabs(cms3.mus_dzPV().at(iMu)) > 0.1) continue;
+            if(fabs(cms3.mus_dxyPV().at(iMu)) > 0.2) continue;
+            if(cms3.mus_p4().at(iMu) < 5.0) continue;
+            if(cms3.mus_isoR03_pf_ChargedHadronPt().at(iMu) >= min(0.2*mus_p4().at(iMu).pt(),5.0)) continue;
+            if(std::search(muonOverlapRemoved.begin(),muonOverlapRemoved.end(),iMu) != muonOverlapRemoved.end()) continue; //already taken care of
+            //CHANGE THIS IF NEEDED : Now we add these muons to our isotrack collection
+            nisoTrack_PFLep5_woverlaps++;
+            vec_isotrack_p4.push_back(cms3.mus_p4().at(iMu));
+            vec_isotrack_absiso.push_back(cms3.mus_isoR03_pf_ChargedHadronPt().at(iMu));
+            vec_isotrack_index.push_back(-1);
+            nisoTrack_PFLep5_woverlaps++;
+            nisoTrack_5gev++;
+
+        }*/
       }
       else
       {
@@ -2565,6 +2740,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nisoTrack_5gev" , &nisoTrack_5gev );
   BabyTree_->Branch("nisoTrack_mt2"  , &nisoTrack_mt2  );
   BabyTree_->Branch("nisoTrack_PFLep5_woverlaps"  , &nisoTrack_PFLep5_woverlaps  );
+  BabyTree_->Branch("nisoTrack_PFEle5_woverlaps",&nisoTrack_PFEle5_woverlaps);
+  BabyTree_->Branch("nisoTrack_PFMu5_woverlaps",&nisoTrack_PFMu5_woverlaps);
   BabyTree_->Branch("nisoTrack_PFHad10_woverlaps" , &nisoTrack_PFHad10_woverlaps );
 
   BabyTree_->Branch("isotrack_p4",&vec_isotrack_p4);
