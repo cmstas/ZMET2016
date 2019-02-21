@@ -13,7 +13,10 @@ tar_path = "package.tar.gz"
 hadoop_path = "ZMET_babies"
 job_tag = "ZMET_babies"
 
-datasetsToProcess = ZMET.get(year = 2017)
+datasetsToProcess = ZMET.get(data = "SinglePhoton",year = 2017)
+
+print("Processing these datasets")
+print(datasetsToProcess)
 
 total_summary = {}
 while True:
