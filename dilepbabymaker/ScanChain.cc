@@ -312,10 +312,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     JetCorrectionUncertainty * jecUnc_postrun278802                        = NULL;
 	 
     //No Jecs for 2017 yet
-    if( currentFileName.Contains("Run2017") ){
-      applyJECfromFile = false;
-    }
-
     if (applyJECfromFile) {
       jetcorr_filenames_pfL1FastJetL2L3.clear();
 
@@ -447,9 +443,24 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_Uncertainty_AK4PFchs.txt" );
   	  }
       //HARDCODE STUFF FOR SYNCHRONIZATION
-      jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK4PFchs.txt");
-      jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK4PFchs.txt");
-      jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK4PFchs.txt");
+      if(gconf.year == 2017)
+      {
+            if(currentFileName.Contains("Run2017D") || currentFileName.Contains("Run2017E")) //Data
+            {
+                jetcorr_filenems_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L1FastJet_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK4PFchs.txt")
+            }
+
+            else
+            {
+
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK4PFchs.txt");
+
+            }
+      }
 
   	  if( jetcorr_filenames_pfL1FastJetL2L3.size() == 0 ){
     		cout<<"Error, sample not found. Check the JECs."<<endl;

@@ -214,8 +214,19 @@ int main(int argc, char **argv) {
   //--------------------------------
   // run
   //--------------------------------
-   //hardocde year
-   gconf.year = 2017;
+   //assign gconf year
+
+  if(infile.Contains("Run2016") || infile.Contains("Fall16") || infile.Contains("Autumn16") || infile.Contains("Summer16"))
+      gconf.year = 2016;
+  
+  else if(infile.Contains("Run2017") || infile.Contains("Fall17") || infile.Contains("Autumn17") || infile.Contains("Spring17") || infile.Contains("Summer17"))
+    gconf.year = 2017;
+  else if(infile.Contains("Run2018"))
+      gconf.year = 2018;
+
+  else
+      gconf.year = 2017; //hardcoded for synchronization!
+
   babyMaker *looper = new babyMaker();
   looper->ScanChain(chain, sample, max_events); 
   return 0;
