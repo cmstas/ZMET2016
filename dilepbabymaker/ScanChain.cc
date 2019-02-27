@@ -2266,11 +2266,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             }
             
             //Also loop over the two signal leptons, if they're not PF leptons
-            /*for(auto it:lep_p4)
+            for(auto it:lep_p4)
             {
                 if(DeltaR(isotrack_p4,it) < lowestDR)
                     overlapFlag = true;
-            }*/
+            }
 
             if(overlapFlag) continue;
 
