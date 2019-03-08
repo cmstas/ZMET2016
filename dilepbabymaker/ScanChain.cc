@@ -2244,33 +2244,32 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
             float lowestDR = 0.2;
             LorentzVector isotrack_p4 = cms3.isotracks_p4().at(iit);
-            /*for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
+            for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
             {
                 if(DeltaR(isotrack_p4,cms3.els_p4().at(iEl)) < lowestDR)
                 {
                     if(ElectronOverlapWithPFCandidate(iEl,false))
+                    {
                         overlapFlag = true;
-                    //else
-                        //pdgId = 11;
-                    if(cms3.evt_event() == 65627341)
-                        cout<<isotrack_p4.pt()<<" overlaps with electron of pt "<<cms3.els_p4().at(iEl).pt()<<endl;
-                    break;
+                        break;
+
+                    }
                 } 
-            }*/
+            }
             
-            for(unsigned int iOverlap = 0; iOverlap < vec_isotrack_p4.size();iOverlap++)
+           /* for(unsigned int iOverlap = 0; iOverlap < vec_isotrack_p4.size();iOverlap++)
             {
                 if(vec_isotrack_pdgid.at(iOverlap) != 11 && vec_isotrack_pdgid.at(iOverlap) != 13) continue;
                 if(DeltaR(vec_isotrack_p4.at(iOverlap),isotrack_p4) < lowestDR)
                     overlapFlag = true;
-            }
+            }*/
             
             //Also loop over the two signal leptons, if they're not PF leptons
-            for(auto it:lep_p4)
+            /*for(auto it:lep_p4)
             {
                 if(DeltaR(isotrack_p4,it) < lowestDR)
                     overlapFlag = true;
-            }
+            }*/
 
             if(overlapFlag) continue;
 
@@ -2293,20 +2292,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             }*/
 
 
-           /* for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
+            for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
             {
                 if(DeltaR(isotrack_p4,cms3.mus_p4().at(iMu)) < lowestDR)
                 {
                     if(MuonOverlapWithPFCandidate(iMu,false))
+                    { 
                         overlapFlag = true;
-                    //pdgId = 13;
-                    if(cms3.evt_event() == 65627341)
-                        cout<<isotrack_p4.pt()<<" overlaps with muon of pt "<<cms3.mus_p4().at(iMu).pt()<<endl;
-                    break;
+                        break;
+
+                    }
                 }
             }
 
-            if(overlapFlag) continue;*/
+            if(overlapFlag) continue;
 
             float cand_pt = isotrack_p4.pt();
             float cand_eta = isotrack_p4.eta();
