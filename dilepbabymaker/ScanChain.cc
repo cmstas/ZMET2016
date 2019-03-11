@@ -2246,14 +2246,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             LorentzVector isotrack_p4 = cms3.isotracks_p4().at(iit);
             for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
             {
-                if(DeltaR(isotrack_p4,cms3.els_p4().at(iEl)) < lowestDR)
+                if(DeltaR(isotrack_p4,cms3.els_p4().at(iEl)) < lowestDR && abs(isotrack_p4.pt() - cms3.els_p4().at(iEl).pt())/cms3.els_p4().at(iEl).pt() < 0.1)
                 {
-                    if(ElectronOverlapWithPFCandidate(iEl,false))
-                    {
                         overlapFlag = true;
                         break;
-
-                    }
                 } 
             }
             
@@ -2294,14 +2290,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
             for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
             {
-                if(DeltaR(isotrack_p4,cms3.mus_p4().at(iMu)) < lowestDR)
+                if(DeltaR(isotrack_p4,cms3.mus_p4().at(iMu)) < lowestDR && abs(isotrack_p4.pt() - cms3.mus_p4().at(iMu).pt())/cms3.mus_p4().at(iMu).pt() < 0.1)
                 {
-                    if(MuonOverlapWithPFCandidate(iMu,false))
-                    { 
                         overlapFlag = true;
                         break;
-
-                    }
                 }
             }
 
