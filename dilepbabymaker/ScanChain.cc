@@ -85,6 +85,23 @@ int returnBrokenTrigger( string trigname )
 }
 
 
+bool electronPassIsotrackCuts(unsigned int iEl)
+{
+    float pt = cms3.els_p4().at(iEl).pt();
+    if(pt > 5)
+        return true;
+    return false;
+}
+
+bool muonPassIsotrackCuts(unsigned int iMu)
+{
+    float pt = cms3.mus_p4().at(iMu).pt();
+    bool hasTrack = cms3.mus_validHits().at(iMu) > 0 ? true : false;
+    if(pt > 3 && hasTrack && isLooseMuonPOG(iMu))
+        return true;
+    return false;
+}
+
 bool ElectronOverlapWithPFCandidate(unsigned int iEl,bool pf_electrons_only = true)
 {
     LorentzVector elp4 = cms3.els_p4().at(iEl);
@@ -499,6 +516,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       run    = cms3.evt_run();
       lumi   = cms3.evt_lumiBlock();
       evt    = cms3.evt_event();
+      year = gconf.year;
       isData = cms3.evt_isRealData();
       if (cms3.evt_dataset().size() > 0) evt_dataset.push_back(cms3.evt_dataset().at(0));
 
@@ -772,6 +790,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  HLT_Photon120_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon120_R9Id90_HE10_IsoM_v");
   	  HLT_Photon165_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon165_R9Id90_HE10_IsoM_v");
   	  HLT_Photon165_HE10             = returnBrokenTrigger("HLT_Photon165_HE10_v"            );
+      HLT_Photon200 = returnBrokenTrigger("HLT_Photon200");
+      HLT_Photon110EB_TightID_TightIso = returnBrokenTrigger("HLT_Photon100EB_TightID_TightIso");
 
   	  // for high pT photon efficiency checks
   	  HLT_CaloJet500_NoJetID = returnBrokenTrigger("HLT_CaloJet500_NoJetID_v" );
@@ -1001,7 +1021,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             nveto_leptons++;
     		  }
     		}
-        gconf.year = 2017;
         if( !passElectronSelection_ZMET( iEl) ) continue;
   		
         nElectrons10++;
@@ -2246,51 +2265,21 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             LorentzVector isotrack_p4 = cms3.isotracks_p4().at(iit);
             for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
             {
-                if(DeltaR(isotrack_p4,cms3.els_p4().at(iEl)) < lowestDR && abs(isotrack_p4.pt() - cms3.els_p4().at(iEl).pt())/cms3.els_p4().at(iEl).pt() < 0.1)
+                if(!electronPassIsotrackCuts(iEl)) continue;
+                if(DeltaR(isotrack_p4,cms3.els_p4().at(iEl)) < lowestDR )
                 {
                         overlapFlag = true;
                         break;
                 } 
             }
             
-           /* for(unsigned int iOverlap = 0; iOverlap < vec_isotrack_p4.size();iOverlap++)
-            {
-                if(vec_isotrack_pdgid.at(iOverlap) != 11 && vec_isotrack_pdgid.at(iOverlap) != 13) continue;
-                if(DeltaR(vec_isotrack_p4.at(iOverlap),isotrack_p4) < lowestDR)
-                    overlapFlag = true;
-            }*/
-            
-            //Also loop over the two signal leptons, if they're not PF leptons
-            /*for(auto it:lep_p4)
-            {
-                if(DeltaR(isotrack_p4,it) < lowestDR)
-                    overlapFlag = true;
-            }*/
-
+           
             if(overlapFlag) continue;
-
-           /* for(int ilep = 0; ilep < lep_p4.size();ilep++)
-            {
-                if(DeltaR(isotrack_p4,lep_p4.at(ilep)) < lowestDR)
-                {
-                    pdgId = abs(lep_pdgId.at(ilep));
-                    if(pdgId == 11)
-                        nisoTrack_PFEle5_woverlaps++;
-                    else if(pdgId == 13)
-                        nisoTrack_PFMu5_woverlaps++;
-                   vec_isotrack_p4.push_back(lep_p4.at(ilep));
-                   vec_isotrack_pdgid.push_back(pdgId);
-                   vec_isotrack_index.push_back(iit);
-                   vec_isotrack_absiso.push_back(-1);
-                   nisoTrack_PFLep5_woverlaps++;
-                   nisoTrack_5gev++;
-                }
-            }*/
-
 
             for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
             {
-                if(DeltaR(isotrack_p4,cms3.mus_p4().at(iMu)) < lowestDR && abs(isotrack_p4.pt() - cms3.mus_p4().at(iMu).pt())/cms3.mus_p4().at(iMu).pt() < 0.1)
+                if(!muonPassIsotrackCuts(iMu)) continue;
+                if(DeltaR(isotrack_p4,cms3.mus_p4().at(iMu)) < lowestDR )
                 {
                         overlapFlag = true;
                         break;
@@ -2304,7 +2293,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             if(cand_pt < 5 or fabs(cand_eta) > 2.4) continue;
             if(absiso >= min(0.2*cand_pt,5.0)) continue;
             
-
             nisoTrack_5gev++;
 
             if(cand_pt > 10 && pdgId == 211)
@@ -2317,50 +2305,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 vec_isotrack_absiso.push_back(absiso);
                 vec_isotrack_pdgid.push_back(pdgId);
                 vec_isotrack_index.push_back(iit);
-
-
-
             }
-        } //loop over isotracks
-
-        //Loop over leptons that don't have an isotrack in our collection
-        //but nanoAOD considers them as an isotrack
-       /* 
-        for(unsigned int iEl = 0; iEl < cms3.els_p4().size(); iEl++)
-        {
-          
-            if(fabs(cms3.els_dzPV().at(iEl)) > 0.1) continue;
-            if(fabs(cms3.els_dxyPV().at(iEl)) > 0.2) continue;
-            if(cms3.els_p4().at(iEl).pt() < 5.0) continue;
-            if(cms3.els_pfChargedHadronIso().at(iEl) >= min(0.2*els_p4().at(iEl).pt(),5.0)) continue;
-            if(std::search(electronOverlapRemoved.begin(),electronOverlapRemoved.end(),iEl)!= electronOverlapRemoved.end()) continue;
-
-            nisoTrack_PFLep5_woverlaps++;
-            vec_isotrack_p4.push_back(cms3.els_p4().at(iEl));
-            vec_isotrack_absiso.push_back(cms3.els_pfChargedHadronIso().at(iEl));
-            vec_isotrack_index.push_back(-1);
-            nisoTrack_PFLep5_woverlaps++;
-            nisoTrack_5gev++;
-  
-        }
-
-        for(unsigned int iMu = 0; iMu < cms3.mus_p4().size(); iMu++)
-        {
-            if(!isLooseMuonPOG(iMu)) continue;
-            if(fabs(cms3.mus_dzPV().at(iMu)) > 0.1) continue;
-            if(fabs(cms3.mus_dxyPV().at(iMu)) > 0.2) continue;
-            if(cms3.mus_p4().at(iMu) < 5.0) continue;
-            if(cms3.mus_isoR03_pf_ChargedHadronPt().at(iMu) >= min(0.2*mus_p4().at(iMu).pt(),5.0)) continue;
-            if(std::search(muonOverlapRemoved.begin(),muonOverlapRemoved.end(),iMu) != muonOverlapRemoved.end()) continue; //already taken care of
-            //CHANGE THIS IF NEEDED : Now we add these muons to our isotrack collection
-            nisoTrack_PFLep5_woverlaps++;
-            vec_isotrack_p4.push_back(cms3.mus_p4().at(iMu));
-            vec_isotrack_absiso.push_back(cms3.mus_isoR03_pf_ChargedHadronPt().at(iMu));
-            vec_isotrack_index.push_back(-1);
-            nisoTrack_PFLep5_woverlaps++;
-            nisoTrack_5gev++;
-
-        }*/
+        } //loop over isotracks  
       }
       else
       {
@@ -2543,6 +2489,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("run"   , &run    );
   BabyTree_->Branch("lumi"  , &lumi   );
   BabyTree_->Branch("evt"   , &evt    );
+  BabyTree_->Branch("year"  , &year   );
   BabyTree_->Branch("isData", &isData );
   BabyTree_->Branch("evt_passgoodrunlist", &evt_passgoodrunlist);
   BabyTree_->Branch("evt_scale1fb", &evt_scale1fb);
@@ -2668,6 +2615,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_Photon120_R9Id90_HE10_IsoM" , &HLT_Photon120_R9Id90_HE10_IsoM );
   BabyTree_->Branch("HLT_Photon165_R9Id90_HE10_IsoM" , &HLT_Photon165_R9Id90_HE10_IsoM );
   BabyTree_->Branch("HLT_Photon165_HE10"             , &HLT_Photon165_HE10             );
+  BabyTree_->Branch("HLT_Photon200",&HLT_Photon200);
+  BabyTree_->Branch("HLT_Photon110EB_TightID_TightIso",&HLT_Photon110EB_TightID_TightIso);
 
   BabyTree_->Branch("HLT_CaloJet500_NoJetID" , &HLT_CaloJet500_NoJetID );
   BabyTree_->Branch("HLT_ECALHT800_NoJetID"  , &HLT_ECALHT800_NoJetID  );
@@ -3001,6 +2950,7 @@ void babyMaker::InitBabyNtuple () {
   run    = -999;
   lumi   = -999;
   evt    = -1;
+  year = -999;
   isData = -999;
   evt_passgoodrunlist = 1;
   evt_scale1fb = 0;
@@ -3127,6 +3077,8 @@ void babyMaker::InitBabyNtuple () {
   HLT_Photon120_R9Id90_HE10_IsoM = -999;
   HLT_Photon165_R9Id90_HE10_IsoM = -999;
   HLT_Photon165_HE10             = -999;
+  HLT_Photon200                  = -999;
+  HLT_Photon110EB_TightID_TightIso = -999;
 
   HLT_CaloJet500_NoJetID = -999;
   HLT_ECALHT800_NoJetID  = -999;

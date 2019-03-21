@@ -95,6 +95,7 @@ private:
   Int_t           lumi;
   ULong64_t       evt;
   Int_t           isData;
+  Int_t           year;
 
   Bool_t          evt_passgoodrunlist;
   Float_t         evt_scale1fb;
@@ -233,6 +234,8 @@ private:
   Int_t HLT_Photon120_R9Id90_HE10_IsoM;
   Int_t HLT_Photon165_R9Id90_HE10_IsoM;
   Int_t HLT_Photon165_HE10            ;
+  Int_t HLT_Photon200                 ;
+  Int_t HLT_Photon110EB_TightID_TightIso;
 
   Int_t HLT_CaloJet500_NoJetID;
   Int_t HLT_ECALHT800_NoJetID ;
