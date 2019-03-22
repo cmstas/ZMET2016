@@ -262,7 +262,6 @@ private:
   Int_t HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ    ;
   Int_t HLT_IsoMu27                                          ;
   Int_t HLT_Mu50                                             ;
-  Int_t HLT_Photon200                                        ;
   
   //----- LEPTONS
   Int_t           nlep;
