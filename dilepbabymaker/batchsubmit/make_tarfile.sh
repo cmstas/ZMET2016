@@ -1,1 +1,1 @@
-tar -cf package.tar.gz --exclude=*.tar.gz ../
+tar -zcf package.tar.gz --exclude=*.tar.gz ../

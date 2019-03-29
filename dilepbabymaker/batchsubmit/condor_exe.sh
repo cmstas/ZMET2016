@@ -32,7 +32,7 @@ eval `scramv1 runtime -sh`
 popd
 
 # Untar
-tar -xvf package.tar.gz
+tar -xzvf package.tar.gz
 OUTPUTTAG=$(echo ${INPUTFILENAME##*/} | sed 's/\.root//')
 MAXEVENTS=-1
 echo "[wrapper] running babymaker"
