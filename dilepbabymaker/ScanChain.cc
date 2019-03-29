@@ -2306,7 +2306,23 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 vec_isotrack_pdgid.push_back(pdgId);
                 vec_isotrack_index.push_back(iit);
             }
-        } //loop over isotracks  
+        } //loop over isotracks 
+        //Computing nisotrack_mt2 for lepton veto
+        //nisotrack_mt2 does not include isotracks from leading leptons
+        bool signalLeptonOverlapFlag  = false;
+        for(auto &pit:vect_isotrack_p4)
+        {
+            for(auto &ilep:lep_p4)
+            {
+                if(DeltaR(pit,ilep) < 0.01)
+                {
+                    signalLeptonOverlapFlag = true;
+                    break;
+                }
+            }
+            if(!signalLeptonOverlapFlag)
+                nisotrack_mt2++;
+        }
       }
       else
       {
