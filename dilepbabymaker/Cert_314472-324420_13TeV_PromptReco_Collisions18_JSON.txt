@@ -1,0 +1,789 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://github.githubassets.com">
+  <link rel="dns-prefetch" href="https://avatars0.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars1.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars2.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com">
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com">
+  <link rel="dns-prefetch" href="https://user-images.githubusercontent.com/">
+
+
+
+  <link crossorigin="anonymous" media="all" integrity="sha512-7uoDIEGQ8zTwUS9KjTP+/2I13FQPHvJ9EKoeUThfin5R1+27bcUC08VQzUo4CIjCdhvJM4zxuI+3HcSycAUTCg==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-abba74d6e28a6842788159fec056bf26.css" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-nZcL+1Szltbs1e7IMsmzRupcqmH76PIz0/h4jLIAVX74TKAU11YfzKPWpkO/H9OmtVyKnkpjDXItEWBdT3BPtQ==" rel="stylesheet" href="https://github.githubassets.com/assets/site-16d020fbc43a8c23c1f051eac510157b.css" />
+    <link crossorigin="anonymous" media="all" integrity="sha512-MW+ZMyZsppet8jpCeuRf6R6ep2YA21uRlAaPeUHmlRvWDbX08i+17kchJwAVY4kws762vLl2VtxFx3kOq0nvGg==" rel="stylesheet" href="https://github.githubassets.com/assets/github-7b38ea66ce7a8e79d6a0cad4c9d34684.css" />
+    
+    
+    
+    
+
+  <meta name="viewport" content="width=device-width">
+  
+  <title>ttH/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt at master · sam-may/ttH · GitHub</title>
+    <meta name="description" content="Contribute to sam-may/ttH development by creating an account on GitHub.">
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
+  <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
+  <meta property="fb:app_id" content="1401488693436528">
+
+    
+    <meta property="og:image" content="https://avatars3.githubusercontent.com/u/15111756?s=400&amp;v=4" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="sam-may/ttH" /><meta property="og:url" content="https://github.com/sam-may/ttH" /><meta property="og:description" content="Contribute to sam-may/ttH development by creating an account on GitHub." />
+
+  <link rel="assets" href="https://github.githubassets.com/">
+  
+  <meta name="pjax-timeout" content="1000">
+  
+  <meta name="request-id" content="943A:7B79:22924:3AD68:5C9F8117" data-pjax-transient>
+
+
+  
+
+  <meta name="selected-link" value="repo_source" data-pjax-transient>
+
+      <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
+    <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
+    <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
+
+  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="943A:7B79:22924:3AD68:5C9F8117" /><meta name="octolytics-dimension-region_edge" content="iad" /><meta name="octolytics-dimension-region_render" content="iad" />
+<meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" />
+
+
+
+    <meta name="google-analytics" content="UA-3769691-2">
+
+
+<meta class="js-ga-set" name="dimension1" content="Logged Out">
+
+
+
+  
+
+      <meta name="hostname" content="github.com">
+    <meta name="user-login" content="">
+
+      <meta name="expected-hostname" content="github.com">
+    <meta name="js-proxy-site-detection-payload" content="ZDMyM2Q2ZGFiYzBjMjYwNjJhZTg1MjIxNGU0MmVkZGYxY2NhNGUyNDJmYjFiZWRmNmYwNmRlZGM5MmJhYWIzNHx7InJlbW90ZV9hZGRyZXNzIjoiMTk0LjEyLjE1Mi43MSIsInJlcXVlc3RfaWQiOiI5NDNBOjdCNzk6MjI5MjQ6M0FENjg6NUM5RjgxMTciLCJ0aW1lc3RhbXAiOjE1NTM5NTcxNDQsImhvc3QiOiJnaXRodWIuY29tIn0=">
+
+    <meta name="enabled-features" content="UNIVERSE_BANNER,MARKETPLACE_SOCIAL_PROOF,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_UNVERIFIED_LISTINGS,MARKETPLACE_PLAN_RESTRICTION_EDITOR">
+
+  <meta name="html-safe-nonce" content="a4749ac9bdae70b81071a5a79b62f91ee5801a26">
+
+  <meta http-equiv="x-pjax-version" content="0fe86af0669e69ffd4e01406c614081e">
+  
+
+      <link href="https://github.com/sam-may/ttH/commits/master.atom" rel="alternate" title="Recent Commits to ttH:master" type="application/atom+xml">
+
+  <meta name="go-import" content="github.com/sam-may/ttH git https://github.com/sam-may/ttH.git">
+
+  <meta name="octolytics-dimension-user_id" content="15111756" /><meta name="octolytics-dimension-user_login" content="sam-may" /><meta name="octolytics-dimension-repository_id" content="125431222" /><meta name="octolytics-dimension-repository_nwo" content="sam-may/ttH" /><meta name="octolytics-dimension-repository_public" content="true" /><meta name="octolytics-dimension-repository_is_fork" content="false" /><meta name="octolytics-dimension-repository_network_root_id" content="125431222" /><meta name="octolytics-dimension-repository_network_root_nwo" content="sam-may/ttH" /><meta name="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false" />
+
+
+    <link rel="canonical" href="https://github.com/sam-may/ttH/blob/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt" data-pjax-transient>
+
+
+  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+
+  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+
+  <link rel="mask-icon" href="https://github.githubassets.com/pinned-octocat.svg" color="#000000">
+  <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://github.githubassets.com/favicon.ico">
+
+<meta name="theme-color" content="#1e2327">
+
+
+
+
+  <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials">
+
+  </head>
+
+  <body class="logged-out env-production page-blob">
+    
+
+  <div class="position-relative js-header-wrapper ">
+    <a href="#start-of-content" tabindex="1" class="px-2 py-4 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>
+    <div id="js-pjax-loader-bar" class="pjax-loader-bar"><div class="progress"></div></div>
+
+    
+    
+    
+
+
+        
+<header class="Header-old header-logged-out  position-relative f4 py-2" role="banner">
+  <div class="container-lg d-flex px-3">
+    <div class="d-flex flex-justify-between flex-items-center">
+        <a class="mr-4" href="https://github.com/" aria-label="Homepage" data-ga-click="(Logged out) Header, go to homepage, icon:logo-wordmark">
+          <svg height="32" class="octicon octicon-mark-github text-white" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+        </a>
+    </div>
+
+    <div class="HeaderMenu HeaderMenu--logged-out d-flex flex-justify-between flex-items-center flex-auto">
+      <div class="d-none">
+        <button class="btn-link js-details-target" type="button" aria-label="Toggle navigation" aria-expanded="false">
+          <svg height="24" class="octicon octicon-x text-gray" viewBox="0 0 12 16" version="1.1" width="18" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+        </button>
+      </div>
+
+        <nav class="mt-0" aria-label="Global">
+          <ul class="d-flex list-style-none">
+              <li class=" mr-3 mr-lg-3 edge-item-fix position-relative flex-wrap flex-justify-between d-flex flex-items-center ">
+                <details class="HeaderMenu-details details-overlay details-reset width-full">
+                  <summary class="HeaderMenu-summary HeaderMenu-link px-0 py-3 border-0 no-wrap  d-inline-block">
+                    Why GitHub?
+                    <svg x="0px" y="0px" viewBox="0 0 14 8" xml:space="preserve" fill="none" class="icon-chevon-down-mktg position-relative">
+                      <path d="M1,1l6.2,6L13,1"></path>
+                    </svg>
+                  </summary>
+                  <div class="dropdown-menu flex-auto rounded-1 bg-white px-0 mt-0  p-4 left-n4 position-absolute">
+                    <a href="/features" class="py-2 lh-condensed-ultra d-block link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Features">Features <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a>
+                    <ul class="list-style-none f5 pb-3">
+                      <li class="edge-item-fix"><a href="/features/code-review/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Code review">Code review</a></li>
+                      <li class="edge-item-fix"><a href="/features/project-management/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Project management">Project management</a></li>
+                      <li class="edge-item-fix"><a href="/features/integrations" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Integrations">Integrations</a></li>
+                      <li class="edge-item-fix"><a href="/features/actions" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Actions">Actions</a>
+                      <li class="edge-item-fix"><a href="/features#team-management" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Team management">Team management</a></li>
+                      <li class="edge-item-fix"><a href="/features#social-coding" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Social coding">Social coding</a></li>
+                      <li class="edge-item-fix"><a href="/features#documentation" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Documentation">Documentation</a></li>
+                      <li class="edge-item-fix"><a href="/features#code-hosting" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Code hosting">Code hosting</a></li>
+                    </ul>
+
+                    <ul class="list-style-none mb-0 border-lg-top pt-lg-3">
+                      <li class="edge-item-fix"><a href="/customer-stories" class="py-2 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Customer stories">Customer stories <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                      <li class="edge-item-fix"><a href="/security" class="py-2 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Security">Security <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                    </ul>
+                  </div>
+                </details>
+              </li>
+              <li class=" mr-3 mr-lg-3">
+                <a href="/enterprise" class="HeaderMenu-link no-underline py-3 d-block d-lg-inline-block" data-ga-click="(Logged out) Header, go to Enterprise">Enterprise</a>
+              </li>
+
+              <li class=" mr-3 mr-lg-3 edge-item-fix position-relative flex-wrap flex-justify-between d-flex flex-items-center ">
+                <details class="HeaderMenu-details details-overlay details-reset width-full">
+                  <summary class="HeaderMenu-summary HeaderMenu-link px-0 py-3 border-0 no-wrap  d-inline-block">
+                    Explore
+                    <svg x="0px" y="0px" viewBox="0 0 14 8" xml:space="preserve" fill="none" class="icon-chevon-down-mktg position-relative">
+                      <path d="M1,1l6.2,6L13,1"></path>
+                    </svg>
+                  </summary>
+
+                  <div class="dropdown-menu flex-auto rounded-1 bg-white px-0 pt-2 pb-0 mt-0  p-4 left-n4 position-absolute">
+                    <ul class="list-style-none mb-3">
+                      <li class="edge-item-fix"><a href="/explore" class="py-2 lh-condensed-ultra d-block link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Explore">Explore GitHub <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                    </ul>
+
+                    <h4 class="text-gray-light text-normal text-mono f5 mb-2  border-top pt-3">Learn &amp; contribute</h4>
+                    <ul class="list-style-none mb-3">
+                      <li class="edge-item-fix"><a href="/topics" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Topics">Topics</a></li>
+                        <li class="edge-item-fix"><a href="/collections" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Collections">Collections</a></li>
+                      <li class="edge-item-fix"><a href="/trending" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Trending">Trending</a></li>
+                      <li class="edge-item-fix"><a href="https://lab.github.com/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Learning lab">Learning Lab</a></li>
+                      <li class="edge-item-fix"><a href="https://opensource.guide" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Open source guides">Open source guides</a></li>
+                    </ul>
+
+                    <h4 class="text-gray-light text-normal text-mono f5 mb-2  border-top pt-3">Connect with others</h4>
+                    <ul class="list-style-none mb-0">
+                      <li class="edge-item-fix"><a href="https://github.com/events" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Events">Events</a></li>
+                      <li class="edge-item-fix"><a href="https://github.community" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Community forum">Community forum</a></li>
+                      <li class="edge-item-fix"><a href="https://education.github.com" class="py-2 pb-0 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to GitHub Education">GitHub Education</a></li>
+                    </ul>
+                  </div>
+                </details>
+              </li>
+
+              <li class=" mr-3 mr-lg-3">
+                <a href="/marketplace" class="HeaderMenu-link no-underline py-3 d-block d-lg-inline-block" data-ga-click="(Logged out) Header, go to Marketplace">Marketplace</a>
+              </li>
+
+              <li class=" mr-3 mr-lg-3 edge-item-fix position-relative flex-wrap flex-justify-between d-flex flex-items-center ">
+                <details class="HeaderMenu-details details-overlay details-reset width-full">
+                  <summary class="HeaderMenu-summary HeaderMenu-link px-0 py-3 border-0 no-wrap  d-inline-block">
+                    Pricing
+                    <svg x="0px" y="0px" viewBox="0 0 14 8" xml:space="preserve" fill="none" class="icon-chevon-down-mktg position-relative">
+                       <path d="M1,1l6.2,6L13,1"></path>
+                    </svg>
+                  </summary>
+
+                  <div class="dropdown-menu flex-auto rounded-1 bg-white px-0 pt-2 pb-4 mt-0  p-4 left-n4 position-absolute">
+                    <a href="/pricing" class="pb-2 lh-condensed-ultra d-block link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Pricing">Plans <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a>
+
+                    <ul class="list-style-none mb-3">
+                      <li class="edge-item-fix"><a href="/pricing#feature-comparison" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Compare plans">Compare plans</a></li>
+                      <li class="edge-item-fix"><a href="https://enterprise.github.com/contact" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Contact Sales">Contact Sales</a></li>
+                    </ul>
+
+                    <ul class="list-style-none mb-0  border-top pt-3">
+                      <li class="edge-item-fix"><a href="/nonprofit" class="py-2 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Nonprofits">Nonprofit <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                      <li class="edge-item-fix"><a href="https://education.github.com" class="py-2 pb-0 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover"  data-ga-click="(Logged out) Header, go to Education">Education <span class="Bump-link-symbol float-right text-normal text-gray-light">&rarr;</span></a></li>
+                    </ul>
+                  </div>
+                </details>
+              </li>
+          </ul>
+        </nav>
+
+      <div class="d-flex flex-items-center px-0 text-center text-left">
+          <div class="d-lg-flex ">
+            <div class="header-search mr-3 scoped-search site-scoped-search js-site-search position-relative js-jump-to"
+  role="combobox"
+  aria-owns="jump-to-results"
+  aria-label="Search or jump to"
+  aria-haspopup="listbox"
+  aria-expanded="false"
+>
+  <div class="position-relative">
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="js-site-search-form" role="search" aria-label="Site" data-scope-type="Repository" data-scope-id="125431222" data-scoped-search-url="/sam-may/ttH/search" data-unscoped-search-url="/search" action="/sam-may/ttH/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+      <label class="form-control input-sm header-search-wrapper p-0 header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center js-chromeless-input-container">
+        <input type="text"
+          class="form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+          data-hotkey="s,/"
+          name="q"
+          value=""
+          placeholder="Search"
+          data-unscoped-placeholder="Search GitHub"
+          data-scoped-placeholder="Search"
+          autocapitalize="off"
+          aria-autocomplete="list"
+          aria-controls="jump-to-results"
+          aria-label="Search"
+          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=kopvgElgWTUJUC4Liy6mhMbv96dsEhGXuo5imNEaQaN9PqqZyEfuhOI37pc4kER8UM0PIoepzgwTAA8ScRVDKA=="
+          spellcheck="false"
+          autocomplete="off"
+          >
+          <input type="hidden" class="js-site-search-type-field" name="type" >
+            <img src="https://github.githubassets.com/images/search-key-slash.svg" alt="" class="mr-2 header-search-key-slash">
+
+            <div class="Box position-absolute overflow-hidden d-none jump-to-suggestions js-jump-to-suggestions-container">
+              
+<ul class="d-none js-jump-to-suggestions-template-container">
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-suggestion" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+</ul>
+
+<ul class="d-none js-jump-to-no-results-template-container">
+  <li class="d-flex flex-justify-center flex-items-center f5 d-none js-jump-to-suggestion p-2">
+    <span class="text-gray">No suggested jump to results</span>
+  </li>
+</ul>
+
+<ul id="jump-to-results" role="listbox" class="p-0 m-0 js-navigation-container jump-to-suggestions-results-container js-jump-to-suggestions-results-container">
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-scoped-search d-none" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-global-search d-none" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"/></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"/></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+
+</ul>
+
+            </div>
+      </label>
+</form>  </div>
+</div>
+
+          </div>
+
+        <a class="HeaderMenu-link no-underline mr-3" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;943A:7B79:22924:3AD68:5C9F8117&quot;,&quot;originating_url&quot;:&quot;https://github.com/sam-may/ttH/blob/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="25f1db6886c41524100e148542e7b2117f9f95dcdd5c38ede8bbc87c22d6ee6b" data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in" href="/login?return_to=%2Fsam-may%2FttH%2Fblob%2Fmaster%2FBabyMaker%2FCert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt">
+          Sign&nbsp;in
+</a>          <a class="HeaderMenu-link d-inline-block no-underline border border-gray-dark rounded-1 px-2 py-1" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;943A:7B79:22924:3AD68:5C9F8117&quot;,&quot;originating_url&quot;:&quot;https://github.com/sam-may/ttH/blob/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="a1b9dabebac256e877d9b6db506cba9c7aff0783ecd3691902ec68943b740f3a" data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up" href="/join">
+            Sign&nbsp;up
+</a>      </div>
+    </div>
+  </div>
+</header>
+
+  </div>
+
+  <div id="start-of-content" class="show-on-focus"></div>
+
+    <div id="js-flash-container">
+
+</div>
+
+
+
+  <div class="application-main " data-commit-hovercards-enabled>
+        <div itemscope itemtype="http://schema.org/SoftwareSourceCode" class="">
+    <main id="js-repo-pjax-container" data-pjax-container >
+      
+
+
+  
+
+
+
+
+
+
+  <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav  ">
+    <div class="repohead-details-container clearfix container">
+
+      <ul class="pagehead-actions">
+
+
+
+  <li>
+    
+  <a class="tooltipped tooltipped-s btn btn-sm btn-with-count" aria-label="You must be signed in to watch a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;943A:7B79:22924:3AD68:5C9F8117&quot;,&quot;originating_url&quot;:&quot;https://github.com/sam-may/ttH/blob/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="45b44cf01ba112ddff85f355551a01b9ad35755fcf6b7a0b581a1189d49d702b" href="/login?return_to=%2Fsam-may%2FttH">
+    <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
+    Watch
+</a>    <a class="social-count" href="/sam-may/ttH/watchers"
+       aria-label="2 users are watching this repository">
+      2
+    </a>
+
+  </li>
+
+  <li>
+        <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to star a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:125431222,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;943A:7B79:22924:3AD68:5C9F8117&quot;,&quot;originating_url&quot;:&quot;https://github.com/sam-may/ttH/blob/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="550d5d0786188cc7a712a2702879d82a30ec4792e5105bb21cd0fbd95afd6052" href="/login?return_to=%2Fsam-may%2FttH">
+      <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      Star
+</a>
+    <a class="social-count js-social-count" href="/sam-may/ttH/stargazers"
+      aria-label="0 users starred this repository">
+      0
+    </a>
+
+  </li>
+
+  <li>
+      <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to fork a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:125431222,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;943A:7B79:22924:3AD68:5C9F8117&quot;,&quot;originating_url&quot;:&quot;https://github.com/sam-may/ttH/blob/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="a862bd6ca8614bafea2d80d5e851039b13230e76770efa7ce14ce84a21997661" href="/login?return_to=%2Fsam-may%2FttH">
+        <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+        Fork
+</a>
+    <a href="/sam-may/ttH/network/members" class="social-count"
+       aria-label="0 users forked this repository">
+      0
+    </a>
+  </li>
+</ul>
+
+      <h1 class="public ">
+  <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"/></svg>
+  <span class="author" itemprop="author"><a class="url fn" rel="author" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=15111756" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/sam-may">sam-may</a></span><!--
+--><span class="path-divider">/</span><!--
+--><strong itemprop="name"><a data-pjax="#js-repo-pjax-container" href="/sam-may/ttH">ttH</a></strong>
+
+</h1>
+
+    </div>
+    
+<nav class="reponav js-repo-nav js-sidenav-container-pjax container"
+     itemscope
+     itemtype="http://schema.org/BreadcrumbList"
+    aria-label="Repository"
+     data-pjax="#js-repo-pjax-container">
+
+  <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a class="js-selected-navigation-item selected reponav-item" itemprop="url" data-hotkey="g c" aria-current="page" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /sam-may/ttH" href="/sam-may/ttH">
+      <svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"/></svg>
+      <span itemprop="name">Code</span>
+      <meta itemprop="position" content="1">
+</a>  </span>
+
+    <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+      <a itemprop="url" data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /sam-may/ttH/issues" href="/sam-may/ttH/issues">
+        <svg class="octicon octicon-issue-opened" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"/></svg>
+        <span itemprop="name">Issues</span>
+        <span class="Counter">0</span>
+        <meta itemprop="position" content="2">
+</a>    </span>
+
+  <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a data-hotkey="g p" itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /sam-may/ttH/pulls" href="/sam-may/ttH/pulls">
+      <svg class="octicon octicon-git-pull-request" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+      <span itemprop="name">Pull requests</span>
+      <span class="Counter">0</span>
+      <meta itemprop="position" content="3">
+</a>  </span>
+
+
+    <a data-hotkey="g b" class="js-selected-navigation-item reponav-item" data-selected-links="repo_projects new_repo_project repo_project /sam-may/ttH/projects" href="/sam-may/ttH/projects">
+      <svg class="octicon octicon-project" viewBox="0 0 15 16" version="1.1" width="15" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"/></svg>
+      Projects
+      <span class="Counter" >0</span>
+</a>
+
+
+    <a class="js-selected-navigation-item reponav-item" data-selected-links="repo_graphs repo_contributors dependency_graph pulse alerts security people /sam-may/ttH/pulse" href="/sam-may/ttH/pulse">
+      <svg class="octicon octicon-graph" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"/></svg>
+      Insights
+</a>
+
+</nav>
+
+
+  </div>
+<div class="container new-discussion-timeline experiment-repo-nav  ">
+  <div class="repository-content ">
+
+    
+    
+
+
+
+  
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/sam-may/ttH/blob/c6446512d5c8c5f3b0a1ecf69ebb8d3bf135bb25/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt">Permalink</a>
+
+    <!-- blob contrib key: blob_contributors:v21:6f1dbab1af546bdcd68ec13409588f17 -->
+
+        <div class="signup-prompt-bg rounded-1">
+      <div class="signup-prompt p-4 text-center mb-4 rounded-1">
+        <div class="position-relative">
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/site/dismiss_signup_prompt" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="xgu0TN0yKot/72+vCgoHB4GgLIavOqp2ipIb6yIVT2IAUJBKataxy8Qp071h4awk/eE5JNrqCifLDUaGNtpoxw==" />
+            <button type="submit" class="position-absolute top-0 right-0 btn-link link-gray" data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss">
+              Dismiss
+            </button>
+</form>          <h3 class="pt-2">Join GitHub today</h3>
+          <p class="col-6 mx-auto">GitHub is home to over 31 million developers working together to host and review code, manage projects, and build software together.</p>
+          <a class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:null,&quot;originating_request_id&quot;:&quot;943A:7B79:22924:3AD68:5C9F8117&quot;,&quot;originating_url&quot;:&quot;https://github.com/sam-may/ttH/blob/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="fbee5f592fd960375b29bed4817c15056f64c3fe5354a4f26fc0e6c269405e82" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" href="/join?source=prompt-blob-show">Sign up</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="d-flex flex-shrink-0 flex-items-center mb-3">
+      
+<details class="details-reset details-overlay select-menu branch-select-menu">
+  <summary class="btn btn-sm select-menu-button css-truncate"
+           data-hotkey="w"
+           
+           title="Switch branches or tags">
+    <i>Branch:</i>
+    <span class="css-truncate-target">master</span>
+  </summary>
+
+  <details-menu class="select-menu-modal position-absolute" style="z-index: 99;" src="/sam-may/ttH/ref-list/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt?source_action=show&amp;source_controller=blob" preload>
+    <include-fragment class="select-menu-loading-overlay anim-pulse">
+      <svg height="32" class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"/></svg>
+    </include-fragment>
+  </details-menu>
+</details>
+
+      <div id="blob-path" class="breadcrumb flex-auto ml-2">
+        <span class="js-repo-root text-bold"><span class="js-path-segment"><a data-pjax="true" href="/sam-may/ttH"><span>ttH</span></a></span></span><span class="separator">/</span><span class="js-path-segment"><a data-pjax="true" href="/sam-may/ttH/tree/master/BabyMaker"><span>BabyMaker</span></a></span><span class="separator">/</span><strong class="final-path">Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt</strong>
+      </div>
+      <div class="BtnGroup">
+        <a href="/sam-may/ttH/find/master"
+              class="js-pjax-capture-input btn btn-sm BtnGroup-item"
+              data-pjax
+              data-hotkey="t">
+          Find file
+        </a>
+        <clipboard-copy for="blob-path" class="btn btn-sm BtnGroup-item">
+          Copy path
+        </clipboard-copy>
+      </div>
+    </div>
+
+
+
+    
+  <div class="Box Box--condensed d-flex flex-column flex-shrink-0">
+      <div class="Box-body d-flex flex-justify-between bg-blue-light flex-items-center">
+        <span class="pr-md-4 f6">
+          <a rel="author" data-skip-pjax="true" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=15111756" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/sam-may"><img class="avatar" src="https://avatars1.githubusercontent.com/u/15111756?s=40&amp;v=4" width="20" height="20" alt="@sam-may" /></a>
+          <a class="text-bold link-gray-dark lh-default v-align-middle" rel="author" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=15111756" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="/sam-may">sam-may</a>
+            <span class="lh-default v-align-middle">
+              <a data-pjax="true" title="Various commits" class="link-gray" href="/sam-may/ttH/commit/8074943d2c442a7c6ab72cda8cb55bd9c8db8c10">Various commits</a>
+            </span>
+        </span>
+        <span class="d-inline-block flex-shrink-0 v-align-bottom f6">
+          <a class="pr-2 text-mono link-gray" href="/sam-may/ttH/commit/8074943d2c442a7c6ab72cda8cb55bd9c8db8c10" data-pjax>
+            8074943
+          </a>
+          <relative-time datetime="2019-03-19T18:35:51Z">Mar 19, 2019</relative-time>
+        </span>
+      </div>
+
+    <div class="Box-body d-flex flex-items-center flex-auto f6 border-bottom-0" >
+      <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark float-left mr-2" id="blob_contributors_box" >
+        <summary class="btn-link" aria-haspopup="dialog">
+          <span><strong>1</strong> contributor</span>
+        </summary>
+        <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast" aria-label="Users who have contributed to this file">
+          <div class="Box-header">
+            <button class="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog>
+              <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+            </button>
+            <h3 class="Box-title">
+              Users who have contributed to this file
+            </h3>
+          </div>
+              <ul class="list-style-none overflow-auto">
+    <li class="Box-row">
+      <a class="link-gray-dark no-underline" href="/sam-may">
+        <img class="avatar mr-1" alt="" src="https://avatars1.githubusercontent.com/u/15111756?s=40&amp;v=4" width="20" height="20" />
+        sam-may
+</a>    </li>
+</ul>
+
+        </details-dialog>
+      </details>
+    </div>
+  </div>
+
+
+
+
+
+    <div class="Box mt-3 position-relative">
+      
+<div class="Box-header py-2 d-flex flex-justify-between flex-items-center">
+
+  <div class="text-mono f6">
+      <span class="file-mode" title="File mode">executable file</span>
+      <span class="file-info-divider"></span>
+      1 lines (1 sloc)
+      <span class="file-info-divider"></span>
+    11.4 KB
+  </div>
+
+  <div class="d-flex">
+
+    <div class="BtnGroup">
+      <a id="raw-url" class="btn btn-sm BtnGroup-item" href="/sam-may/ttH/raw/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt">Raw</a>
+        <a class="btn btn-sm js-update-url-with-hash BtnGroup-item" data-hotkey="b" href="/sam-may/ttH/blame/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt">Blame</a>
+      <a rel="nofollow" class="btn btn-sm BtnGroup-item" href="/sam-may/ttH/commits/master/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt">History</a>
+    </div>
+
+
+    <div>
+
+          <button type="button" class="btn-octicon disabled tooltipped tooltipped-nw"
+            aria-label="You must be signed in to make or propose changes">
+            <svg class="octicon octicon-pencil" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"/></svg>
+          </button>
+          <button type="button" class="btn-octicon btn-octicon-danger disabled tooltipped tooltipped-nw"
+            aria-label="You must be signed in to make or propose changes">
+            <svg class="octicon octicon-trashcan" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"/></svg>
+          </button>
+    </div>
+  </div>
+</div>
+
+      
+
+  <div itemprop="text" class="Box-body p-0 blob-wrapper data type-text ">
+      
+<table class="highlight tab-size js-file-line-container" data-tab-size="8">
+      <tr>
+        <td id="L1" class="blob-num js-line-number" data-line-number="1"></td>
+        <td id="LC1" class="blob-code blob-code-inner js-file-line">{&quot;315257&quot;: [[1, 88], [91, 92]], &quot;315259&quot;: [[1, 172]], &quot;315264&quot;: [[32, 261]], &quot;315265&quot;: [[4, 58]], &quot;315267&quot;: [[1, 244]], &quot;315270&quot;: [[1, 633]], &quot;315322&quot;: [[23, 118], [122, 1354]], &quot;315339&quot;: [[37, 654]], &quot;315357&quot;: [[44, 732], [736, 770], [780, 831]], &quot;315361&quot;: [[40, 619]], &quot;315363&quot;: [[1, 35], [37, 47], [49, 67], [69, 80], [82, 90]], &quot;315366&quot;: [[10, 61], [67, 750]], &quot;315420&quot;: [[28, 920], [924, 942], [954, 1748]], &quot;315488&quot;: [[42, 843]], &quot;315489&quot;: [[1, 653], [672, 709]], &quot;315490&quot;: [[1, 24]], &quot;315506&quot;: [[13, 100]], &quot;315510&quot;: [[1, 345]], &quot;315512&quot;: [[1, 1122]], &quot;315543&quot;: [[55, 171]], &quot;315555&quot;: [[22, 97]], &quot;315556&quot;: [[1, 26]], &quot;315557&quot;: [[1, 279]], &quot;315640&quot;: [[46, 87]], &quot;315641&quot;: [[1, 4]], &quot;315642&quot;: [[1, 92]], &quot;315644&quot;: [[1, 184]], &quot;315645&quot;: [[1, 40], [47, 390], [395, 565], [567, 594]], &quot;315646&quot;: [[1, 1033]], &quot;315647&quot;: [[1, 58]], &quot;315648&quot;: [[1, 110]], &quot;315689&quot;: [[24, 1127], [1180, 1186]], &quot;315690&quot;: [[10, 654]], &quot;315702&quot;: [[38, 113]], &quot;315703&quot;: [[1, 545]], &quot;315704&quot;: [[1, 61]], &quot;315705&quot;: [[1, 700]], &quot;315713&quot;: [[35, 359], [374, 385], [400, 1123]], &quot;315721&quot;: [[33, 50], [56, 626]], &quot;315741&quot;: [[34, 92]], &quot;315764&quot;: [[37, 309]], &quot;315770&quot;: [[39, 332]], &quot;315784&quot;: [[29, 33], [40, 156], [158, 161]], &quot;315785&quot;: [[1, 198], [201, 305]], &quot;315786&quot;: [[1, 72]], &quot;315790&quot;: [[1, 716], [718, 922]], &quot;315800&quot;: [[41, 621]], &quot;315801&quot;: [[1, 344]], &quot;315840&quot;: [[33, 1154]], &quot;315973&quot;: [[39, 240], [262, 914]], &quot;315974&quot;: [[1, 71]], &quot;316058&quot;: [[42, 405]], &quot;316059&quot;: [[1, 321], [323, 567]], &quot;316060&quot;: [[1, 935]], &quot;316061&quot;: [[1, 23], [194, 206]], &quot;316062&quot;: [[1, 4]], &quot;316082&quot;: [[37, 407]], &quot;316110&quot;: [[1, 210]], &quot;316111&quot;: [[1, 48]], &quot;316113&quot;: [[1, 64]], &quot;316114&quot;: [[1, 777], [779, 1562]], &quot;316153&quot;: [[1, 770]], &quot;316186&quot;: [[38, 81]], &quot;316187&quot;: [[1, 1091], [1093, 1100], [1207, 2077]], &quot;316199&quot;: [[33, 1197]], &quot;316200&quot;: [[1, 10]], &quot;316201&quot;: [[1, 498]], &quot;316202&quot;: [[1, 403]], &quot;316216&quot;: [[25, 466]], &quot;316217&quot;: [[1, 264]], &quot;316218&quot;: [[1, 1008]], &quot;316219&quot;: [[1, 283]], &quot;316239&quot;: [[38, 626]], &quot;316240&quot;: [[1, 1224]], &quot;316241&quot;: [[1, 325]], &quot;316271&quot;: [[36, 121]], &quot;316361&quot;: [[22, 124], [126, 131], [133, 135], [137, 137], [139, 142], [144, 145], [147, 147], [149, 159], [161, 174], [176, 178], [180, 189], [191, 197], [199, 208], [210, 223]], &quot;316362&quot;: [[1, 208], [210, 212], [214, 225], [227, 242], [244, 269], [271, 319], [332, 392], [394, 395], [397, 402], [404, 404], [406, 410], [412, 412], [414, 418], [420, 428], [430, 450]], &quot;316363&quot;: [[1, 39], [41, 49]], &quot;316377&quot;: [[19, 19], [21, 40]], &quot;316378&quot;: [[1, 29]], &quot;316379&quot;: [[1, 70]], &quot;316380&quot;: [[1, 708], [714, 1213]], &quot;316455&quot;: [[36, 71]], &quot;316457&quot;: [[1, 1454]], &quot;316469&quot;: [[17, 444]], &quot;316470&quot;: [[1, 322]], &quot;316472&quot;: [[76, 333]], &quot;316505&quot;: [[44, 205], [207, 921], [923, 1364]], &quot;316569&quot;: [[20, 703], [742, 1945]], &quot;316590&quot;: [[17, 526]], &quot;316613&quot;: [[49, 241]], &quot;316615&quot;: [[1, 338]], &quot;316666&quot;: [[1, 981]], &quot;316667&quot;: [[1, 197]], &quot;316700&quot;: [[46, 346], [388, 397]], &quot;316701&quot;: [[1, 479]], &quot;316702&quot;: [[1, 388]], &quot;316715&quot;: [[33, 45]], &quot;316716&quot;: [[1, 181]], &quot;316717&quot;: [[1, 192]], &quot;316718&quot;: [[1, 311]], &quot;316719&quot;: [[1, 91], [100, 144]], &quot;316720&quot;: [[1, 182]], &quot;316721&quot;: [[1, 15]], &quot;316722&quot;: [[1, 751]], &quot;316723&quot;: [[1, 64]], &quot;316758&quot;: [[11, 1609]], &quot;316766&quot;: [[51, 1920], [1922, 2199]], &quot;316876&quot;: [[34, 38], [40, 644]], &quot;316877&quot;: [[1, 164], [171, 401]], &quot;316879&quot;: [[1, 156]], &quot;316928&quot;: [[40, 188]], &quot;316985&quot;: [[33, 503]], &quot;316993&quot;: [[44, 254]], &quot;316994&quot;: [[1, 14]], &quot;316995&quot;: [[1, 623]], &quot;317080&quot;: [[41, 66]], &quot;317087&quot;: [[43, 177], [213, 222], [257, 852]], &quot;317089&quot;: [[1, 1003]], &quot;317182&quot;: [[47, 63], [65, 1424]], &quot;317212&quot;: [[36, 175]], &quot;317213&quot;: [[1, 375]], &quot;317279&quot;: [[43, 508]], &quot;317291&quot;: [[34, 824]], &quot;317292&quot;: [[1, 330]], &quot;317297&quot;: [[1, 283], [347, 760]], &quot;317319&quot;: [[44, 182]], &quot;317320&quot;: [[1, 326], [333, 411], [413, 1827]], &quot;317338&quot;: [[66, 107]], &quot;317339&quot;: [[1, 163]], &quot;317340&quot;: [[1, 418]], &quot;317382&quot;: [[58, 128]], &quot;317383&quot;: [[1, 58]], &quot;317391&quot;: [[39, 46]], &quot;317392&quot;: [[1, 1116], [1119, 1900]], &quot;317435&quot;: [[1, 1397]], &quot;317438&quot;: [[1, 68], [71, 309]], &quot;317475&quot;: [[33, 89], [105, 115]], &quot;317478&quot;: [[1, 23]], &quot;317484&quot;: [[1, 448], [467, 514], [519, 545]], &quot;317488&quot;: [[1, 844]], &quot;317527&quot;: [[41, 1487]], &quot;317591&quot;: [[43, 334]], &quot;317626&quot;: [[40, 2045]], &quot;317640&quot;: [[29, 829]], &quot;317641&quot;: [[1, 1390]], &quot;317648&quot;: [[45, 139]], &quot;317649&quot;: [[1, 621]], &quot;317650&quot;: [[1, 1304]], &quot;317661&quot;: [[35, 1256]], &quot;317663&quot;: [[1, 858]], &quot;317683&quot;: [[83, 402]], &quot;317696&quot;: [[38, 682]], &quot;318828&quot;: [[54, 123]], &quot;318872&quot;: [[16, 287]], &quot;318874&quot;: [[1, 320]], &quot;318876&quot;: [[1, 161]], &quot;318877&quot;: [[1, 615]], &quot;319077&quot;: [[52, 92]], &quot;319337&quot;: [[48, 2240]], &quot;319347&quot;: [[40, 690]], &quot;319348&quot;: [[1, 37]], &quot;319349&quot;: [[1, 148]], &quot;319449&quot;: [[35, 559], [562, 734]], &quot;319450&quot;: [[1, 287], [290, 683]], &quot;319456&quot;: [[138, 346]], &quot;319459&quot;: [[1, 78]], &quot;319486&quot;: [[38, 103]], &quot;319503&quot;: [[1, 317]], &quot;319524&quot;: [[36, 1459]], &quot;319526&quot;: [[1, 282]], &quot;319528&quot;: [[1, 259]], &quot;319579&quot;: [[41, 3168]], &quot;319625&quot;: [[17, 206]], &quot;319639&quot;: [[31, 1509]], &quot;319656&quot;: [[51, 310]], &quot;319657&quot;: [[1, 167]], &quot;319658&quot;: [[1, 225]], &quot;319659&quot;: [[1, 87]], &quot;319678&quot;: [[36, 294]], &quot;319687&quot;: [[46, 90]], &quot;319697&quot;: [[47, 482], [490, 490]], &quot;319698&quot;: [[1, 312]], &quot;319756&quot;: [[44, 1966]], &quot;319840&quot;: [[41, 388]], &quot;319841&quot;: [[1, 167]], &quot;319847&quot;: [[49, 51]], &quot;319848&quot;: [[1, 53]], &quot;319849&quot;: [[1, 492]], &quot;319851&quot;: [[1, 4]], &quot;319853&quot;: [[1, 40], [47, 262]], &quot;319854&quot;: [[1, 225]], &quot;319908&quot;: [[1, 40], [43, 53]], &quot;319909&quot;: [[1, 7]], &quot;319910&quot;: [[1, 983]], &quot;319912&quot;: [[1, 59]], &quot;319913&quot;: [[1, 56]], &quot;319914&quot;: [[1, 32]], &quot;319915&quot;: [[1, 416]], &quot;319941&quot;: [[43, 298]], &quot;319942&quot;: [[1, 50]], &quot;319950&quot;: [[38, 205]], &quot;319991&quot;: [[46, 882]], &quot;319992&quot;: [[1, 264]], &quot;319993&quot;: [[1, 955]], &quot;320002&quot;: [[52, 192]], &quot;320006&quot;: [[1, 34], [36, 341]], &quot;320010&quot;: [[1, 330]], &quot;320011&quot;: [[1, 302]], &quot;320012&quot;: [[1, 99]], &quot;320023&quot;: [[17, 292]], &quot;320024&quot;: [[1, 410]], &quot;320025&quot;: [[1, 113]], &quot;320026&quot;: [[1, 204]], &quot;320038&quot;: [[43, 663]], &quot;320039&quot;: [[1, 30]], &quot;320040&quot;: [[1, 737]], &quot;320059&quot;: [[1, 105]], &quot;320060&quot;: [[1, 42]], &quot;320061&quot;: [[1, 49]], &quot;320062&quot;: [[1, 21]], &quot;320063&quot;: [[1, 64]], &quot;320064&quot;: [[1, 200]], &quot;320065&quot;: [[1, 920]], &quot;320673&quot;: [[35, 901]], &quot;320674&quot;: [[1, 599]], &quot;320688&quot;: [[49, 531]], &quot;320712&quot;: [[39, 242]], &quot;320757&quot;: [[51, 382]], &quot;320804&quot;: [[46, 1274]], &quot;320807&quot;: [[1, 7]], &quot;320809&quot;: [[1, 716]], &quot;320821&quot;: [[41, 221]], &quot;320822&quot;: [[1, 523]], &quot;320823&quot;: [[1, 360]], &quot;320838&quot;: [[93, 357]], &quot;320840&quot;: [[1, 471]], &quot;320841&quot;: [[1, 205]], &quot;320853&quot;: [[41, 369]], &quot;320854&quot;: [[1, 125]], &quot;320855&quot;: [[1, 565]], &quot;320856&quot;: [[1, 159]], &quot;320857&quot;: [[1, 272]], &quot;320858&quot;: [[1, 230]], &quot;320859&quot;: [[1, 40]], &quot;320887&quot;: [[49, 321]], &quot;320888&quot;: [[1, 26]], &quot;320916&quot;: [[2, 25]], &quot;320917&quot;: [[1, 1926]], &quot;320920&quot;: [[1, 178]], &quot;320933&quot;: [[40, 214]], &quot;320934&quot;: [[1, 831]], &quot;320936&quot;: [[1, 407]], &quot;320941&quot;: [[1, 93]], &quot;320980&quot;: [[44, 142]], &quot;320995&quot;: [[26, 214]], &quot;320996&quot;: [[1, 380]], &quot;321004&quot;: [[39, 188]], &quot;321005&quot;: [[1, 61]], &quot;321006&quot;: [[1, 162]], &quot;321007&quot;: [[1, 831]], &quot;321009&quot;: [[1, 85]], &quot;321010&quot;: [[1, 342]], &quot;321011&quot;: [[1, 213]], &quot;321012&quot;: [[1, 35], [190, 201]], &quot;321051&quot;: [[58, 1179]], &quot;321055&quot;: [[1, 302], [304, 326], [328, 340], [368, 759]], &quot;321067&quot;: [[39, 225], [232, 639]], &quot;321068&quot;: [[1, 715]], &quot;321069&quot;: [[1, 313]], &quot;321119&quot;: [[45, 214]], &quot;321121&quot;: [[1, 47]], &quot;321122&quot;: [[1, 395]], &quot;321124&quot;: [[1, 819]], &quot;321126&quot;: [[1, 493]], &quot;321134&quot;: [[33, 70]], &quot;321138&quot;: [[1, 741]], &quot;321140&quot;: [[1, 798]], &quot;321149&quot;: [[35, 1424], [1426, 1476], [1478, 1553], [1558, 1576], [1578, 1588], [1591, 1743]], &quot;321166&quot;: [[1, 10]], &quot;321167&quot;: [[1, 141], [143, 143], [145, 510], [512, 552], [554, 691], [693, 923]], &quot;321178&quot;: [[5, 78]], &quot;321218&quot;: [[49, 962]], &quot;321219&quot;: [[1, 934]], &quot;321221&quot;: [[1, 40]], &quot;321230&quot;: [[41, 124]], &quot;321231&quot;: [[1, 59]], &quot;321232&quot;: [[1, 30]], &quot;321233&quot;: [[1, 727]], &quot;321262&quot;: [[1, 4]], &quot;321283&quot;: [[48, 357]], &quot;321294&quot;: [[1, 62]], &quot;321305&quot;: [[20, 2600], [2605, 2651]], &quot;321311&quot;: [[1, 10]], &quot;321312&quot;: [[1, 768]], &quot;321313&quot;: [[1, 408]], &quot;321393&quot;: [[1, 127], [134, 148]], &quot;321396&quot;: [[1, 1475]], &quot;321397&quot;: [[1, 365]], &quot;321414&quot;: [[31, 1283]], &quot;321415&quot;: [[1, 804]], &quot;321431&quot;: [[30, 189]], &quot;321432&quot;: [[1, 47]], &quot;321433&quot;: [[1, 125]], &quot;321434&quot;: [[1, 642]], &quot;321436&quot;: [[1, 710]], &quot;321457&quot;: [[43, 451], [453, 1888]], &quot;321461&quot;: [[1, 149]], &quot;321475&quot;: [[50, 518], [526, 2084]], &quot;321710&quot;: [[1, 57]], &quot;321735&quot;: [[1, 146]], &quot;321755&quot;: [[33, 361], [363, 470], [472, 473], [475, 487], [489, 729]], &quot;321776&quot;: [[1, 12], [15, 19], [30, 45]], &quot;321777&quot;: [[1, 81], [83, 169], [174, 176], [192, 207]], &quot;321778&quot;: [[8, 150]], &quot;321780&quot;: [[1, 332], [336, 338], [342, 346], [351, 357], [359, 360], [362, 371], [374, 383], [392, 412], [414, 420], [422, 493], [496, 499], [502, 503], [505, 508], [517, 518]], &quot;321813&quot;: [[32, 352]], &quot;321815&quot;: [[1, 23]], &quot;321817&quot;: [[1, 536]], &quot;321818&quot;: [[1, 690]], &quot;321820&quot;: [[1, 214]], &quot;321831&quot;: [[25, 781]], &quot;321832&quot;: [[1, 389], [403, 510]], &quot;321833&quot;: [[1, 407]], &quot;321834&quot;: [[1, 333]], &quot;321879&quot;: [[39, 47], [50, 52], [55, 68], [71, 73], [77, 89], [93, 95], [99, 111], [114, 116], [120, 132], [136, 138], [141, 154], [157, 159], [163, 175], [178, 181], [185, 197], [200, 202], [207, 218], [222, 356]], &quot;321880&quot;: [[1, 41], [44, 132]], &quot;321887&quot;: [[54, 948]], &quot;321908&quot;: [[43, 472]], &quot;321909&quot;: [[1, 208], [210, 1654]], &quot;321917&quot;: [[4, 156], [164, 808]], &quot;321919&quot;: [[1, 6]], &quot;321933&quot;: [[43, 232], [235, 326]], &quot;321960&quot;: [[18, 47]], &quot;321961&quot;: [[1, 354]], &quot;321973&quot;: [[37, 746], [748, 968], [972, 1253]], &quot;321975&quot;: [[1, 866]], &quot;321988&quot;: [[45, 996], [1106, 1486]], &quot;321990&quot;: [[1, 471]], &quot;322013&quot;: [[14, 22]], &quot;322014&quot;: [[1, 17]], &quot;322022&quot;: [[42, 185], [201, 1805]], &quot;322040&quot;: [[32, 70]], &quot;322057&quot;: [[38, 58]], &quot;322068&quot;: [[51, 724]], &quot;322079&quot;: [[39, 200], [216, 393], [409, 428]], &quot;322106&quot;: [[48, 871]], &quot;322113&quot;: [[48, 159]], &quot;322118&quot;: [[1, 516], [530, 874]], &quot;322179&quot;: [[43, 820], [823, 1783]], &quot;322201&quot;: [[39, 266]], &quot;322204&quot;: [[1, 280], [282, 301], [303, 331], [337, 1143]], &quot;322222&quot;: [[1, 526]], &quot;322252&quot;: [[42, 1586]], &quot;322317&quot;: [[48, 101]], &quot;322319&quot;: [[1, 163]], &quot;322322&quot;: [[1, 170], [267, 1205]], &quot;322324&quot;: [[1, 416]], &quot;322332&quot;: [[37, 1055]], &quot;322348&quot;: [[40, 1505]], &quot;322355&quot;: [[36, 137]], &quot;322356&quot;: [[1, 779]], &quot;322381&quot;: [[45, 577]], &quot;322407&quot;: [[46, 582]], &quot;322430&quot;: [[46, 501]], &quot;322431&quot;: [[59, 1166]], &quot;322480&quot;: [[60, 408]], &quot;322492&quot;: [[1, 1386]], &quot;322510&quot;: [[37, 45]], &quot;322599&quot;: [[43, 294]], &quot;322602&quot;: [[1, 69], [72, 72]], &quot;322603&quot;: [[1, 10]], &quot;322605&quot;: [[1, 280]], &quot;322617&quot;: [[1, 601]], &quot;322625&quot;: [[41, 484], [492, 1167]], &quot;322633&quot;: [[1, 249]], &quot;323414&quot;: [[1, 46]], &quot;323423&quot;: [[1, 136]], &quot;323470&quot;: [[38, 172], [176, 218], [223, 266]], &quot;323471&quot;: [[1, 238]], &quot;323472&quot;: [[1, 64]], &quot;323473&quot;: [[1, 227]], &quot;323474&quot;: [[1, 355]], &quot;323475&quot;: [[1, 77]], &quot;323487&quot;: [[42, 177], [184, 498]], &quot;323488&quot;: [[1, 514], [555, 734], [738, 793]], &quot;323492&quot;: [[1, 33]], &quot;323493&quot;: [[1, 144]], &quot;323495&quot;: [[1, 187]], &quot;323524&quot;: [[25, 561]], &quot;323525&quot;: [[1, 91], [97, 1126]], &quot;323526&quot;: [[1, 248], [253, 466]], &quot;323693&quot;: [[38, 151]], &quot;323696&quot;: [[1, 257]], &quot;323702&quot;: [[1, 808]], &quot;323725&quot;: [[18, 346]], &quot;323727&quot;: [[1, 83], [88, 677], [682, 813], [819, 822], [826, 987]], &quot;323755&quot;: [[27, 815], [818, 823], [826, 826], [828, 830], [833, 861], [864, 964]], &quot;323775&quot;: [[38, 81], [84, 171]], &quot;323778&quot;: [[1, 934]], &quot;323790&quot;: [[45, 948]], &quot;323841&quot;: [[46, 510]], &quot;323857&quot;: [[1, 357]], &quot;323940&quot;: [[49, 1567]], &quot;323954&quot;: [[1, 77]], &quot;323976&quot;: [[31, 85]], &quot;323978&quot;: [[1, 73]], &quot;323980&quot;: [[1, 202]], &quot;323983&quot;: [[1, 188]], &quot;323997&quot;: [[1, 498]], &quot;324021&quot;: [[44, 819]], &quot;324022&quot;: [[1, 554]], &quot;324077&quot;: [[54, 710], [712, 753]], &quot;324201&quot;: [[20, 834], [837, 1385]], &quot;324202&quot;: [[1, 240]], &quot;324205&quot;: [[1, 163]], &quot;324206&quot;: [[1, 149]], &quot;324207&quot;: [[1, 34]], &quot;324209&quot;: [[1, 142]], &quot;324237&quot;: [[33, 236]], &quot;324245&quot;: [[23, 1681]], &quot;324293&quot;: [[39, 1440], [1442, 2176], [2178, 2342]], &quot;324315&quot;: [[1, 200], [203, 204]], &quot;324318&quot;: [[1, 332]], &quot;324420&quot;: [[1, 625]]}</td>
+      </tr>
+</table>
+
+  <details class="details-reset details-overlay BlobToolbar position-absolute js-file-line-actions dropdown d-none" aria-hidden="true">
+    <summary class="btn-octicon ml-0 px-2 p-0 bg-white border border-gray-dark rounded-1" aria-label="Inline file action toolbar">
+      <svg class="octicon octicon-kebab-horizontal" viewBox="0 0 13 16" version="1.1" width="13" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm5 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM13 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/></svg>
+    </summary>
+    <details-menu>
+      <ul class="BlobToolbar-dropdown dropdown-menu dropdown-menu-se mt-2" style="width:185px">
+        <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-lines" style="cursor:pointer;" data-original-text="Copy lines">Copy lines</clipboard-copy></li>
+        <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-permalink" style="cursor:pointer;" data-original-text="Copy permalink">Copy permalink</clipboard-copy></li>
+        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/sam-may/ttH/blame/c6446512d5c8c5f3b0a1ecf69ebb8d3bf135bb25/BabyMaker/Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt">View git blame</a></li>
+          <li><a class="dropdown-item" id="js-new-issue" role="menuitem" href="/sam-may/ttH/issues/new">Reference in new issue</a></li>
+      </ul>
+    </details-menu>
+  </details>
+
+  </div>
+
+    </div>
+
+  
+
+  <details class="details-reset details-overlay details-overlay-dark">
+    <summary data-hotkey="l" aria-label="Jump to line"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast linejump" aria-label="Jump to line">
+      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="js-jump-to-line-form Box-body d-flex" action="" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+        <input class="form-control flex-auto mr-3 linejump-input js-jump-to-line-field" type="text" placeholder="Jump to line&hellip;" aria-label="Jump to line" autofocus>
+        <button type="submit" class="btn" data-close-dialog>Go</button>
+</form>    </details-dialog>
+  </details>
+
+
+
+  </div>
+  <div class="modal-backdrop js-touch-events"></div>
+</div>
+
+    </main>
+  </div>
+  
+
+  </div>
+
+        
+<div class="footer container-lg width-full px-3" role="contentinfo">
+  <div class="position-relative d-flex flex-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <ul class="list-style-none d-flex flex-wrap ">
+      <li class="mr-3">&copy; 2019 <span title="0.22483s from unicorn-77c9d8ddfb-hs6nf">GitHub</span>, Inc.</li>
+        <li class="mr-3"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
+        <li class="mr-3"><a href="https://githubstatus.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+        <li><a data-ga-click="Footer, go to help, text:help" href="https://help.github.com">Help</a></li>
+    </ul>
+
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon mx-lg-4" href="https://github.com">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+</a>
+   <ul class="list-style-none d-flex flex-wrap ">
+        <li class="mr-3"><a data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact GitHub</a></li>
+        <li class="mr-3"><a href="https://github.com/pricing" data-ga-click="Footer, go to Pricing, text:Pricing">Pricing</a></li>
+      <li class="mr-3"><a href="https://developer.github.com" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li class="mr-3"><a href="https://training.github.com" data-ga-click="Footer, go to training, text:training">Training</a></li>
+        <li class="mr-3"><a href="https://github.blog" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+        <li><a data-ga-click="Footer, go to about, text:about" href="https://github.com/about">About</a></li>
+
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+</div>
+
+
+
+  <div id="ajax-error-message" class="ajax-error-message flash flash-error">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"/></svg>
+    <button type="button" class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+    </button>
+    You can’t perform that action at this time.
+  </div>
+
+
+    <script crossorigin="anonymous" integrity="sha512-jFuNBkwlIX73xJbI2nTCs01W/xjwP+Ccc0gEdkD4d/tQBv4xIZx4dZLnkYhzawWhnxjJbvkHsxSXQffNs0Ce4Q==" type="application/javascript" src="https://github.githubassets.com/assets/compat-bootstrap-8102d067.js"></script>
+    <script crossorigin="anonymous" integrity="sha512-m1DeH+jLA0IS/zzy50Kv0yBpZJDQlBkcACJzTGJUq30SG1eo5vztaQg1x1KV1L3XGePC1HOdKU1fu7Ktr+5nsg==" type="application/javascript" src="https://github.githubassets.com/assets/frameworks-3c669c6d.js"></script>
+    
+    <script crossorigin="anonymous" async="async" integrity="sha512-5fkE5HlHUvjDCSLq2ACLerBiuS+N3x36xiX0Dld1w8J0+IpjD1ddnmRd806jtn+QoMMGkLFSUMXVvMN4JUkZSw==" type="application/javascript" src="https://github.githubassets.com/assets/github-bootstrap-7f581dd4.js"></script>
+    
+    
+    
+  <div class="js-stale-session-flash stale-session-flash flash flash-warn flash-banner" hidden
+    >
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"/></svg>
+    <span class="signed-in-tab-flash">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
+    <span class="signed-out-tab-flash">You signed out in another tab or window. <a href="">Reload</a> to refresh your session.</span>
+  </div>
+  <template id="site-details-dialog">
+  <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark" open>
+    <summary aria-haspopup="dialog" aria-label="Close dialog"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast">
+      <button class="Box-btn-octicon m-0 btn-octicon position-absolute right-0 top-0" type="button" aria-label="Close dialog" data-close-dialog>
+        <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+      </button>
+      <div class="octocat-spinner my-6 js-details-dialog-spinner"></div>
+    </details-dialog>
+  </details>
+</template>
+
+  <div class="Popover js-hovercard-content position-absolute" style="display: none; outline: none;" tabindex="0">
+  <div class="Popover-message Popover-message--bottom-left Popover-message--large Box box-shadow-large" style="width:360px;">
+  </div>
+</div>
+
+  <div aria-live="polite" class="js-global-screen-reader-notice sr-only"></div>
+
+  </body>
+</html>
+
