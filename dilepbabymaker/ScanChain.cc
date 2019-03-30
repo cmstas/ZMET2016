@@ -459,7 +459,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       	jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_L3Absolute_AK4PFchs.txt"  );
       	jecUnc = new JetCorrectionUncertainty        ("jetCorrections/source_80X/FASTSIM/Spring16_FastSimV1_Uncertainty_AK4PFchs.txt" );
   	  }
-      //HARDCODE STUFF FOR SYNCHRONIZATION
       if(gconf.year == 2017)
       {
             if(currentFileName.Contains("Run2017D") || currentFileName.Contains("Run2017E")) //Data
@@ -468,8 +467,25 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK4PFchs.txt");
             }
+            /*else if(currentFileName.Contains("Run2017A"))
+            {
+                //do nothing because I have no idea which JECs to use
+            }*/
+            else if(currentFileName.Contains("Run2017B") || currentFileName.Contains("Run2017A"))
+            {
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L1FastJet_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L2Relative_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L3Absolute_AK4PFchs.txt");
 
-            else
+            }
+            else if(currentFileName.Contains("Run2017F"))
+            {
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L1FastJet_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2Relative_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L3Absolute_AK4PFchs.txt");
+`
+            }
+            else //MC
             {
 
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK4PFchs.txt");
@@ -2659,7 +2675,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"    , &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ  );
   BabyTree_->Branch("HLT_IsoMu27"                                          , &HLT_IsoMu27                                        );
   BabyTree_->Branch("HLT_Mu50"                                             , &HLT_Mu50                                           );
-  BabyTree_->Branch("HLT_Photon200"                                        , &HLT_Photon200                                      );
 
 
   BabyTree_->Branch("dilmass", &dilmass );
