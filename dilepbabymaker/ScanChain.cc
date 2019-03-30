@@ -188,9 +188,24 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   load_leptonSF_files();
 	
   // do this once per job
-  const char* json_file = "Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 26p4 fb
-  cout<<"Setting grl: "<<json_file<<endl;
-  set_goodrun_file(json_file);
+  if(gconf.year == 2016)
+  {
+    const char* json_file = "Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 26p4 fb
+    cout<<"Setting "<<gconf.year<<" grl: "<<json_file<<endl;
+    set_goodrun_file(json_file);
+  }
+  else if(gconf.year == 2017)
+  {
+    const char* json_file = "Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"; 
+    cout<<"Setting "<<gconf.year<<" grl: "<<json_file<<endl;
+    set_goodrun_file(json_file);
+  }
+  else if(gconf.year == 2018)
+  {
+      const char* json_file = "Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt";
+      cout<<"Setting "<<gconf.year<<" grl: "<<json_file<<endl;
+      set_goodrun_file(json_file);
+  }
 
   if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
   
@@ -483,7 +498,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L3Absolute_AK4PFchs.txt");
-`
             }
             else //MC
             {
