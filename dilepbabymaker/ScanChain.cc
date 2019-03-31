@@ -566,7 +566,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
 
       //cout<<__LINE__<<endl;
-      if (!removePostProcVars) {
+      if (!removePostProcVars && !isData) {
         evt_kfactor  = cms3.evt_kfactor();
         evt_filter   = cms3.evt_filt_eff();
       }
@@ -626,8 +626,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		isrboost = (isrSystem_p4).pt();
   	  }
-  	  else if (!removePostProcVars) {
-    		evt_nEvts    = cms3.evt_nEvts();
+  	  else if (!removePostProcVars && !isData) {
     		evt_scale1fb = cms3.evt_scale1fb();
     		evt_xsec     = cms3.evt_xsec_incl();
   	  }
