@@ -820,7 +820,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  HLT_Photon120_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon120_R9Id90_HE10_IsoM_v");
   	  HLT_Photon165_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon165_R9Id90_HE10_IsoM_v");
   	  HLT_Photon165_HE10             = returnBrokenTrigger("HLT_Photon165_HE10_v"            );
-      HLT_Photon200 = returnBrokenTrigger("HLT_Photon200");
+      HLT_Photon200 = returnBrokenTrigger("HLT_Photon200_v");
       HLT_Photon110EB_TightID_TightIso = returnBrokenTrigger("HLT_Photon100EB_TightID_TightIso");
 
   	  // for high pT photon efficiency checks
@@ -856,7 +856,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //HLT_Photon90_R9Id90_HE10_IsoM_v     |   Defined Above
       //HLT_Photon120_R9Id90_HE10_IsoM_v    |
       //HLT_Photon165_R9Id90_HE10_IsoM_v  -----
-      HLT_Photon200 = returnBrokenTrigger("HLT_Photon200_v"            );
 
 
 
