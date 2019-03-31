@@ -54,6 +54,6 @@ while True:
         print "All jobs are finished."
         print ""
         break
-        os.system("chmod -R 755 ~/public_html/dump/ZMet_babymaking/")
+    os.system("chmod -R 755 ~/public_html/dump/ZMet_babymaking/")
     print "Sleeping 300 seconds ..."
     time.sleep(300)
