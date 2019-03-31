@@ -58,7 +58,7 @@ bool applyBtagSFs = false;
 //isotrackcollection
 bool useIsotrackCollectionForVeto = true;
 // for testing purposes, running on unmerged files (default false)
-const bool removePostProcVars = true;
+const bool removePostProcVars = false;
 
 //--------------------------------------------------------------------
 
