@@ -568,7 +568,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //cout<<__LINE__<<endl;
       if (!removePostProcVars && !isData) {
         evt_kfactor  = cms3.evt_kfactor();
-        evt_filter   = cms3.evt_filt_eff();
+        //evt_filter   = cms3.evt_filt_eff();
       }
 
       // get CMS3 version number to use later
