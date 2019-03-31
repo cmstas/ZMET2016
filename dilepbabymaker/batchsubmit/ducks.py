@@ -23,10 +23,10 @@ total_summary = {}
 while True:
     all_jobs_done = True
     for dsname in datasetsToProcess:
-        sample = SNTSample(dataset = dsname,exclude_tag_pattern = "*V10*")
+        sample = SNTSample(dataset = dsname)
         print(sample.get_location())
         task = CondorTask(
-              sample = SNTSample(dataset = dsname,exclude_tag_pattern = "*V10*"),
+              sample = SNTSample(dataset = dsname)
               open_dataset = False,
               flush = True,
               files_per_output = 1,
