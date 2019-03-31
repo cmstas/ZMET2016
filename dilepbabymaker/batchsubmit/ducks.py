@@ -13,7 +13,8 @@ tar_path = "package.tar.gz"
 hadoop_path = "ZMET_babies"
 job_tag = "ZMET_babies"
 
-datasetsToProcess = ZMET.get(data = "SinglePhoton",year = 2017)
+#datasetsToProcess = ZMET.get(data = "SinglePhoton",year = 2017)
+datasetsToProcess = ZMET.get(mc = "GammaJetsMC",year = 2017)
 
 print("Processing these datasets")
 print(datasetsToProcess)
@@ -22,8 +23,10 @@ total_summary = {}
 while True:
     all_jobs_done = True
     for dsname in datasetsToProcess:
+        sample = SNTSample(dataset = dsname,exclude_tag_pattern = "*V10*")
+        print(sample.get_location())
         task = CondorTask(
-              sample = SNTSample(dataset = dsname),
+              sample = SNTSample(dataset = dsname,exclude_tag_pattern = "*V10*"),
               open_dataset = False,
               flush = True,
               files_per_output = 1,
