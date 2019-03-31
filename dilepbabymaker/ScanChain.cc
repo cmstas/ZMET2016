@@ -196,13 +196,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   }
   else if(gconf.year == 2017)
   {
-    const char* json_file = "Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON.txt"; 
+    const char* json_file = "Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_snt.txt"; 
     cout<<"Setting "<<gconf.year<<" grl: "<<json_file<<endl;
     set_goodrun_file(json_file);
   }
   else if(gconf.year == 2018)
   {
-      const char* json_file = "Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON.txt";
+      const char* json_file = "Cert_314472-324420_13TeV_PromptReco_Collisions18_JSON_snt.txt";
       cout<<"Setting "<<gconf.year<<" grl: "<<json_file<<endl;
       set_goodrun_file(json_file);
   }
