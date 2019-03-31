@@ -45,12 +45,12 @@ while True:
             print "Job={} finished".format(job_tag)
             print ""
 
+    StatsParser(data=total_summary, webdir="~/public_html/dump/ZMet_babymaking/").do()
     if all_jobs_done:
         print ""
         print "All jobs are finished."
         print ""
         break
-    StatsParser(data=total_summary, webdir="~/public_html/dump/ZMet_babymaking/").do()
-    os.system("chmod -R 755 ~/public_html/dump/ZMet_babymaking/")
+        os.system("chmod -R 755 ~/public_html/dump/ZMet_babymaking/")
     print "Sleeping 300 seconds ..."
     time.sleep(300)
