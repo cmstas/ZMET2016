@@ -45,7 +45,7 @@ CORESOURCES = $(wildcard ../CORE/*.cc)
 COREOBJECTS = $(CORESOURCES:.cc=.o) 
 CORELIB = libBabymakerCORE.so
 
-TOOLSSOURCES = $(wildcard ../CORE/Tools/*.cc) $(wildcard ../CORE/Tools/MT2/*.cc) $(wildcard ../CORE/Tools/btagsf/*.cc)
+TOOLSSOURCES = $(wildcard ../CORE/Tools/*.cc) $(wildcard ../CORE/Tools/MT2/*.cc) $(wildcard ../CORE/Tools/btagsf/*.cc) $(wildcard ../CORE/Tools/datasetinfo/*.cc)
 TOOLSOBJECTS = $(TOOLSSOURCES:.cc=.o) 
 TOOLSLIB = libBabymakerTools.so
 
@@ -173,7 +173,9 @@ clean:
         ../CORE/Tools/*.so \
         ../CORE/Tools/MT2/*.o \
 		../CORE/Tools/MT2/*.d \
-        ../CORE/Tools/MT2/*.so 
+        ../CORE/Tools/MT2/*.so \
+		../CORE/Tools/datasetinfo/*.o \
+		../CORE/Tools/datasetinfo/*.so
 
 localclean:
 	rm -f \
