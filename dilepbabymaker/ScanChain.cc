@@ -36,6 +36,7 @@
 #include "../CORE/Tools/utils.h"
 #include "../CORE/Tools/goodrun.h"
 #include "../CORE/Tools/btagsf/BTagCalibrationStandalone.h"
+#include "../CORE/Tools/datasetinfo/getDatasetInfo.h"
 
 // header
 #include "ScanChain.h"
@@ -299,7 +300,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	h_eventcounts->SetDirectory(rootdir);
 	f_eventcounts->Close();
   }
-  
+  //scale1fb
+
+  DatasetInfoFromFile df;
+  df.loadFromFile("../CORE/Tools/datasetinfo/scale1fbs.txt");
+
+
   // File Loop
   int nDuplicates = 0;
   int nEvents = chain->GetEntries();
@@ -627,7 +633,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		isrboost = (isrSystem_p4).pt();
   	  }
   	  else if (!removePostProcVars && !isData) {
-    		evt_scale1fb = cms3.evt_scale1fb();
+            float sgnMCWeight = cms3.genps_weight() > 0 ? 1 : -1;
+    		evt_scale1fb = sgnMCWeight * df.getScale1fbFromFile(cms3.evt_dataset()[0].Data(),cms3.evt_CMS3tag()[0].Data()); 
     		evt_xsec     = cms3.evt_xsec_incl();
   	  }
   	  
