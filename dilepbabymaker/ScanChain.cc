@@ -303,7 +303,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   //scale1fb
 
   DatasetInfoFromFile df;
-  df.loadFromFile("../CORE/Tools/datasetinfo/scale1fbs.txt");
+  df.loadFromFile("scale1fbs.txt");
 
 
   // File Loop
