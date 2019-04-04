@@ -27,7 +27,7 @@ while True:
         sample = SNTSample(dataset = dsname)
         print(sample.get_location())
         task = CondorTask(
-              sample = SNTSample(dataset = dsname)
+              sample = SNTSample(dataset = dsname),
               open_dataset = False,
               flush = True,
               files_per_output = 1,
