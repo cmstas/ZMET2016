@@ -18,7 +18,7 @@ def loadDatasets():
     return datasets
 
 
-def get(data = "",mc = "",year = []):
+def get(data = [],mc = [],year = []):
 
     allDatasets = loadDatasets()
     yearDatasets = {}
@@ -38,12 +38,31 @@ def get(data = "",mc = "",year = []):
     if data and mc:
         print("WTF!")
         sys.exit(1)
-    searchString = data if data else mc
+
+    if type(data) is not list:
+        data = [data]
+    if type(mc) is not list:
+        mc = [mc]
+
     finalDataset = []
-    for dsname,datasets in yearDatasets.items():
-        if searchString in dsname:
-            finalDataset.extend(datasets)
+    if len(data) > 0:
+        for dataEntry in data:
+            searchString = dataEntry
+            for dsname,datasets in yearDatasets.items():
+                if searchString in dsname:
+                    finalDataset.extend(datasets)
+
+    elif len(mc) > 0:
+        print("MC")
+        for dataEntry in mc:
+            searchString = dataEntry
+            for dsname,datasets in yearDatasets.items():
+                if searchString in dsname:
+                    finalDataset.extend(datasets)
+
+
     return finalDataset
 
 if __name__ == "__main__":
-    print(get(year = 2017))
+    #print(get(mc = ["SingleTop","GammaJets","WGamma"],year = 2017))
+    print(get(mc = "GammaJets",year = 2017))
