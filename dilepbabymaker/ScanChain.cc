@@ -3234,6 +3234,7 @@ void babyMaker::InitBabyNtuple () {
   genPart_charge     .clear();   //[ngenPart]
   genPart_motherId   .clear();   //[ngenPart]
   genPart_grandmaId  .clear();   //[ngenPart]
+  genPart_isPromptFinalState.clear();
 
   ngenLep = -999;
   ngen_p6s3Lep = -999;
