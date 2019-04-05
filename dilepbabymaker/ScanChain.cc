@@ -896,6 +896,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  genPart_charge        .push_back( cms3.genps_charge()                       .at(iGen));
     		  genPart_motherId      .push_back( cms3.genps_id_simplemother()              .at(iGen));
     		  genPart_grandmaId     .push_back( cms3.genps_id_simplegrandma()             .at(iGen));
+              genPart_isPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(iGen));
+              
     		  ngenPart++;
     		  if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ngen_p6s3Part++;
     		  //calculate gen_ht for stitching purposes
@@ -2785,6 +2787,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("genPart_motherId" , "std::vector <Int_t  >" , &genPart_motherId  );
   BabyTree_->Branch("genPart_grandmaId", "std::vector <Int_t  >" , &genPart_grandmaId );
   BabyTree_->Branch("genPart_isp6status3"  , "std::vector <Bool_t  >" , &genPart_isp6status3  );
+
+  BabyTree_->Branch("genPart_isPromptFinalState","std::vector<Bool_t>",&genPart_isPromptFinalState);
 
   BabyTree_->Branch("ngenLep", &ngenLep, "ngenLep/I" );
   BabyTree_->Branch("genLep_pt"      , "std::vector <Float_t>" , &genLep_pt      );

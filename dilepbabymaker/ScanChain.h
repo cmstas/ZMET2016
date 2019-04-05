@@ -344,6 +344,7 @@ private:
   std::vector <Float_t>         genPart_charge     ;   //[ngenPart]
   std::vector <Int_t  >         genPart_motherId   ;   //[ngenPart]
   std::vector <Int_t  >         genPart_grandmaId  ;   //[ngenPart]
+  std::vector<Bool_t>            genPart_isPromptFinalState;
 
   //----- GEN LEPTONS (ELECTRONS/MUONS)
   Int_t           ngenLep;
