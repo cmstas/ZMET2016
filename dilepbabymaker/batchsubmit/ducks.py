@@ -14,8 +14,9 @@ hadoop_path = "ZMET_babies"
 job_tag = "ZMET_babies"
 
 #datasetsToProcess = ZMET.get(data = "SinglePhoton",year = 2017)
-MCStrings = ["WGammaWJets","ttbar","SingleTop"]
-datasetsToProcess = ZMET.get(mc = MCStrings,year = 2017)
+EWKMCStrings = ["WGammaWJets","ttbar","SingleTop"]
+MuonDataString = "2017SingleMuon"
+datasetsToProcess = ZMET.get(data = MuonDataString,year = 2017)
 
 print("Processing these datasets")
 print(datasetsToProcess)
