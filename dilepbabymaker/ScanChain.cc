@@ -801,7 +801,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  HLT_Mu23_EG8_DZ   = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
   	  HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
   	  HLT_Mu23_EG12_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" );
-  		
+        		
   	  //Double Muon:
   	  HLT_DoubleMu_noiso       = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                          ) ||
   				                        passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                         ) ||
@@ -841,16 +841,23 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8  = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v");
       HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ        = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"      );
       HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL           = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"         );
+      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8 = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v");
+      HLT_Mu37_TkMu27 = passHLTTrigger("HLT_Mu37_TkMu27_v");
 
       //Double Electron:
       HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL     = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v"   );
       HLT_DoubleEle33_CaloIdL_MW                 = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_MW_v"               );
+      HLT_DoubleEle25_CaloIdL_MW = passHLTTriggerPattern("HLT_DoubleEle25_CaloIdL_MW_v");
 
       //EMu:
       HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" );
+      HLT_Mu27_Ele37_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu27_Ele37_CaloIdL_MW_v");
+      HLT_Mu37_Ele27_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu37_Ele27_CaloIdL_MW_v")
+
+
 
       //Single Muon:
       HLT_IsoMu27 = passHLTTriggerPattern("HLT_IsoMu27_v");
@@ -2688,12 +2695,17 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8"            , &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8          );
   BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"                  , &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ                );
   BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL"                     , &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL                   );
+  BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8);
+  BabyTree_->Branch("HLT_Mu37_TkMu27",&HLT_Mu37_TkMu27);
   BabyTree_->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ"            , &HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ          );
   BabyTree_->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL"               , &HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL             );
   BabyTree_->Branch("HLT_DoubleEle33_CaloIdL_MW"                           , &HLT_DoubleEle33_CaloIdL_MW                         );
+  BabyTree_->Branch("HLT_DoubleEle25_CaloIdl_MW",&HLT_DoubleEle25_CaloIdL_MW);
   BabyTree_->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"   , &HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ );
   BabyTree_->Branch("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ"   , &HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ );
   BabyTree_->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ"    , &HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ  );
+  BabyTree_->Branch("HLT_Mu27_Ele37_CaloIdL_MW",&HLT_Mu27_Ele37_CaloIdL_MW);
+  BabyTree_->Branch("HLT_Mu37_Ele27_CaloIdL_MW",&HLT_Mu37_Ele27_CaloIdL_MW);
   BabyTree_->Branch("HLT_IsoMu27"                                          , &HLT_IsoMu27                                        );
   BabyTree_->Branch("HLT_Mu50"                                             , &HLT_Mu50                                           );
 
@@ -3104,6 +3116,7 @@ void babyMaker::InitBabyNtuple () {
   HLT_Mu12_EG23_DZ = -999;
 
   HLT_Mu17_EG12    = -999;
+
 
   HLT_Mu23_EG8     = -999;
   HLT_Mu23_EG8_DZ  = -999;

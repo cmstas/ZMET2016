@@ -213,7 +213,7 @@ private:
   Int_t HLT_Mu23_EG8_DZ   ;
   Int_t HLT_Mu23_EG12     ;
   Int_t HLT_Mu23_EG12_DZ  ;
-
+  
   // Double electron
   Int_t HLT_DoubleMu_noiso   ;
   Int_t HLT_DoubleMu_noiso_27_8    ;
@@ -255,12 +255,17 @@ private:
   Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8            ;
   Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ                  ;
   Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL                     ;
+  Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8          ;
+  Int_t HLT_Mu37_TrkMu27                                     ;
   Int_t HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ            ;
   Int_t HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL               ;
   Int_t HLT_DoubleEle33_CaloIdL_MW                           ;
+  Int_t HLT_DoubleEle25_CaloIDL_MW                           ;
   Int_t HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ   ;
   Int_t HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ   ;
   Int_t HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ    ;
+  Int_t HLT_Mu27_Ele37_CaloIdL_MW                            ;
+  Int_t HLT_Mu37_Ele27_CaloIdL_MW                            ;
   Int_t HLT_IsoMu27                                          ;
   Int_t HLT_Mu50                                             ;
   
