@@ -848,14 +848,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL     = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v"   );
       HLT_DoubleEle33_CaloIdL_MW                 = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_MW_v"               );
-      HLT_DoubleEle25_CaloIdL_MW = passHLTTriggerPattern("HLT_DoubleEle25_CaloIdL_MW_v");
+      HLT_DoubleEle25_CaloIdL_MW = passHLTTriggerPattern("HLT_DoubleEle25_CaloIDL_MW_v");
 
       //EMu:
       HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" );
       HLT_Mu27_Ele37_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu27_Ele37_CaloIdL_MW_v");
-      HLT_Mu37_Ele27_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu37_Ele27_CaloIdL_MW_v")
+      HLT_Mu37_Ele27_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu37_Ele27_CaloIdL_MW_v");
 
 
 
