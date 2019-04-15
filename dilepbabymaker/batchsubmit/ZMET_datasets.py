@@ -6,6 +6,8 @@ def loadDatasets():
     datasets = {}
     currKey = None
     for line in dslist:
+        if line[0] == "#": #Commenting out dataset names
+            continue
         if line[0:2] == "ds":
             key = line.rstrip("\n")[3:]
             currKey = key
