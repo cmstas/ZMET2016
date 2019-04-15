@@ -16,7 +16,7 @@ job_tag = "ZMET_babies"
 #datasetsToProcess = ZMET.get(data = "SinglePhoton",year = 2017)
 #EWKMCStrings = ["WGammaWJets","ttbar","SingleTop"]
 MuonDataString = "2017SingleMuon"
-datasetsToProcess = ZMET.get(data = ["DYamcnlo","TTBarPowheg"],year = 2017)
+datasetsToProcess = ZMET.get(data = ["DoublEG","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ"],year = 2017)
 
 print("Processing these datasets")
 print(datasetsToProcess)
