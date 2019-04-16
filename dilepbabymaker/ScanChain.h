@@ -263,6 +263,7 @@ private:
   Int_t HLT_DoubleEle25_CaloIdL_MW                           ;
   Int_t HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ   ;
   Int_t HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ   ;
+  Int_t HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL      ;
   Int_t HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ    ;
   Int_t HLT_Mu27_Ele37_CaloIdL_MW                            ;
   Int_t HLT_Mu37_Ele27_CaloIdL_MW                            ;
