@@ -212,12 +212,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   
   if (applyBtagSFs) {
 	// setup btag calibration readers
-	calib           = new BTagCalibration("deepcsv", "btagsf/DeepCSV_94XSF_V3_B_F.csv"); // DeepCSV
+	calib           = new BTagCalibration("deepcsv", "btagsf/DeepCSV_94XSF_V4_B_F.csv"); // DeepCSV
 	reader_heavy    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); 
 	reader_light    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); 
 
 	// get btag efficiencies
-	TFile * f_btag_eff           = new TFile("btagsf/btageff__ttbar_powheg_pythia8_25ns_Moriond17.root");
+    TFile *f_btag_eff = nullptr;
+    if(gconf.year == 2016)
+    	f_btag_eff           = new TFile("btagsf/btageff_ttbar_powheg_pythia8_25ns_Moriond17.root");
+    else if(gconf.year == 2017)
+        f_btag_eff = new TFile("btagsf/btageff_DeepCSV_ttbar_powheg_pythia8_25ns_Fall17.root");
+    else if(gconf.year == 2018)
+    {
+        f_btag_eff = new TFile("btagsf/btageff__DeepCSV_ttbar_MG_pythia8_25ns_Autumn18.root");
+    }
 	TH2D  * h_btag_eff_b_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_b");
 	TH2D  * h_btag_eff_c_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_c");
 	TH2D  * h_btag_eff_udsg_temp = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_udsg");
@@ -257,7 +265,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   //add 2016 data vtx weights for PU, Moriond 2017 version
   TH1F * h_vtxweight = NULL;
   TFile * f_vtx = NULL;
-  f_vtx = TFile::Open("puWeight2016.root","READ");
+  if(gconf.year == 2016)
+      f_vtx = TFile::Open("pileup/puWeight2016.root","READ");
+  else if(gconf.year == 2017)
+      f_vtx = TFile::Open("pileup/puWeight2017.root","READ");
+  else if(gconf.year == 2018)
+      f_vtx = TFile::Open("pileup/puWeight2018.root","READ");
+
   h_vtxweight = (TH1F*)f_vtx->Get("pileupWeight")->Clone("h_vtxweight");
   h_vtxweight->SetDirectory(rootdir);
   f_vtx->Close();
@@ -745,9 +759,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		// inputs for badMuonFilters in latest cms3 tags
     		if (recent_cms3_version) {
     		  Flag_globalTightHalo2016                      = cms3.filt_globalTightHalo2016();
-    		  Flag_badMuonFilter                            = false; //badMuonFilter();
+              Flag_globalSuperTightHalo2016          = cms3.filt_globalSuperTightHalo2016(); //add stuff here
+    		  Flag_badMuonFilter                            = cms3.filt_BadPFMuonFilter(); //badMuonFilter();
     		  Flag_badMuonFilterv2                          = badMuonFilterV2();
-    		  Flag_badChargedCandidateFilterv2              = badChargedCandidateFilterV2();          
+    		  Flag_badChargedCandidateFilterv2              = badChargedCandidateFilterV2();         
+              
     		  if (small_cms3_version >= 18) {
     		    Flag_badMuons                               = cms3.filt_badMuons();
     		    Flag_duplicateMuons                         = cms3.filt_duplicateMuons();
@@ -2070,11 +2086,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			weightsf_lepip_FS . push_back( 1.0 );  			
     		  }
 
-    		  if( abs(lep_pdgId.at(lepind)) == 13 ){			
-      			weightsf_lepreco .push_back( h_muoweights_HIP_hist->GetBinContent( h_muoweights_HIP_hist->FindBin( lep_eta  . at(lepind) )) );
+    		  if( abs(lep_pdgId.at(lepind)) == 13 ){		
+                  if(gconf.year == 2016)
+      			    weightsf_lepreco .push_back( h_muoweights_HIP_hist->GetBinContent( h_muoweights_HIP_hist->FindBin( lep_eta  . at(lepind) )) );
+                  else
+                      weightsf_lepreco.push_back(1);
       			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt, abs_lepeta )) );
       			weightsf_lepiso  .push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt, abs_lepeta )) );			
-      			weightsf_lepip   .push_back( h_muoweights_ip      ->GetBinContent( h_muoweights_ip      ->FindBin( min_leppt, abs_lepeta )) );
+      			if(gconf.year == 2016)
+                    weightsf_lepip   .push_back( h_muoweights_ip      ->GetBinContent( h_muoweights_ip      ->FindBin( min_leppt, abs_lepeta )) );
+                else
+                    weightsf_lepip.push_back(1);
       			weightsf_lepconv .push_back( 1.0 );// not used for muons
 
       			if( isSMSScan ){
@@ -2625,6 +2647,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("Flag_badMuons"                     , &Flag_badMuons                    ); 
   BabyTree_->Branch("Flag_duplicateMuons"               , &Flag_duplicateMuons              );   
   BabyTree_->Branch("Flag_noBadMuons"                   , &Flag_noBadMuons                  );  
+  BabyTree_->Branch("Flag_globalSuperTightHalo2016",&Flag_globalSuperTightHalo2016);
 		
   //TRIGGER
   // for ATLAS cross checks
@@ -3655,38 +3678,90 @@ void babyMaker::load_leptonSF_files()
   TFile * f_sfweights = NULL;
   
   // electron reconstruction SFs
-  f_sfweights  = TFile::Open("leptonSFs/electrons/moriond17/egammaEffi.txt_EGM2D.root","READ");
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/electrons/moriond17/egammaEffi.txt_EGM2D.root","READ");
+  }
+  else if(gconf.year == 2017)
+  {
+      f_sfweights = TFile::Open("leptonSFs/electrons/Fall17/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root","READ");
+  }
+  else if(gconf.year == 2018)
+  {
+      //do nothing
+  }
+
   h_eleweights_reco = (TH2D*) f_sfweights->Get("EGamma_SF2D") -> Clone("h_eleweights_reco");
   h_eleweights_reco->SetDirectory(rootdir);
   f_sfweights->Close();
 
   // electron ID/Iso SFs for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/electrons/moriond17/scaleFactors_el_moriond_2017.root","READ");
-  h_eleweights_id = (TH2D*) f_sfweights->Get("GsfElectronToMVATightTightIP2DSIP3D4") -> Clone("h_eleweights_id");
+  
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/electrons/moriond17/scaleFactors_el_moriond_2017.root","READ");
+    h_eleweights_id = (TH2D*) f_sfweights->Get("GsfElectronToMVATightTightIP2DSIP3D4") -> Clone("h_eleweights_id");
   h_eleweightsiso = (TH2D*) f_sfweights->Get("MVAVLooseElectronToMini")  -> Clone("h_eleweightsiso");
   h_eleweights_conv = (TH2D*) f_sfweights->Get("MVATightElectronToConvVetoIHit0") -> Clone("h_eleweights_conv");
+
+  }
+  else if(gconf.year == 2017)
+  {
+    f_sfweights = TFile::Open("leptonSFs/electrons/Fall17/ElectronScaleFactors_Run2017.root","READ");
+    h_eleweights_id = (TH2D*) f_sfweights->Get("Run2017_MVATightTightIP2D3D")->Clone("h_eleweights_id");
+    h_eleweights_iso = (TH2D*)f_sfweights->Get("Run2017_MVAVLooseTightIP2DMini")->Clone("h_eleweights_iso");
+    h_eleweights_conv = (TH2D*) f_sfweights->Get("Run2017_ConvIHit0")->Clone("h_eleweights_conv");
+  }
+  else if(gconf.year == 2018)
+  {
+      //do nothing
+  }
   h_eleweights_id->SetDirectory(rootdir);
   h_eleweightsiso->SetDirectory(rootdir);
   h_eleweights_conv->SetDirectory(rootdir);
   f_sfweights->Close();
 
   // muon id SF for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root","READ");
-  h_muoweights_id = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_id");
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root","READ");
+    h_muoweights_id = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_id");
+
+  }
+  else if(gconf.year == 2017)
+  {
+      f_sfweights = TFile::Open("leptonSFs/muons/Fall17/RunBCDEF_SF_ID.root","READ");
+      h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumPromptID_DEN_genTracks_pt_abseta")->Clone("h_muonweights_id");
+  }
+  else if(gconf.year == 2018)
+  {
+      //do nothing
+  }
   h_muoweights_id	->SetDirectory(rootdir);
   f_sfweights->Close();
 	
   // muon iso SF for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_MiniIsoTight_DENOM_MediumID_VAR_map_pt_eta.root","READ");
-  h_muoweightsiso = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweightsiso");
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_MiniIsoTight_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+    h_muoweightsiso = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweightsiso");
+  }
+  else if(gconf.year == 2017)
+  {
+      f_sfweights = TFile::Open("leptonSFs/muons/Fall17/SUSY_Iso_SF.root","READ");
+      h_muoweightsiso = (TH2D*)f_sfweights->Get("nP_MC_NUM_MiniIso02Cut_DEN_MediumCutidPromptCut_PAR_pt_eta")->Clone("h_muonweightsiso");
+  }
   h_muoweightsiso	->SetDirectory(rootdir);
   f_sfweights->Close();
 
   // muon tracking SF due to HIPs for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/Tracking_EfficienciesAndSF_BCDEFGH_hists.root","READ");
-  h_muoweights_HIP_hist = (TH1F*) f_sfweights->Get("ratio_eff_eta3_dr030e030_corr") -> Clone("h_muoweights_HIP_hist");
-  h_muoweights_HIP_hist -> SetDirectory(rootdir);
-  f_sfweights->Close();
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/Tracking_EfficienciesAndSF_BCDEFGH_hists.root","READ");
+    h_muoweights_HIP_hist = (TH1F*) f_sfweights->Get("ratio_eff_eta3_dr030e030_corr") -> Clone("h_muoweights_HIP_hist");
+    h_muoweights_HIP_hist -> SetDirectory(rootdir);
+  }
+    f_sfweights->Close();
 	
   // f_sfweights  = TFile::Open("leptonSFs/muons/TnP_MuonID_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
   // h_muoweights_HIP = (TGraphAsymmErrors*) f_sfweights->Get("ratio_eta") -> Clone("h_muoweights_HIP");
@@ -3694,9 +3769,12 @@ void babyMaker::load_leptonSF_files()
   // f_sfweights->Close();
 	
   // muon ip SF for Fullsim to Data
-  f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
-  h_muoweights_ip = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_ip");
-  h_muoweights_ip	->SetDirectory(rootdir);
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+    h_muoweights_ip = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_ip");
+    h_muoweights_ip	->SetDirectory(rootdir);
+  }
   f_sfweights->Close();
 	
   // SFs electrons for FS to Fullsim

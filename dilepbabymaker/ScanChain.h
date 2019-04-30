@@ -179,9 +179,12 @@ private:
   Int_t Flag_badChargedCandidateFilterv2       ;
   Int_t Flag_badMuonFilterv2                   ;
   Int_t Flag_globalTightHalo2016               ;
+  Int_t Flag_globalSuperTightHalo2016          ;
   Int_t Flag_badMuons                          ;
   Int_t Flag_duplicateMuons                    ;
   Int_t Flag_noBadMuons                        ;
+
+
 
   //TRIGGER
   // for ATLAS cross checks
