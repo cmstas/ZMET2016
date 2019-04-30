@@ -18,7 +18,7 @@ job_tag = "ZMET_babies"
 MuonDataString = "2017SingleMuon"
 #datasetsToProcess = ZMET.get(data = ["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop"],year = 2017)
 
-datasetsToProcess = ZMET.get(data = ["GluGluToZZ"], year = 2017)
+datasetsToProcess = ZMET.get(data = ["2017DYClosure"], year = 2017)
 
 print("Processing these datasets")
 print(datasetsToProcess)
