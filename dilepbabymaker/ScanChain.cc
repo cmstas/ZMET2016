@@ -3749,7 +3749,7 @@ void babyMaker::load_leptonSF_files()
   else if(gconf.year == 2017)
   {
       f_sfweights = TFile::Open("leptonSFs/muons/Fall17/SUSY_Iso_SF.root","READ");
-      h_muoweightsiso = (TH2D*)f_sfweights->Get("nP_MC_NUM_MiniIso02Cut_DEN_MediumCutidPromptCut_PAR_pt_eta")->Clone("h_muonweightsiso");
+      h_muoweightsiso = (TH2D*)f_sfweights->Get("TnP_MC_NUM_MiniIso02Cut_DEN_MediumCutidPromptCut_PAR_pt_eta")->Clone("h_muonweightsiso");
   }
   h_muoweightsiso	->SetDirectory(rootdir);
   f_sfweights->Close();
