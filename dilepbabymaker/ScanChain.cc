@@ -3709,7 +3709,7 @@ void babyMaker::load_leptonSF_files()
   {
     f_sfweights = TFile::Open("leptonSFs/electrons/Fall17/ElectronScaleFactors_Run2017.root","READ");
     h_eleweights_id = (TH2D*) f_sfweights->Get("Run2017_MVATightTightIP2D3D")->Clone("h_eleweights_id");
-    h_eleweights_iso = (TH2D*)f_sfweights->Get("Run2017_MVAVLooseTightIP2DMini")->Clone("h_eleweights_iso");
+    h_eleweightsiso = (TH2D*)f_sfweights->Get("Run2017_MVAVLooseTightIP2DMini")->Clone("h_eleweightsiso");
     h_eleweights_conv = (TH2D*) f_sfweights->Get("Run2017_ConvIHit0")->Clone("h_eleweights_conv");
   }
   else if(gconf.year == 2018)
