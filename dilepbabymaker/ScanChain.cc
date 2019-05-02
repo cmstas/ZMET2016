@@ -55,7 +55,7 @@ const bool maxEta24 = true;
 // is set during runtime
 bool isSMSScan = false;
 // always on
-bool applyBtagSFs = false;
+bool applyBtagSFs = true;
 //isotrackcollection
 bool useIsotrackCollectionForVeto = true;
 // for testing purposes, running on unmerged files (default false)
@@ -219,9 +219,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	// get btag efficiencies
     TFile *f_btag_eff = nullptr;
     if(gconf.year == 2016)
-    	f_btag_eff           = new TFile("btagsf/btageff_ttbar_powheg_pythia8_25ns_Moriond17.root");
+    	f_btag_eff           = new TFile("btagsf/btageff__ttbar_powheg_pythia8_25ns_Moriond17.root");
     else if(gconf.year == 2017)
-        f_btag_eff = new TFile("btagsf/btageff_DeepCSV_ttbar_powheg_pythia8_25ns_Fall17.root");
+        f_btag_eff = new TFile("btagsf/btageff__DeepCSV_ttbar_powheg_pythia8_25ns_Fall17.root");
     else if(gconf.year == 2018)
     {
         f_btag_eff = new TFile("btagsf/btageff__DeepCSV_ttbar_MG_pythia8_25ns_Autumn18.root");
