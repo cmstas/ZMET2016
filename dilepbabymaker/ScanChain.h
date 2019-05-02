@@ -70,12 +70,7 @@ private:
 
   // for btag SFs
   BTagCalibration* calib;
-  BTagCalibrationReader* reader_heavy;
-  BTagCalibrationReader* reader_heavy_UP;
-  BTagCalibrationReader* reader_heavy_DN;
-  BTagCalibrationReader* reader_light;
-  BTagCalibrationReader* reader_light_UP;
-  BTagCalibrationReader* reader_light_DN;
+  BTagCalibrationReader* reader_fullsim;
 
   TH2D* h_btag_eff_b;
   TH2D* h_btag_eff_c;
@@ -83,8 +78,6 @@ private:
   
   BTagCalibration* calib_fastsim;
   BTagCalibrationReader* reader_fastsim;
-  BTagCalibrationReader* reader_fastsim_UP;
-  BTagCalibrationReader* reader_fastsim_DN;
 
   TH2D* h_btag_eff_b_fastsim;
   TH2D* h_btag_eff_c_fastsim;

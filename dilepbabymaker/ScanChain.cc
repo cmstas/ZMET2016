@@ -213,8 +213,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   if (applyBtagSFs) {
 	// setup btag calibration readers
 	calib           = new BTagCalibration("deepcsv", "btagsf/DeepCSV_94XSF_V4_B_F.csv"); // DeepCSV
-	reader_heavy    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); 
-	reader_light    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); 
+	reader_fullsim    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"}); 
+    reader_fullsim->load(*calib,BTagEntry::JetFlavor::FLAV_B,"comb");
+    reader_fullsim->load(*calib,BTagEntry::JetFlavor::FLAV_C,"comb");
+    reader_fullsim->load(*calib,BTagEntry::JetFloavor::FLAV_UDSG,"incl");
 
 	// get btag efficiencies
     TFile *f_btag_eff = nullptr;
@@ -242,6 +244,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  // setup btag calibration readers
 	  calib_fastsim     = new BTagCalibration("CSV", "btagsf/fastsim_csvv2_ttbar_26_1_2017.csv"); // Moriond 17 25ns fastsim version of SFs
 	  reader_fastsim    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"}); // central
+      reader_fastsim->load(*calib_fastsim, BTagEntry::JetFlavor::FLAV_UDSG, "fastsim");
+      reader_fastsim->load(*calib_fastsim, BTagEntry::JetFlavor::FLAV_B, "fastsim");
+      reader_fastsim->load(*calib_fastsim, BTagEntry::JetFlavor::FLAV_C, "fastsim");
 
 	  // get btag efficiencies
 	  TFile * f_btag_eff_fastsim           = new TFile("btagsf/btageff__SMS-T1bbbb-T1qqqq_25ns_Moriond17.root");
@@ -1869,28 +1874,20 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			  BTagEntry::JetFlavor flavor = BTagEntry::FLAV_UDSG;
       			  if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 5) flavor = BTagEntry::FLAV_B;
       			  else if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 4) flavor = BTagEntry::FLAV_C;
+
       			  float pt_cutoff = std::max(30.,std::min(669.,double(p4sCorrJets.at(iJet).pt())));
       			  float eta_cutoff = std::min(2.39,fabs(double(p4sCorrJets.at(iJet).eta())));
+
       			  float weight_cent(1.), weight_UP(1.), weight_DN(1.);
-      			  if (flavor == BTagEntry::FLAV_UDSG) {
 
-                    reader_light->load((*calib),flavor,"incl");
-      				weight_cent = reader_light->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
-      				weight_UP = reader_light->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
-      				weight_DN = reader_light->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
+      			  weight_cent = reader_light->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
+      			  weight_UP = reader_light->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
+      			  weight_DN = reader_light->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
 
-      			  } else {
 
-                    reader_heavy->load((*calib),flavor,"comb");
-      				weight_cent = reader_heavy->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
-      				weight_UP = reader_heavy->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
-      				weight_DN = reader_heavy->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
-
-      			  }
       			  // extra SF for fastsim
       			  if (isSMSScan) {
 
-                    reader_fastsim->load((*calib),flavor,"fastsim");
       				weight_cent *= reader_fastsim->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
       				weight_UP *= reader_fastsim->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
       				weight_DN *= reader_fastsim->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
@@ -1922,26 +1919,16 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
               float pt_cutoff = std::max(30.,std::min(669.,double(p4sCorrJets.at(iJet).pt())));
       			  float eta_cutoff = std::min(2.39,fabs(double(p4sCorrJets.at(iJet).eta())));
       			  float weight_cent(1.), weight_UP(1.), weight_DN(1.);
-      			  if (flavor == BTagEntry::FLAV_UDSG) {
 
-                    reader_light->load((*calib),flavor,"incl");
-      				weight_cent = reader_light->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
-      				weight_UP = reader_light->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
-      				weight_DN = reader_light->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
+      				weight_cent = reader_fullsim->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
+      				weight_UP = reader_fullsim->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
+      				weight_DN = reader_fullsim->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
      
-      			  } 
-              else {
 
-                     reader_heavy->load((*calib),flavor,"comb");
-      				weight_cent = reader_heavy->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
-      				weight_UP = reader_heavy->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
-      				weight_DN = reader_heavy->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
        
-      			  }
       			  // extra SF for fastsim
       			  if (isSMSScan) {
 
-                      reader_fastsim->load((*calib),flavor,"fastsim");
         				weight_cent *= reader_fastsim->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
         				weight_UP *= reader_fastsim->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
         				weight_DN *= reader_fastsim->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
