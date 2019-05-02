@@ -28,7 +28,10 @@ total_summary = {}
 while True:
     all_jobs_done = True
     for dsname in datasetsToProcess:
-        sample = SNTSample(dataset = dsname)
+        if sample[:7] == "/hadoop":
+            sample = DirectorySample(dataset = sample,location = sample)
+        else:
+            sample = SNTSample(dataset = dsname)
         print(sample.get_location())
         task = CondorTask(
               sample = SNTSample(dataset = dsname),
