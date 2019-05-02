@@ -18,8 +18,7 @@ job_tag = "ZMET_babies"
 MuonDataString = "2017SingleMuon"
 #datasetsToProcess = ZMET.get(data = ["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop"],year = 2017)
 
-datasetsToProcess = ZMET.get(data = ["GammaJetsHigherStats"
-], year = 2017)
+datasetsToProcess = ZMET.get(data = ["GammaJetsHigherStats"], year = 2017)
 
 print("Processing these datasets")
 print(datasetsToProcess)
@@ -28,7 +27,10 @@ total_summary = {}
 while True:
     all_jobs_done = True
     for dsname in datasetsToProcess:
-        sample = SNTSample(dataset = dsname)
+        if sample[:7] == "/hadoop":
+            sample = DirectorySample(dataset = sample,location = sample)
+        else:
+            sample = SNTSample(dataset = dsname)
         print(sample.get_location())
         task = CondorTask(
               sample = SNTSample(dataset = dsname),
