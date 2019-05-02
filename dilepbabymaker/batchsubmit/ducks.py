@@ -18,7 +18,7 @@ job_tag = "ZMET_babies"
 MuonDataString = "2017SingleMuon"
 #datasetsToProcess = ZMET.get(data = ["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop"],year = 2017)
 
-datasetsToProcess = ZMET.get(data = ["GammaJetsHigherStats"], year = 2017)
+datasetsToProcess = ZMET.get(data = ["GammaJetsCuttingEdge"], year = 2017)
 
 print("Processing these datasets")
 print(datasetsToProcess)
@@ -31,9 +31,9 @@ while True:
             sample = DirectorySample(dataset = sample,location = sample)
         else:
             sample = SNTSample(dataset = dsname)
-        print(sample.get_location())
+            print(sample.get_location())
         task = CondorTask(
-              sample = SNTSample(dataset = dsname),
+              sample = sample,
               open_dataset = False,
               flush = True,
               files_per_output = 1,
