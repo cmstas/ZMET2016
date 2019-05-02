@@ -27,7 +27,7 @@ total_summary = {}
 while True:
     all_jobs_done = True
     for dsname in datasetsToProcess:
-        if sample[:7] == "/hadoop":
+        if dsname[:7] == "/hadoop":
             sample = DirectorySample(dataset = sample,location = sample)
         else:
             sample = SNTSample(dataset = dsname)
