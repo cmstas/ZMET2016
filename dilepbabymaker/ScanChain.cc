@@ -1880,9 +1880,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       			  float weight_cent(1.), weight_UP(1.), weight_DN(1.);
 
-      			  weight_cent = reader_light->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
-      			  weight_UP = reader_light->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
-      			  weight_DN = reader_light->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
+      			  weight_cent = reader_fullsim->eval_auto_bounds("central",flavor, eta_cutoff, pt_cutoff);
+      			  weight_UP = reader_fullsim->eval_auto_bounds("up",flavor, eta_cutoff, pt_cutoff);
+      			  weight_DN = reader_fullsim->eval_auto_bounds("down",flavor, eta_cutoff, pt_cutoff);
 
 
       			  // extra SF for fastsim
