@@ -1338,7 +1338,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			float minDR = 999.; 
       			for(unsigned int iGen = 0; iGen < cms3.genps_p4().size(); iGen++){
       			  if( cms3.genps_status().at(iGen)   != 22 && cms3.genps_status().at(iGen)   != 23) continue;
-                  if(fabs(cms3.genps_id() != 21) && fabs(cms3.genps_id().at(iGen)) >= 4 ) continue;
+                  if(fabs(cms3.genps_id().at(iGen) != 21) && fabs(cms3.genps_id().at(iGen)) >= 4 ) continue;
       			  float dr = DeltaR( cms3.genps_p4().at(iGen).eta(), bestMatchEta, cms3.genps_p4().at(iGen).phi(), bestMatchPhi);
       			  if (dr < minDR) minDR = dr;
       			}
