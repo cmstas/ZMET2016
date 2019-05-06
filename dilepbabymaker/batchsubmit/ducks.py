@@ -11,15 +11,15 @@ from metis.StatsParser import StatsParser
 exec_path = "condor_exe.sh"
 tar_path = "package.tar.gz"
 hadoop_path = "ZMET_babies"
-job_tag = "ZMET_babies"
+job_tag = "ZMET_babies_new"
 
 #datasetsToProcess = ZMET.get(data = "SinglePhoton",year = 2017)
 #EWKMCStrings = ["WGammaWJets","ttbar","SingleTop"]
 MuonDataString = "2017SingleMuon"
 #datasetsToProcess = ZMET.get(data = ["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop"],year = 2017)
 
-#datasetsToProcess = ZMET.get(data = ["GammaJetsCuttingEdge"], year = 2017)
-datsetsToProcess = ["/GJets_HT-40To100_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2/MINIAODSIM"]
+datasetsToProcess = ZMET.get(data = ["GammaJetsHigherStats"], year = 2017)
+#datsetsToProcess = ["/GJets_HT-40To100_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2/MINIAODSIM"]
 
 print("Processing these datasets")
 print(datasetsToProcess)
