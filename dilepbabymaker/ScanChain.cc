@@ -760,7 +760,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		Flag_EcalDeadCellTriggerPrimitiveFilter = cms3.filt_ecalTP();
     		Flag_goodVertices                       = cms3.filt_goodVertices();
     		Flag_eeBadScFilter                      = cms3.filt_eeBadSc();
-    		Flag_badChargedCandidateFilter          = false; //badChargedCandidateFilter();
+    		Flag_badChargedCandidateFilter          = cms3.filt_BadChargedCandidateFilter(); //badChargedCandidateFilter();
     		// inputs for badMuonFilters in latest cms3 tags
     		if (recent_cms3_version) {
     		  Flag_globalTightHalo2016                      = cms3.filt_globalTightHalo2016();
