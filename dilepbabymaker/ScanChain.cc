@@ -1514,7 +1514,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector < std::pair<int,float> > passJets; //index of jets that pass baseline selections with their corrected pt
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
       vector < double       > jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
-      LorentzVector sumMht_p4 = LorentzVector(0,0,0,0);
 
       for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
@@ -1870,7 +1869,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		  // require pT > 35 for HT
     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); 
-              sumMht_p4 -= p4sCorrJets.at(iJet);}
     		
     		  if(current_csv_val >= 0.8001) { nBJetTight++; }
 
@@ -2002,18 +2000,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  }
       }
 
-      //Subtract the 2 lepton p4s from the sumMht
-      if(lep_p4.size() == 2)
-      {
-        sumMht_p4 -= lep_p4.at(0);
-        sumMht_p4 -= lep_p4.at(1);
-      }
-      else
-      {
-          sumMht_p4 -= gamma_p4.at(0);
-      }
-
-      mht = sumMht_p4.pt();
   	  
   	  if (!isData) {
         weight_btagsf          = btagprob_data     / btagprob_mc;
