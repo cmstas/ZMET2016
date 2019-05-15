@@ -16,10 +16,9 @@ job_tag = "ZMET_babies_new"
 #datasetsToProcess = ZMET.get(data = "SinglePhoton",year = 2017)
 #EWKMCStrings = ["WGammaWJets","ttbar","SingleTop"]
 MuonDataString = "2017SingleMuon"
-dsList = ["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop","GammaJetsHigherStats","WGammaWJets","SingleTop"]
-#datasetsToProcess = ZMET.get(data = ["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop"],year = 2017)
+#dsList = ["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop","GammaJetsHigherStats","WGammaWJets","SingleTop"]
+dsList = ["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"]
 datasetsToProcess = ZMET.get(data = dsList,year = 2017)
-#datsetsToProcess = ["/GJets_HT-40To100_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_new_pmx_94X_mc2017_realistic_v14_ext1-v2/MINIAODSIM"]
 
 print("Processing these datasets")
 print(datasetsToProcess)
