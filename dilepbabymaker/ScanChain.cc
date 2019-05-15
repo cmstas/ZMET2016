@@ -1570,7 +1570,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         //if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan) continue;
         if(!isTightPFJet_2017_v1(iJet) && !isSMSScan) 
         {
-            if(p4jet_p4_cor.pt() > 35)
+            if(pfjet_p4_cor.pt() > 35)
                 nJetFailId++;
             continue;
         }
@@ -2003,8 +2003,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
 
       //Subtract the 2 lepton p4s from the sumMht
-      sumMht -= lep_p4.at(0);
-      sumMht -= lep_pt.at(1);
+      sumMht_p4 -= lep_p4.at(0);
+      sumMht_p4 -= lep_pt.at(1);
 
       mht = sumMht.pt();
   	  
