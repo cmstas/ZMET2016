@@ -2003,8 +2003,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
 
       //Subtract the 2 lepton p4s from the sumMht
-      sumMht_p4 -= lep_p4.at(0);
-      sumMht_p4 -= lep_p4.at(1);
+      if(lep_p4.size() == 2)
+      {
+        sumMht_p4 -= lep_p4.at(0);
+        sumMht_p4 -= lep_p4.at(1);
+      }
+      else
+      {
+          sumMht_p4 -= gamma_p4.at(0);
+      }
 
       mht = sumMht_p4.pt();
   	  
