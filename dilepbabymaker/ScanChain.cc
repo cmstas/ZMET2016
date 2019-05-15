@@ -1795,7 +1795,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  njets_dn = 0;
       nJetFailId = 0; 
   	  ht    = 0;
-  	  ht_up = 0;
+  	  
+      ht_up = 0;
   	  ht_dn = 0;
 
       // for applying btagging SFs, using Method 1a from the twiki below:
