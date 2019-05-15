@@ -1796,7 +1796,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  njets_dn = 0;
       nJetFailId = 0; 
   	  ht    = 0;
-      mht   = 0;
   	  ht_up = 0;
   	  ht_dn = 0;
 
@@ -1870,7 +1869,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		  // require pT > 35 for HT
     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); 
-              sumMht_p4 -= p4sCorrJets.at(iJet);}
     		
     		  if(current_csv_val >= 0.8001) { nBJetTight++; }
 
@@ -2003,10 +2001,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
 
       //Subtract the 2 lepton p4s from the sumMht
-      sumMht_p4 -= lep_p4.at(0);
-      sumMht_p4 -= lep_pt.at(1);
 
-      mht = sumMht_p4.pt();
   	  
   	  if (!isData) {
         weight_btagsf          = btagprob_data     / btagprob_mc;
