@@ -2004,7 +2004,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       //Subtract the 2 lepton p4s from the sumMht
       sumMht_p4 -= lep_p4.at(0);
-      sumMht_p4 -= lep_pt.at(1);
+      sumMht_p4 -= lep_p4.at(1);
 
       mht = sumMht_p4.pt();
   	  
@@ -2147,11 +2147,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_phi));
     		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_phi));
             if(jets_p4.size() > 2)
+            {
                 dphi_metj3 = acos(cos(jets_p4.at(2).phi() - met_phi));
+            }
     		dphi_genmetj1 = acos(cos(jets_p4.at(0).phi() - met_genPhi));
     		dphi_genmetj2 = acos(cos(jets_p4.at(1).phi() - met_genPhi));
             if(jets_p4.size() > 2)
+            {
                 dphi_genmetj3 =  acos(cos(jets_p4.at(2).phi() - met_genPhi));
+            }
 
 
     		if( jets_medb_p4.size() > 1 ){
@@ -2184,7 +2188,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		dphi_metj1_up = acos(cos(jets_up_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_up_phi));
     		dphi_metj2_up = acos(cos(jets_up_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_up_phi));
             if(jets_up_p4.size() > 2)
+            {
                 dphi_metj3_up = acos(cos(jets_up_p4.at(2).phi() - met_T1CHS_miniAOD_CORE_up_phi));
+            }
 
     		if( jets_medb_up_p4.size() > 1 ){
     		  mbb_bpt_up = (jets_medb_up_p4.at(0) + jets_medb_up_p4.at(1)).mass();	
@@ -2217,7 +2223,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		dphi_metj1_dn = acos(cos(jets_dn_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
     		dphi_metj2_dn = acos(cos(jets_dn_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
             if(jets_dn_p4.size() > 2)
+            {
                 dphi_metj3_dn = acos(cos(jets_dn_p4.at(2).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
+            }
 
     		if( jets_medb_dn_p4.size() > 1 ){
     		  mbb_bpt_dn = (jets_medb_dn_p4.at(0) + jets_medb_dn_p4.at(1)).mass();
