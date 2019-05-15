@@ -1795,7 +1795,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  njets_dn = 0;
       nJetFailId = 0; 
   	  ht    = 0;
-      mht   = 0;
   	  ht_up = 0;
   	  ht_dn = 0;
 
@@ -2902,7 +2901,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("highPtPFcands_pdgId"      , &highPtPFcands_pdgId   );
 
   BabyTree_->Branch("ht"    , &ht    );
-  BabyTree_->Branch("mht"   , &mht   );
   BabyTree_->Branch("ht_up" , &ht_up );
   BabyTree_->Branch("ht_dn" , &ht_dn );
 

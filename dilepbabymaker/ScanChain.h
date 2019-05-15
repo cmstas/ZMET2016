@@ -413,7 +413,6 @@ private:
   std::vector <Int_t>           highPtPFcands_pdgId;
 
   Float_t         ht;
-  Float_t         mht;
   Float_t         ht_up;
   Float_t         ht_dn;
 
