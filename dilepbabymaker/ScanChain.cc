@@ -1868,7 +1868,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  }
 
     		  // require pT > 35 for HT
-    		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); 
+    		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt();} 
     		
     		  if(current_csv_val >= 0.8001) { nBJetTight++; }
 
