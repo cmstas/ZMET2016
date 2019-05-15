@@ -386,6 +386,7 @@ private:
 
   //----- JETS - pt > 35, eta < 2.4
   Int_t           njets;
+  Int_t           nJetFailId;
   std::vector <LorentzVector>   jets_p4;
   std::vector <LorentzVector>   jets_medb_p4;
   std::vector <Float_t>         jets_csv;
@@ -412,6 +413,7 @@ private:
   std::vector <Int_t>           highPtPFcands_pdgId;
 
   Float_t         ht;
+  Float_t         mht;
   Float_t         ht_up;
   Float_t         ht_dn;
 
@@ -441,8 +443,10 @@ private:
   Float_t         dR_jj;
   Float_t         dphi_metj1;
   Float_t         dphi_metj2;
+  Float_t         dphi_metj3;
   Float_t         dphi_genmetj1;
   Float_t         dphi_genmetj2;
+  Float_t         dphi_genmetj3;
 
   Float_t         mjj_mindphi_up;
   Float_t         mjj_up;
@@ -455,6 +459,7 @@ private:
   Float_t         dR_jj_up;
   Float_t         dphi_metj1_up;
   Float_t         dphi_metj2_up;
+  Float_t         dphi_metj3_up;
 
   Float_t         mjj_mindphi_dn;
   Float_t         mjj_dn;
@@ -467,6 +472,7 @@ private:
   Float_t         dR_jj_dn;
   Float_t         dphi_metj1_dn;
   Float_t         dphi_metj2_dn;
+  Float_t         dphi_metj3_dn;
 
   //----- weights for b-tag SF  
   Float_t         weight_btagsf;

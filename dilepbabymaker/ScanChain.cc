@@ -1514,6 +1514,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector < std::pair<int,float> > passJets; //index of jets that pass baseline selections with their corrected pt
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
       vector < double       > jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
+      LorentzVector sumMht_p4 = LorentzVector(0,0,0,0);
 
       for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
@@ -1567,7 +1568,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   		  // note this uses the eta of the jet as stored in CMS3
   		  //  chance for small discrepancies if JEC changes direction slightly..
         //if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan) continue;
-        if(!isTightPFJet_2017_v1(iJet) && !isSMSScan) continue;
+        if(!isTightPFJet_2017_v1(iJet) && !isSMSScan) 
+        {
+            if(p4jet_p4_cor.pt() > 35)
+                nJetFailId++;
+            continue;
+        }
   		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
   		  passJets.push_back(std::pair<int,float>(iJet, pfjet_p4_cor.pt()));
 
@@ -1788,7 +1794,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  njets    = 0;
   	  njets_up = 0;
   	  njets_dn = 0;
+      nJetFailId = 0; 
   	  ht    = 0;
+      mht   = 0;
   	  ht_up = 0;
   	  ht_dn = 0;
 
@@ -1861,7 +1869,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  }
 
     		  // require pT > 35 for HT
-    		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); }
+    		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt(); 
+              sumMht_p4 -= p4sCorrJets.at(iJet);}
     		
     		  if(current_csv_val >= 0.8001) { nBJetTight++; }
 
@@ -1965,7 +1974,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  
           jets_up_p4    .push_back(p4sCorrJets_up.at(iJet));									
     		  jets_up_csv   .push_back(current_csv_val);									
-    		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ) { ht_up+=p4sCorrJets_up.at(iJet).pt(); }
+    		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ) { ht_up+=p4sCorrJets_up.at(iJet).pt(); 
+              }
     		  if(current_csv_val >= 0.9535) { nBJetTight_up++; }
     		  if(current_csv_val >= 0.8484) {
       			nBJetMedium_up++;
@@ -1991,6 +2001,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ njets_dn++; }
     		  }
       }
+
+      //Subtract the 2 lepton p4s from the sumMht
+      sumMht -= lep_p4.at(0);
+      sumMht -= lep_pt.at(1);
+
+      mht = sumMht.pt();
   	  
   	  if (!isData) {
         weight_btagsf          = btagprob_data     / btagprob_mc;
@@ -2130,8 +2146,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_phi));
     		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_phi));
+            if(jets_p4.size() > 2)
+                dphi_metj3 = acos(cos(jets_p4.at(2).phi() - met_phi));
     		dphi_genmetj1 = acos(cos(jets_p4.at(0).phi() - met_genPhi));
     		dphi_genmetj2 = acos(cos(jets_p4.at(1).phi() - met_genPhi));
+            if(jets_p4.size() > 2)
+                dphi_genmetj3 =  acos(cos(jets_p4.at(2).phi() - met_genPhi));
+
 
     		if( jets_medb_p4.size() > 1 ){
     		  mbb_bpt = (jets_medb_p4.at(0) + jets_medb_p4.at(1)).mass();
@@ -2162,6 +2183,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		dphi_metj1_up = acos(cos(jets_up_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_up_phi));
     		dphi_metj2_up = acos(cos(jets_up_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_up_phi));
+            if(jets_up_p4.size() > 2)
+                dphi_metj3_up = acos(cos(jets_up_p4.at(2).phi() - met_T1CHS_miniAOD_CORE_up_phi));
 
     		if( jets_medb_up_p4.size() > 1 ){
     		  mbb_bpt_up = (jets_medb_up_p4.at(0) + jets_medb_up_p4.at(1)).mass();	
@@ -2193,6 +2216,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		dphi_metj1_dn = acos(cos(jets_dn_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
     		dphi_metj2_dn = acos(cos(jets_dn_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
+            if(jets_dn_p4.size() > 2)
+                dphi_metj3_dn = acos(cos(jets_dn_p4.at(2).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
 
     		if( jets_medb_dn_p4.size() > 1 ){
     		  mbb_bpt_dn = (jets_medb_dn_p4.at(0) + jets_medb_dn_p4.at(1)).mass();
@@ -2850,6 +2875,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
 //----- JETS - pt > 35, eta < 2.4
   BabyTree_->Branch("njets"           , &njets        );
+  BabyTree_->Branch("nJetFailId"      , &nJetFailId   );
   BabyTree_->Branch("jets_p4"         , &jets_p4      );
   BabyTree_->Branch("jets_medb_p4"    , &jets_medb_p4 );
 
@@ -2875,6 +2901,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("highPtPFcands_pdgId"      , &highPtPFcands_pdgId   );
 
   BabyTree_->Branch("ht"    , &ht    );
+  BabyTree_->Branch("mht"   , &mht   );
   BabyTree_->Branch("ht_up" , &ht_up );
   BabyTree_->Branch("ht_dn" , &ht_dn );
 
@@ -2904,8 +2931,10 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("dR_jj"         , &dR_jj         );
   BabyTree_->Branch("dphi_metj1"    , &dphi_metj1    );
   BabyTree_->Branch("dphi_metj2"    , &dphi_metj2    );
+  BabyTree_->Branch("dphi_metj3"    , &dphi_metj3    );
   BabyTree_->Branch("dphi_genmetj1" , &dphi_genmetj1 );
   BabyTree_->Branch("dphi_genmetj2" , &dphi_genmetj2 );
+  BabyTree_->Branch("dphi_genmetj3" , &dphi_genmetj3 );
 
   BabyTree_->Branch("mjj_mindphi_up" , &mjj_mindphi_up );
   BabyTree_->Branch("mjj_up"         , &mjj_up         );
@@ -2918,6 +2947,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("dR_jj_up"       , &dR_jj_up       );
   BabyTree_->Branch("dphi_metj1_up"  , &dphi_metj1_up  );
   BabyTree_->Branch("dphi_metj2_up"  , &dphi_metj2_up  );
+  BabyTree_->Branch("dphi_metj3_up"  , &dphi_metj3_up  );
 
   BabyTree_->Branch("mjj_mindphi_dn" , &mjj_mindphi_dn );
   BabyTree_->Branch("mjj_dn"         , &mjj_dn         );
@@ -2930,6 +2960,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("dR_jj_dn"       , &dR_jj_dn       );
   BabyTree_->Branch("dphi_metj1_dn"  , &dphi_metj1_dn  );
   BabyTree_->Branch("dphi_metj2_dn"  , &dphi_metj2_dn  );
+  BabyTree_->Branch("dphi_metj3_dn"  , &dphi_metj3_dn  );
   
   BabyTree_->Branch("weight_btagsf", &weight_btagsf );
   BabyTree_->Branch("weight_btagsf_heavy_UP", &weight_btagsf_heavy_UP );
@@ -3350,8 +3381,10 @@ void babyMaker::InitBabyNtuple () {
   dR_jj       = -999.0;  
   dphi_metj1  = -999.0;
   dphi_metj2  = -999.0;
+  dphi_metj3  = -999.0;
   dphi_genmetj1  = -999.0;
   dphi_genmetj2  = -999.0;
+  dphi_genmetj3  = -999.0;
 
   mjj_mindphi_up = -999.0;
   mjj_up         = -999.0;
@@ -3364,6 +3397,7 @@ void babyMaker::InitBabyNtuple () {
   dR_jj_up       = -999.0;  
   dphi_metj1_up  = -999.0;
   dphi_metj2_up  = -999.0;
+  dphi_metj3_up  = -999.0;
 
   mjj_mindphi_dn = -999.0;
   mjj_dn         = -999.0;
@@ -3376,6 +3410,7 @@ void babyMaker::InitBabyNtuple () {
   dR_jj_dn       = -999.0;  
   dphi_metj1_dn  = -999.0;
   dphi_metj2_dn  = -999.0;
+  dphi_metj3_dn  = -999.0;
 
   
   //----- pfMETs
