@@ -17,7 +17,8 @@ job_tag = "ZMET_babies_new"
 #EWKMCStrings = ["WGammaWJets","ttbar","SingleTop"]
 MuonDataString = "2017SingleMuon"
 #dsList = ["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop","GammaJetsHigherStats","WGammaWJets","SingleTop"]
-dsList = ["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"]
+#dsList = ["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"]
+dsList = ["WZ","VVV","ttbarGamma","WGammaWJets","ttH"]
 datasetsToProcess = ZMET.get(data = dsList,year = 2017)
 
 print("Processing these datasets")
