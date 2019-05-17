@@ -1515,6 +1515,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector < double       > jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
       vector < double       > jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
       LorentzVector sumMht_p4 = LorentzVector(0,0,0,0);
+      nJetFailId = 0;
 
       for(unsigned int iJet = 0; iJet < cms3.pfjets_p4().size(); iJet++){
 
@@ -1794,7 +1795,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  njets    = 0;
   	  njets_up = 0;
   	  njets_dn = 0;
-      nJetFailId = 0; 
   	  ht    = 0;
   	  ht_up = 0;
   	  ht_dn = 0;
