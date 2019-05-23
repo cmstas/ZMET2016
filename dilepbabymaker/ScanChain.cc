@@ -534,6 +534,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             }
       }
 
+      if(gconf.year == 2018)
+      {
+        jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V13_MC_L1FastJet_AK4PFchs.txt");
+        jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V13_MC_L2Relative_AK4PFchs.txt");
+        jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V13_MC_L3Absolute_AK4PFchs.txt");
+
+      }
+
   	  if( jetcorr_filenames_pfL1FastJetL2L3.size() == 0 ){
     		cout<<"Error, sample not found. Check the JECs."<<endl;
     		exit(100);
