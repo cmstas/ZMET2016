@@ -3712,7 +3712,7 @@ void babyMaker::load_leptonSF_files()
   {
     f_sfweights  = TFile::Open("leptonSFs/electrons/moriond17/egammaEffi.txt_EGM2D.root","READ");
   }
-  else if(gconf.year == 2017)
+  else if(gconf.year == 2017 || gconf.year == 2018)
   {
       f_sfweights = TFile::Open("leptonSFs/electrons/Fall17/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root","READ");
   }
@@ -3735,7 +3735,7 @@ void babyMaker::load_leptonSF_files()
   h_eleweights_conv = (TH2D*) f_sfweights->Get("MVATightElectronToConvVetoIHit0") -> Clone("h_eleweights_conv");
 
   }
-  else if(gconf.year == 2017)
+  else if(gconf.year == 2017 || gconf.year == 2018)
   {
     f_sfweights = TFile::Open("leptonSFs/electrons/Fall17/ElectronScaleFactors_Run2017.root","READ");
     h_eleweights_id = (TH2D*) f_sfweights->Get("Run2017_MVATightTightIP2D3D")->Clone("h_eleweights_id");
@@ -3758,7 +3758,7 @@ void babyMaker::load_leptonSF_files()
     h_muoweights_id = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_id");
 
   }
-  else if(gconf.year == 2017)
+  else if(gconf.year == 2017 || gconf.year == 2018)
   {
       f_sfweights = TFile::Open("leptonSFs/muons/Fall17/RunBCDEF_SF_ID.root","READ");
       h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumPromptID_DEN_genTracks_pt_abseta")->Clone("h_muonweights_id");
@@ -3776,7 +3776,7 @@ void babyMaker::load_leptonSF_files()
     f_sfweights  = TFile::Open("leptonSFs/muons/moriond17/TnP_NUM_MiniIsoTight_DENOM_MediumID_VAR_map_pt_eta.root","READ");
     h_muoweightsiso = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweightsiso");
   }
-  else if(gconf.year == 2017)
+  else if(gconf.year == 2017 || gconf.year == 2018)
   {
       f_sfweights = TFile::Open("leptonSFs/muons/Fall17/SUSY_Iso_SF.root","READ");
       h_muoweightsiso = (TH2D*)f_sfweights->Get("TnP_MC_NUM_MiniIso02Cut_DEN_MediumCutidPromptCut_PAR_pt_eta")->Clone("h_muonweightsiso");
