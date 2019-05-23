@@ -689,16 +689,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
       met_genPt    = cms3.gen_met();
       met_genPhi   = cms3.gen_metPhi();
-      if(gconf.year == 2017)
+/*      if(gconf.year == 2017)
       {
         met_rawPt    = cms3.evt_old_pfmet_raw();
         met_rawPhi   = cms3.evt_old_pfmetPhi_raw();
-      }
-      else
-      {
-          met_rawPt = cms3.evt_pfmet_raw();
-          met_rawPhi = cms3.evt_pfmetPhi_raw();
-      }
+      }*/
+      
+     met_rawPt = cms3.evt_pfmet_raw();
+     met_rawPhi = cms3.evt_pfmetPhi_raw();      
       sumet_raw    = cms3.evt_pfsumet_raw();
 
       if (applyJECfromFile){
