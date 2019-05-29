@@ -17,10 +17,11 @@ job_tag = "ZMET_babies"
 #EWKMCStrings = ["WGammaWJets","ttbar","SingleTop"]
 dsList = []
 MuonDataString = "2017SingleMuon"
-dsList.extend(["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop"]
+#dsList.extend(["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop"]
 #dsList.extend(["GammaJetsHigherStats","WGammaWJets","SingleTop"])
-dsList.extend(["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"])
-dsList.extend(["VVV","ttbarGamma","ttH"])
+#dsList.extend(["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"])
+#dsList.extend(["VVV","ttbarGamma","ttH"])
+dsList.extend(["WGammaWJets"])
 datasetsToProcess = ZMET.get(data = dsList,year = 2017)
 
 print("Processing these datasets")
