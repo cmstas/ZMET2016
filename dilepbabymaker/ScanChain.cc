@@ -48,6 +48,7 @@ using namespace tas;
 const bool verbose = false;
 // turn on to apply JEC from text files
 bool applyJECfromFile = true;
+bool applyAK8JECfromFile = true;
 //turn on to veto transition region for leps and photons
 const bool vetoXitionRegion = false;
 //turn on to veto eta > 2.4 for leps and photons
@@ -363,6 +364,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     FactorizedJetCorrector   * jet_corrector_pfL1FastJetL2L3 = NULL;
     JetCorrectionUncertainty * jecUnc                        = NULL;
 
+    std::vector<std::string> ak8_jetcorr_filenames_pfL1FastJetL2L3;
+    FactorizedJetCorrector *ak8_jet_corrector_pfL1FastJetL2L3 = NULL;
+    JetCorrectionUncertainty *ak8_jecUnc = NULL;
+
     // corrections for later runs in 2016F
     std::vector<std::string> jetcorr_filenames_pfL1FastJetL2L3_postrun278802;
     FactorizedJetCorrector   * jet_corrector_pfL1FastJetL2L3_postrun278802 = NULL;
@@ -501,11 +506,21 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  }
       if(gconf.year == 2017)
       {
-            if(currentFileName.Contains("Run2017D") || currentFileName.Contains("Run2017E")) //Data
+          if(currentFileName.Contains("Run2017C"))
+          {
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L1FastJet_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2Relative_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L3Absolute_AK4PFchs.txt");
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK4PFchs.txt")
+          }
+
+          if(currentFileName.Contains("Run2017D") || currentFileName.Contains("Run2017E")) //Data
             {
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK4PFchs.txt");
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK4PFchs.txt")
+
             }
             /*else if(currentFileName.Contains("Run2017A"))
             {
@@ -516,6 +531,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L3Absolute_AK4PFchs.txt");
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017B_V32_DATA_Uncertainty_AK4PFchs.txt")
+
 
             }
             else if(currentFileName.Contains("Run2017F"))
@@ -523,6 +540,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L3Absolute_AK4PFchs.txt");
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017F_V32_DATA_Uncertainty_AK4PFchs.txt")
+
             }
             else //MC
             {
@@ -530,6 +549,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK4PFchs.txt");
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017_V32_MC_Uncertainty_AK4PFchs.txt")
+
 
             }
       }
@@ -548,11 +569,82 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  }
 
   	  cout<<"JECs used:"<<endl;
-  	  for( size_t jecind = 0; jecind < jetcorr_filenames_pfL1FastJetL2L3.size(); jecind++ ){
-  		  cout<<jetcorr_filenames_pfL1FastJetL2L3.at(jecind)<<endl;
+  	  for( auto &it : jetcorr_filenames_pfL1FastJetL2L3){
+  		  cout<<it<<endl;
   	  }
   	  
   	  jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(jetcorr_filenames_pfL1FastJetL2L3);
+    }
+
+    //AK8 JECs
+    if(applyAK8JECfromFile)
+    {
+        ak8_jetcorr_filenames_pfL1FastJetL2L3.clear();
+        if(gconf.year == 2016)
+        {
+
+        }
+
+        else if(gconf.year == 2017)
+        {
+            if(currentFileName.Contains("Run2017B"))
+            {
+               ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L1FastJet_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L2Relative_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L3Absolute_AK8PFPuppi.txt");
+                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017B_V32_DATA_Uncertainty_AK8PFPuppi.txt")
+            }
+            
+            else if(currentFileName.Contains("Run2017C"))
+            {
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L1FastJet_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2Relative_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L3Absolute_AK8PFPuppi.txt");
+                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK8PFPuppi.txt")
+
+
+            }
+            else if(currentFileName.Contains("Run2017D") || currentFileName.Contains("Run2017E")) //Data
+            {
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L1FastJet_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK8PFPuppi.txt");
+                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK8PFPuppi.txt")
+
+            }
+            else if(currentFileName.Contains("Run2017F"))
+            {
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L1FastJet_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2Relative_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L3Absolute_AK8PFPuppi.txt");
+                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017F_V32_DATA_Uncertainty_AK8PFPuppi.txt")
+
+            }
+
+            else //MC
+            {
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK8PFPuppi.txt");
+                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt") 
+            }
+        }
+        else if(gconf.year == 2018)
+        {
+
+        }
+
+        if( ak8_jetcorr_filenames_pfL1FastJetL2L3.size() == 0 ){
+    		cout<<"Error, sample not found. Check the JECs."<<endl;
+    		exit(100);
+  	  }
+
+  	  cout<<"JECs used:"<<endl;
+  	  for(auto &it:ak8_jetcorr_filenames_pfL1FastJetL2L3){
+  		  cout<<it<<endl;
+  	  }
+  	  
+  	  ak8_jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(ak8_jetcorr_filenames_pfL1FastJetL2L3);
     }
 
     //cout<<__LINE__<<endl;
@@ -1582,8 +1674,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if(fabs(p4sCorrJets.at(iJet).eta()) > 5.2) continue;
   		  // note this uses the eta of the jet as stored in CMS3
   		  //  chance for small discrepancies if JEC changes direction slightly..
-        //if(!isLoosePFJet_Summer16_v1(iJet) && !isSMSScan) continue;
-        if(!isTightPFJet_2017_v1(iJet) && !isSMSScan) 
+        if(gconf.year == 2016 && !isLoosePFJet_Summer16_v1(iJet) && !isSMSScan) continue;
+        if(gconf.year == 2017 && !isTightPFJet_2017_v1(iJet) && !isSMSScan) 
         {
             if(pfjet_p4_cor.pt() > 35)
                 nJetFailId++;
@@ -1668,10 +1760,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if( !(p4sCorrJets.at(iJet).pt()    >=35.0 || 
             (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
-          if( gconf.year == 2016 && !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) 
-          {
-              continue;
-          }
           if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 
           bool alreadyRemoved = false;
@@ -1727,7 +1815,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  if(gconf.year == 2016 && !isLoosePFJet_Summer16_v1(iJet) && !isSMSScan ) 
               {
                   continue;
-              }   
+              }  
+              if(gconf.year == 2017 && !isTightPFJet_2017_v1(iJet) && !isSMSScan) continue;
     		  if( isSMSScan && isBadFastsimJet(iJet)      ) failbadfastsimjet = true;
 
     		  bool jetoverlapswithlepton = false;
@@ -2014,9 +2103,179 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  }
       }
 
-      //Subtract the 2 lepton p4s from the sumMht
+      if(verbose) cout<<"before fat jets"<<endl;
 
-  	  
+      vector <LorentzVector> ak8_p4sCorrJets;
+      vector <LorentzVector> ak8_p4sCorrJets_up;
+      vector <LorentzVector> ak8_p4sCorrJets._dn;
+      vector < double       > ak8_jet_corrfactor; // store correction for ALL jets, and indices match CMS3 ntuple
+      vector < std::pair<int,float> > ak8_passJets; //index of jets that pass baseline selections with their corrected pt
+      vector < double       > ak8_jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
+      vector < double       > ak8_jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
+
+
+      for(size_t idx = 0; idx < cms3.ak8jets_p4().size(); idx++)
+      {
+            LorentzVector ak8_jet_p4_cor = cms3.ak8jets_p4().at(iJet);
+
+    		double ak8_corr = 1.0;
+    		double ak8_shift = 0.0;
+    		if (applyAK8JECfromFile) 
+            {
+
+    		  // get uncorrected jet p4 to use as input for corrections
+    		  LorentzVector ak8_jet_p4_uncor = cms3.ak8jets_p4().at(iJet) * cms3.ak8jets_undoJEC().at(iJet);
+
+    		  vector<float> ak8_corr_vals;
+    		  
+    		  // get L1FastL2L3Residual total correction
+    		  ak8_jet_corrector_pfL1FastJetL2L3->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
+    		  ak8_jet_corrector_pfL1FastJetL2L3->setJetA  ( cms3.ak8jets_area().at(iJet)       );
+    		  ak8_jet_corrector_pfL1FastJetL2L3->setJetPt ( ak8jet_p4_uncor.pt()               );
+    		  ak8_jet_corrector_pfL1FastJetL2L3->setJetEta( ak8jet_p4_uncor.eta()              );
+    		  //get actual corrections
+    		  ak8_corr_vals = ak8_jet_corrector_pfL1FastJetL2L3_current->getSubCorrections();
+    		  ak8_corr      = ak8_corr_vals.at(corr_vals.size()-1); // All corrections		  
+    		  ak8_shift = 0.0;
+    		  if (ak8_jecUnc_current != 0) {
+    		    ak8_jecUnc->setJetEta(ak8_jet_p4_uncor.eta()); 
+    		    ak8_jecUnc->setJetPt(ak8_jet_p4_uncor.pt()*corr); 
+    		    double ak8_unc = ak8_jecUnc->getUncertainty(true);
+    		    // note that this always checks the "default" filename vector size, not the run-dependent for late 2016F
+    		    if( cms3.evt_isRealData() && ak8_jetcorr_filenames_pfL1FastJetL2L3.size() == 4 ){
+    		      ak8_shift = sqrt(ak8_unc*ak8_unc + pow((ak8_corr_vals.at(ak8_corr_vals.size()-1)/ak8_corr_vals.at(ak8_corr_vals.size()-2)-1.),2));	  
+    		    }else{
+    		      ak8_shift = ak8_unc;
+    		    }
+    		  }
+
+              
+    		  // apply new JEC to p4
+    		  ak8_jet_p4_cor = ak8_jet_p4_uncor * ak8_corr;
+
+    		}
+    		
+    		ak8_p4sCorrJets.push_back(ak8_pfjet_p4_cor);
+    		ak8_p4sCorrJets_up.push_back(ak8_pfjet_p4_cor*(1.0 + ak8_shift));
+    		ak8_p4sCorrJets_dn.push_back(pfjet_p4_cor*(1.0 - ak8_shift));
+    		ak8_jet_corrfactor.push_back(ak8_corr);
+    		ak8_jet_corrfactor_up.push_back(1.0 + ak8_shift);
+    		ak8_jet_corrfactor_dn.push_back(1.0 - ak8_shift);
+            
+            ak8_passJets.push_back(std::pair<int,float>(idx, ak8_pfjet_p4_cor.pt()));
+
+      }
+      std::sort(ak8_passJets.begin(), ak8_passJets.end(), sortByValue);
+    
+    if(verbose) cout <<"before fat jet/lepton overlap"<<endl;
+
+      vector<int> ak8_removedJets;
+
+      for(unsigned int iLep = 0; iLep < p4sLeptonsForJetCleaning.size(); iLep++)
+      {
+        const float maxDR = 0.4;
+        for(unsigned int passIdx = 0; passIdx < ak8_passJets.size(); passIdx++)
+        { //loop through jets that passed baseline selections
+
+          int iJet = ak8_passJets.at(passIdx).first;
+
+          if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
+          
+          bool alreadyRemoved = false;
+          for(unsigned int j=0; j<ak8_removedJets.size(); j++){
+            if(iJet == ak8_removedJets.at(j)){
+              alreadyRemoved = true;
+              break;
+            }
+          }
+          if(alreadyRemoved) continue;
+
+          float thisDR = DeltaR(p4sCorrJets.at(iJet).eta(), p4sLeptonsForJetCleaning.at(iLep).eta(), p4sCorrJets.at(iJet).phi(), p4sLeptonsForJetCleaning.at(iLep).phi());
+          if(thisDR < maxDR){
+            ak8_removedJets.push_back(iJet);
+          }
+        }
+
+      }
+
+
+     if (verbose) cout << "before fat jet/photon overlap" << endl;
+
+      //check overlapping with photons
+      //only want to remove the closest jet to a photon, threshold deltaR < 0.4
+      vector<int> ak8_removedJetsGamma; //index of jets to be removed because they overlap with a photon
+      for(int iGamma = 0; iGamma < ngamma; iGamma++){
+    	  if (iGamma>0) continue; // Only check leading photon. Let the others be
+        float minDR = 0.4;
+        int minIndex = -1;
+        for(unsigned int passIdx = 0; passIdx < ak8_passJets.size(); passIdx++){ //loop through jets that passed baseline selections
+
+          int iJet = ak8_passJets.at(passIdx).first;
+
+          
+          if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;	
+          bool alreadyRemoved = false;
+          for(unsigned int j=0; j<ak8_removedJetsGamma.size(); j++){
+            if(iJet == ak8_removedJetsGamma.at(j)){
+              alreadyRemoved = true;
+              break;
+            }
+          }
+          if(alreadyRemoved) continue;
+
+          float thisDR = DeltaR(p4sCorrJets.at(iJet).eta(), gamma_eta[iGamma], p4sCorrJets.at(iJet).phi(), gamma_phi[iGamma]);
+          if(thisDR < minDR){
+            minDR = thisDR; 
+            minIndex = iJet;
+          }
+        }
+        ak8_removedJetsGamma.push_back(minIndex);
+      }
+
+
+      if(verbose) cout<<"Before main fat jet loop"<<endl;
+      nFatJets = 0;
+
+      for(unsigned int passIdx = 0; passIdx < ak8_passJets.size(); passIdx++){
+
+        int iJet = ak8_passJets.at(passIdx).first;
+
+        //check against list of jets that overlap with a lepton
+        bool isOverlapJet = false;
+        for(unsigned int j=0; j<ak8_removedJets.size(); j++){
+          if(iJet == ak8_removedJets.at(j)){
+            isOverlapJet = true;
+            break;
+          }
+        }
+        if(isOverlapJet) continue;
+
+        //check against list of jets that overlap with a photon for photon+jets events
+        bool isOverlapJetGamma = false;
+        for(unsigned int j=0; j<ak8_removedJetsGamma.size(); j++){
+          if(iJet == ak8_removedJetsGamma.at(j)){
+            isOverlapJetGamma = true;
+            break;
+          }
+        }
+        if(evt_type == 2 && isOverlapJetGamma) continue;
+
+    		if( verbose ) cout<<"Before filling jet branches"<<endl;
+
+
+    		if( p4sCorrJets.at(iJet).pt() > 200.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
+      			ak8_jets_p4.push_back(ak8_p4sCorrJets.at(iJet));
+                ak8_jets_tau1.push_back(cms3.ak8jets_nJettinessTau1().at(iJet));
+                ak8_jets_tau2.push_back(cms3.ak8jets_nJettinessTau2().at(iJet));
+                ak8_jets_tau3.push_back(cms3.ak8jets_nJettinessTau3().at(iJet));
+                ak8_jets_parton_flavor.push_back(cms3.ak8jets_partonFlavour().at(iJet));
+                ak8_jets_softDropMass.push_back(cms3.ak8jets_puppi_softdropMass().at(iJet));
+    		   nFatJets++;
+            }
+        }
+	
+  	  if(verbose) cout<<"before btagsf"<<endl;
+
   	  if (!isData) {
         weight_btagsf          = btagprob_data     / btagprob_mc;
     		weight_btagsf_heavy_UP = btagprob_heavy_UP / btagprob_mc;
@@ -2917,6 +3176,15 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("jets_mcFlavour"    , &jets_mcFlavour    );
   BabyTree_->Branch("jets_mcHadronFlav" , &jets_mcHadronFlav );
 
+  //Fat Jets
+
+  BabyTree_->Branch("ak8jets_p4", &ak8_jets_p4);
+  BabyTree_->Branch("ak8jets_tau1", &ak8_jets_tau1);
+  BabyTree_->Branch("ak8jets_tau2", &ak8_jets_tau2);
+  BabyTree_->Branch("ak8jets_tau3", &ak8_jets_tau3);
+  BabyTree_->Branch("ak8jets_parton_flavor", &ak8_jets_parton_flavor);
+  BabyTree_->Branch("ak8jets_softDropMass", &ak8_jets_softDropMass);
+
 //----- HIGH PT PF CANDS
   BabyTree_->Branch("nhighPtPFcands"           , &nhighPtPFcands        );
   BabyTree_->Branch("highPtPFcands_p4"         , &highPtPFcands_p4      );
@@ -3366,6 +3634,13 @@ void babyMaker::InitBabyNtuple () {
   jets_muf           .clear();
   jets_mcFlavour     .clear();
   jets_mcHadronFlav  .clear();
+
+  ak8_jets_p4.clear();
+  ak8_jets_tau1.clear();
+  ak8_jets_tau2.clear();
+  ak8_jets_tau3.clear();
+  ak8_jets_parton_flavor.clear();
+  ak8_jets_softDropMass.clear();
 
 //----- HIGH PT PF CANDS
   nhighPtPFcands = -999.0;

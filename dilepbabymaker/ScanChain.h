@@ -402,6 +402,18 @@ private:
   std::vector <LorentzVector>   jets_medb_dn_p4;
   std::vector <Float_t>         jets_dn_csv;
 
+  Int_t          nFatJets;
+  Int_t          nFatJets_up;
+  Int_t          nFatJets_dn;
+
+  Int_t nFatJets;
+  std::vector<LorentzVector> ak8_jets_p4;
+  std::vector<Float_t> ak8_jets_tau1;
+  std::vector<Float_t> ak8_jets_tau2;
+  std::vector<Float_t> ak8_jets_tau3;
+  std::vector<Int_t> ak8_jets_parton_flavor;
+  std::vector<Float_t> ak8_jets_softDropMass;
+
   // MC only
   std::vector <Int_t  >         jets_mcFlavour   ;
   std::vector <Int_t  >         jets_mcHadronFlav;
