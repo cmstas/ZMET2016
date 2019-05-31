@@ -3190,6 +3190,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   //Fat Jets
 
+  BabyTree_->Branch("nFatJets", &nFatJets);
   BabyTree_->Branch("ak8jets_p4", &ak8_jets_p4);
   BabyTree_->Branch("ak8jets_tau1", &ak8_jets_tau1);
   BabyTree_->Branch("ak8jets_tau2", &ak8_jets_tau2);
