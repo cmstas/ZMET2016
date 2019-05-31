@@ -61,7 +61,7 @@ bool applyBtagSFs = true;
 bool useIsotrackCollectionForVeto = true;
 // for testing purposes, running on unmerged files (default false)
 const bool removePostProcVars = false;
-
+bool include_scale1fb = true;
 //--------------------------------------------------------------------
 
 // This is meant to be passed as the third argument, the predicate, of the standard library sort algorithm
@@ -321,9 +321,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	f_eventcounts->Close();
   }
   //scale1fb
-
   DatasetInfoFromFile df;
-  df.loadFromFile("scale1fbs.txt");
+  if(include_scale1fb)
+  {
+    df.loadFromFile("scale1fbs.txt");
+  }
 
 
   // File Loop
@@ -753,7 +755,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  }
   	  else if (!removePostProcVars && !isData) {
             float sgnMCWeight = cms3.genps_weight() > 0 ? 1 : -1;
-    		evt_scale1fb = sgnMCWeight * df.getScale1fbFromFile(cms3.evt_dataset()[0].Data(),cms3.evt_CMS3tag()[0].Data()); 
+            if(include_scale1fb)
+            {
+    		    evt_scale1fb = sgnMCWeight * df.getScale1fbFromFile(cms3.evt_dataset()[0].Data(),cms3.evt_CMS3tag()[0].Data()); 
+            }
     		evt_xsec     = cms3.evt_xsec_incl();
   	  }
   	  
