@@ -592,7 +592,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L3Absolute_AK8PFPuppi.txt");
-                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017B_V32_DATA_Uncertainty_AK8PFPuppi.txt")
+                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017B_V32_DATA_Uncertainty_AK8PFPuppi.txt");
             }
             
             else if(currentFileName.Contains("Run2017C"))
@@ -600,7 +600,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L3Absolute_AK8PFPuppi.txt");
-                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK8PFPuppi.txt")
+                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK8PFPuppi.txt");
 
 
             }
@@ -609,7 +609,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK8PFPuppi.txt");
-                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK8PFPuppi.txt")
+                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK8PFPuppi.txt");
 
             }
             else if(currentFileName.Contains("Run2017F"))
@@ -617,7 +617,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L3Absolute_AK8PFPuppi.txt");
-                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017F_V32_DATA_Uncertainty_AK8PFPuppi.txt")
+                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017F_V32_DATA_Uncertainty_AK8PFPuppi.txt");
 
             }
 
@@ -626,7 +626,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK8PFPuppi.txt");
-                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt") 
+                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt"); 
             }
         }
         else if(gconf.year == 2018)
@@ -2131,13 +2131,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  // get L1FastL2L3Residual total correction
     		  ak8_jet_corrector_pfL1FastJetL2L3->setRho   ( cms3.evt_fixgridfastjet_all_rho() );
     		  ak8_jet_corrector_pfL1FastJetL2L3->setJetA  ( cms3.ak8jets_area().at(iJet)       );
-    		  ak8_jet_corrector_pfL1FastJetL2L3->setJetPt ( ak8jet_p4_uncor.pt()               );
-    		  ak8_jet_corrector_pfL1FastJetL2L3->setJetEta( ak8jet_p4_uncor.eta()              );
+    		  ak8_jet_corrector_pfL1FastJetL2L3->setJetPt ( ak8_jet_p4_uncor.pt()               );
+    		  ak8_jet_corrector_pfL1FastJetL2L3->setJetEta( ak8_jet_p4_uncor.eta()              );
     		  //get actual corrections
     		  ak8_corr_vals = ak8_jet_corrector_pfL1FastJetL2L3->getSubCorrections();
     		  ak8_corr      = ak8_corr_vals.at(ak8_corr_vals.size()-1); // All corrections		  
     		  ak8_shift = 0.0;
-    		  if (ak8_jecUnc_current != 0) {
+    		  if (ak8_jecUnc != 0) {
     		    ak8_jecUnc->setJetEta(ak8_jet_p4_uncor.eta()); 
     		    ak8_jecUnc->setJetPt(ak8_jet_p4_uncor.pt()*ak8_corr); 
     		    double ak8_unc = ak8_jecUnc->getUncertainty(true);
@@ -2155,14 +2155,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		}
     		
-    		ak8_p4sCorrJets.push_back(ak8_pfjet_p4_cor);
-    		ak8_p4sCorrJets_up.push_back(ak8_pfjet_p4_cor*(1.0 + ak8_shift));
-    		ak8_p4sCorrJets_dn.push_back(ak8_pfjet_p4_cor*(1.0 - ak8_shift));
+    		ak8_p4sCorrJets.push_back(ak8_jet_p4_cor);
+    		ak8_p4sCorrJets_up.push_back(ak8_jet_p4_cor*(1.0 + ak8_shift));
+    		ak8_p4sCorrJets_dn.push_back(ak8_jet_p4_cor*(1.0 - ak8_shift));
     		ak8_jet_corrfactor.push_back(ak8_corr);
     		ak8_jet_corrfactor_up.push_back(1.0 + ak8_shift);
     		ak8_jet_corrfactor_dn.push_back(1.0 - ak8_shift);
             
-            ak8_passJets.push_back(std::pair<int,float>(idx, ak8_pfjet_p4_cor.pt()));
+            ak8_passJets.push_back(std::pair<int,float>(iJet, ak8_jet_p4_cor.pt()));
 
       }
       std::sort(ak8_passJets.begin(), ak8_passJets.end(), sortByValue);
