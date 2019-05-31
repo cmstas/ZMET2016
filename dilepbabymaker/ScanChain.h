@@ -406,7 +406,6 @@ private:
   Int_t          nFatJets_up;
   Int_t          nFatJets_dn;
 
-  Int_t nFatJets;
   std::vector<LorentzVector> ak8_jets_p4;
   std::vector<Float_t> ak8_jets_tau1;
   std::vector<Float_t> ak8_jets_tau2;

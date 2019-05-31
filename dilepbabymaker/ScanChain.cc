@@ -511,7 +511,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L3Absolute_AK4PFchs.txt");
-                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK4PFchs.txt")
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK4PFchs.txt");
           }
 
           if(currentFileName.Contains("Run2017D") || currentFileName.Contains("Run2017E")) //Data
@@ -519,7 +519,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK4PFchs.txt");
-                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK4PFchs.txt")
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK4PFchs.txt");
 
             }
             /*else if(currentFileName.Contains("Run2017A"))
@@ -531,7 +531,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L3Absolute_AK4PFchs.txt");
-                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017B_V32_DATA_Uncertainty_AK4PFchs.txt")
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017B_V32_DATA_Uncertainty_AK4PFchs.txt");
 
 
             }
@@ -540,7 +540,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L3Absolute_AK4PFchs.txt");
-                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017F_V32_DATA_Uncertainty_AK4PFchs.txt")
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017F_V32_DATA_Uncertainty_AK4PFchs.txt");
 
             }
             else //MC
@@ -549,7 +549,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK4PFchs.txt");
-                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017_V32_MC_Uncertainty_AK4PFchs.txt")
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017_V32_MC_Uncertainty_AK4PFchs.txt");
 
 
             }
@@ -2107,14 +2107,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       vector <LorentzVector> ak8_p4sCorrJets;
       vector <LorentzVector> ak8_p4sCorrJets_up;
-      vector <LorentzVector> ak8_p4sCorrJets._dn;
+      vector <LorentzVector> ak8_p4sCorrJets_dn;
       vector < double       > ak8_jet_corrfactor; // store correction for ALL jets, and indices match CMS3 ntuple
       vector < std::pair<int,float> > ak8_passJets; //index of jets that pass baseline selections with their corrected pt
       vector < double       > ak8_jet_corrfactor_up; // store correction for ALL jets, and vary by uncertainties
       vector < double       > ak8_jet_corrfactor_dn; // store correction for ALL jets, and vary by uncertainties
 
 
-      for(size_t idx = 0; idx < cms3.ak8jets_p4().size(); idx++)
+      for(size_t iJet = 0; iJet < cms3.ak8jets_p4().size(); iJet++)
       {
             LorentzVector ak8_jet_p4_cor = cms3.ak8jets_p4().at(iJet);
 
@@ -2134,12 +2134,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  ak8_jet_corrector_pfL1FastJetL2L3->setJetPt ( ak8jet_p4_uncor.pt()               );
     		  ak8_jet_corrector_pfL1FastJetL2L3->setJetEta( ak8jet_p4_uncor.eta()              );
     		  //get actual corrections
-    		  ak8_corr_vals = ak8_jet_corrector_pfL1FastJetL2L3_current->getSubCorrections();
-    		  ak8_corr      = ak8_corr_vals.at(corr_vals.size()-1); // All corrections		  
+    		  ak8_corr_vals = ak8_jet_corrector_pfL1FastJetL2L3->getSubCorrections();
+    		  ak8_corr      = ak8_corr_vals.at(ak8_corr_vals.size()-1); // All corrections		  
     		  ak8_shift = 0.0;
     		  if (ak8_jecUnc_current != 0) {
     		    ak8_jecUnc->setJetEta(ak8_jet_p4_uncor.eta()); 
-    		    ak8_jecUnc->setJetPt(ak8_jet_p4_uncor.pt()*corr); 
+    		    ak8_jecUnc->setJetPt(ak8_jet_p4_uncor.pt()*ak8_corr); 
     		    double ak8_unc = ak8_jecUnc->getUncertainty(true);
     		    // note that this always checks the "default" filename vector size, not the run-dependent for late 2016F
     		    if( cms3.evt_isRealData() && ak8_jetcorr_filenames_pfL1FastJetL2L3.size() == 4 ){
@@ -2157,7 +2157,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		
     		ak8_p4sCorrJets.push_back(ak8_pfjet_p4_cor);
     		ak8_p4sCorrJets_up.push_back(ak8_pfjet_p4_cor*(1.0 + ak8_shift));
-    		ak8_p4sCorrJets_dn.push_back(pfjet_p4_cor*(1.0 - ak8_shift));
+    		ak8_p4sCorrJets_dn.push_back(ak8_pfjet_p4_cor*(1.0 - ak8_shift));
     		ak8_jet_corrfactor.push_back(ak8_corr);
     		ak8_jet_corrfactor_up.push_back(1.0 + ak8_shift);
     		ak8_jet_corrfactor_dn.push_back(1.0 - ak8_shift);
@@ -2429,7 +2429,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		dphi_metj1 = acos(cos(jets_p4.at(0).phi() - met_phi));
     		dphi_metj2 = acos(cos(jets_p4.at(1).phi() - met_phi));
             if(jets_p4.size() > 2)
+            {
                 dphi_metj3 = acos(cos(jets_p4.at(2).phi() - met_phi));
+            }
     		dphi_genmetj1 = acos(cos(jets_p4.at(0).phi() - met_genPhi));
     		dphi_genmetj2 = acos(cos(jets_p4.at(1).phi() - met_genPhi));
             if(jets_p4.size() > 2)
@@ -2466,7 +2468,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		dphi_metj1_up = acos(cos(jets_up_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_up_phi));
     		dphi_metj2_up = acos(cos(jets_up_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_up_phi));
             if(jets_up_p4.size() > 2)
+            {
                 dphi_metj3_up = acos(cos(jets_up_p4.at(2).phi() - met_T1CHS_miniAOD_CORE_up_phi));
+            }
 
     		if( jets_medb_up_p4.size() > 1 ){
     		  mbb_bpt_up = (jets_medb_up_p4.at(0) + jets_medb_up_p4.at(1)).mass();	
@@ -2499,7 +2503,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		dphi_metj1_dn = acos(cos(jets_dn_p4.at(0).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
     		dphi_metj2_dn = acos(cos(jets_dn_p4.at(1).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
             if(jets_dn_p4.size() > 2)
+            {
                 dphi_metj3_dn = acos(cos(jets_dn_p4.at(2).phi() - met_T1CHS_miniAOD_CORE_dn_phi));
+            }
 
     		if( jets_medb_dn_p4.size() > 1 ){
     		  mbb_bpt_dn = (jets_medb_dn_p4.at(0) + jets_medb_dn_p4.at(1)).mass();
