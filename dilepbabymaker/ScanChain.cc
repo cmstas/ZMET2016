@@ -516,7 +516,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK4PFchs.txt");
           }
 
-          if(currentFileName.Contains("Run2017D") || currentFileName.Contains("Run2017E")) //Data
+          else if(currentFileName.Contains("Run2017D") || currentFileName.Contains("Run2017E")) //Data
             {
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK4PFchs.txt");
