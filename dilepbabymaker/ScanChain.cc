@@ -2617,8 +2617,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     if (applyJECfromFile) {
       delete jet_corrector_pfL1FastJetL2L3;
       delete jecUnc;
-      if (jet_corrector_pfL1FastJetL2L3_postrun278802) delete jet_corrector_pfL1FastJetL2L3_postrun278802;
-      if (jecUnc_postrun278802) delete jecUnc_postrun278802;
     }  
   }//end loop on files
   
