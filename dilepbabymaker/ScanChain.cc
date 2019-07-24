@@ -721,7 +721,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       if(isData && run >= 278802 && run <= 278808)
       {
-        jet_corrector_pfL1FastJetL2L3_current = jet_correcotr_pfL1FastJetL2L3_lateF;
+        jet_corrector_pfL1FastJetL2L3_current = jet_corrector_pfL1FastJetL2L3_lateF;
         jecUnc_current = jecUnc_lateF;
       }
 
