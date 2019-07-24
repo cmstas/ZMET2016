@@ -51,7 +51,9 @@ def get(data = [],mc = [],year = []):
         for dataEntry in data:
             searchString = dataEntry
             for dsname,datasets in yearDatasets.items():
-                if searchString in dsname:
+                if searchString == "all":
+                    finalDataset.extend(datasets)
+                else if searchString in dsname:
                     finalDataset.extend(datasets)
 
     elif len(mc) > 0:
@@ -59,7 +61,9 @@ def get(data = [],mc = [],year = []):
         for dataEntry in mc:
             searchString = dataEntry
             for dsname,datasets in yearDatasets.items():
-                if searchString in dsname:
+                if searchString == "all":
+                    finalDataset.extend(datasets)
+                else if searchString in dsname:
                     finalDataset.extend(datasets)
 
 
