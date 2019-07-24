@@ -2073,7 +2073,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		if (applyAK8JECfromFile)
             {
             ak8_jet_corrector_pfL1FastJetL2L3_current = ak8_jet_corrector_pfL1FastJetL2L3;
-            ak8_jecUnc_current = ak8_jec nc;
+            ak8_jecUnc_current = ak8_jecUnc;
 
             if(isData && run >= 278802 && run <= 278808)
             {
