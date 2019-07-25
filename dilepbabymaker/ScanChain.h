@@ -58,9 +58,9 @@ private:
   TH2D * h_muoweights_FS_ip ; // FS to Fullsim; IP
 
   TH2D * h_muoweights_id;
-  TH2D * h_muoweights_ip;
+  TH2D * h_muoweights_SIP3D_hist;
   TH2D * h_muoweightsiso;
-  TH1F * h_muoweights_HIP_hist;
+  TH2D * h_muoweights_IP2D_hist;
 
   TH1I * h_neventsinfile;
 
@@ -75,14 +75,14 @@ private:
   TH2D* h_btag_eff_b;
   TH2D* h_btag_eff_c;
   TH2D* h_btag_eff_udsg;
-  
+
   BTagCalibration* calib_fastsim;
   BTagCalibrationReader* reader_fastsim;
 
   TH2D* h_btag_eff_b_fastsim;
   TH2D* h_btag_eff_c_fastsim;
   TH2D* h_btag_eff_udsg_fastsim;
-  
+
   //baby ntuple variables
 
   Int_t           run;
@@ -118,7 +118,7 @@ private:
   Int_t           nBJetLoose_dn;
 
   Int_t           nJet200MuFrac50DphiMet;
-  
+
   Int_t           nMuons10;
   Int_t           nBadMuons20;
   Int_t           nElectrons10;
@@ -153,7 +153,7 @@ private:
   Float_t         met_genPhi;
 
   Float_t         sumet_raw;
-  
+
   //----- MET FILTERS
   Int_t Flag_ecalLaserCorrFilter;
   Int_t Flag_hcalLaserEventFilter;
@@ -184,13 +184,13 @@ private:
   Int_t HLT_singleEl;
   Int_t HLT_singleMu;
   Int_t HLT_singleMu_noiso;
-  
+
   // Double electron
   Int_t HLT_DoubleEl_noiso;
   Int_t HLT_DoubleEl      ; // prescaled - turned off
   Int_t HLT_DoubleEl_DZ   ; // prescaled
   Int_t HLT_DoubleEl_DZ_2 ; // new
-	  
+
   // electron-muon
   Int_t HLT_MuEG        ;
   Int_t HLT_MuEG_2      ;
@@ -209,7 +209,7 @@ private:
   Int_t HLT_Mu23_EG8_DZ   ;
   Int_t HLT_Mu23_EG12     ;
   Int_t HLT_Mu23_EG12_DZ  ;
-  
+
   // Double electron
   Int_t HLT_DoubleMu_noiso   ;
   Int_t HLT_DoubleMu_noiso_27_8    ;
@@ -266,7 +266,7 @@ private:
   Int_t HLT_Mu37_Ele27_CaloIdL_MW                            ;
   Int_t HLT_IsoMu27                                          ;
   Int_t HLT_Mu50                                             ;
-  
+
   //----- LEPTONS
   Int_t           nlep;
   Int_t           nveto_leptons;
@@ -301,7 +301,7 @@ private:
   std::vector <Float_t> lep_sta_x2ondof  ;   //[nlep]
   std::vector <Float_t> lep_glb_x2ondof  ;   //[nlep]
   // std::vector <Float_t> lep_bft_x2ondof  ;   //[nlep]
-  
+
   Int_t nisoTrack_5gev;
   Int_t nisoTrack_mt2 ;
   Int_t nisoTrack_PFLep5_woverlaps ;
@@ -484,13 +484,13 @@ private:
   Float_t         dphi_metj2_dn;
   Float_t         dphi_metj3_dn;
 
-  //----- weights for b-tag SF  
+  //----- weights for b-tag SF
   Float_t         weight_btagsf;
   Float_t         weight_btagsf_heavy_UP;
   Float_t         weight_btagsf_light_UP;
   Float_t         weight_btagsf_heavy_DN;
   Float_t         weight_btagsf_light_DN;
-  
+
   //----- pfMETs
   Float_t chpfcands_0013_pt;
   Float_t chpfcands_1316_pt;
@@ -557,7 +557,7 @@ private:
   LorentzVector decayedphoton_lep2_p4;
   LorentzVector decayedphoton_bosn_p4;
   Float_t       decayedphoton_mt2;
-  
+
   // SUSY variables
   Int_t mass_gluino;
   Int_t mass_LSP;
@@ -579,7 +579,7 @@ private:
   // electron conv veto efficiency; not used for muons
   std::vector <Float_t> weightsf_lepconv;
 
-  // all electron weights in lepid; muon weights split in three weights  
+  // all electron weights in lepid; muon weights split in three weights
   std::vector <Float_t> weightsf_lepid_FS;
   std::vector <Float_t> weightsf_lepiso_FS;
   std::vector <Float_t> weightsf_lepip_FS;
@@ -588,9 +588,8 @@ private:
   std::vector<LorentzVector> vec_isotrack_p4;
   std::vector<float> vec_isotrack_absiso;
   std::vector<int> vec_isotrack_pdgid;
-  std::vector<size_t> vec_isotrack_index; 
-  
+  std::vector<size_t> vec_isotrack_index;
+
 };
 
 #endif
-
