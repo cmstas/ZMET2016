@@ -53,7 +53,7 @@ def get(data = [],mc = [],year = []):
             for dsname,datasets in yearDatasets.items():
                 if searchString == "all":
                     finalDataset.extend(datasets)
-                else if searchString in dsname:
+                elif searchString in dsname:
                     finalDataset.extend(datasets)
 
     elif len(mc) > 0:
@@ -63,7 +63,7 @@ def get(data = [],mc = [],year = []):
             for dsname,datasets in yearDatasets.items():
                 if searchString == "all":
                     finalDataset.extend(datasets)
-                else if searchString in dsname:
+                elif searchString in dsname:
                     finalDataset.extend(datasets)
 
 
@@ -71,4 +71,4 @@ def get(data = [],mc = [],year = []):
 
 if __name__ == "__main__":
     #print(get(mc = ["SingleTop","GammaJets","WGamma"],year = 2017))
-    print(get(mc = "GammaJets",year = 2017))
+    print(get(mc = "all",year = 2018))
