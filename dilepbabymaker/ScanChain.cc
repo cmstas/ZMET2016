@@ -213,7 +213,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	// setup btag calibration readers
   if(gconf.year == 2016)
   {
-      calib = new BTagCalibration("deepcsv","btagsf/DeepCSV_2016LegacySF_V1.csv")
+      calib = new BTagCalibration("deepcsv","btagsf/DeepCSV_2016LegacySF_V1.csv");
   }
   else if(gconf.year == 2017)
   {
