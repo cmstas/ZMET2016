@@ -4022,7 +4022,7 @@ void babyMaker::load_leptonSF_files()
   // muon id SF for Fullsim to Data
   if(gconf.year == 2016)
   {
-    f_sfweights  = TFile::Open("leptonSFs/muons/2016/SCaleFactorMuonID.root","READ");
+    f_sfweights  = TFile::Open("leptonSFs/muons/2016/ScaleFactorMuonID.root","READ");
     h_muoweights_id = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_id");
 
   }
