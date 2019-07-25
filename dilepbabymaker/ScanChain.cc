@@ -213,7 +213,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	// setup btag calibration readers
   if(gconf.year == 2016)
   {
-      calib = new BTagCalibation("deepcsv","btagsf/DeepCSV_2016LegacySF_V1.csv")
+      calib = new BTagCalibration("deepcsv","btagsf/DeepCSV_2016LegacySF_V1.csv")
   }
   else if(gconf.year == 2017)
   {
@@ -4056,7 +4056,7 @@ void babyMaker::load_leptonSF_files()
   if(gconf.year == 2016)
   {
     f_sfweights  = TFile::Open("leptonSFs/muons/2016/ScaleFactorMuonIP2D.root","READ");
-    h_muoweights_IP2D_hist = (TH1F*) f_sfweights->Get("SF") -> Clone("h_muoweights_IP2D_hist");
+    h_muoweights_IP2D_hist = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_IP2D_hist");
     h_muoweights_IP2D_hist -> SetDirectory(rootdir);
   }
     f_sfweights->Close();
