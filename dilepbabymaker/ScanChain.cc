@@ -2554,7 +2554,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
               vec_isotrack_p4.push_back(cms3.els_p4().at(iEl));
               vec_isotrack_pdgid.push_back(11);
               vec_isotrack_absiso.push_back(cms3.els_pfChargedHadronIso().at(iEl));
+              vec_isotrack_isLostTrack.push_back(false);
               vec_isotrack_index.push_back(-1);
+
               nisoTrack_PFLep5_woverlaps++;
               nisoTrack_PFEle5_woverlaps++;
               nisoTrack_5gev++;
@@ -2645,6 +2647,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 vec_isotrack_p4.push_back(isotrack_p4);
                 vec_isotrack_absiso.push_back(absiso);
                 vec_isotrack_pdgid.push_back(pdgId);
+                //Lost tracks matter only for charged hadrons as HEM1516 only affects charged hadrons (a very plausible assumption, but I don't know how many false HCAL hits exist)
+                vec_isotrack_isLostTrack.push_back(cms3.isotracksisLostTrack().at(iit));
                 vec_isotrack_index.push_back(iit);
             }
         } //loop over isotracks
@@ -3062,6 +3066,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("isotrack_p4",&vec_isotrack_p4);
   BabyTree_->Branch("isotrack_absiso",&vec_isotrack_absiso);
   BabyTree_->Branch("isotrack_pdgId",&vec_isotrack_pdgid);
+  BabyTree_->Branch("isotrack_isLostTrack",&vec_isotrack_isLostTrack);
   BabyTree_->Branch("isotrack_index",&vec_isotrack_index);
 
   BabyTree_->Branch("ngamma"             , &ngamma        , "ngamma/I" );

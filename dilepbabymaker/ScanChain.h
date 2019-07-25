@@ -589,6 +589,7 @@ private:
   std::vector<float> vec_isotrack_absiso;
   std::vector<int> vec_isotrack_pdgid;
   std::vector<size_t> vec_isotrack_index;
+  std::vector<bool> vec_isotrack_isLostTrack;
 
 };
 
