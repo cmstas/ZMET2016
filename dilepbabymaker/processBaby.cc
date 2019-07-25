@@ -15,16 +15,16 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  TString outfileid(argv[1]); 
+  TString outfileid(argv[1]);
   TString infile(argv[2]);
   std::fstream outputName("outputName.txt",std::ios::out);
 
   int max_events = -1;
   if (argc >= 4) max_events = atoi(argv[3]);
   std::cout << "set max number of events to: " << max_events << std::endl;
-  
+
   std::cout<<"running on file: "<<infile.Data()<<std::endl;
-  
+
   TChain *chain = new TChain("Events");
   chain->Add(infile.Data());
   // chain->Add("/hadoop/cms/store/group/snt/run2_50ns/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/V07-04-03/merged_ntuple_2.root");
@@ -183,7 +183,7 @@ int main(int argc, char **argv) {
   // else if (infile.Contains("SingleElectron_Run2012C-24Aug2012-v1_AOD"))      	sample =  Form("SingleElectron2012C_24Aug2012v1V532_%s",      outfileid.Data());
   // else if (infile.Contains("SingleElectron_Run2012C-PromptReco-v2_AOD"))      	sample =  Form("SingleElectron2012C_PromptRecov2V532_%s",     outfileid.Data());
   // else if (infile.Contains("SingleElectron_Run2012D-PromptReco-v1_AOD"))      	sample =  Form("SingleElectron2012D_PromptRecov1V532_%s",     outfileid.Data());
-  // //dimuon 
+  // //dimuon
   // else if (infile.Contains("DoubleMu_Run2012A-recover-06Aug2012-v1_AOD")) 	sample =  Form("DoubleMu2012A_recover06Aug2012V532_%s", outfileid.Data());
   // else if (infile.Contains("DoubleMu_Run2012A-13Jul2012-v1_AOD"))     		sample =  Form("DoubleMu2012A_13Jul2012v1V532_%s",            outfileid.Data());
   // else if (infile.Contains("DoubleMu_Run2012B-13Jul2012-v4_AOD"))     		sample =  Form("DoubleMu2012B_13Jul2012v4V532_%s",            outfileid.Data());
@@ -217,7 +217,10 @@ int main(int argc, char **argv) {
    //assign gconf year
 
   if(infile.Contains("Run2016") || infile.Contains("Fall16") || infile.Contains("Autumn16") || infile.Contains("Summer16"))
-      gconf.year = 2016; 
+  {
+      gconf.year = 2016;
+      gconf.cmssw_ver = 94;
+  }
   else if(infile.Contains("Run2017") || infile.Contains("Fall17") || infile.Contains("Autumn17") || infile.Contains("Spring17") || infile.Contains("Summer17"))
     gconf.year = 2017;
   else if(infile.Contains("Run2018"))
@@ -227,6 +230,6 @@ int main(int argc, char **argv) {
       gconf.year = 2017; //hardcoded for synchronization!
 
   babyMaker *looper = new babyMaker();
-  looper->ScanChain(chain, sample, max_events); 
+  looper->ScanChain(chain, sample, max_events);
   return 0;
 }
