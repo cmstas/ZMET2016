@@ -216,14 +216,14 @@ int main(int argc, char **argv) {
   //--------------------------------
    //assign gconf year
 
-  if(infile.Contains("Run2016") || infile.Contains("Fall16") || infile.Contains("Autumn16") || infile.Contains("Summer16"))
+  if(infile.Contains("Run2016") || infile.Contains("Summer16"))
   {
       gconf.year = 2016;
       gconf.cmssw_ver = 94;
   }
-  else if(infile.Contains("Run2017") || infile.Contains("Fall17") || infile.Contains("Autumn17") || infile.Contains("Spring17") || infile.Contains("Summer17"))
+  else if(infile.Contains("Run2017") || infile.Contains("Fall17"))
     gconf.year = 2017;
-  else if(infile.Contains("Run2018"))
+  else if(infile.Contains("Run2018") || infile.Contains("Autumn18")))
       gconf.year = 2018;
 
   else
