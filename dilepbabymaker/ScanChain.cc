@@ -4041,7 +4041,7 @@ void babyMaker::load_leptonSF_files()
   // muon iso SF for Fullsim to Data
   if(gconf.year == 2016)
   {
-    f_sfweights  = TFile::Open("leptonSFs/muons/ScaleFactorMuonMiniIso.root","READ");
+    f_sfweights  = TFile::Open("leptonSFs/muons/2016/ScaleFactorMuonMiniIso.root","READ");
     h_muoweightsiso = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweightsiso");
   }
   else if(gconf.year == 2017 || gconf.year == 2018)
