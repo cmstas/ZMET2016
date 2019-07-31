@@ -40,7 +40,7 @@ echo "[wrapper] ./processBaby [$OUTPUTTAG] [$INPUTFILENAME] -1"
 ./processBaby "${OUTPUTTAG}" "${INPUTFILENAME}" "${MAXEVENTS}"
 
 NAMEINCONDOR=$(cat outputName.txt)
-if ["$?" != "0" ]; then
+if ["$?"!= "0" ]; then
     echo "Removing outptut baby because babymaker crashed"
     rm -rf $NAMEINCONDOR
 fi
