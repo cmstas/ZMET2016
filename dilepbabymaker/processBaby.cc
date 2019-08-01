@@ -17,6 +17,12 @@ int main(int argc, char **argv) {
 
   TString outfileid(argv[1]);
   TString infile(argv[2]);
+  bool useXrootd = false;
+  if(argc == 4)
+  {
+    if(stoi(argv[3]))
+        useXrootd = true;
+  }
   std::fstream outputName("outputName.txt",std::ios::out);
 
   int max_events = -1;
@@ -26,6 +32,10 @@ int main(int argc, char **argv) {
   std::cout<<"running on file: "<<infile.Data()<<std::endl;
 
   TChain *chain = new TChain("Events");
+  if(useXrootd)
+  {
+      infile.ReplaceAll("/haddop/cms","root://redirector.t2.ucsd.edu/") 
+  }
   chain->Add(infile.Data());
   // chain->Add("/hadoop/cms/store/group/snt/run2_50ns/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/V07-04-03/merged_ntuple_2.root");
   // chain->Add("/hadoop/cms/store/group/snt/run2_50ns/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/V07-04-03/merged_ntuple_3.root");

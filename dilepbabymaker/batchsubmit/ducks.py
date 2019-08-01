@@ -13,6 +13,7 @@ tar_path = "package.tar.gz"
 hadoop_path = "ZMET_babies"
 job_tag = "ZMET_babies"
 
+usexrootd = 1
 #datasetsToProcess = ZMET.get(data = "SinglePhoton",year = 2017)
 #EWKMCStrings = ["WGammaWJets","ttbar","SingleTop"]
 dsList = []
@@ -40,6 +41,7 @@ while True:
               sample = sample,
               open_dataset = False,
               flush = True,
+              arguments = str(usexrootd)
               files_per_output = 1,
               output_name = "baby.root",
               tag = job_tag,
