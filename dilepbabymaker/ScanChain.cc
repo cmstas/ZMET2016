@@ -946,10 +946,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_DoubleEle33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v");
-      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MV = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"); 
+      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"); 
 
   	  //Double Muon:
-      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v");
       HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v");
       HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v");
       HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ = passHLTTriggerPattern("HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v");
@@ -965,7 +964,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");
       HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");    
-      HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v");          
       HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v");
 
@@ -1009,7 +1007,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v");
-      HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" );
       HLT_Mu27_Ele37_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu27_Ele37_CaloIdL_MW_v");
       HLT_Mu37_Ele27_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu37_Ele27_CaloIdL_MW_v");
 
@@ -2966,7 +2963,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   //2017 Trigger Selections
   BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8"            , &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8          );
   BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ"                  , &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ                );
-  BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL"                     , &HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL                   );
   BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8);
   BabyTree_->Branch("HLT_Mu37_TkMu27",&HLT_Mu37_TkMu27);
   BabyTree_->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ"            , &HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ          );

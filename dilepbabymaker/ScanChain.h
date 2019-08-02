@@ -187,12 +187,10 @@ private:
 
   //2016 DoubleElectron
   Int_t HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ;
-  Int_t HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ;
   Int_t HLT_DoubleEle33_CaloIdL_GsfTrkIdVL;
   Int_t HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW;
 
   //2016 DoubleMuon
-  Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL;
   Int_t HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL;
   Int_t HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ;
   Int_t HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ;
@@ -204,6 +202,7 @@ private:
   Int_t HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL;  
   Int_t HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ;
   Int_t HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL;                
+  Int_t HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL;
   Int_t HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL;
   Int_t HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ;
   Int_t HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL;        
