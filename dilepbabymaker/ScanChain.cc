@@ -2930,7 +2930,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL",&HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL);
   BabyTree_->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",&HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL);
   BabyTree_->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",&HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL);
-  BabyTree_->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",&HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ);
   BabyTree_->Branch("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL",&HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL);
   BabyTree_->Branch("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL",&HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL);
 
