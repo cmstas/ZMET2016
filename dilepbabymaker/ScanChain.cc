@@ -3389,42 +3389,7 @@ void babyMaker::InitBabyNtuple () {
   HLT_singleMu_noiso = -999;
 
   // Double electron
-  HLT_DoubleEl_noiso = -999;
-  HLT_DoubleEl       = -999; // prescaled - turned off
-  HLT_DoubleEl_DZ    = -999; // prescaled
-  HLT_DoubleEl_DZ_2  = -999; // new
-
-  // electron-muon
-  HLT_MuEG         = -999;
-  HLT_MuEG_2       = -999;
-  HLT_MuEG_noiso   = -999;
-  HLT_MuEG_noiso_2 = -999;
-
-  HLT_Mu8_EG17     = -999;
-  HLT_Mu8_EG23     = -999;
-  HLT_Mu8_EG23_DZ  = -999;
-
-  HLT_Mu12_EG23_DZ = -999;
-
-  HLT_Mu17_EG12    = -999;
-
-
-  HLT_Mu23_EG8     = -999;
-  HLT_Mu23_EG8_DZ  = -999;
-  HLT_Mu23_EG12    = -999;
-  HLT_Mu23_EG12_DZ = -999;
-
-  // Double electron
-  HLT_DoubleMu_noiso    = -999;
-  HLT_DoubleMu_noiso_27_8     = -999;
-  HLT_DoubleMu_noiso_30_11    = -999;
-  HLT_DoubleMu_noiso_40_11    = -999;
-  HLT_DoubleMu          = -999;
-  HLT_DoubleMu_tk       = -999;
-  HLT_DoubleMu_dbltk    = -999;
-  HLT_DoubleMu_nonDZ    = -999;
-  HLT_DoubleMu_tk_nonDZ = -999; // new unprescaled : use these
-
+  
   // Single photon
   HLT_Photon22_R9Id90_HE10_IsoM  = -999;
   HLT_Photon30_R9Id90_HE10_IsoM  = -999;
