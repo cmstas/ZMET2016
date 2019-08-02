@@ -11,22 +11,24 @@
 int main(int argc, char **argv) {
 
   if (argc < 3) {
-    std::cout << "USAGE: processBaby <tag> <filename> [<max_num_events>]" << std::endl;
+    std::cout << "USAGE: processBaby <tag> <filename> [<use xrootd>] [<max_num_events>] " << std::endl;
     return 1;
   }
 
   TString outfileid(argv[1]);
   TString infile(argv[2]);
+  int max_events = -1;
   bool useXrootd = false;
-  if(argc == 4)
+  if(argc >= 4)
   {
-    if(stoi(argv[3]))
+    if(atoi(argv[3]))
         useXrootd = true;
+    if(argc > 4)
+        max_events = atoi(argv[4]);
   }
+  
   std::fstream outputName("outputName.txt",std::ios::out);
 
-  int max_events = -1;
-  if (argc >= 4) max_events = atoi(argv[3]);
   std::cout << "set max number of events to: " << max_events << std::endl;
 
   std::cout<<"running on file: "<<infile.Data()<<std::endl;
