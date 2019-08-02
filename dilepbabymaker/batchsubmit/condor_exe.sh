@@ -5,7 +5,7 @@ INPUTFILENAME=$3
 INDEX=$4
 CMSSWVER=$5
 SCRAMARCH=$6
-
+USEXROOTD=$7
 
 echo "[wrapper] OUTPUTDIR       = " ${OUTPUTDIR}
 echo "[wrapper] OUTPUTFILENAME  = " ${OUTPUTFILENAME}
@@ -13,6 +13,7 @@ echo "[wrapper] INPUTFILENAME  = " ${INPUTFILENAME}
 echo "[wrapper] INDEX           = " ${INDEX}
 echo "[wrapper] CMSSWVER        = " ${CMSSWVER}
 echo "[wrapper] SCRAMARCH       = " ${SCRAMARCH}
+echo "[wrapper] USEXROOTD       = " ${USEXROOTD}
 
 echo "[wrapper] printing env"
 printenv
@@ -36,8 +37,8 @@ tar -xzvf package.tar.gz
 OUTPUTTAG=$(echo ${INPUTFILENAME##*/} | sed 's/\.root//')
 MAXEVENTS=-1
 echo "[wrapper] running babymaker"
-echo "[wrapper] ./processBaby [$OUTPUTTAG] [$INPUTFILENAME] -1"
-./processBaby "${OUTPUTTAG}" "${INPUTFILENAME}" "${MAXEVENTS}"
+echo "[wrapper] ./processBaby [$OUTPUTTAG] [$INPUTFILENAME] [$USEXROOTD] -1"
+./processBaby "${OUTPUTTAG}" "${INPUTFILENAME}" "${USEXROOTD}" "${MAXEVENTS}"
 
 NAMEINCONDOR=$(cat outputName.txt)
 if ["$?"!= "0" ]; then
