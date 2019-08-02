@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
   TChain *chain = new TChain("Events");
   if(useXrootd)
   {
-      infile.ReplaceAll("/haddop/cms","root://redirector.t2.ucsd.edu/"); 
+      infile.ReplaceAll("/hadoop/cms","root://redirector.t2.ucsd.edu/"); 
   }
   chain->Add(infile.Data());
   // chain->Add("/hadoop/cms/store/group/snt/run2_50ns/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/V07-04-03/merged_ntuple_2.root");
