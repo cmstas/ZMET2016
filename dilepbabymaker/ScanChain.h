@@ -185,42 +185,36 @@ private:
   Int_t HLT_singleMu;
   Int_t HLT_singleMu_noiso;
 
-  // Double electron
-  Int_t HLT_DoubleEl_noiso;
-  Int_t HLT_DoubleEl      ; // prescaled - turned off
-  Int_t HLT_DoubleEl_DZ   ; // prescaled
-  Int_t HLT_DoubleEl_DZ_2 ; // new
+  //2016 DoubleElectron
+  Int_t HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ;
+  Int_t HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ;
+  Int_t HLT_DoubleEle33_CaloIdL_GsfTrkIdVL;
+  Int_t HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW;
 
-  // electron-muon
-  Int_t HLT_MuEG        ;
-  Int_t HLT_MuEG_2      ;
-  Int_t HLT_MuEG_noiso  ;
-  Int_t HLT_MuEG_noiso_2;
+  //2016 DoubleMuon
+  Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL;
+  Int_t HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL;
+  Int_t HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ;
+  Int_t HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ;
+  Int_t HLT_Mu27_TkMu8;
+  Int_t HLT_Mu30_TkMu11;
 
-  Int_t HLT_Mu8_EG17      ;
-  Int_t HLT_Mu8_EG23      ;
-  Int_t HLT_Mu8_EG23_DZ   ;
+  //2016 MuonElectron
+  Int_t HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL;
+  Int_t HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL;  
+  Int_t HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ;
+//  Int_t HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL;
+//  Int_t HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ;
+  Int_t HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL;                
+  Int_t HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL;
+  Int_t HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ;
+  Int_t HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL;        
+  Int_t HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ;
+  Int_t HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL;          
+  Int_t HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL;
 
-  Int_t HLT_Mu12_EG23_DZ  ;
 
-  Int_t HLT_Mu17_EG12     ;
-
-  Int_t HLT_Mu23_EG8      ;
-  Int_t HLT_Mu23_EG8_DZ   ;
-  Int_t HLT_Mu23_EG12     ;
-  Int_t HLT_Mu23_EG12_DZ  ;
-
-  // Double electron
-  Int_t HLT_DoubleMu_noiso   ;
-  Int_t HLT_DoubleMu_noiso_27_8    ;
-  Int_t HLT_DoubleMu_noiso_30_11   ;
-  Int_t HLT_DoubleMu_noiso_40_11   ;
-  Int_t HLT_DoubleMu         ;
-  Int_t HLT_DoubleMu_tk      ;
-  Int_t HLT_DoubleMu_dbltk   ;
-  Int_t HLT_DoubleMu_nonDZ   ;
-  Int_t HLT_DoubleMu_tk_nonDZ; // new unprescaled : use these
-
+  
   // Single photon
   Int_t HLT_Photon22_R9Id90_HE10_IsoM ;
   Int_t HLT_Photon30_R9Id90_HE10_IsoM ;
@@ -247,25 +241,35 @@ private:
   Bool_t HLT_Photon165_R9Id90_HE10_IsoM_matchedtophoton;
   Bool_t HLT_Photon165_HE10_matchedtophoton;
 
-  //New 2017 Triggers:
+  //2017 DoubleMuon
   Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8            ;
-  Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ                  ;
+  Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ                  ; //also in 2016
   Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL                     ;
   Int_t HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8          ;
   Int_t HLT_Mu37_TkMu27                                      ;
+
+  //2017 DoubleElectron
   Int_t HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ            ;
   Int_t HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL               ;
   Int_t HLT_DoubleEle33_CaloIdL_MW                           ;
   Int_t HLT_DoubleEle25_CaloIdL_MW                           ;
   Int_t HLT_DoubleEle27_CaloIdL_MW_Edge                      ;
+
+  //2017 MuonElectron
   Int_t HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ   ;
   Int_t HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ   ;
-  Int_t HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL      ;
+  Int_t HLT_Mu23_TrkIsoVVL_Ele13_CaloIdL_TrackIdL_IsoVL      ; //also in 2016
   Int_t HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ    ;
   Int_t HLT_Mu27_Ele37_CaloIdL_MW                            ;
   Int_t HLT_Mu37_Ele27_CaloIdL_MW                            ;
+
+  //2017 SingleMuon
   Int_t HLT_IsoMu27                                          ;
   Int_t HLT_Mu50                                             ;
+
+  //2018 DoubleElectron - subset of 2017
+  //2018 DoubleMuon - subset of 2017
+  //2018 MuonElectron - subset of 2017
 
   //----- LEPTONS
   Int_t           nlep;

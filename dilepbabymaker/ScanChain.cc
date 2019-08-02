@@ -943,47 +943,31 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   				                  passHLTTriggerPattern("HLT_Mu55_v"        ) );
 
   	  //Double Electron:
-  	  HLT_DoubleEl_noiso = ( passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v"    ) ||
-  	                         passHLTTriggerPattern( "HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v" ) );
-  	  HLT_DoubleEl       =   passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_v"   ); // prescaled - turned off
-  	  HLT_DoubleEl_DZ    =   passHLTTriggerPattern( "HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // prescaled
-  	  HLT_DoubleEl_DZ_2  =   passHLTTriggerPattern( "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v"); // new
-
-  	  //EMu:
-  	  HLT_MuEG           = (passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
-  				                  passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  ) );
-
-  	  HLT_MuEG_2         = (passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" ) ||
-  				                  passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  ) ||
-  				                  passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  ) );
-
-  	  HLT_MuEG_noiso     =  passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v"                 );
-  	  HLT_MuEG_noiso_2   =  passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v"                 );
-
-      //more emu, broken into single triggers
-  	  HLT_Mu8_EG17      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v"  );
-  	  HLT_Mu8_EG23      = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v"  );
-  	  HLT_Mu8_EG23_DZ   = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
-  	  HLT_Mu12_EG23_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v" );
-  	  HLT_Mu17_EG12     = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
-  	  HLT_Mu23_EG8      = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v"  );
-  	  HLT_Mu23_EG8_DZ   = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v"  );
-  	  HLT_Mu23_EG12     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v" );
-  	  HLT_Mu23_EG12_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v" );
+      HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
+      HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
+      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v");
+      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MV = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"); 
 
   	  //Double Muon:
-  	  HLT_DoubleMu_noiso       = (passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                          ) ||
-  				                        passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                         ) ||
-  				                        passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                         ) );
+      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v");
+      HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v");
+      HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v");
+      HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ = passHLTTriggerPattern("HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v");
+      HLT_Mu27_TkMu8 = passHLTTriggerPattern("HLT_Mu27_TkMu8");
+      HLT_Mu30_TkMu11 = passHLTTriggerPattern("HLT_Mu30_TkMu11");
 
-  	  HLT_DoubleMu_noiso_27_8  =  passHLTTriggerPattern( "HLT_Mu27_TkMu8_v"                         );
-  	  HLT_DoubleMu_noiso_30_11 =  passHLTTriggerPattern( "HLT_Mu30_TkMu11_v"                        );
-  	  HLT_DoubleMu_noiso_40_11 =  passHLTTriggerPattern( "HLT_Mu40_TkMu11_v"                        );
-  	  HLT_DoubleMu             =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"     );
-  	  HLT_DoubleMu_tk          =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v"   );
-  	  HLT_DoubleMu_dbltk       =  passHLTTriggerPattern( "HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v" );
-  	  HLT_DoubleMu_nonDZ       =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"        );
-  	  HLT_DoubleMu_tk_nonDZ    =  passHLTTriggerPattern( "HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v"      ); // new unprescaled : use these
+      //MuonElectron
+      
+      HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v");
+      HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v");  
+      HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v");
+      HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v");  
+      HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");
+      HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
+      HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");    
+      HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
+      HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v");          
+      HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v");
 
   	  //Photon:
   	  HLT_Photon22_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon22_R9Id90_HE10_IsoM_v" );
@@ -2931,41 +2915,27 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("HLT_singleMu"       , &HLT_singleMu       );
   BabyTree_->Branch("HLT_singleMu_noiso" , &HLT_singleMu_noiso );
 
-  // Double electron
-  BabyTree_->Branch("HLT_DoubleEl_noiso" , &HLT_DoubleEl_noiso );
-  BabyTree_->Branch("HLT_DoubleEl"       , &HLT_DoubleEl       ); // prescaled - turned off
-  BabyTree_->Branch("HLT_DoubleEl_DZ"    , &HLT_DoubleEl_DZ    ); // prescaled
-  BabyTree_->Branch("HLT_DoubleEl_DZ_2"  , &HLT_DoubleEl_DZ_2  ); // new
+  //2016 DoubleElectron
+  BabyTree_->Branch("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",&HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ);
+  BabyTree_->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",&HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ);
+  BabyTree_->Branch("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL",&HLT_DoubleEle33_CaloIdL_GsfTrkIdVL);
+  BabyTree_->Branch("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW",&HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW);
 
-  // electron-muon
-  BabyTree_->Branch("HLT_MuEG"         , &HLT_MuEG         );
-  BabyTree_->Branch("HLT_MuEG_2"       , &HLT_MuEG_2       );
-  BabyTree_->Branch("HLT_MuEG_noiso"   , &HLT_MuEG_noiso   );
-  BabyTree_->Branch("HLT_MuEG_noiso_2" , &HLT_MuEG_noiso_2 );
-
-  BabyTree_->Branch("HLT_Mu8_EG17"     , &HLT_Mu8_EG17     );
-  BabyTree_->Branch("HLT_Mu8_EG23"     , &HLT_Mu8_EG23     );
-  BabyTree_->Branch("HLT_Mu8_EG23_DZ"  , &HLT_Mu8_EG23_DZ  );
-
-  BabyTree_->Branch("HLT_Mu12_EG23_DZ" , &HLT_Mu12_EG23_DZ );
-
-  BabyTree_->Branch("HLT_Mu17_EG12"    , &HLT_Mu17_EG12    );
-
-  BabyTree_->Branch("HLT_Mu23_EG8"     , &HLT_Mu23_EG8     );
-  BabyTree_->Branch("HLT_Mu23_EG8_DZ"  , &HLT_Mu23_EG8_DZ  );
-  BabyTree_->Branch("HLT_Mu23_EG12"    , &HLT_Mu23_EG12    );
-  BabyTree_->Branch("HLT_Mu23_EG12_DZ" , &HLT_Mu23_EG12_DZ );
-
-  // Double electron
-  BabyTree_->Branch("HLT_DoubleMu_noiso"    , &HLT_DoubleMu_noiso    );
-  BabyTree_->Branch("HLT_DoubleMu_noiso_27_8"     , &HLT_DoubleMu_noiso_27_8     );
-  BabyTree_->Branch("HLT_DoubleMu_noiso_30_11"    , &HLT_DoubleMu_noiso_30_11    );
-  BabyTree_->Branch("HLT_DoubleMu_noiso_40_11"    , &HLT_DoubleMu_noiso_40_11    );
-  BabyTree_->Branch("HLT_DoubleMu"          , &HLT_DoubleMu          );
-  BabyTree_->Branch("HLT_DoubleMu_tk"       , &HLT_DoubleMu_tk       );
-  BabyTree_->Branch("HLT_DoubleMu_dbltk"    , &HLT_DoubleMu_dbltk    );
-  BabyTree_->Branch("HLT_DoubleMu_nonDZ"    , &HLT_DoubleMu_nonDZ    );
-  BabyTree_->Branch("HLT_DoubleMu_tk_nonDZ" , &HLT_DoubleMu_tk_nonDZ ); // new unprescaled : use these
+  //2016 DoubleMuon
+  BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL);
+  BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ",&HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ);
+  BabyTree_->Branch("HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ",&HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ);
+  BabyTree_->Branch("HLT_Mu27_TkMu8",&HLT_Mu27_TkMu8);
+  BabyTree_->Branch("HLT_Mu30_TkMu11",&HLT_Mu30_TkMu11);
+  //2016 MuonElectron
+  BabyTree_->Branch("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL",& HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL);
+  BabyTree_->Branch("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL",&HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL);
+  BabyTree_->Branch("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL",&HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL);
+  BabyTree_->Branch("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",&HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL);
+  BabyTree_->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL",&HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL);
+  BabyTree_->Branch("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ",&HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ);
+  BabyTree_->Branch("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL",&HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL);
+  BabyTree_->Branch("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL",&HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL);
 
   // Single photon
   BabyTree_->Branch("HLT_Photon22_R9Id90_HE10_IsoM"  , &HLT_Photon22_R9Id90_HE10_IsoM  );
