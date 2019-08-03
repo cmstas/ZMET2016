@@ -355,8 +355,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     TString currentFileName(currentFile->GetTitle());
 
     // Get File Content
-    TFile f( currentFile->GetTitle() );
-    TTree *tree = (TTree*)f.Get("Events");
+    TFile *f = TFile::Open( currentFile->GetTitle() );
+    TTree *tree = (TTree*)f->Get("Events");
     TTreeCache::SetLearnEntries(10);
     tree->SetCacheSize(128*1024*1024);
     cms3.Init(tree);
