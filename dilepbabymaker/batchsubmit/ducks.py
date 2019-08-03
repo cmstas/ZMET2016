@@ -41,7 +41,7 @@ while True:
               sample = sample,
               open_dataset = False,
               flush = True,
-              arguments = str(usexrootd)
+              arguments = str(usexrootd),
               files_per_output = 1,
               output_name = "baby.root",
               tag = job_tag,

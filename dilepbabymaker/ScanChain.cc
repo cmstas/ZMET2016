@@ -2790,7 +2790,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  }//end loop on events in a file
 
     delete tree;
-    f.Close();
+    f->Close();
 
     if (applyJECfromFile) {
       delete jet_corrector_pfL1FastJetL2L3;
