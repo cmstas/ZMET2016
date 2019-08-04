@@ -568,7 +568,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
                   ak8_jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L1FastJet_AK8PFPuppi.txt");
                   ak8_jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2Relative_AK8PFPuppi.txt");
-                  ak8_jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L3Absolute_AK48PFPuppi.txt");
+                  ak8_jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L3Absolute_AK8PFPuppi.txt");
                   ak8_jecUnc_lateF = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017GH_V11_DATA_Uncertainty_AK8PFPuppi.txt");
                 }
             }
