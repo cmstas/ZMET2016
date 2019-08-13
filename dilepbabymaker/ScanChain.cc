@@ -1625,6 +1625,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 nJetFailId++;
             continue;
         }
+        if(gconf.year == 2018 && !isTightPFJet_2018_v1(iJet) && !isSMSScan) continue;
   		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
   		  passJets.push_back(std::pair<int,float>(iJet, pfjet_p4_cor.pt()));
 
