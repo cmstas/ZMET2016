@@ -317,7 +317,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       {
 
       }
-      else if(gcon.year == 2018)
+      else if(gconf.year == 2018)
       {
 
       }
