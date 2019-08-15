@@ -288,14 +288,41 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	// extra copy for fastsim -> fullsim SFs
 	if (isSMSScan) {
 	  // setup btag calibration readers
-	  calib_fastsim     = new BTagCalibration("CSV", "btagsf/fastsim_csvv2_ttbar_26_1_2017.csv"); // Moriond 17 25ns fastsim version of SFs
+      //
+      if(gconf.year == 2016)
+      {
+          calib_fastsim = new BTagCalibration("deepcsv","btagsf/deepcsv_13TEV_16SL_18_3_2019.csv");
+      }
+      else if(gconf.year == 2017)
+      {
+          calib_fastsim = new BTagCalibration("deepcsv","deepcsv_13TEV_17SL_18_3_2019.csv");
+      }
+      else if(gconf.year == 2018)
+      {
+          calib_fastsim = new BTagCalibration("deepcsv","deepcsv_13TEV_18SL_7_5_2019.csv");
+      }
 	  reader_fastsim    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"}); // central
       reader_fastsim->load(*calib_fastsim, BTagEntry::JetFlavor::FLAV_UDSG, "fastsim");
       reader_fastsim->load(*calib_fastsim, BTagEntry::JetFlavor::FLAV_B, "fastsim");
       reader_fastsim->load(*calib_fastsim, BTagEntry::JetFlavor::FLAV_C, "fastsim");
 
 	  // get btag efficiencies
-	  TFile * f_btag_eff_fastsim           = new TFile("btagsf/btageff__SMS-T1bbbb-T1qqqq_25ns_Moriond17.root");
+      TFile *f_btag_eff = nullptr;
+
+      if(gconf.year == 2016)
+      {
+
+      }
+      else if(gconf.year == 2017)
+      {
+
+      }
+      else if(gcon.year == 2018)
+      {
+
+      }
+
+	  f_btag_eff_fastsim           = new TFile("btagsf/btageff__SMS-T1bbbb-T1qqqq_25ns_Moriond17.root");
 	  TH2D  * h_btag_eff_b_fastsim_temp    = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_b"  );
 	  TH2D  * h_btag_eff_c_fastsim_temp    = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_c"  );
 	  TH2D  * h_btag_eff_udsg_fastsim_temp = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_udsg");
