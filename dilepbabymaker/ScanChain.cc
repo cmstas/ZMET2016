@@ -74,6 +74,42 @@ inline bool sortByValue(const std::pair<int,float>& pair1, const std::pair<int,f
   return pair1.second > pair2.second;
 }
 
+
+float getBTagWP(int WP,int year)
+{
+    //WP : 0-loose, 1-medium,2-tight
+    //very crappy if-else implementation
+    //
+    if(gconf.year == 2016)
+    {
+        if(WP == 0)
+            return 0.2217;
+        else if(WP == 1)
+            return 0.6321;
+        else if(WP == 2)
+            return 0.8953;
+    }
+    else if(gconf.year == 2017)
+    {
+        if(WP == 0)
+            return 0.1522;
+        else if(WP == 1)
+            return 0.4941;
+        else if(WP == 2)
+            return 0.8001;
+    }
+    else if(gconf.year == 2018)
+    {
+        if(WP == 0)
+            return 0.1241;
+        else if(WP == 1)
+            return 0.4184;
+        else if(WP == 2)
+            return 0.7527;
+    }
+}
+
+
 int returnBrokenTrigger( string trigname )
 {
   if( passHLTTriggerPattern(   trigname.c_str() ) ){
@@ -272,6 +308,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  std::cout << "loaded fastsim btag SFs" << std::endl;
 	} // if (isFastsim)
   }
+
+
 
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 
@@ -1916,9 +1954,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  // require pT > 35 for HT
     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt();}
 
-    		  if(current_csv_val >= 0.8001) { nBJetTight++; }
+    		  if(current_csv_val >= getBTagWP(2,gconf.year)) { nBJetTight++; }
 
-    		  if(current_csv_val >= 0.4941) {
+    		  if(current_csv_val >= getBTagWP(1,gconf.year)) {
       			nBJetMedium++;
 
       			// for applying btagging SFs
@@ -2005,7 +2043,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			}
     		  }
 
-    		  if(current_csv_val >= 0.1522) { nBJetLoose++; }
+    		  if(current_csv_val >= getBTagWP(0,gconf.year)) { nBJetLoose++; }
 
     		  //require pT > 35 for jet counting
     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ njets++; }
@@ -2020,12 +2058,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  jets_up_csv   .push_back(current_csv_val);
     		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ) { ht_up+=p4sCorrJets_up.at(iJet).pt();
               }
-    		  if(current_csv_val >= 0.9535) { nBJetTight_up++; }
-    		  if(current_csv_val >= 0.8484) {
+    		  if(current_csv_val >= getBTagWP(2,gconf.year)) { nBJetTight_up++; }
+    		  if(current_csv_val >= getBTagWP(1,gconf.year)) {
       			nBJetMedium_up++;
       			jets_medb_up_p4.push_back(p4sCorrJets_up.at(iJet));
     		  }
-    		  if(current_csv_val >= 0.5426) { nBJetLoose_up++; }
+    		  if(current_csv_val >= getBTagWP(0,gconf.year)) { nBJetLoose_up++; }
     		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ){ njets_up++; }
     		}
 //NOT UPDATED!!
@@ -2036,12 +2074,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       		  jets_dn_p4    .push_back(p4sCorrJets_dn.at(iJet));
       		  jets_dn_csv   .push_back(current_csv_val);
       		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ ht_dn+=p4sCorrJets_dn.at(iJet).pt(); }
-      		  if(current_csv_val >= 0.9535) { nBJetTight_dn++; }
-      		  if(current_csv_val >= 0.8484) {
+      		  if(current_csv_val >= getBTagWP(2,gconf.year)) { nBJetTight_dn++; }
+      		  if(current_csv_val >= getBTagWP(1,gconf.year)) {
         			nBJetMedium_dn++;
         			jets_medb_dn_p4.push_back(p4sCorrJets_dn.at(iJet));
       		  }
-      		  if(current_csv_val >= 0.5426) { nBJetLoose_dn++; }
+      		  if(current_csv_val >= getBTagWP(0,gconf.year)) { nBJetLoose_dn++; }
       		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ njets_dn++; }
     		  }
       }
