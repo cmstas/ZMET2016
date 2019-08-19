@@ -2194,7 +2194,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
           int iJet = ak8_passJets.at(passIdx).first;
 
-          if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
+          if( fabs(ak8_p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
 
           bool alreadyRemoved = false;
           /*Additional checks to ensure we don't have duplicate
@@ -2206,7 +2206,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if(alreadyRemoved) continue;
 
           //Checking deltaR and pushing into removedJets collection
-          float thisDR = DeltaR(p4sCorrJets.at(iJet).eta(), p4sLeptonsForJetCleaning.at(iLep).eta(), p4sCorrJets.at(iJet).phi(), p4sLeptonsForJetCleaning.at(iLep).phi());
+          float thisDR = DeltaR(ak8_p4sCorrJets.at(iJet).eta(), p4sLeptonsForJetCleaning.at(iLep).eta(), ak8_p4sCorrJets.at(iJet).phi(), p4sLeptonsForJetCleaning.at(iLep).phi());
           if(thisDR < maxDR){
             ak8_removedJets.push_back(iJet);
           }
@@ -2229,7 +2229,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           int iJet = ak8_passJets.at(passIdx).first;
 
 
-          if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
+          if( fabs(ak8_p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           bool alreadyRemoved = false;
 
           //Additional checks to ensure we don't have already removed jets
@@ -2243,7 +2243,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
           /*checking deltaR and pushing into the
           removedJetsGamma collection*/
-          float thisDR = DeltaR(p4sCorrJets.at(iJet).eta(), gamma_eta[iGamma], p4sCorrJets.at(iJet).phi(), gamma_phi[iGamma]);
+          float thisDR = DeltaR(ak8_p4sCorrJets.at(iJet).eta(), gamma_eta[iGamma], ak8_p4sCorrJets.at(iJet).phi(), gamma_phi[iGamma]);
           if(thisDR < minDR){
             minDR = thisDR;
             minIndex = iJet;
@@ -2280,7 +2280,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     	if( verbose ) cout<<"Before filling jet branches"<<endl;
 
-    		if( p4sCorrJets.at(iJet).pt() > 200.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
+    		if( ak8_p4sCorrJets.at(iJet).pt() > 200.0 && abs(ak8_p4sCorrJets.at(iJet).eta()) < 2.4 ){
       			ak8_jets_p4.push_back(ak8_p4sCorrJets.at(iJet));
                 ak8_jets_tau1.push_back(cms3.ak8jets_nJettinessTau1().at(iJet));
                 ak8_jets_tau2.push_back(cms3.ak8jets_nJettinessTau2().at(iJet));
