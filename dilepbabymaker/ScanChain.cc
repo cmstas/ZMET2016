@@ -4091,7 +4091,7 @@ void babyMaker::load_leptonSF_files()
 
   else if(gconf.year == 2017 || gconf.year == 2018)
   {
-    f_sfweights = TFile::Open("leptonSFs/Fall17/detailed_ele_full_fast_sf_17.root");
+    f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_ele_full_fast_sf_17.root");
     h_eleweights = (TH2D*) f_sfweights->Get("MVATightTightIP2D3D_eff_fast");
     h_eleweights->SetDirectory(rootdir);
   }
@@ -4116,7 +4116,7 @@ void babyMaker::load_leptonSF_files()
   else if(gconf.year == 2017 || gconf.year == 2018)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_mu_full_fast_sf_17.root");
-    h_muoweights = (TH2D*)f_sfweights->Get("")
+    h_muoweights = (TH2D*)f_sfweights->Get("");
   }
   else if(gconf.year == 2018)
   {
