@@ -107,6 +107,7 @@ float getBTagWP(int WP,int year)
         else if(WP == 2)
             return 0.7527;
     }
+    return 0;
 }
 
 
