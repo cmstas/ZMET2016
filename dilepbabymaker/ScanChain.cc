@@ -211,8 +211,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
 
-  fstream isoTrackElsOverlap("isotrack_els_overlap.txt",ios::out);
-  fstream isoTrackMusOverlap("isotrack_mus_overlap.txt",ios::out);
 
   cout<<"Creating MVA input for electrons."<<endl;
   createAndInitMVA("MVAinput", true, true, 80); // for electrons

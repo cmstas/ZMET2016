@@ -5,6 +5,7 @@
 
 #include "ScanChain.h"
 #include "../CORE/Config.h"
+#include "cxxopts.h"
 #include <iostream>
 #include <fstream>
 
@@ -16,7 +17,10 @@ int main(int argc, char **argv) {
   }
 
   TString outfileid(argv[1]);
-  TString infile(argv[2]);
+//  TString infile(argv[2]);
+//
+//
+  std::string infiles(argv[2]);
   int max_events = -1;
   bool useXrootd = false;
   if(argc >= 4)
@@ -26,19 +30,27 @@ int main(int argc, char **argv) {
     if(argc > 4)
         max_events = atoi(argv[4]);
   }
+
+  std::vector<std::string> split_filenames = split_filename_from_argv(infiles,",")
+
   
   std::fstream outputName("outputName.txt",std::ios::out);
 
   std::cout << "set max number of events to: " << max_events << std::endl;
 
-  std::cout<<"running on file: "<<infile.Data()<<std::endl;
-
   TChain *chain = new TChain("Events");
-  if(useXrootd)
+
+  for(auto &iter:infiles)
   {
-      infile.ReplaceAll("/hadoop/cms","root://redirector.t2.ucsd.edu/"); 
+    TString infile(iter.c_str());
+    std::cout<<"running on file(s): "<<infile<<std::endl;
+
+     if(useXrootd)
+    {
+          infile.ReplaceAll("/hadoop/cms","root://redirector.t2.ucsd.edu/"); 
+    }
+    chain->Add(infile.Data());
   }
-  chain->Add(infile.Data());
   // chain->Add("/hadoop/cms/store/group/snt/run2_50ns/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/V07-04-03/merged_ntuple_2.root");
   // chain->Add("/hadoop/cms/store/group/snt/run2_50ns/DYJetsToLL_M-10to50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_RunIISpring15DR74-Asympt50ns_MCRUN2_74_V9A-v1/V07-04-03/merged_ntuple_3.root");
   if (chain->GetEntries() == 0) {
@@ -244,4 +256,17 @@ int main(int argc, char **argv) {
   babyMaker *looper = new babyMaker();
   looper->ScanChain(chain, sample, max_events);
   return 0;
+}
+
+std::vector<std::string> split_filename_from_argv(std::string infile,char delimiter)
+{
+    std::stringstream ss(infile);
+    std::vector<std::string> filenames;
+    std::string filename;
+    while(std::getline(ss,filename,delimiter))
+    {
+        filenames.push_back(filename);
+    }
+
+    return filenames;
 }
