@@ -9,6 +9,22 @@
 #include <iostream>
 #include <fstream>
 
+
+std::vector<std::string> split_filename_from_argv(std::string infile,char delimiter)
+{
+    std::stringstream ss(infile);
+    std::vector<std::string> filenames;
+    std::string filename;
+    while(std::getline(ss,filename,delimiter))
+    {
+        filenames.push_back(filename);
+    }
+
+    return filenames;
+}
+
+
+
 int main(int argc, char **argv) {
 
   if (argc < 3) {
@@ -31,7 +47,7 @@ int main(int argc, char **argv) {
         max_events = atoi(argv[4]);
   }
 
-  std::vector<std::string> split_filenames = split_filename_from_argv(infiles,",")
+  std::vector<std::string> split_filenames = split_filename_from_argv(infiles,',');
 
   
   std::fstream outputName("outputName.txt",std::ios::out);
@@ -39,11 +55,11 @@ int main(int argc, char **argv) {
   std::cout << "set max number of events to: " << max_events << std::endl;
 
   TChain *chain = new TChain("Events");
-
-  for(auto &iter:infiles)
+  TString infile;
+  for(auto &iter:split_filenames)
   {
-    TString infile(iter.c_str());
-    std::cout<<"running on file(s): "<<infile<<std::endl;
+    infile = iter.c_str();
+    std::cout<<"running on file: "<<infile<<std::endl;
 
      if(useXrootd)
     {
@@ -258,15 +274,4 @@ int main(int argc, char **argv) {
   return 0;
 }
 
-std::vector<std::string> split_filename_from_argv(std::string infile,char delimiter)
-{
-    std::stringstream ss(infile);
-    std::vector<std::string> filenames;
-    std::string filename;
-    while(std::getline(ss,filename,delimiter))
-    {
-        filenames.push_back(filename);
-    }
 
-    return filenames;
-}
