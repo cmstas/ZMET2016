@@ -280,6 +280,8 @@ private:
   std::vector <Float_t> lep_dxy          ;   //[nlep]
   std::vector <Float_t> lep_etaSC        ;   //[nlep]
   std::vector <Float_t> lep_dz           ;   //[nlep]
+  std::vector <Float_t> lep_dz_firstPV   ;
+  std::vector <Float_t> lep_dxy_firstPV  ;
   std::vector <Int_t  > lep_tightId      ;   //[nlep]
   std::vector <Float_t> lep_relIsoUncorr ;
   std::vector <Float_t> lep_relIso03     ;   //[nlep]
