@@ -1350,7 +1350,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if (recent_cms3_version) {
           if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
         }
-        if(passMuonSelection_ZMET_veto(iMu){
+        if(passMuonSelection_ZMET_veto(iMu)){
 //      	if( passMuonSelection_ZMET_veto_v4( iMu, false, true ) ){
       	  nveto_leptons++;
       	}
