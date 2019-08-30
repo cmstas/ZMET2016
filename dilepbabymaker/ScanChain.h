@@ -270,6 +270,7 @@ private:
   //----- LEPTONS
   Int_t           nlep;
   Int_t           nveto_leptons;
+  std::vector<Int_t> firstGoodPV;
   std::vector <LorentzVector> lep_p4;
   std::vector <Float_t> lep_pt           ;   //[nlep]
   std::vector <Float_t> lep_eta          ;   //[nlep]

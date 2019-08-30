@@ -1238,6 +1238,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector<float>vec_lep_charge;
       vector<int>  vec_lep_pdgId;
       vector<float>vec_lep_dxy;
+      vector<int> vec_firstGoodPV;
       vector<float>vec_lep_dz;
       vector<float> vec_lep_dz_firstPV;
       vector<float> vec_lep_dxy_firstPV;
@@ -1300,6 +1301,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
               vec_lep_dz_firstPV   .push_back(els_dzPV_firstPV(iEl));
               vec_lep_dxy_firstPV  .push_back(els_dxyPV_firstPV(iEl));
+              vec_lep_firstGoodPV.push_back(firstGoodVertex());
     		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
               vec_lep_relIsoUncorr .push_back((cms3.els_miniIso_nh().at(iEl) + cms3.els_miniIso_em().at(iEl))/(cms3.els_p4().at(iEl).pt()));
     		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
@@ -1371,6 +1373,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
     		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
               vec_lep_dz_firstPV   .push_back (mus_dzPV_firstPV(iMu));
+              vec_firstGoodPV.push_back(firstGoodVertex());
               vec_lep_dxy_firstPV  .push_back (mus_dxyPV_firstPV(iMu));
     		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
               vec_lep_relIsoUncorr .push_back((cms3.mus_miniIso_nh().at(iMu) + cms3.mus_miniIso_em().at(iMu))/(cms3.mus_p4().at(iMu).pt()));
@@ -1434,6 +1437,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		lep_dxy          .push_back( vec_lep_dxy          .at(it->first));
             lep_dz_firstPV   .push_back( vec_lep_dz_firstPV   .at(it->first));
             lep_dxy_firstPV  .push_back( vec_lep_dxy_firstPV  .at(it->first));
+            firstGoodPV.push_back(vec_firstGoodPV.at(it->first));
     		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->first));
     		lep_tightId      .push_back( vec_lep_tightId      .at(it->first));
             lep_relIsoUncorr .push_back(vec_lep_relIsoUncorr  .at(it->first));
@@ -3076,7 +3080,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_etaSC"        , "std::vector< Float_t >"       , &lep_etaSC      );
   BabyTree_->Branch("lep_dz"           , "std::vector< Float_t >"       , &lep_dz         );
   BabyTree_->Branch("lep_dz_firstPV"   , "std::vector< Float_t>",&lep_dz_firstPV);
-  BabyTree_->Brnach("lep_dxy_firstPV","std::vector<Float_t>",&lep_dxy_firstPV);
+  BabyTree_->Branch("lep_dxy_firstPV","std::vector<Float_t>",&lep_dxy_firstPV);
+  BabyTree_->Branch("firstGoodPV","std::vector<Int_t>",&firstGoodPV);
   BabyTree_->Branch("lep_tightId"      , "std::vector< Int_t >"         , &lep_tightId    );
   BabyTree_->Branch("lep_relIsoUncorr", "std::vector<Float_t>"           ,&lep_relIsoUncorr);
   BabyTree_->Branch("lep_relIso03"     , "std::vector< Float_t >"       , &lep_relIso03   );
@@ -3514,6 +3519,7 @@ void babyMaker::InitBabyNtuple () {
   lep_dz            .clear();
   lep_dz_firstPV    .clear();
   lep_dxy_firstPV   .clear();
+  firstGoodPV.clear();
   lep_tightId       .clear();
   lep_relIsoUncorr  .clear();
   lep_relIso03      .clear();
