@@ -56,7 +56,7 @@ try:
 except:
     foundBad = True
 
-if foundBad:
+if not foundBad:
     print("Found bad baby file! Removing and not copying out")
     os.system("rm ${NAMEINCONDOR}.root")
 else:
