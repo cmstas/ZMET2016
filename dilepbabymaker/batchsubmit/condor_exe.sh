@@ -63,10 +63,6 @@ else:
     print("File is good, it will be copied to /hadoop")
 EOL
 
-if ["$?"!= "0" ]; then
-    echo "Removing outptut baby because babymaker crashed"
-    rm -rf $NAMEINCONDOR
-fi
 echo "[wrapper] output file name = ${NAMEINCONDOR}.root"
 ls -ltrh
 echo "[wrapper] gfal-copy output file"
