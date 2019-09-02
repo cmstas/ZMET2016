@@ -805,11 +805,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
 
       // get CMS3 version number to use later
-      TString cms3_version = cms3.evt_CMS3tag().at(0);
       // convert last two digits of version number to int
-      int small_cms3_version = TString(cms3_version(cms3_version.Length()-2,cms3_version.Length())).Atoi();
+      //int small_cms3_version = TString(cms3_version(cms3_version.Length()-2,cms3_version.Length())).Atoi();
       bool recent_cms3_version = true;
-      if (cms3_version.Contains("V08-00") && small_cms3_version <= 12) recent_cms3_version = false;
+    //  if (cms3_version.Contains("V08-00") && small_cms3_version <= 12) recent_cms3_version = false;
 
   	  if( isSMSScan ){
     		if (currentFileName.Contains("SMS-TChiHZ") || currentFileName.Contains("SMS-TChiZZ")){
@@ -894,10 +893,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       met_calo_phi = cms3.evt_calometPhi();
       met_miniaod_pt  = cms3.evt_pfmet();
       met_miniaod_phi = cms3.evt_pfmetPhi();
-      if (isData && small_cms3_version >= 18) {
+/*      if (isData && small_cms3_version >= 18) {
       	met_muegclean_pt  = cms3.evt_muegclean_pfmet();
       	met_muegclean_phi = cms3.evt_muegclean_pfmetPhi();
-      }
+      }*/
       met_genPt    = cms3.gen_met();
       met_genPhi   = cms3.gen_metPhi();
 
@@ -907,9 +906,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       if (applyJECfromFile){
         // //recalculate rawMET
-        pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, false,0);
-        met_T1CHS_fromCORE_pt  = newMET.first;
-        met_T1CHS_fromCORE_phi = newMET.second;
+//        pair<float,float> newMET = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, NULL, 0, false,0);
+//        met_T1CHS_fromCORE_pt  = newMET.first;
+//        met_T1CHS_fromCORE_phi = newMET.second;
 
         // met with no unc
         pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current,NULL,0,false,2);
@@ -917,23 +916,23 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
 
         // choose default value of MET to use for analysis, set as met_pt, met_phi
-        if (isData && small_cms3_version >= 18)
+/*        if (isData && small_cms3_version >= 18)
         { // for re-MINIAOD data
         	met_pt = met_muegclean_pt;
         	met_phi = met_muegclean_phi;
         }
-        else {
+        else {*/
         	met_pt = met_T1CHS_miniAOD_CORE_pt;
         	met_phi = met_T1CHS_miniAOD_CORE_phi;
-        }
+//        }
 
         // met with up unc
-        pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 1);
+        pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 1,false,2);
         met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
         met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
 
         // met with dn unc
-        pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 0);
+        pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 0,false,2);
         met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
         met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
 
@@ -981,11 +980,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  Flag_badMuonFilterv2                          = badMuonFilterV2();
     		  Flag_badChargedCandidateFilterv2              = badChargedCandidateFilterV2();
 
-    		  if (small_cms3_version >= 18) {
+/*    		  if (small_cms3_version >= 18) {
     		    Flag_badMuons                               = cms3.filt_badMuons();
     		    Flag_duplicateMuons                         = cms3.filt_duplicateMuons();
     		    Flag_noBadMuons                             = cms3.filt_noBadMuons();
-    		  }
+    		  }*/
     		}
   	  }
 
@@ -1115,14 +1114,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           genPart_mass          .push_back( cms3.genps_p4()                           .at(iGen).M());
     		  genPart_pdgId         .push_back( cms3.genps_id()                           .at(iGen));
     		  genPart_status        .push_back( cms3.genps_status()                       .at(iGen));
-    		  genPart_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
+//    		  genPart_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
     		  genPart_charge        .push_back( cms3.genps_charge()                       .at(iGen));
     		  genPart_motherId      .push_back( cms3.genps_id_simplemother()              .at(iGen));
     		  genPart_grandmaId     .push_back( cms3.genps_id_simplegrandma()             .at(iGen));
               genPart_isPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(iGen));
 
     		  ngenPart++;
-    		  if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ngen_p6s3Part++;
+//    		  if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ngen_p6s3Part++;
     		  //calculate gen_ht for stitching purposes
     		  if((abs(cms3.genps_id().at(iGen)) <  6 || // quarks
             abs(cms3.genps_id().at(iGen)) == 21)  // gluons
@@ -1191,10 +1190,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			genLep_pdgId         .push_back( cms3.genps_id()     .at(iGen));
     			genLep_status        .push_back( cms3.genps_status() .at(iGen));
     			genLep_charge        .push_back( cms3.genps_charge() .at(iGen));
-    			genLep_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
+//    			genLep_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
     			genLep_sourceId      .push_back( sourceId );
     			++ngenLep;
-    			if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ++ngen_p6s3Lep;
+//    			if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ++ngen_p6s3Lep;
     		  }
 
     		  // save gen taus from W/Z/H
@@ -1240,8 +1239,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       vector<float>vec_lep_dxy;
       vector<int> vec_firstGoodPV;
       vector<float>vec_lep_dz;
-      vector<float> vec_lep_dz_firstPV;
-      vector<float> vec_lep_dxy_firstPV;
+      //vector<float> vec_lep_dz_firstPV;
+      //vector<float> vec_lep_dxy_firstPV;
       vector<int>  vec_lep_tightId;
       vector<float> vec_lep_relIsoUncorr;
       vector<float>vec_lep_relIso03;
@@ -1297,11 +1296,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           vec_lep_mass         .push_back( cms3.els_p4().at(iEl).M()       );
     		  vec_lep_charge       .push_back( cms3.els_charge().at(iEl)       );
     		  vec_lep_pdgId        .push_back( cms3.els_charge().at(iEl)*(-11) );
-    		  vec_lep_dxy          .push_back( cms3.els_dxyPV().at(iEl)        );
-    		  vec_lep_dz           .push_back( cms3.els_dzPV().at(iEl)         );
-              vec_lep_dz_firstPV   .push_back(els_dzPV_firstPV(iEl));
-              vec_lep_dxy_firstPV  .push_back(els_dxyPV_firstPV(iEl));
-              vec_lep_firstGoodPV.push_back(firstGoodVertex());
+    		  vec_lep_dxy          .push_back( els_dxyPV_firstPV(iEl));
+    		  vec_lep_dz           .push_back( els_dzPV_firstPV(iEl)         );
+//              vec_lep_dz_firstPV   .push_back(cms3.els_dz_firstPV().at(iEl));
+//              vec_lep_dxy_firstPV  .push_back(cms3.els_dxy_firstPV().at(iEl));
+//              vec_firstGoodPV.push_back(firstGoodVertex());
     		  vec_lep_tightId      .push_back( eleTightID(iEl, ZMET)           );
               vec_lep_relIsoUncorr .push_back((cms3.els_miniIso_nh().at(iEl) + cms3.els_miniIso_em().at(iEl))/(cms3.els_p4().at(iEl).pt()));
     		  vec_lep_relIso03     .push_back( eleRelIso03EA(iEl,1)            );
@@ -1351,7 +1350,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
         }
         if(passMuonSelection_ZMET_veto(iMu)){
-//      	if( passMuonSelection_ZMET_veto_v4( iMu, false, true ) ){
       	  nveto_leptons++;
       	}
    	  	if( !passMuonSelection_ZMET( iMu) ) continue;
@@ -1370,11 +1368,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           vec_lep_mass         .push_back ( cms3.mus_p4()    .at(iMu).M()   );
     		  vec_lep_charge       .push_back ( cms3.mus_charge().at(iMu)       );
     		  vec_lep_pdgId        .push_back ( cms3.mus_charge().at(iMu)*(-13) );
-    		  vec_lep_dxy          .push_back ( cms3.mus_dxyPV() .at(iMu)       );
-    		  vec_lep_dz           .push_back ( cms3.mus_dzPV()  .at(iMu)       );
-              vec_lep_dz_firstPV   .push_back (mus_dzPV_firstPV(iMu));
-              vec_firstGoodPV.push_back(firstGoodVertex());
-              vec_lep_dxy_firstPV  .push_back (mus_dxyPV_firstPV(iMu));
+    		  vec_lep_dxy          .push_back ( mus_dxyPV_firstPV(iMu)       );
+    		  vec_lep_dz           .push_back ( mus_dzPV_firstPV(iMu)       );
+//              vec_lep_dz_firstPV   .push_back (cms3.mus_dz_firstPV().at(iMu));
+//              vec_firstGoodPV.push_back(firstGoodVertex());
+              vec_lep_dxy_firstPV  .push_back (cms3.mus_dxy_firstPV().at(iMu));
     		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
               vec_lep_relIsoUncorr .push_back((cms3.mus_miniIso_nh().at(iMu) + cms3.mus_miniIso_em().at(iMu))/(cms3.mus_p4().at(iMu).pt()));
     		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
@@ -1435,9 +1433,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		lep_pdgId        .push_back( vec_lep_pdgId        .at(it->first));
     		lep_dz           .push_back( vec_lep_dz           .at(it->first));
     		lep_dxy          .push_back( vec_lep_dxy          .at(it->first));
-            lep_dz_firstPV   .push_back( vec_lep_dz_firstPV   .at(it->first));
-            lep_dxy_firstPV  .push_back( vec_lep_dxy_firstPV  .at(it->first));
-            firstGoodPV.push_back(vec_firstGoodPV.at(it->first));
+//            lep_dz_firstPV   .push_back( vec_lep_dz_firstPV   .at(it->first));
+//            lep_dxy_firstPV  .push_back( vec_lep_dxy_firstPV  .at(it->first));
+            //firstGoodPV.push_back(vec_firstGoodPV.at(it->first));
     		lep_etaSC        .push_back( vec_lep_etaSC        .at(it->first));
     		lep_tightId      .push_back( vec_lep_tightId      .at(it->first));
             lep_relIsoUncorr .push_back(vec_lep_relIsoUncorr  .at(it->first));
@@ -3079,9 +3077,9 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("lep_dxy"          , "std::vector< Float_t >"       , &lep_dxy        );
   BabyTree_->Branch("lep_etaSC"        , "std::vector< Float_t >"       , &lep_etaSC      );
   BabyTree_->Branch("lep_dz"           , "std::vector< Float_t >"       , &lep_dz         );
-  BabyTree_->Branch("lep_dz_firstPV"   , "std::vector< Float_t>",&lep_dz_firstPV);
-  BabyTree_->Branch("lep_dxy_firstPV","std::vector<Float_t>",&lep_dxy_firstPV);
-  BabyTree_->Branch("firstGoodPV","std::vector<Int_t>",&firstGoodPV);
+//  BabyTree_->Branch("lep_dz_firstPV"   , "std::vector< Float_t>",&lep_dz_firstPV);
+//  BabyTree_->Branch("lep_dxy_firstPV","std::vector<Float_t>",&lep_dxy_firstPV);
+//  BabyTree_->Branch("firstGoodPV","std::vector<Int_t>",&firstGoodPV);
   BabyTree_->Branch("lep_tightId"      , "std::vector< Int_t >"         , &lep_tightId    );
   BabyTree_->Branch("lep_relIsoUncorr", "std::vector<Float_t>"           ,&lep_relIsoUncorr);
   BabyTree_->Branch("lep_relIso03"     , "std::vector< Float_t >"       , &lep_relIso03   );
