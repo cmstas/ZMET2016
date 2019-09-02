@@ -41,6 +41,28 @@ echo "[wrapper] ./processBaby [$OUTPUTTAG] [$INPUTFILENAME] [$USEXROOTD] -1"
 ./processBaby "${OUTPUTTAG}" "${INPUTFILENAME}" "${USEXROOTD}" "${MAXEVENTS}"
 
 NAMEINCONDOR=$(cat outputName.txt)
+
+echo "Checking if file is bad"
+python <<EOL
+from __future__ import print_function
+import ROOT as r
+import os
+
+foundBad = False
+try:
+    f = r.TFile("${NAMEINCONDOR}.root")
+    t = f.Get("t")
+    nEvents = t.GetEntries()
+except:
+    foundBad = True
+
+if foundBad:
+    print("Found bad baby file! Removing and not copying out")
+    os.system("rm ${NAMEINCONDOR}.root")
+else:
+    print("File is good, it will be copied to /hadoop")
+EOL
+
 if ["$?"!= "0" ]; then
     echo "Removing outptut baby because babymaker crashed"
     rm -rf $NAMEINCONDOR
