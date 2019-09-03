@@ -886,6 +886,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if(     cms3.vtxs_position() .at(ivtx).Rho() >  2  ) continue;
         nVert++;
       }
+      //Skip events with no good vertices
+      if(nVert == 0)
+         continue;
 
       met_pt       = cms3.evt_pfmet();
       met_phi      = cms3.evt_pfmetPhi();
@@ -1009,7 +1012,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
       HLT_DoubleEle33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v");
-      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v"); 
+      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v");
 
   	  //Double Muon:
       HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v");
@@ -1019,15 +1022,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       HLT_Mu30_TkMu11 = passHLTTriggerPattern("HLT_Mu30_TkMu11");
 
       //MuonElectron
-      
+
       HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v");
-      HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v");  
+      HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v");
       HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v");  
+      HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v");
       HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");
       HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");    
-      HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v");          
+      HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");
+      HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v");
       HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v");
 
   	  //Photon:
@@ -1372,7 +1375,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  vec_lep_dz           .push_back ( mus_dzPV_firstPV(iMu)       );
 //              vec_lep_dz_firstPV   .push_back (cms3.mus_dz_firstPV().at(iMu));
 //              vec_firstGoodPV.push_back(firstGoodVertex());
-              vec_lep_dxy_firstPV  .push_back (cms3.mus_dxy_firstPV().at(iMu));
+              //vec_lep_dxy_firstPV  .push_back (cms3.mus_dxy_firstPV().at(iMu));
     		  vec_lep_tightId      .push_back ( isTightMuonPOG(iMu)             );
               vec_lep_relIsoUncorr .push_back((cms3.mus_miniIso_nh().at(iMu) + cms3.mus_miniIso_em().at(iMu))/(cms3.mus_p4().at(iMu).pt()));
     		  vec_lep_relIso03     .push_back ( muRelIso03EA(iMu,1)             );
@@ -3465,7 +3468,7 @@ void babyMaker::InitBabyNtuple () {
   HLT_singleMu_noiso = -999;
 
   // Double electron
-  
+
   // Single photon
   HLT_Photon22_R9Id90_HE10_IsoM  = -999;
   HLT_Photon30_R9Id90_HE10_IsoM  = -999;
@@ -4102,7 +4105,7 @@ void babyMaker::load_leptonSF_files()
     h_eleweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_eleweights");
   h_eleweights->SetDirectory(rootdir);
 
-  
+
   }
 
   else if(gconf.year == 2017 || gconf.year == 2018)
@@ -4111,7 +4114,7 @@ void babyMaker::load_leptonSF_files()
     h_eleweights = (TH2D*) f_sfweights->Get("MVATightTightIP2D3D_eff_fast");
     h_eleweights->SetDirectory(rootdir);
   }
-  
+
   else if(gconf.year == 2018)
   {
 
@@ -4127,7 +4130,7 @@ void babyMaker::load_leptonSF_files()
   {
     f_sfweights  = TFile::Open("leptonSFs/FS/moriond17/sf_mu_mediumID.root","READ");
     h_muoweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights");
-  h_muoweights->SetDirectory(rootdir);          
+  h_muoweights->SetDirectory(rootdir);
   }
   else if(gconf.year == 2017 || gconf.year == 2018)
   {
