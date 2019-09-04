@@ -906,6 +906,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       met_rawPt = cms3.evt_pfmet_raw();
       met_rawPhi = cms3.evt_pfmetPhi_raw();
       sumet_raw    = cms3.evt_pfsumet_raw();
+      int do_2017metfix = config_.year==2017 ? 2 : 0;
 
       if (applyJECfromFile){
         // //recalculate rawMET
@@ -914,20 +915,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 //        met_T1CHS_fromCORE_phi = newMET.second;
 
         // met with no unc
-        pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current,NULL,0,false,2);
+        pair <float, float> met_T1CHS_miniAOD_CORE_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current,NULL,0,false,do_2017metfix);
         met_T1CHS_miniAOD_CORE_pt  = met_T1CHS_miniAOD_CORE_p2.first;
         met_T1CHS_miniAOD_CORE_phi = met_T1CHS_miniAOD_CORE_p2.second;
 
-        // choose default value of MET to use for analysis, set as met_pt, met_phi
-/*        if (isData && small_cms3_version >= 18)
-        { // for re-MINIAOD data
-        	met_pt = met_muegclean_pt;
-        	met_phi = met_muegclean_phi;
-        }
-        else {*/
-        	met_pt = met_T1CHS_miniAOD_CORE_pt;
-        	met_phi = met_T1CHS_miniAOD_CORE_phi;
-//        }
+        met_pt = met_T1CHS_miniAOD_CORE_pt;
+        met_phi = met_T1CHS_miniAOD_CORE_phi;
 
         // met with up unc
         pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 1,false,2);
