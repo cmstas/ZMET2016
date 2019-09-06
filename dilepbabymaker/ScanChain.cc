@@ -906,7 +906,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       met_rawPt = cms3.evt_pfmet_raw();
       met_rawPhi = cms3.evt_pfmetPhi_raw();
       sumet_raw    = cms3.evt_pfsumet_raw();
-      int do_2017metfix = config_.year==2017 ? 2 : 0;
+      int do_2017metfix = gconf.year==2017 ? 2 : 0;
 
       if (applyJECfromFile){
         // //recalculate rawMET
@@ -923,12 +923,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         met_phi = met_T1CHS_miniAOD_CORE_phi;
 
         // met with up unc
-        pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 1,false,2);
+        pair <float, float> met_T1CHS_miniAOD_CORE_up_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 1,false,do_2017metfix);
         met_T1CHS_miniAOD_CORE_up_pt  = met_T1CHS_miniAOD_CORE_up_p2.first;
         met_T1CHS_miniAOD_CORE_up_phi = met_T1CHS_miniAOD_CORE_up_p2.second;
 
         // met with dn unc
-        pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 0,false,2);
+        pair <float, float> met_T1CHS_miniAOD_CORE_dn_p2 = getT1CHSMET_fromMINIAOD(jet_corrector_pfL1FastJetL2L3_current, jecUnc_current, 0,false,do_2017metfix);
         met_T1CHS_miniAOD_CORE_dn_pt  = met_T1CHS_miniAOD_CORE_dn_p2.first;
         met_T1CHS_miniAOD_CORE_dn_phi = met_T1CHS_miniAOD_CORE_dn_p2.second;
 
@@ -1701,6 +1701,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   		  passJets.push_back(std::pair<int,float>(iJet, pfjet_p4_cor.pt()));
 
       }
+    
 
       // sort passing jets by corrected pt
       std::sort(passJets.begin(), passJets.end(), sortByValue);
