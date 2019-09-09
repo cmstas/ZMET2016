@@ -2625,6 +2625,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             vec_isotrack_pdgid.push_back(13);
             vec_isotrack_absiso.push_back(cms3.mus_isoR03_pf_ChargedHadronPt().at(iMu));
             vec_isotrack_index.push_back(-1);
+            vec_isotrack_isLostTrack.push_back(false);
             nisoTrack_PFLep5_woverlaps++;
             nisoTrack_PFMu5_woverlaps++;
             nisoTrack_5gev++;
