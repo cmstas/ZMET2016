@@ -1690,12 +1690,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   		  // note this uses the eta of the jet as stored in CMS3
   		  //  chance for small discrepancies if JEC changes direction slightly..
         if(gconf.year == 2016 && !isLoosePFJet_Summer16_v1(iJet) && !isSMSScan) continue;
-        if(gconf.year == 2017 && !isTightPFJet_2017_v1(iJet) && !isSMSScan)
-        {
-            if(pfjet_p4_cor.pt() > 35)
-                nJetFailId++;
-            continue;
-        }
+        if(gconf.year == 2017 && !isTightPFJet_2017_v1(iJet) && !isSMSScan) continue;
         if(gconf.year == 2018 && !isTightPFJet_2018_v1(iJet) && !isSMSScan) continue;
   		  if( isSMSScan && isBadFastsimJet(iJet) ) continue;
   		  passJets.push_back(std::pair<int,float>(iJet, pfjet_p4_cor.pt()));
@@ -1773,7 +1768,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           int iJet = passJets.at(passIdx).first;
 
           if( !(p4sCorrJets.at(iJet).pt()    >=35.0 ||
-            (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
+            (p4sCorrJets.at(iJet).pt()    > 25.0 && (getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet)) >= getBTagWP(1,gconf.year)))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 
@@ -1827,11 +1822,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		  if(       pfjet_p4_cor.pt()    < 30.0       ) continue;
     		  if( fabs( pfjet_p4_cor.eta() ) > 2.4        ) continue;
-    		  if(gconf.year == 2016 && !isLoosePFJet_Summer16_v1(iJet) && !isSMSScan )
-              {
-                  continue;
-              }
-              if(gconf.year == 2017 && !isTightPFJet_2017_v1(iJet) && !isSMSScan) continue;
+    		  if(gconf.year == 2016 && !isLoosePFJet_Summer16_v1(iJet) && !isSMSScan ) continue;
+              else if(gconf.year == 2017 && !isTightPFJet_2017_v1(iJet) && !isSMSScan) continue;
+              else if(gconf.year == 2018 && !isTightPFJet_2018_v1(iJet) && !isSMSScan) continue;
     		  if( isSMSScan && isBadFastsimJet(iJet)      ) failbadfastsimjet = true;
 
     		  bool jetoverlapswithlepton = false;
@@ -1876,7 +1869,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           int iJet = passJets.at(passIdx).first;
 
           if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
-  				 (p4sCorrJets.at(iJet).pt()    > 25.0 && getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet) >= 0.8484))) continue;
+  				 (p4sCorrJets.at(iJet).pt()    > 25.0 && (getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet)) >= getBTagWP(1,gconf.year)))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
   	      if( isSMSScan && isBadFastsimJet(iJet) ) continue;
@@ -1955,7 +1948,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		if( verbose ) cout<<"Before filling jet branches"<<endl;
 
-    		//float current_csv_val = getbtagvalue("pfCombinedInclusiveSecondaryVertexV2BJetTags", iJet);
             float current_csv_val = getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet);
     		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
@@ -1965,14 +1957,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			jets_csv                                      .push_back(current_csv_val);
       			jets_muf                                      .push_back(current_muf_val);
     		  }
-    		  if( current_csv_val >= 0.4941 ){
+    		  /*if( current_csv_val >= 0.4941 ){
       			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
       			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
       			  jets_csv                                      .push_back(current_csv_val);
       			  jets_muf                                      .push_back(current_muf_val);
       			}
       			jets_medb_p4  .push_back(p4sCorrJets.at(iJet));
-    		  }
+    		  }*/
 
     		  if( !isData ){
             jets_mcFlavour   .push_back(cms3.pfjets_partonFlavour().at(iJet));
@@ -3913,7 +3905,7 @@ float babyMaker::get_sum_mlb()
 
 	  // Find lowest Mlb for lep 2
 	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
-		if( jets_csv.at(jetind) > 0.8484 ) continue; // don't double count b-jets
+		if( jets_csv.at(jetind) > getBTagWP(1,gconf.year) ) continue; // don't double count b-jets
 		mlb_temp_2 = (lep_p4.at(1) + jets_p4.at(jetind)).M();
 		if(mlb_temp_2 < min_mlb_2){
 		  min_mlb_2 = mlb_temp_2;
@@ -3923,7 +3915,7 @@ float babyMaker::get_sum_mlb()
 
 	  // Find lowest Mlb for lep 1
 	  for( size_t jetind = 0; jetind < jets_p4.size(); jetind++ ){
-		if( jets_csv.at(jetind) > 0.8484 ) continue; // don't double count b-jets
+		if( jets_csv.at(jetind) > getBTagWP(1,gconf.year) ) continue; // don't double count b-jets
 		mlb_temp_1 = (lep_p4.at(0) + jets_p4.at(jetind)).M();
 		if(mlb_temp_1 < min_mlb_1){
 		  min_mlb_1 = mlb_temp_1;
