@@ -1957,14 +1957,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			jets_csv                                      .push_back(current_csv_val);
       			jets_muf                                      .push_back(current_muf_val);
     		  }
-    		  /*if( current_csv_val >= 0.4941 ){
+    		  if( current_csv_val >= getBTagWP(1,gconf.year) ){
       			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
       			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
       			  jets_csv                                      .push_back(current_csv_val);
       			  jets_muf                                      .push_back(current_muf_val);
       			}
       			jets_medb_p4  .push_back(p4sCorrJets.at(iJet));
-    		  }*/
+    		  }
 
     		  if( !isData ){
             jets_mcFlavour   .push_back(cms3.pfjets_partonFlavour().at(iJet));
