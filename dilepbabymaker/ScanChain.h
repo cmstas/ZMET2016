@@ -364,6 +364,8 @@ private:
   std::vector <Bool_t >         genLep_isp6status3;   //[ngenLep]
   std::vector <Float_t>         genLep_charge     ;   //[ngenLep]
   std::vector <Int_t  >         genLep_sourceId   ;   //[ngenLep]
+  std::vector <Int_t  >         genLep_motherIndex;
+  std::vector <Int_t  >         genLep_motherId   ;
 
   //----- GEN TAUS
   Int_t           ngenTau;

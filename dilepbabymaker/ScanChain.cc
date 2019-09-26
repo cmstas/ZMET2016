@@ -1113,6 +1113,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 //    		  genPart_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
     		  genPart_charge        .push_back( cms3.genps_charge()                       .at(iGen));
     		  genPart_motherId      .push_back( cms3.genps_id_simplemother()              .at(iGen));
+              
     		  genPart_grandmaId     .push_back( cms3.genps_id_simplegrandma()             .at(iGen));
               genPart_isPromptFinalState.push_back(cms3.genps_isPromptFinalState().at(iGen));
 
@@ -1154,7 +1155,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			  goodLepFromTau = true;
     			}
     			// leptons from W/Z/H
-    			else if (motherId == 25 || motherId == 24 || motherId == 23) {
+    			else if ((motherId == 25 || motherId == 24 || motherId == 23) && (cms3.genps_isLastCopy().at(cms3.genps_idx_simplemother().at(iGen)) == 1))  {
     			  goodLep = true;
     			}
     		  } // status 1 e or mu
@@ -1188,6 +1189,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			genLep_charge        .push_back( cms3.genps_charge() .at(iGen));
 //    			genLep_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
     			genLep_sourceId      .push_back( sourceId );
+                genLep_motherIndex   .push_back(cms3.genps_idx_simplemother().at(iGen));
+                genLep_motherId      .push_back(cms3.genps_id_simplemother().at(iGen));
     			++ngenLep;
 //    			if( cms3.genps_isMostlyLikePythia6Status3().at(iGen) ) ++ngen_p6s3Lep;
     		  }
@@ -3153,6 +3156,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("genLep_status"  , "std::vector <Int_t  >" , &genLep_status  );
   BabyTree_->Branch("genLep_charge"  , "std::vector <Float_t>" , &genLep_charge  );
   BabyTree_->Branch("genLep_sourceId", "std::vector <Int_t  >" , &genLep_sourceId);
+  BabyTree_->Branch("genLep_motherIndex","std::vector <Int_t >", &genLep_motherIndex);
+  BabyTree_->Branch("genLep_motherId"   ,"std::vector<Int_t >", &genLep_motherId);
   BabyTree_->Branch("genLep_isp6status3"  , "std::vector <Bool_t  >" , &genLep_isp6status3  );
 
   BabyTree_->Branch("ngenTau", &ngenTau, "ngenTau/I" );
@@ -3585,6 +3590,8 @@ void babyMaker::InitBabyNtuple () {
   genLep_isp6status3.clear();   //[ngenLep]
   genLep_charge     .clear();   //[ngenLep]
   genLep_sourceId   .clear();   //[ngenLep]
+  genLep_motherIndex.clear();
+  genLep_motherId   .clear();
 
   ngenTau = -999;
   genTau_pt      .clear();   //[ngenTau]
