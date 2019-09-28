@@ -467,6 +467,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_L3Absolute_AK4PFchs.txt");
+                if(!isSMSScan)
+                    jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_L2L3Residual_AK4PFchs.txt");
                 jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_Uncertainty_AK4PFchs.txt");
             }
             else if(currentFileName.Contains("Run2016E") || currentFileName.Contains("Run2016F"))
@@ -474,6 +476,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017EF_V11_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017EF_V11_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017EF_V11_DATA_L3Absolute_AK4PFchs.txt");
+                if(!isSMSScan)
+                    jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017EF_V11_DATA_L2L3Residual_AK4PFchs.txt");
                 jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017EF_V11_DATA_Uncertainty_AK4PFchs.txt");
 
                 if(currentFileName.Contains("Run2016F"))
@@ -482,6 +486,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                   jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L1FastJet_AK4PFchs.txt");
                   jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2Relative_AK4PFchs.txt");
                   jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L3Absolute_AK4PFchs.txt");
+                  if(!isSMSScan)
+                      jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2L3Residual_AK4PFchs.txt");
                   jecUnc_lateF = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017GH_V11_DATA_Uncertainty_AK4PFchs.txt");
                 }
             }
@@ -490,6 +496,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L3Absolute_AK4PFchs.txt");
+                if(!isSMSScan)
+                    jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2L3Residual_AK4PFchs.txt");
                 jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017GH_V11_DATA_Uncertainty_AK4PFchs.txt");
             }
             else
@@ -497,6 +505,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017_V11_MC_L1FastJet_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017_V11_MC_L2Relative_AK4PFchs.txt");
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017_V11_MC_L3Absolute_AK4PFchs.txt");
+                if(!isSMSScan)
+                    jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017_V11_MC_L2L3Residual_AK4PFchs.txt");
                 jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017_V11_MC_Uncertainty_AK4PFchs.txt");
             }
       }
@@ -507,6 +517,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017B_V32_DATA_Uncertainty_AK4PFchs.txt");
         }
 
@@ -515,6 +527,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2L3Residual_AK4PFchs.txt")
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK4PFchs.txt");
         }
 
@@ -523,6 +537,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK4PFchs.txt");
 
         }
@@ -531,6 +547,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017F_V32_DATA_Uncertainty_AK4PFchs.txt");
 
         }
@@ -540,6 +558,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2L3Residual_AK4PFchs.txt")
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017_V32_MC_Uncertainty_AK4PFchs.txt");
 
 
@@ -553,6 +573,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunA_V8_DATA_Uncertainty_AK4PFchs.txt");
 
         }
@@ -561,6 +583,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunB_V8_DATA_Uncertainty_AK4PFchs.txt");
 
         }
@@ -569,6 +593,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunC_V8_DATA_Uncertainty_AK4PFchs.txt");
 
         }
@@ -577,6 +603,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunD_V8_DATA_Uncertainty_AK4PFchs.txt");
         }
         else
@@ -584,6 +612,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L1FastJet_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L3Absolute_AK4PFchs.txt");
+            if(!isSMSScan)
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_V8_MC_Uncertainty_AK4PFchs.txt");
         }
     }
@@ -616,6 +646,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017BCD_V11_DATA_Uncertainty_AK8PFPuppi.txt");
 
             }
@@ -625,6 +657,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017EF_V11_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017EF_V11_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017EF_V11_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017EF_V11_DATA_L2L3Residual_AK8PFPuppi.txt");
+
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017EF_V11_DATA_Uncertainty_AK8PFPuppi.txt");
 
                 if(currentFileName.Contains("Run2016F")) //load the special snowflake JECs
@@ -633,6 +668,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                   ak8_jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L1FastJet_AK8PFPuppi.txt");
                   ak8_jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2Relative_AK8PFPuppi.txt");
                   ak8_jetcorr_filenames_pfL1FastJetL2L3_lateF.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L3Absolute_AK8PFPuppi.txt");
+                   if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2L3Residual_AK8PFPuppi.txt");
+ 
                   ak8_jecUnc_lateF = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017GH_V11_DATA_Uncertainty_AK8PFPuppi.txt");
                 }
             }
@@ -642,6 +680,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017GH_V11_DATA_Uncertainty_AK8PFPuppi.txt");
             }
             else
@@ -650,6 +690,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017_V11_MC_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017_V11_MC_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017_V11_MC_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017_V11_MC_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017_V11_MC_Uncertainty_AK8PFPuppi.txt");
             }
         }
@@ -661,6 +703,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017B_V32_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017B_V32_DATA_Uncertainty_AK8PFPuppi.txt");
             }
 
@@ -669,6 +713,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK8PFPuppi.txt");
 
 
@@ -678,6 +724,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L2.push_back("jetCorections/Fall17_17Nov2017DE_V32_DATA_L2L3Residual_AK8PFPuppi.txt");
                  ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK8PFPuppi.txt");
 
             }
@@ -686,6 +734,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017F_V32_DATA_Uncertainty_AK8PFPuppi.txt");
 
             }
@@ -695,6 +745,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017_V32_MC_Uncertainty_AK8PFPuppi.txt");
             }
         }
@@ -706,6 +758,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunA_V8_DATA_Uncertainty_AK8PFPuppi.txt");
             }
             else if(currentFileName.Contains("Run2018B"))
@@ -713,6 +767,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunB_V8_DATA_Uncertainty_AK8PFPuppi.txt");
             }
             else if(currentFileName.Contains("Run2018C"))
@@ -721,6 +777,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunC_V8_DATA_Uncertainty_AK8PFPuppi.txt");
             }
             else if(currentFileName.Contains("Run2018D"))
@@ -729,6 +787,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunD_V8_DATA_Uncertainty_AK8PFPuppi.txt");
             }
             else
@@ -736,6 +796,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L3Absolute_AK8PFPuppi.txt");
+                if(!isSMSScan)
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_V8_MC_Uncertainty_AK8PFPuppi.txt");
             }
 
@@ -995,7 +1057,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  HLT_singleMu = (passHLTTriggerPattern("HLT_IsoMu22_v"           ) ||
   			              passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
   			              passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
-  			              passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) );
+                          passHLTTriggerPattern("HLT_IsoMu27_v"           ) ||
+                          passHLTTriggerPattern("HLT_IsoMu30_v"           ) ||
+  			              passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) ||
+                          passHLTTriggerPattern("HLT_IsoTkMu27_v"         ) );
 
       HLT_singleMu_noiso = (passHLTTriggerPattern("HLT_Mu50_v"        ) ||
   				                  passHLTTriggerPattern("HLT_TkMu50_v"      ) ||
@@ -1107,7 +1172,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  genPart_pt            .push_back( cms3.genps_p4()                           .at(iGen).pt());
     		  genPart_eta           .push_back( cms3.genps_p4()                           .at(iGen).eta());
     		  genPart_phi           .push_back( cms3.genps_p4()                           .at(iGen).phi());
-          genPart_mass          .push_back( cms3.genps_p4()                           .at(iGen).M());
+              genPart_mass          .push_back( cms3.genps_p4()                           .at(iGen).M());
     		  genPart_pdgId         .push_back( cms3.genps_id()                           .at(iGen));
     		  genPart_status        .push_back( cms3.genps_status()                       .at(iGen));
 //    		  genPart_isp6status3   .push_back( cms3.genps_isMostlyLikePythia6Status3()   .at(iGen));
@@ -1183,7 +1248,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     			genLep_eta           .push_back( cms3.genps_p4()     .at(iGen).eta());
     			genLep_phi           .push_back( cms3.genps_p4()     .at(iGen).phi());
     			//genLep_mass          .push_back( cms3.genps_mass()   .at(iGen));
-          genLep_mass          .push_back( cms3.genps_p4()     .at(iGen).M());
+                genLep_mass          .push_back( cms3.genps_p4()     .at(iGen).M());
     			genLep_pdgId         .push_back( cms3.genps_id()     .at(iGen));
     			genLep_status        .push_back( cms3.genps_status() .at(iGen));
     			genLep_charge        .push_back( cms3.genps_charge() .at(iGen));
@@ -2373,22 +2438,33 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                     weightsf_lepiso  .push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs_lepeta         , min_leppt )) );
                     weightsf_lepconv .push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs_lepeta         , min_leppt )) );
 
-
                 }
 
-      			      			weightsf_lepip   .push_back( 1.0 );// ip weight already accounted for in id weight for electrons
+      			weightsf_lepip   .push_back( 1.0 );// ip weight already accounted for in id weight for electrons
 
       			if( isSMSScan ){
-      			  weightsf_lepid_FS . push_back( h_eleweights->GetBinContent(h_eleweights->FindBin( min_leppt, abs_lepeta )) );
-      			}
+                  if(gconf.year == 2016)
+                  {
+      			    weightsf_lepid_FS . push_back( h_eleweights_FS_id->GetBinContent(h_eleweights_FS_id->FindBin( min_leppt, abs_lepeta )) );
+                    weightsf_lepiso_FS.push_back(h_eleweights_FS_iso->GetBinContent(h_eleweights_FS_iso->FindBin(min_leppt,abs_lepeta)));
+                    weightsf_lepconv_FS.push_back(h_eleweights_FS_conv->GetBinContent(h_eleweights_FS_conv->FindBin(min_leppt,abs_lepeta))); 
+      			  }
+                  else
+                  {
+                    weightsf_lepid_FS.push_back(h_eleweights_FS_id->GetBinContent(h_eleweights_FS_id->FindBin(abs_lepeta,min_leppt)));
+                    weightsf_lepiso_FS.push_back(h_eleweights_FS_iso->GetBinContent(h_eleweights_FS_iso->FindBin(abs_lepeta,min_leppt)));
+                    weightsf_lepconv_FS.push_back(h_eleweights_FS_conv->GetBinContent(h_eleweights_FS_conv->FindBin(abs_lepeta,min_leppt)));
+                  }
+                  weightsf_lepip_FS.push_back(1.0);
+                }
             else{
       			  weightsf_lepid_FS . push_back( 1.0 );
+                  weightsf_lepiso_FS. push_back( 1.0 );
+      			  weightsf_lepip_FS . push_back( 1.0 );
+                  weightsf_lepconv_FS.push_back(1.0);
       			}
 
-      			// ip and iso FS weights already accounted for in id weight for electrons
-      			weightsf_lepiso_FS. push_back( 1.0 );
-      			weightsf_lepip_FS . push_back( 1.0 );
-    		  }
+      		}
 
     		  if( abs(lep_pdgId.at(lepind)) == 13 ){
                   if(gconf.year == 2016)
@@ -2397,16 +2473,23 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                       weightsf_lepreco.push_back(1);
       			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt, abs_lepeta )) );
       			weightsf_lepiso  .push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt, abs_lepeta )) );
-      			if(gconf.year == 2016)
-                    weightsf_lepip   .push_back( h_muoweights_SIP3D_hist      ->GetBinContent( h_muoweights_SIP3D_hist      ->FindBin( min_leppt, abs_lepeta )) );
-                else
-                    weightsf_lepip.push_back(1);
+//      			if(gconf.year == 2016)
+//                    weightsf_lepip   .push_back( h_muoweights_IP2D_hist      ->GetBinContent( h_muoweights_IP2D_hist      ->FindBin( min_leppt, abs_lepeta )) );
+//                else
+                weightsf_lepip.push_back(1);
       			weightsf_lepconv .push_back( 1.0 );// not used for muons
 
       			if( isSMSScan ){
-      			  weightsf_lepid_FS . push_back( h_muoweights       ->GetBinContent( h_muoweights       ->FindBin( min_leppt, abs_lepeta )) );
+                  if(gconf.year == 2016)
+          			  weightsf_lepid_FS . push_back( h_muoweights_FS_id       ->GetBinContent( h_muoweights       ->FindBin( min_leppt, abs_lepeta )) );
+                  else
+                      weightsf_lepid_FS.push_back(1);
+                  
       			  weightsf_lepiso_FS. push_back( h_muoweights_FS_iso->GetBinContent( h_muoweights_FS_iso->FindBin( min_leppt, abs_lepeta )) );
-      			  weightsf_lepip_FS . push_back( h_muoweights_FS_ip ->GetBinContent( h_muoweights_FS_ip ->FindBin( min_leppt, abs_lepeta )) );
+                  if(gconf.year == 2016)
+          			  weightsf_lepip_FS.push_back( h_muoweights_FS_ip ->GetBinContent( h_muoweights_FS_IP2D ->FindBin( min_leppt, abs_lepeta )) );
+                  else
+                      weightsf_lepip_FS.push_back(1);
 
       			}
             else{
@@ -4004,6 +4087,7 @@ void babyMaker::load_leptonSF_files()
   else if(gconf.year == 2018)
   {
       //do nothing
+      f_sfweights = TFile::Open("leptonSFs/electrons/2018/egammaEffi.txt_EGM2D_updatedAll.root","READ");
   }
 
   h_eleweights_reco = (TH2D*) f_sfweights->Get("EGamma_SF2D") -> Clone("h_eleweights_reco");
@@ -4020,7 +4104,7 @@ void babyMaker::load_leptonSF_files()
   h_eleweights_conv = (TH2D*) f_sfweights->Get("Run2016_ConvIHit0") -> Clone("h_eleweights_conv");
 
   }
-  else if(gconf.year == 2017 || gconf.year == 2018)
+  else if(gconf.year == 2017)
   {
     f_sfweights = TFile::Open("leptonSFs/electrons/Fall17/ElectronScaleFactors_Run2017.root","READ");
     h_eleweights_id = (TH2D*) f_sfweights->Get("Run2017_MVATightTightIP2D3D")->Clone("h_eleweights_id");
@@ -4029,8 +4113,13 @@ void babyMaker::load_leptonSF_files()
   }
   else if(gconf.year == 2018)
   {
-      //do nothing
+      f_sfweights = TFile::Open("leptonSFs/electrons/2018/ElectronScaleFactors_Run2018.root","READ");
+      h_eleweights_id = (TH2D*) f_sfweights->Get("Run2018_MVATightTightIP2D3D");
+      h_eleweights_iso = (TH2D*) f_sfweights->Get("Run2018_Mini");
+      h_eleweights_conv = (TH2D*) f_sfweights->Get("Run2018_ConvIHit0");
+      
   }
+
   h_eleweights_id->SetDirectory(rootdir);
   h_eleweightsiso->SetDirectory(rootdir);
   h_eleweights_conv->SetDirectory(rootdir);
@@ -4039,18 +4128,19 @@ void babyMaker::load_leptonSF_files()
   // muon id SF for Fullsim to Data
   if(gconf.year == 2016)
   {
-    f_sfweights  = TFile::Open("leptonSFs/muons/2016/ScaleFactorMuonID.root","READ");
+    f_sfweights  = TFile::Open("leptonSFs/muons/2016/TnP_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root","READ");
     h_muoweights_id = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_id");
 
   }
-  else if(gconf.year == 2017 || gconf.year == 2018)
+  else if(gconf.year == 2017)
   {
       f_sfweights = TFile::Open("leptonSFs/muons/Fall17/RunBCDEF_SF_ID.root","READ");
       h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumPromptID_DEN_genTracks_pt_abseta")->Clone("h_muonweights_id");
   }
   else if(gconf.year == 2018)
   {
-      //do nothing
+    f_sfweights = TFile::Open("leptonSFs/muons/2018/RunABCD_SF_ID.root","READ");
+    h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta","READ");
   }
   h_muoweights_id	->SetDirectory(rootdir);
   f_sfweights->Close();
@@ -4058,7 +4148,7 @@ void babyMaker::load_leptonSF_files()
   // muon iso SF for Fullsim to Data
   if(gconf.year == 2016)
   {
-    f_sfweights  = TFile::Open("leptonSFs/muons/2016/ScaleFactorMuonMiniIso.root","READ");
+    f_sfweights  = TFile::Open("leptonSFs/muons/2016/TnP_NUM_MiniIsoTight_DENOM_MediumID_VAR_map_pt_eta.root","READ");
     h_muoweightsiso = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweightsiso");
   }
   else if(gconf.year == 2017 || gconf.year == 2018)
@@ -4066,13 +4156,13 @@ void babyMaker::load_leptonSF_files()
       f_sfweights = TFile::Open("leptonSFs/muons/Fall17/SUSY_Iso_SF.root","READ");
       h_muoweightsiso = (TH2D*)f_sfweights->Get("TnP_MC_NUM_MiniIso02Cut_DEN_MediumCutidPromptCut_PAR_pt_eta")->Clone("h_muonweightsiso");
   }
-  h_muoweightsiso	->SetDirectory(rootdir);
+  h_muoweightsiso->SetDirectory(rootdir);
   f_sfweights->Close();
 
   // muon tracking SF due to HIPs for Fullsim to Data
   if(gconf.year == 2016)
   {
-    f_sfweights  = TFile::Open("leptonSFs/muons/2016/ScaleFactorMuonIP2D.root","READ");
+    f_sfweights  = TFile::Open("leptonSFs/muons/2016/TnP_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
     h_muoweights_IP2D_hist = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_IP2D_hist");
     h_muoweights_IP2D_hist -> SetDirectory(rootdir);
   }
@@ -4080,76 +4170,127 @@ void babyMaker::load_leptonSF_files()
 
 
   // muon ip SF for Fullsim to Data
-  if(gconf.year == 2016)
+ /* if(gconf.year == 2016)
   {
     f_sfweights  = TFile::Open("leptonSFs/muons/2016/ScaleFactorMuonSIP3D.root","READ");
     h_muoweights_SIP3D_hist = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_SIP3D");
     h_muoweights_SIP3D_hist->SetDirectory(rootdir);
   }
-  f_sfweights->Close();
+  f_sfweights->Close();*/
 
 
 
-  //FS to fullsim
+  //Fastsim to fullsim
 
   //electrons
+  //ID
   if(gconf.year == 2016)
   {
-    f_sfweights  = TFile::Open("leptonSFs/FS/moriond17/sf_el_tightMVA_tight2DIP_vtxC_hitseq0.root","READ");
-    h_eleweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_eleweights");
-  h_eleweights->SetDirectory(rootdir);
-
-
+    f_sfweights  = TFile::Open("leptonSFs/FS/2016/sf_el_tight2d3d.root","READ");
+    h_eleweights_FS_id = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_eleweights_FS_id");
+  h_eleweights_FS_id->SetDirectory(rootdir);
   }
 
-  else if(gconf.year == 2017 || gconf.year == 2018)
+  else if(gconf.year == 2017)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_ele_full_fast_sf_17.root");
-    h_eleweights = (TH2D*) f_sfweights->Get("MVATightTightIP2D3D_eff_fast");
-    h_eleweights->SetDirectory(rootdir);
+    h_eleweights_FS_id = (TH2D*) f_sfweights->Get("MVATightTightIP2D3D_sf") ->Clone("h_eleweights_FS_id");
+    h_eleweights_FS_id->SetDirectory(rootdir);
   }
 
   else if(gconf.year == 2018)
   {
+    f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_ele_full_fast_sf_18.root");
+    h_eleweights_FS_id = (TH2D*) f_sfweights->Get("MVATightTightIP2D3D_sf") ->Clone("h_eleweights_FS_id");
+    h_eleweights_FS_id->SetDirectory(rootdir);
+  }
+  f_sfweights->Close();
+
+  //Iso
+  if(gconf.year == 2016)
+  {
+    f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_el_mini01.root","READ");
+    h_eleweights_FS_iso = (TH2D*)f_sfweights->Get("histo2D")->Clone("h_eleweights_FS_iso");
+    h_eleweights_FS_iso->SetDirectory(rootdir);
+  }
+  else if(gconf.year == 2017)
+  {
+    f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_ele_full_fast_sf_17.root","READ");
+    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini_fs")->Clone("h_eleweights_FS_iso");
+    h_eleweights_FS_iso->SetDirectory(rootdir);
+  }
+  else if(gconf.year == 2018)
+  {
+     f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_ele_full_fast_sf_18.root","READ");
+    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini_fs")->Clone("h_eleweights_FS_iso");
+    h_eleweights_FS_iso->SetDirectory(rootdir);
+  }
+  f_sfweights->Close();
+
+  //Conv
+  if(gconf.year == 2016)
+  {
+    f_sfweights = TFile::Open("leptonSFs/2016/sf_el_inhit_eq0.root","READ");
+    h_eleweights_FS_conv = (TH2D*)f_sfweights->Get("histo2D")->Clone("h_eleweights_FS_conv");
+    h_eleweights_FS_conv->SetDirectory(rootdir);
+  }
+  else if(gconf.year == 2017)
+  {
+    f_sfweights = TFile::Open("leptonSFs/Fall17/detailed_ele_full_fast_sf_17.root","READ");
+    h_eleweights_FS_conv = (TH2D*) f_sfweights->Get("ConvIHit0_sf")->Clone("h_eleweights_FS_conv");
+  }
+  else if(gconf.year == 2018)
+  {
+    f_sfweights = TFile::Open("leptonSFs/2018/detailed_ele_full_fast_sf_18.root","READ");
+    h_eleweights_FS_conv = (TH2D*) f_sfweights->Get("ConvIHit0_sf")->Clone("h_eleweights_FS_conv");
 
   }
+  
+  f_sfweights->Close();
 
-  // SFs electrons for FS to Fullsim
-      f_sfweights->Close();
 
-  //FS to fullsim
+  //Fastsim to fullsim
   //Muons
-  //
-  if(gconf.year == 2016 || gconf.year == 2017 || gconf.year == 2018)
+
+
+  //ID
+  if(gconf.year == 2016)
   {
-    f_sfweights  = TFile::Open("leptonSFs/FS/moriond17/sf_mu_mediumID.root","READ");
-    h_muoweights = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights");
-  h_muoweights->SetDirectory(rootdir);
+    f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_mu_mediumID.root","READ");
+    h_muoweights_FS_id = (TH2D*)f_sfweights->Clone("histo2D")->Clone("h_muoweights_FS_id");
+    h_muoweights_FS_id->SetDirectory(rootdir);
+    f_sfweights->Close();
   }
-  else if(gconf.year == 2017 || gconf.year == 2018)
+  
+  //Iso
+  if(gconf.year == 2016)
   {
-    f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_mu_full_fast_sf_17.root");
-    h_muoweights = (TH2D*)f_sfweights->Get("");
+    f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_mu_mediumID_mini02.root","READ");
+    h_muoweights_FS_iso = (TH2D*)f_sfweights->Clone("histo2D")->Clone("h_muoweights_FS_iso");
+    h_muoweights_FS_iso->SetDirectory(rootdir);
+  }
+  else if(gconf.year == 2017)
+  {
+    f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_mu_full_fast_sf_17.root","READ");
+    h_muoweights_FS_iso = (TH2D*)f_sfweights->Clone("miniIso02_MediumId_sf")->Clone("h_muoweights_FS_iso");
+    h_muoweights_FS_iso->SetDirectory(rootdir);
   }
   else if(gconf.year == 2018)
   {
-
+    f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_mu_full_fast_sf_18.root","READ");
+    h_muoweights_FS_iso = (TH2D*)f_sfweights->Clone("miniIso02_MediumId_sf");
+    h_muoweights_FS_iso->SetDirectory(rootdir);
   }
-
-  // SFs muons for FS to Fullsim, medium ID
-      f_sfweights->Close();
-
-  // SFs muons for FS to Fullsim, iso
-  f_sfweights  = TFile::Open("leptonSFs/FS/moriond17/sf_mu_mediumID_mini02.root","READ");
-  h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights_FS_iso");
-  h_muoweights_FS_iso->SetDirectory(rootdir);
   f_sfweights->Close();
+ 
+  //IP2D
+  if(gconf.year == 2016)
+  {
+    f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_mu_tightIP2D.root","READ");
+    h_muoweights_FS_IP2D = (TH2D*)f_sfweights->Clone("histo2D");
+    h_muoweights_FS_IP2D->SetDirectory(rootdir);
+    f_sfweights->Close();
+  }
+   
 
-  // SFs muons for FS to Fullsim, ip
-  f_sfweights  = TFile::Open("leptonSFs/FS/moriond17/sf_mu_mediumID_tightIP2D.root","READ");
-  h_muoweights_FS_ip = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_muoweights_FS_ip");
-  h_muoweights_FS_ip->SetDirectory(rootdir);
-  f_sfweights->Close();
-
-  return;
 }

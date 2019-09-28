@@ -47,15 +47,21 @@ private:
   TFile *BabyFile_;
   TTree *BabyTree_;
 
-  TH2D * h_eleweights     ; // FS to Fullsim
+  //Fullsim to data
   TH2D * h_eleweights_id  ;
   TH2D * h_eleweightsiso  ;
   TH2D * h_eleweights_reco;
   TH2D * h_eleweights_conv;
 
-  TH2D * h_muoweights       ; // FS to Fullsim; ID
+  //Fastsim to Fullsim
+  TH2D * h_eleweights_FS_id;
+  TH2D * h_eleweights_FS_iso;
+  TH2D * h_eleweights_FS_conv;
+
+
+  TH2D * h_muoweights_FS_id; // FS to Fullsim; ID
   TH2D * h_muoweights_FS_iso; // FS to Fullsim; ISO
-  TH2D * h_muoweights_FS_ip ; // FS to Fullsim; IP
+  TH2D * h_muoweights_FS_IP2D; // FS to Fullsim; IP2D
 
   TH2D * h_muoweights_id;
   TH2D * h_muoweights_SIP3D_hist;
@@ -588,6 +594,7 @@ private:
   std::vector <Float_t> weightsf_lepid_FS;
   std::vector <Float_t> weightsf_lepiso_FS;
   std::vector <Float_t> weightsf_lepip_FS;
+  std::vector <Float_t> weightsf_lepconv_FS;
 
   //isotrack variables
   std::vector<LorentzVector> vec_isotrack_p4;
