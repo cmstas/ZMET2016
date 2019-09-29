@@ -528,7 +528,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L3Absolute_AK4PFchs.txt");
             if(!isSMSScan)
-                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2L3Residual_AK4PFchs.txt")
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017C_V32_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017C_V32_DATA_Uncertainty_AK4PFchs.txt");
         }
 
@@ -559,7 +559,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2Relative_AK4PFchs.txt");
             jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L3Absolute_AK4PFchs.txt");
             if(!isSMSScan)
-                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2L3Residual_AK4PFchs.txt")
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017_V32_MC_Uncertainty_AK4PFchs.txt");
 
 
@@ -725,7 +725,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK8PFPuppi.txt");
                 if(!isSMSScan)
-                    ak8_jetcorr_filenames_pfL1FastJetL2L2.push_back("jetCorections/Fall17_17Nov2017DE_V32_DATA_L2L3Residual_AK8PFPuppi.txt");
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorections/Fall17_17Nov2017DE_V32_DATA_L2L3Residual_AK8PFPuppi.txt");
                  ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK8PFPuppi.txt");
 
             }
@@ -2480,13 +2480,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       			if( isSMSScan ){
                   if(gconf.year == 2016)
-          			  weightsf_lepid_FS . push_back( h_muoweights_FS_id       ->GetBinContent( h_muoweights       ->FindBin( min_leppt, abs_lepeta )) );
+          			  weightsf_lepid_FS . push_back( h_muoweights_FS_id       ->GetBinContent( h_muoweights_FS_id       ->FindBin( min_leppt, abs_lepeta )) );
                   else
                       weightsf_lepid_FS.push_back(1);
                   
       			  weightsf_lepiso_FS. push_back( h_muoweights_FS_iso->GetBinContent( h_muoweights_FS_iso->FindBin( min_leppt, abs_lepeta )) );
                   if(gconf.year == 2016)
-          			  weightsf_lepip_FS.push_back( h_muoweights_FS_ip ->GetBinContent( h_muoweights_FS_IP2D ->FindBin( min_leppt, abs_lepeta )) );
+          			  weightsf_lepip_FS.push_back( h_muoweights_FS_IP2D ->GetBinContent( h_muoweights_FS_IP2D ->FindBin( min_leppt, abs_lepeta )) );
                   else
                       weightsf_lepip_FS.push_back(1);
 
@@ -4114,7 +4114,7 @@ void babyMaker::load_leptonSF_files()
   {
       f_sfweights = TFile::Open("leptonSFs/electrons/2018/ElectronScaleFactors_Run2018.root","READ");
       h_eleweights_id = (TH2D*) f_sfweights->Get("Run2018_MVATightTightIP2D3D");
-      h_eleweights_iso = (TH2D*) f_sfweights->Get("Run2018_Mini");
+      h_eleweightsiso = (TH2D*) f_sfweights->Get("Run2018_Mini");
       h_eleweights_conv = (TH2D*) f_sfweights->Get("Run2018_ConvIHit0");
       
   }
@@ -4139,7 +4139,7 @@ void babyMaker::load_leptonSF_files()
   else if(gconf.year == 2018)
   {
     f_sfweights = TFile::Open("leptonSFs/muons/2018/RunABCD_SF_ID.root","READ");
-    h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta","READ");
+    h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
   }
   h_muoweights_id	->SetDirectory(rootdir);
   f_sfweights->Close();
