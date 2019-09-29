@@ -1045,16 +1045,17 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  }*/
     		}
   	  }
+      if(!isSMSScan)
+      {
+  	    //=============================
+        // 2016 Triggers
+        //=============================
 
-  	  //=============================
-      // 2016 Triggers
-      //=============================
-
-      //ATLAS cross checks:
-  	  HLT_singleEl =  (passHLTTriggerPattern("HLT_Ele32_eta2p1_WPTight_Gsf_v" ) ||
+        //ATLAS cross checks:
+  	    HLT_singleEl =  (passHLTTriggerPattern("HLT_Ele32_eta2p1_WPTight_Gsf_v" ) ||
   			               passHLTTriggerPattern("HLT_Ele27_WPTight_Gsf_v"        ) );
 
-  	  HLT_singleMu = (passHLTTriggerPattern("HLT_IsoMu22_v"           ) ||
+  	    HLT_singleMu = (passHLTTriggerPattern("HLT_IsoMu22_v"           ) ||
   			              passHLTTriggerPattern("HLT_IsoTkMu22_v"         ) ||
   			              passHLTTriggerPattern("HLT_IsoMu24_v"           ) ||
                           passHLTTriggerPattern("HLT_IsoMu27_v"           ) ||
@@ -1062,83 +1063,81 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   			              passHLTTriggerPattern("HLT_IsoTkMu24_v"         ) ||
                           passHLTTriggerPattern("HLT_IsoTkMu27_v"         ) );
 
-      HLT_singleMu_noiso = (passHLTTriggerPattern("HLT_Mu50_v"        ) ||
+        HLT_singleMu_noiso = (passHLTTriggerPattern("HLT_Mu50_v"        ) ||
   				                  passHLTTriggerPattern("HLT_TkMu50_v"      ) ||
   				                  passHLTTriggerPattern("HLT_Mu55_v"        ) );
 
-  	  //Double Electron:
-      HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v");
-      HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v");
+  	    //Double Electron:
+        HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
+        HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
+        HLT_DoubleEle33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_v");
+        HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW_v");
 
-  	  //Double Muon:
-      HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v");
-      HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v");
-      HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ = passHLTTriggerPattern("HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v");
-      HLT_Mu27_TkMu8 = passHLTTriggerPattern("HLT_Mu27_TkMu8");
-      HLT_Mu30_TkMu11 = passHLTTriggerPattern("HLT_Mu30_TkMu11");
+  	    //Double Muon:
+        HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_v");
+        HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v");
+        HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ = passHLTTriggerPattern("HLT_TkMu17_TrkIsoVVL_TkMu8_TrkIsoVVL_DZ_v");
+        HLT_Mu27_TkMu8 = passHLTTriggerPattern("HLT_Mu27_TkMu8");
+        HLT_Mu30_TkMu11 = passHLTTriggerPattern("HLT_Mu30_TkMu11");
 
-      //MuonElectron
+        //MuonElectron
 
-      HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v");
-      HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v");
-      HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v");
-      HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");
-      HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");
-      HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v");
-      HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v");
+        HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v");
+        HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_v");
+        HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele8_CaloIdL_TrackIdL_IsoVL_DZ_v");
+        HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v");
+        HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");
+        HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ = passHLTTriggerPattern("HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
+        HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_v");
+        HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu30_Ele30_CaloIdL_GsfTrkIdVL_v");
+        HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL = passHLTTriggerPattern("HLT_Mu33_Ele33_CaloIdL_GsfTrkIdVL_v");
 
-  	  //Photon:
-  	  HLT_Photon22_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon22_R9Id90_HE10_IsoM_v" );
-  	  HLT_Photon30_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon30_R9Id90_HE10_IsoM_v" );
-  	  HLT_Photon36_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon36_R9Id90_HE10_IsoM_v" );
-  	  HLT_Photon50_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon50_R9Id90_HE10_IsoM_v" );
-  	  HLT_Photon75_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon75_R9Id90_HE10_IsoM_v" );
-  	  HLT_Photon90_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon90_R9Id90_HE10_IsoM_v" );
-  	  HLT_Photon120_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon120_R9Id90_HE10_IsoM_v");
-  	  HLT_Photon165_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon165_R9Id90_HE10_IsoM_v");
-  	  HLT_Photon165_HE10             = returnBrokenTrigger("HLT_Photon165_HE10_v"            );
-      HLT_Photon200 = returnBrokenTrigger("HLT_Photon200_v");
-      HLT_Photon110EB_TightID_TightIso = returnBrokenTrigger("HLT_Photon100EB_TightID_TightIso");
+  	    //Photon:
+  	    HLT_Photon22_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon22_R9Id90_HE10_IsoM_v" );
+  	    HLT_Photon30_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon30_R9Id90_HE10_IsoM_v" );
+  	    HLT_Photon36_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon36_R9Id90_HE10_IsoM_v" );
+  	    HLT_Photon50_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon50_R9Id90_HE10_IsoM_v" );
+  	    HLT_Photon75_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon75_R9Id90_HE10_IsoM_v" );
+  	    HLT_Photon90_R9Id90_HE10_IsoM  = returnBrokenTrigger("HLT_Photon90_R9Id90_HE10_IsoM_v" );
+  	    HLT_Photon120_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon120_R9Id90_HE10_IsoM_v");
+  	    HLT_Photon165_R9Id90_HE10_IsoM = returnBrokenTrigger("HLT_Photon165_R9Id90_HE10_IsoM_v");
+  	    HLT_Photon165_HE10             = returnBrokenTrigger("HLT_Photon165_HE10_v"            );
+        HLT_Photon200 = returnBrokenTrigger("HLT_Photon200_v");
+        HLT_Photon110EB_TightID_TightIso = returnBrokenTrigger("HLT_Photon100EB_TightID_TightIso");
 
-  	  // for high pT photon efficiency checks
-  	  HLT_CaloJet500_NoJetID = returnBrokenTrigger("HLT_CaloJet500_NoJetID_v" );
-  	  HLT_ECALHT800_NoJetID  = returnBrokenTrigger("HLT_ECALHT800_NoJetID_v"  );
+  	    // for high pT photon efficiency checks
+  	    HLT_CaloJet500_NoJetID = returnBrokenTrigger("HLT_CaloJet500_NoJetID_v" );
+  	    HLT_ECALHT800_NoJetID  = returnBrokenTrigger("HLT_ECALHT800_NoJetID_v"  );
 
-      //=============================
-      // 2017 Triggers
-      //=============================
+        //=============================
+        // 2017 Triggers
+        //=============================
 
-      //Double Muon:
-      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8  = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v");
-      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ        = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"      );
-      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL           = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"         );
-      HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8 = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v");
-      HLT_Mu37_TkMu27 = passHLTTriggerPattern("HLT_Mu37_TkMu27_v");
-
-
-      //Double Electron:
-      HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL     = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v"   );
-      HLT_DoubleEle33_CaloIdL_MW                 = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_MW_v"               );
-      HLT_DoubleEle25_CaloIdL_MW = passHLTTriggerPattern("HLT_DoubleEle25_CaloIdL_MW_v");
-      HLT_DoubleEle27_CaloIdL_MW_Edge = passHLTTriggerPattern("HLT_DoubleEle27_CaloIdL_MW_Edge_v");
-
-      //EMu:
-      HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
-      HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v");
-      HLT_Mu27_Ele37_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu27_Ele37_CaloIdL_MW_v");
-      HLT_Mu37_Ele27_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu37_Ele27_CaloIdL_MW_v");
+        //Double Muon:
+        HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8  = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v");
+        HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ        = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v"      );
+        HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL           = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v"         );
+        HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8 = passHLTTriggerPattern("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v");
+        HLT_Mu37_TkMu27 = passHLTTriggerPattern("HLT_Mu37_TkMu27_v");
 
 
+        //Double Electron:
+        HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
+        HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL     = passHLTTriggerPattern("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v"   );
+        HLT_DoubleEle33_CaloIdL_MW                 = passHLTTriggerPattern("HLT_DoubleEle33_CaloIdL_MW_v"               );
+        HLT_DoubleEle25_CaloIdL_MW = passHLTTriggerPattern("HLT_DoubleEle25_CaloIdL_MW_v");
+        HLT_DoubleEle27_CaloIdL_MW_Edge = passHLTTriggerPattern("HLT_DoubleEle27_CaloIdL_MW_Edge_v");
 
-      //Single Muon:
-      HLT_IsoMu27 = passHLTTriggerPattern("HLT_IsoMu27_v");
-      HLT_Mu50    = passHLTTriggerPattern("HLT_Mu50_v"   );
+        //EMu:
+        HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu12_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ_v");
+        HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ  = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v");
+        HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL     = passHLTTriggerPattern("HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v");
+        HLT_Mu27_Ele37_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu27_Ele37_CaloIdL_MW_v");
+        HLT_Mu37_Ele27_CaloIdL_MW    = passHLTTriggerPattern("HLT_Mu37_Ele27_CaloIdL_MW_v");
+
+        //Single Muon:
+        HLT_IsoMu27 = passHLTTriggerPattern("HLT_IsoMu27_v");
+        HLT_Mu50    = passHLTTriggerPattern("HLT_Mu50_v"   );
 
       //Photon:
       //HLT_Photon50_R9Id90_HE10_IsoM_v   -----
@@ -1147,7 +1146,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //HLT_Photon120_R9Id90_HE10_IsoM_v    |
       //HLT_Photon165_R9Id90_HE10_IsoM_v  -----
 
-
+   }
 
 
       if (verbose) cout << "before gen particles" << endl;
