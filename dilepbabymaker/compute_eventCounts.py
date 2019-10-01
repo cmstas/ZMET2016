@@ -2,7 +2,7 @@ from __future__ import print_function
 import ROOT as r
 import numpy as np
 import os,sys
-
+import glob
 #One histogram file containing histograms from all three years
 fastsim_sample = sys.argv[1].lower()
 directory_prefix = "/hadoop/cms/store/group/snt/"
@@ -39,7 +39,7 @@ years =[2016,2017,2018]
 corruptListFile = open("corrupt_fastsim_files.txt","r")
 corruptList = []
 for line in corruptListFile:
-    corruptLlist.append(line)
+    corruptList.append(line.rstrip("\n"))
 
 n_events_per_year = {}
 for year in years:
@@ -55,7 +55,7 @@ for year in years:
             if filename not in corruptList:
                 ch.Add(filename)
             else:
-                print("Skipping {} because it is corrupt",filename)
+                print("Skipping {} because it is corrupt".format(filename))
 
     if fastsim_sample == "tchiwz":
         n_events_per_year[year] = r.TH2D("h_nevents_"+str(year),"mass1[GeV]:mass2[GeV]",60,0,3000,60,0,3000)
