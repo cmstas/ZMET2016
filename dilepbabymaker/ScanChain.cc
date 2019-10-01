@@ -276,7 +276,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	TH2D  * h_btag_eff_b_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_b");
 	TH2D  * h_btag_eff_c_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_c");
 	TH2D  * h_btag_eff_udsg_temp = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_udsg");
-	BabyFile_->cd();
+    BabyFile_->cd();
 	h_btag_eff_b    = (TH2D*) h_btag_eff_b_temp    -> Clone("h_btag_eff_b"   );
 	h_btag_eff_c    = (TH2D*) h_btag_eff_c_temp    -> Clone("h_btag_eff_c"   );
 	h_btag_eff_udsg = (TH2D*) h_btag_eff_udsg_temp -> Clone("h_btag_eff_udsg");
@@ -325,11 +325,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	  	  TH2D  * h_btag_eff_b_fastsim_temp    = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_b"  );
 	  TH2D  * h_btag_eff_c_fastsim_temp    = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_c"  );
 	  TH2D  * h_btag_eff_udsg_fastsim_temp = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_udsg");
-	  BabyFile_->cd();
+      BabyFile_->cd();
 	  h_btag_eff_b_fastsim    = (TH2D*) h_btag_eff_b_fastsim_temp    -> Clone("h_btag_eff_b_fastsim"   );
 	  h_btag_eff_c_fastsim    = (TH2D*) h_btag_eff_c_fastsim_temp    -> Clone("h_btag_eff_c_fastsim"   );
 	  h_btag_eff_udsg_fastsim = (TH2D*) h_btag_eff_udsg_fastsim_temp -> Clone("h_btag_eff_udsg_fastsim");
-	  // f_btag_eff_fastsim->Close();
 
 	  std::cout << "loaded fastsim btag SFs" << std::endl;
 	} // if (isFastsim)
@@ -4187,22 +4186,20 @@ void babyMaker::load_leptonSF_files()
   {
     f_sfweights  = TFile::Open("leptonSFs/FS/2016/sf_el_tight2d3d.root","READ");
     h_eleweights_FS_id = (TH2D*)f_sfweights->Get("histo2D") -> Clone("h_eleweights_FS_id");
-  h_eleweights_FS_id->SetDirectory(rootdir);
   }
 
   else if(gconf.year == 2017)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_ele_full_fast_sf_17.root");
     h_eleweights_FS_id = (TH2D*) f_sfweights->Get("MVATightTightIP2D3D_sf") ->Clone("h_eleweights_FS_id");
-    h_eleweights_FS_id->SetDirectory(rootdir);
   }
 
   else if(gconf.year == 2018)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_ele_full_fast_sf_18.root");
     h_eleweights_FS_id = (TH2D*) f_sfweights->Get("MVATightTightIP2D3D_sf") ->Clone("h_eleweights_FS_id");
-    h_eleweights_FS_id->SetDirectory(rootdir);
   }
+  h_eleweights_FS_id->SetDirectory(rootdir);
   f_sfweights->Close();
 
   //Iso
@@ -4210,41 +4207,39 @@ void babyMaker::load_leptonSF_files()
   {
     f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_el_mini01.root","READ");
     h_eleweights_FS_iso = (TH2D*)f_sfweights->Get("histo2D")->Clone("h_eleweights_FS_iso");
-    h_eleweights_FS_iso->SetDirectory(rootdir);
   }
   else if(gconf.year == 2017)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_ele_full_fast_sf_17.root","READ");
-    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini_fs")->Clone("h_eleweights_FS_iso");
-    h_eleweights_FS_iso->SetDirectory(rootdir);
+    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini2_sf")->Clone("h_eleweights_FS_iso");
   }
   else if(gconf.year == 2018)
   {
-     f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_ele_full_fast_sf_18.root","READ");
-    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini_fs")->Clone("h_eleweights_FS_iso");
-    h_eleweights_FS_iso->SetDirectory(rootdir);
+    f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_ele_full_fast_sf_18.root","READ");
+    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini2_sf")->Clone("h_eleweights_FS_iso");
   }
+
+  h_eleweights_FS_iso->SetDirectory(rootdir);
   f_sfweights->Close();
 
   //Conv
   if(gconf.year == 2016)
   {
-    f_sfweights = TFile::Open("leptonSFs/2016/sf_el_inhit_eq0.root","READ");
+    f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_el_inhit_eq0.root","READ");
     h_eleweights_FS_conv = (TH2D*)f_sfweights->Get("histo2D")->Clone("h_eleweights_FS_conv");
-    h_eleweights_FS_conv->SetDirectory(rootdir);
   }
   else if(gconf.year == 2017)
   {
-    f_sfweights = TFile::Open("leptonSFs/Fall17/detailed_ele_full_fast_sf_17.root","READ");
+    f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_ele_full_fast_sf_17.root","READ");
     h_eleweights_FS_conv = (TH2D*) f_sfweights->Get("ConvIHit0_sf")->Clone("h_eleweights_FS_conv");
   }
   else if(gconf.year == 2018)
   {
-    f_sfweights = TFile::Open("leptonSFs/2018/detailed_ele_full_fast_sf_18.root","READ");
+    f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_ele_full_fast_sf_18.root","READ");
     h_eleweights_FS_conv = (TH2D*) f_sfweights->Get("ConvIHit0_sf")->Clone("h_eleweights_FS_conv");
 
   }
-  
+  h_eleweights_FS_conv->SetDirectory(rootdir);
   f_sfweights->Close();
 
 
@@ -4256,7 +4251,7 @@ void babyMaker::load_leptonSF_files()
   if(gconf.year == 2016)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_mu_mediumID.root","READ");
-    h_muoweights_FS_id = (TH2D*)f_sfweights->Clone("histo2D")->Clone("h_muoweights_FS_id");
+    h_muoweights_FS_id = (TH2D*)f_sfweights->Get("histo2D")->Clone("h_muoweights_FS_id");
     h_muoweights_FS_id->SetDirectory(rootdir);
     f_sfweights->Close();
   }
@@ -4265,19 +4260,19 @@ void babyMaker::load_leptonSF_files()
   if(gconf.year == 2016)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_mu_mediumID_mini02.root","READ");
-    h_muoweights_FS_iso = (TH2D*)f_sfweights->Clone("histo2D")->Clone("h_muoweights_FS_iso");
+    h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("histo2D")->Clone("h_muoweights_FS_iso");
     h_muoweights_FS_iso->SetDirectory(rootdir);
   }
   else if(gconf.year == 2017)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_mu_full_fast_sf_17.root","READ");
-    h_muoweights_FS_iso = (TH2D*)f_sfweights->Clone("miniIso02_MediumId_sf")->Clone("h_muoweights_FS_iso");
+    h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("miniIso02_MediumId_sf")->Clone("h_muoweights_FS_iso");
     h_muoweights_FS_iso->SetDirectory(rootdir);
   }
   else if(gconf.year == 2018)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_mu_full_fast_sf_18.root","READ");
-    h_muoweights_FS_iso = (TH2D*)f_sfweights->Clone("miniIso02_MediumId_sf");
+    h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("miniIso02_MediumId_sf")->Clone("h_muoweights_FS_iso");
     h_muoweights_FS_iso->SetDirectory(rootdir);
   }
   f_sfweights->Close();
@@ -4285,8 +4280,8 @@ void babyMaker::load_leptonSF_files()
   //IP2D
   if(gconf.year == 2016)
   {
-    f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_mu_tightIP2D.root","READ");
-    h_muoweights_FS_IP2D = (TH2D*)f_sfweights->Clone("histo2D");
+    f_sfweights = TFile::Open("leptonSFs/FS/2016/sf_mu_mediumID_tightIP2D.root","READ");
+    h_muoweights_FS_IP2D = (TH2D*)f_sfweights->Get("histo2D")->Clone("h_muoweights_FS_ip2d");
     h_muoweights_FS_IP2D->SetDirectory(rootdir);
     f_sfweights->Close();
   }
