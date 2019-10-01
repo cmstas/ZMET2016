@@ -294,11 +294,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
       else if(gconf.year == 2017)
       {
-          calib_fastsim = new BTagCalibration("deepcsv","deepcsv_13TEV_17SL_18_3_2019.csv");
+          calib_fastsim = new BTagCalibration("deepcsv","btagsf/deepcsv_13TEV_17SL_18_3_2019.csv");
       }
       else if(gconf.year == 2018)
       {
-          calib_fastsim = new BTagCalibration("deepcsv","deepcsv_13TEV_18SL_7_5_2019.csv");
+          calib_fastsim = new BTagCalibration("deepcsv","btagsf/deepcsv_13TEV_18SL_7_5_2019.csv");
       }
 	  reader_fastsim    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"}); // central
       reader_fastsim->load(*calib_fastsim, BTagEntry::JetFlavor::FLAV_UDSG, "fastsim");
@@ -357,7 +357,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
 
-  TH2F * h_eventcounts  = NULL;
+  TH2D * h_eventcounts  = NULL;
   TH1D * h_eventcounts_1d  = NULL;
   TFile * f_eventcounts = NULL;
 
