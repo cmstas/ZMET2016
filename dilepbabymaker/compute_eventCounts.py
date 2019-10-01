@@ -35,6 +35,11 @@ dataset_directory_mapping ={
 
 years =[2016,2017,2018]
 
+#Add all files except those in the dirty list
+corruptListFile = open("corrupt_fastsim_files.txt","r")
+corruptList = []
+for line in corruptListFile:
+    corruptLlist.append(line)
 
 n_events_per_year = {}
 for year in years:
@@ -44,8 +49,13 @@ for year in years:
     ch.Reset() #Additional precaution
     for directory in dataset_directory_mapping[fastsim_sample][year]:
         full_path = os.path.join(directory_prefix,year_directory_mapping[year],directory,"*.root")
+        files_list = glob.glob(full_path)
         print("Adding directory ",full_path," to TChain")
-        ch.Add(full_path)
+        for filename in files_list:
+            if filename not in corruptList:
+                ch.Add(filename)
+            else:
+                print("Skipping {} because it is corrupt",filename)
 
     if fastsim_sample == "tchiwz":
         n_events_per_year[year] = r.TH2D("h_nevents_"+str(year),"mass1[GeV]:mass2[GeV]",60,0,3000,60,0,3000)
