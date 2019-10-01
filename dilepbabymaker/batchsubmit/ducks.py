@@ -23,7 +23,15 @@ dsList.extend(["all"])
 #dsList.extend(["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"])
 #dsList.extend(["VVV","ttbarGamma","ttH"])
 #dsList.extend(["WGammaWJets"])
-datasetsToProcess = ZMET.get(data = dsList,year = 2016)
+fastSimList = ["TChiZZ","T5ZZ","TChiWZ","TChiHZ"]
+dsList.extend(fastsimList)
+#datasetsToProcess = ZMET.get(data = dsList,year = 2016)
+
+#Get the fastsim file list to skip
+skip_list_file = open("corrupt_fastsim_files.txt","r")
+fastsim_files_skip_list = []
+for line in skip_list_file:
+    fastsim_files_skip_list.append(line.rstrip("\n"))
 
 print("Processing these datasets")
 print(datasetsToProcess)
@@ -35,7 +43,7 @@ while True:
         if dsname[:7] == "/hadoop":
             sample = DirectorySample(dataset = sample,location = sample)
         else:
-            sample = SNTSample(dataset = dsname)
+            sample = SNTSample(dataset = dsname,skip_files = fastsim_files_skip_list)
             print(sample.get_location())
         task = CondorTask(
               sample = sample,
