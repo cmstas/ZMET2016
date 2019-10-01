@@ -365,7 +365,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 	cout<<"issmsscan"<<endl;
 
-	f_susyxsecs = TFile::Open("xsec_susy_13tev.root","READ");
+	f_susyxsecs = TFile::Open("data/xsec_susy_13tev.root","READ");
 	if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
 	else if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
 	else if( TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_higgsino"  )->Clone("h_susyxsecs");
@@ -373,21 +373,42 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	h_susyxsecs->SetDirectory(rootdir);
 	f_susyxsecs->Close();
 
-	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("TChiWZ_ZToLL_entries.root","READ");
-	else if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("T5ZZ_entries.root"               ,"READ");
-	else if( TString(baby_name).Contains("tchihz") ) f_eventcounts = TFile::Open("TChiHZ_HToBB_ZToLL_entries.root" ,"READ");
-	else if( TString(baby_name).Contains("tchizz") ) f_eventcounts = TFile::Open("TChiZZ_ZToLL_entries.root","READ");
+	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("data/tchiwz_entries.root","READ");
+	else if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("data/t5zz_entries.root","READ");
+	else if( TString(baby_name).Contains("tchihz") ) f_eventcounts = TFile::Open("data/tchihz_entries.root","READ");
+	else if( TString(baby_name).Contains("tchizz") ) f_eventcounts = TFile::Open("data/tchizz_entries.root","READ");
 
 	if(TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz")) {
-		h_eventcounts_1d = (TH1D*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
-		h_eventcounts_1d->SetDirectory(rootdir);
-	}
+        if(gconf.year == 2016)
+        {
+		    h_eventcounts_1d = (TH1D*)f_eventcounts->Get("h_nevents_2016")->Clone("h_eventcounts");
+		}
+        else if(gconf.year == 2017)
+        {
+            h_eventcounts_1d = (TH1D*)f_eventcounts->Get("h_nevents_2017")->Clone("h_eventcounts");
+        }
+        else if(gconf.year == 2018)
+        {
+            h_eventcounts_1d = (TH1D*)f_eventcounts->Get("h_nevents_2018")->Clone("h_eventcounts");
+        }
+        h_eventcounts_1d->SetDirectory(rootdir);
+    }
 	else{
-		h_eventcounts = (TH2F*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
+        if(gconf.year == 2016)
+        {
+		    h_eventcounts = (TH2D*)f_eventcounts->Get("h_nevents_2016")->Clone("h_eventcounts");
+        }
+        else if(gconf.year == 2017)
+        {
+            h_eventcounts = (TH2D*)f_eventcounts->Get("h_nevents_2017")->Clone("h_eventcounts");
+
+        }
+        else if(gconf.year == 2018)
+        {
+            h_eventcounts = (TH2D*)f_eventcounts->Get("h_nevents_2018")->Clone("h_eventcounts");
+        }
 		h_eventcounts->SetDirectory(rootdir);
 	}
-
-	h_eventcounts = (TH2F*)f_eventcounts->Get("h_entries")->Clone("h_eventcounts");
 
 	h_eventcounts->SetDirectory(rootdir);
 	f_eventcounts->Close();
