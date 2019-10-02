@@ -23,7 +23,7 @@ dsList.extend(["all"])
 #dsList.extend(["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"])
 #dsList.extend(["VVV","ttbarGamma","ttH"])
 #dsList.extend(["WGammaWJets"])
-fastSimList = ["TChiZZ","T5ZZ","TChiWZ","TChiHZ"]
+fastsimList = ["TChiZZ","T5ZZ","TChiWZ","TChiHZ"]
 dsList.extend(fastsimList)
 #datasetsToProcess = ZMET.get(data = dsList,year = 2016)
 
