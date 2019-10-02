@@ -23,9 +23,9 @@ dsList.extend(["all"])
 #dsList.extend(["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"])
 #dsList.extend(["VVV","ttbarGamma","ttH"])
 #dsList.extend(["WGammaWJets"])
-fastSimList = ["TChiZZ","T5ZZ","TChiWZ","TChiHZ"]
+fastsimList = ["TChiZZ","T5ZZ","TChiWZ","TChiHZ"]
 dsList.extend(fastsimList)
-#datasetsToProcess = ZMET.get(data = dsList,year = 2016)
+datasetsToProcess = ZMET.get(data = dsList,year = [])
 
 #Get the fastsim file list to skip
 skip_list_file = open("corrupt_fastsim_files.txt","r")
