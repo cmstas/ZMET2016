@@ -10,14 +10,13 @@ from metis.StatsParser import StatsParser
 
 exec_path = "condor_exe.sh"
 tar_path = "package.tar.gz"
-hadoop_path = "ZMET_babies"
+hadoop_path = "ZMET_babies_20190915"
 job_tag = "ZMET_babies"
 
-usexrootd = 1
+usexrootd = 0
 #datasetsToProcess = ZMET.get(data = "SinglePhoton",year = 2017)
 #EWKMCStrings = ["WGammaWJets","ttbar","SingleTop"]
 dsList = []
-dsList.extend(["all"])
 #dsList.extend(["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop"]
 #dsList.extend(["GammaJetsHigherStats","WGammaWJets","SingleTop"])
 #dsList.extend(["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"])
@@ -50,7 +49,7 @@ while True:
               open_dataset = False,
               flush = True,
               arguments = str(usexrootd),
-              files_per_output = 1,
+              files_per_output = 5,
               output_name = "baby.root",
               tag = job_tag,
               cmssw_version = "CMSSW_9_4_9", # doesn't do anything

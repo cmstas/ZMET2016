@@ -410,7 +410,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 		h_eventcounts->SetDirectory(rootdir);
 	}
 
-	h_eventcounts->SetDirectory(rootdir);
 	f_eventcounts->Close();
   }
   //scale1fb
