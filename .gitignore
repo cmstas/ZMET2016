@@ -1,5 +1,6 @@
 *_dict*
 *~
+*.pyc
 *.o
 *.d
 *.so
@@ -22,6 +23,11 @@ dilepbabymaker/batchsubmit/configs*
 dilepbabymaker/*.root
 dilepbabymaker/golden*
 dilepbabymaker/batchsubmit/package.tar.gz
+dilepbabymaker/batchsubmit/summary.json
+dilepbabymaker/batchsubmit/web_summary.json
+dilepbabymaker/batchsubmit/logger_metis.log
+dilepbabymaker/batchsubmit/tasks
+
 
 dilepbabymaker/outputName.txt
 
