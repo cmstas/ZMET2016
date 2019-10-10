@@ -475,7 +475,6 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     FactorizedJetCorrector   * ak8_jet_corrector_pfL1FastJetL2L3_lateF = NULL;
     JetCorrectionUncertainty * ak8_jecUnc_lateF                        = NULL;
 
-    //No Jecs for 2017 yet
     if (applyJECfromFile) {
         jetcorr_filenames_pfL1FastJetL2L3.clear();
 
@@ -518,6 +517,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 if(!isSMSScan)
                     jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2L3Residual_AK4PFchs.txt");
                 jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017GH_V11_DATA_Uncertainty_AK4PFchs.txt");
+            }
+            else if(isSMSScan)
+            {
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Spring16_25nsFastSimV1_MC_L1FastJet_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Spring16_25nsFastSimV1_MC_L2Relative_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Spring16_25nsFastSimV1_MC_L3Absolute_AK4PFchs.txt");
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Spring16_25nsFastSimV1_MC_Uncertainty_AK4PFchs.txt");
             }
             else
             {
@@ -570,6 +576,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017F_V32_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017F_V32_DATA_Uncertainty_AK4PFchs.txt");
 
+        }
+        else if(isSMSScan)
+        {
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_FastSimV1_MC_L1FastJet_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_FastSimV1_MC_L2Relative_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_FastSimV1_MC_L3Absolute_AK4PFchs.txt");
+            jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_FastSimV1_MC_Uncertainty_AK4PFchs.txt");
         }
         else //MC
         {
@@ -625,6 +638,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             if(!isSMSScan)
                 jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L2L3Residual_AK4PFchs.txt");
             jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunD_V8_DATA_Uncertainty_AK4PFchs.txt");
+        }
+        else if(isSMSScan)
+        {
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_FastSimV1_MC_L1FastJet_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_FastSimV1_MC_L2Relative_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_FastSimV1_MC_L3Absolute_AK4PFchs.txt");
+            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_FastSimV1_MC_Uncertainty_AK4PFchs.txt");
         }
         else
         {
@@ -703,7 +723,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                     ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017GH_V11_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Summer16_07Aug2017GH_V11_DATA_Uncertainty_AK8PFPuppi.txt");
             }
-            else
+            else  //Using 2016 Fullsim AK8JECs for fastsim also
             {
 
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Summer16_07Aug2017_V11_MC_L1FastJet_AK8PFPuppi.txt");
@@ -759,6 +779,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
             }
 
+            else if(isSMSScan)
+            {
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_FastSimV1_MC_L1FastJet_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_FastSimV1_MC_L2Relative_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_FastSimV1_MC_L3Absolute_AK8PFPuppi.txt");
+                ak8_jecUnce = new JetCorrectionUncertainty("jetCorrections/Fall17_FastSimV1_MC_Uncertainty_AK8PFPuppi.txt");
+            }
+
             else //MC
             {
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017_V32_MC_L1FastJet_AK8PFPuppi.txt");
@@ -809,6 +837,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 if(!isSMSScan)
                     ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L2L3Residual_AK8PFPuppi.txt");
                 ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunD_V8_DATA_Uncertainty_AK8PFPuppi.txt");
+            }
+            else if(isSMSScan)
+            {
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_FastSimV1_MC_L1FastJet_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_FastSimV1_MC_L2Relative_AK8PFPuppi.txt");
+                ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_FastSimV1_MC_L3Absolute_AK8PFPuppi.txt");
+                jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_FastSimV1_MC_Uncertainty_AK8PFPuppi.txt");
             }
             else
             {
