@@ -200,10 +200,10 @@ int main(int argc, char **argv) {
   else if (infile.Contains("SMS-T1tttt"))                            sample = Form("T1tttt_%s",          outfileid.Data());
   else if (infile.Contains("SMS-T1qqqq"))                            sample = Form("T1qqqq_%s",          outfileid.Data());
   else if (infile.Contains("SMS-T1bbbb"))                            sample = Form("T1bbbb_%s",          outfileid.Data());
-  else if (infile.Contains("SMS-T5ZZ"))                              sample = Form("t5zz_%s",          outfileid.Data());
-  else if (infile.Contains("SMS-TChiWZ"))                            sample = Form("tchiwz_%s",        outfileid.Data());
-  else if (infile.Contains("SMS-TChiHZ_HToBB_ZToLL"))                sample = Form("tchihz_%s",        outfileid.Data());
-  else if (infile.Contains("SMS-TChiZZ"))                            sample = Form("tchizz_%s",        outfileid.Data());
+  else if (infile.Contains("SMS-T5ZZ") && infile.Contains("Fast"))   sample = Form("t5zz_%s",          outfileid.Data());
+  else if (infile.Contains("SMS-TChiWZ") && infile.Contains("Fast")) sample = Form("tchiwz_%s",        outfileid.Data());
+  else if (infile.Contains("SMS-TChiHZ_HToBB_ZToLL") && infile.Contains("Fast")) sample = Form("tchihz_%s",        outfileid.Data());
+  else if (infile.Contains("SMS-TChiZZ") && infile.Contains("Fast")) sample = Form("tchizz_%s",        outfileid.Data());
 
   //Data
   // //single mu-had
