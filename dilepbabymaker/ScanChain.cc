@@ -784,7 +784,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_FastSimV1_MC_L1FastJet_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_FastSimV1_MC_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_FastSimV1_MC_L3Absolute_AK8PFPuppi.txt");
-                ak8_jecUnce = new JetCorrectionUncertainty("jetCorrections/Fall17_FastSimV1_MC_Uncertainty_AK8PFPuppi.txt");
+                ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_FastSimV1_MC_Uncertainty_AK8PFPuppi.txt");
             }
 
             else //MC
