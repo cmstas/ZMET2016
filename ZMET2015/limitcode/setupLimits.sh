@@ -11,9 +11,12 @@ cmsrel CMSSW_7_4_7
 cd CMSSW_7_4_7/src 
 cmsenv
 
-git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+#git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+#git clone https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
+git clone git@github.com:cms-analysis/HiggsAnalysis-CombinedLimit.git HiggsAnalysis/CombinedLimit
 cd HiggsAnalysis/CombinedLimit
 git fetch origin
+#git checkout 74x-root6
 git checkout v6.3.1
 scramv1 b clean; scramv1 b -j8
 

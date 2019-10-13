@@ -4,15 +4,15 @@ function process_datacard ()
 {
 
 	datacardname=`basename $1`
-	MASS1=$(echo "$datacardname" | awk '{split($0,a,"_"); print a[3]}')
-	MASS2=$(echo "$datacardname" | awk '{split($0,a,"_"); print a[5]}')
+	MASS1=$(echo "$datacardname" | awk '{split($0,a,"_"); print a[4]}')
+	MASS2=$(echo "$datacardname" | awk '{split($0,a,"_"); print a[6]}')
 
 	if [ $MASS1 -ge $MINMASS ]; then
 
 		# if [ $MASS2 -gt $(($MASS1-150)) ]; then
-		if [ -e ${INDIR}/datacard_mGluino_${MASS1}_mLSP_${MASS2}_.txt ]; then
-			echo "Running command: nice -n 10 combine -M Asymptotic -n mGluino${MASS1}_mLSP${MASS2}_ ${INDIR}/datacard_mGluino_${MASS1}_mLSP_${MASS2}_.txt > log/limit_mGluino${MASS1}_mLSP${MASS2}.txt 2>&1"
-			nice -n 10 combine -M Asymptotic -n mGluino${MASS1}_mLSP${MASS2}_ ${INDIR}/datacard_mGluino_${MASS1}_mLSP_${MASS2}_.txt  > log/limit_mGluino${MASS1}_mLSP${MASS2}.txt 2>&1
+		if [ -e ${INDIR}/datacard_all_mGluino_${MASS1}_mLSP_${MASS2}_.txt ]; then
+			echo "Running command: nice -n 10 combine -M Asymptotic -n mGluino${MASS1}_mLSP${MASS2}_ ${INDIR}/datacard_all_mGluino_${MASS1}_mLSP_${MASS2}_.txt > log/limit_mGluino${MASS1}_mLSP${MASS2}.txt 2>&1"
+			nice -n 10 combine -M Asymptotic -n mGluino${MASS1}_mLSP${MASS2}_ ${INDIR}/datacard_all_mGluino_${MASS1}_mLSP_${MASS2}_.txt  > log/limit_mGluino${MASS1}_mLSP${MASS2}.txt 2>&1
 		fi
 		
 		if [ -e higgsCombinemGluino${MASS1}_mLSP${MASS2}_.Asymptotic.mH120.root ]; then
@@ -26,7 +26,8 @@ function process_datacard ()
 MODEL=T5ZZ
 #INDIR=/home/users/bhashemi/Projects/GIT/ZMETBabyLooper2017/SMSScans/DataCards/
 #INDIR=/home/users/bhashemi/Projects/GIT/ZMETBabyLooper2017/SMSScans/DataCards/
-INDIR=/home/users/olivito/zmet_dev/ZMET2016/ZMET2015/limitcode/datacards_T5ZZ_070317/
+#INDIR=/home/users/olivito/zmet_dev/ZMET2016/ZMET2015/limitcode/datacards_T5ZZ_070317/
+INDIR=/home/users/bsathian/ZMet/ZMETBabyLooper2017/SMSScans/DataCards/T5ZZ/
 MINMASS=1000
 
 #MODEL=TChiWZ
@@ -36,15 +37,15 @@ MINMASS=1000
 OUTDIR=limits_${MODEL}_070317_paralleltest
 OWD=`pwd`
 
-declare -a cards=(`ls ${INDIR}/datacard_mG*.txt`)
-
-# #need to combine cards from multiple signal regions if necessary
-# for i in "${cards[@]}"
-# do
-#   if [ ! -e "$INDIR/datacard_all_$i.txt" ]; then
-#     python combineCards.py "$INDIR/datacard_"*"_$i.txt" > "$INDIR/datacard_all_$i.txt"  
-#   fi
-# done
+declare -a cards=(`ls ${INDIR}/datacard_*mG*.txt`)
+ #need to combine cards from multiple signal regions if necessary
+ for i in "${cards[@]}"
+ do
+   mG=$(echo "$i" | awk '{split($0,a,"_"); print a[3]"_"a[4]"_"a[5]"_"a[6]"_"}')
+   if [ ! -e "$INDIR/datacard_all_$mG.txt" ]; then
+     combineCards.py "$INDIR/datacard_"*"_$mG.txt" > "$INDIR/datacard_all_$mG.txt"  
+   fi
+ done
 
 if [ ! -d "$OUTDIR" ]; then
   mkdir -p "$OUTDIR"
