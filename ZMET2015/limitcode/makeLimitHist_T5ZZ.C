@@ -1,6 +1,8 @@
 #include <fstream>
 #include <iostream>
-
+#include <vector>
+#include <algorithm>
+#include "TEnv.h"
 #include "TH1F.h"
 #include "TH2F.h"
 #include "TPad.h"
@@ -80,7 +82,7 @@ int makeLimitHist_T5ZZ()
   TH1F * h_susyxsecs  = NULL;
   TFile * f_susyxsecs = NULL;
 
-  f_susyxsecs = TFile::Open("../../dilepbabymaker/xsec_susy_13tev.root","READ");
+  f_susyxsecs = TFile::Open("../../dilepbabymaker/data/xsec_susy_13tev.root","READ");
   h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
 
   
@@ -95,7 +97,7 @@ int makeLimitHist_T5ZZ()
   TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont);
   gStyle->SetNumberContours(NCont);
   
-  TString version = "limits_T5ZZ_100317";
+  TString version = "limits_T5ZZ_070317_paralleltest";
   TFile * f_rvalues = TFile::Open(Form("%s/r-values_T5ZZ.root",version.Data()),"READ");  
   
   TH2F * massplane        = (TH2F*) f_rvalues->Get("hExp")   -> Clone("massplane_exp");
@@ -108,7 +110,8 @@ int makeLimitHist_T5ZZ()
   TH2F * massplane_exp_dn2 = (TH2F*) f_rvalues->Get("hExp2m") -> Clone("massplane_exp_dn2");
   // TH2F * massplane_xsec   = new TH2F("massplane_xsec","", 27,25,1375,25,75.0,1325.0);
 
-  TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_obs_xsec");
+//  TH2F * massplane_xsec   = (TH2F*) massplane_obs-> Clone("massplane_obs_xsec");
+  TH2F * massplane_xsec = (TH2F*) massplane->Clone("massplane_xsec");
   TH2F * efficiency       = (TH2F*) massplane    -> Clone("efficiency"    );
 
   TH2F * h_axis = new TH2F("h_axis","",110,1000,2100,220,0,2200);
@@ -262,7 +265,8 @@ int makeLimitHist_T5ZZ()
 
   vector<double> vlim(vxsec.size());
   for(int i = 0; i < vxsec.size(); ++i){
-    vlim.at(i) = vxsec.at(i) * vobs.at(i);
+    vlim.at(i) = vxsec.at(i) * vexp.at(i);
+//    vlim.at(i) = vxsec.at(i) * vobs.at(i);
     // vlim.at(i) = vxsec.at(i) * vobs.at(i)*(7.65)*(0.19175);
   }
   
@@ -303,9 +307,9 @@ int makeLimitHist_T5ZZ()
 
   // contours: drawing these from histograms
   contourplot->Draw("samecont3");
-  massplane_obs->Draw("samecont3");
-  massplane_obs_up->Draw("samecont3");
-  massplane_obs_dn->Draw("samecont3");
+  //massplane_obs->Draw("samecont3");
+  //massplane_obs_up->Draw("samecont3");
+  //massplane_obs_dn->Draw("samecont3");
   massplane_exp_up->Draw("samecont3");
   massplane_exp_dn->Draw("samecont3");
   massplane_exp_up2->Draw("samecont3");
@@ -371,7 +375,7 @@ int makeLimitHist_T5ZZ()
   l1->SetFillColor(kWhite);    
   l1->AddEntry(contourplot , "Expected limit, #pm 1,2 #sigma_{exp.}"            , "l");
   // l1->AddEntry(massplane_obs , "Observed limit"            , "l");
-  l1->AddEntry(massplane_obs , "Observed limit, #pm 1 #sigma_{theory}"            , "l");
+//  l1->AddEntry(massplane_obs , "Observed limit, #pm 1 #sigma_{theory}"            , "l");
   l1->Draw("same");
 
   TLine * top_margin = new TLine(1100,2200,2000,2200);
@@ -416,7 +420,8 @@ int makeLimitHist_T5ZZ()
 
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.575,0.94, "35.9 fb^{-1} (13 TeV)" );    
+//  cmstex = new TLatex(0.575,0.94, "35.9 fb^{-1} (13 TeV)" );    
+  cmstex = new TLatex(0.575,0.94,"137.2 fb^{-1} (13 TeV)");
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.04);    
   cmstex->SetLineWidth(2);
@@ -439,7 +444,7 @@ int makeLimitHist_T5ZZ()
   cmstexbold->Draw();
 
   //c_massplane->SaveAs("T5ZZ_Exclusion_13TeV.pdf");
-  c_massplane->SaveAs("/home/users/olivito/public_html/T5ZZ_Exclusion_13TeV.pdf");
+  c_massplane->SaveAs("/home/users/bsathian/public_html/T5ZZ_Exclusion_13TeV.pdf");
   //c_massplane->SaveAs("/home/users/olivito/public_html/T5ZZ_Exclusion_13TeV_x3lumi.pdf");
 
   return 0;
