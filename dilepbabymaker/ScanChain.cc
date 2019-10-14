@@ -55,6 +55,8 @@ const bool vetoXitionRegion = false;
 const bool maxEta24 = true;
 // is set during runtime
 bool isSMSScan = false;
+//those special fullsim signal samples
+bool isSMSScanFullsim = false;
 // always on
 bool applyBtagSFs = true;
 //isotrackcollection
@@ -242,7 +244,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       set_goodrun_file(json_file);
   }
 
-  if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
+  if(TString(baby_name).Contains("tchiwz-fullsim")) isSMSScanFullsim = true;
+  else if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
 
   if (applyBtagSFs) {
 	// setup btag calibration readers
@@ -361,7 +364,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   TH1D * h_eventcounts_1d  = NULL;
   TFile * f_eventcounts = NULL;
 
-  if (isSMSScan) {
+  
+  else if (isSMSScan || isSMSScanFullsim) {
 
 	cout<<"issmsscan"<<endl;
 
@@ -373,7 +377,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	h_susyxsecs->SetDirectory(rootdir);
 	f_susyxsecs->Close();
 
-	if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("data/tchiwz_entries.root","READ");
+    if(isSMSScanFullsim)
+    {
+        if(TString(baby_name).Contains("tchiwz")) f_eventcounts = TFile::Open("data/tchiwz-fullsim_entries.root","READ");
+    }
+    else if( TString(baby_name).Contains("tchiwz") ) f_eventcounts = TFile::Open("data/tchiwz_entries.root","READ");
 	else if( TString(baby_name).Contains("t5zz"  ) ) f_eventcounts = TFile::Open("data/t5zz_entries.root","READ");
 	else if( TString(baby_name).Contains("tchihz") ) f_eventcounts = TFile::Open("data/tchihz_entries.root","READ");
 	else if( TString(baby_name).Contains("tchizz") ) f_eventcounts = TFile::Open("data/tchizz_entries.root","READ");
@@ -412,6 +420,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 	f_eventcounts->Close();
   }
+
   //scale1fb
   DatasetInfoFromFile df;
   if(include_scale1fb)
@@ -926,7 +935,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       bool recent_cms3_version = true;
     //  if (cms3_version.Contains("V08-00") && small_cms3_version <= 12) recent_cms3_version = false;
 
-  	  if( isSMSScan ){
+  	  if( isSMSScan || isSMSScanFullsim ){
     		if (currentFileName.Contains("SMS-TChiHZ") || currentFileName.Contains("SMS-TChiZZ")){
     		  mass_chi = cms3.sparm_values().at(0);
     		  evt_nEvts    = h_eventcounts_1d->GetBinContent(h_eventcounts_1d->FindBin(mass_chi));
