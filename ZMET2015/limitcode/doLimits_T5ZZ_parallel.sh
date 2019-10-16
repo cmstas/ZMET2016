@@ -61,8 +61,9 @@ pushd $OUTDIR
 rm -f list_$MODEL.txt
 
 counter=0
+declare -a combinedCards=(`ls ${INDIR}/datacard_all_mG*.txt`)
 PID_LIST=''
-for i in "${cards[@]}"
+for i in "${combinedCards[@]}"
 do
     process_datacard $i & pid=$!
     PID_LIST+=" $pid";
