@@ -365,7 +365,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   TFile * f_eventcounts = NULL;
 
   
-  else if (isSMSScan || isSMSScanFullsim) {
+  if (isSMSScan || isSMSScanFullsim) {
 
 	cout<<"issmsscan"<<endl;
 
