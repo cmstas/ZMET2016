@@ -313,7 +313,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
       if(gconf.year == 2016)
       {
-        f_btag_eff_fastsim   = new TFile("btagsf/btageff__SMS-T1bbbb-T1qqqq_25ns_Moriond17.root");
+        //f_btag_eff_fastsim   = new TFile("btagsf/btageff__SMS-T1bbbb-T1qqqq_25ns_Moriond17.root");
+        f_btag_eff_fastsim = new TFile("btagsf/btageff__SMS-T1tttt_2016_80X_deepCSV.root");
 
       }
       else if(gconf.year == 2017)
@@ -369,7 +370,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 	cout<<"issmsscan"<<endl;
 
-	f_susyxsecs = TFile::Open("data/xsec_susy_13tev.root","READ");
+	f_susyxsecs = TFile::Open("data/xsec_susy_13tev_run2.root","READ");
 	if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
 	else if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
 	else if( TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_higgsino"  )->Clone("h_susyxsecs");
@@ -4142,7 +4143,7 @@ void babyMaker::load_leptonSF_files()
   {
     f_sfweights  = TFile::Open("leptonSFs/electrons/2016/EGM2D_BtoH_GT20GeV_RecoSF_Legacy2016.root","READ");
   }
-  else if(gconf.year == 2017 || gconf.year == 2018)
+  else if(gconf.year == 2017)
   {
       f_sfweights = TFile::Open("leptonSFs/electrons/Fall17/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root","READ");
   }
@@ -4275,12 +4276,12 @@ void babyMaker::load_leptonSF_files()
   else if(gconf.year == 2017)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_ele_full_fast_sf_17.root","READ");
-    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini2_sf")->Clone("h_eleweights_FS_iso");
+    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini_sf")->Clone("h_eleweights_FS_iso");
   }
   else if(gconf.year == 2018)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_ele_full_fast_sf_18.root","READ");
-    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini2_sf")->Clone("h_eleweights_FS_iso");
+    h_eleweights_FS_iso = (TH2D*) f_sfweights->Get("MVAVLooseTightIP2DMini_sf")->Clone("h_eleweights_FS_iso");
   }
 
   h_eleweights_FS_iso->SetDirectory(rootdir);
