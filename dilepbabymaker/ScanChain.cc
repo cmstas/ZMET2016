@@ -2554,11 +2554,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                   else
                       weightsf_lepip_FS.push_back(1);
 
+                  weightsf_lepconv_FS.push_back(1.0);
+
       			}
             else{
       			  weightsf_lepid_FS . push_back( 1.0 );
       			  weightsf_lepiso_FS. push_back( 1.0 );
       			  weightsf_lepip_FS . push_back( 1.0 );
+                  weightsf_lepconv_FS.push_back(1.0);
       			}
     		  }
     		}
@@ -3515,6 +3518,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("weightsf_lepid_FS" , &weightsf_lepid_FS  );
   BabyTree_->Branch("weightsf_lepiso_FS", &weightsf_lepiso_FS );
   BabyTree_->Branch("weightsf_lepip_FS" , &weightsf_lepip_FS  );
+  BabyTree_->Branch("weightsf_lepconv_FS",&weightsf_lepconv_FS);
 
   return;
 }
@@ -3941,6 +3945,7 @@ void babyMaker::InitBabyNtuple () {
   weightsf_lepid_FS  . clear();
   weightsf_lepiso_FS . clear();
   weightsf_lepip_FS  . clear();
+  weightsf_lepconv_FS. clear();
 
   vec_isotrack_p4.clear();
   vec_isotrack_absiso.clear();
