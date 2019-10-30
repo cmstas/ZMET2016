@@ -2536,10 +2536,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                       weightsf_lepreco.push_back(1);
       			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt, abs_lepeta )) );
       			weightsf_lepiso  .push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt, abs_lepeta )) );
-//      			if(gconf.year == 2016)
-//                    weightsf_lepip   .push_back( h_muoweights_IP2D_hist      ->GetBinContent( h_muoweights_IP2D_hist      ->FindBin( min_leppt, abs_lepeta )) );
-//                else
-                weightsf_lepip.push_back(1);
+      			if(gconf.year == 2016)
+                    weightsf_lepip   .push_back( h_muoweights_SIP3D_hist      ->GetBinContent( h_muoweights_SIP3D_hist      ->FindBin( min_leppt, abs_lepeta )) );
+                else
+                    weightsf_lepip.push_back(1);
       			weightsf_lepconv .push_back( 1.0 );// not used for muons
 
       			if( isSMSScan ){
@@ -4238,13 +4238,13 @@ void babyMaker::load_leptonSF_files()
 
 
   // muon ip SF for Fullsim to Data
- /* if(gconf.year == 2016)
+  if(gconf.year == 2016)
   {
     f_sfweights  = TFile::Open("leptonSFs/muons/2016/ScaleFactorMuonSIP3D.root","READ");
     h_muoweights_SIP3D_hist = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_SIP3D");
     h_muoweights_SIP3D_hist->SetDirectory(rootdir);
   }
-  f_sfweights->Close();*/
+  f_sfweights->Close();
 
 
 
