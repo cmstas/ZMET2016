@@ -269,12 +269,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 	// get btag efficiencies
     TFile *f_btag_eff = nullptr;
     if(gconf.year == 2016)
-    	f_btag_eff           = new TFile("btagsf/btageff__DeepCSV_ttbar_MG_pythia8_25ns_Summer16_94x.root");
+    	f_btag_eff           = new TFile("btagsf/btageff__ttbar_powheg_pythia8_25ns_Moriond17_deepCSV.root");
     else if(gconf.year == 2017)
-        f_btag_eff = new TFile("btagsf/btageff__DeepCSV_ttbar_powheg_pythia8_25ns_Fall17.root");
+        f_btag_eff = new TFile("btagsf/btageff__ttbar_amc_94x_deepCSV.root");
     else if(gconf.year == 2018)
     {
-        f_btag_eff = new TFile("btagsf/btageff__DeepCSV_ttbar_MG_pythia8_25ns_Autumn18.root");
+        f_btag_eff = new TFile("btagsf/btageff__ttbar_amc_102X_deepCSV.root");
     }
 	TH2D  * h_btag_eff_b_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_b");
 	TH2D  * h_btag_eff_c_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_c");
@@ -3255,7 +3255,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("isotrack_p4",&vec_isotrack_p4);
   BabyTree_->Branch("isotrack_absiso",&vec_isotrack_absiso);
   BabyTree_->Branch("isotrack_pdgId",&vec_isotrack_pdgid);
-  BabyTree_->Branch("isotrack_isLostTrack",&vec_isotrack_isLostTrack);
   BabyTree_->Branch("isotrack_index",&vec_isotrack_index);
 
   BabyTree_->Branch("ngamma"             , &ngamma        , "ngamma/I" );
@@ -3690,6 +3689,7 @@ void babyMaker::InitBabyNtuple () {
   nisoTrack_mt2  = -1;
   nisoTrack_PFLep5_woverlaps  = -1;
   nisoTrack_PFHad10_woverlaps = -1;
+  vec_isotrack_isLostTrack.clear();
 
   ngamma = -999;
   gamma_p4           .clear();   //[ngamma]
