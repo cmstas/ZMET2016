@@ -43,10 +43,13 @@ lspMassBins = np.array([25.000000,50.000000,100.000000,150.000000,200.000000,250
 
 
 #Add all files except those in the dirty list
-corruptListFile = open("corrupt_fastsim_files.txt","r")
 corruptList = []
-for line in corruptListFile:
-    corruptList.append(line.rstrip("\n"))
+try:
+    corruptListFile = open("corrupt_fastsim_files.txt","r")
+    for line in corruptListFile:
+    	corruptList.append(line.rstrip("\n"))
+except:
+      pass
 
 n_events_per_year = {}
 for year in years:
@@ -64,7 +67,7 @@ for year in years:
             else:
                 print("Skipping {} because it is corrupt".format(filename))
 
-    if fastsim_sample == "tchiwz":
+    if fastsim_sample == "tchiwz" or fastsim_sample == "tchiwz-fullsim":
         n_events_per_year[year] = r.TH2D("h_nevents_"+str(year),"mass1[GeV]:mass2[GeV]",60,0,3000,60,0,3000)
     elif fastsim_sample == "t5zz":
         n_events_per_year[year] = r.TH2D("h_nevents_"+str(year),"mass1[GeV]:mass2[GeV]",len(gluinoMassBins)-1,gluinoMassBins,len(lspMassBins)-1,lspMassBins)
@@ -73,7 +76,7 @@ for year in years:
     elif fastsim_sample == "tchihz":
         n_events_per_year[year] = r.TH1D("h_nevents_"+str(year),"mass1[GeV]",60,0,3000)
     print("Chain has ",ch.GetEntries()," events")
-    if fastsim_sample == "tchiwz" or fastsim_sample == "t5zz":
+    if fastsim_sample == "tchiwz" or fastsim_sample == "t5zz" or fastsim_sample == "tchiwz-fullsim":
         ch.Project("h_nevents_"+str(year),"sparm_values[1]:sparm_values[0]")
 #        ch.Draw("sparm_values[1]:sparm_values[0] >> h_nevents_"+str(year))
     elif fastsim_sample == "tchihz" or fastsim_sample == "tchizz":
