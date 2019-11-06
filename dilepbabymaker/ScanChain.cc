@@ -2487,23 +2487,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		  if( abs(lep_pdgId.at(lepind)) == 11 ){
       			weightsf_lepreco .push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lep_eta.at(lepind), 100        )) ); // this is a 1d hist in 2 dimensions for some reason
-                if(gconf.year == 2016)
-                {
-      			    weightsf_lepid   .push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( min_leppt         , abs_lepeta )) );
-                    weightsf_lepiso  .push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( min_leppt         , abs_lepeta )) );
-                    weightsf_lepconv .push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( min_leppt         , abs_lepeta )) );
+                
+              weightsf_lepid   .push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs_lepeta         , min_leppt )) );
+              weightsf_lepiso  .push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs_lepeta         , min_leppt )) );
+              weightsf_lepconv .push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs_lepeta         , min_leppt )) );
 
 
-                }
-                else
-                {
-                    weightsf_lepid   .push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs_lepeta         , min_leppt )) );
-                    weightsf_lepiso  .push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs_lepeta         , min_leppt )) );
-                    weightsf_lepconv .push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs_lepeta         , min_leppt )) );
-
-                }
-
-      			weightsf_lepip   .push_back( 1.0 );// ip weight already accounted for in id weight for electrons
+      		  weightsf_lepip   .push_back( 1.0 );// ip weight already accounted for in id weight for electrons
 
       			if( isSMSScan ){
                   if(gconf.year == 2016)
