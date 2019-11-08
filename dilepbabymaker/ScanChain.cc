@@ -2482,9 +2482,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //=================================
   	  if( !isData ){
     		for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
-    		  float min_leppt_electron  = min( 500.0, (double)lep_pt.at(lepind));
+    		  float min_leppt_electron  = min( 499.0, (double)lep_pt.at(lepind));
               float min_leppt_electron_fastsim = min(200.0,(double) lep_pt.at(lepind))
-              float min_leppt_muon = min(120.0,(double) lep_pt.at(lepind));
+              float min_leppt_muon = min(119,(double) lep_pt.at(lepind));
               float min_leppt_muon_fastsim = min(200.0,(double) lep_pt.at(lepind));
     		  float abs_lepeta = abs(lep_eta.at(lepind));
 
