@@ -271,7 +271,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     if(gconf.year == 2016)
     	f_btag_eff           = new TFile("btagsf/btageff__ttbar_powheg_pythia8_25ns_Moriond17_deepCSV.root");
     else if(gconf.year == 2017)
-        f_btag_eff = new TFile("btagsf/btageff__ttbar_amc_94x_deepCSV.root");
+        f_btag_eff = new TFile("btagsf/btageff__ttbar_amc_94X_deepCSV.root");
     else if(gconf.year == 2018)
     {
         f_btag_eff = new TFile("btagsf/btageff__ttbar_amc_102X_deepCSV.root");
@@ -774,7 +774,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2Relative_AK8PFPuppi.txt");
                 ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L3Absolute_AK8PFPuppi.txt");
                 if(!isSMSScan)
-                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorections/Fall17_17Nov2017DE_V32_DATA_L2L3Residual_AK8PFPuppi.txt");
+                    ak8_jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Fall17_17Nov2017DE_V32_DATA_L2L3Residual_AK8PFPuppi.txt");
                  ak8_jecUnc = new JetCorrectionUncertainty("jetCorrections/Fall17_17Nov2017DE_V32_DATA_Uncertainty_AK8PFPuppi.txt");
 
             }
@@ -2482,15 +2482,18 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       //=================================
   	  if( !isData ){
     		for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
-    		  float min_leppt  = min( 110.0, (double)lep_pt.at(lepind));
+    		  float min_leppt_electron  = min( 500.0, (double)lep_pt.at(lepind));
+              float min_leppt_electron_fastsim = min(200.0,(double) lep_pt.at(lepind))
+              float min_leppt_muon = min(120.0,(double) lep_pt.at(lepind));
+              float min_leppt_muon_fastsim = min(200.0,(double) lep_pt.at(lepind));
     		  float abs_lepeta = abs(lep_eta.at(lepind));
 
     		  if( abs(lep_pdgId.at(lepind)) == 11 ){
       			weightsf_lepreco .push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lep_eta.at(lepind), 100        )) ); // this is a 1d hist in 2 dimensions for some reason
                 
-              weightsf_lepid   .push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs_lepeta         , min_leppt )) );
-              weightsf_lepiso  .push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs_lepeta         , min_leppt )) );
-              weightsf_lepconv .push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs_lepeta         , min_leppt )) );
+              weightsf_lepid   .push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs_lepeta         , min_leppt_electron )) );
+              weightsf_lepiso  .push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs_lepeta         , min_leppt_electron )) );
+              weightsf_lepconv .push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs_lepeta         , min_leppt_electron )) );
 
 
       		  weightsf_lepip   .push_back( 1.0 );// ip weight already accounted for in id weight for electrons
@@ -2498,15 +2501,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			if( isSMSScan ){
                   if(gconf.year == 2016)
                   {
-      			    weightsf_lepid_FS . push_back( h_eleweights_FS_id->GetBinContent(h_eleweights_FS_id->FindBin( min_leppt, abs_lepeta )) );
-                    weightsf_lepiso_FS.push_back(h_eleweights_FS_iso->GetBinContent(h_eleweights_FS_iso->FindBin(min_leppt,abs_lepeta)));
-                    weightsf_lepconv_FS.push_back(h_eleweights_FS_conv->GetBinContent(h_eleweights_FS_conv->FindBin(min_leppt,abs_lepeta))); 
+      			    weightsf_lepid_FS . push_back( h_eleweights_FS_id->GetBinContent(h_eleweights_FS_id->FindBin( min_leppt_electron_fastsim, abs_lepeta )) );
+                    weightsf_lepiso_FS.push_back(h_eleweights_FS_iso->GetBinContent(h_eleweights_FS_iso->FindBin(min_leppt_electron_fastsim,abs_lepeta)));
+                    weightsf_lepconv_FS.push_back(h_eleweights_FS_conv->GetBinContent(h_eleweights_FS_conv->FindBin(min_leppt_electron_fastsim,abs_lepeta))); 
       			  }
                   else
                   {
-                    weightsf_lepid_FS.push_back(h_eleweights_FS_id->GetBinContent(h_eleweights_FS_id->FindBin(abs_lepeta,min_leppt)));
-                    weightsf_lepiso_FS.push_back(h_eleweights_FS_iso->GetBinContent(h_eleweights_FS_iso->FindBin(abs_lepeta,min_leppt)));
-                    weightsf_lepconv_FS.push_back(h_eleweights_FS_conv->GetBinContent(h_eleweights_FS_conv->FindBin(abs_lepeta,min_leppt)));
+                    weightsf_lepid_FS.push_back(h_eleweights_FS_id->GetBinContent(h_eleweights_FS_id->FindBin(abs_lepeta,min_leppt_electron_fastsim)));
+                    weightsf_lepiso_FS.push_back(h_eleweights_FS_iso->GetBinContent(h_eleweights_FS_iso->FindBin(abs_lepeta,min_leppt_electron_fastsim)));
+                    weightsf_lepconv_FS.push_back(h_eleweights_FS_conv->GetBinContent(h_eleweights_FS_conv->FindBin(abs_lepeta,min_leppt_electron_fastsim)));
                   }
                   weightsf_lepip_FS.push_back(1.0);
                 }
@@ -2521,26 +2524,26 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		  if( abs(lep_pdgId.at(lepind)) == 13 ){
                   if(gconf.year == 2016)
-      			    weightsf_lepreco .push_back( h_muoweights_IP2D_hist->GetBinContent( h_muoweights_IP2D_hist->FindBin(min_leppt,abs_lepeta)));
+      			    weightsf_lepreco .push_back( h_muoweights_IP2D_hist->GetBinContent( h_muoweights_IP2D_hist->FindBin(min_leppt_muon,abs_lepeta)));
                   else
                       weightsf_lepreco.push_back(1);
-      			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt, abs_lepeta )) );
-      			weightsf_lepiso  .push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt, abs_lepeta )) );
+      			weightsf_lepid   .push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt_muon, abs_lepeta )) );
+      			weightsf_lepiso  .push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt_muon, abs_lepeta )) );
       			if(gconf.year == 2016)
-                    weightsf_lepip   .push_back( h_muoweights_SIP3D_hist      ->GetBinContent( h_muoweights_SIP3D_hist      ->FindBin( min_leppt, abs_lepeta )) );
+                    weightsf_lepip   .push_back( h_muoweights_SIP3D_hist      ->GetBinContent( h_muoweights_SIP3D_hist      ->FindBin( min_leppt_muon, abs_lepeta )) );
                 else
                     weightsf_lepip.push_back(1);
       			weightsf_lepconv .push_back( 1.0 );// not used for muons
 
       			if( isSMSScan ){
                   if(gconf.year == 2016)
-          			  weightsf_lepid_FS . push_back( h_muoweights_FS_id       ->GetBinContent( h_muoweights_FS_id       ->FindBin( min_leppt, abs_lepeta )) );
+          			  weightsf_lepid_FS . push_back( h_muoweights_FS_id       ->GetBinContent( h_muoweights_FS_id       ->FindBin( min_leppt_muon_fastsim, abs_lepeta )) );
                   else
                       weightsf_lepid_FS.push_back(1);
                   
-      			  weightsf_lepiso_FS. push_back( h_muoweights_FS_iso->GetBinContent( h_muoweights_FS_iso->FindBin( min_leppt, abs_lepeta )) );
+      			  weightsf_lepiso_FS. push_back( h_muoweights_FS_iso->GetBinContent( h_muoweights_FS_iso->FindBin( min_leppt_muon_fastsim, abs_lepeta )) );
                   if(gconf.year == 2016)
-          			  weightsf_lepip_FS.push_back( h_muoweights_FS_IP2D ->GetBinContent( h_muoweights_FS_IP2D ->FindBin( min_leppt, abs_lepeta )) );
+          			  weightsf_lepip_FS.push_back( h_muoweights_FS_IP2D ->GetBinContent( h_muoweights_FS_IP2D ->FindBin( min_leppt_fastsim, abs_lepeta )) );
                   else
                       weightsf_lepip_FS.push_back(1);
 
@@ -4190,16 +4193,16 @@ void babyMaker::load_leptonSF_files()
     h_muoweights_id = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_id");
 
   }
-  else if(gconf.year == 2017)
+  else if(gconf.year == 2017 || gconf.year == 2018)
   {
       f_sfweights = TFile::Open("leptonSFs/muons/Fall17/RunBCDEF_SF_ID.root","READ");
       h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumPromptID_DEN_genTracks_pt_abseta")->Clone("h_muonweights_id");
   }
-  else if(gconf.year == 2018)
+/*  else if(gconf.year == 2018)
   {
     f_sfweights = TFile::Open("leptonSFs/muons/2018/RunABCD_SF_ID.root","READ");
-    h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumID_DEN_TrackerMuons_pt_abseta");
-  }
+    h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumPromptID_DEN_TrackerMuons_pt_abseta");
+  }*/
   h_muoweights_id	->SetDirectory(rootdir);
   f_sfweights->Close();
 
@@ -4326,13 +4329,13 @@ void babyMaker::load_leptonSF_files()
   else if(gconf.year == 2017)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/Fall17/detailed_mu_full_fast_sf_17.root","READ");
-    h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("miniIso02_MediumId_sf")->Clone("h_muoweights_FS_iso");
+    h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("miniIso02_MediumPrompt_sf")->Clone("h_muoweights_FS_iso");
     h_muoweights_FS_iso->SetDirectory(rootdir);
   }
   else if(gconf.year == 2018)
   {
     f_sfweights = TFile::Open("leptonSFs/FS/2018/detailed_mu_full_fast_sf_18.root","READ");
-    h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("miniIso02_MediumId_sf")->Clone("h_muoweights_FS_iso");
+    h_muoweights_FS_iso = (TH2D*)f_sfweights->Get("miniIso02_MediumPrompt_sf")->Clone("h_muoweights_FS_iso");
     h_muoweights_FS_iso->SetDirectory(rootdir);
   }
   f_sfweights->Close();
