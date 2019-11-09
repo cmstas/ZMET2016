@@ -1086,7 +1086,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  }
 
   	  // in data and MC
-  	  if( !isSMSScan ){
+  	  
     		Flag_HBHENoiseFilter                    = cms3.filt_hbheNoise();
     		Flag_HBHEIsoNoiseFilter                 = cms3.filt_hbheNoiseIso();
     		Flag_CSCTightHalo2015Filter             = cms3.filt_cscBeamHalo2015();
@@ -1097,7 +1097,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		// inputs for badMuonFilters in latest cms3 tags
     		if (recent_cms3_version) {
     		  Flag_globalTightHalo2016                      = cms3.filt_globalTightHalo2016();
-              Flag_globalSuperTightHalo2016          = cms3.filt_globalSuperTightHalo2016(); //add stuff here
+              if(!isSMSScan())
+                  Flag_globalSuperTightHalo2016          = cms3.filt_globalSuperTightHalo2016(); //add stuff here
     		  Flag_badMuonFilter                            = cms3.filt_BadPFMuonFilter(); //badMuonFilter();
     		  Flag_badMuonFilterv2                          = badMuonFilterV2();
     		  Flag_badChargedCandidateFilterv2              = badChargedCandidateFilterV2();
@@ -1108,7 +1109,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		    Flag_noBadMuons                             = cms3.filt_noBadMuons();
     		  }*/
     		}
-  	  }
+  	  
       if(!isSMSScan)
       {
   	    //=============================
