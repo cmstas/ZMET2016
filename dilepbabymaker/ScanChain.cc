@@ -370,7 +370,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 	cout<<"issmsscan"<<endl;
 
-	f_susyxsecs = TFile::Open("data/xsec_susy_13tev_run2.root","READ");
+	f_susyxsecs = TFile::Open("data/xsec_susy_13tev_final.root","READ");
 	if( TString(baby_name).Contains("t5zz")   ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_gluino")->Clone("h_susyxsecs");
 	else if( TString(baby_name).Contains("tchiwz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_c1n2"  )->Clone("h_susyxsecs");
 	else if( TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz") ) h_susyxsecs = (TH1F*)f_susyxsecs->Get("h_xsec_higgsino"  )->Clone("h_susyxsecs");
@@ -2483,8 +2483,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  if( !isData ){
     		for( size_t lepind = 0; lepind < lep_p4.size(); lepind++ ){
     		  float min_leppt_electron  = min( 499.0, (double)lep_pt.at(lepind));
-              float min_leppt_electron_fastsim = min(200.0,(double) lep_pt.at(lepind))
-              float min_leppt_muon = min(119,(double) lep_pt.at(lepind));
+              float min_leppt_electron_fastsim = min(200.0,(double) lep_pt.at(lepind));
+              float min_leppt_muon = min(119.0, (double)lep_pt.at(lepind));
               float min_leppt_muon_fastsim = min(200.0,(double) lep_pt.at(lepind));
     		  float abs_lepeta = abs(lep_eta.at(lepind));
 
@@ -2543,7 +2543,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                   
       			  weightsf_lepiso_FS. push_back( h_muoweights_FS_iso->GetBinContent( h_muoweights_FS_iso->FindBin( min_leppt_muon_fastsim, abs_lepeta )) );
                   if(gconf.year == 2016)
-          			  weightsf_lepip_FS.push_back( h_muoweights_FS_IP2D ->GetBinContent( h_muoweights_FS_IP2D ->FindBin( min_leppt_fastsim, abs_lepeta )) );
+          			  weightsf_lepip_FS.push_back( h_muoweights_FS_IP2D ->GetBinContent( h_muoweights_FS_IP2D ->FindBin( min_leppt_muon_fastsim, abs_lepeta )) );
                   else
                       weightsf_lepip_FS.push_back(1);
 
