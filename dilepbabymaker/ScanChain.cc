@@ -1097,7 +1097,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		// inputs for badMuonFilters in latest cms3 tags
     		if (recent_cms3_version) {
     		  Flag_globalTightHalo2016                      = cms3.filt_globalTightHalo2016();
-              if(!isSMSScan())
+              if(!isSMSScan)
                   Flag_globalSuperTightHalo2016          = cms3.filt_globalSuperTightHalo2016(); //add stuff here
     		  Flag_badMuonFilter                            = cms3.filt_BadPFMuonFilter(); //badMuonFilter();
     		  Flag_badMuonFilterv2                          = badMuonFilterV2();

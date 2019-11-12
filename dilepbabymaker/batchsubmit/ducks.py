@@ -10,7 +10,7 @@ from metis.StatsParser import StatsParser
 
 exec_path = "condor_exe.sh"
 tar_path = "package.tar.gz"
-hadoop_path = "ZMET_babies_20190915"
+hadoop_path = "ZMET_babies_20191106"
 job_tag = "ZMET_babies"
 
 usexrootd = 0
@@ -18,13 +18,16 @@ usexrootd = 0
 #EWKMCStrings = ["WGammaWJets","ttbar","SingleTop"]
 dsList = []
 #dsList.extend(["DoubleMuon","DoubleEG","MuonEG","ttZ","ttW","WW","WZ","ZZ","TTBarPowheg","DYamcnlo","SingleTop"]
+#dsList.extend(["DoubleMuon","DoubleEG","MuonEG"])
 #dsList.extend(["GammaJetsHigherStats","WGammaWJets","SingleTop"])
 #dsList.extend(["DYClosure","DYLowmass","SingleMuon","GluGluToZZ"])
 #dsList.extend(["VVV","ttbarGamma","ttH"])
-#dsList.extend(["WGammaWJets"])
-fastsimList = ["TChiZZ","T5ZZ","TChiWZ","TChiHZ"]
-dsList.extend(fastsimList)
-datasetsToProcess = ZMET.get(data = dsList,year = [])
+#dsList.extend(["WGammaWJets","SingleTop","ttbar"])
+#dsList.extend(["ttZ","WZ","ZZ","GluGluToZZ","VVV"])
+#dsList.extend(["T5ZZ"])
+fastsimList = ["TChiZZ","TChiWZ","TChiHZ"]
+#signal_fullsimList = ["TChiWZFullsim"]
+datasetsToProcess = ZMET.get(data = fastsimList,year = [])
 
 #Get the fastsim file list to skip
 skip_list_file = open("corrupt_fastsim_files.txt","r")
@@ -42,7 +45,7 @@ while True:
         if dsname[:7] == "/hadoop":
             sample = DirectorySample(dataset = sample,location = sample)
         else:
-            sample = SNTSample(dataset = dsname,skip_files = fastsim_files_skip_list)
+            sample = SNTSample(dataset = dsname)#,skip_files = fastsim_files_skip_list)
             print(sample.get_location())
         task = CondorTask(
               sample = sample,
