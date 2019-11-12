@@ -612,42 +612,42 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     {
         if(currentFileName.Contains("Run2018A"))
         {
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L1FastJet_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L2Relative_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L3Absolute_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V19_DATA_L1FastJet_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V19_DATA_L2Relative_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V19_DATA_L3Absolute_AK4PFchs.txt");
             if(!isSMSScan)
-                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V8_DATA_L2L3Residual_AK4PFchs.txt");
-            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunA_V8_DATA_Uncertainty_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunA_V19_DATA_L2L3Residual_AK4PFchs.txt");
+            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunA_V19_DATA_Uncertainty_AK4PFchs.txt");
 
         }
         else if(currentFileName.Contains("Run2018B"))
         {
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L1FastJet_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L2Relative_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L3Absolute_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V19_DATA_L1FastJet_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V19_DATA_L2Relative_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V19_DATA_L3Absolute_AK4PFchs.txt");
             if(!isSMSScan)
-                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V8_DATA_L2L3Residual_AK4PFchs.txt");
-            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunB_V8_DATA_Uncertainty_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunB_V19_DATA_L2L3Residual_AK4PFchs.txt");
+            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunB_V19_DATA_Uncertainty_AK4PFchs.txt");
 
         }
         else if(currentFileName.Contains("Run2018C"))
         {
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L1FastJet_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L2Relative_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L3Absolute_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V19_DATA_L1FastJet_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V19_DATA_L2Relative_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V19_DATA_L3Absolute_AK4PFchs.txt");
             if(!isSMSScan)
-                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V8_DATA_L2L3Residual_AK4PFchs.txt");
-            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunC_V8_DATA_Uncertainty_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunC_V19_DATA_L2L3Residual_AK4PFchs.txt");
+            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunC_V19_DATA_Uncertainty_AK4PFchs.txt");
 
         }
         else if(currentFileName.Contains("Run2018D"))
         {
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L1FastJet_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L2Relative_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L3Absolute_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V19_DATA_L1FastJet_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V19_DATA_L2Relative_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V19_DATA_L3Absolute_AK4PFchs.txt");
             if(!isSMSScan)
-                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V8_DATA_L2L3Residual_AK4PFchs.txt");
-            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunD_V8_DATA_Uncertainty_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_RunD_V19_DATA_L2L3Residual_AK4PFchs.txt");
+            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_RunD_V19_DATA_Uncertainty_AK4PFchs.txt");
         }
         else if(isSMSScan)
         {
@@ -658,12 +658,12 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         }
         else
         {
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L1FastJet_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L2Relative_AK4PFchs.txt");
-            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L3Absolute_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V19_MC_L1FastJet_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V19_MC_L2Relative_AK4PFchs.txt");
+            jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V19_MC_L3Absolute_AK4PFchs.txt");
             if(!isSMSScan)
-                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V8_MC_L2L3Residual_AK4PFchs.txt");
-            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_V8_MC_Uncertainty_AK4PFchs.txt");
+                jetcorr_filenames_pfL1FastJetL2L3.push_back("jetCorrections/Autumn18_V19_MC_L2L3Residual_AK4PFchs.txt");
+            jecUnc = new JetCorrectionUncertainty("jetCorrections/Autumn18_V19_MC_Uncertainty_AK4PFchs.txt");
         }
     }
 
