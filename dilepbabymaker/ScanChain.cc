@@ -3144,7 +3144,6 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   //2016 DoubleElectron
   BabyTree_->Branch("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",&HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ);
-  BabyTree_->Branch("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",&HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ);
   BabyTree_->Branch("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL",&HLT_DoubleEle33_CaloIdL_GsfTrkIdVL);
   BabyTree_->Branch("HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW",&HLT_DoubleEle33_CaloIdL_GsfTrkIdVL_MW);
 
