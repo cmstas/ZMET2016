@@ -2042,15 +2042,27 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         removedJetsGamma.push_back(minIndex);
       }
 
-      nBJetTight  = 0;
-      nBJetMedium = 0;
-      nBJetLoose  = 0;
-      nBJetTight_up  = 0;
-      nBJetMedium_up = 0;
-      nBJetLoose_up  = 0;
-      nBJetTight_dn  = 0;
-      nBJetMedium_dn = 0;
-      nBJetLoose_dn  = 0;
+      nBJetTight35  = 0;
+      nBJetMedium35 = 0;
+      nBJetLoose35  = 0;
+      nBJetTight25  = 0;
+      nBJetMedium25 = 0;
+      nBJetLoose25  = 0;
+
+      nBJetTight35_up  = 0;
+      nBJetMedium35_up = 0;
+      nBJetLoose35_up  = 0;
+      nBJetTight25_up  = 0;
+      nBJetMedium25_up = 0;
+      nBJetLoose25_up  = 0;
+
+      nBJetTight35_dn  = 0;
+      nBJetMedium35_dn = 0;
+      nBJetLoose35_dn  = 0;
+      nBJetTight25_dn  = 0;
+      nBJetMedium25_dn = 0;
+      nBJetLoose25_dn  = 0;
+
       nJet200MuFrac50DphiMet  = 0;
 
   	  njets    = 0;
@@ -2101,13 +2113,13 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             float current_csv_val = getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet);
     		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
-    		if( p4sCorrJets.at(iJet).pt() > 35.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
+    		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
      		  if( p4sCorrJets.at(iJet).pt() > 35.0 ) {
       			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
       			jets_csv                                      .push_back(current_csv_val);
       			jets_muf                                      .push_back(current_muf_val);
     		  }
-    		  if( current_csv_val >= getBTagWP(1,gconf.year) ){
+    		  if( current_csv_val >= getBTagWP(0,gconf.year) ){
       			if( p4sCorrJets.at(iJet).pt() <= 35.0 ) {
       			  jets_p4                                       .push_back(p4sCorrJets.at(iJet));
       			  jets_csv                                      .push_back(current_csv_val);
@@ -2130,13 +2142,28 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  // require pT > 35 for HT
     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ ht+=p4sCorrJets.at(iJet).pt();}
 
-    		  if(current_csv_val >= getBTagWP(2,gconf.year)) { nBJetTight++; }
+    		  if(current_csv_val >= getBTagWP(2,gconf.year)) 
+              { 
+                  nBJetTight25++; 
 
-    		  if(current_csv_val >= getBTagWP(1,gconf.year)) {
-      			nBJetMedium++;
+                  if(p4sCorrJets.at(iJet).pt() >= 35)
+                  {
+                      nBJetTight35++;
+                  }
+              }
+
+    		  if(current_csv_val >= getBTagWP(1,gconf.year)) 
+              {
+
+      			nBJetMedium25++;
+                if(p4sCorrJets.at(iJet).pt() >= 35)
+                {
+                    nBJetMedium35++;
+                }
 
       			// for applying btagging SFs
-      			if (!isData && applyBtagSFs) {
+      			if (!isData && applyBtagSFs) 
+                {
       			  float eff = getBtagEffFromFile(p4sCorrJets.at(iJet).pt(), p4sCorrJets.at(iJet).eta(), cms3.pfjets_hadronFlavour().at(iJet), isSMSScan);
       			  BTagEntry::JetFlavor flavor = BTagEntry::FLAV_UDSG;
       			  if (abs(cms3.pfjets_hadronFlavour().at(iJet)) == 5) flavor = BTagEntry::FLAV_B;
@@ -2219,7 +2246,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       			}
     		  }
 
-    		  if(current_csv_val >= getBTagWP(0,gconf.year)) { nBJetLoose++; }
+    		  if(current_csv_val >= getBTagWP(0,gconf.year)) 
+              { 
+                  nBJetLoose25++; 
+                  if(p4sCorrJets.at(iJet).pt() >= 35)
+                  {
+                      nBJetLoose35++;
+                  }
+              }
 
     		  //require pT > 35 for jet counting
     		  if( p4sCorrJets.at(iJet).pt() > 35.0 ){ njets++; }
@@ -2234,12 +2268,31 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		  jets_up_csv   .push_back(current_csv_val);
     		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ) { ht_up+=p4sCorrJets_up.at(iJet).pt();
               }
-    		  if(current_csv_val >= getBTagWP(2,gconf.year)) { nBJetTight_up++; }
-    		  if(current_csv_val >= getBTagWP(1,gconf.year)) {
-      			nBJetMedium_up++;
+    		  if(current_csv_val >= getBTagWP(2,gconf.year)) 
+              {
+                  nBJetTight25_up++;  
+                  if(p4sCorrJets_up.at(iJet).pt() >= 35)
+                  {
+                    nBJetTight35_up++;
+                  }
+              }
+    		  if(current_csv_val >= getBTagWP(1,gconf.year)) 
+              {
+      			nBJetMedium25_up++;
+                if(p4sCorrJets_up.at(iJet).pt() >= 35)
+                {
+                    nBJetMedium35_up++;
+                }
       			jets_medb_up_p4.push_back(p4sCorrJets_up.at(iJet));
     		  }
-    		  if(current_csv_val >= getBTagWP(0,gconf.year)) { nBJetLoose_up++; }
+    		  if(current_csv_val >= getBTagWP(0,gconf.year)) 
+              { 
+                  nBJetLoose25_up++; 
+                  if(p4sCorrJets_up.at(iJet).pt() >= 35)
+                  {
+                      nBJetLoose35_up++;
+                  }
+              }
     		  if( p4sCorrJets_up.at(iJet).pt() > 35.0 ){ njets_up++; }
     		}
 //NOT UPDATED!!
@@ -2250,12 +2303,31 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       		  jets_dn_p4    .push_back(p4sCorrJets_dn.at(iJet));
       		  jets_dn_csv   .push_back(current_csv_val);
       		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ ht_dn+=p4sCorrJets_dn.at(iJet).pt(); }
-      		  if(current_csv_val >= getBTagWP(2,gconf.year)) { nBJetTight_dn++; }
-      		  if(current_csv_val >= getBTagWP(1,gconf.year)) {
-        			nBJetMedium_dn++;
+      		  if(current_csv_val >= getBTagWP(2,gconf.year)) 
+              {
+                  nBJetTight25_dn++; 
+                  if(p4sCorrJets_dn.at(iJet).pt() >= 35)
+                  {
+                      nBJetTight35_dn++;
+                  }
+              }
+      		  if(current_csv_val >= getBTagWP(1,gconf.year)) 
+              {
+        			nBJetMedium25_dn++;
+                    if(p4sCorrJets_dn.at(iJet).pt() >= 35)
+                    {
+                        nBJetMedium35_dn++;
+                    }
         			jets_medb_dn_p4.push_back(p4sCorrJets_dn.at(iJet));
       		  }
-      		  if(current_csv_val >= getBTagWP(0,gconf.year)) { nBJetLoose_dn++; }
+      		  if(current_csv_val >= getBTagWP(0,gconf.year)) 
+              {
+                  nBJetLoose25_dn++; 
+                  if(p4sCorrJets_dn.at(iJet).pt() >= 35)
+                  {
+                      nBJetLoose35_dn++;
+                  }
+              }
       		  if( p4sCorrJets_dn.at(iJet).pt() > 35.0 ){ njets_dn++; }
     		  }
       }
@@ -3078,17 +3150,27 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
 
   BabyTree_->Branch("gen_ht", &gen_ht );
 
-  BabyTree_->Branch("nBJetTight", &nBJetTight );
-  BabyTree_->Branch("nBJetMedium", &nBJetMedium );
-  BabyTree_->Branch("nBJetLoose", &nBJetLoose );
+  BabyTree_->Branch("nBJetTight35", &nBJetTight35 );
+  BabyTree_->Branch("nBJetMedium35", &nBJetMedium35 );
+  BabyTree_->Branch("nBJetLoose35", &nBJetLoose35 );
+  BabyTree_->Branch("nBJetTight25", &nBJetTight25 );
+  BabyTree_->Branch("nBJetMedium25", &nBJetMedium25 );
+  BabyTree_->Branch("nBJetLoose25", &nBJetLoose25 );
 
-  BabyTree_->Branch("nBJetTight_up", &nBJetTight_up );
-  BabyTree_->Branch("nBJetMedium_up", &nBJetMedium_up );
-  BabyTree_->Branch("nBJetLoose_up", &nBJetLoose_up );
 
-  BabyTree_->Branch("nBJetTight_dn", &nBJetTight_dn );
-  BabyTree_->Branch("nBJetMedium_dn", &nBJetMedium_dn );
-  BabyTree_->Branch("nBJetLoose_dn", &nBJetLoose_dn );
+  BabyTree_->Branch("nBJetTight35_up", &nBJetTight35_up );
+  BabyTree_->Branch("nBJetMedium35_up", &nBJetMedium35_up );
+  BabyTree_->Branch("nBJetLoose35_up", &nBJetLoose35_up );
+  BabyTree_->Branch("nBJetTight25_up", &nBJetTight25_up );
+  BabyTree_->Branch("nBJetMedium25_up", &nBJetMedium25_up );
+  BabyTree_->Branch("nBJetLoose25_up", &nBJetLoose25_up );
+
+  BabyTree_->Branch("nBJetTight35_dn", &nBJetTight35_dn );
+  BabyTree_->Branch("nBJetMedium35_dn", &nBJetMedium35_dn );
+  BabyTree_->Branch("nBJetLoose35_dn", &nBJetLoose35_dn );
+  BabyTree_->Branch("nBJetTight25_dn", &nBJetTight25_dn );
+  BabyTree_->Branch("nBJetMedium25_dn", &nBJetMedium25_dn );
+  BabyTree_->Branch("nBJetLoose25_dn", &nBJetLoose25_dn );
 
   BabyTree_->Branch("nJet200MuFrac50DphiMet", &nJet200MuFrac50DphiMet );
 
