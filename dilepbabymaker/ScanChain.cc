@@ -3635,17 +3635,27 @@ void babyMaker::InitBabyNtuple () {
   nTrueInt = -999;
   rho = -999.0;
   rho25 = -999.0;
-  nBJetTight = -999;
-  nBJetMedium = -999;
-  nBJetLoose = -999;
 
-  nBJetTight_up = -999;
-  nBJetMedium_up = -999;
-  nBJetLoose_up = -999;
+  nBJetTight35 = -999;
+  nBJetMedium35 = -999;
+  nBJetLoose35 = -999;
+  nBJetTight25 = -999;
+  nBJetMedium25 = -999;
+  nBJetLoose25 = -999;
 
-  nBJetTight_dn = -999;
-  nBJetMedium_dn = -999;
-  nBJetLoose_dn = -999;
+  nBJetTight35_up = -999;
+  nBJetMedium35_up = -999;
+  nBJetLoose35_up = -999;
+  nBJetTight25_up = -999;
+  nBJetMedium25_up = -999;
+  nBJetLoose25_up = -999;
+
+  nBJetTight35_dn = -999;
+  nBJetMedium35_dn = -999;
+  nBJetLoose35_dn = -999;
+  nBJetTight25_dn = -999;
+  nBJetMedium25_dn = -999;
+  nBJetLoose25_dn = -999;
 
   nJet200MuFrac50DphiMet = -999;
 
