@@ -112,17 +112,26 @@ private:
   Float_t         rho;
   Float_t         rho25;
 
-  Int_t           nBJetTight;
-  Int_t           nBJetMedium;
-  Int_t           nBJetLoose;
+  Int_t           nBJetTight35;
+  Int_t           nBJetMedium35;
+  Int_t           nBJetLoose35;
+  Int_t           nBJetTight25;
+  Int_t           nBJetMedium25;
+  Int_t           nBJetLoose25;
 
-  Int_t           nBJetTight_up;
-  Int_t           nBJetMedium_up;
-  Int_t           nBJetLoose_up;
+  Int_t           nBJetTight35_up;
+  Int_t           nBJetMedium35_up;
+  Int_t           nBJetLoose35_up;
+  Int_t           nBJetTight25_up;
+  Int_t           nBJetMedium25_up;
+  Int_t           nBJetLoose25_up;
 
-  Int_t           nBJetTight_dn;
-  Int_t           nBJetMedium_dn;
-  Int_t           nBJetLoose_dn;
+  Int_t           nBJetTight35_dn;
+  Int_t           nBJetMedium35_dn;
+  Int_t           nBJetLoose35_dn;
+  Int_t           nBJetTight25_dn;
+  Int_t           nBJetMedium25_dn;
+  Int_t           nBJetLoose25_dn;
 
   Int_t           nJet200MuFrac50DphiMet;
 
