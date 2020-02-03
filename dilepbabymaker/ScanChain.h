@@ -511,6 +511,11 @@ private:
   Float_t         weight_btagsf_heavy_DN;
   Float_t         weight_btagsf_light_DN;
 
+  //Prefire stuff
+  Float_t weight_L1prefire;
+  Float_t weight_L1prefire_UP;
+  Float_t weight_L1prefire_down;
+
   //----- pfMETs
   Float_t chpfcands_0013_pt;
   Float_t chpfcands_1316_pt;
