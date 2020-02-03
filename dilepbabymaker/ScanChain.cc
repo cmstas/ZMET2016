@@ -1009,6 +1009,15 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
     		evt_xsec     = cms3.evt_xsec_incl();
   	  }
 
+      //L1 prefire weights
+      if(!isData)
+      {
+          if(gconf.year == 2016 || gconf.year == 2017)
+          {
+              std::tie(weight_L1prefire,weight_L1prefire_up,weight_L1prefire_down) = getPrefireInfo(gconf.year);
+          }
+      }
+
   	  puWeight     = 1.0;
   	  if( !isData ){
   	  	nTrueInt = cms3.puInfo_trueNumInteractions().at(0);
@@ -2937,9 +2946,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         } //loop over isotracks
         //Computing nisoTrack_mt2 for lepton veto
         //nisoTrack_mt2 does not include isotracks from leading leptons
-        bool signalLeptonOverlapFlag  = false;
+        bool signalLeptonOverlapFlag;
         for(auto &pit:vec_isotrack_p4)
         {
+            signalLeptonOverlapFlag  = false;
             for(auto &ilep:lep_p4)
             {
                 if(DeltaR(pit,ilep) < 0.01)
@@ -3143,6 +3153,10 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("evt_nEvts", &evt_nEvts );
   BabyTree_->Branch("evt_dataset", "std::vector <TString>", &evt_dataset);
   BabyTree_->Branch("puWeight", &puWeight );
+  BabyTree_->Branch("weight_L1prefire",&weight_L1prefire);
+  BabyTree_->Branch("weight_L1prefire_up",&weight_L1prefire_up);
+  BabyTree_->Branch("weight_L1prefire_down",&weight_L1prefire_down);
+
   BabyTree_->Branch("nVert", &nVert );
   BabyTree_->Branch("nTrueInt", &nTrueInt );
   BabyTree_->Branch("rho", &rho );
@@ -3635,6 +3649,11 @@ void babyMaker::InitBabyNtuple () {
   nTrueInt = -999;
   rho = -999.0;
   rho25 = -999.0;
+
+  weight_L1prefire = 1.0;
+  weight_L1prefire_up = 1.0;
+  weight_L1prefire_down = 1.0;
+
 
   nBJetTight35 = -999;
   nBJetMedium35 = -999;
