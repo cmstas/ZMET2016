@@ -407,6 +407,7 @@ private:
   //----- JETS - pt > 35, eta < 2.4
   Int_t           njets;
   Int_t           nJetFailId;
+  std::vector <LorentzVector>   wide_eta_jets_p4;
   std::vector <LorentzVector>   jets_p4;
   std::vector <LorentzVector>   jets_medb_p4;
   std::vector <Float_t>         jets_csv;
@@ -425,7 +426,7 @@ private:
   Int_t          nFatJets;
   Int_t          nFatJets_up;
   Int_t          nFatJets_dn;
-
+  std::vector<LorentzVector> wide_eta_ak8_jets_p4;
   std::vector<LorentzVector> ak8_jets_p4;
   std::vector<Float_t> ak8_jets_tau1;
   std::vector<Float_t> ak8_jets_tau2;
@@ -616,7 +617,9 @@ private:
   std::vector<int> vec_isotrack_pdgid;
   std::vector<size_t> vec_isotrack_index;
   std::vector<bool> vec_isotrack_isLostTrack;
-
+   
+  std::vector<LorentzVector> vec_loose_lepton_p4;
+  std::vector<LorentzVector> vec_loose_lepton_pdgid;
 };
 
 #endif

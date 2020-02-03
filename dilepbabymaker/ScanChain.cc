@@ -1435,6 +1435,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		if( passElectronSelection_ZMET_veto( iEl ) ){
     		  if( abs(cms3.els_p4().at(iEl).eta()) < 2.5 ){
+                  vec_loose_lepton_p4.push_back(cms3.els_p4().at(iEl));
+                  vec_loose_lepton_pdgid.push_back(cms3.els_charge().at(iEl)*(-11));
             nveto_leptons++;
     		  }
     		}
@@ -1505,6 +1507,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
           if (cms3.mus_p4().at(iMu).pt() > 20.0 && isBadGlobalMuon(iMu)) ++nBadMuons20;
         }
         if(passMuonSelection_ZMET_veto(iMu)){
+            vec_loose_lepton_p4.push_back(cms3.mus_p4().at(iMu));
+            vec_loose_lepton_pdgid.push_back(cms3.mus_charge().at(iMu)*(-13));
+
       	  nveto_leptons++;
       	}
    	  	if( !passMuonSelection_ZMET( iMu) ) continue;
@@ -2122,6 +2127,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
             float current_csv_val = getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet);
     		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
+            if(p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 4.7)
+            {
+                wide_eta_jets_p4.push_back(p4sCorrJets.at(iJet));
+            }
+
     		if( p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 2.4 ){
      		  if( p4sCorrJets.at(iJet).pt() > 35.0 ) {
       			jets_p4                                       .push_back(p4sCorrJets.at(iJet));
@@ -2509,6 +2519,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         if(evt_type == 2 && isOverlapJetGamma) continue;
 
     	if( verbose ) cout<<"Before filling jet branches"<<endl;
+
+        if(ak8_p4sCorrJets.at(iJet).pt() > 200 && abs(ak8_p4sCorrJets.at(iJet).eta()) < 4.7)
+        {
+            wide_eta_ak8_jets_p4.push_back(ak8_p4sCorrJets.at(iJet));
+        }
 
     		if( ak8_p4sCorrJets.at(iJet).pt() > 200.0 && abs(ak8_p4sCorrJets.at(iJet).eta()) < 2.4 ){
       			ak8_jets_p4.push_back(ak8_p4sCorrJets.at(iJet));
@@ -3317,6 +3332,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("nlep"             , &nlep, "nlep/I" );
   BabyTree_->Branch("nveto_leptons"    , &nveto_leptons );
   BabyTree_->Branch("lep_p4"           , &lep_p4         );
+  BabyTree_->Branch("loose_lep_p4",&vec_loose_lepton_p4);
+  BabyTree_->Branch("loose_lep_pdgid",&vec_loose_lepton_pdgid);
   BabyTree_->Branch("lep_pt"           , "std::vector< Float_t >"       , &lep_pt         );
   BabyTree_->Branch("lep_eta"          , "std::vector< Float_t >"       , &lep_eta        );
   BabyTree_->Branch("lep_phi"          , "std::vector< Float_t >"       , &lep_phi        );
@@ -3439,6 +3456,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("njets"           , &njets        );
   BabyTree_->Branch("nJetFailId"      , &nJetFailId   );
   BabyTree_->Branch("jets_p4"         , &jets_p4      );
+  BabyTree_->Branch("jets_p4_wide_eta", &wide_eta_jets_p4);
   BabyTree_->Branch("jets_medb_p4"    , &jets_medb_p4 );
 
   BabyTree_->Branch("njets_up"        , &njets_up        );
@@ -3459,6 +3477,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   //Fat Jets
 
   BabyTree_->Branch("nFatJets", &nFatJets);
+  BabyTree_->Branch("ak8jets_p4_wide_eta",&wide_eta_ak8_jets_p4);
   BabyTree_->Branch("ak8jets_p4", &ak8_jets_p4);
   BabyTree_->Branch("ak8jets_tau1", &ak8_jets_tau1);
   BabyTree_->Branch("ak8jets_tau2", &ak8_jets_tau2);
@@ -3891,6 +3910,7 @@ void babyMaker::InitBabyNtuple () {
   njets_dn = -999.0;
 
   jets_p4            .clear();
+  wide_eta_jets_p4.clear();
   jets_medb_p4       .clear();
   jets_medb_up_p4    .clear();
   jets_medb_dn_p4    .clear();
@@ -3904,11 +3924,15 @@ void babyMaker::InitBabyNtuple () {
   jets_mcHadronFlav  .clear();
 
   ak8_jets_p4.clear();
+  wide_eta_ak8_jets_p4.clear();
   ak8_jets_tau1.clear();
   ak8_jets_tau2.clear();
   ak8_jets_tau3.clear();
   ak8_jets_parton_flavor.clear();
   ak8_jets_softDropMass.clear();
+
+  vec_loose_lepton_p4.clear();
+  vec_loose_lepton_pdgid.clear();
 
 //----- HIGH PT PF CANDS
   nhighPtPFcands = -999.0;
