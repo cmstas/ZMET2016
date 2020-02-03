@@ -513,7 +513,7 @@ private:
 
   //Prefire stuff
   Float_t weight_L1prefire;
-  Float_t weight_L1prefire_UP;
+  Float_t weight_L1prefire_up;
   Float_t weight_L1prefire_down;
 
   //----- pfMETs
