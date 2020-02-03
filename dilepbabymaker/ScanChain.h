@@ -619,7 +619,7 @@ private:
   std::vector<bool> vec_isotrack_isLostTrack;
    
   std::vector<LorentzVector> vec_loose_lepton_p4;
-  std::vector<LorentzVector> vec_loose_lepton_pdgid;
+  std::vector<int> vec_loose_lepton_pdgid;
 };
 
 #endif
