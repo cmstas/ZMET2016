@@ -20,18 +20,18 @@ def get1Dlimit(fn):
 def get1Dxsec(charginomass):
     global fxsec, hxsec
     if not fxsec or not hxsec:
-        fxsec = ROOT.TFile.Open("../../dilepbabymaker/xsec_susy_13tev.root")
+        fxsec = ROOT.TFile.Open("../../dilepbabymaker/data/xsec_susy_13tev.root")
         hxsec = fxsec.Get("h_xsec_higgsino")
-    sigma = hxsec.GetBinContent(hxsec.FindBin(charginomass)) 
+    sigma = hxsec.GetBinContent(hxsec.FindBin(charginomass))
     return sigma
-    
+
 def main():
 #    version = "limits_TChiHZ_230317"
-    version = "limits_TChiHZ_withzz_310317"
+    version = "limits_TChiHZ_070317_paralleltest"
     dir="./"+version+"/"
-#    chargino_masses =[100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750] 
-#    chargino_masses =[100,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700] 
-    chargino_masses =[127,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950] 
+#    chargino_masses =[100,125,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750]
+#    chargino_masses =[100,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700]
+    chargino_masses =[127,150,175,200,225,250,275,300,325,350,375,400,425,450,475,500,525,550,575,600,625,650,675,700,725,750,775,800,825,850,875,900,925,950]
     f_xsecgraph = ROOT.TFile.Open("../../dilepbabymaker/xsec_susy_13tev_graphs.root")
     g_xsec_c1n2 = f_xsecgraph.Get("g_xsec_higgsino")
 
@@ -55,7 +55,7 @@ def main():
     h_exp2m = h_obs.Clone("hExp2m")
     h_exp1p = h_obs.Clone("hExp1p")
     h_exp2p = h_obs.Clone("hExp2p")
-    
+
     for i,chargino in enumerate(chargino_masses):
         fn = dir+'limit_TChiHZ_'+str(chargino)+'.root'
         limitsdic = get1Dlimit(fn)
@@ -95,7 +95,7 @@ def main():
     ppChiChi = "pp #rightarrow "+chii+"#kern[0.6]{"+chij+"}  #rightarrow "+chi10+"#kern[0.3]{"+chi10+"} + "+xsoft+"#rightarrow hZ#tilde{G}#tilde{G} + "+xsoft
     branching = "BR("+chi10+"#rightarrow h#tilde{G}) = BR("+chi10+"#rightarrow Z#tilde{G}) = 50%"
     mChis = mass_+chi2n+"}}} #approx "+mass_+chi1pm+"}}} #approx "+mass_+chi1n+"}}}, "+mass_+"#tilde{G}}}} = 1 GeV"
-        
+
     ROOT.gStyle.SetOptStat(0)
     c1 = ROOT.TCanvas("c1", "", 800, 800)
     c1.cd()
@@ -108,7 +108,7 @@ def main():
     padt.SetTicky()
     padt.Draw()
     padt.cd()
-    padt.SetLogy() 
+    padt.SetLogy()
     h = ROOT.TH2F("h","h",68,100,950,1000,0.001,1000)
     h.SetTitle("")
     h.GetXaxis().SetTitle("m_{#tilde{#chi}^{0}_{1}} [GeV]")
@@ -120,33 +120,33 @@ def main():
     h.GetXaxis().SetTitleOffset(1.0)
     h.GetYaxis().SetTitleOffset(1.5)
     h.Draw()
-    
+
     gr_s2b = ROOT.TGraphAsymmErrors(len(chargino_masses),array.array('d', chargino_masses),array.array('d', exp),array.array('d', x0e),array.array('d', x0e),array.array('d', m2s),array.array('d', p2s))
     gr_s2b.SetFillColor(ROOT.kYellow)
     gr_s2b.Draw("3")
-      
+
     gr_s1b = ROOT.TGraphAsymmErrors(len(chargino_masses),array.array('d', chargino_masses),array.array('d', exp),array.array('d', x0e),array.array('d', x0e),array.array('d', m1s),array.array('d', p1s))
     gr_s1b.SetFillColor(ROOT.kGreen)
     gr_s1b.Draw("3")
-    
+
     gexp = ROOT.TGraph(len(chargino_masses), array.array('d', chargino_masses), array.array('d', exp))
     gexp.SetLineStyle(7)
     gexp.SetLineWidth(3)
     gexp.SetLineColor(ROOT.kBlack)
     gexp.Draw("L")
-    
+
     # gexp2x = ROOT.TGraph(len(chargino_masses), array.array('d', chargino_masses), array.array('d', exp2x))
     # gexp2x.SetLineStyle(7)
     # gexp2x.SetLineWidth(3)
     # gexp2x.SetLineColor(ROOT.kRed)
     # gexp2x.Draw("L")
-    
+
     # gexp3x = ROOT.TGraph(len(chargino_masses), array.array('d', chargino_masses), array.array('d', exp3x))
     # gexp3x.SetLineStyle(7)
     # gexp3x.SetLineWidth(3)
     # gexp3x.SetLineColor(ROOT.kOrange+2)
     # gexp3x.Draw("L")
-    
+
     gsigmas = ROOT.TGraph(len(chargino_masses), array.array('d', chargino_masses), array.array('d', sigmas))
     gsigmas.SetLineStyle(7)
     gsigmas.SetLineWidth(3)
@@ -161,49 +161,49 @@ def main():
     gobs.SetLineWidth(3)
     gobs.SetLineColor(ROOT.kBlue)
     gobs.Draw("L")
-   
+
     prctex = ROOT.TLatex(0.25,0.83, ppChiChi );
-    prctex.SetNDC()    
-    prctex.SetTextSize(0.032)    
+    prctex.SetNDC()
+    prctex.SetTextSize(0.032)
     prctex.SetLineWidth(2)
-    prctex.SetTextFont(42)    
+    prctex.SetTextFont(42)
     prctex.Draw()
 
-    prctex2 = ROOT.TLatex(0.25,0.78, branching );    
-    prctex2.SetNDC()    
-    prctex2.SetTextSize(0.032)    
+    prctex2 = ROOT.TLatex(0.25,0.78, branching );
+    prctex2.SetNDC()
+    prctex2.SetTextSize(0.032)
     prctex2.SetLineWidth(2)
-    prctex2.SetTextFont(42)    
+    prctex2.SetTextFont(42)
     prctex2.Draw()
- 
-    prctex3 = ROOT.TLatex(0.25,0.73, mChis );    
-    prctex3.SetNDC()    
-    prctex3.SetTextSize(0.032)    
+
+    prctex3 = ROOT.TLatex(0.25,0.73, mChis );
+    prctex3.SetNDC()
+    prctex3.SetTextSize(0.032)
     prctex3.SetLineWidth(2)
-    prctex3.SetTextFont(42)    
+    prctex3.SetTextFont(42)
     prctex3.Draw()
- 
+
     cmstex = ROOT.TLatex(0.675,0.91, "%.1f fb^{-1} (13 TeV)" % lumi)
     cmstex.SetNDC()
     cmstex.SetTextSize(0.04)
     cmstex.SetLineWidth(2)
     cmstex.SetTextFont(42)
     cmstex.Draw()
-    
+
     cmstexbold = ROOT.TLatex(0.17,0.91, "CMS" )
     cmstexbold.SetNDC()
     cmstexbold.SetTextSize(0.05)
     cmstexbold.SetLineWidth(2)
     cmstexbold.SetTextFont(61)
     cmstexbold.Draw()
-    
+
     cmstexprel = ROOT.TLatex(0.29,0.91, "Preliminary" )
     cmstexprel.SetNDC()
     cmstexprel.SetTextSize(0.03)
     cmstexprel.SetLineWidth(2)
     cmstexprel.SetTextFont(52)
     cmstexprel.Draw()
-    
+
     l1 = ROOT.TLegend(0.45, 0.52, 0.9, 0.71)
     l1.SetTextFont(42)
     l1.SetTextSize(0.036)
@@ -229,7 +229,7 @@ def main():
     LExp1.SetPoint(1,100000, 100000)
     LExp1.SetPointError(1,0.,0.,0.15,0.15)
     LExp1.Draw("3")
-    
+
     LExp2 = ROOT.TGraphAsymmErrors(2)
     LExp2.SetFillColor(ROOT.kGreen)
     LExp2.SetPoint(0,100000,100000)
@@ -237,7 +237,7 @@ def main():
     LExp2.SetPoint(1,100000,100000)
     LExp2.SetPointError(1,0.,0.,0.08,0.08)
     LExp2.Draw("L3")
-    
+
     LExp = ROOT.TGraph(2)
     LExp.SetLineColor(ROOT.kBlack)
     LExp.SetLineStyle(7)
@@ -245,7 +245,7 @@ def main():
     LExp.SetPoint(0,250+ 3.8*(1050-250)/100, 5-2.08*(5-0)/100*10)
     LExp.SetPoint(1,250+21.2*(1050-250)/100, 5-2.08*(5-0)/100*10)
     LExp.Draw("L")
-    ''' 
+    '''
    #masstex = ROOT.TLatex(0.70,0.79, "H_{T} > 300 GeV" )
     #masstex.SetNDC()
     #masstex.SetTextSize(0.036)
@@ -274,7 +274,7 @@ def main():
     gr_s1b.Write()
     gr_s2b.SetName("gExp2pm")
     gr_s2b.Write()
-    
+
     f_out.Close()
 
 
