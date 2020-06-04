@@ -433,6 +433,7 @@ private:
   std::vector<Float_t> ak8_jets_tau3;
   std::vector<Int_t> ak8_jets_parton_flavor;
   std::vector<Float_t> ak8_jets_softDropMass;
+  std::vector<Float_t> ak8_jets_corrected_softDropMass;
 
   // MC only
   std::vector <Int_t  >         jets_mcFlavour   ;
@@ -620,6 +621,8 @@ private:
    
   std::vector<LorentzVector> vec_loose_lepton_p4;
   std::vector<int> vec_loose_lepton_pdgid;
-};
+    
+  double sdMass_correction(LorentzVector); 
+  };
 
 #endif
