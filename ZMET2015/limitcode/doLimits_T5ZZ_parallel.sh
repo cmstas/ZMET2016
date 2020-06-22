@@ -14,7 +14,7 @@ function process_datacard ()
 			echo "Running command: nice -n 10 combine -M Asymptotic -n mGluino${MASS1}_mLSP${MASS2}_ ${INDIR}/datacard_all_mGluino_${MASS1}_mLSP_${MASS2}_.txt > log/limit_mGluino${MASS1}_mLSP${MASS2}.txt 2>&1"
 			nice -n 10 combine -M Asymptotic -n mGluino${MASS1}_mLSP${MASS2}_ ${INDIR}/datacard_all_mGluino_${MASS1}_mLSP_${MASS2}_.txt  > log/limit_mGluino${MASS1}_mLSP${MASS2}.txt 2>&1
 		fi
-		
+
 		if [ -e higgsCombinemGluino${MASS1}_mLSP${MASS2}_.Asymptotic.mH120.root ]; then
 			mv higgsCombinemGluino${MASS1}_mLSP${MASS2}_.Asymptotic.mH120.root "limit_${MODEL}_${MASS1}_${MASS2}.root"
 			echo "limit_${MODEL}_${MASS1}_${MASS2}.root" >> list_$MODEL.txt
@@ -43,7 +43,7 @@ declare -a cards=(`ls ${INDIR}/datacard_*mG*.txt`)
  do
    mG=$(echo "$i" | awk '{split($0,a,"_"); print a[3]"_"a[4]"_"a[5]"_"a[6]"_"}')
    if [ ! -e "$INDIR/datacard_all_$mG.txt" ]; then
-     combineCards.py "$INDIR/datacard_"*"_$mG.txt" > "$INDIR/datacard_all_$mG.txt"  
+     combineCards.py "$INDIR/datacard_"*"_$mG.txt" > "$INDIR/datacard_all_$mG.txt"
    fi
  done
 

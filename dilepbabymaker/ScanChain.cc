@@ -59,7 +59,7 @@ bool isSMSScan = false;
 bool isSMSScanFullsim = false;
 // always on
 bool applyBtagSFs = true;
-bool applyDeepFlavor = false;
+bool useDeepFlavor = false;
 //isotrackcollection
 bool useIsotrackCollectionForVeto = true;
 // for testing purposes, running on unmerged files (default false)
@@ -103,12 +103,24 @@ float getBTagWP(int WP,int year)
     }
     else if(gconf.year == 2018)
     {
-        if(WP == 0)
-            return 0.1241;
-        else if(WP == 1)
-            return 0.4184;
-        else if(WP == 2)
-            return 0.7527;
+        if(useDeepFlavor)
+        {
+            if(WP==0)
+                return 0.0494;
+            else if(WP==1)
+                return 0.2770;
+            else if(WP==2)
+                return 0.7264;
+        }
+        else
+        {
+            if(WP == 0)
+                return 0.1241;
+            else if(WP == 1)
+                return 0.4184;
+            else if(WP == 2)
+                return 0.7527;
+        }
     }
     return 0;
 }
@@ -249,19 +261,24 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   else if( TString(baby_name).Contains("t5zz") || TString(baby_name).Contains("tchiwz") || TString(baby_name).Contains("tchihz") || TString(baby_name).Contains("tchizz") || TString(baby_name).Contains("signal") ) isSMSScan = true;
 
   if (applyBtagSFs) {
-	// setup btag calibration readers
-  if(gconf.year == 2016)
-  {
-      calib = new BTagCalibration("deepcsv","btagsf/DeepCSV_2016LegacySF_V1.csv");
-  }
-  else if(gconf.year == 2017)
-  {
-	   calib           = new BTagCalibration("deepcsv", "btagsf/DeepCSV_94XSF_V4_B_F.csv"); // DeepCSV
-  }
-  else if(gconf.year == 2018)
-  {
-      calib = new BTagCalibration("deepcsv","btagsf/DeepCSV_102XSF_V1.csv");
-  }
+    
+        if(gconf.year == 2016)
+        {
+            calib = new BTagCalibration("deepcsv","btagsf/DeepCSV_2016LegacySF_V1.csv");
+        }
+        else if(gconf.year == 2017)
+        {
+	        calib = new BTagCalibration("deepcsv", "btagsf/DeepCSV_94XSF_V4_B_F.csv"); // DeepCSV
+        }
+        else if(gconf.year == 2018)
+        {
+            if(useDeepFlavor)
+            {
+                calib = new BTagCalibration("deepjet","btagsf/DeepJet_102XSF_V2.csv");
+            }
+            else
+            calib = new BTagCalibration("deepcsv","btagsf/DeepCSV_102XSF_V1.csv");
+        }
 	reader_fullsim    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up","down"});
     reader_fullsim->load(*calib,BTagEntry::JetFlavor::FLAV_B,"comb");
     reader_fullsim->load(*calib,BTagEntry::JetFlavor::FLAV_C,"comb");
@@ -275,6 +292,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         f_btag_eff = new TFile("btagsf/btageff__ttbar_amc_94X_deepCSV.root");
     else if(gconf.year == 2018)
     {
+        if(useDeepFlavor)
+        {
+            std::cout<<"ALERT : Using efficiencies derives for deepCSV"<<std::endl;
+        }
+
         f_btag_eff = new TFile("btagsf/btageff__ttbar_amc_102X_deepCSV.root");
     }
 	TH2D  * h_btag_eff_b_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_csv_med_Eff_b");
@@ -302,6 +324,11 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
       else if(gconf.year == 2018)
       {
+          if(useDeepFlavor)
+          {
+              calib_fastsim = new BTagCalibration("deepjet","btagsf/deepjet_13TEV_18SL_7_5_2019.csv");
+          }
+          else
           calib_fastsim = new BTagCalibration("deepcsv","btagsf/deepcsv_13TEV_18SL_7_5_2019.csv");
       }
 	  reader_fastsim    = new BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central",{"up","down"}); // central
@@ -324,10 +351,14 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
       }
       else if(gconf.year == 2018)
       {
+          if(useDeepFlavor)
+          {
+              std::cout<<"ALERT : Using deepcsv fastsim scale factors"<<std::endl;
+          }
         f_btag_eff_fastsim = new TFile("btagsf/btageff__DeepCSV_SMS_T2tt_fastsim_Autumn18.root");
       }
 
-	  	  TH2D  * h_btag_eff_b_fastsim_temp    = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_b"  );
+	  TH2D  * h_btag_eff_b_fastsim_temp    = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_b"  );
 	  TH2D  * h_btag_eff_c_fastsim_temp    = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_c"  );
 	  TH2D  * h_btag_eff_udsg_fastsim_temp = (TH2D*) f_btag_eff_fastsim->Get("h2_BTaggingEff_csv_med_Eff_udsg");
       BabyFile_->cd();
@@ -337,7 +368,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
 	  std::cout << "loaded fastsim btag SFs" << std::endl;
 	} // if (isFastsim)
-  }
+
+}
 
 
 
@@ -1934,9 +1966,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
 
           int iJet = passJets.at(passIdx).first;
+          float current_csv_val = (gconf.year == 2018 && useDeepFlavor) ? getbtagvalue("pfDeepFlavourJetTags:probb",iJet) + getbtagvalue("pfDeepFlavourJetTags:probbb",iJet) + getbtagvalue("pfDeepFlavourJetTags:problepb",iJet): getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet);
 
           if( !(p4sCorrJets.at(iJet).pt()    >=35.0 ||
-            (p4sCorrJets.at(iJet).pt()    > 25.0 && (getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet)) >= getBTagWP(1,gconf.year)))) continue;
+            (p4sCorrJets.at(iJet).pt()    > 25.0 && current_csv_val >= getBTagWP(1,gconf.year)))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( isSMSScan && isBadFastsimJet(iJet) ) continue;
 
@@ -2035,9 +2068,10 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
         for(unsigned int passIdx = 0; passIdx < passJets.size(); passIdx++){ //loop through jets that passed baseline selections
 
           int iJet = passJets.at(passIdx).first;
-
+          float current_csv_val = (gconf.year == 2018 && useDeepFlavor) ? getbtagvalue("pfDeepFlavourJetTags:probb",iJet) + getbtagvalue("pfDeepFlavourJetTags:probbb",iJet) + getbtagvalue("pfDeepFlavourJetTags:problepb",iJet): getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet);
+ 
           if(      !(p4sCorrJets.at(iJet).pt()    > 35.0 ||
-  				 (p4sCorrJets.at(iJet).pt()    > 25.0 && (getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet)) >= getBTagWP(1,gconf.year)))) continue;
+  				 (p4sCorrJets.at(iJet).pt()    > 25.0 && current_csv_val >= getBTagWP(1,gconf.year)))) continue;
           if( fabs(p4sCorrJets.at(iJet).eta() ) > 2.4  ) continue;
           if( !(isLoosePFJet_Summer16_v1(iJet) || isSMSScan) ) continue;
   	      if( isSMSScan && isBadFastsimJet(iJet) ) continue;
@@ -2128,7 +2162,8 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
 
     		if( verbose ) cout<<"Before filling jet branches"<<endl;
 
-            float current_csv_val = getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet);
+            float current_csv_val = (gconf.year == 2018 && useDeepFlavor) ? getbtagvalue("pfDeepFlavourJetTags:probb",iJet) + getbtagvalue("pfDeepFlavourJetTags:probbb",iJet) + getbtagvalue("pfDeepFlavourJetTags:problepb",iJet): getbtagvalue("pfDeepCSVJetTags:probb",iJet) + getbtagvalue("pfDeepCSVJetTags:probbb",iJet);
+
     		float current_muf_val = cms3.pfjets_muonE()[iJet] / (cms3.pfjets_undoJEC().at(iJet)*cms3.pfjets_p4()[iJet].energy());
 
             if(p4sCorrJets.at(iJet).pt() > 25.0 && abs(p4sCorrJets.at(iJet).eta()) < 4.7)
@@ -2536,7 +2571,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jets_tau3.push_back(cms3.ak8jets_nJettinessTau3().at(iJet));
                 ak8_jets_parton_flavor.push_back(cms3.ak8jets_partonFlavour().at(iJet));
                 ak8_jets_softDropMass.push_back(cms3.ak8jets_puppi_softdropMass().at(iJet));
-                ak8_jets_corrected_softDropMass.push_back(cms3.ak8jets_softdropMass().at(iJet) * sdMass_correction(ak8_p4sCorrJets.at(iJet)));
+                ak8_jets_corrected_softDropMass.push_back(cms3.ak8jets_softdropMass().at(iJet) * sdMass_correction(ak8_jets_p4.at(iJet)));
     		   nFatJets++;
             }
         }
@@ -3489,7 +3524,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("ak8jets_tau3", &ak8_jets_tau3);
   BabyTree_->Branch("ak8jets_parton_flavor", &ak8_jets_parton_flavor);
   BabyTree_->Branch("ak8jets_original_softDropMass", &ak8_jets_softDropMass);
-  BabyTree_->Branch("ak8jets_softDropMass",&ak8_jets_corrected_softDropMass);
+  BabyTree_->Branch("ak8_softDropMass",&ak8_jets_corrected_softDropMass);
 
 //----- HIGH PT PF CANDS
   BabyTree_->Branch("nhighPtPFcands"           , &nhighPtPFcands        );
@@ -4338,7 +4373,7 @@ double babyMaker::sdMass_correction(LorentzVector ak8_jetp4)
     }
   
     totalWeight = genCorr * recoCorr;
-    sdMassFile->Close();
+
     return totalWeight;
 }
 

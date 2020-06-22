@@ -34,9 +34,9 @@ void make_allRValues(std::string model, std::string list_filename){
   TFile *f = new TFile(outfilename, "RECREATE");
   
   // default case: T5ZZ binning
-  double m1_max = 2125;
+  double m1_max = 2425;
   double m1_min = 1025;
-  double m2_max = 2125;
+  double m2_max = 2425;
   double m2_min = 75;
   int m1_div = 50;
   int m2_div = 50;
@@ -44,7 +44,7 @@ void make_allRValues(std::string model, std::string list_filename){
   if (model.find("TChiWZ") != std::string::npos) {
     m1_max = 712.5;
     m1_min = 87.5;
-    m2_max = 505;
+    m2_max = 755;
     m2_min = -5;
     m1_div = 25;
     m2_div = 10;
