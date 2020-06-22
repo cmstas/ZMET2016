@@ -59,6 +59,7 @@ bool isSMSScan = false;
 bool isSMSScanFullsim = false;
 // always on
 bool applyBtagSFs = true;
+bool applyDeepFlavor = false;
 //isotrackcollection
 bool useIsotrackCollectionForVeto = true;
 // for testing purposes, running on unmerged files (default false)
@@ -892,6 +893,9 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
   	  for(auto &it:ak8_jetcorr_filenames_pfL1FastJetL2L3){
   		  cout<<it<<endl;
   	  }
+
+      //sdMass correction file
+      
 
   	  ak8_jet_corrector_pfL1FastJetL2L3  = makeJetCorrector(ak8_jetcorr_filenames_pfL1FastJetL2L3);
       if(ak8_jetcorr_filenames_pfL1FastJetL2L3_lateF.size() != 0)
@@ -2532,6 +2536,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jets_tau3.push_back(cms3.ak8jets_nJettinessTau3().at(iJet));
                 ak8_jets_parton_flavor.push_back(cms3.ak8jets_partonFlavour().at(iJet));
                 ak8_jets_softDropMass.push_back(cms3.ak8jets_puppi_softdropMass().at(iJet));
+                ak8_jets_corrected_softDropMass.push_back(cms3.ak8jets_softdropMass().at(iJet) * sdMass_correction(ak8_p4sCorrJets.at(iJet)));
     		   nFatJets++;
             }
         }
@@ -3483,7 +3488,8 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("ak8jets_tau2", &ak8_jets_tau2);
   BabyTree_->Branch("ak8jets_tau3", &ak8_jets_tau3);
   BabyTree_->Branch("ak8jets_parton_flavor", &ak8_jets_parton_flavor);
-  BabyTree_->Branch("ak8jets_softDropMass", &ak8_jets_softDropMass);
+  BabyTree_->Branch("ak8jets_original_softDropMass", &ak8_jets_softDropMass);
+  BabyTree_->Branch("ak8jets_softDropMass",&ak8_jets_corrected_softDropMass);
 
 //----- HIGH PT PF CANDS
   BabyTree_->Branch("nhighPtPFcands"           , &nhighPtPFcands        );
@@ -3930,6 +3936,7 @@ void babyMaker::InitBabyNtuple () {
   ak8_jets_tau3.clear();
   ak8_jets_parton_flavor.clear();
   ak8_jets_softDropMass.clear();
+  ak8_jets_corrected_softDropMass.clear();
 
   vec_loose_lepton_p4.clear();
   vec_loose_lepton_pdgid.clear();
@@ -4281,6 +4288,60 @@ float babyMaker::get_sum_mlb()
 
   return min_mlb_1 + min_mlb_2;
 }
+
+
+double babyMaker::sdMass_correction(LorentzVector ak8_jetp4)
+{
+    if(cms3.evt_isRealData())
+    {
+       return 1;
+    }
+
+    TFile *sdMassFile;
+    switch(gconf.year)
+    {
+        case 2016:
+        {    
+            sdMassFile = TFile::Open("sdMassCorrections/puppiCorr_2016.root","READ");
+            break;
+        }
+        case 2017:
+        {
+            sdMassFile = TFile::Open("sdMassCorrections/puppiCorr_2017.root","READ");
+            break;
+        }
+        case 2018:
+        {
+            sdMassFile = TFile::Open("sdMassCorrections/puppiCorr_2018.root","READ");
+            break;
+        }
+        default:
+            sdMassFile = TFile::Open("sdMassCorrections/puppiCorr_2017.root","READ");
+            break;
+    }
+    auto puppisd_corrGEN      = (TF1*)sdMassFile->Get("puppiJECcorr_gen");
+    auto puppisd_corrRECO_cen = (TF1*)sdMassFile->Get("puppiJECcorr_reco_0eta1v3");
+    auto puppisd_corrRECO_for = (TF1*)sdMassFile->Get("puppiJECcorr_reco_1v3eta2v5");
+    float genCorr  = 1.;
+    float recoCorr = 1.;
+    float totalWeight = 1.;
+    float puppipt = ak8_jetp4.pt();
+    float puppieta = ak8_jetp4.eta();
+
+    genCorr =  puppisd_corrGEN->Eval(puppipt);
+    if(fabs(puppieta) <= 1.3)
+    {
+        recoCorr = puppisd_corrRECO_cen->Eval(puppipt);
+    }
+    else{
+        recoCorr = puppisd_corrRECO_for->Eval(puppipt);
+    }
+  
+    totalWeight = genCorr * recoCorr;
+    sdMassFile->Close();
+    return totalWeight;
+}
+
 
 void babyMaker::load_leptonSF_files()
 {
