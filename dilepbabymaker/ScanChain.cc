@@ -2571,7 +2571,7 @@ void babyMaker::ScanChain(TChain* chain, std::string baby_name, int max_events){
                 ak8_jets_tau3.push_back(cms3.ak8jets_nJettinessTau3().at(iJet));
                 ak8_jets_parton_flavor.push_back(cms3.ak8jets_partonFlavour().at(iJet));
                 ak8_jets_softDropMass.push_back(cms3.ak8jets_puppi_softdropMass().at(iJet));
-                ak8_jets_corrected_softDropMass.push_back(cms3.ak8jets_softdropMass().at(iJet) * sdMass_correction(ak8_jets_p4.at(iJet)));
+                ak8_jets_corrected_softDropMass.push_back(cms3.ak8jets_softdropMass().at(iJet) * sdMass_correction(ak8_p4sCorrJets.at(iJet)));
     		   nFatJets++;
             }
         }
@@ -3524,7 +3524,7 @@ void babyMaker::MakeBabyNtuple(const char *BabyFilename){
   BabyTree_->Branch("ak8jets_tau3", &ak8_jets_tau3);
   BabyTree_->Branch("ak8jets_parton_flavor", &ak8_jets_parton_flavor);
   BabyTree_->Branch("ak8jets_original_softDropMass", &ak8_jets_softDropMass);
-  BabyTree_->Branch("ak8_softDropMass",&ak8_jets_corrected_softDropMass);
+  BabyTree_->Branch("ak8jets_softDropMass",&ak8_jets_corrected_softDropMass);
 
 //----- HIGH PT PF CANDS
   BabyTree_->Branch("nhighPtPFcands"           , &nhighPtPFcands        );
